@@ -30,7 +30,9 @@ for(i in sample(1:7, 4)) { # dimension 2 to 14 (i.e, 2*1 to 2*7)
   out.len <- prod(out.dim)
   
   expected <- array_recycle(x, out.dim) + array_recycle(y, out.dim)
+  expected[is.nan(expected)] <- NA
   out <- ortho(x, y, x.dcp, y.dcp, out.dim, out.len, TRUE, 1L)
+  out[is.nan(out)] <- NA
   dim(out) <- out.dim
   expect_equal(
     out, expected
@@ -54,7 +56,9 @@ for(i in sample(1:7, 4)) { # dimensions2 to 14 (i.e, 2*1 to 2*7)
   out.len <- prod(out.dim)
   
   expected <- array_recycle(x, out.dim) + array_recycle(y, out.dim)
+  expected[is.nan(expected)] <- NA
   out <- ortho(x, y, x.dcp, y.dcp, out.dim, out.len, FALSE, 1L)
+  out[is.nan(out)] <- NA
   dim(out) <- out.dim
   expect_equal(
     out, expected

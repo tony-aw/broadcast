@@ -55,5 +55,15 @@ macro_action4 <- "
 
 "
 
-readr::write_file(macro_action_special, "macro_action_special.txt")
+macro_action <- stri_c(
+  macro_action1,
+  "\n",
+  macro_action2,
+  "\n",
+  macro_action3,
+  "\n",
+  macro_action4
+)
+
+readr::write_file(macro_action, "macro_action.txt")
 

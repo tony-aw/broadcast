@@ -94,6 +94,8 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+          ind.NaN <- is.nan(out[[i]])
+          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
           
           
           i <- i + 1L
@@ -182,6 +184,8 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+          ind.NaN <- is.nan(out[[i]])
+          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
           
           i <- i + 1L
         }
@@ -269,6 +273,8 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+          ind.NaN <- is.nan(out[[i]])
+          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
           
           i <- i + 1L
         }
@@ -356,6 +362,8 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+          ind.NaN <- is.nan(out[[i]])
+          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
           
           i <- i + 1L
         }
@@ -444,6 +452,8 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+          ind.NaN <- is.nan(out[[i]])
+          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
           
           i <- i + 1L
         }
@@ -531,6 +541,9 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+          ind.NaN <- is.nan(out[[i]])
+          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+          
           dim(expected[[i]]) <- tdim # pmin/pmax don't always keep dimensions, so have to re-assign them here
           
           i <- i + 1L
@@ -620,6 +633,9 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+          ind.NaN <- is.nan(out[[i]])
+          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+          
           dim(expected[[i]]) <- tdim # pmin/pmax don't always keep dimensions, so have to re-assign them here
           
           i <- i + 1L

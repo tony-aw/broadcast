@@ -7,8 +7,7 @@ library(stringi)
 
 macro_dim <- readr::read_file("macro_dim.txt")
 macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
-macro_action_common <- readr::read_file("macro_action_common.txt")
-macro_action_special <- readr::read_file("macro_action_special.txt")
+macro_action <- readr::read_file("macro_action.txt")
 
 header <- stri_c("
 
@@ -18,9 +17,7 @@ using namespace Rcpp;
 
 ",
   "\n",
-  macro_action_common,
-  "\n",
-  macro_action_special,
+  macro_action,
   "\n",
   macro_dim,
   "\n",
@@ -121,7 +118,7 @@ switch(op) {
   }
   case 6:
   {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
       MACRO_DIM_VECTOR,
       tempout = NA_REAL,
       tempout = ((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
@@ -130,7 +127,7 @@ switch(op) {
   }
   case 7:
   {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
       MACRO_DIM_VECTOR,
       tempout = NA_REAL,
       tempout = ((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
@@ -223,7 +220,7 @@ switch(op) {
   }
   case 6:
   {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
       MACRO_DIM_ORTHO_DOCALL,
       tempout = NA_REAL,
       tempout = ((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
@@ -232,7 +229,7 @@ switch(op) {
   }
   case 7:
   {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
       MACRO_DIM_ORTHO_DOCALL,
       tempout = NA_REAL,
       tempout = ((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
@@ -326,7 +323,7 @@ switch(op) {
   }
   case 6:
   {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
       MACRO_DIM_DOCALL,
       tempout = NA_REAL,
       tempout = ((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
@@ -335,7 +332,7 @@ switch(op) {
   }
   case 7:
   {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
       MACRO_DIM_DOCALL,
       tempout = NA_REAL,
       tempout = ((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
@@ -424,7 +421,7 @@ SEXP rcpp_bc_dbl_general(
     }
     case 6:
   {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
       MACRO_DIM_GENERAL,
       tempout = NA_REAL,
       tempout = ((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
@@ -433,7 +430,7 @@ SEXP rcpp_bc_dbl_general(
   }
   case 7:
   {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
       MACRO_DIM_GENERAL,
       tempout = NA_REAL,
       tempout = ((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
