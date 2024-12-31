@@ -1,4 +1,7 @@
 
+
+library(stringi)
+
 ################################################################################
 # Numeric ====
 #
@@ -12,7 +15,7 @@ macro_typeswitch_numeric_common <- "
     const int *px = INTEGER_RO(x);                                        \\
     const int *py = INTEGER_RO(y);                                        \\
     DIMCODE(                                                          \\
-      MACRO_ACTION_COMMON(                                           \\
+      MACRO_ACTION2(                                           \\
         px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \\
         NACODE,                                               \\
         DOCODE                                                \\
@@ -23,8 +26,8 @@ macro_typeswitch_numeric_common <- "
     const int *px = INTEGER_RO(x);                                        \\
     const double *py = REAL_RO(y);                                           \\
     DIMCODE(                                                          \\
-      MACRO_ACTION_COMMON(                                           \\
-        px[flatind_x] == NA_INTEGER || R_isnancpp(py[flatind_y]),  \\
+      MACRO_ACTION2(                                           \\
+        px[flatind_x] == NA_INTEGER,  \\
         NACODE,                                               \\
         DOCODE                                                \\
       )                                                       \\
@@ -34,8 +37,8 @@ macro_typeswitch_numeric_common <- "
     const double *px = REAL_RO(x);                                           \\
     const int *py = INTEGER_RO(y);                                        \\
     DIMCODE(                                                          \\
-      MACRO_ACTION_COMMON(                                           \\
-        R_isnancpp(px[flatind_x]) || py[flatind_y] == NA_INTEGER,  \\
+      MACRO_ACTION2(                                           \\
+        py[flatind_y] == NA_INTEGER,  \\
         NACODE,                                               \\
         DOCODE                                                \\
       )                                                       \\
@@ -45,9 +48,7 @@ macro_typeswitch_numeric_common <- "
     const double *px = REAL_RO(x);                                           \\
     const double *py = REAL_RO(y);                                           \\
     DIMCODE(                                                          \\
-      MACRO_ACTION_COMMON(                                           \\
-        R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \\
-        NACODE,                                               \\
+      MACRO_ACTION1(                                           \\
         DOCODE                                                \\
       )                                                       \\
     );                                                       \\
@@ -55,9 +56,6 @@ macro_typeswitch_numeric_common <- "
 } while(0)
 
 "
-
-
-readr::write_file(macro_typeswitch_numeric_common, "macro_typeswitch_numeric_common.txt")
 
 
 
@@ -92,9 +90,6 @@ macro_typeswitch_numeric_simple <- "
 "
 
 
-readr::write_file(macro_typeswitch_numeric_simple, "macro_typeswitch_numeric_simple.txt")
-
-
 
 macro_typeswitch_numeric_special <- "
 
@@ -105,7 +100,7 @@ macro_typeswitch_numeric_special <- "
     const int *px = INTEGER_RO(x);                                        \\
     const int *py = INTEGER_RO(y);                                        \\
     DIMCODE(                                                          \\
-      MACRO_ACTION_SPECIAL(                                           \\
+      MACRO_ACTION4(                                           \\
         RULECHECK,                                                    \\
         RULECODE,                                                     \\
         px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \\
@@ -118,10 +113,10 @@ macro_typeswitch_numeric_special <- "
     const int *px = INTEGER_RO(x);                                        \\
     const double *py = REAL_RO(y);                                           \\
     DIMCODE(                                                          \\
-      MACRO_ACTION_SPECIAL(                                           \\
+      MACRO_ACTION4(                                           \\
         RULECHECK,                                                    \\
         RULECODE,                                                     \\
-        px[flatind_x] == NA_INTEGER || R_isnancpp(py[flatind_y]),  \\
+        px[flatind_x] == NA_INTEGER,  \\
         NACODE,                                               \\
         DOCODE                                                \\
       )                                                       \\
@@ -131,10 +126,10 @@ macro_typeswitch_numeric_special <- "
     const double *px = REAL_RO(x);                                           \\
     const int *py = INTEGER_RO(y);                                        \\
     DIMCODE(                                                          \\
-      MACRO_ACTION_SPECIAL(                                           \\
+      MACRO_ACTION4(                                           \\
         RULECHECK,                                                    \\
         RULECODE,                                                     \\
-        R_isnancpp(px[flatind_x]) || py[flatind_y] == NA_INTEGER,  \\
+        py[flatind_y] == NA_INTEGER,  \\
         NACODE,                                               \\
         DOCODE                                                \\
       )                                                       \\
@@ -144,11 +139,9 @@ macro_typeswitch_numeric_special <- "
     const double *px = REAL_RO(x);                                           \\
     const double *py = REAL_RO(y);                                           \\
     DIMCODE(                                                          \\
-      MACRO_ACTION_SPECIAL(                                           \\
+      MACRO_ACTION3(                                           \\
         RULECHECK,                                                    \\
         RULECODE,                                                     \\
-        R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \\
-        NACODE,                                               \\
         DOCODE                                                \\
       )                                                       \\
     );                                                       \\
@@ -158,4 +151,12 @@ macro_typeswitch_numeric_special <- "
 "
 
 
-readr::write_file(macro_typeswitch_numeric_special, "macro_typeswitch_numeric_special.txt")
+macro_typeswitch_numeric <- stri_c(
+  macro_typeswitch_numeric_common,
+  "\n",
+  macro_typeswitch_numeric_simple,
+  "\n",
+  macro_typeswitch_numeric_special
+)
+
+readr::write_file(macro_typeswitch_numeric, "macro_typeswitch_numeric.txt")

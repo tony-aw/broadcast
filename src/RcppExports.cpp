@@ -36,6 +36,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_bc_dbl_0
+SEXP rcpp_bc_dbl_0(SEXP x, SEXP y, SEXP dimcumprod_x, SEXP dimcumprod_y, SEXP out_dim, R_xlen_t nout, bool xstarts, int op);
+RcppExport SEXP _broadcast_rcpp_bc_dbl_0(SEXP xSEXP, SEXP ySEXP, SEXP dimcumprod_xSEXP, SEXP dimcumprod_ySEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP xstartsSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dimcumprod_x(dimcumprod_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dimcumprod_y(dimcumprod_ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< bool >::type xstarts(xstartsSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bc_dbl_0(x, y, dimcumprod_x, dimcumprod_y, out_dim, nout, xstarts, op));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_bc_dbl_d
 SEXP rcpp_bc_dbl_d(SEXP x, SEXP y, SEXP by_x, SEXP by_y, SEXP dimcumprod_x, SEXP dimcumprod_y, SEXP out_dim, R_xlen_t nout, int op);
 RcppExport SEXP _broadcast_rcpp_bc_dbl_d(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP dimcumprod_xSEXP, SEXP dimcumprod_ySEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP) {
@@ -73,6 +91,29 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_findfirst_range_cons_dupl
+IntegerVector rcpp_findfirst_range_cons_dupl(LogicalVector x);
+RcppExport SEXP _broadcast_rcpp_findfirst_range_cons_dupl(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< LogicalVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_findfirst_range_cons_dupl(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_is_chesslike
+bool rcpp_is_chesslike(IntegerVector x, IntegerVector y);
+RcppExport SEXP _broadcast_rcpp_is_chesslike(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_is_chesslike(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_seq_mlen
 List rcpp_seq_mlen(IntegerVector x);
 RcppExport SEXP _broadcast_rcpp_seq_mlen(SEXP xSEXP) {
@@ -103,8 +144,11 @@ RcppExport SEXP C_pmax(SEXP, SEXP);
 static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_test", (DL_FUNC) &_broadcast_rcpp_test, 2},
     {"_broadcast_rcpp_bc_dbl_v", (DL_FUNC) &_broadcast_rcpp_bc_dbl_v, 4},
+    {"_broadcast_rcpp_bc_dbl_0", (DL_FUNC) &_broadcast_rcpp_bc_dbl_0, 8},
     {"_broadcast_rcpp_bc_dbl_d", (DL_FUNC) &_broadcast_rcpp_bc_dbl_d, 9},
     {"_broadcast_rcpp_bc_dbl_general", (DL_FUNC) &_broadcast_rcpp_bc_dbl_general, 8},
+    {"_broadcast_rcpp_findfirst_range_cons_dupl", (DL_FUNC) &_broadcast_rcpp_findfirst_range_cons_dupl, 1},
+    {"_broadcast_rcpp_is_chesslike", (DL_FUNC) &_broadcast_rcpp_is_chesslike, 2},
     {"_broadcast_rcpp_seq_mlen", (DL_FUNC) &_broadcast_rcpp_seq_mlen, 1},
     {"_broadcast_rcpp_recycle_seq_mlen", (DL_FUNC) &_broadcast_rcpp_recycle_seq_mlen, 2},
     {"C_check_conf_dim", (DL_FUNC) &C_check_conf_dim, 2},

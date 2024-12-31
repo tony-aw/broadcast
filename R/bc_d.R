@@ -25,45 +25,82 @@ bc.d <- function(x, y, op) {
   # checks:
   .stop_general(x, y, sys.call())
   
+  
   # general prep:
-  prep <- .prep(x, y)
+  prep <- .prep_arrays(x, y)
   x <- prep[[1L]]
   y <- prep[[2L]]
   x.dim <- dim(x)
   y.dim <- dim(y)
   
   
-  # FUNCTION:
+  # Check & determine dimensions to return:
   .stop_conf_dim(x, y, sys.call())
-  out.dim <- .determine_out.dim(x.dim, y.dim)
-  out.len <- .determine_out.len(x, y, out.dim)
-  dimmode <- .determine_dimmode(x.dim, y.dim, out.dim)
+  out.dimorig <- .determine_out.dim(x.dim, y.dim)
+  out.len <- .determine_out.len(x, y, out.dimorig)
+  
+  
+  # Simplify arrays, to reduce broadcast load:
+  simp <- .simplify_arrays(x, y)
+  x <- simp[[1L]]
+  y <- simp[[2L]]
+  x.dim <- dim(x)
+  y.dim <- dim(y)
+  out.dimsimp <- .determine_out.dim(x.dim, y.dim)
+  
+  
+  # Broadcast:
+  dimmode <- .determine_dimmode(x.dim, y.dim, out.dimsimp)
   op <- .op_dbl(op, sys.call())
   
-  if(dimmode == 1L) {
+  if(dimmode == 1L) { # vector mode
     out <- .rcpp_bc_dbl_v(x, y, out.len, op)
   }
-  else if(dimmode == 2L) {
+  else if(dimmode == 2L) { # orthogonal mode
+    dimcumprod_x <- .make_dcp(x.dim)
+    dimcumprod_y <- .make_dcp(y.dim)
+    if(x.dim[1L] > 1L) {
+      xstarts <- TRUE
+    }
+    else {
+      xstarts <- FALSE
+    }
+    out <- .rcpp_bc_dbl_o(
+      x, y,
+      dimcumprod_x, dimcumprod_y, as.integer(out.dimsimp), out.len, xstarts, op
+    )
+  }
+  
+  # currently not yet implemented:
+  # else if(dimmode == 3L) {
+  #   
+  # }
+  
+  # else if(dimmode == 4L) {
+  #   
+  # }
+  
+  else if(dimmode == 5L) { # regular array <= 8 dims mode
     
-    by_x <- .make_by(x.dim, out.dim)
-    by_y <- .make_by(y.dim, out.dim)
+    by_x <- .make_by(x.dim, out.dimsimp)
+    by_y <- .make_by(y.dim, out.dimsimp)
     dimcumprod_x <- .make_dcp(x.dim)
     dimcumprod_y <- .make_dcp(y.dim)
     
     out <- .rcpp_bc_dbl_d(
       x, y, by_x, by_y,
-      dimcumprod_x, dimcumprod_y, as.integer(out.dim), out.len, op
+      dimcumprod_x, dimcumprod_y, as.integer(out.dimsimp), out.len, op
     )
   }
-  else if(dimmode == 3L) {
-    inds_x <- .make_indices(x.dim, out.dim)
-    inds_y <- .make_indices(y.dim, out.dim)
+  else if(dimmode == 6L) { # misc mode
+    inds_x <- .make_indices(x.dim, out.dimsimp)
+    inds_y <- .make_indices(y.dim, out.dimsimp)
     out <- .rcpp_bc_dbl_general(
       x, y, inds_x, inds_y, dim(x), dim(y), out.len, op
     )
   }
   
-  dim(out) <- out.dim
+  dim(out) <- out.dimorig
   
   return(out)
   

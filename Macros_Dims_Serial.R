@@ -52,43 +52,6 @@ macro_dim_vector <- "
 "
 
 
-readr::write_file(macro_dim_vector, "macro_dim_vector.txt")
-
-
-################################################################################
-# DimMacro Orthogonal ====
-#
-
-
-
-macro_dim_orthovectors <- "
-
-#define MACRO_DIM_ORTHOVECTORS(DOCODE) do {            \\
-  R_xlen_t counter = 0;                         \\
-  const int *pby_x = INTEGER_RO(by_x);          \\
-  const int *pby_y = INTEGER_RO(by_y);          \\
-  const int *pout_dim = INTEGER_RO(out_dim);    \\
-  R_xlen_t counter = 0;                         \\
-  R_xlen_t flatind_x;                           \\
-  R_xlen_t flatind_y;                           \\
-  for(int i = 0; i < pout_dim[0]; ++i) {        \\
-    for(int j = 0; j < out_dim[1]; ++j) {       \\
-      flatind_x = pby_x[0] * i + pby_x[1] * j;  \\
-      flatind_y = pby_y[0] * i + pby_y[1] * j;  \\
-                                                \\      
-      DOCODE;                                   \\
-                                                \\
-      pout[counter] = tempout;                  \\
-      counter++;                                \\
-    }                                           \\
-  }                                             \\
-} while(0)
-
-"
-
-readr::write_file(macro_dim_orthovectors, "macro_dim_orthovectors.txt")
-
-
 
 ################################################################################
 # Macro Orthogonal XSTARTS ====
@@ -101,16 +64,17 @@ all_for <- rev(
 )
 all_parts_x <- c(
   "iter1",
-  sprintf("iter%d * pdcp_x[%d]", 2:16, 2:16)
+  sprintf("iter%d * pdcp_x[%d]", 2:16, 1:15)
 )
-all_parts_y <- sprintf("iter%d * pdcp_y[%d]", 2:16, 2:16)
+all_parts_y <- c(
+  "iter1",
+  sprintf("iter%d * pdcp_y[%d]", 2:16, 1:15)
+)
 
 temp <- "
 
 #define MACRO_DIM_ORTHO_XSTARTS_<dtype>(DOCODE) do {      \\
   R_xlen_t counter = 0;         \\
-  const int *pby_x = INTEGER_RO(by_x);        \\
-  const int *pby_y = INTEGER_RO(by_y);        \\
   const int *pout_dim = INTEGER_RO(out_dim);      \\
   R_xlen_t flatind_x;       \\
   R_xlen_t flatind_y;       \\
@@ -131,11 +95,12 @@ dMacro_skeletons <- character(length(DTYPES))
 names(dMacro_skeletons) <- DTYPES
 for(i in DTYPES) {
   
-  iseq <- seq(1, i-1, 2)
+  xseq <- seq(1, i, 2)
+  yseq <- seq(2, i, 2)
   
   current_for <- stri_c(all_for[i:1], collapse = "\n")
-  current_main_x <- stri_c(all_parts_x[iseq], collapse = " + ")
-  current_main_y <- stri_c(all_parts_y[iseq], collapse = " + ")
+  current_main_x <- stri_c(all_parts_x[xseq], collapse = " + ")
+  current_main_y <- stri_c(all_parts_y[yseq], collapse = " + ")
   current_end <- stri_c(rep("\t }\t\\", i), collapse = "\n")
   
   current_fixed <- c(
@@ -168,8 +133,6 @@ cat(dMacro_skeletons[[15]])
 
 macro_dim_ortho_xstarts <- stri_c(dMacro_skeletons, collapse = "\n")
 
-readr::write_file(macro_dim_ortho_xstarts, "macro_dim_ortho_xstarts.txt")
-
 
 
 
@@ -184,18 +147,20 @@ all_for <- rev(
 )
 
 
-all_parts_x <- sprintf("iter%d * pdcp_x[%d]", 2:16, 2:16)
+all_parts_x <- c(
+  "iter1",
+  sprintf("iter%d * pdcp_x[%d]", 2:16, 1:15)
+)
 all_parts_y <- c(
   "iter1",
-  sprintf("iter%d * pdcp_y[%d]", 2:16, 2:16)
+  sprintf("iter%d * pdcp_y[%d]", 2:16, 1:15)
 )
+
 
 temp <- "
 
-#define MACRO_DIM_ORTHO_YSTART_<dtype>(DOCODE) do {      \\
+#define MACRO_DIM_ORTHO_YSTARTS_<dtype>(DOCODE) do {      \\
   R_xlen_t counter = 0;         \\
-  const int *pby_x = INTEGER_RO(by_x);        \\
-  const int *pby_y = INTEGER_RO(by_y);        \\
   const int *pout_dim = INTEGER_RO(out_dim);      \\
   R_xlen_t flatind_x;       \\
   R_xlen_t flatind_y;       \\
@@ -216,11 +181,12 @@ dMacro_skeletons <- character(length(DTYPES))
 names(dMacro_skeletons) <- DTYPES
 for(i in DTYPES) {
   
-  iseq <- seq(1, i-1, 2)
+  yseq <- seq(1, i, 2)
+  xseq <- seq(2, i, 2)
   
   current_for <- stri_c(all_for[i:1], collapse = "\n")
-  current_main_x <- stri_c(all_parts_x[iseq], collapse = " + ")
-  current_main_y <- stri_c(all_parts_y[iseq], collapse = " + ")
+  current_main_x <- stri_c(all_parts_x[xseq], collapse = " + ")
+  current_main_y <- stri_c(all_parts_y[yseq], collapse = " + ")
   current_end <- stri_c(rep("\t }\t\\", i), collapse = "\n")
   
   current_fixed <- c(
@@ -249,11 +215,9 @@ for(i in DTYPES) {
   dMacro_skeletons[i-1] <- out
 }
 
-cat(dMacro_skeletons[[15]])
+cat(dMacro_skeletons[[3]])
 
 macro_dim_ortho_ystarts <- stri_c(dMacro_skeletons, collapse = "\n")
-
-readr::write_file(macro_dim_ortho_ystarts, "macro_dim_ortho_ystarts.txt")
 
 
 
@@ -265,14 +229,14 @@ readr::write_file(macro_dim_ortho_ystarts, "macro_dim_ortho_ystarts.txt")
 # cases:
 case_xstarts <-
   "case %d:                                       \\
-  MACRO_DIM_ORTHO_XSTARTS%d(DOCODE);    \\
+  MACRO_DIM_ORTHO_XSTARTS_%d(DOCODE);    \\
   break;                                        \\
 "
 cases_xstarts <- sprintf(case_xstarts, 2:16, 2:16) |> stringi::stri_c(collapse = "")
 
 case_ystarts <-
   "case %d:                                       \\
-  MACRO_DIM_ORTHO_YSTARTS%d(DOCODE);    \\
+  MACRO_DIM_ORTHO_YSTARTS_%d(DOCODE);    \\
   break;                                        \\
 "
 cases_ystarts <- sprintf(case_ystarts, 2:16, 2:16) |> stringi::stri_c(collapse = "")
@@ -296,7 +260,6 @@ templatecode_docall <- "
       <cases_ystarts>                     \\
     }                                     \\
   }                                       \\
-  
 } while(0)"
 
 templatecode_docall2 <- stringi::stri_replace_all(
@@ -311,8 +274,6 @@ cat(templatecode_docall2)
 
 
 macro_dim_ortho_docall <- templatecode_docall2
-
-readr::write_file(macro_dim_ortho_docall, "macro_dim_ortho_docall.txt")
 
 
 
@@ -395,8 +356,8 @@ for(i in DTYPES) {
 
 cat(dMacro_skeletons[[2]])
 
-readr::write_file(stri_c(dMacro_skeletons[1:7], collapse = "\n"), "macro_dim_2_8.txt")
-readr::write_file(dMacro_skeletons[8], "macro_dim_16.txt")
+
+macro_dim_d <- stri_c(dMacro_skeletons[1:7], collapse = "\n")
 
 
 
@@ -438,8 +399,6 @@ cat(templatecode_docall2)
 
 
 macro_dim_docall <- templatecode_docall2
-
-readr::write_file(macro_dim_docall, "macro_dim_docall.txt")
 
 
 
@@ -541,5 +500,26 @@ macro_dim_general <- "
 "
 
 
-readr::write_file(macro_dim_general, "macro_dim_general.txt")
 
+
+################################################################################
+# Save macros ====
+#
+
+macro_dim <- stri_c(
+  macro_dim_vector,
+  "\n",
+  macro_dim_ortho_xstarts,
+  "\n",
+  macro_dim_ortho_ystarts,
+  "\n",
+  macro_dim_ortho_docall,
+  "\n",
+  macro_dim_d,
+  "\n",
+  macro_dim_docall,
+  "\n",
+  macro_dim_general
+)
+
+readr::write_file(macro_dim, "macro_dim.txt")

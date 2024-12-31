@@ -1,7 +1,17 @@
 
-macro_action_common <- "
 
-#define MACRO_ACTION_COMMON(NACHECK, NACODE, DOCODE) do {      \\
+macro_action1 <- "
+
+#define MACRO_ACTION1(DOCODE) do {      \\
+  DOCODE;                                     \\
+} while(0)
+
+"
+
+
+macro_action2 <- "
+
+#define MACRO_ACTION2(NACHECK, NACODE, DOCODE) do {      \\
   if(NACHECK) {                                                   \\
   	  NACODE;                                                       \\
   	}                                                               \\
@@ -13,16 +23,29 @@ macro_action_common <- "
 "
 
 
-readr::write_file(macro_action_common, "macro_action_common.txt")
 
+macro_action3 <- "
 
-macro_action_special <- "
-
-#define MACRO_ACTION_SPECIAL(RULECHECK, RULECODE, NACHECK, NACODE, DOCODE) do {      \\
+#define MACRO_ACTION3(RULECHECK, RULECODE, DOCODE) do {      \\
   if(RULECHECK) {                                                   \\
     RULECODE;                                                       \\
   }                                                                 \\
-  else if(NACHECK) {                                                     \\
+	else {                                                          \\
+	  DOCODE;                                                       \\
+	}                                                               \\
+} while(0)
+
+"
+
+
+
+macro_action4 <- "
+
+#define MACRO_ACTION4(RULECHECK, RULECODE, NACHECK, NACODE, DOCODE) do {      \\
+  if(RULECHECK) {                                                   \\
+    RULECODE;                                                       \\
+  }                                                                 \\
+  else if(NACHECK) {                                                \\
   	  NACODE;                                                       \\
   }                                                               \\
 	else {                                                          \\
@@ -31,7 +54,6 @@ macro_action_special <- "
 } while(0)
 
 "
-
 
 readr::write_file(macro_action_special, "macro_action_special.txt")
 

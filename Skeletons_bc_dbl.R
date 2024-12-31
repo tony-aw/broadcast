@@ -5,14 +5,8 @@ library(stringi)
 # macros <- stri_c(dMacro_skeletons, collapse = "\n")
 
 
-macro_dim_vector <- readr::read_file("macro_dim_vector.txt")
-macro_dim_2_8 <- readr::read_file("macro_dim_2_8.txt")
-macro_dim_16 <- readr::read_file("macro_dim_16.txt")
-macro_dim_docall <- readr::read_file("macro_dim_docall.txt")
-macro_typeswitch_numeric_common <- readr::read_file("macro_typeswitch_numeric_common.txt")
-macro_typeswitch_numeric_special <- readr::read_file("macro_typeswitch_numeric_special.txt")
-macro_typeswitch_numeric_simple <- readr::read_file("macro_typeswitch_numeric_simple.txt")
-macro_dim_general <- readr::read_file("macro_dim_general.txt")
+macro_dim <- readr::read_file("macro_dim.txt")
+macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
 macro_action_common <- readr::read_file("macro_action_common.txt")
 macro_action_special <- readr::read_file("macro_action_special.txt")
 
@@ -28,21 +22,9 @@ using namespace Rcpp;
   "\n",
   macro_action_special,
   "\n",
-  macro_dim_vector,
+  macro_dim,
   "\n",
-  macro_dim_2_8,
-  "\n",
-  macro_dim_16,
-  "\n",
-  macro_dim_docall,
-  "\n",
-  macro_dim_general,
-  "\n",
-  macro_typeswitch_numeric_common,
-  "\n",
-  macro_typeswitch_numeric_special,
-  "\n",
-  macro_typeswitch_numeric_simple,
+  macro_typeswitch_numeric,
   "\n",
   
   "
@@ -174,6 +156,108 @@ txt2 <- "
 
 //' @keywords internal
 //' @noRd
+// [[Rcpp::export(.rcpp_bc_dbl_o)]]
+SEXP rcpp_bc_dbl_0(
+  SEXP x, SEXP y,
+  SEXP dimcumprod_x, SEXP dimcumprod_y, SEXP out_dim, R_xlen_t nout, bool xstarts,
+  int op
+) {
+
+
+double *pdcp_x = REAL(dimcumprod_x);
+double *pdcp_y = REAL(dimcumprod_y);
+
+double tempout;
+
+SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
+double *pout;
+pout = REAL(out);
+
+switch(op) {
+  case 1:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_ORTHO_DOCALL,
+      tempout = NA_REAL,
+      tempout = (double)px[flatind_x] + (double)py[flatind_y]
+    );
+    break;
+  }
+  case 2:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_ORTHO_DOCALL,
+      tempout = NA_REAL,
+      tempout = (double)px[flatind_x] - (double)py[flatind_y]
+    );
+    break;
+  }
+  case 3:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_ORTHO_DOCALL,
+      tempout = NA_REAL,
+      tempout = (double)px[flatind_x] * (double)py[flatind_y]
+    );
+    break;
+  }
+  case 4:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_ORTHO_DOCALL,
+      tempout = NA_REAL,
+      tempout = (double)px[flatind_x] / (double)py[flatind_y]
+    );
+    break;
+  }
+  case 5:
+  {
+    MACRO_TYPESWITCH_NUMERIC_SPECIAL(
+      MACRO_DIM_ORTHO_DOCALL,
+      (double)px[flatind_x] == 1 || (double)py[flatind_y] == 0,
+      tempout = 1,
+      tempout = NA_REAL,
+      tempout = R_pow((double)px[flatind_x], (double)py[flatind_y])
+    );
+    break;
+  }
+  case 6:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_ORTHO_DOCALL,
+      tempout = NA_REAL,
+      tempout = ((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
+    );
+    break;
+  }
+  case 7:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_ORTHO_DOCALL,
+      tempout = NA_REAL,
+      tempout = ((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
+    );
+    break;
+  }
+  default:
+  {
+    stop(\"given operator not supported in the given context\");
+  }
+}
+
+UNPROTECT(1);
+return out;
+
+}
+
+
+"
+
+
+txt3 <- "
+
+//' @keywords internal
+//' @noRd
 // [[Rcpp::export(.rcpp_bc_dbl_d)]]
 SEXP rcpp_bc_dbl_d(
   SEXP x, SEXP y,
@@ -272,7 +356,7 @@ return out;
 
 "
 
-txt3 <- "
+txt4 <- "
 
 
 //' @keywords internal
@@ -375,9 +459,9 @@ SEXP rcpp_bc_dbl_general(
 
 
 
-txt <- stringi::stri_c(header, txt1, txt2, txt3, collapse = "\n\n")
+txt <- stringi::stri_c(header, txt1, txt2, txt3, txt4, collapse = "\n\n")
 Rcpp::sourceCpp(code = txt)
-readr::write_file(txt, "broadcast/src/bc_dbl.cpp")
+readr::write_file(txt, "src/bc_dbl.cpp")
 
 
 ################################################################################

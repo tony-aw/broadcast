@@ -50,19 +50,21 @@
   }
   
   # use orthogonal mode:
-  if(all(x.dim != y.dim)) {
+  if(all(x.dim != y.dim) && .rcpp_is_chesslike(x.dim, y.dim)) {
     return(2L)
   }
   
-  # use one-off mode (i.e. one of the arrays does not need to be broadcasted):
-  if(all(x.dim == out.dim) || all(y.dim == out.dim)) {
-    return(3L)
-  }
+  # # Not yet in use:
+  # # use one-off mode (i.e. one of the arrays does not need to be broadcasted):
+  # if(all(x.dim == out.dim) || all(y.dim == out.dim)) {
+  #   return(3L)
+  # }
   
-  # use one-common mode (i.e. for one dimension flat indices does not need to be calculated):
-  if(sum(x.dim == y.dim) == 1L) {
-    return(4L)
-  }
+  # Not yet in use:
+  # # use one-common mode (i.e. for one dimension flat indices does not need to be calculated):
+  # if(sum(x.dim == y.dim) >= 1L) {
+  #   return(4L)
+  # }
   
   # use miscellaneous mode :
   if(length(x.dim) <= 8L && length(y.dim) <= 8L) { # array result with <= 8 dims
@@ -198,7 +200,7 @@
 
 #' @keywords internal
 #' @noRd
-.prep <- function(x, y) {
+.prep_arrays <- function(x, y) {
   
   # drop dimensions for scalars:
   if(length(x) == 1L) {
@@ -235,20 +237,60 @@
   x.dim <- dim(x)
   y.dim <- dim(y)
   
-  # 
-  # # drop common 1L dimensions, if both x and y have more than 1 dimension:
-  # if(length(x.dim) > 1L && length(y.dim) > 1L) {
-  #   ind.drop <- which((x.dim == 1L) & (y.dim == 1L))
-  #   if(length(ind.drop) > 0L) {
-  #     x.dim <- x.dim[-ind.drop]
-  #     y.dim <- y.dim[-ind.drop]
-  #   }
-  #   if(length(x.dim) == 0L) x.dim <- NULL
-  #   if(length(y.dim) == 0L) y.dim <- NULL
-  #   dim(x) <- x.dim
-  #   dim(y) <- y.dim
-  # }
-  
   return(list(x, y))
   
+}
+
+
+.simplify_arrays <- function(x, y) {
+
+  x.dim <- dim(x)
+  y.dim <- dim(y)
+  
+  # drop common 1L dimensions:
+  if(length(x.dim) > 1L && length(y.dim) > 1L) {
+    ind.drop <- which((x.dim == 1L) & (y.dim == 1L))
+    if(length(ind.drop) > 0L) {
+      x.dim <- x.dim[-ind.drop]
+      y.dim <- y.dim[-ind.drop]
+    }
+    if(length(x.dim) == 0L) x.dim <- NULL
+    if(length(y.dim) == 0L) y.dim <- NULL
+    dim(x) <- x.dim
+    dim(y) <- y.dim
+  }
+  x.dim <- dim(x)
+  y.dim <- dim(y)
+  
+  # merge common dimensions:
+  if(length(x.dim) > 2L && length(y.dim) > 2L) {
+    for(i in 1:length(x.dim)) {
+      irle <- .rcpp_findfirst_range_cons_dupl(x.dim == y.dim)
+      if(irle[1] != 0L && irle[2] != 0L) {
+        if(irle[1] == 1) { # merge at start
+          x.dim <- c(prod(x.dim[irle]), x.dim[-irle])
+          y.dim <- c(prod(y.dim[irle]), y.dim[-irle])
+        }
+        else if(irle[2] == length(x.dim)) { # merge at end
+          x.dim <- c(x.dim[-irle], prod(x.dim[irle]))
+          y.dim <- c(y.dim[-irle], prod(y.dim[irle]))
+        }
+        else { # merge in between
+          first <- 1L:(irle[1] - 1L)
+          last <- (irle[2] + 1):length(x.dim)
+          between <- irle[1]:irle[2]
+          x.dim <- c(x.dim[first], prod(x.dim[between]), x.dim[last])
+          y.dim <- c(y.dim[first], prod(y.dim[between]), y.dim[last])
+        }
+      }
+      
+    }
+    
+    dim(x) <- x.dim
+    dim(y) <- y.dim
+      
+  }
+  
+  
+  return(list(x, y))
 }

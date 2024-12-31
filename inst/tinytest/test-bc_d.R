@@ -95,6 +95,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
           
+          
           i <- i + 1L
         }
       }

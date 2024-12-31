@@ -1,0 +1,11 @@
+
+
+#define MACRO_ACTION_COMMON(NACHECK, NACODE, DOCODE) do {      \
+  if(NACHECK) {                                                   \
+  	  NACODE;                                                       \
+  	}                                                               \
+  	else {                                                          \
+  	  DOCODE;                                                       \
+  	}                                                               \
+} while(0)
+

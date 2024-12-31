@@ -14,6 +14,12 @@
 
 #' @keywords internal
 #' @noRd
+.rcpp_bc_dbl_o <- function(x, y, dimcumprod_x, dimcumprod_y, out_dim, nout, xstarts, op) {
+    .Call(`_broadcast_rcpp_bc_dbl_0`, x, y, dimcumprod_x, dimcumprod_y, out_dim, nout, xstarts, op)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_bc_dbl_d <- function(x, y, by_x, by_y, dimcumprod_x, dimcumprod_y, out_dim, nout, op) {
     .Call(`_broadcast_rcpp_bc_dbl_d`, x, y, by_x, by_y, dimcumprod_x, dimcumprod_y, out_dim, nout, op)
 }
@@ -22,6 +28,18 @@
 #' @noRd
 .rcpp_bc_dbl_general <- function(x, y, s1, s2, xdims1, xdims2, nout, op) {
     .Call(`_broadcast_rcpp_bc_dbl_general`, x, y, s1, s2, xdims1, xdims2, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_findfirst_range_cons_dupl <- function(x) {
+    .Call(`_broadcast_rcpp_findfirst_range_cons_dupl`, x)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_is_chesslike <- function(x, y) {
+    .Call(`_broadcast_rcpp_is_chesslike`, x, y)
 }
 
 #' @keywords internal
