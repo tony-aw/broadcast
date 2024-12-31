@@ -1,0 +1,24 @@
+Package: broadcast
+Title: Simple Operations Broadcasted for Atomic Arrays and Multi-Threaded for Atomic Long Vectors
+Version: 0.0.0.9000
+Authors@R: person("Tony", "Wilkes", role = c("aut", "cre", "cph"),
+                  email = "tony_a_wilkes@outlook.com",
+                  comment = c(ORCID = "0000-0001-9498-8379"))
+Description: Implements simple broadcasted operations for atomic arrays,
+    and simple parallel computed operations for atomic long vectors.
+    Includes relational operators (`==`, `!=`, `<`, `>`, `<=`, `>=`),
+    boolean combiner operations (`&`, `|`, xor(), "not-and"),
+    integer/double/complex arithmetic operators (`+`, `-`, `*`, `/`, `^` `%%`, pmin(), pmax()),
+    and string concatination operators(`+` , `*`).
+    The broadcasted operators have about the same performance as their base 'R' counterparts.
+    The broadcasted operators use considerably less memory than their base 'R' counterparts.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LinkingTo: Rcpp
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Depends: 
+    R (>= 4.2.0)
+Imports: 
+    Rcpp (>= 1.0.11)
+Suggests: tinytest
