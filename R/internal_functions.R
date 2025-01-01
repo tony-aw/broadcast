@@ -49,16 +49,15 @@
     return(1L)
   }
   
-  # use orthogonal mode:
-  if(all(x.dim != y.dim) && .rcpp_is_chesslike(x.dim, y.dim)) {
+  # use big-small mode:
+  if(all(x.dim == out.dim) || all(y.dim == out.dim)) {
     return(2L)
   }
   
-  # # Not yet in use:
-  # # use one-off mode (i.e. one of the arrays does not need to be broadcasted):
-  # if(all(x.dim == out.dim) || all(y.dim == out.dim)) {
-  #   return(3L)
-  # }
+  # use orthogonal mode:
+  if(.C_dims_all_orthogonal(x.dim, y.dim)) {
+    return(3L)
+  }
   
   # Not yet in use:
   # # use one-common mode (i.e. for one dimension flat indices does not need to be calculated):
@@ -111,6 +110,7 @@
 #' @keywords internal
 #' @noRd
 .make_by <- function(target.dim, out.dim) {
+  # this approach is faster than ifelse()
   ind1 <- which(target.dim == 1L)
   ind0 <- which(target.dim > 1L)
   by <- vector("integer", length(target.dim))
@@ -262,10 +262,19 @@
   x.dim <- dim(x)
   y.dim <- dim(y)
   
-  # merge common dimensions:
+  # merge mergeable dimensions:
+  # 2 dimensions of x and y can be merged if they are BOTH NOT auto-orthogonal.
+  # i.e. if x.dim[1:2] = c(1, 1) and y.dim[1:2] = c(2, 3),
+  # x.dim[1:2] can be merged to become 1 and y.dim[1:2] to become 6 (= prod(c(2, 3))).
+  # But if x.dim[1:3] = c(1, 9, 1) and y.dim = c(8, 1, 8),
+  # x.dim[1:3] is auto-orthogonal, and so is y.dim[1:3], and thus they CANNOT be merged.
+  # Merging prevents unnecessary broadcasting,
+  # and I have found it to be a simple but effective optimization method for broadcasting.
+  
   if(length(x.dim) > 2L && length(y.dim) > 2L) {
     for(i in 1:length(x.dim)) {
-      irle <- .rcpp_findfirst_range_cons_dupl(x.dim == y.dim)
+      irle <- .C_findfirst_mergable_dims(x.dim == 1L, y.dim == 1L)
+      
       if(irle[1] != 0L && irle[2] != 0L) {
         if(irle[1] == 1) { # merge at start
           x.dim <- c(prod(x.dim[irle]), x.dim[-irle])
@@ -294,3 +303,5 @@
   
   return(list(x, y))
 }
+
+

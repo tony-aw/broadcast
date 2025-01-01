@@ -56,9 +56,24 @@ bc.d <- function(x, y, op) {
   if(dimmode == 1L) { # vector mode
     out <- .rcpp_bc_dbl_v(x, y, out.len, op)
   }
-  else if(dimmode == 2L) { # orthogonal mode
-    dimcumprod_x <- .make_dcp(x.dim)
-    dimcumprod_y <- .make_dcp(y.dim)
+  else if(dimmode == 2L){ # big-small mode
+    by_x <- .make_by(x.dim, out.dimsimp)
+    by_y <- .make_by(y.dim, out.dimsimp)
+    dcp_x <- .make_dcp(x.dim)
+    dcp_y <- .make_dcp(y.dim)
+    if(all(x.dim == out.dimsimp)) {
+      bigx <- TRUE
+    }
+    else {
+      bigx <- FALSE
+    }
+    out <- .rcpp_bc_dbl_bs(
+      x, y, by_x, by_y, dcp_x, dcp_y, as.integer(out.dimsimp), out.len, bigx, op
+    )
+  }
+  else if(dimmode == 3L) { # orthogonal mode
+    dcp_x <- .make_dcp(x.dim)
+    dcp_y <- .make_dcp(y.dim)
     if(x.dim[1L] > 1L) {
       xstarts <- TRUE
     }
@@ -67,29 +82,19 @@ bc.d <- function(x, y, op) {
     }
     out <- .rcpp_bc_dbl_o(
       x, y,
-      dimcumprod_x, dimcumprod_y, as.integer(out.dimsimp), out.len, xstarts, op
+      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, xstarts, op
     )
-  }
-  
-  # currently not yet implemented:
-  # else if(dimmode == 3L) {
-  #   
-  # }
-  
-  # else if(dimmode == 4L) {
-  #   
-  # }
-  
+  } # dimmode == 4L not yet implemented
   else if(dimmode == 5L) { # regular array <= 8 dims mode
     
     by_x <- .make_by(x.dim, out.dimsimp)
     by_y <- .make_by(y.dim, out.dimsimp)
-    dimcumprod_x <- .make_dcp(x.dim)
-    dimcumprod_y <- .make_dcp(y.dim)
+    dcp_x <- .make_dcp(x.dim)
+    dcp_y <- .make_dcp(y.dim)
     
     out <- .rcpp_bc_dbl_d(
       x, y, by_x, by_y,
-      dimcumprod_x, dimcumprod_y, as.integer(out.dimsimp), out.len, op
+      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
     )
   }
   else if(dimmode == 6L) { # misc mode

@@ -1,51 +1,35 @@
 # set-up ====
 
 library(stringi)
-# dMacro_skeletons <- qs::qread("dMacro_skeletons")
-# macros <- stri_c(dMacro_skeletons, collapse = "\n")
-
 
 macro_dim <- readr::read_file("macro_dim.txt")
 macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
 macro_action <- readr::read_file("macro_action.txt")
 
-header <- stri_c("
-
-#include <Rcpp.h>
-
-using namespace Rcpp;
-
-",
-  "\n",
+header_for_sourcing <- stri_c(
+  "
+  #include <Rcpp.h>
+  
+  using namespace Rcpp;
+  ",
   macro_action,
   "\n",
   macro_dim,
   "\n",
   macro_typeswitch_numeric,
-  "\n",
-  
-  "
-  
-  
-  //' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_test)]]
-int rcpp_test(int x, int y) {
-  return (x + y);
-}
-  
-  "
+  "\n"
 )
 
-cat(header)
-cat(stringi::stri_replace_all(header, "", fixed = "\\") )
-readr::write_file(header, "header.txt")
 
-Rcpp::sourceCpp(code = header)
+header_for_package <- "
+
+#include <Rcpp.h>
+#include \"Macros_Everywhere.h\"
+
+using namespace Rcpp;
 
 
-
-
+"
 
 ################################################################################
 # Functions ====
@@ -153,8 +137,112 @@ txt2 <- "
 
 //' @keywords internal
 //' @noRd
+// [[Rcpp::export(.rcpp_bc_dbl_bs)]]
+SEXP rcpp_bc_dbl_bs(
+  SEXP x, SEXP y,
+  SEXP by_x,
+  SEXP by_y,
+  SEXP dimcumprod_x, SEXP dimcumprod_y, SEXP out_dim, R_xlen_t nout, bool bigx,
+  int op
+) {
+
+
+double *pdcp_x = REAL(dimcumprod_x);
+double *pdcp_y = REAL(dimcumprod_y);
+
+double tempout;
+
+SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
+double *pout;
+pout = REAL(out);
+
+switch(op) {
+  case 1:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_BIGSMALL_DOCALL,
+      tempout = NA_REAL,
+      tempout = (double)px[flatind_x] + (double)py[flatind_y]
+    );
+    break;
+  }
+  case 2:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_BIGSMALL_DOCALL,
+      tempout = NA_REAL,
+      tempout = (double)px[flatind_x] - (double)py[flatind_y]
+    );
+    break;
+  }
+  case 3:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_BIGSMALL_DOCALL,
+      tempout = NA_REAL,
+      tempout = (double)px[flatind_x] * (double)py[flatind_y]
+    );
+    break;
+  }
+  case 4:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_BIGSMALL_DOCALL,
+      tempout = NA_REAL,
+      tempout = (double)px[flatind_x] / (double)py[flatind_y]
+    );
+    break;
+  }
+  case 5:
+  {
+    MACRO_TYPESWITCH_NUMERIC_SPECIAL(
+      MACRO_DIM_BIGSMALL_DOCALL,
+      (double)px[flatind_x] == 1 || (double)py[flatind_y] == 0,
+      tempout = 1,
+      tempout = NA_REAL,
+      tempout = R_pow((double)px[flatind_x], (double)py[flatind_y])
+    );
+    break;
+  }
+  case 6:
+  {
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
+      MACRO_DIM_BIGSMALL_DOCALL,
+      tempout = NA_REAL,
+      tempout = ((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
+    );
+    break;
+  }
+  case 7:
+  {
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
+      MACRO_DIM_BIGSMALL_DOCALL,
+      tempout = NA_REAL,
+      tempout = ((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
+    );
+    break;
+  }
+  default:
+  {
+    stop(\"given operator not supported in the given context\");
+  }
+}
+
+UNPROTECT(1);
+return out;
+
+}
+
+
+"
+
+
+txt3 <- "
+
+//' @keywords internal
+//' @noRd
 // [[Rcpp::export(.rcpp_bc_dbl_o)]]
-SEXP rcpp_bc_dbl_0(
+SEXP rcpp_bc_dbl_o(
   SEXP x, SEXP y,
   SEXP dimcumprod_x, SEXP dimcumprod_y, SEXP out_dim, R_xlen_t nout, bool xstarts,
   int op
@@ -251,7 +339,7 @@ return out;
 "
 
 
-txt3 <- "
+txt4 <- "
 
 //' @keywords internal
 //' @noRd
@@ -353,7 +441,7 @@ return out;
 
 "
 
-txt4 <- "
+txt5 <- "
 
 
 //' @keywords internal
@@ -456,8 +544,19 @@ SEXP rcpp_bc_dbl_general(
 
 
 
-txt <- stringi::stri_c(header, txt1, txt2, txt3, txt4, collapse = "\n\n")
+txt <- stringi::stri_c(
+  header_for_sourcing,
+  txt1, txt2, txt3, txt4, txt5,
+  collapse = "\n\n"
+)
+
 Rcpp::sourceCpp(code = txt)
+
+txt <- stringi::stri_c(
+  header_for_package,
+  txt1, txt2, txt3, txt4, txt5,
+  collapse = "\n\n"
+)
 readr::write_file(txt, "src/bc_dbl.cpp")
 
 
