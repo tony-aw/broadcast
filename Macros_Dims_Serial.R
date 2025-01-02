@@ -70,7 +70,6 @@ temp <- "
 
 #define MACRO_DIM_BIGX_<dtype>(DOCODE) do {      \\
   R_xlen_t counter = 0;         \\
-  const int *pby_x = INTEGER_RO(by_x);        \\
   const int *pby_y = INTEGER_RO(by_y);        \\
   const int *pout_dim = INTEGER_RO(out_dim);      \\
   R_xlen_t flatind_x = 0;       \\
@@ -148,7 +147,6 @@ temp <- "
 #define MACRO_DIM_BIGY_<dtype>(DOCODE) do {      \\
   R_xlen_t counter = 0;         \\
   const int *pby_x = INTEGER_RO(by_x);        \\
-  const int *pby_y = INTEGER_RO(by_y);        \\
   const int *pout_dim = INTEGER_RO(out_dim);      \\
   R_xlen_t flatind_x;       \\
   R_xlen_t flatind_y = 0;       \\
@@ -263,10 +261,97 @@ macro_dim_bigsmall_docall <- templatecode_docall2
 
 
 ################################################################################
-# Macro Orthogonal XSTARTS ====
+# Orthogonal XSTARTS ====
 #
 
-DTYPES <- c(2:16)
+macro_dim_ortho_xstarts_2 <- "
+#define MACRO_DIM_ORTHO_XSTARTS_2(DOCODE) do {      \\
+  R_xlen_t counter = 0;         \\
+  const int *pout_dim = INTEGER_RO(out_dim);      \\
+  R_xlen_t flatind_x;       \\
+  R_xlen_t flatind_y;       \\
+  for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\\
+	  for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\\
+        flatind_x = iter1;       \\
+        flatind_y = iter2 * pdcp_y[1];     \\
+                                                                    \\
+        DOCODE;                                                          \\
+  	                                                                \\
+        pout[counter] = tempout;        \\
+        counter++;                      \\
+    }	\\
+  }	\\
+} while(0)
+"
+
+
+
+macro_dim_ortho_xstarts_3 <- "
+#define MACRO_DIM_ORTHO_XSTARTS_3(DOCODE) do {      \\
+  R_xlen_t counter = 0;         \\
+  const int *pout_dim = INTEGER_RO(out_dim);      \\
+  R_xlen_t flatind_x;       \\
+  R_xlen_t flatind_y;       \\
+  int by_first = INTEGER_ELT(by_first_last, 0); \\
+  int by_last = INTEGER_ELT(by_first_last, 1);  \\
+  if(by_first == 0 && by_last == 0) { \\
+    for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\\
+      for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\\
+  	    for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\\
+          flatind_x = iter1 + iter3 * pdcp_x[2];       \\
+          flatind_y = iter2 * pdcp_y[1];     \\
+                                                                      \\
+          DOCODE;                                                          \\
+    	                                                                \\
+          pout[counter] = tempout;        \\
+          counter++;                      \\
+  	    } \\
+      }	\\
+  	}	\\
+  } \\
+  else if(by_first == 1){  \\
+    for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\\
+      for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\\
+  	    for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\\
+          flatind_x = iter1 + iter3 * pdcp_x[2];       \\
+          flatind_y = iter1 + iter2 * pdcp_y[1];     \\
+                                                                      \\
+          DOCODE;                                                          \\
+    	                                                                \\
+          pout[counter] = tempout;        \\
+          counter++;                      \\
+  	    } \\
+      }	\\
+  	}	\\
+  } \\
+  else if(by_last == 1){  \\
+    for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\\
+      for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\\
+  	    for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\\
+          flatind_x = iter1 + iter3 * pdcp_x[2];       \\
+          flatind_y = iter2 * pdcp_y[1] + iter3 * pdcp_y[2];     \\
+                                                                      \\
+          DOCODE;                                                          \\
+    	                                                                \\
+          pout[counter] = tempout;        \\
+          counter++;                      \\
+  	    } \\
+      }	\\
+  	}	\\
+  } \\
+} while(0)
+"
+
+Rcpp::sourceCpp(code = stri_c(
+  "
+   #include <Rcpp.h>
+  
+  using namespace Rcpp;
+  ",
+  macro_dim_ortho_xstarts_2
+))
+
+DTYPES <- c(4:16)
 
 all_for <- rev(
   sprintf("\t for(int iter%d = 0; iter%d < pout_dim[%d]; ++iter%d) {\t\\", 16:1, 16:1, 15:0, 16:1)
@@ -279,6 +364,7 @@ all_parts_y <- c(
   "iter1",
   sprintf("iter%d * pdcp_y[%d]", 2:16, 1:15)
 )
+
 
 temp <- "
 
@@ -287,6 +373,9 @@ temp <- "
   const int *pout_dim = INTEGER_RO(out_dim);      \\
   R_xlen_t flatind_x;       \\
   R_xlen_t flatind_y;       \\
+  int by_first = INTEGER_ELT(by_first_last, 0); \\
+  int by_last = INTEGER_ELT(by_first_last, 1);  \\
+  if(by_first == 0 && by_last == 0) { \\
   <startfor>
         flatind_x = <main_x>;       \\
         flatind_y = <main_y>;     \\
@@ -296,13 +385,34 @@ temp <- "
         pout[counter] = tempout;        \\
         counter++;                      \\
   <endfor>
+  } \\
+  else { \\
+  <startfor>
+        flatind_x = <main_x2>;       \\
+        flatind_y = <main_y2>;     \\
+                                                                    \\
+        DOCODE;                                                          \\
+  	                                                                \\
+        pout[counter] = tempout;        \\
+        counter++;                      \\
+  <endfor>
+  } \\
 } while(0)
 
 "
 
 dMacro_skeletons <- character(length(DTYPES))
-names(dMacro_skeletons) <- DTYPES
+counter <- 1L
 for(i in DTYPES) {
+  
+  end_x <- end_y <- ""
+  i_is_even <- round(i/2) == (i/2)
+  if(i_is_even) {
+    end_x <- sprintf(" + by_last * iter%d * pdcp_x[%d]", i, i - 1L)
+  }
+  else {
+    end_y <- sprintf(" + by_last * iter%d * pdcp_y[%d]", i, i - 1L)
+  }
   
   xseq <- seq(1, i, 2)
   yseq <- seq(2, i, 2)
@@ -311,12 +421,16 @@ for(i in DTYPES) {
   current_main_x <- stri_c(all_parts_x[xseq], collapse = " + ")
   current_main_y <- stri_c(all_parts_y[yseq], collapse = " + ")
   current_end <- stri_c(rep("\t }\t\\", i), collapse = "\n")
+  current_main_x2 <- stri_c(current_main_x, end_x)
+  current_main_y2 <- stri_c("by_first * iter1 + ", current_main_y, end_y)
   
   current_fixed <- c(
     "<dtype>",
     "<startfor>",
     "<main_x>",
     "<main_y>",
+    "<main_x2>",
+    "<main_y2>",
     "<endfor>"
   )
   current_replacement <- c(
@@ -324,6 +438,8 @@ for(i in DTYPES) {
     current_for,
     current_main_x,
     current_main_y,
+    current_main_x2,
+    current_main_y2,
     current_end
   )
   
@@ -335,103 +451,59 @@ for(i in DTYPES) {
     vectorize_all = FALSE
   )
   
-  dMacro_skeletons[i-1] <- out
+  dMacro_skeletons[counter] <- out
+  counter <- counter + 1L
 }
 
-cat(dMacro_skeletons[[15]])
+cat(dMacro_skeletons[[1]])
 
-macro_dim_ortho_xstarts <- stri_c(dMacro_skeletons, collapse = "\n")
+dMacro_skeletons <- stri_c(dMacro_skeletons, collapse = "\n")
+macro_dim_ortho_xstarts <- stri_c(
+  macro_dim_ortho_xstarts_2,
+  macro_dim_ortho_xstarts_3,
+  dMacro_skeletons,
+  collapse = "\n"
+)
 
 
 
 
 ################################################################################
-# Macro Orthogonal YSTARTS ====
+# Orthogonal YSTARTS ====
 #
 
-DTYPES <- c(2:16)
-
-all_for <- rev(
-  sprintf("\t for(int iter%d = 0; iter%d < pout_dim[%d]; ++iter%d) {\t\\", 16:1, 16:1, 15:0, 16:1)
+out <- macro_dim_ortho_xstarts
+p <- c(
+  "xstarts", "XSTARTS"
+)
+rp <- c("ystarts", "YSTARTS")
+out <- stringi::stri_replace_all(
+  out, fixed = p, replacement = rp, vectorize_all = FALSE
 )
 
-
-all_parts_x <- c(
-  "iter1",
-  sprintf("iter%d * pdcp_x[%d]", 2:16, 1:15)
+p <- c(
+  "flatind_y", "pdcp_y"
 )
-all_parts_y <- c(
-  "iter1",
-  sprintf("iter%d * pdcp_y[%d]", 2:16, 1:15)
+rp <- c("flatind_z", "pdcp_z")
+out <- stringi::stri_replace_all(
+  out, fixed = p, replacement = rp, vectorize_all = FALSE
 )
 
+p <- c(
+  "flatind_x", "pdcp_x", "flatind_z", "pdcp_z"
+)
+rp <- c("flatind_y", "pdcp_y", "flatind_x", "pdcp_x")
+out <- stringi::stri_replace_all(
+  out, fixed = p, replacement = rp, vectorize_all = FALSE
+)
 
-temp <- "
+cat(out)
 
-#define MACRO_DIM_ORTHO_YSTARTS_<dtype>(DOCODE) do {      \\
-  R_xlen_t counter = 0;         \\
-  const int *pout_dim = INTEGER_RO(out_dim);      \\
-  R_xlen_t flatind_x;       \\
-  R_xlen_t flatind_y;       \\
-  <startfor>
-        flatind_x = <main_x>;       \\
-        flatind_y = <main_y>;     \\
-                                                                    \\
-        DOCODE;                                                          \\
-  	                                                                \\
-        pout[counter] = tempout;        \\
-        counter++;                      \\
-  <endfor>
-} while(0)
-
-"
-
-dMacro_skeletons <- character(length(DTYPES))
-names(dMacro_skeletons) <- DTYPES
-for(i in DTYPES) {
-  
-  yseq <- seq(1, i, 2)
-  xseq <- seq(2, i, 2)
-  
-  current_for <- stri_c(all_for[i:1], collapse = "\n")
-  current_main_x <- stri_c(all_parts_x[xseq], collapse = " + ")
-  current_main_y <- stri_c(all_parts_y[yseq], collapse = " + ")
-  current_end <- stri_c(rep("\t }\t\\", i), collapse = "\n")
-  
-  current_fixed <- c(
-    "<dtype>",
-    "<startfor>",
-    "<main_x>",
-    "<main_y>",
-    "<endfor>"
-  )
-  current_replacement <- c(
-    i,
-    current_for,
-    current_main_x,
-    current_main_y,
-    current_end
-  )
-  
-  out <- stri_replace_all(
-    temp,
-    fixed = current_fixed,
-    replacement = current_replacement,
-    case_insensitive = FALSE,
-    vectorize_all = FALSE
-  )
-  
-  dMacro_skeletons[i-1] <- out
-}
-
-cat(dMacro_skeletons[[3]])
-
-macro_dim_ortho_ystarts <- stri_c(dMacro_skeletons, collapse = "\n")
-
+macro_dim_ortho_ystarts <- out
 
 
 ################################################################################
-# Macro DoCall Ortho skeleton ====
+# DoCall Ortho skeleton ====
 #
 
 

@@ -36,7 +36,7 @@ bc.d <- function(x, y, op) {
   
   # Check & determine dimensions to return:
   .stop_conf_dim(x, y, sys.call())
-  out.dimorig <- .determine_out.dim(x.dim, y.dim)
+  out.dimorig <- .determine_out.dim(x.dim, y.dim, sys.call())
   out.len <- .determine_out.len(x, y, out.dimorig)
   
   
@@ -46,8 +46,7 @@ bc.d <- function(x, y, op) {
   y <- simp[[2L]]
   x.dim <- dim(x)
   y.dim <- dim(y)
-  out.dimsimp <- .determine_out.dim(x.dim, y.dim)
-  
+  out.dimsimp <- .determine_out.dim(x.dim, y.dim, sys.call())
   
   # Broadcast:
   dimmode <- .determine_dimmode(x.dim, y.dim, out.dimsimp)
@@ -82,10 +81,21 @@ bc.d <- function(x, y, op) {
     }
     out <- .rcpp_bc_dbl_o(
       x, y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, xstarts, op
+      dcp_x, dcp_y, c(0L, 0L), as.integer(out.dimsimp), out.len, xstarts, op
     )
-  } # dimmode == 4L not yet implemented
-  else if(dimmode == 5L) { # regular array <= 8 dims mode
+  }
+  else if(dimmode == 4L) { # sandwiched orthogonal mode
+    params <- .make_sandwich_params(x.dim, y.dim)
+    xstarts <- params[[1L]]
+    dcp_x <- params[[2L]]
+    dcp_y <- params[[3L]]
+    by_first_last <- params[[4L]]
+    out <- .rcpp_bc_dbl_o(
+      x, y,
+      dcp_x, dcp_y, by_first_last, as.integer(out.dimsimp), out.len, xstarts, op
+    )
+  }
+  else if(dimmode == 5L) { # irregular array with <= 8 dims
     
     by_x <- .make_by(x.dim, out.dimsimp)
     by_y <- .make_by(y.dim, out.dimsimp)

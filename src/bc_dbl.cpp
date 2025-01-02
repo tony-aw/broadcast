@@ -208,7 +208,7 @@ return out;
 // [[Rcpp::export(.rcpp_bc_dbl_o)]]
 SEXP rcpp_bc_dbl_o(
   SEXP x, SEXP y,
-  SEXP dimcumprod_x, SEXP dimcumprod_y, SEXP out_dim, R_xlen_t nout, bool xstarts,
+  SEXP dimcumprod_x, SEXP dimcumprod_y, SEXP by_first_last, SEXP out_dim, R_xlen_t nout, bool xstarts,
   int op
 ) {
 

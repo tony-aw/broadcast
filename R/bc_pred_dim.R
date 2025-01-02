@@ -46,6 +46,6 @@ bc_pred_dim <- function(
   
   x.dim <- dim(x)
   y.dim <- dim(y)
-  out.dim <- .determine_out.dim(x.dim, y.dim)
+  out.dim <- .determine_out.dim(x.dim, y.dim, sys.call())
   return(out.dim)
 }

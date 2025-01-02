@@ -33,6 +33,27 @@
   }
 }
 
+#' @keywords internal
+#' @noRd
+.is_sandwich_orthogonal <- function(x.dim, y.dim) {
+  n <- length(x.dim) # = length(y.dim)
+  if(n < 3L) {
+    return(FALSE)
+  }
+  else if(n == 3L) {
+    if(x.dim[2L] != y.dim[2L]) {
+      return(TRUE)
+    }
+  }
+  else {
+    ind <- seq(2L, length(x.dim) - 1L)
+    if(.C_dims_all_orthogonal(x.dim[ind], y.dim[ind])) {
+      return(TRUE)
+    }
+  }
+  
+  return(FALSE)
+}
 
 #' @keywords internal
 #' @noRd
@@ -59,11 +80,11 @@
     return(3L)
   }
   
-  # Not yet in use:
-  # # use one-common mode (i.e. for one dimension flat indices does not need to be calculated):
-  # if(sum(x.dim == y.dim) >= 1L) {
-  #   return(4L)
-  # }
+  # use sandwiched mode
+  # (internally uses same C and C++ scripts as orthogonal mode, but more convenient to check explicitly)
+  if(.is_sandwich_orthogonal(x.dim, y.dim)) {
+    return(4L)
+  }
   
   # use miscellaneous mode :
   if(length(x.dim) <= 8L && length(y.dim) <= 8L) { # array result with <= 8 dims
@@ -78,12 +99,22 @@
 
 #' @keywords internal
 #' @noRd
-.determine_out.dim <- function(x.dim, y.dim) {
+.determine_out.dim <- function(x.dim, y.dim, abortcall) {
   if(is.null(x.dim) && is.null(y.dim)) {
     return(NULL)
   }
   else if(!is.null(x.dim) && !is.null(y.dim)) {
-    return(.C_pmax(x.dim, y.dim))
+    out.dim <- .C_pmax(x.dim, y.dim)
+    maxint <- 2^31 - 1
+    if(any(out.dim >= maxint)) {
+      stop(simpleError("broadcasting will exceed maximum dimension size", call = abortcall))
+    }
+    out.len <- prod(out.dim)
+    max_longvector <- 2^52 - 1
+    if(out.len >= max_longvector) {
+      stop(simpleError("broadcasting will exceed maximum vector size", call = abortcall))
+    }
+    return(out.dim)
   }
   else if(!is.null(x.dim)) {
     return(x.dim)
@@ -104,6 +135,37 @@
     return(prod(out.dim))
   }
   
+}
+
+
+#' @keywords internal
+#' @noRd
+.make_sandwich_params <- function(x.dim, y.dim) {
+  n <- length(x.dim)
+  if(x.dim[1L] > 1L && x.dim[2L] == 1L) {
+    xstarts <- TRUE
+  }
+  else {
+    xstarts <- FALSE
+  }
+  by_first_last <- c(0L, 0L)
+  if(x.dim[1L] == y.dim[1L]) {
+    by_first_last[1L] <- 1L
+  }
+  if(x.dim[n] == y.dim[n]) {
+    by_first_last[2L] <- 1L
+  }
+  
+  dcp_x <- .make_dcp(x.dim)
+  dcp_y <- .make_dcp(y.dim)
+  
+  out <- list(
+    xstarts = xstarts,
+    dcp_x = dcp_x,
+    dxp_y = dcp_y,
+    by_first_last = by_first_last
+  )
+  return(out)
 }
 
 
@@ -242,6 +304,8 @@
 }
 
 
+#' @keywords internal
+#' @noRd
 .simplify_arrays <- function(x, y) {
 
   x.dim <- dim(x)
@@ -262,8 +326,10 @@
   x.dim <- dim(x)
   y.dim <- dim(y)
   
+  
   # merge mergeable dimensions:
-  # 2 dimensions of x and y can be merged if they are BOTH NOT auto-orthogonal.
+  
+  # 2 ADJECENT dimensions of x and y can be merged if they are BOTH NOT auto-orthogonal.
   # i.e. if x.dim[1:2] = c(1, 1) and y.dim[1:2] = c(2, 3),
   # x.dim[1:2] can be merged to become 1 and y.dim[1:2] to become 6 (= prod(c(2, 3))).
   # But if x.dim[1:3] = c(1, 9, 1) and y.dim = c(8, 1, 8),
@@ -272,28 +338,40 @@
   # and I have found it to be a simple but effective optimization method for broadcasting.
   
   if(length(x.dim) > 2L && length(y.dim) > 2L) {
-    for(i in 1:length(x.dim)) {
+    
+    maxint <- 2L^31L - 1L
+    
+    for(i in 1:length(x.dim)) { # start loop
+      
       irle <- .C_findfirst_mergable_dims(x.dim == 1L, y.dim == 1L)
+      if(irle[1] != 0L && irle[2] != 0L) { # start if statements
+        
+        # only merge if the products are less than the integer limit
+        x.prod <- prod(x.dim[irle])
+        y.prod <- prod(y.dim[irle])
+        checkprod <- x.prod < maxint && y.prod < maxint
+        if(checkprod) {
+          
+          if(irle[1] == 1) { # merge at start
+            x.dim <- c(prod(x.dim[irle]), x.dim[-irle])
+            y.dim <- c(prod(y.dim[irle]), y.dim[-irle])
+          }
+          else if(irle[2] == length(x.dim)) { # merge at end
+            x.dim <- c(x.dim[-irle], prod(x.dim[irle]))
+            y.dim <- c(y.dim[-irle], prod(y.dim[irle]))
+          }
+          else { # merge in between
+            first <- 1L:(irle[1] - 1L)
+            last <- (irle[2] + 1):length(x.dim)
+            between <- irle[1]:irle[2]
+            x.dim <- c(x.dim[first], prod(x.dim[between]), x.dim[last])
+            y.dim <- c(y.dim[first], prod(y.dim[between]), y.dim[last])
+          }
+          
+        }
+      } # end if statements
       
-      if(irle[1] != 0L && irle[2] != 0L) {
-        if(irle[1] == 1) { # merge at start
-          x.dim <- c(prod(x.dim[irle]), x.dim[-irle])
-          y.dim <- c(prod(y.dim[irle]), y.dim[-irle])
-        }
-        else if(irle[2] == length(x.dim)) { # merge at end
-          x.dim <- c(x.dim[-irle], prod(x.dim[irle]))
-          y.dim <- c(y.dim[-irle], prod(y.dim[irle]))
-        }
-        else { # merge in between
-          first <- 1L:(irle[1] - 1L)
-          last <- (irle[2] + 1):length(x.dim)
-          between <- irle[1]:irle[2]
-          x.dim <- c(x.dim[first], prod(x.dim[between]), x.dim[last])
-          y.dim <- c(y.dim[first], prod(y.dim[between]), y.dim[last])
-        }
-      }
-      
-    }
+    } # end loop
     
     dim(x) <- x.dim
     dim(y) <- y.dim
