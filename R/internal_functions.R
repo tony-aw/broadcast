@@ -33,6 +33,7 @@
   }
 }
 
+
 #' @keywords internal
 #' @noRd
 .is_sandwich_orthogonal <- function(x.dim, y.dim) {
@@ -76,23 +77,13 @@
   }
   
   # use orthogonal mode:
-  if(.C_dims_all_orthogonal(x.dim, y.dim)) {
-    return(3L)
-  }
+  # currently not used, since the perfomance improvement is neglible
+  # if(.C_dims_all_orthogonal(x.dim, y.dim)) {
+  #   return(3L)
+  # }
   
-  # use sandwiched mode
-  # (internally uses same C and C++ scripts as orthogonal mode, but more convenient to check explicitly)
-  if(.is_sandwich_orthogonal(x.dim, y.dim)) {
-    return(4L)
-  }
-  
-  # use miscellaneous mode :
-  if(length(x.dim) <= 8L && length(y.dim) <= 8L) { # array result with <= 8 dims
-    return(5L)
-  }
-  else { # larger array result
-    return(6L)
-  }
+  # use general mode:
+  return(4L)
   
 }
 

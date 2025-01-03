@@ -15,20 +15,8 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_dbl_o <- function(x, y, dimcumprod_x, dimcumprod_y, by_first_last, out_dim, nout, xstarts, op) {
-    .Call(`_broadcast_rcpp_bc_dbl_o`, x, y, dimcumprod_x, dimcumprod_y, by_first_last, out_dim, nout, xstarts, op)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_bc_dbl_d <- function(x, y, by_x, by_y, dimcumprod_x, dimcumprod_y, out_dim, nout, op) {
     .Call(`_broadcast_rcpp_bc_dbl_d`, x, y, by_x, by_y, dimcumprod_x, dimcumprod_y, out_dim, nout, op)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bc_dbl_general <- function(x, y, s1, s2, xdims1, xdims2, nout, op) {
-    .Call(`_broadcast_rcpp_bc_dbl_general`, x, y, s1, s2, xdims1, xdims2, nout, op)
 }
 
 #' @keywords internal

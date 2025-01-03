@@ -70,32 +70,21 @@ bc.d <- function(x, y, op) {
       x, y, by_x, by_y, dcp_x, dcp_y, as.integer(out.dimsimp), out.len, bigx, op
     )
   }
-  else if(dimmode == 3L) { # orthogonal mode
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
-    if(x.dim[1L] > 1L) {
-      xstarts <- TRUE
-    }
-    else {
-      xstarts <- FALSE
-    }
-    out <- .rcpp_bc_dbl_o(
-      x, y,
-      dcp_x, dcp_y, c(0L, 0L), as.integer(out.dimsimp), out.len, xstarts, op
-    )
-  }
-  else if(dimmode == 4L) { # sandwiched orthogonal mode
-    params <- .make_sandwich_params(x.dim, y.dim)
-    xstarts <- params[[1L]]
-    dcp_x <- params[[2L]]
-    dcp_y <- params[[3L]]
-    by_first_last <- params[[4L]]
-    out <- .rcpp_bc_dbl_o(
-      x, y,
-      dcp_x, dcp_y, by_first_last, as.integer(out.dimsimp), out.len, xstarts, op
-    )
-  }
-  else if(dimmode == 5L) { # irregular array with <= 8 dims
+  # else if(dimmode == 3L) { # orthogonal mode; currently not used
+  #   dcp_x <- .make_dcp(x.dim)
+  #   dcp_y <- .make_dcp(y.dim)
+  #   if(x.dim[1L] > 1L) {
+  #     xstarts <- TRUE
+  #   }
+  #   else {
+  #     xstarts <- FALSE
+  #   }
+  #   out <- .rcpp_bc_dbl_o(
+  #     x, y,
+  #     dcp_x, dcp_y, c(0L, 0L), as.integer(out.dimsimp), out.len, xstarts, op
+  #   )
+  # }
+  else if(dimmode == 4L) { # general mode
     
     by_x <- .make_by(x.dim, out.dimsimp)
     by_y <- .make_by(y.dim, out.dimsimp)
@@ -105,13 +94,6 @@ bc.d <- function(x, y, op) {
     out <- .rcpp_bc_dbl_d(
       x, y, by_x, by_y,
       dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
-    )
-  }
-  else if(dimmode == 6L) { # misc mode
-    inds_x <- .make_indices(x.dim, out.dimsimp)
-    inds_y <- .make_indices(y.dim, out.dimsimp)
-    out <- .rcpp_bc_dbl_general(
-      x, y, inds_x, inds_y, dim(x), dim(y), out.len, op
     )
   }
   

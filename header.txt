@@ -50,6 +50,7 @@
 
 
 
+
 #define MACRO_DIM_VECTOR(DOCODE) do {                               \
   R_xlen_t flatind_x = 0;                                           \
   R_xlen_t flatind_y = 0;                                           \
@@ -94,19 +95,21 @@
 
 #define MACRO_DIM_BIGX_2(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2; \
   	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -117,20 +120,23 @@
 
 #define MACRO_DIM_BIGX_3(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3; \
   	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -142,21 +148,25 @@
 
 #define MACRO_DIM_BIGX_4(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4; \
   	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -169,22 +179,27 @@
 
 #define MACRO_DIM_BIGX_5(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5; \
   	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -198,23 +213,29 @@
 
 #define MACRO_DIM_BIGX_6(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6; \
   	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -229,24 +250,31 @@
 
 #define MACRO_DIM_BIGX_7(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7; \
   	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]) + pdcp_y[6] * (iter7 * pby_y[6]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -262,25 +290,33 @@
 
 #define MACRO_DIM_BIGX_8(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8; \
   	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]) + pdcp_y[6] * (iter7 * pby_y[6]) + pdcp_y[7] * (iter8 * pby_y[7]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -297,26 +333,35 @@
 
 #define MACRO_DIM_BIGX_9(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9; \
   	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]) + pdcp_y[6] * (iter7 * pby_y[6]) + pdcp_y[7] * (iter8 * pby_y[7]) + pdcp_y[8] * (iter9 * pby_y[8]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -334,27 +379,37 @@
 
 #define MACRO_DIM_BIGX_10(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10; \
   	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]) + pdcp_y[6] * (iter7 * pby_y[6]) + pdcp_y[7] * (iter8 * pby_y[7]) + pdcp_y[8] * (iter9 * pby_y[8]) + pdcp_y[9] * (iter10 * pby_y[9]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -373,28 +428,39 @@
 
 #define MACRO_DIM_BIGX_11(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11; \
   	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_y11 = pby_y[10] * iter11 * pdcp_y[10];	\
 	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]) + pdcp_y[6] * (iter7 * pby_y[6]) + pdcp_y[7] * (iter8 * pby_y[7]) + pdcp_y[8] * (iter9 * pby_y[8]) + pdcp_y[9] * (iter10 * pby_y[9]) + pdcp_y[10] * (iter11 * pby_y[10]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -414,29 +480,41 @@
 
 #define MACRO_DIM_BIGX_12(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12; \
   	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_y12 = pby_y[11] * iter12 * pdcp_y[11];	\
 	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_y11 = pby_y[10] * iter11 * pdcp_y[10];	\
 	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]) + pdcp_y[6] * (iter7 * pby_y[6]) + pdcp_y[7] * (iter8 * pby_y[7]) + pdcp_y[8] * (iter9 * pby_y[8]) + pdcp_y[9] * (iter10 * pby_y[9]) + pdcp_y[10] * (iter11 * pby_y[10]) + pdcp_y[11] * (iter12 * pby_y[11]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11 + i_y12;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -457,30 +535,43 @@
 
 #define MACRO_DIM_BIGX_13(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12, i_y13; \
   	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
+i_y13 = pby_y[12] * iter13 * pdcp_y[12];	\
 	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_y12 = pby_y[11] * iter12 * pdcp_y[11];	\
 	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_y11 = pby_y[10] * iter11 * pdcp_y[10];	\
 	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]) + pdcp_y[6] * (iter7 * pby_y[6]) + pdcp_y[7] * (iter8 * pby_y[7]) + pdcp_y[8] * (iter9 * pby_y[8]) + pdcp_y[9] * (iter10 * pby_y[9]) + pdcp_y[10] * (iter11 * pby_y[10]) + pdcp_y[11] * (iter12 * pby_y[11]) + pdcp_y[12] * (iter13 * pby_y[12]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11 + i_y12 + i_y13;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -502,31 +593,45 @@
 
 #define MACRO_DIM_BIGX_14(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12, i_y13, i_y14; \
   	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
+i_y14 = pby_y[13] * iter14 * pdcp_y[13];	\
 	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
+i_y13 = pby_y[12] * iter13 * pdcp_y[12];	\
 	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_y12 = pby_y[11] * iter12 * pdcp_y[11];	\
 	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_y11 = pby_y[10] * iter11 * pdcp_y[10];	\
 	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]) + pdcp_y[6] * (iter7 * pby_y[6]) + pdcp_y[7] * (iter8 * pby_y[7]) + pdcp_y[8] * (iter9 * pby_y[8]) + pdcp_y[9] * (iter10 * pby_y[9]) + pdcp_y[10] * (iter11 * pby_y[10]) + pdcp_y[11] * (iter12 * pby_y[11]) + pdcp_y[12] * (iter13 * pby_y[12]) + pdcp_y[13] * (iter14 * pby_y[13]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11 + i_y12 + i_y13 + i_y14;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -549,32 +654,47 @@
 
 #define MACRO_DIM_BIGX_15(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12, i_y13, i_y14, i_y15; \
   	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
+i_y15 = pby_y[14] * iter15 * pdcp_y[14];	\
 	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
+i_y14 = pby_y[13] * iter14 * pdcp_y[13];	\
 	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
+i_y13 = pby_y[12] * iter13 * pdcp_y[12];	\
 	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_y12 = pby_y[11] * iter12 * pdcp_y[11];	\
 	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_y11 = pby_y[10] * iter11 * pdcp_y[10];	\
 	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]) + pdcp_y[6] * (iter7 * pby_y[6]) + pdcp_y[7] * (iter8 * pby_y[7]) + pdcp_y[8] * (iter9 * pby_y[8]) + pdcp_y[9] * (iter10 * pby_y[9]) + pdcp_y[10] * (iter11 * pby_y[10]) + pdcp_y[11] * (iter12 * pby_y[11]) + pdcp_y[12] * (iter13 * pby_y[12]) + pdcp_y[13] * (iter14 * pby_y[13]) + pdcp_y[14] * (iter15 * pby_y[14]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11 + i_y12 + i_y13 + i_y14 + i_y15;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -598,33 +718,49 @@
 
 #define MACRO_DIM_BIGX_16(DOCODE) do {      \
   R_xlen_t counter = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
   const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x = 0;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12, i_y13, i_y14, i_y15, i_y16; \
   	 for(int iter16 = 0; iter16 < pout_dim[15]; ++iter16) {	\
+i_y16 = pby_y[15] * iter16 * pdcp_y[15];	\
 	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
+i_y15 = pby_y[14] * iter15 * pdcp_y[14];	\
 	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
+i_y14 = pby_y[13] * iter14 * pdcp_y[13];	\
 	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
+i_y13 = pby_y[12] * iter13 * pdcp_y[12];	\
 	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_y12 = pby_y[11] * iter12 * pdcp_y[11];	\
 	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_y11 = pby_y[10] * iter11 * pdcp_y[10];	\
 	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]) + pdcp_y[6] * (iter7 * pby_y[6]) + pdcp_y[7] * (iter8 * pby_y[7]) + pdcp_y[8] * (iter9 * pby_y[8]) + pdcp_y[9] * (iter10 * pby_y[9]) + pdcp_y[10] * (iter11 * pby_y[10]) + pdcp_y[11] * (iter12 * pby_y[11]) + pdcp_y[12] * (iter13 * pby_y[12]) + pdcp_y[13] * (iter14 * pby_y[13]) + pdcp_y[14] * (iter15 * pby_y[14]) + pdcp_y[15] * (iter16 * pby_y[15]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11 + i_y12 + i_y13 + i_y14 + i_y15 + i_y16;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_x++;                      \
+        flatind_x++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -650,18 +786,20 @@
 #define MACRO_DIM_BIGY_2(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2; \
   	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -673,19 +811,22 @@
 #define MACRO_DIM_BIGY_3(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3; \
   	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -698,20 +839,24 @@
 #define MACRO_DIM_BIGY_4(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4; \
   	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -725,21 +870,26 @@
 #define MACRO_DIM_BIGY_5(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5; \
   	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -754,22 +904,28 @@
 #define MACRO_DIM_BIGY_6(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6; \
   	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -785,23 +941,30 @@
 #define MACRO_DIM_BIGY_7(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7; \
   	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]) + pdcp_x[6] * (iter7 * pby_x[6]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -818,24 +981,32 @@
 #define MACRO_DIM_BIGY_8(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8; \
   	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]) + pdcp_x[6] * (iter7 * pby_x[6]) + pdcp_x[7] * (iter8 * pby_x[7]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -853,25 +1024,34 @@
 #define MACRO_DIM_BIGY_9(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9; \
   	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]) + pdcp_x[6] * (iter7 * pby_x[6]) + pdcp_x[7] * (iter8 * pby_x[7]) + pdcp_x[8] * (iter9 * pby_x[8]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -890,26 +1070,36 @@
 #define MACRO_DIM_BIGY_10(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10; \
   	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]) + pdcp_x[6] * (iter7 * pby_x[6]) + pdcp_x[7] * (iter8 * pby_x[7]) + pdcp_x[8] * (iter9 * pby_x[8]) + pdcp_x[9] * (iter10 * pby_x[9]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -929,27 +1119,38 @@
 #define MACRO_DIM_BIGY_11(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11; \
   	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_x11 = pby_x[10] * iter11 * pdcp_x[10];	\
 	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]) + pdcp_x[6] * (iter7 * pby_x[6]) + pdcp_x[7] * (iter8 * pby_x[7]) + pdcp_x[8] * (iter9 * pby_x[8]) + pdcp_x[9] * (iter10 * pby_x[9]) + pdcp_x[10] * (iter11 * pby_x[10]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -970,28 +1171,40 @@
 #define MACRO_DIM_BIGY_12(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12; \
   	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_x12 = pby_x[11] * iter12 * pdcp_x[11];	\
 	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_x11 = pby_x[10] * iter11 * pdcp_x[10];	\
 	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]) + pdcp_x[6] * (iter7 * pby_x[6]) + pdcp_x[7] * (iter8 * pby_x[7]) + pdcp_x[8] * (iter9 * pby_x[8]) + pdcp_x[9] * (iter10 * pby_x[9]) + pdcp_x[10] * (iter11 * pby_x[10]) + pdcp_x[11] * (iter12 * pby_x[11]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -1013,29 +1226,42 @@
 #define MACRO_DIM_BIGY_13(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12, i_x13; \
   	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
+i_x13 = pby_x[12] * iter13 * pdcp_x[12];	\
 	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_x12 = pby_x[11] * iter12 * pdcp_x[11];	\
 	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_x11 = pby_x[10] * iter11 * pdcp_x[10];	\
 	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]) + pdcp_x[6] * (iter7 * pby_x[6]) + pdcp_x[7] * (iter8 * pby_x[7]) + pdcp_x[8] * (iter9 * pby_x[8]) + pdcp_x[9] * (iter10 * pby_x[9]) + pdcp_x[10] * (iter11 * pby_x[10]) + pdcp_x[11] * (iter12 * pby_x[11]) + pdcp_x[12] * (iter13 * pby_x[12]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12 + i_x13;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -1058,30 +1284,44 @@
 #define MACRO_DIM_BIGY_14(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12, i_x13, i_x14; \
   	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
+i_x14 = pby_x[13] * iter14 * pdcp_x[13];	\
 	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
+i_x13 = pby_x[12] * iter13 * pdcp_x[12];	\
 	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_x12 = pby_x[11] * iter12 * pdcp_x[11];	\
 	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_x11 = pby_x[10] * iter11 * pdcp_x[10];	\
 	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]) + pdcp_x[6] * (iter7 * pby_x[6]) + pdcp_x[7] * (iter8 * pby_x[7]) + pdcp_x[8] * (iter9 * pby_x[8]) + pdcp_x[9] * (iter10 * pby_x[9]) + pdcp_x[10] * (iter11 * pby_x[10]) + pdcp_x[11] * (iter12 * pby_x[11]) + pdcp_x[12] * (iter13 * pby_x[12]) + pdcp_x[13] * (iter14 * pby_x[13]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12 + i_x13 + i_x14;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -1105,31 +1345,46 @@
 #define MACRO_DIM_BIGY_15(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12, i_x13, i_x14, i_x15; \
   	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
+i_x15 = pby_x[14] * iter15 * pdcp_x[14];	\
 	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
+i_x14 = pby_x[13] * iter14 * pdcp_x[13];	\
 	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
+i_x13 = pby_x[12] * iter13 * pdcp_x[12];	\
 	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_x12 = pby_x[11] * iter12 * pdcp_x[11];	\
 	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_x11 = pby_x[10] * iter11 * pdcp_x[10];	\
 	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]) + pdcp_x[6] * (iter7 * pby_x[6]) + pdcp_x[7] * (iter8 * pby_x[7]) + pdcp_x[8] * (iter9 * pby_x[8]) + pdcp_x[9] * (iter10 * pby_x[9]) + pdcp_x[10] * (iter11 * pby_x[10]) + pdcp_x[11] * (iter12 * pby_x[11]) + pdcp_x[12] * (iter13 * pby_x[12]) + pdcp_x[13] * (iter14 * pby_x[13]) + pdcp_x[14] * (iter15 * pby_x[14]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12 + i_x13 + i_x14 + i_x15;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -1154,32 +1409,48 @@
 #define MACRO_DIM_BIGY_16(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y = 0;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12, i_x13, i_x14, i_x15, i_x16; \
   	 for(int iter16 = 0; iter16 < pout_dim[15]; ++iter16) {	\
+i_x16 = pby_x[15] * iter16 * pdcp_x[15];	\
 	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
+i_x15 = pby_x[14] * iter15 * pdcp_x[14];	\
 	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
+i_x14 = pby_x[13] * iter14 * pdcp_x[13];	\
 	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
+i_x13 = pby_x[12] * iter13 * pdcp_x[12];	\
 	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_x12 = pby_x[11] * iter12 * pdcp_x[11];	\
 	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_x11 = pby_x[10] * iter11 * pdcp_x[10];	\
 	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
 	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
 	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]) + pdcp_x[6] * (iter7 * pby_x[6]) + pdcp_x[7] * (iter8 * pby_x[7]) + pdcp_x[8] * (iter9 * pby_x[8]) + pdcp_x[9] * (iter10 * pby_x[9]) + pdcp_x[10] * (iter11 * pby_x[10]) + pdcp_x[11] * (iter12 * pby_x[11]) + pdcp_x[12] * (iter13 * pby_x[12]) + pdcp_x[13] * (iter14 * pby_x[13]) + pdcp_x[14] * (iter15 * pby_x[14]) + pdcp_x[15] * (iter16 * pby_x[15]);     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12 + i_x13 + i_x14 + i_x15 + i_x16;     \
+                                  \
+        DOCODE;                   \
+  	                              \
         pout[counter] = tempout;        \
-        flatind_y++;                      \
+        flatind_y++;                    \
         counter++;                      \
   	 }	\
 	 }	\
@@ -1307,2076 +1578,6 @@ case 16:                                       \
   }                                       \
 } while(0)
 
-#define MACRO_DIM_ORTHO_XSTARTS_2(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	  for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1;       \
-        flatind_y = iter2 * pdcp_y[1];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-    }	\
-  }	\
-} while(0)
-
-#define MACRO_DIM_ORTHO_XSTARTS_3(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-    for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-      for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-  	    for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-          flatind_x = iter1 + iter3 * pdcp_x[2];       \
-          flatind_y = iter2 * pdcp_y[1];     \
-                                                                      \
-          DOCODE;                                                          \
-    	                                                                \
-          pout[counter] = tempout;        \
-          counter++;                      \
-  	    } \
-      }	\
-  	}	\
-  } \
-  else if(by_first == 1){  \
-    for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-      for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-  	    for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-          flatind_x = iter1 + iter3 * pdcp_x[2];       \
-          flatind_y = iter1 + iter2 * pdcp_y[1];     \
-                                                                      \
-          DOCODE;                                                          \
-    	                                                                \
-          pout[counter] = tempout;        \
-          counter++;                      \
-  	    } \
-      }	\
-  	}	\
-  } \
-  else if(by_last == 1){  \
-    for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-      for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-  	    for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-          flatind_x = iter1 + iter3 * pdcp_x[2];       \
-          flatind_y = iter2 * pdcp_y[1] + iter3 * pdcp_y[2];     \
-                                                                      \
-          DOCODE;                                                          \
-    	                                                                \
-          pout[counter] = tempout;        \
-          counter++;                      \
-  	    } \
-      }	\
-  	}	\
-  } \
-} while(0)
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_4(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + by_last * iter4 * pdcp_x[3];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_5(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + by_last * iter5 * pdcp_y[4];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_6(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + by_last * iter6 * pdcp_x[5];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_7(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + by_last * iter7 * pdcp_y[6];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_8(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + by_last * iter8 * pdcp_x[7];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_9(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + by_last * iter9 * pdcp_y[8];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_10(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + by_last * iter10 * pdcp_x[9];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_11(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + iter11 * pdcp_x[10];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + iter11 * pdcp_x[10];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9] + by_last * iter11 * pdcp_y[10];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_12(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + iter11 * pdcp_x[10];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9] + iter12 * pdcp_y[11];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + iter11 * pdcp_x[10] + by_last * iter12 * pdcp_x[11];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9] + iter12 * pdcp_y[11];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_13(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + iter11 * pdcp_x[10] + iter13 * pdcp_x[12];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9] + iter12 * pdcp_y[11];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + iter11 * pdcp_x[10] + iter13 * pdcp_x[12];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9] + iter12 * pdcp_y[11] + by_last * iter13 * pdcp_y[12];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_14(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
-	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + iter11 * pdcp_x[10] + iter13 * pdcp_x[12];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9] + iter12 * pdcp_y[11] + iter14 * pdcp_y[13];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
-	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + iter11 * pdcp_x[10] + iter13 * pdcp_x[12] + by_last * iter14 * pdcp_x[13];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9] + iter12 * pdcp_y[11] + iter14 * pdcp_y[13];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_15(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
-	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
-	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + iter11 * pdcp_x[10] + iter13 * pdcp_x[12] + iter15 * pdcp_x[14];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9] + iter12 * pdcp_y[11] + iter14 * pdcp_y[13];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
-	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
-	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + iter11 * pdcp_x[10] + iter13 * pdcp_x[12] + iter15 * pdcp_x[14];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9] + iter12 * pdcp_y[11] + iter14 * pdcp_y[13] + by_last * iter15 * pdcp_y[14];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_XSTARTS_16(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter16 = 0; iter16 < pout_dim[15]; ++iter16) {	\
-	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
-	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
-	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + iter11 * pdcp_x[10] + iter13 * pdcp_x[12] + iter15 * pdcp_x[14];       \
-        flatind_y = iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9] + iter12 * pdcp_y[11] + iter14 * pdcp_y[13] + iter16 * pdcp_y[15];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter16 = 0; iter16 < pout_dim[15]; ++iter16) {	\
-	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
-	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
-	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 + iter3 * pdcp_x[2] + iter5 * pdcp_x[4] + iter7 * pdcp_x[6] + iter9 * pdcp_x[8] + iter11 * pdcp_x[10] + iter13 * pdcp_x[12] + iter15 * pdcp_x[14] + by_last * iter16 * pdcp_x[15];       \
-        flatind_y = by_first * iter1 + iter2 * pdcp_y[1] + iter4 * pdcp_y[3] + iter6 * pdcp_y[5] + iter8 * pdcp_y[7] + iter10 * pdcp_y[9] + iter12 * pdcp_y[11] + iter14 * pdcp_y[13] + iter16 * pdcp_y[15];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_2(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	  for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1;       \
-        flatind_x = iter2 * pdcp_x[1];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-    }	\
-  }	\
-} while(0)
-
-#define MACRO_DIM_ORTHO_YSTARTS_3(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-    for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-      for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-  	    for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-          flatind_y = iter1 + iter3 * pdcp_y[2];       \
-          flatind_x = iter2 * pdcp_x[1];     \
-                                                                      \
-          DOCODE;                                                          \
-    	                                                                \
-          pout[counter] = tempout;        \
-          counter++;                      \
-  	    } \
-      }	\
-  	}	\
-  } \
-  else if(by_first == 1){  \
-    for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-      for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-  	    for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-          flatind_y = iter1 + iter3 * pdcp_y[2];       \
-          flatind_x = iter1 + iter2 * pdcp_x[1];     \
-                                                                      \
-          DOCODE;                                                          \
-    	                                                                \
-          pout[counter] = tempout;        \
-          counter++;                      \
-  	    } \
-      }	\
-  	}	\
-  } \
-  else if(by_last == 1){  \
-    for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-      for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-  	    for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-          flatind_y = iter1 + iter3 * pdcp_y[2];       \
-          flatind_x = iter2 * pdcp_x[1] + iter3 * pdcp_x[2];     \
-                                                                      \
-          DOCODE;                                                          \
-    	                                                                \
-          pout[counter] = tempout;        \
-          counter++;                      \
-  	    } \
-      }	\
-  	}	\
-  } \
-} while(0)
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_4(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + by_last * iter4 * pdcp_y[3];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_5(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + by_last * iter5 * pdcp_x[4];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_6(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + by_last * iter6 * pdcp_y[5];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_7(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + by_last * iter7 * pdcp_x[6];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_8(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + by_last * iter8 * pdcp_y[7];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_9(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + by_last * iter9 * pdcp_x[8];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_10(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + by_last * iter10 * pdcp_y[9];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_11(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + iter11 * pdcp_y[10];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + iter11 * pdcp_y[10];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9] + by_last * iter11 * pdcp_x[10];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_12(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + iter11 * pdcp_y[10];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9] + iter12 * pdcp_x[11];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + iter11 * pdcp_y[10] + by_last * iter12 * pdcp_y[11];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9] + iter12 * pdcp_x[11];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_13(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + iter11 * pdcp_y[10] + iter13 * pdcp_y[12];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9] + iter12 * pdcp_x[11];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + iter11 * pdcp_y[10] + iter13 * pdcp_y[12];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9] + iter12 * pdcp_x[11] + by_last * iter13 * pdcp_x[12];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_14(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
-	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + iter11 * pdcp_y[10] + iter13 * pdcp_y[12];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9] + iter12 * pdcp_x[11] + iter14 * pdcp_x[13];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
-	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + iter11 * pdcp_y[10] + iter13 * pdcp_y[12] + by_last * iter14 * pdcp_y[13];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9] + iter12 * pdcp_x[11] + iter14 * pdcp_x[13];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_15(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
-	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
-	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + iter11 * pdcp_y[10] + iter13 * pdcp_y[12] + iter15 * pdcp_y[14];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9] + iter12 * pdcp_x[11] + iter14 * pdcp_x[13];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
-	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
-	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + iter11 * pdcp_y[10] + iter13 * pdcp_y[12] + iter15 * pdcp_y[14];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9] + iter12 * pdcp_x[11] + iter14 * pdcp_x[13] + by_last * iter15 * pdcp_x[14];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_YSTARTS_16(DOCODE) do {      \
-  R_xlen_t counter = 0;         \
-  const int *pout_dim = INTEGER_RO(out_dim);      \
-  R_xlen_t flatind_y;       \
-  R_xlen_t flatind_x;       \
-  int by_first = INTEGER_ELT(by_first_last, 0); \
-  int by_last = INTEGER_ELT(by_first_last, 1);  \
-  if(by_first == 0 && by_last == 0) { \
-  	 for(int iter16 = 0; iter16 < pout_dim[15]; ++iter16) {	\
-	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
-	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
-	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + iter11 * pdcp_y[10] + iter13 * pdcp_y[12] + iter15 * pdcp_y[14];       \
-        flatind_x = iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9] + iter12 * pdcp_x[11] + iter14 * pdcp_x[13] + iter16 * pdcp_x[15];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-  else { \
-  	 for(int iter16 = 0; iter16 < pout_dim[15]; ++iter16) {	\
-	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
-	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
-	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
-	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
-	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
-	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
-	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
-	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
-	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
-	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
-	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
-	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
-	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
-	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
-	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_y = iter1 + iter3 * pdcp_y[2] + iter5 * pdcp_y[4] + iter7 * pdcp_y[6] + iter9 * pdcp_y[8] + iter11 * pdcp_y[10] + iter13 * pdcp_y[12] + iter15 * pdcp_y[14] + by_last * iter16 * pdcp_y[15];       \
-        flatind_x = by_first * iter1 + iter2 * pdcp_x[1] + iter4 * pdcp_x[3] + iter6 * pdcp_x[5] + iter8 * pdcp_x[7] + iter10 * pdcp_x[9] + iter12 * pdcp_x[11] + iter14 * pdcp_x[13] + iter16 * pdcp_x[15];     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        pout[counter] = tempout;        \
-        counter++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-  } \
-} while(0)
-
-
-
-
-#define MACRO_DIM_ORTHO_DOCALL(DOCODE) do {     \
-  int ndims = Rf_length(out_dim);         \
-                                          \
-  if(xstarts) {                           \
-    switch(ndims) {                       \
-      case 2:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_2(DOCODE);    \
-  break;                                        \
-case 3:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_3(DOCODE);    \
-  break;                                        \
-case 4:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_4(DOCODE);    \
-  break;                                        \
-case 5:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_5(DOCODE);    \
-  break;                                        \
-case 6:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_6(DOCODE);    \
-  break;                                        \
-case 7:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_7(DOCODE);    \
-  break;                                        \
-case 8:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_8(DOCODE);    \
-  break;                                        \
-case 9:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_9(DOCODE);    \
-  break;                                        \
-case 10:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_10(DOCODE);    \
-  break;                                        \
-case 11:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_11(DOCODE);    \
-  break;                                        \
-case 12:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_12(DOCODE);    \
-  break;                                        \
-case 13:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_13(DOCODE);    \
-  break;                                        \
-case 14:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_14(DOCODE);    \
-  break;                                        \
-case 15:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_15(DOCODE);    \
-  break;                                        \
-case 16:                                       \
-  MACRO_DIM_ORTHO_XSTARTS_16(DOCODE);    \
-  break;                                        \
-                     \
-    }                                     \
-  }                                       \
-  else {                                  \
-    switch(ndims) {                       \
-      case 2:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_2(DOCODE);    \
-  break;                                        \
-case 3:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_3(DOCODE);    \
-  break;                                        \
-case 4:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_4(DOCODE);    \
-  break;                                        \
-case 5:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_5(DOCODE);    \
-  break;                                        \
-case 6:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_6(DOCODE);    \
-  break;                                        \
-case 7:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_7(DOCODE);    \
-  break;                                        \
-case 8:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_8(DOCODE);    \
-  break;                                        \
-case 9:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_9(DOCODE);    \
-  break;                                        \
-case 10:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_10(DOCODE);    \
-  break;                                        \
-case 11:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_11(DOCODE);    \
-  break;                                        \
-case 12:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_12(DOCODE);    \
-  break;                                        \
-case 13:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_13(DOCODE);    \
-  break;                                        \
-case 14:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_14(DOCODE);    \
-  break;                                        \
-case 15:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_15(DOCODE);    \
-  break;                                        \
-case 16:                                       \
-  MACRO_DIM_ORTHO_YSTARTS_16(DOCODE);    \
-  break;                                        \
-                     \
-    }                                     \
-  }                                       \
-} while(0)
-
 
 #define MACRO_DIM_2(DOCODE) do {      \
   R_xlen_t counter = 0;         \
@@ -3385,10 +1586,16 @@ case 16:                                       \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_x2; \
+  R_xlen_t i_y2; \
   	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]);       \
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]);     \
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2;       \
+        flatind_y = iter1 * pby_y[0] + i_y2;     \
                                                                     \
         DOCODE;                                                          \
   	                                                                \
@@ -3408,11 +1615,19 @@ case 16:                                       \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3; \
+  R_xlen_t i_y2, i_y3; \
   	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]);       \
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]);     \
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3;     \
                                                                     \
         DOCODE;                                                          \
   	                                                                \
@@ -3433,12 +1648,22 @@ case 16:                                       \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4; \
+  R_xlen_t i_y2, i_y3, i_y4; \
   	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]);       \
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]);     \
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4;     \
                                                                     \
         DOCODE;                                                          \
   	                                                                \
@@ -3460,13 +1685,25 @@ case 16:                                       \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5; \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5; \
   	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]);       \
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]);     \
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5;     \
                                                                     \
         DOCODE;                                                          \
   	                                                                \
@@ -3489,14 +1726,28 @@ case 16:                                       \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6; \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6; \
   	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]);       \
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]);     \
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6;     \
                                                                     \
         DOCODE;                                                          \
   	                                                                \
@@ -3520,15 +1771,31 @@ case 16:                                       \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7; \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7; \
   	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]) + pdcp_x[6] * (iter7 * pby_x[6]);       \
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]) + pdcp_y[6] * (iter7 * pby_y[6]);     \
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7;     \
                                                                     \
         DOCODE;                                                          \
   	                                                                \
@@ -3553,22 +1820,608 @@ case 16:                                       \
   const int *pout_dim = INTEGER_RO(out_dim);      \
   R_xlen_t flatind_x;       \
   R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8; \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8; \
   	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
 	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
 	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
 	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
 	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
 	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
 	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
 	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
-        flatind_x = iter1 * pby_x[0] + pdcp_x[1] * (iter2 * pby_x[1]) + pdcp_x[2] * (iter3 * pby_x[2]) + pdcp_x[3] * (iter4 * pby_x[3]) + pdcp_x[4] * (iter5 * pby_x[4]) + pdcp_x[5] * (iter6 * pby_x[5]) + pdcp_x[6] * (iter7 * pby_x[6]) + pdcp_x[7] * (iter8 * pby_x[7]);       \
-        flatind_y = iter1 * pby_y[0] + pdcp_y[1] * (iter2 * pby_y[1]) + pdcp_y[2] * (iter3 * pby_y[2]) + pdcp_y[3] * (iter4 * pby_y[3]) + pdcp_y[4] * (iter5 * pby_y[4]) + pdcp_y[5] * (iter6 * pby_y[5]) + pdcp_y[6] * (iter7 * pby_y[6]) + pdcp_y[7] * (iter8 * pby_y[7]);     \
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8;     \
                                                                     \
         DOCODE;                                                          \
   	                                                                \
         pout[counter] = tempout;        \
         counter++;                      \
   	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_DIM_9(DOCODE) do {      \
+  R_xlen_t counter = 0;         \
+  const int *pby_x = INTEGER_RO(by_x);        \
+  const int *pby_y = INTEGER_RO(by_y);        \
+  const int *pout_dim = INTEGER_RO(out_dim);      \
+  R_xlen_t flatind_x;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9; \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9; \
+  	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
+	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
+	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
+	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        pout[counter] = tempout;        \
+        counter++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_DIM_10(DOCODE) do {      \
+  R_xlen_t counter = 0;         \
+  const int *pby_x = INTEGER_RO(by_x);        \
+  const int *pby_y = INTEGER_RO(by_y);        \
+  const int *pout_dim = INTEGER_RO(out_dim);      \
+  R_xlen_t flatind_x;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10; \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10; \
+  	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
+	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
+	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
+	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
+	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        pout[counter] = tempout;        \
+        counter++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_DIM_11(DOCODE) do {      \
+  R_xlen_t counter = 0;         \
+  const int *pby_x = INTEGER_RO(by_x);        \
+  const int *pby_y = INTEGER_RO(by_y);        \
+  const int *pout_dim = INTEGER_RO(out_dim);      \
+  R_xlen_t flatind_x;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11; \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11; \
+  	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_x11 = pby_x[10] * iter11 * pdcp_x[10];	\
+i_y11 = pby_y[10] * iter11 * pdcp_y[10];	\
+	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
+	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
+	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
+	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
+	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        pout[counter] = tempout;        \
+        counter++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_DIM_12(DOCODE) do {      \
+  R_xlen_t counter = 0;         \
+  const int *pby_x = INTEGER_RO(by_x);        \
+  const int *pby_y = INTEGER_RO(by_y);        \
+  const int *pout_dim = INTEGER_RO(out_dim);      \
+  R_xlen_t flatind_x;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12; \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12; \
+  	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_x12 = pby_x[11] * iter12 * pdcp_x[11];	\
+i_y12 = pby_y[11] * iter12 * pdcp_y[11];	\
+	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_x11 = pby_x[10] * iter11 * pdcp_x[10];	\
+i_y11 = pby_y[10] * iter11 * pdcp_y[10];	\
+	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
+	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
+	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
+	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
+	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11 + i_y12;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        pout[counter] = tempout;        \
+        counter++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_DIM_13(DOCODE) do {      \
+  R_xlen_t counter = 0;         \
+  const int *pby_x = INTEGER_RO(by_x);        \
+  const int *pby_y = INTEGER_RO(by_y);        \
+  const int *pout_dim = INTEGER_RO(out_dim);      \
+  R_xlen_t flatind_x;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12, i_x13; \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12, i_y13; \
+  	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
+i_x13 = pby_x[12] * iter13 * pdcp_x[12];	\
+i_y13 = pby_y[12] * iter13 * pdcp_y[12];	\
+	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_x12 = pby_x[11] * iter12 * pdcp_x[11];	\
+i_y12 = pby_y[11] * iter12 * pdcp_y[11];	\
+	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_x11 = pby_x[10] * iter11 * pdcp_x[10];	\
+i_y11 = pby_y[10] * iter11 * pdcp_y[10];	\
+	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
+	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
+	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
+	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
+	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12 + i_x13;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11 + i_y12 + i_y13;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        pout[counter] = tempout;        \
+        counter++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_DIM_14(DOCODE) do {      \
+  R_xlen_t counter = 0;         \
+  const int *pby_x = INTEGER_RO(by_x);        \
+  const int *pby_y = INTEGER_RO(by_y);        \
+  const int *pout_dim = INTEGER_RO(out_dim);      \
+  R_xlen_t flatind_x;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12, i_x13, i_x14; \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12, i_y13, i_y14; \
+  	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
+i_x14 = pby_x[13] * iter14 * pdcp_x[13];	\
+i_y14 = pby_y[13] * iter14 * pdcp_y[13];	\
+	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
+i_x13 = pby_x[12] * iter13 * pdcp_x[12];	\
+i_y13 = pby_y[12] * iter13 * pdcp_y[12];	\
+	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_x12 = pby_x[11] * iter12 * pdcp_x[11];	\
+i_y12 = pby_y[11] * iter12 * pdcp_y[11];	\
+	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_x11 = pby_x[10] * iter11 * pdcp_x[10];	\
+i_y11 = pby_y[10] * iter11 * pdcp_y[10];	\
+	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
+	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
+	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
+	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
+	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12 + i_x13 + i_x14;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11 + i_y12 + i_y13 + i_y14;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        pout[counter] = tempout;        \
+        counter++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_DIM_15(DOCODE) do {      \
+  R_xlen_t counter = 0;         \
+  const int *pby_x = INTEGER_RO(by_x);        \
+  const int *pby_y = INTEGER_RO(by_y);        \
+  const int *pout_dim = INTEGER_RO(out_dim);      \
+  R_xlen_t flatind_x;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12, i_x13, i_x14, i_x15; \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12, i_y13, i_y14, i_y15; \
+  	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
+i_x15 = pby_x[14] * iter15 * pdcp_x[14];	\
+i_y15 = pby_y[14] * iter15 * pdcp_y[14];	\
+	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
+i_x14 = pby_x[13] * iter14 * pdcp_x[13];	\
+i_y14 = pby_y[13] * iter14 * pdcp_y[13];	\
+	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
+i_x13 = pby_x[12] * iter13 * pdcp_x[12];	\
+i_y13 = pby_y[12] * iter13 * pdcp_y[12];	\
+	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_x12 = pby_x[11] * iter12 * pdcp_x[11];	\
+i_y12 = pby_y[11] * iter12 * pdcp_y[11];	\
+	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_x11 = pby_x[10] * iter11 * pdcp_x[10];	\
+i_y11 = pby_y[10] * iter11 * pdcp_y[10];	\
+	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
+	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
+	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
+	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
+	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12 + i_x13 + i_x14 + i_x15;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11 + i_y12 + i_y13 + i_y14 + i_y15;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        pout[counter] = tempout;        \
+        counter++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_DIM_16(DOCODE) do {      \
+  R_xlen_t counter = 0;         \
+  const int *pby_x = INTEGER_RO(by_x);        \
+  const int *pby_y = INTEGER_RO(by_y);        \
+  const int *pout_dim = INTEGER_RO(out_dim);      \
+  R_xlen_t flatind_x;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12, i_x13, i_x14, i_x15, i_x16; \
+  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12, i_y13, i_y14, i_y15, i_y16; \
+  	 for(int iter16 = 0; iter16 < pout_dim[15]; ++iter16) {	\
+i_x16 = pby_x[15] * iter16 * pdcp_x[15];	\
+i_y16 = pby_y[15] * iter16 * pdcp_y[15];	\
+	 for(int iter15 = 0; iter15 < pout_dim[14]; ++iter15) {	\
+i_x15 = pby_x[14] * iter15 * pdcp_x[14];	\
+i_y15 = pby_y[14] * iter15 * pdcp_y[14];	\
+	 for(int iter14 = 0; iter14 < pout_dim[13]; ++iter14) {	\
+i_x14 = pby_x[13] * iter14 * pdcp_x[13];	\
+i_y14 = pby_y[13] * iter14 * pdcp_y[13];	\
+	 for(int iter13 = 0; iter13 < pout_dim[12]; ++iter13) {	\
+i_x13 = pby_x[12] * iter13 * pdcp_x[12];	\
+i_y13 = pby_y[12] * iter13 * pdcp_y[12];	\
+	 for(int iter12 = 0; iter12 < pout_dim[11]; ++iter12) {	\
+i_x12 = pby_x[11] * iter12 * pdcp_x[11];	\
+i_y12 = pby_y[11] * iter12 * pdcp_y[11];	\
+	 for(int iter11 = 0; iter11 < pout_dim[10]; ++iter11) {	\
+i_x11 = pby_x[10] * iter11 * pdcp_x[10];	\
+i_y11 = pby_y[10] * iter11 * pdcp_y[10];	\
+	 for(int iter10 = 0; iter10 < pout_dim[9]; ++iter10) {	\
+i_x10 = pby_x[9] * iter10 * pdcp_x[9];	\
+i_y10 = pby_y[9] * iter10 * pdcp_y[9];	\
+	 for(int iter9 = 0; iter9 < pout_dim[8]; ++iter9) {	\
+i_x9 = pby_x[8] * iter9 * pdcp_x[8];	\
+i_y9 = pby_y[8] * iter9 * pdcp_y[8];	\
+	 for(int iter8 = 0; iter8 < pout_dim[7]; ++iter8) {	\
+i_x8 = pby_x[7] * iter8 * pdcp_x[7];	\
+i_y8 = pby_y[7] * iter8 * pdcp_y[7];	\
+	 for(int iter7 = 0; iter7 < pout_dim[6]; ++iter7) {	\
+i_x7 = pby_x[6] * iter7 * pdcp_x[6];	\
+i_y7 = pby_y[6] * iter7 * pdcp_y[6];	\
+	 for(int iter6 = 0; iter6 < pout_dim[5]; ++iter6) {	\
+i_x6 = pby_x[5] * iter6 * pdcp_x[5];	\
+i_y6 = pby_y[5] * iter6 * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < pout_dim[4]; ++iter5) {	\
+i_x5 = pby_x[4] * iter5 * pdcp_x[4];	\
+i_y5 = pby_y[4] * iter5 * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < pout_dim[3]; ++iter4) {	\
+i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
+i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < pout_dim[2]; ++iter3) {	\
+i_x3 = pby_x[2] * iter3 * pdcp_x[2];	\
+i_y3 = pby_y[2] * iter3 * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < pout_dim[1]; ++iter2) {	\
+i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
+i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < pout_dim[0]; ++iter1) {	\
+	\
+	\
+        flatind_x = iter1 * pby_x[0] + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12 + i_x13 + i_x14 + i_x15 + i_x16;       \
+        flatind_y = iter1 * pby_y[0] + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11 + i_y12 + i_y13 + i_y14 + i_y15 + i_y16;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        pout[counter] = tempout;        \
+        counter++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
 	 }	\
 	 }	\
 	 }	\
@@ -3606,96 +2459,33 @@ case 7:                                       \
 case 8:                                       \
   MACRO_DIM_8(DOCODE);    \
   break;                                        \
+case 9:                                       \
+  MACRO_DIM_9(DOCODE);    \
+  break;                                        \
+case 10:                                       \
+  MACRO_DIM_10(DOCODE);    \
+  break;                                        \
+case 11:                                       \
+  MACRO_DIM_11(DOCODE);    \
+  break;                                        \
+case 12:                                       \
+  MACRO_DIM_12(DOCODE);    \
+  break;                                        \
+case 13:                                       \
+  MACRO_DIM_13(DOCODE);    \
+  break;                                        \
+case 14:                                       \
+  MACRO_DIM_14(DOCODE);    \
+  break;                                        \
+case 15:                                       \
+  MACRO_DIM_15(DOCODE);    \
+  break;                                        \
+case 16:                                       \
+  MACRO_DIM_16(DOCODE);    \
+  break;                                        \
        \
   }       \
 } while(0)
-
-
-
-#define MACRO_DIM_GENERAL(DOCODE) do {                              \
-  const void *vmaxsave = vmaxget();                                 \
-                                                                    \
-  int k = Rf_length(xdims1);                                        \
-  const int *pxdims1 = INTEGER_RO(xdims1);                          \
-  const int *pxdims2 = INTEGER_RO(xdims2);                          \
-                                                                    \
-  int **subs1 = (int**)R_alloc(k, sizeof(int*));                    \
-  int *indx1 = (int*)R_alloc(k, sizeof(int));                       \
-  int *bound1 = (int*)R_alloc(k, sizeof(int));                      \
-  R_xlen_t *offset1 = (R_xlen_t*)R_alloc(k, sizeof(R_xlen_t));      \
-                                                                    \
-  int **subs2 = (int**)R_alloc(k, sizeof(int*));                    \
-  int *indx2 = (int*)R_alloc(k, sizeof(int));                       \
-  int *bound2 = (int*)R_alloc(k, sizeof(int));                      \
-  R_xlen_t *offset2 = (R_xlen_t*)R_alloc(k, sizeof(R_xlen_t));      \
-                                                                    \
-                                                                    \
-  R_xlen_t n1 = 1;                                                  \
-  SEXP r1;                                                          \
-  R_xlen_t n2 = 1;                                                  \
-  SEXP r2;                                                          \
-                                                                    \
-  for (int i = 0; i < k; i++) {                                     \
-    r1 = VECTOR_ELT(s1, i);                                         \
-  	indx1[i] = 0;                                                   \
-  	bound1[i] = Rf_length(r1);                                      \
-    n1 *= bound1[i];                                                \
-  	subs1[i] = INTEGER(r1);                                         \
-  	                                                                \
-  	r2 = VECTOR_ELT(s2, i);                                         \
-  	indx2[i] = 0;                                                   \
-  	bound2[i] = Rf_length(r2);                                      \
-    n2 *= bound2[i];                                                \
-  	subs2[i] = INTEGER(r2);                                         \
-  }                                                                 \
-                                                                    \
-  offset1[0] = 1;                                                   \
-  offset2[0] = 1;                                                   \
-  for (int i = 1; i < k; i++) {                                     \
-    offset1[i] = offset1[i - 1] * pxdims1[i - 1];                   \
-    offset2[i] = offset2[i - 1] * pxdims2[i - 1];                   \
-  }                                                                 \
-                                                                    \
-                                                                    \
-  R_xlen_t counter = 0;                                             \
-  R_xlen_t flatind_x;                                               \
-  R_xlen_t flatind_y;                                               \
-                                                                    \
-  for (R_xlen_t i = 0; i < nout; i++) {                             \
-                                                                    \
-    flatind_x = 0;                                                  \
-    flatind_y = 0;                                                  \
-                                                                    \
-  	for (int j = 0; j < k; j++) {                                   \
-	    int jj1 = subs1[j][indx1[j]];                                 \
-	    flatind_x += (jj1 - 1) * offset1[j];                          \
-	    int jj2 = subs2[j][indx2[j]];                                 \
-	    flatind_y += (jj2 - 1) * offset2[j];                          \
-  	}                                                               \
-  	                                                                \
-  	                                                                \
-  	DOCODE;                                                         \
-  	                                                                \
-  	pout[counter] = tempout;                                        \
-    counter++;                                                      \
-  	                                                                \
-	  int j1 = 0;                                                     \
-    while (++indx1[j1] >= bound1[j1]) {                             \
-  		indx1[j1] = 0;                                                \
-  		j1 = (j1 + 1) % k;                                            \
-    }                                                               \
-  	int j2 = 0;                                                     \
-    while (++indx2[j2] >= bound2[j2]) {                             \
-  		indx2[j2] = 0;                                                \
-  		j2 = (j2 + 1) % k;                                            \
-    }                                                               \
-	}                                                                 \
-                                                                    \
-                                                                    \
-  vmaxset(vmaxsave);                                                \
-                                                                    \
-} while(0)
-
 
 
 
