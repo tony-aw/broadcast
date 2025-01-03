@@ -10,10 +10,10 @@ bc.d(x, y, op)
 \item{x, y}{conformable atomic arrays of types \code{logical}, \code{integer}, or \code{double}.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported operators: +, -, *, /, ^.}
+Supported operators: +, -, *, /, ^, pmin, pmax.}
 }
 \value{
-The list.
+A numeric array as a result of the broadcasted arithmeric operation. \cr
 }
 \description{
 The \code{bc.d()} function performs broadcasted decimal arithmetic operations on 2 atomic arrays. \cr

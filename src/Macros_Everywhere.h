@@ -94,6 +94,32 @@
 
 
 
+#define MACRO_DIM_ORTHOVECTOR(DOCODE) do {      \
+  R_xlen_t counter = 0;         \
+  const int *pout_dim = INTEGER_RO(out_dim);      \
+  if(RxC) { \
+    for(int flatind_y = 0; flatind_y < pout_dim[1]; ++flatind_y) {	\
+  	  for(int flatind_x = 0; flatind_x < pout_dim[0]; ++flatind_x) {	\
+        DOCODE;                         \
+        pout[counter] = tempout;        \
+        counter++;                      \
+    	 }	\
+  	 }	\
+  } \
+  else {  \
+    for(int flatind_x = 0; flatind_x < pout_dim[1]; ++flatind_x) {	\
+    	  for(int flatind_y = 0; flatind_y < pout_dim[0]; ++flatind_y) {	\
+          DOCODE;                         \
+          pout[counter] = tempout;        \
+          counter++;                      \
+        }	\
+    }	\
+  } \
+} while(0)
+
+
+
+
 #define MACRO_DIM_BIGX_2(DOCODE) do {      \
   R_xlen_t counter = 0;         \
   const int *pby_y = INTEGER_RO(by_y);        \

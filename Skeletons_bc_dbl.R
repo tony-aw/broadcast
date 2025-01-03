@@ -139,7 +139,104 @@ return out;
 "
 
 
+
 txt2 <- "
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bc_dbl_ov)]]
+SEXP rcpp_bc_dbl_ov(
+  SEXP x, SEXP y, bool RxC, SEXP out_dim,
+  R_xlen_t nout, int op
+) {
+
+double tempout;
+
+SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
+double *pout;
+pout = REAL(out);
+
+switch(op) {
+  case 1:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_ORTHOVECTOR,
+      tempout = NA_REAL,
+      tempout = (double)px[flatind_x] + (double)py[flatind_y]
+    );
+    break;
+  }
+  case 2:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_ORTHOVECTOR,
+      tempout = NA_REAL,
+      tempout = (double)px[flatind_x] - (double)py[flatind_y]
+    );
+    break;
+  }
+  case 3:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_ORTHOVECTOR,
+      tempout = NA_REAL,
+      tempout = (double)px[flatind_x] * (double)py[flatind_y]
+    );
+    break;
+  }
+  case 4:
+  {
+    MACRO_TYPESWITCH_NUMERIC_COMMON(
+      MACRO_DIM_ORTHOVECTOR,
+      tempout = NA_REAL,
+      tempout = (double)px[flatind_x] / (double)py[flatind_y]
+    );
+    break;
+  }
+  case 5:
+  {
+    MACRO_TYPESWITCH_NUMERIC_SPECIAL(
+      MACRO_DIM_ORTHOVECTOR,
+      (double)px[flatind_x] == 1 || (double)py[flatind_y] == 0,
+      tempout = 1,
+      tempout = NA_REAL,
+      tempout = R_pow((double)px[flatind_x], (double)py[flatind_y])
+    );
+    break;
+  }
+  case 6:
+  {
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
+      MACRO_DIM_ORTHOVECTOR,
+      tempout = NA_REAL,
+      tempout = ((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
+    );
+    break;
+  }
+  case 7:
+  {
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
+      MACRO_DIM_ORTHOVECTOR,
+      tempout = NA_REAL,
+      tempout = ((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
+    );
+    break;
+  }
+  default:
+  {
+    stop(\"given operator not supported in the given context\");
+  }
+}
+
+UNPROTECT(1);
+return out;
+
+}
+
+
+"
+
+txt3 <- "
 
 //' @keywords internal
 //' @noRd
@@ -243,7 +340,7 @@ return out;
 "
 
 
-txt3 <- "
+txt4 <- "
 
 //' @keywords internal
 //' @noRd
@@ -349,7 +446,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt1, txt2, txt3,
+  txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 
@@ -357,10 +454,10 @@ Rcpp::sourceCpp(code = txt)
 
 txt <- stringi::stri_c(
   header_for_package,
-  txt1, txt2, txt3,
+  txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
-readr::write_file(txt, "src/bc_dbl.cpp")
+readr::write_file(txt, "src/rcpp_bc_dbl.cpp")
 
 
 ################################################################################

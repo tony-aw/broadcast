@@ -52,6 +52,40 @@ macro_dim_vector <- "
 "
 
 
+
+################################################################################
+# Orthogonal Vectors (i.e. row vector by column vector or vice-versa) ====
+#
+
+macro_dim_orthovector <- "
+
+#define MACRO_DIM_ORTHOVECTOR(DOCODE) do {      \\
+  R_xlen_t counter = 0;         \\
+  const int *pout_dim = INTEGER_RO(out_dim);      \\
+  if(RxC) { \\
+    for(int flatind_y = 0; flatind_y < pout_dim[1]; ++flatind_y) {	\\
+  	  for(int flatind_x = 0; flatind_x < pout_dim[0]; ++flatind_x) {	\\
+        DOCODE;                         \\
+        pout[counter] = tempout;        \\
+        counter++;                      \\
+    	 }	\\
+  	 }	\\
+  } \\
+  else {  \\
+    for(int flatind_x = 0; flatind_x < pout_dim[1]; ++flatind_x) {	\\
+    	  for(int flatind_y = 0; flatind_y < pout_dim[0]; ++flatind_y) {	\\
+          DOCODE;                         \\
+          pout[counter] = tempout;        \\
+          counter++;                      \\
+        }	\\
+    }	\\
+  } \\
+} while(0)
+
+"
+
+
+
 ################################################################################
 # BigX ====
 #
@@ -286,8 +320,6 @@ macro_dim_bigsmall_docall <- templatecode_docall2
 
 
 
-
-
 ################################################################################
 # General ====
 #
@@ -442,6 +474,8 @@ macro_dim_docall <- templatecode_docall2
 macro_dim <- stri_c(
   "\n",
   macro_dim_vector,
+  "\n",
+  macro_dim_orthovector,
   "\n",
   macro_dim_bigx,
   "\n",

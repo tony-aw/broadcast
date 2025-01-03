@@ -9,6 +9,12 @@
 
 #' @keywords internal
 #' @noRd
+.rcpp_bc_dbl_ov <- function(x, y, RxC, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bc_dbl_ov`, x, y, RxC, out_dim, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_bc_dbl_bs <- function(x, y, by_x, by_y, dimcumprod_x, dimcumprod_y, out_dim, nout, bigx, op) {
     .Call(`_broadcast_rcpp_bc_dbl_bs`, x, y, by_x, by_y, dimcumprod_x, dimcumprod_y, out_dim, nout, bigx, op)
 }

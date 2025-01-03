@@ -5,12 +5,12 @@
 #' 
 #' @param x,y conformable atomic arrays of types `logical`, `integer`, or `double`.
 #' @param op a single string, giving the operator. \cr
-#' Supported operators: +, -, *, /, ^.
+#' Supported operators: +, -, *, /, ^, pmin, pmax.
 #' 
 #' 
 #'
 #' @returns
-#' The list.
+#' A numeric array as a result of the broadcasted arithmeric operation. \cr
 #'
 #'
 #'
@@ -48,14 +48,19 @@ bc.d <- function(x, y, op) {
   y.dim <- dim(y)
   out.dimsimp <- .determine_out.dim(x.dim, y.dim, sys.call())
   
+  
   # Broadcast:
-  dimmode <- .determine_dimmode(x.dim, y.dim, out.dimsimp)
+  dimmode <- .determine_dimmode(x, y, out.dimsimp)
   op <- .op_dbl(op, sys.call())
   
   if(dimmode == 1L) { # vector mode
     out <- .rcpp_bc_dbl_v(x, y, out.len, op)
   }
-  else if(dimmode == 2L){ # big-small mode
+  else if(dimmode == 2L) { # orthogonal vector mode
+    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
+    out <- .rcpp_bc_dbl_ov(x, y, RxC, out.dimsimp, out.len, op)
+  }
+  else if(dimmode == 3L){ # big-small mode
     by_x <- .make_by(x.dim, out.dimsimp)
     by_y <- .make_by(y.dim, out.dimsimp)
     dcp_x <- .make_dcp(x.dim)
@@ -70,20 +75,6 @@ bc.d <- function(x, y, op) {
       x, y, by_x, by_y, dcp_x, dcp_y, as.integer(out.dimsimp), out.len, bigx, op
     )
   }
-  # else if(dimmode == 3L) { # orthogonal mode; currently not used
-  #   dcp_x <- .make_dcp(x.dim)
-  #   dcp_y <- .make_dcp(y.dim)
-  #   if(x.dim[1L] > 1L) {
-  #     xstarts <- TRUE
-  #   }
-  #   else {
-  #     xstarts <- FALSE
-  #   }
-  #   out <- .rcpp_bc_dbl_o(
-  #     x, y,
-  #     dcp_x, dcp_y, c(0L, 0L), as.integer(out.dimsimp), out.len, xstarts, op
-  #   )
-  # }
   else if(dimmode == 4L) { # general mode
     
     by_x <- .make_by(x.dim, out.dimsimp)

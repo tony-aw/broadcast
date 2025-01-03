@@ -58,10 +58,13 @@
 
 #' @keywords internal
 #' @noRd
-.determine_dimmode <- function(x.dim, y.dim, out.dim, abortcall) {
+.determine_dimmode <- function(x, y, out.dim, abortcall) {
+  
+  x.dim <- dim(x)
+  y.dim <- dim(y)
   
   # use vector mode:
-  if(length(x.dim) == 1L || length(y.dim) == 1L) { # x and/or y are/is scalar(s)
+  if(length(x) == 1L || length(y) == 1L) { # x and/or y are/is scalar(s)
     return(1L)
   }
   else if(is.null(x.dim) || is.null(y.dim)) { # x and/or y are/is vector(s)
@@ -71,16 +74,15 @@
     return(1L)
   }
   
-  # use big-small mode:
-  if(all(x.dim == out.dim) || all(y.dim == out.dim)) {
+  # use orthogonal vectors mode:
+  if(length(x.dim) <= 2L && length(y.dim) <= 2 && .C_dims_all_orthogonal(x.dim, y.dim)) {
     return(2L)
   }
   
-  # use orthogonal mode:
-  # currently not used, since the perfomance improvement is neglible
-  # if(.C_dims_all_orthogonal(x.dim, y.dim)) {
-  #   return(3L)
-  # }
+  # use big-small mode:
+  if(all(x.dim == out.dim) || all(y.dim == out.dim)) {
+    return(3L)
+  }
   
   # use general mode:
   return(4L)
