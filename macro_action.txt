@@ -43,3 +43,9 @@
 	}                                                               \
 } while(0)
 
+
+
+#define MACRO_DOUBLEPASS(MACRO1, MACRO2) do{  \
+  MACRO1;                                     \
+  MACRO2;                                     \
+} while(0)

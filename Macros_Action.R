@@ -1,4 +1,5 @@
 
+library(stringi)
 
 macro_action1 <- "
 
@@ -55,6 +56,13 @@ macro_action4 <- "
 
 "
 
+macro_doublepass <- "
+#define MACRO_DOUBLEPASS(MACRO1, MACRO2) do{  \\
+  MACRO1;                                     \\
+  MACRO2;                                     \\
+} while(0)
+"
+
 macro_action <- stri_c(
   macro_action1,
   "\n",
@@ -62,7 +70,9 @@ macro_action <- stri_c(
   "\n",
   macro_action3,
   "\n",
-  macro_action4
+  macro_action4,
+  "\n",
+  macro_doublepass
 )
 
 readr::write_file(macro_action, "macro_action.txt")

@@ -9,6 +9,7 @@ library(stringi)
 macro_dim <- readr::read_file("macro_dim.txt")
 macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
 macro_action <- readr::read_file("macro_action.txt")
+macro_op <- readr::read_file("macro_op.txt")
 
 header <- stri_c("
 
@@ -22,6 +23,7 @@ macro_dim,
 "\n",
 macro_typeswitch_numeric,
 "\n",
+macro_op,
 
 "
 
