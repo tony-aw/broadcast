@@ -1,4 +1,4 @@
-#' Broadcasted Decimal Arithmetic
+#' Broadcasted Decimal Arithmetic Operations on Atomic Arrays
 #'
 #' @description
 #' The `bc.d()` function performs broadcasted decimal arithmetic operations on 2 atomic arrays. \cr

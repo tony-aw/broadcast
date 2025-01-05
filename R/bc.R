@@ -1,4 +1,4 @@
-#' Broadcasted Relational operators
+#' Broadcasted Relational Operations on Atomic Arrays
 #'
 #' @description
 #' The `bc()` function performs broadcasted relational operations on 2 atomic arrays. \cr
@@ -6,7 +6,7 @@
 #' @param x,y conformable atomic arrays of types.
 #' @param op a single string, giving the operator. \cr
 #' Supported operators: ==, !=, <, >, <=, >=.
-#' @param precision a single decimal number, giving the machine precision. \cr
+#' @param prec a single decimal number, giving the machine precision. \cr
 #' Only applicable when `x` and/or `y` is of type `double`
 #' 
 #' 
@@ -16,7 +16,7 @@
 #'
 #'
 #'
-#' @example inst/examples/bc_d.R
+#' @example inst/examples/bc.R
 #' 
 
 

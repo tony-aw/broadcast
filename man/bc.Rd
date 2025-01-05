@@ -2,7 +2,7 @@
 % Please edit documentation in R/bc.R
 \name{bc}
 \alias{bc}
-\title{Broadcasted Relational operators}
+\title{Broadcasted Relational Operations on Atomic Arrays}
 \usage{
 bc(x, y, op, prec = sqrt(.Machine$double.eps))
 }
@@ -12,7 +12,7 @@ bc(x, y, op, prec = sqrt(.Machine$double.eps))
 \item{op}{a single string, giving the operator. \cr
 Supported operators: ==, !=, <, >, <=, >=.}
 
-\item{precision}{a single decimal number, giving the machine precision. \cr
+\item{prec}{a single decimal number, giving the machine precision. \cr
 Only applicable when \code{x} and/or \code{y} is of type \code{double}}
 }
 \value{
@@ -28,9 +28,10 @@ x.data <- sample(c(NA, 1.1:1000.1), x.len, TRUE)
 x <- array(x.data, x.dim)
 y <- array(1:50, c(10,1,1))
 
-bc.d(x, y, "+")
-bc.d(x, y, "-")
-bc.d(x, y, "*")
-bc.d(x, y, "/")
-bc.d(x, y, "^")
+bc(x, y, "==")
+bc(x, y, "!=")
+bc(x, y, "<")
+bc(x, y, ">")
+bc(x, y, "<=")
+bc(x, y, ">=")
 }

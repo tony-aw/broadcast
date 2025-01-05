@@ -24,10 +24,16 @@ test_make_dims <- function(n) {
 prec <- sqrt(.Machine$double.eps)
 
 
+# Note:
+# These are primarily dimensional consistency tests.
+# For tests about whether the rel ops are actually accurate,
+# see test-relop_precision.R
+
 # basic tests ====
 
 x <- as.array(1:100)
 y <- as.array(sample(1:100))
+
 
 
 # equals, numeric x ====
@@ -46,7 +52,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
+    rnorm(100) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -119,22 +125,23 @@ expect_equal(
 
 
 
-# minus ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+# equals, numeric y ====
+nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "-"
+op <- "=="
 
 i <- 1L
+y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+basefun <- function(x, y) {
+  out <- abs(x - y) < prec
+  return(out)
+}
+
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
-  )
-  y.data <- list(
-    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
+    rnorm(100) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -143,59 +150,146 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
       
+      y <- array(y.data, dim = y.dim)
       for(iDataX in 1:length(x.data)) { # different data types for x
         x <- array(x.data[[iDataX]][1:x.len], dim = x.dim)
-        for(iDataY in 1:length(y.data)) { # different data types for y
-          y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
-          
-          # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
-          # print(x)
-          # print(y)
-          # print(tdim)
-          # cat("\n")
-          
-          
-          # DO TESTS BY CASE:
-          if(is.null(tdim)) {
-            # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-            expected[[i]] <- as_dbl(drop(x)) - as_dbl(drop(y))
-            attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(y) == 1L && length(x) == 1L) {
-            # CASE 2: x and y are both scalar arrays
-            expected[[i]] <- as.double(x) - as.double(y)
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(x) == 1L && length(y) > 1L) {
-            # CASE 3: x is scalar, y is not
-            expected[[i]] <- as.double(x) - array_recycle(as_dbl(y), tdim)
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(y) == 1L && length(x) > 1L) {
-            # CASE 4: y is scalar, x is not
-            expected[[i]] <- array_recycle(as_dbl(x), tdim) - as.double(y)
-            out[[i]] <- bc(x, y, op)
-          }
-          else {
-            # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- array_recycle(as_dbl(x), tdim) - array_recycle(as_dbl(y), tdim)
-            out[[i]] <- bc(x, y, op)
-          }
-          # END CASES
-          
-          # R is sometimes inconsistent whether it returns NA or NaN
-          # for example: NaN + NaN = NA, but NaN - NaN = NaN
-          # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
-          # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
-          ind.NaN <- is.nan(expected[[i]])
-          expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
-          ind.NaN <- is.nan(out[[i]])
-          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
-          
-          i <- i + 1L
+        
+        # PREPARE FOR TEST
+        tdim <- bc_pred_dim(x, y)
+        # print(x)
+        # print(y)
+        # print(tdim)
+        # cat("\n")
+        
+        
+        # DO TESTS BY CASE:
+        if(is.null(tdim)) {
+          # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
+          expected[[i]] <- basefun(as_dbl(drop(x)), as_dbl(drop(y)))
+          attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
+          out[[i]] <- bc(x, y, op)
         }
+        else if(length(y) == 1L && length(x) == 1L) {
+          # CASE 2: x and y are both scalar arrays
+          expected[[i]] <- basefun(as.double(x), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(x) == 1L && length(y) > 1L) {
+          # CASE 3: x is scalar, y is not
+          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) > 1L) {
+          # CASE 4: y is scalar, x is not
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else {
+          # CASE 5: x and y are both non-reducible arrays
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        # END CASES
+        
+        # R is sometimes inconsistent whether it returns NA or NaN
+        # for example: NaN + NaN = NA, but NaN - NaN = NaN
+        # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
+        # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
+        ind.NaN <- is.nan(expected[[i]])
+        expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+        ind.NaN <- is.nan(out[[i]])
+        out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+        
+        
+        i <- i + 1L
+      }
+    }
+  }
+}
+enumerate <- enumerate + i # count number of tests
+# test results:
+expect_equal(
+  expected, out
+)
+
+
+# not-equals, numeric x ====
+nres <- 10 * 5 * 5 * 3 # number of tests performed here
+expected <- out <- vector("list", nres)
+op <- "!="
+
+i <- 1L
+x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+basefun <- function(x, y) {
+  out <- abs(x - y) >= prec
+  return(out)
+}
+
+for(iSample in 1:10) { # re-do tests with different random configurations
+  y.data <- list(
+    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
+    sample(c(1:10, NA), 100, TRUE), # integer
+    rnorm(100) # double
+  )
+  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+    x.dim <- test_make_dims(iDimX)
+    x.len <- prod(x.dim)
+    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+      y.dim <- test_make_dims(iDimY)
+      y.len <- prod(y.dim)
+      
+      x <- array(x.data, dim = x.dim)
+      for(iDataY in 1:length(y.data)) { # different data types for y
+        y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
+        
+        # PREPARE FOR TEST
+        tdim <- bc_pred_dim(x, y)
+        # print(x)
+        # print(y)
+        # print(tdim)
+        # cat("\n")
+        
+        
+        # DO TESTS BY CASE:
+        if(is.null(tdim)) {
+          # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
+          expected[[i]] <- basefun(as_dbl(drop(x)), as_dbl(drop(y)))
+          attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) == 1L) {
+          # CASE 2: x and y are both scalar arrays
+          expected[[i]] <- basefun(as.double(x), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(x) == 1L && length(y) > 1L) {
+          # CASE 3: x is scalar, y is not
+          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) > 1L) {
+          # CASE 4: y is scalar, x is not
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else {
+          # CASE 5: x and y are both non-reducible arrays
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        # END CASES
+        
+        # R is sometimes inconsistent whether it returns NA or NaN
+        # for example: NaN + NaN = NA, but NaN - NaN = NaN
+        # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
+        # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
+        ind.NaN <- is.nan(expected[[i]])
+        expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+        ind.NaN <- is.nan(out[[i]])
+        out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+        
+        
+        i <- i + 1L
       }
     }
   }
@@ -208,22 +302,23 @@ expect_equal(
 
 
 
-# multiply ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+# not-equals, numeric y ====
+nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "*"
+op <- "!="
 
 i <- 1L
+y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+basefun <- function(x, y) {
+  out <- abs(x - y) >= prec
+  return(out)
+}
+
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
-  )
-  y.data <- list(
-    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
+    rnorm(100) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -232,59 +327,58 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
       
+      y <- array(y.data, dim = y.dim)
       for(iDataX in 1:length(x.data)) { # different data types for x
         x <- array(x.data[[iDataX]][1:x.len], dim = x.dim)
-        for(iDataY in 1:length(y.data)) { # different data types for y
-          y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
-          
-          # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
-          # print(x)
-          # print(y)
-          # print(tdim)
-          # cat("\n")
-          
-          
-          # DO TESTS BY CASE:
-          if(is.null(tdim)) {
-            # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-            expected[[i]] <- as_dbl(drop(x)) * as_dbl(drop(y))
-            attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(y) == 1L && length(x) == 1L) {
-            # CASE 2: x and y are both scalar arrays
-            expected[[i]] <- as.double(x) * as.double(y)
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(x) == 1L && length(y) > 1L) {
-            # CASE 3: x is scalar, y is not
-            expected[[i]] <- as.double(x) * array_recycle(as_dbl(y), tdim)
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(y) == 1L && length(x) > 1L) {
-            # CASE 4: y is scalar, x is not
-            expected[[i]] <- array_recycle(as_dbl(x), tdim) * as.double(y)
-            out[[i]] <- bc(x, y, op)
-          }
-          else {
-            # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- array_recycle(as_dbl(x), tdim) * array_recycle(as_dbl(y), tdim)
-            out[[i]] <- bc(x, y, op)
-          }
-          # END CASES
-          
-          # R is sometimes inconsistent whether it returns NA or NaN
-          # for example: NaN + NaN = NA, but NaN - NaN = NaN
-          # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
-          # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
-          ind.NaN <- is.nan(expected[[i]])
-          expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
-          ind.NaN <- is.nan(out[[i]])
-          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
-          
-          i <- i + 1L
+        
+        # PREPARE FOR TEST
+        tdim <- bc_pred_dim(x, y)
+        # print(x)
+        # print(y)
+        # print(tdim)
+        # cat("\n")
+        
+        
+        # DO TESTS BY CASE:
+        if(is.null(tdim)) {
+          # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
+          expected[[i]] <- basefun(as_dbl(drop(x)), as_dbl(drop(y)))
+          attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
+          out[[i]] <- bc(x, y, op)
         }
+        else if(length(y) == 1L && length(x) == 1L) {
+          # CASE 2: x and y are both scalar arrays
+          expected[[i]] <- basefun(as.double(x), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(x) == 1L && length(y) > 1L) {
+          # CASE 3: x is scalar, y is not
+          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) > 1L) {
+          # CASE 4: y is scalar, x is not
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else {
+          # CASE 5: x and y are both non-reducible arrays
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        # END CASES
+        
+        # R is sometimes inconsistent whether it returns NA or NaN
+        # for example: NaN + NaN = NA, but NaN - NaN = NaN
+        # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
+        # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
+        ind.NaN <- is.nan(expected[[i]])
+        expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+        ind.NaN <- is.nan(out[[i]])
+        out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+        
+        
+        i <- i + 1L
       }
     }
   }
@@ -297,22 +391,23 @@ expect_equal(
 
 
 
-# divide ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+# smaller than, numeric x ====
+nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "/"
+op <- "<"
 
 i <- 1L
+x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+basefun <- function(x, y) {
+  out <- (x - y) <= -prec
+  return(out)
+}
+
 for(iSample in 1:10) { # re-do tests with different random configurations
-  x.data <- list(
-    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
-  )
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
+    rnorm(100) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -321,59 +416,58 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
       
-      for(iDataX in 1:length(x.data)) { # different data types for x
-        x <- array(x.data[[iDataX]][1:x.len], dim = x.dim)
-        for(iDataY in 1:length(y.data)) { # different data types for y
-          y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
-          
-          # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
-          # print(x)
-          # print(y)
-          # print(tdim)
-          # cat("\n")
-          
-          
-          # DO TESTS BY CASE:
-          if(is.null(tdim)) {
-            # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-            expected[[i]] <- as_dbl(drop(x)) / as_dbl(drop(y))
-            attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(y) == 1L && length(x) == 1L) {
-            # CASE 2: x and y are both scalar arrays
-            expected[[i]] <- as.double(x) / as.double(y)
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(x) == 1L && length(y) > 1L) {
-            # CASE 3: x is scalar, y is not
-            expected[[i]] <- as.double(x) / array_recycle(as_dbl(y), tdim)
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(y) == 1L && length(x) > 1L) {
-            # CASE 4: y is scalar, x is not
-            expected[[i]] <- array_recycle(as_dbl(x), tdim) / as.double(y)
-            out[[i]] <- bc(x, y, op)
-          }
-          else {
-            # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- array_recycle(as_dbl(x), tdim) / array_recycle(as_dbl(y), tdim)
-            out[[i]] <- bc(x, y, op)
-          }
-          # END CASES
-          
-          # R is sometimes inconsistent whether it returns NA or NaN
-          # for example: NaN + NaN = NA, but NaN - NaN = NaN
-          # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
-          # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
-          ind.NaN <- is.nan(expected[[i]])
-          expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
-          ind.NaN <- is.nan(out[[i]])
-          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
-          
-          i <- i + 1L
+      x <- array(x.data, dim = x.dim)
+      for(iDataY in 1:length(y.data)) { # different data types for y
+        y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
+        
+        # PREPARE FOR TEST
+        tdim <- bc_pred_dim(x, y)
+        # print(x)
+        # print(y)
+        # print(tdim)
+        # cat("\n")
+        
+        
+        # DO TESTS BY CASE:
+        if(is.null(tdim)) {
+          # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
+          expected[[i]] <- basefun(as_dbl(drop(x)), as_dbl(drop(y)))
+          attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
+          out[[i]] <- bc(x, y, op)
         }
+        else if(length(y) == 1L && length(x) == 1L) {
+          # CASE 2: x and y are both scalar arrays
+          expected[[i]] <- basefun(as.double(x), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(x) == 1L && length(y) > 1L) {
+          # CASE 3: x is scalar, y is not
+          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) > 1L) {
+          # CASE 4: y is scalar, x is not
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else {
+          # CASE 5: x and y are both non-reducible arrays
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        # END CASES
+        
+        # R is sometimes inconsistent whether it returns NA or NaN
+        # for example: NaN + NaN = NA, but NaN - NaN = NaN
+        # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
+        # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
+        ind.NaN <- is.nan(expected[[i]])
+        expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+        ind.NaN <- is.nan(out[[i]])
+        out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+        
+        
+        i <- i + 1L
       }
     }
   }
@@ -386,112 +480,23 @@ expect_equal(
 
 
 
-
-# power ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+# smaller than, numeric y ====
+nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "^"
+op <- "<"
 
 i <- 1L
-for(iSample in 1:10) { # re-do tests with different random configurations
-  x.data <- list(
-    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
-  )
-  y.data <- list(
-    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
-  )
-  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-      
-      for(iDataX in 1:length(x.data)) { # different data types for x
-        x <- array(x.data[[iDataX]][1:x.len], dim = x.dim)
-        for(iDataY in 1:length(y.data)) { # different data types for y
-          y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
-          
-          # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
-          # print(x)
-          # print(y)
-          # print(tdim)
-          # cat("\n")
-          
-          
-          # DO TESTS BY CASE:
-          if(is.null(tdim)) {
-            # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-            expected[[i]] <- as_dbl(drop(x)) ^ as_dbl(drop(y))
-            attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(y) == 1L && length(x) == 1L) {
-            # CASE 2: x and y are both scalar arrays
-            expected[[i]] <- as.double(x) ^ as.double(y)
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(x) == 1L && length(y) > 1L) {
-            # CASE 3: x is scalar, y is not
-            expected[[i]] <- as.double(x) ^ array_recycle(as_dbl(y), tdim)
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(y) == 1L && length(x) > 1L) {
-            # CASE 4: y is scalar, x is not
-            expected[[i]] <- array_recycle(as_dbl(x), tdim) ^ as.double(y)
-            out[[i]] <- bc(x, y, op)
-          }
-          else {
-            # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- array_recycle(as_dbl(x), tdim) ^ array_recycle(as_dbl(y), tdim)
-            out[[i]] <- bc(x, y, op)
-          }
-          # END CASES
-          
-          # R is sometimes inconsistent whether it returns NA or NaN
-          # for example: NaN + NaN = NA, but NaN - NaN = NaN
-          # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
-          # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
-          ind.NaN <- is.nan(expected[[i]])
-          expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
-          ind.NaN <- is.nan(out[[i]])
-          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
-          
-          i <- i + 1L
-        }
-      }
-    }
-  }
+y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+basefun <- function(x, y) {
+  out <- (x - y) <= -prec
+  return(out)
 }
-enumerate <- enumerate + i # count number of tests
-# test results:
-expect_equal(
-  expected, out
-)
 
-
-
-# pmin ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
-op <- "pmin"
-
-i <- 1L
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
-  )
-  y.data <- list(
-    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
+    rnorm(100) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -500,61 +505,58 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
       
+      y <- array(y.data, dim = y.dim)
       for(iDataX in 1:length(x.data)) { # different data types for x
         x <- array(x.data[[iDataX]][1:x.len], dim = x.dim)
-        for(iDataY in 1:length(y.data)) { # different data types for y
-          y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
-          
-          # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
-          # print(x)
-          # print(y)
-          # print(tdim)
-          # cat("\n")
-          
-          
-          # DO TESTS BY CASE:
-          if(is.null(tdim)) {
-            # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-            expected[[i]] <- pmin(as_dbl(drop(x)), as_dbl(drop(y)))
-            attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(y) == 1L && length(x) == 1L) {
-            # CASE 2: x and y are both scalar arrays
-            expected[[i]] <- pmin(as.double(x), as.double(y))
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(x) == 1L && length(y) > 1L) {
-            # CASE 3: x is scalar, y is not
-            expected[[i]] <- pmin(as.double(x), array_recycle(as_dbl(y), tdim))
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(y) == 1L && length(x) > 1L) {
-            # CASE 4: y is scalar, x is not
-            expected[[i]] <- pmin(array_recycle(as_dbl(x), tdim), as.double(y))
-            out[[i]] <- bc(x, y, op)
-          }
-          else {
-            # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- pmin(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
-            out[[i]] <- bc(x, y, op)
-          }
-          # END CASES
-          
-          # R is sometimes inconsistent whether it returns NA or NaN
-          # for example: NaN + NaN = NA, but NaN - NaN = NaN
-          # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
-          # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
-          ind.NaN <- is.nan(expected[[i]])
-          expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
-          ind.NaN <- is.nan(out[[i]])
-          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
-          
-          dim(expected[[i]]) <- tdim # pmin/pmax don't always keep dimensions, so have to re-assign them here
-          
-          i <- i + 1L
+        
+        # PREPARE FOR TEST
+        tdim <- bc_pred_dim(x, y)
+        # print(x)
+        # print(y)
+        # print(tdim)
+        # cat("\n")
+        
+        
+        # DO TESTS BY CASE:
+        if(is.null(tdim)) {
+          # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
+          expected[[i]] <- basefun(as_dbl(drop(x)), as_dbl(drop(y)))
+          attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
+          out[[i]] <- bc(x, y, op)
         }
+        else if(length(y) == 1L && length(x) == 1L) {
+          # CASE 2: x and y are both scalar arrays
+          expected[[i]] <- basefun(as.double(x), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(x) == 1L && length(y) > 1L) {
+          # CASE 3: x is scalar, y is not
+          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) > 1L) {
+          # CASE 4: y is scalar, x is not
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else {
+          # CASE 5: x and y are both non-reducible arrays
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        # END CASES
+        
+        # R is sometimes inconsistent whether it returns NA or NaN
+        # for example: NaN + NaN = NA, but NaN - NaN = NaN
+        # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
+        # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
+        ind.NaN <- is.nan(expected[[i]])
+        expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+        ind.NaN <- is.nan(out[[i]])
+        out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+        
+        
+        i <- i + 1L
       }
     }
   }
@@ -568,22 +570,24 @@ expect_equal(
 
 
 
-# pmax ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+
+# greater than, numeric x ====
+nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "pmax"
+op <- ">"
 
 i <- 1L
+x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+basefun <- function(x, y) {
+  out <- (x - y) >= prec
+  return(out)
+}
+
 for(iSample in 1:10) { # re-do tests with different random configurations
-  x.data <- list(
-    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
-  )
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(1:10, NA), 100, TRUE), # integer
-    sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
+    rnorm(100) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -592,61 +596,58 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
       
-      for(iDataX in 1:length(x.data)) { # different data types for x
-        x <- array(x.data[[iDataX]][1:x.len], dim = x.dim)
-        for(iDataY in 1:length(y.data)) { # different data types for y
-          y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
-          
-          # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
-          # print(x)
-          # print(y)
-          # print(tdim)
-          # cat("\n")
-          
-          
-          # DO TESTS BY CASE:
-          if(is.null(tdim)) {
-            # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-            expected[[i]] <- pmax(as_dbl(drop(x)), as_dbl(drop(y)))
-            attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(y) == 1L && length(x) == 1L) {
-            # CASE 2: x and y are both scalar arrays
-            expected[[i]] <- pmax(as.double(x), as.double(y))
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(x) == 1L && length(y) > 1L) {
-            # CASE 3: x is scalar, y is not
-            expected[[i]] <- pmax(as.double(x), array_recycle(as_dbl(y), tdim))
-            out[[i]] <- bc(x, y, op)
-          }
-          else if(length(y) == 1L && length(x) > 1L) {
-            # CASE 4: y is scalar, x is not
-            expected[[i]] <- pmax(array_recycle(as_dbl(x), tdim), as.double(y))
-            out[[i]] <- bc(x, y, op)
-          }
-          else {
-            # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- pmax(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
-            out[[i]] <- bc(x, y, op)
-          }
-          # END CASES
-          
-          # R is sometimes inconsistent whether it returns NA or NaN
-          # for example: NaN + NaN = NA, but NaN - NaN = NaN
-          # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
-          # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
-          ind.NaN <- is.nan(expected[[i]])
-          expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
-          ind.NaN <- is.nan(out[[i]])
-          out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
-          
-          dim(expected[[i]]) <- tdim # pmin/pmax don't always keep dimensions, so have to re-assign them here
-          
-          i <- i + 1L
+      x <- array(x.data, dim = x.dim)
+      for(iDataY in 1:length(y.data)) { # different data types for y
+        y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
+        
+        # PREPARE FOR TEST
+        tdim <- bc_pred_dim(x, y)
+        # print(x)
+        # print(y)
+        # print(tdim)
+        # cat("\n")
+        
+        
+        # DO TESTS BY CASE:
+        if(is.null(tdim)) {
+          # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
+          expected[[i]] <- basefun(as_dbl(drop(x)), as_dbl(drop(y)))
+          attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
+          out[[i]] <- bc(x, y, op)
         }
+        else if(length(y) == 1L && length(x) == 1L) {
+          # CASE 2: x and y are both scalar arrays
+          expected[[i]] <- basefun(as.double(x), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(x) == 1L && length(y) > 1L) {
+          # CASE 3: x is scalar, y is not
+          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) > 1L) {
+          # CASE 4: y is scalar, x is not
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else {
+          # CASE 5: x and y are both non-reducible arrays
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        # END CASES
+        
+        # R is sometimes inconsistent whether it returns NA or NaN
+        # for example: NaN + NaN = NA, but NaN - NaN = NaN
+        # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
+        # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
+        ind.NaN <- is.nan(expected[[i]])
+        expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+        ind.NaN <- is.nan(out[[i]])
+        out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+        
+        
+        i <- i + 1L
       }
     }
   }
@@ -656,6 +657,455 @@ enumerate <- enumerate + i # count number of tests
 expect_equal(
   expected, out
 )
+
+
+
+# greater than, numeric y ====
+nres <- 10 * 5 * 5 * 3 # number of tests performed here
+expected <- out <- vector("list", nres)
+op <- ">"
+
+i <- 1L
+y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+basefun <- function(x, y) {
+  out <- (x - y) >= prec
+  return(out)
+}
+
+for(iSample in 1:10) { # re-do tests with different random configurations
+  x.data <- list(
+    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
+    sample(c(1:10, NA), 100, TRUE), # integer
+    rnorm(100) # double
+  )
+  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+    x.dim <- test_make_dims(iDimX)
+    x.len <- prod(x.dim)
+    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+      y.dim <- test_make_dims(iDimY)
+      y.len <- prod(y.dim)
+      
+      y <- array(y.data, dim = y.dim)
+      for(iDataX in 1:length(x.data)) { # different data types for x
+        x <- array(x.data[[iDataX]][1:x.len], dim = x.dim)
+        
+        # PREPARE FOR TEST
+        tdim <- bc_pred_dim(x, y)
+        # print(x)
+        # print(y)
+        # print(tdim)
+        # cat("\n")
+        
+        
+        # DO TESTS BY CASE:
+        if(is.null(tdim)) {
+          # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
+          expected[[i]] <- basefun(as_dbl(drop(x)), as_dbl(drop(y)))
+          attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) == 1L) {
+          # CASE 2: x and y are both scalar arrays
+          expected[[i]] <- basefun(as.double(x), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(x) == 1L && length(y) > 1L) {
+          # CASE 3: x is scalar, y is not
+          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) > 1L) {
+          # CASE 4: y is scalar, x is not
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else {
+          # CASE 5: x and y are both non-reducible arrays
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        # END CASES
+        
+        # R is sometimes inconsistent whether it returns NA or NaN
+        # for example: NaN + NaN = NA, but NaN - NaN = NaN
+        # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
+        # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
+        ind.NaN <- is.nan(expected[[i]])
+        expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+        ind.NaN <- is.nan(out[[i]])
+        out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+        
+        
+        i <- i + 1L
+      }
+    }
+  }
+}
+enumerate <- enumerate + i # count number of tests
+# test results:
+expect_equal(
+  expected, out
+)
+
+
+
+
+# se, numeric x ====
+nres <- 10 * 5 * 5 * 3 # number of tests performed here
+expected <- out <- vector("list", nres)
+op <- "<="
+
+i <- 1L
+x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+basefun <- function(x, y) {
+  out <- (x - y) < prec
+  return(out)
+}
+
+for(iSample in 1:10) { # re-do tests with different random configurations
+  y.data <- list(
+    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
+    sample(c(1:10, NA), 100, TRUE), # integer
+    rnorm(100) # double
+  )
+  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+    x.dim <- test_make_dims(iDimX)
+    x.len <- prod(x.dim)
+    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+      y.dim <- test_make_dims(iDimY)
+      y.len <- prod(y.dim)
+      
+      x <- array(x.data, dim = x.dim)
+      for(iDataY in 1:length(y.data)) { # different data types for y
+        y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
+        
+        # PREPARE FOR TEST
+        tdim <- bc_pred_dim(x, y)
+        # print(x)
+        # print(y)
+        # print(tdim)
+        # cat("\n")
+        
+        
+        # DO TESTS BY CASE:
+        if(is.null(tdim)) {
+          # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
+          expected[[i]] <- basefun(as_dbl(drop(x)), as_dbl(drop(y)))
+          attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) == 1L) {
+          # CASE 2: x and y are both scalar arrays
+          expected[[i]] <- basefun(as.double(x), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(x) == 1L && length(y) > 1L) {
+          # CASE 3: x is scalar, y is not
+          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) > 1L) {
+          # CASE 4: y is scalar, x is not
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else {
+          # CASE 5: x and y are both non-reducible arrays
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        # END CASES
+        
+        # R is sometimes inconsistent whether it returns NA or NaN
+        # for example: NaN + NaN = NA, but NaN - NaN = NaN
+        # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
+        # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
+        ind.NaN <- is.nan(expected[[i]])
+        expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+        ind.NaN <- is.nan(out[[i]])
+        out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+        
+        
+        i <- i + 1L
+      }
+    }
+  }
+}
+enumerate <- enumerate + i # count number of tests
+# test results:
+expect_equal(
+  expected, out
+)
+
+
+
+# se, numeric y ====
+nres <- 10 * 5 * 5 * 3 # number of tests performed here
+expected <- out <- vector("list", nres)
+op <- "<="
+
+i <- 1L
+y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+basefun <- function(x, y) {
+  out <- (x - y) < prec
+  return(out)
+}
+
+for(iSample in 1:10) { # re-do tests with different random configurations
+  x.data <- list(
+    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
+    sample(c(1:10, NA), 100, TRUE), # integer
+    rnorm(100) # double
+  )
+  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+    x.dim <- test_make_dims(iDimX)
+    x.len <- prod(x.dim)
+    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+      y.dim <- test_make_dims(iDimY)
+      y.len <- prod(y.dim)
+      
+      y <- array(y.data, dim = y.dim)
+      for(iDataX in 1:length(x.data)) { # different data types for x
+        x <- array(x.data[[iDataX]][1:x.len], dim = x.dim)
+        
+        # PREPARE FOR TEST
+        tdim <- bc_pred_dim(x, y)
+        # print(x)
+        # print(y)
+        # print(tdim)
+        # cat("\n")
+        
+        
+        # DO TESTS BY CASE:
+        if(is.null(tdim)) {
+          # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
+          expected[[i]] <- basefun(as_dbl(drop(x)), as_dbl(drop(y)))
+          attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) == 1L) {
+          # CASE 2: x and y are both scalar arrays
+          expected[[i]] <- basefun(as.double(x), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(x) == 1L && length(y) > 1L) {
+          # CASE 3: x is scalar, y is not
+          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) > 1L) {
+          # CASE 4: y is scalar, x is not
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else {
+          # CASE 5: x and y are both non-reducible arrays
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        # END CASES
+        
+        # R is sometimes inconsistent whether it returns NA or NaN
+        # for example: NaN + NaN = NA, but NaN - NaN = NaN
+        # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
+        # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
+        ind.NaN <- is.nan(expected[[i]])
+        expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+        ind.NaN <- is.nan(out[[i]])
+        out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+        
+        
+        i <- i + 1L
+      }
+    }
+  }
+}
+enumerate <- enumerate + i # count number of tests
+# test results:
+expect_equal(
+  expected, out
+)
+
+
+
+
+
+# ge, numeric x ====
+nres <- 10 * 5 * 5 * 3 # number of tests performed here
+expected <- out <- vector("list", nres)
+op <- ">="
+
+i <- 1L
+x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+basefun <- function(x, y) {
+  out <- (x - y) > -prec
+  return(out)
+}
+
+for(iSample in 1:10) { # re-do tests with different random configurations
+  y.data <- list(
+    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
+    sample(c(1:10, NA), 100, TRUE), # integer
+    rnorm(100) # double
+  )
+  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+    x.dim <- test_make_dims(iDimX)
+    x.len <- prod(x.dim)
+    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+      y.dim <- test_make_dims(iDimY)
+      y.len <- prod(y.dim)
+      
+      x <- array(x.data, dim = x.dim)
+      for(iDataY in 1:length(y.data)) { # different data types for y
+        y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
+        
+        # PREPARE FOR TEST
+        tdim <- bc_pred_dim(x, y)
+        # print(x)
+        # print(y)
+        # print(tdim)
+        # cat("\n")
+        
+        
+        # DO TESTS BY CASE:
+        if(is.null(tdim)) {
+          # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
+          expected[[i]] <- basefun(as_dbl(drop(x)), as_dbl(drop(y)))
+          attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) == 1L) {
+          # CASE 2: x and y are both scalar arrays
+          expected[[i]] <- basefun(as.double(x), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(x) == 1L && length(y) > 1L) {
+          # CASE 3: x is scalar, y is not
+          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) > 1L) {
+          # CASE 4: y is scalar, x is not
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else {
+          # CASE 5: x and y are both non-reducible arrays
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        # END CASES
+        
+        # R is sometimes inconsistent whether it returns NA or NaN
+        # for example: NaN + NaN = NA, but NaN - NaN = NaN
+        # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
+        # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
+        ind.NaN <- is.nan(expected[[i]])
+        expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+        ind.NaN <- is.nan(out[[i]])
+        out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+        
+        
+        i <- i + 1L
+      }
+    }
+  }
+}
+enumerate <- enumerate + i # count number of tests
+# test results:
+expect_equal(
+  expected, out
+)
+
+
+
+# ge, numeric y ====
+nres <- 10 * 5 * 5 * 3 # number of tests performed here
+expected <- out <- vector("list", nres)
+op <- ">="
+
+i <- 1L
+y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+basefun <- function(x, y) {
+  out <- (x - y) > -prec
+  return(out)
+}
+
+for(iSample in 1:10) { # re-do tests with different random configurations
+  x.data <- list(
+    sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
+    sample(c(1:10, NA), 100, TRUE), # integer
+    rnorm(100) # double
+  )
+  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+    x.dim <- test_make_dims(iDimX)
+    x.len <- prod(x.dim)
+    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+      y.dim <- test_make_dims(iDimY)
+      y.len <- prod(y.dim)
+      
+      y <- array(y.data, dim = y.dim)
+      for(iDataX in 1:length(x.data)) { # different data types for x
+        x <- array(x.data[[iDataX]][1:x.len], dim = x.dim)
+        
+        # PREPARE FOR TEST
+        tdim <- bc_pred_dim(x, y)
+        # print(x)
+        # print(y)
+        # print(tdim)
+        # cat("\n")
+        
+        
+        # DO TESTS BY CASE:
+        if(is.null(tdim)) {
+          # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
+          expected[[i]] <- basefun(as_dbl(drop(x)), as_dbl(drop(y)))
+          attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) == 1L) {
+          # CASE 2: x and y are both scalar arrays
+          expected[[i]] <- basefun(as.double(x), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(x) == 1L && length(y) > 1L) {
+          # CASE 3: x is scalar, y is not
+          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        else if(length(y) == 1L && length(x) > 1L) {
+          # CASE 4: y is scalar, x is not
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          out[[i]] <- bc(x, y, op)
+        }
+        else {
+          # CASE 5: x and y are both non-reducible arrays
+          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          out[[i]] <- bc(x, y, op)
+        }
+        # END CASES
+        
+        # R is sometimes inconsistent whether it returns NA or NaN
+        # for example: NaN + NaN = NA, but NaN - NaN = NaN
+        # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
+        # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
+        ind.NaN <- is.nan(expected[[i]])
+        expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+        ind.NaN <- is.nan(out[[i]])
+        out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+        
+        
+        i <- i + 1L
+      }
+    }
+  }
+}
+enumerate <- enumerate + i # count number of tests
+# test results:
+expect_equal(
+  expected, out
+)
+
 
 
 

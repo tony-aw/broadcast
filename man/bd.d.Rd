@@ -2,7 +2,7 @@
 % Please edit documentation in R/bc_d.R
 \name{bc.d}
 \alias{bc.d}
-\title{Broadcasted Decimal Arithmetic}
+\title{Broadcasted Decimal Arithmetic Operations on Atomic Arrays}
 \usage{
 bc.d(x, y, op)
 }
