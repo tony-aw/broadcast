@@ -39,7 +39,7 @@ y <- as.array(sample(1:100))
 # equals, numeric x ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "=="
+op <- "d=="
 
 i <- 1L
 x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
@@ -128,7 +128,7 @@ expect_equal(
 # equals, numeric y ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "=="
+op <- "d=="
 
 i <- 1L
 y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
@@ -216,7 +216,7 @@ expect_equal(
 # not-equals, numeric x ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "!="
+op <- "d!="
 
 i <- 1L
 x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
@@ -305,7 +305,7 @@ expect_equal(
 # not-equals, numeric y ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "!="
+op <- "d!="
 
 i <- 1L
 y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
@@ -394,7 +394,7 @@ expect_equal(
 # smaller than, numeric x ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "<"
+op <- "d<"
 
 i <- 1L
 x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
@@ -483,7 +483,7 @@ expect_equal(
 # smaller than, numeric y ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "<"
+op <- "d<"
 
 i <- 1L
 y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
@@ -574,7 +574,7 @@ expect_equal(
 # greater than, numeric x ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- ">"
+op <- "d>"
 
 i <- 1L
 x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
@@ -663,7 +663,7 @@ expect_equal(
 # greater than, numeric y ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- ">"
+op <- "d>"
 
 i <- 1L
 y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
@@ -753,7 +753,7 @@ expect_equal(
 # se, numeric x ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "<="
+op <- "d<="
 
 i <- 1L
 x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
@@ -842,7 +842,7 @@ expect_equal(
 # se, numeric y ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "<="
+op <- "d<="
 
 i <- 1L
 y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
@@ -933,7 +933,7 @@ expect_equal(
 # ge, numeric x ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- ">="
+op <- "d>="
 
 i <- 1L
 x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
@@ -1022,7 +1022,7 @@ expect_equal(
 # ge, numeric y ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- ">="
+op <- "d>="
 
 i <- 1L
 y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)

@@ -21,6 +21,60 @@ macro_op_rel_dbl <- "
   switch(op) {	\\
   case 1:	\\
   {	\\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+      DIMCODE,	\\
+      tempout = NA_LOGICAL, \\
+      tempout = px[flatind_x] == py[flatind_y]  \\
+    );	\\
+    break;	\\
+  }	\\
+  case 2:	\\
+  {	\\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+      DIMCODE,	\\
+      tempout = NA_LOGICAL, \\
+      tempout = px[flatind_x] != py[flatind_y]  \\
+    );	\\
+    break;	\\
+  }	\\
+  case 3:	\\
+  {	\\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+      DIMCODE,	\\
+      tempout = NA_LOGICAL, \\
+      tempout = px[flatind_x] < py[flatind_y]  \\
+    );	\\
+    break;	\\
+  }	\\
+  case 4:	\\
+  {	\\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+      DIMCODE,	\\
+      tempout = NA_LOGICAL, \\
+      tempout = px[flatind_x] > py[flatind_y]  \\
+    );	\\
+    break;	\\
+  }	\\
+  case 5:	\\
+  {	\\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+      DIMCODE,	\\
+      tempout = NA_LOGICAL, \\
+      tempout = px[flatind_x] <= py[flatind_y]  \\
+    );	\\
+    break;	\\
+  }	\\
+  case 6:	\\
+  {	\\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+      DIMCODE,	\\
+      tempout = NA_LOGICAL, \\
+      tempout = px[flatind_x] >= py[flatind_y]  \\
+    );	\\
+    break;	\\
+  }	\\
+  case 7:	\\
+  {	\\
     MACRO_TYPESWITCH_NUMERIC_REL(	\\
       DIMCODE,	\\
       tempcalc = NA_REAL,	\\
@@ -30,7 +84,7 @@ macro_op_rel_dbl <- "
     );	\\
     break;	\\
   }	\\
-  case 2:	\\
+  case 8:	\\
   {	\\
     MACRO_TYPESWITCH_NUMERIC_REL(	\\
       DIMCODE,	\\
@@ -41,7 +95,7 @@ macro_op_rel_dbl <- "
     );	\\
     break;	\\
   }	\\
-  case 3:	\\
+  case 9:	\\
   {	\\
     MACRO_TYPESWITCH_NUMERIC_REL(	\\
       DIMCODE,	\\
@@ -52,7 +106,7 @@ macro_op_rel_dbl <- "
     );	\\
     break;	\\
   }	\\
-  case 4:	\\
+  case 10:	\\
   {	\\
     MACRO_TYPESWITCH_NUMERIC_REL(	\\
       DIMCODE,	\\
@@ -63,7 +117,7 @@ macro_op_rel_dbl <- "
     );	\\
     break;	\\
   }	\\
-  case 5:	\\
+  case 11:	\\
   {	\\
     MACRO_TYPESWITCH_NUMERIC_REL(	\\
       DIMCODE,	\\
@@ -74,7 +128,7 @@ macro_op_rel_dbl <- "
     );	\\
     break;	\\
   }	\\
-  case 6:	\\
+  case 12:	\\
   {	\\
     MACRO_TYPESWITCH_NUMERIC_REL(	\\
       DIMCODE,	\\

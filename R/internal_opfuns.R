@@ -1,5 +1,5 @@
 
-.op_rel <- function(op, abortcall) {
+.op_rel_dbl <- function(op, abortcall) {
   op <- trimws(op, which = "both")
   if(op == "==") {
     return(1L)
@@ -18,6 +18,24 @@
   }
   else if(op == ">=") {
     return(6L)
+  }
+  else if(op == "d==") {
+    return(7L)
+  }
+  else if(op == "d!=") {
+    return(8L)
+  }
+  else if(op == "d<") {
+    return(9L)
+  }
+  else if(op == "d>") {
+    return(10L)
+  }
+  else if(op == "d<="){
+    return(11L)
+  }
+  else if(op == "d>=") {
+    return(12L)
   }
   else {
     stop(simpleError("given operator not supported in the given context"))

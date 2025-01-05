@@ -42,7 +42,7 @@
   
   # Broadcast:
   dimmode <- .determine_dimmode(x, y, out.dimsimp)
-  op <- .op_rel(op, abortcall)
+  op <- .op_rel_dbl(op, abortcall)
   
   if(dimmode == 1L) { # vector mode
     out <- .rcpp_bcRel_dbl_v(x, y, out.len, op, prec)
