@@ -17,7 +17,8 @@ header_for_sourcing <- stri_c(
   macro_dim,
   "\n",
   macro_typeswitch_numeric,
-  "\n"
+  "\n",
+  macro_op
 )
 
 
@@ -58,77 +59,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-switch(op) {
-  case 1:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_VECTOR,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] + (double)py[flatind_y]
-    );
-    break;
-  }
-  case 2:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_VECTOR,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] - (double)py[flatind_y]
-    );
-    break;
-  }
-  case 3:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_VECTOR,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] * (double)py[flatind_y]
-    );
-    break;
-  }
-  case 4:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_VECTOR,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] / (double)py[flatind_y]
-    );
-    break;
-  }
-  case 5:
-  {
-    MACRO_TYPESWITCH_NUMERIC_SPECIAL(
-      MACRO_DIM_VECTOR,
-      (double)px[flatind_x] == 1 || (double)py[flatind_y] == 0,
-      tempout = 1,
-      tempout = NA_REAL,
-      tempout = R_pow((double)px[flatind_x], (double)py[flatind_y])
-    );
-    break;
-  }
-  case 6:
-  {
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
-      MACRO_DIM_VECTOR,
-      tempout = NA_REAL,
-      tempout = ((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
-    );
-    break;
-  }
-  case 7:
-  {
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
-      MACRO_DIM_VECTOR,
-      tempout = NA_REAL,
-      tempout = ((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
-    );
-    break;
-  }
-  default:
-  {
-    stop(\"given operator not supported in the given context\");
-  }
-}
+MACRO_OP_DBL(MACRO_DIM_VECTOR);
 
 UNPROTECT(1);
 return out;
@@ -156,77 +87,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-switch(op) {
-  case 1:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_ORTHOVECTOR,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] + (double)py[flatind_y]
-    );
-    break;
-  }
-  case 2:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_ORTHOVECTOR,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] - (double)py[flatind_y]
-    );
-    break;
-  }
-  case 3:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_ORTHOVECTOR,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] * (double)py[flatind_y]
-    );
-    break;
-  }
-  case 4:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_ORTHOVECTOR,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] / (double)py[flatind_y]
-    );
-    break;
-  }
-  case 5:
-  {
-    MACRO_TYPESWITCH_NUMERIC_SPECIAL(
-      MACRO_DIM_ORTHOVECTOR,
-      (double)px[flatind_x] == 1 || (double)py[flatind_y] == 0,
-      tempout = 1,
-      tempout = NA_REAL,
-      tempout = R_pow((double)px[flatind_x], (double)py[flatind_y])
-    );
-    break;
-  }
-  case 6:
-  {
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
-      MACRO_DIM_ORTHOVECTOR,
-      tempout = NA_REAL,
-      tempout = ((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
-    );
-    break;
-  }
-  case 7:
-  {
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
-      MACRO_DIM_ORTHOVECTOR,
-      tempout = NA_REAL,
-      tempout = ((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
-    );
-    break;
-  }
-  default:
-  {
-    stop(\"given operator not supported in the given context\");
-  }
-}
+MACRO_OP_DBL(MACRO_DIM_ORTHOVECTOR);
 
 UNPROTECT(1);
 return out;
@@ -259,77 +120,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-switch(op) {
-  case 1:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_BIGSMALL_DOCALL,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] + (double)py[flatind_y]
-    );
-    break;
-  }
-  case 2:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_BIGSMALL_DOCALL,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] - (double)py[flatind_y]
-    );
-    break;
-  }
-  case 3:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_BIGSMALL_DOCALL,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] * (double)py[flatind_y]
-    );
-    break;
-  }
-  case 4:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_BIGSMALL_DOCALL,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] / (double)py[flatind_y]
-    );
-    break;
-  }
-  case 5:
-  {
-    MACRO_TYPESWITCH_NUMERIC_SPECIAL(
-      MACRO_DIM_BIGSMALL_DOCALL,
-      (double)px[flatind_x] == 1 || (double)py[flatind_y] == 0,
-      tempout = 1,
-      tempout = NA_REAL,
-      tempout = R_pow((double)px[flatind_x], (double)py[flatind_y])
-    );
-    break;
-  }
-  case 6:
-  {
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
-      MACRO_DIM_BIGSMALL_DOCALL,
-      tempout = NA_REAL,
-      tempout = ((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
-    );
-    break;
-  }
-  case 7:
-  {
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
-      MACRO_DIM_BIGSMALL_DOCALL,
-      tempout = NA_REAL,
-      tempout = ((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
-    );
-    break;
-  }
-  default:
-  {
-    stop(\"given operator not supported in the given context\");
-  }
-}
+MACRO_OP_DBL(MACRO_DIM_BIGSMALL_DOCALL);
 
 UNPROTECT(1);
 return out;
@@ -362,77 +153,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-switch(op) {
-  case 1:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_DOCALL,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] + (double)py[flatind_y]
-    );
-    break;
-  }
-  case 2:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_DOCALL,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] - (double)py[flatind_y]
-    );
-    break;
-  }
-  case 3:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_DOCALL,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] * (double)py[flatind_y]
-    );
-    break;
-  }
-  case 4:
-  {
-    MACRO_TYPESWITCH_NUMERIC_COMMON(
-      MACRO_DIM_DOCALL,
-      tempout = NA_REAL,
-      tempout = (double)px[flatind_x] / (double)py[flatind_y]
-    );
-    break;
-  }
-  case 5:
-  {
-    MACRO_TYPESWITCH_NUMERIC_SPECIAL(
-      MACRO_DIM_DOCALL,
-      (double)px[flatind_x] == 1 || (double)py[flatind_y] == 0,
-      tempout = 1,
-      tempout = NA_REAL,
-      tempout = R_pow((double)px[flatind_x], (double)py[flatind_y])
-    );
-    break;
-  }
-  case 6:
-  {
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
-      MACRO_DIM_DOCALL,
-      tempout = NA_REAL,
-      tempout = ((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
-    );
-    break;
-  }
-  case 7:
-  {
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(
-      MACRO_DIM_DOCALL,
-      tempout = NA_REAL,
-      tempout = ((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 
-    );
-    break;
-  }
-  default:
-  {
-    stop(\"given operator not supported in the given context\");
-  }
-}
+MACRO_OP_DBL(MACRO_DIM_DOCALL);
 
 UNPROTECT(1);
 return out;
