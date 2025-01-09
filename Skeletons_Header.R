@@ -13,8 +13,8 @@ macro_op <- readr::read_file("macro_op.txt")
 
 header <- stri_c("
 
-#ifndef MACROS_EVERYWHERE_H
-#define MACROS_EVERYWHERE_H
+#ifndef BROADCAST_H
+#define BROADCAST_H
 
 ",
 macro_action,
@@ -33,5 +33,5 @@ macro_op,
 
 cat(header)
 Rcpp::sourceCpp(code = header)
-readr::write_file(header, "src/Macros_Everywhere.h")
+readr::write_file(header, "src/broadcast.h")
 

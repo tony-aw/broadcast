@@ -1,7 +1,7 @@
 
 
 #include <Rcpp.h>
-#include "Macros_Everywhere.h"
+#include "Broadcast.h"
 
 using namespace Rcpp;
 
@@ -63,13 +63,10 @@ SEXP rcpp_bc_dbl_bs(
   SEXP x, SEXP y,
   SEXP by_x,
   SEXP by_y,
-  SEXP dimcumprod_x, SEXP dimcumprod_y, SEXP out_dim, R_xlen_t nout, bool bigx,
+  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx,
   int op
 ) {
 
-
-double *pdcp_x = REAL(dimcumprod_x);
-double *pdcp_y = REAL(dimcumprod_y);
 
 double tempout;
 
@@ -94,12 +91,9 @@ SEXP rcpp_bc_dbl_d(
   SEXP x, SEXP y,
   SEXP by_x,
   SEXP by_y,
-  SEXP dimcumprod_x, SEXP dimcumprod_y, SEXP out_dim, R_xlen_t nout, int op
+  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op
 ) {
 
-
-double *pdcp_x = REAL(dimcumprod_x);
-double *pdcp_y = REAL(dimcumprod_y);
 
 double tempout;
 

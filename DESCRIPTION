@@ -1,15 +1,26 @@
 Package: broadcast
-Title: Simple Broadcasted Binary Operations for Atomic Arrays with Minimal Dependencies
+Title: Simple Broadcasted Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies
 Version: 0.0.0.9000
 Authors@R: person("Tony", "Wilkes", role = c("aut", "cre", "cph"),
                   email = "tony_a_wilkes@outlook.com",
                   comment = c(ORCID = "0000-0001-9498-8379"))
-Description: Implements simple broadcasted operations for atomic arrays.
-    Includes relational operators (`==`, `!=`, `<`, `>`, `<=`, `>=`),
-    boolean combiner operators (`&`, `|`, xor(), "not-and"),
-    integer/double/complex arithmetic operators (`+`, `-`, `*`, `/`, `^` `%%`, pmin(), pmax()),
-    and string concatination operators(`+` , `*`).
-    The broadcasted operators have about the same performance as their non-broadcasted base 'R' counterparts.
+Description: Implements simple broadcasted binary operations,
+    for atomic and recursive arrays.
+    All operations are element-wise binary operations
+    (i.e. involving only 2 arrays at a time),
+    to prevent the user from accidentally exploding dimension sizes of the resulting array.
+    Besides linking to 'Rcpp',
+    'broadcast' does not rely on any external libraries,
+    thus minimizing the number of dependencies.
+    'broadcast' supports the following operators.
+    1) Relational operators (`==`, `!=`, `<`, `>`, `<=`, `>=`);
+    2) Boolean combiner operators (`&`, `|`, `xor()`, "not-and");
+    3) Arithmetic operators (`+`, `-`, `*`, `/`, `^` "intmod", `pmin()`, `pmax()`);
+    4) String concatination operators (`+` , `*`);
+    6) Broadcasted 'lapply' for recursive arrays;
+    7) Broadcasted insertion.
+    The broadcasted operations are fast and memory efficient
+    (which is not just good for computer efficiency, but also for the environment).
 License: MPL-2.0 | file LICENSE
 Encoding: UTF-8
 LinkingTo: Rcpp
