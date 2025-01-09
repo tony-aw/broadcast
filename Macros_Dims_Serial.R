@@ -40,8 +40,6 @@ macro_dim_vector <- "
   }                                                                 \\
   for(R_xlen_t flatind_out = 0; flatind_out < nout; ++flatind_out) {  \\
       DOCODE;                                                       \\
-  	                                                                \\
-  	  pout[flatind_out] = tempout;                                  \\
       flatind_x = flatind_x + by_x;                                 \\
       flatind_y = flatind_y + by_y;                                 \\
                                                                     \\
@@ -67,7 +65,6 @@ macro_dim_orthovector <- "
     for(int flatind_y = 0; flatind_y < N2; ++flatind_y) {	\\
   	  for(int flatind_x = 0; flatind_x < N1; ++flatind_x) {	\\
         DOCODE;                         \\
-        pout[flatind_out] = tempout;        \\
         flatind_out++;                      \\
     	 }	\\
   	 }	\\
@@ -76,7 +73,6 @@ macro_dim_orthovector <- "
     for(int flatind_x = 0; flatind_x < N2; ++flatind_x) {	\\
     	  for(int flatind_y = 0; flatind_y < N1; ++flatind_y) {	\\
           DOCODE;                         \\
-          pout[flatind_out] = tempout;        \\
           flatind_out++;                      \\
         }	\\
     }	\\
@@ -127,7 +123,6 @@ temp <- "
                                   \\
         DOCODE;                   \\
   	                              \\
-        pout[flatind_out] = tempout;        \\
         flatind_x++;                    \\
         flatind_out++;                      \\
   <endfor>
@@ -222,7 +217,6 @@ temp <- "
                                   \\
         DOCODE;                   \\
   	                              \\
-        pout[flatind_out] = tempout;        \\
         flatind_y++;                    \\
         flatind_out++;                      \\
   <endfor>
@@ -386,7 +380,6 @@ temp <- "
                                                                     \\
         DOCODE;                                                          \\
   	                                                                \\
-        pout[flatind_out] = tempout;        \\
         flatind_out++;                      \\
   <endfor>
 } while(0)

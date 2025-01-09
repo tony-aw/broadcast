@@ -88,8 +88,6 @@
   }                                                                 \
   for(R_xlen_t flatind_out = 0; flatind_out < nout; ++flatind_out) {  \
       DOCODE;                                                       \
-  	                                                                \
-  	  pout[flatind_out] = tempout;                                  \
       flatind_x = flatind_x + by_x;                                 \
       flatind_y = flatind_y + by_y;                                 \
                                                                     \
@@ -108,7 +106,6 @@
     for(int flatind_y = 0; flatind_y < N2; ++flatind_y) {	\
   	  for(int flatind_x = 0; flatind_x < N1; ++flatind_x) {	\
         DOCODE;                         \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
     	 }	\
   	 }	\
@@ -117,7 +114,6 @@
     for(int flatind_x = 0; flatind_x < N2; ++flatind_x) {	\
     	  for(int flatind_y = 0; flatind_y < N1; ++flatind_y) {	\
           DOCODE;                         \
-          pout[flatind_out] = tempout;        \
           flatind_out++;                      \
         }	\
     }	\
@@ -144,7 +140,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -174,7 +169,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -208,7 +202,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -246,7 +239,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -288,7 +280,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -334,7 +325,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -384,7 +374,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -438,7 +427,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -496,7 +484,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -558,7 +545,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -624,7 +610,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -694,7 +679,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -768,7 +752,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -846,7 +829,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -928,7 +910,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_x++;                    \
         flatind_out++;                      \
   	 }	\
@@ -969,7 +950,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -999,7 +979,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1033,7 +1012,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1071,7 +1049,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1113,7 +1090,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1159,7 +1135,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1209,7 +1184,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1263,7 +1237,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1321,7 +1294,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1383,7 +1355,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1449,7 +1420,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1519,7 +1489,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1593,7 +1562,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1671,7 +1639,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1753,7 +1720,6 @@ i_x2 = pby_x[1] * iter2 * pdcp_x[1];	\
                                   \
         DOCODE;                   \
   	                              \
-        pout[flatind_out] = tempout;        \
         flatind_y++;                    \
         flatind_out++;                      \
   	 }	\
@@ -1906,7 +1872,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -1942,7 +1907,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -1983,7 +1947,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -2029,7 +1992,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -2080,7 +2042,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -2136,7 +2097,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -2197,7 +2157,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -2263,7 +2222,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -2334,7 +2292,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -2410,7 +2367,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -2491,7 +2447,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -2577,7 +2532,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -2668,7 +2622,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -2764,7 +2717,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -2865,7 +2817,6 @@ i_y2 = pby_y[1] * iter2 * pdcp_y[1];	\
                                                                     \
         DOCODE;                                                          \
   	                                                                \
-        pout[flatind_out] = tempout;        \
         flatind_out++;                      \
   	 }	\
 	 }	\
@@ -3210,14 +3161,19 @@ case 16:                                       \
 
 
 
+#define MACRO_ASSIGN_C(INPUTCODE) do {  \
+  tempout = INPUTCODE;              \
+  pout[flatind_out] = tempout;      \
+} while(0)
+
 #define MACRO_OP_DBL(DIMCODE) do {	\
   switch(op) {	\
     case 1:	\
     {	\
       MACRO_TYPESWITCH_NUMERIC_COMMON(	\
         DIMCODE,	\
-        tempout = NA_REAL,	\
-        tempout = (double)px[flatind_x] + (double)py[flatind_y]	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C((double)px[flatind_x] + (double)py[flatind_y])	\
       );	\
       break;	\
     }	\
@@ -3225,8 +3181,8 @@ case 16:                                       \
     {	\
       MACRO_TYPESWITCH_NUMERIC_COMMON(	\
         DIMCODE,	\
-        tempout = NA_REAL,	\
-        tempout = (double)px[flatind_x] - (double)py[flatind_y]	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C((double)px[flatind_x] - (double)py[flatind_y])	\
       );	\
       break;	\
     }	\
@@ -3234,8 +3190,8 @@ case 16:                                       \
     {	\
       MACRO_TYPESWITCH_NUMERIC_COMMON(	\
         DIMCODE,	\
-        tempout = NA_REAL,	\
-        tempout = (double)px[flatind_x] * (double)py[flatind_y]	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C((double)px[flatind_x] * (double)py[flatind_y])	\
       );	\
       break;	\
     }	\
@@ -3243,8 +3199,8 @@ case 16:                                       \
     {	\
       MACRO_TYPESWITCH_NUMERIC_COMMON(	\
         DIMCODE,	\
-        tempout = NA_REAL,	\
-        tempout = (double)px[flatind_x] / (double)py[flatind_y]	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C((double)px[flatind_x] / (double)py[flatind_y])	\
       );	\
       break;	\
     }	\
@@ -3253,9 +3209,9 @@ case 16:                                       \
       MACRO_TYPESWITCH_NUMERIC_SPECIAL(	\
         DIMCODE,	\
         (double)px[flatind_x] == 1 || (double)py[flatind_y] == 0,	\
-        tempout = 1,	\
-        tempout = NA_REAL,	\
-        tempout = R_pow((double)px[flatind_x], (double)py[flatind_y])	\
+        MACRO_ASSIGN_C(1),	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(R_pow((double)px[flatind_x], (double)py[flatind_y]))	\
       );	\
       break;	\
     }	\
@@ -3263,8 +3219,8 @@ case 16:                                       \
     {	\
       MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
         DIMCODE,	\
-        tempout = NA_REAL,	\
-        tempout = ((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y]) 	\
       );	\
       break;	\
     }	\
@@ -3272,8 +3228,8 @@ case 16:                                       \
     {	\
       MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
         DIMCODE,	\
-        tempout = NA_REAL,	\
-        tempout = ((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y] 	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y]) 	\
       );	\
       break;	\
     }	\
@@ -3290,8 +3246,8 @@ case 16:                                       \
   {	\
     MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
       DIMCODE,	\
-      tempout = NA_LOGICAL, \
-      tempout = px[flatind_x] == py[flatind_y]  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] == py[flatind_y])  \
     );	\
     break;	\
   }	\
@@ -3299,8 +3255,8 @@ case 16:                                       \
   {	\
     MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
       DIMCODE,	\
-      tempout = NA_LOGICAL, \
-      tempout = px[flatind_x] != py[flatind_y]  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] != py[flatind_y])  \
     );	\
     break;	\
   }	\
@@ -3308,8 +3264,8 @@ case 16:                                       \
   {	\
     MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
       DIMCODE,	\
-      tempout = NA_LOGICAL, \
-      tempout = px[flatind_x] < py[flatind_y]  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] < py[flatind_y])  \
     );	\
     break;	\
   }	\
@@ -3317,8 +3273,8 @@ case 16:                                       \
   {	\
     MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
       DIMCODE,	\
-      tempout = NA_LOGICAL, \
-      tempout = px[flatind_x] > py[flatind_y]  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] > py[flatind_y])  \
     );	\
     break;	\
   }	\
@@ -3326,8 +3282,8 @@ case 16:                                       \
   {	\
     MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
       DIMCODE,	\
-      tempout = NA_LOGICAL, \
-      tempout = px[flatind_x] <= py[flatind_y]  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] <= py[flatind_y])  \
     );	\
     break;	\
   }	\
@@ -3335,8 +3291,8 @@ case 16:                                       \
   {	\
     MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
       DIMCODE,	\
-      tempout = NA_LOGICAL, \
-      tempout = px[flatind_x] >= py[flatind_y]  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] >= py[flatind_y])  \
     );	\
     break;	\
   }	\
@@ -3346,8 +3302,8 @@ case 16:                                       \
       DIMCODE,	\
       tempcalc = NA_REAL,	\
       tempcalc = abs((double)px[flatind_x] - (double)py[flatind_y]), \
-      tempout = NA_LOGICAL, \
-      tempout = tempcalc < prec  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(tempcalc < prec)  \
     );	\
     break;	\
   }	\
@@ -3357,8 +3313,8 @@ case 16:                                       \
       DIMCODE,	\
       tempcalc = NA_REAL,	\
       tempcalc = abs((double)px[flatind_x] - (double)py[flatind_y]),	\
-      tempout = NA_LOGICAL, \
-      tempout = tempcalc >= prec  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(tempcalc >= prec)  \
     );	\
     break;	\
   }	\
@@ -3368,8 +3324,8 @@ case 16:                                       \
       DIMCODE,	\
       tempcalc = NA_REAL,	\
       tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),  \
-      tempout = NA_LOGICAL, \
-      tempout = tempcalc <= -prec  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(tempcalc <= -prec)  \
     );	\
     break;	\
   }	\
@@ -3379,8 +3335,8 @@ case 16:                                       \
       DIMCODE,	\
       tempcalc = NA_REAL,	\
       tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),  \
-      tempout = NA_LOGICAL, \
-      tempout = tempcalc >= prec  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(tempcalc >= prec)  \
     );	\
     break;	\
   }	\
@@ -3390,8 +3346,8 @@ case 16:                                       \
       DIMCODE,	\
       tempcalc = NA_REAL,	\
       tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),  \
-      tempout = NA_LOGICAL, \
-      tempout = tempcalc < prec  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(tempcalc < prec)  \
     );	\
     break;	\
   }	\
@@ -3401,8 +3357,8 @@ case 16:                                       \
       DIMCODE,	\
       tempcalc = NA_REAL,	\
       tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),	\
-      tempout = NA_LOGICAL, \
-      tempout = tempcalc > -prec  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(tempcalc > -prec)  \
     );	\
     break;	\
   }	\

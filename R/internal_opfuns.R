@@ -1,4 +1,12 @@
 
+.op_num_math <- function() {
+  return(c("+", "-", "*", "/", "^", "pmin", "pmax"))
+}
+
+.op_num_rel <- function() {
+  return(c("==", "!=", "<", ">", "<=", ">=", "d==", "d!=", "d<", "d>", "d<=", "d>="))
+}
+
 .op_rel_dbl <- function(op, abortcall) {
   op <- trimws(op, which = "both")
   if(op == "==") {

@@ -8,7 +8,29 @@
 \title{broadcast: Subset Methods as Alternatives to the Square Brackets Operators for Programming}
 \description{
 broadcast: \cr
-Simple broadcasted infix operations for atomic arrays in 'R'.
+Simple broadcasted binary operations for atomic and recursive arrays in 'R'. \cr
+}
+\details{
+The 'broadcast' package provides a set of type-specific functions
+for broadcasted operations. \cr
+The functions use an API similar to the \link[base]{outer} and \link[base]{sweep} functions. \cr
+\cr
+The following functions are available:
+\itemize{
+\item \link{bc.num}: Broadcasted operations for numeric (types \code{int} and \code{dbl}) arrays.
+\item \code{bc.bool}: Broadcasted operations for logical/Boolean arrays.
+\item \code{bc.cplx}: Broadcasted operations for \code{complex} arrays.
+\item \code{bc.str}: Broadcasted operations for \code{character} arrays.
+\item \code{bc.list}: Broadcasted operations for recursive arrays.
+}
+
+Each of these functions support 2 types of operations:
+\itemize{
+\item \code{regular} operations, which return an array of the same type. \cr
+For example: +, -, *, /, etc.
+\item \code{relational} operations, which return a logical array. \cr
+For example: ==, !=, etc.
+}
 
 The 'broadcast' package supports relational operators (==, !=, <, > <=, >=),
 logical combiners (&, |, xor, nand),

@@ -2,7 +2,28 @@
 #' 
 #' @description
 #' broadcast: \cr
-#' Simple broadcasted infix operations for atomic arrays in 'R'.
+#' Simple broadcasted binary operations for atomic and recursive arrays in 'R'. \cr
+#' 
+#' @details
+#' The 'broadcast' package provides a set of type-specific functions
+#' for broadcasted operations. \cr
+#' The functions use an API similar to the \link[base]{outer} and \link[base]{sweep} functions. \cr
+#' \cr
+#' The following functions are available:
+#' 
+#'  * \link{bc.num}: Broadcasted operations for numeric (types `int` and `dbl`) arrays.
+#'  * `bc.bool`: Broadcasted operations for logical/Boolean arrays.
+#'  * `bc.cplx`: Broadcasted operations for `complex` arrays.
+#'  * `bc.str`: Broadcasted operations for `character` arrays.
+#'  * `bc.list`: Broadcasted operations for recursive arrays.
+#'  
+#' Each of these functions support 2 types of operations:
+#' 
+#'  * `regular` operations, which return an array of the same type. \cr
+#'  For example: +, -, *, /, etc.
+#'  * `relational` operations, which return a logical array. \cr
+#'  For example: ==, !=, etc.
+#' 
 #' 
 #' The 'broadcast' package supports relational operators (==, !=, <, > <=, >=),
 #' logical combiners (&, |, xor, nand),

@@ -2,12 +2,15 @@
 
 #' @keywords internal
 #' @noRd
-.stop_general <- function(x, y, abortcall) {
+.stop_general <- function(x, y, op, abortcall) {
   if(!is.atomic(x) || !is.atomic(y) || !is.array(x) || !is.array(y)) {
     stop(simpleError("`x` and `y` must both be atomic arrays", call = abortcall))
   }
   if(.ndims(x) > 16L || .ndims(y) > 16L) {
     stop(simpleError("arrays with more than 16 dimensions are not supported", call = abortcall))
+  }
+  if(!is.character(op) || length(op) != 1L) {
+    stop(simpleError("`op` must be single string"))
   }
 }
 
