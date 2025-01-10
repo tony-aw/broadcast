@@ -5,10 +5,11 @@ library(stringi)
 macro_dim <- readr::read_file("macro_dim.txt")
 macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
 macro_action <- readr::read_file("macro_action.txt")
+macro_op <- readr::read_file("macro_op.txt")
 
 header_for_sourcing <- stri_c(
   "
-  #include <Rcpp.h>
+  #include <Rcpp/Lightest>
   
   using namespace Rcpp;
   ",
@@ -24,7 +25,7 @@ header_for_sourcing <- stri_c(
 
 header_for_package <- "
 
-#include <Rcpp.h>
+#include <Rcpp/Lightest>
 #include \"Broadcast.h\"
 
 using namespace Rcpp;
@@ -41,6 +42,17 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 ################################################################################
 # Functions ====
 #
+
+txt0 <- "
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_mod_longint)]]
+double rcpp_mod_longint(
+  double x, double y
+) {
+  return (long long) x % (long long) y;
+}
+"
 
 
 txt1 <- "
@@ -59,7 +71,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-MACRO_OP_DBL(MACRO_DIM_VECTOR);
+MACRO_OP_NUM_MATH(MACRO_DIM_VECTOR);
 
 UNPROTECT(1);
 return out;
@@ -87,7 +99,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-MACRO_OP_DBL(MACRO_DIM_ORTHOVECTOR);
+MACRO_OP_NUM_MATH(MACRO_DIM_ORTHOVECTOR);
 
 UNPROTECT(1);
 return out;
@@ -117,7 +129,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-MACRO_OP_DBL(MACRO_DIM_BIGSMALL_DOCALL);
+MACRO_OP_NUM_MATH(MACRO_DIM_BIGSMALL_DOCALL);
 
 UNPROTECT(1);
 return out;
@@ -147,7 +159,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-MACRO_OP_DBL(MACRO_DIM_DOCALL);
+MACRO_OP_NUM_MATH(MACRO_DIM_DOCALL);
 
 UNPROTECT(1);
 return out;
@@ -161,7 +173,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 
@@ -169,7 +181,7 @@ Rcpp::sourceCpp(code = txt)
 
 txt <- stringi::stri_c(
   header_for_package,
-  txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bc_dbl.cpp")

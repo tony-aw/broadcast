@@ -63,6 +63,28 @@ macro_doublepass <- "
 } while(0)
 "
 
+macro_action_boolean <- "
+#define MACRO_ACTION_BOOLEAN(XREF, YREF, PRECHECK, PRECODE, NACODE, DOCODE) do { \\
+                                          \\
+  xTRUE = rcpp_isTRUE(XREF);                 \\
+  xFALSE = rcpp_isFALSE(XREF);               \\
+  xNA = XREF == NA_INTEGER;                  \\
+  yTRUE = rcpp_isTRUE(YREF);                 \\
+  yFALSE = rcpp_isFALSE(YREF);               \\
+  yNA = YREF == NA_INTEGER;                  \\
+  if(PRECHECK) {                          \\
+    PRECODE;                              \\
+  }                                       \\
+  else if(xNA || yNA) {                   \\
+    NACODE;                               \\
+  }                                       \\
+  else {                                  \\
+    DOCODE;                               \\
+  }                                       \\
+} while(0)
+
+"
+
 macro_action <- stri_c(
   macro_action1,
   "\n",
@@ -71,6 +93,8 @@ macro_action <- stri_c(
   macro_action3,
   "\n",
   macro_action4,
+  "\n",
+  macro_action_boolean,
   "\n",
   macro_doublepass
 )

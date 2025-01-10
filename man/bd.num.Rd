@@ -10,7 +10,7 @@ bc.num(x, y, op, prec = sqrt(.Machine$double.eps))
 \item{x, y}{conformable atomic arrays of types \code{logical}, \code{integer}, or \code{double}.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. \cr
+Supported arithmetic operators: +, -, *, /, ^, intmod, pmin, pmax. \cr
 Supported relational operators: ==, !=, <, >, <=, >=, d==, d!=, d<, d>, d<=, d>=. \cr}
 
 \item{prec}{a single number between 0 and 0.1, giving the machine precision to use. \cr

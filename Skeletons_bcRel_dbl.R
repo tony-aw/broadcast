@@ -9,7 +9,7 @@ macro_op <- readr::read_file("macro_op.txt")
 
 header_for_sourcing <- stri_c(
   "
-  #include <Rcpp.h>
+  #include <Rcpp/Lightest>
   
   using namespace Rcpp;
   ",
@@ -26,7 +26,7 @@ header_for_sourcing <- stri_c(
 
 header_for_package <- "
 
-#include <Rcpp.h>
+#include <Rcpp/Lightest>
 #include \"Broadcast.h\"
 
 using namespace Rcpp;
@@ -62,7 +62,7 @@ SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
 int *pout;
 pout = LOGICAL(out);
 
-MACRO_OP_REL_DBL(MACRO_DIM_VECTOR);
+MACRO_OP_NUM_REL(MACRO_DIM_VECTOR);
 
 
 UNPROTECT(1);
@@ -92,7 +92,7 @@ SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
 int *pout;
 pout = LOGICAL(out);
 
-MACRO_OP_REL_DBL(MACRO_DIM_ORTHOVECTOR);
+MACRO_OP_NUM_REL(MACRO_DIM_ORTHOVECTOR);
 
 UNPROTECT(1);
 return out;
@@ -122,7 +122,7 @@ SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
 int *pout;
 pout = LOGICAL(out);
 
-MACRO_OP_REL_DBL(MACRO_DIM_BIGSMALL_DOCALL);
+MACRO_OP_NUM_REL(MACRO_DIM_BIGSMALL_DOCALL);
 
 UNPROTECT(1);
 return out;
@@ -153,7 +153,7 @@ SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
 int *pout;
 pout = LOGICAL(out);
 
-MACRO_OP_REL_DBL(MACRO_DIM_DOCALL);
+MACRO_OP_NUM_REL(MACRO_DIM_DOCALL);
 
 UNPROTECT(1);
 return out;

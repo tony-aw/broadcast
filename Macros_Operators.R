@@ -12,9 +12,11 @@ txt <- stri_c(txt, collapse = "\n")
 cat(txt)
 
 
+
 ################################################################################
-# Numeric ====
+# Assignment ====
 #
+
 
 macro_assign_C <- "
 #define MACRO_ASSIGN_C(INPUTCODE) do {  \\
@@ -23,8 +25,13 @@ macro_assign_C <- "
 } while(0)
 "
 
-macro_op_dbl <- "
-#define MACRO_OP_DBL(DIMCODE) do {	\\
+################################################################################
+# Numeric ====
+#
+
+
+macro_op_num_math <- "
+#define MACRO_OP_NUM_MATH(DIMCODE) do {	\\
   switch(op) {	\\
     case 1:	\\
     {	\\
@@ -78,11 +85,20 @@ macro_op_dbl <- "
       MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
         DIMCODE,	\\
         MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C(((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y]) 	\\
+        MACRO_ASSIGN_C(rcpp_mod_longint((double)px[flatind_x], (double)py[flatind_y])) 	\\
       );	\\
       break;	\\
     }	\\
     case 7:	\\
+    {	\\
+      MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+        DIMCODE,	\\
+        MACRO_ASSIGN_C(NA_REAL),	\\
+        MACRO_ASSIGN_C(((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y]) 	\\
+      );	\\
+      break;	\\
+    }	\\
+    case 8:	\\
     {	\\
       MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
         DIMCODE,	\\
@@ -100,8 +116,8 @@ macro_op_dbl <- "
 "
 
 
-macro_op_rel_dbl <- "
-#define MACRO_OP_REL_DBL(DIMCODE) do {	\\
+macro_op_num_rel <- "
+#define MACRO_OP_NUM_REL(DIMCODE) do {	\\
   switch(op) {	\\
   case 1:	\\
   {	\\
@@ -231,12 +247,155 @@ macro_op_rel_dbl <- "
 } while(0)
 "
 
+
+################################################################################
+# Boolean ====
+#
+
+
+macro_op_bool_math <- "
+#define MACRO_OP_B_ANDOR(DIMCODE) do {	\\
+  switch(op) {	\\
+    case 1:	\\
+    {	\\
+      DIMCODE(                      \\
+        MACRO_ACTION_BOOLEAN(       \\
+          px[flatind_x], py[flatind_y],       \\
+          xFALSE || yFALSE,         \\
+          MACRO_ASSIGN_C(0),        \\
+          MACRO_ASSIGN_C(NA_LOGICAL),                                 \\
+          MACRO_ASSIGN_C((bool)px[flatind_x] && (bool)py[flatind_y])  \\
+        )                                                       \\
+      );                                                       \\
+      break;	\\
+    }	\\
+    case 2:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        MACRO_ACTION_BOOLEAN(                                           \\
+          px[flatind_x], py[flatind_y],       \\
+          xTRUE || yTRUE,                   \\
+          MACRO_ASSIGN_C(1),                                            \\
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
+          MACRO_ASSIGN_C((bool)px[flatind_x] || (bool)py[flatind_y])  \\
+        )                                                       \\
+      );                                                        \\
+      break;	\\
+    }	\\
+    case 3:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        MACRO_ACTION2(                                                  \\
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,   \\
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
+          MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \\
+        )                                                       \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 4:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        MACRO_ACTION_BOOLEAN(                                           \\
+          px[flatind_x], py[flatind_y],       \\
+          xTRUE || yTRUE,                   \\
+          MACRO_ASSIGN_C(0),                                            \\
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
+          MACRO_ASSIGN_C(!(bool)px[flatind_x] && !(bool)py[flatind_y])  \\
+        )                                                       \\
+      );                                                        \\
+      break;	\\
+    }	\\
+    default:	\\
+    {	\\
+      stop(\"given operator not supported in the given context\");	\\
+    }	\\
+  }	\\
+} while(0)
+"
+
+
+macro_op_bool_rel <- "
+#define MACRO_OP_B_REL(DIMCODE) do {	\\
+  switch(op) {	\\
+  case 1:	\\
+  {	\\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+      DIMCODE,	\\
+      MACRO_ASSIGN_C(NA_LOGICAL), \\
+      MACRO_ASSIGN_C(px[flatind_x] == py[flatind_y])  \\
+    );	\\
+    break;	\\
+  }	\\
+  case 2:	\\
+  {	\\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+      DIMCODE,	\\
+      MACRO_ASSIGN_C(NA_LOGICAL), \\
+      MACRO_ASSIGN_C(px[flatind_x] != py[flatind_y])  \\
+    );	\\
+    break;	\\
+  }	\\
+  case 3:	\\
+  {	\\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+      DIMCODE,	\\
+      MACRO_ASSIGN_C(NA_LOGICAL), \\
+      MACRO_ASSIGN_C(px[flatind_x] < py[flatind_y])  \\
+    );	\\
+    break;	\\
+  }	\\
+  case 4:	\\
+  {	\\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+      DIMCODE,	\\
+      MACRO_ASSIGN_C(NA_LOGICAL), \\
+      MACRO_ASSIGN_C(px[flatind_x] > py[flatind_y])  \\
+    );	\\
+    break;	\\
+  }	\\
+  case 5:	\\
+  {	\\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+      DIMCODE,	\\
+      MACRO_ASSIGN_C(NA_LOGICAL), \\
+      MACRO_ASSIGN_C(px[flatind_x] <= py[flatind_y])  \\
+    );	\\
+    break;	\\
+  }	\\
+  case 6:	\\
+  {	\\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
+      DIMCODE,	\\
+      MACRO_ASSIGN_C(NA_LOGICAL), \\
+      MACRO_ASSIGN_C(px[flatind_x] >= py[flatind_y])  \\
+    );	\\
+    break;	\\
+  }	\\
+  default:	\\
+  {	\\
+    stop(\"given operator not supported in the given context\");	\\
+  }	\\
+}	\\
+} while(0)
+"
+
+
+
+################################################################################
+# Save Macros ====
+#
+
 macro_op <- stri_c(
   macro_assign_C,
   "\n",
-  macro_op_dbl,
+  macro_op_num_math,
   "\n",
-  macro_op_rel_dbl,
+  macro_op_num_rel,
+  "\n",
+  macro_op_bool_math,
+  "\n",
+  macro_op_bool_rel,
   "\n"
 )
 

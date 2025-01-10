@@ -35,6 +35,9 @@ bc.num <- function(x, y, op, prec = sqrt(.Machine$double.eps)) {
   
   # checks:
   .stop_general(x, y, op, sys.call())
+  if(!.is_numeric_like(x) || !.is_numeric_like(y)) {
+    stop("`x` and `y` must be numeric or logical arrays")
+  }
   
   # get operator:
   op_math <- which(.op_num_math() == op)

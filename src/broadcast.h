@@ -50,6 +50,27 @@
 
 
 
+#define MACRO_ACTION_BOOLEAN(XREF, YREF, PRECHECK, PRECODE, NACODE, DOCODE) do { \
+                                          \
+  xTRUE = rcpp_isTRUE(XREF);                 \
+  xFALSE = rcpp_isFALSE(XREF);               \
+  xNA = XREF == NA_INTEGER;                  \
+  yTRUE = rcpp_isTRUE(YREF);                 \
+  yFALSE = rcpp_isFALSE(YREF);               \
+  yNA = YREF == NA_INTEGER;                  \
+  if(PRECHECK) {                          \
+    PRECODE;                              \
+  }                                       \
+  else if(xNA || yNA) {                   \
+    NACODE;                               \
+  }                                       \
+  else {                                  \
+    DOCODE;                               \
+  }                                       \
+} while(0)
+
+
+
 #define MACRO_DOUBLEPASS(MACRO1, MACRO2) do{  \
   MACRO1;                                     \
   MACRO2;                                     \
@@ -3166,7 +3187,8 @@ case 16:                                       \
   pout[flatind_out] = tempout;      \
 } while(0)
 
-#define MACRO_OP_DBL(DIMCODE) do {	\
+
+#define MACRO_OP_NUM_MATH(DIMCODE) do {	\
   switch(op) {	\
     case 1:	\
     {	\
@@ -3220,11 +3242,20 @@ case 16:                                       \
       MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
         DIMCODE,	\
         MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C(((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y]) 	\
+        MACRO_ASSIGN_C(rcpp_mod_longint((double)px[flatind_x], (double)py[flatind_y])) 	\
       );	\
       break;	\
     }	\
     case 7:	\
+    {	\
+      MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y]) 	\
+      );	\
+      break;	\
+    }	\
+    case 8:	\
     {	\
       MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
         DIMCODE,	\
@@ -3240,7 +3271,8 @@ case 16:                                       \
   }	\
 } while(0)
 
-#define MACRO_OP_REL_DBL(DIMCODE) do {	\
+
+#define MACRO_OP_NUM_REL(DIMCODE) do {	\
   switch(op) {	\
   case 1:	\
   {	\
@@ -3368,6 +3400,131 @@ case 16:                                       \
   }	\
 }	\
 } while(0)
+
+
+#define MACRO_OP_B_ANDOR(DIMCODE) do {	\
+  switch(op) {	\
+    case 1:	\
+    {	\
+      DIMCODE(                      \
+        MACRO_ACTION_BOOLEAN(       \
+          px[flatind_x], py[flatind_y],       \
+          xFALSE || yFALSE,         \
+          MACRO_ASSIGN_C(0),        \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                 \
+          MACRO_ASSIGN_C((bool)px[flatind_x] && (bool)py[flatind_y])  \
+        )                                                       \
+      );                                                       \
+      break;	\
+    }	\
+    case 2:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ACTION_BOOLEAN(                                           \
+          px[flatind_x], py[flatind_y],       \
+          xTRUE || yTRUE,                   \
+          MACRO_ASSIGN_C(1),                                            \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+          MACRO_ASSIGN_C((bool)px[flatind_x] || (bool)py[flatind_y])  \
+        )                                                       \
+      );                                                        \
+      break;	\
+    }	\
+    case 3:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ACTION2(                                                  \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,   \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+          MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \
+        )                                                       \
+      );                                                                \
+      break;	\
+    }	\
+    case 4:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ACTION_BOOLEAN(                                           \
+          px[flatind_x], py[flatind_y],       \
+          xTRUE || yTRUE,                   \
+          MACRO_ASSIGN_C(0),                                            \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+          MACRO_ASSIGN_C(!(bool)px[flatind_x] && !(bool)py[flatind_y])  \
+        )                                                       \
+      );                                                        \
+      break;	\
+    }	\
+    default:	\
+    {	\
+      stop("given operator not supported in the given context");	\
+    }	\
+  }	\
+} while(0)
+
+
+#define MACRO_OP_B_REL(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] == py[flatind_y])  \
+    );	\
+    break;	\
+  }	\
+  case 2:	\
+  {	\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] != py[flatind_y])  \
+    );	\
+    break;	\
+  }	\
+  case 3:	\
+  {	\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] < py[flatind_y])  \
+    );	\
+    break;	\
+  }	\
+  case 4:	\
+  {	\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] > py[flatind_y])  \
+    );	\
+    break;	\
+  }	\
+  case 5:	\
+  {	\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] <= py[flatind_y])  \
+    );	\
+    break;	\
+  }	\
+  case 6:	\
+  {	\
+    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] >= py[flatind_y])  \
+    );	\
+    break;	\
+  }	\
+  default:	\
+  {	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
+
 
 
 #endif

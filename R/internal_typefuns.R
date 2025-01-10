@@ -9,7 +9,7 @@
 
 #' @keywords internal
 #' @noRd
-.is_integer_like <- function(x) {
+.is_logical_like <- function(x) {
   return(is.integer(x) || is.logical(x))
 }
 

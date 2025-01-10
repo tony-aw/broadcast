@@ -1,11 +1,20 @@
 
 
-#include <Rcpp.h>
+#include <Rcpp/Lightest>
 #include "Broadcast.h"
 
 using namespace Rcpp;
 
 
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_mod_longint)]]
+double rcpp_mod_longint(
+  double x, double y
+) {
+  return (long long) x % (long long) y;
+}
 
 
 //' @keywords internal
@@ -22,7 +31,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-MACRO_OP_DBL(MACRO_DIM_VECTOR);
+MACRO_OP_NUM_MATH(MACRO_DIM_VECTOR);
 
 UNPROTECT(1);
 return out;
@@ -46,7 +55,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-MACRO_OP_DBL(MACRO_DIM_ORTHOVECTOR);
+MACRO_OP_NUM_MATH(MACRO_DIM_ORTHOVECTOR);
 
 UNPROTECT(1);
 return out;
@@ -74,7 +83,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-MACRO_OP_DBL(MACRO_DIM_BIGSMALL_DOCALL);
+MACRO_OP_NUM_MATH(MACRO_DIM_BIGSMALL_DOCALL);
 
 UNPROTECT(1);
 return out;
@@ -101,7 +110,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-MACRO_OP_DBL(MACRO_DIM_DOCALL);
+MACRO_OP_NUM_MATH(MACRO_DIM_DOCALL);
 
 UNPROTECT(1);
 return out;

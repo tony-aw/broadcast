@@ -37,27 +37,6 @@
 }
 
 
-#' @keywords internal
-#' @noRd
-.is_sandwich_orthogonal <- function(x.dim, y.dim) {
-  n <- length(x.dim) # = length(y.dim)
-  if(n < 3L) {
-    return(FALSE)
-  }
-  else if(n == 3L) {
-    if(x.dim[2L] != y.dim[2L]) {
-      return(TRUE)
-    }
-  }
-  else {
-    ind <- seq(2L, length(x.dim) - 1L)
-    if(.C_dims_all_orthogonal(x.dim[ind], y.dim[ind])) {
-      return(TRUE)
-    }
-  }
-  
-  return(FALSE)
-}
 
 #' @keywords internal
 #' @noRd
