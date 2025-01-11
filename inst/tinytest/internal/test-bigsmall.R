@@ -15,7 +15,7 @@ bs <- broadcast:::.rcpp_bc_dbl_bs
 
 # bigx ====
 
-for(i in 2:8) {
+for(i in seq(2, 8, 2)) {
   
   x.dim <- rep(5L, i)
   y.dim <- make_dims(i)
@@ -43,7 +43,7 @@ for(i in 2:8) {
 
 # bigy ====
 
-for(i in 2:8) { # dimension 2 to 14 (i.e, 2*1 to 2*7)
+for(i in seq(2, 8, 2)) { # dimension 2 to 14 (i.e, 2*1 to 2*7)
   
   x.dim <- make_dims(i)
   y.dim <- rep(5L, i)

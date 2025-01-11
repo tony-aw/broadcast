@@ -113,36 +113,6 @@
 }
 
 
-#' @keywords internal
-#' @noRd
-.make_sandwich_params <- function(x.dim, y.dim) {
-  n <- length(x.dim)
-  if(x.dim[1L] > 1L && x.dim[2L] == 1L) {
-    xstarts <- TRUE
-  }
-  else {
-    xstarts <- FALSE
-  }
-  by_first_last <- c(0L, 0L)
-  if(x.dim[1L] == y.dim[1L]) {
-    by_first_last[1L] <- 1L
-  }
-  if(x.dim[n] == y.dim[n]) {
-    by_first_last[2L] <- 1L
-  }
-  
-  dcp_x <- .make_dcp(x.dim)
-  dcp_y <- .make_dcp(y.dim)
-  
-  out <- list(
-    xstarts = xstarts,
-    dcp_x = dcp_x,
-    dxp_y = dcp_y,
-    by_first_last = by_first_last
-  )
-  return(out)
-}
-
 
 #' @keywords internal
 #' @noRd
@@ -266,9 +236,7 @@
     if(length(y.dim) == 0L) y.dim <- NULL
     dim(x) <- x.dim
     dim(y) <- y.dim
-  }
-  x.dim <- dim(x)
-  y.dim <- dim(y)
+  } # end dropping dimensions
   
   
   # merge mergeable dimensions:
@@ -319,14 +287,40 @@
     
     dim(x) <- x.dim
     dim(y) <- y.dim
-      
-  }
+    
+  } # end merging
+  
+  
+  # chunkify dimensions of arrays:
+  # chunkification allows reduction of the amount of required compiled code,
+  # thus reducing compilaion & installation time of the package
+  if(length(x.dim) > 2L && length(y.dim) > 2L) {
+    x.ndims <- .ndims(x)
+    y.ndims <- .ndims(y)
+    
+    if(!.is.even(x.ndims)) {
+      dim(x) <- c(dim(x), 1L)
+    }
+    if(!.is.even(y.ndims)) {
+      dim(y) <- c(dim(y), 1L)
+    }
+  } # end chunkification
   
   
   return(list(x, y))
 }
 
 
+#' @keywords internal
+#' @noRd
+.is.even <- function(x) {
+  return(round(x/2) == x/2)
+}
+
+
+
+#' @keywords internal
+#' @noRd
 .determine_relmode <- function(x, y) {
   if(is.double(x) || is.double(y)) {
     return(1L)

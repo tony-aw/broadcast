@@ -2,6 +2,7 @@
 
 library(stringi)
 
+DTYPES <- seq(2, 16, 2)
 
 
 ################################################################################
@@ -87,7 +88,7 @@ macro_dim_orthovector <- "
 # BigX ====
 #
 
-DTYPES <- c(2:16)
+
 
 all_N_decl <- sprintf("const int N%d = INTEGER(out_dim)[%d];\t\\", 1:16, 0:15)
 
@@ -181,7 +182,7 @@ macro_dim_bigx <- stri_c(dMacro_skeletons, collapse = "\n")
 # BigY ====
 #
 
-DTYPES <- c(2:16)
+
 
 all_N_decl <- sprintf("const int N%d = INTEGER(out_dim)[%d];\t\\", 1:16, 0:15)
 
@@ -276,20 +277,21 @@ macro_dim_bigy <- stri_c(dMacro_skeletons, collapse = "\n")
 #
 
 
+
 # cases:
 case_bigx <-
   "case %d:                                       \\
   MACRO_DIM_BIGX_%d(DOCODE);    \\
   break;                                        \\
 "
-cases_bigx <- sprintf(case_bigx, 2:16, 2:16) |> stringi::stri_c(collapse = "")
+cases_bigx <- sprintf(case_bigx, DTYPES, DTYPES) |> stringi::stri_c(collapse = "")
 
 case_bigy <-
   "case %d:                                       \\
   MACRO_DIM_BIGY_%d(DOCODE);    \\
   break;                                        \\
 "
-cases_bigy <- sprintf(case_bigy, 2:16, 2:16) |> stringi::stri_c(collapse = "")
+cases_bigy <- sprintf(case_bigy, DTYPES, DTYPES) |> stringi::stri_c(collapse = "")
 
 
 cat(cases_bigx)
@@ -330,8 +332,6 @@ macro_dim_bigsmall_docall <- templatecode_docall2
 ################################################################################
 # General ====
 #
-
-DTYPES <- c(2:16)
 
 all_N_decl <- sprintf("const int N%d = INTEGER(out_dim)[%d];\t\\", 1:16, 0:15)
 
@@ -444,13 +444,14 @@ macro_dim_d <- stri_c(dMacro_skeletons, collapse = "\n")
 #
 
 
+
 # cases:
 case <-
 "case %d:                                       \\
   MACRO_DIM_%d(DOCODE);    \\
   break;                                        \\
 "
-cases <- sprintf(case, 2:16, 2:16) |> stringi::stri_c(collapse = "")
+cases <- sprintf(case, DTYPES, DTYPES) |> stringi::stri_c(collapse = "")
 
 
 cat(cases)

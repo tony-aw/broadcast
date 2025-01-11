@@ -55,7 +55,7 @@ bc.b <- function(x, y, op) {
 #' @noRd
 .bc_b_andor <- function(x, y, op, abortcall) {
   
-  # general prep:
+  # prepare arrays:
   prep <- .prep_arrays(x, y)
   x <- prep[[1L]]
   y <- prep[[2L]]
@@ -76,6 +76,7 @@ bc.b <- function(x, y, op) {
   x.dim <- dim(x)
   y.dim <- dim(y)
   out.dimsimp <- .determine_out.dim(x.dim, y.dim, sys.call())
+  
   
   # Broadcast:
   dimmode <- .determine_dimmode(x, y, out.dimsimp)
