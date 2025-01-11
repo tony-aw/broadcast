@@ -322,71 +322,6 @@ macro_op_bool_math <- "
 "
 
 
-macro_op_bool_rel <- "
-#define MACRO_OP_B_REL(DIMCODE) do {	\\
-  switch(op) {	\\
-  case 1:	\\
-  {	\\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
-      DIMCODE,	\\
-      MACRO_ASSIGN_C(NA_LOGICAL), \\
-      MACRO_ASSIGN_C(px[flatind_x] == py[flatind_y])  \\
-    );	\\
-    break;	\\
-  }	\\
-  case 2:	\\
-  {	\\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
-      DIMCODE,	\\
-      MACRO_ASSIGN_C(NA_LOGICAL), \\
-      MACRO_ASSIGN_C(px[flatind_x] != py[flatind_y])  \\
-    );	\\
-    break;	\\
-  }	\\
-  case 3:	\\
-  {	\\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
-      DIMCODE,	\\
-      MACRO_ASSIGN_C(NA_LOGICAL), \\
-      MACRO_ASSIGN_C(px[flatind_x] < py[flatind_y])  \\
-    );	\\
-    break;	\\
-  }	\\
-  case 4:	\\
-  {	\\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
-      DIMCODE,	\\
-      MACRO_ASSIGN_C(NA_LOGICAL), \\
-      MACRO_ASSIGN_C(px[flatind_x] > py[flatind_y])  \\
-    );	\\
-    break;	\\
-  }	\\
-  case 5:	\\
-  {	\\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
-      DIMCODE,	\\
-      MACRO_ASSIGN_C(NA_LOGICAL), \\
-      MACRO_ASSIGN_C(px[flatind_x] <= py[flatind_y])  \\
-    );	\\
-    break;	\\
-  }	\\
-  case 6:	\\
-  {	\\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
-      DIMCODE,	\\
-      MACRO_ASSIGN_C(NA_LOGICAL), \\
-      MACRO_ASSIGN_C(px[flatind_x] >= py[flatind_y])  \\
-    );	\\
-    break;	\\
-  }	\\
-  default:	\\
-  {	\\
-    stop(\"given operator not supported in the given context\");	\\
-  }	\\
-}	\\
-} while(0)
-"
-
 
 
 ################################################################################
@@ -462,8 +397,6 @@ macro_op <- stri_c(
   macro_op_num_rel,
   "\n",
   macro_op_bool_math,
-  "\n",
-  macro_op_bool_rel,
   "\n",
   macro_op_str_conc,
   "\n",

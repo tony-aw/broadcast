@@ -3,30 +3,6 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_bcRel_b_v <- function(x, y, nout, op) {
-    .Call(`_broadcast_rcpp_bcRel_b_v`, x, y, nout, op)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_b_ov <- function(x, y, RxC, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bcRel_b_ov`, x, y, RxC, out_dim, nout, op)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_b_bs <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, bigx, op) {
-    .Call(`_broadcast_rcpp_bcRel_b_bs`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, bigx, op)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_b_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bcRel_b_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_bcRel_dbl_v <- function(x, y, nout, op, prec) {
     .Call(`_broadcast_rcpp_bcRel_dbl_v`, x, y, nout, op, prec)
 }
