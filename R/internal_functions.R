@@ -241,7 +241,7 @@
   
   # merge mergeable dimensions:
   
-  # 2 ADJECENT dimensions of x and y can be merged if they are BOTH NOT auto-orthogonal.
+  # 2 ADJACENT dimensions of x and y can be merged if they are BOTH NOT auto-orthogonal.
   # i.e. if x.dim[1:2] = c(1, 1) and y.dim[1:2] = c(2, 3),
   # x.dim[1:2] can be merged to become 1 and y.dim[1:2] to become 6 (= prod(c(2, 3))).
   # But if x.dim[1:3] = c(1, 9, 1) and y.dim = c(8, 1, 8),
@@ -259,25 +259,25 @@
       if(irle[1] != 0L && irle[2] != 0L) { # start if statements
         
         # only merge if the products are less than the integer limit
-        x.prod <- prod(x.dim[irle])
-        y.prod <- prod(y.dim[irle])
+        rng <- irle[1]:irle[2]
+        x.prod <- prod(x.dim[rng])
+        y.prod <- prod(y.dim[rng])
         checkprod <- x.prod < maxint && y.prod < maxint
         if(checkprod) {
           
           if(irle[1] == 1) { # merge at start
-            x.dim <- c(prod(x.dim[irle]), x.dim[-irle])
-            y.dim <- c(prod(y.dim[irle]), y.dim[-irle])
+            x.dim <- c(x.prod, x.dim[-rng])
+            y.dim <- c(y.prod, y.dim[-rng])
           }
           else if(irle[2] == length(x.dim)) { # merge at end
-            x.dim <- c(x.dim[-irle], prod(x.dim[irle]))
-            y.dim <- c(y.dim[-irle], prod(y.dim[irle]))
+            x.dim <- c(x.dim[-rng], x.prod)
+            y.dim <- c(y.dim[-rng], y.prod)
           }
           else { # merge in between
             first <- 1L:(irle[1] - 1L)
             last <- (irle[2] + 1):length(x.dim)
-            between <- irle[1]:irle[2]
-            x.dim <- c(x.dim[first], prod(x.dim[between]), x.dim[last])
-            y.dim <- c(y.dim[first], prod(y.dim[between]), y.dim[last])
+            x.dim <- c(x.dim[first], x.prod, x.dim[last])
+            y.dim <- c(y.dim[first], y.prod, y.dim[last])
           }
           
         }
