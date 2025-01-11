@@ -52,7 +52,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
           
           # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
+          tdim <- bc_dim(x, y)
           # print(x)
           # print(y)
           # print(tdim)
@@ -141,7 +141,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
           
           # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
+          tdim <- bc_dim(x, y)
           # print(x)
           # print(y)
           # print(tdim)
@@ -230,7 +230,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
           
           # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
+          tdim <- bc_dim(x, y)
           # print(x)
           # print(y)
           # print(tdim)
@@ -319,7 +319,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
           
           # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
+          tdim <- bc_dim(x, y)
           # print(x)
           # print(y)
           # print(tdim)
@@ -409,7 +409,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
           
           # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
+          tdim <- bc_dim(x, y)
           # print(x)
           # print(y)
           # print(tdim)
@@ -498,7 +498,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
           
           # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
+          tdim <- bc_dim(x, y)
           # print(x)
           # print(y)
           # print(tdim)
@@ -590,7 +590,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           y <- array(y.data[[iDataY]][1:y.len], dim = y.dim)
           
           # PREPARE FOR TEST
-          tdim <- bc_pred_dim(x, y)
+          tdim <- bc_dim(x, y)
           # print(x)
           # print(y)
           # print(tdim)

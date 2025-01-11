@@ -29,7 +29,7 @@
 #' 
 
 
-#' @rdname bd.num
+#' @rdname bc.num
 #' @export
 bc.num <- function(x, y, op, prec = sqrt(.Machine$double.eps)) {
   

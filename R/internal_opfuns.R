@@ -22,3 +22,16 @@
 .op_b_andor <- function() {
   return(c("&", "|", "xor", "nand"))
 }
+
+#' @keywords internal
+#' @noRd
+.op_str_rel <- function() {
+  return(c("==", "!="))
+}
+
+#' @keywords internal
+#' @noRd
+.op_str_conc <- function() {
+  return(c("+"))
+}
+

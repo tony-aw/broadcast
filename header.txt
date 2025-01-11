@@ -2243,3 +2243,52 @@ case 16:                                       \
 }	\
 } while(0)
 
+
+#define MACRO_OP_STR_CONC(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    DIMCODE(                                                          \
+      out[flatind_out] = rcpp_string_plus(px[flatind_x], py[flatind_y]) \
+    );                                                                \
+    break;	\
+  }	\
+  default:	\
+  {	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
+
+
+#define MACRO_OP_STR_REL(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    DIMCODE(                                                          \
+      MACRO_ACTION2(                                                  \
+        px[flatind_x] == NA_STRING || py[flatind_y] == NA_STRING,   \
+        MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+        MACRO_ASSIGN_C((int)R_compute_identical(px[flatind_x], py[flatind_y], 0))  \
+      )                                                       \
+    );                                                                \
+    break;	\
+  }	\
+  case 2:	\
+  {	\
+    DIMCODE(                                                          \
+      MACRO_ACTION2(                                                  \
+        px[flatind_x] == NA_STRING || py[flatind_y] == NA_STRING,   \
+        MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+        MACRO_ASSIGN_C((int)!R_compute_identical(px[flatind_x], py[flatind_y], 0))  \
+      )                                                       \
+    );         \
+    break;	\
+  }	\
+  default:	\
+  {	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
+

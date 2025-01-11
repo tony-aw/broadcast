@@ -25,6 +25,13 @@ macro_assign_C <- "
 } while(0)
 "
 
+
+macro_assign_Rcpp <- "
+#define MACRO_ASSIGN_RCPP(INPUTCODE) do {  \\
+  out[flatind_out] = INPUTCODE;      \\
+} while(0)
+"
+
 ################################################################################
 # Numeric ====
 #
@@ -383,6 +390,67 @@ macro_op_bool_rel <- "
 
 
 ################################################################################
+# String ====
+#
+
+
+
+macro_op_str_rel <- "
+#define MACRO_OP_STR_REL(DIMCODE) do {	\\
+  switch(op) {	\\
+  case 1:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      MACRO_ACTION2(                                                  \\
+        px[flatind_x] == NA_STRING || py[flatind_y] == NA_STRING,   \\
+        MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
+        MACRO_ASSIGN_C((int)R_compute_identical(px[flatind_x], py[flatind_y], 0))  \\
+      )                                                       \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 2:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      MACRO_ACTION2(                                                  \\
+        px[flatind_x] == NA_STRING || py[flatind_y] == NA_STRING,   \\
+        MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
+        MACRO_ASSIGN_C((int)!R_compute_identical(px[flatind_x], py[flatind_y], 0))  \\
+      )                                                       \\
+    );         \\
+    break;	\\
+  }	\\
+  default:	\\
+  {	\\
+    stop(\"given operator not supported in the given context\");	\\
+  }	\\
+}	\\
+} while(0)
+"
+
+
+
+
+macro_op_str_conc <- "
+#define MACRO_OP_STR_CONC(DIMCODE) do {	\\
+  switch(op) {	\\
+  case 1:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      out[flatind_out] = rcpp_string_plus(px[flatind_x], py[flatind_y]) \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  default:	\\
+  {	\\
+    stop(\"given operator not supported in the given context\");	\\
+  }	\\
+}	\\
+} while(0)
+"
+
+
+################################################################################
 # Save Macros ====
 #
 
@@ -396,6 +464,10 @@ macro_op <- stri_c(
   macro_op_bool_math,
   "\n",
   macro_op_bool_rel,
+  "\n",
+  macro_op_str_conc,
+  "\n",
+  macro_op_str_rel,
   "\n"
 )
 
