@@ -323,6 +323,83 @@ macro_op_bool_math <- "
 
 
 
+################################################################################
+# Complex ====
+#
+
+
+
+macro_op_cplx_rel <- "
+#define MACRO_OP_CPLX_REL(DIMCODE) do {	\\
+  switch(op) {	\\
+  case 1:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = rcpp_cplx_equal(px[flatind_x], py[flatind_y])  \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 2:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = rcpp_cplx_unequal(px[flatind_x], py[flatind_y])  \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  default:	\\
+  {	\\
+    stop(\"given operator not supported in the given context\");	\\
+  }	\\
+}	\\
+} while(0)
+"
+
+
+
+
+macro_op_cplx_math <- "
+#define MACRO_OP_CPLX_MATH(DIMCODE) do {	\\
+  switch(op) {	\\
+  case 1:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = rcpp_cplx_plus(px[flatind_x], py[flatind_y])  \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 2:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = rcpp_cplx_min(px[flatind_x], py[flatind_y])  \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 3:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = rcpp_cplx_mult(px[flatind_x], py[flatind_y])  \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 4:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = rcpp_cplx_div(px[flatind_x], py[flatind_y])   \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  default:	\\
+  {	\\
+    stop(\"given operator not supported in the given context\");	\\
+  }	\\
+}	\\
+} while(0)
+"
+
+
+
+
+
 
 ################################################################################
 # String ====
@@ -397,6 +474,10 @@ macro_op <- stri_c(
   macro_op_num_rel,
   "\n",
   macro_op_bool_math,
+  "\n",
+  macro_op_cplx_math,
+  "\n",
+  macro_op_cplx_rel,
   "\n",
   macro_op_str_conc,
   "\n",

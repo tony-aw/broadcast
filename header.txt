@@ -2180,60 +2180,58 @@ case 16:                                       \
 } while(0)
 
 
-#define MACRO_OP_B_REL(DIMCODE) do {	\
+#define MACRO_OP_CPLX_MATH(DIMCODE) do {	\
   switch(op) {	\
   case 1:	\
   {	\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] == py[flatind_y])  \
-    );	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_cplx_plus(px[flatind_x], py[flatind_y])  \
+    );                                                                \
     break;	\
   }	\
   case 2:	\
   {	\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] != py[flatind_y])  \
-    );	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_cplx_min(px[flatind_x], py[flatind_y])  \
+    );                                                                \
     break;	\
   }	\
   case 3:	\
   {	\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] < py[flatind_y])  \
-    );	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_cplx_mult(px[flatind_x], py[flatind_y])  \
+    );                                                                \
     break;	\
   }	\
   case 4:	\
   {	\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] > py[flatind_y])  \
-    );	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_cplx_div(px[flatind_x], py[flatind_y])   \
+    );                                                                \
     break;	\
   }	\
-  case 5:	\
+  default:	\
   {	\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] <= py[flatind_y])  \
-    );	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
+
+
+#define MACRO_OP_CPLX_REL(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_cplx_equal(px[flatind_x], py[flatind_y])  \
+    );                                                                \
     break;	\
   }	\
-  case 6:	\
+  case 2:	\
   {	\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] >= py[flatind_y])  \
-    );	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_cplx_unequal(px[flatind_x], py[flatind_y])  \
+    );                                                                \
     break;	\
   }	\
   default:	\

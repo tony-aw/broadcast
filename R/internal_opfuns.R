@@ -35,3 +35,14 @@
   return(c("+"))
 }
 
+#' @keywords internal
+#' @noRd
+.op_cplx_rel <- function() {
+  return(c("==", "!="))
+}
+
+#' @keywords internal
+#' @noRd
+.op_cplx_math <- function() {
+  return(c("+", "-", "*", "/"))
+}

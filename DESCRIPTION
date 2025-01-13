@@ -5,22 +5,21 @@ Authors@R: person("Tony", "Wilkes", role = c("aut", "cre", "cph"),
                   email = "tony_a_wilkes@outlook.com",
                   comment = c(ORCID = "0000-0001-9498-8379"))
 Description: Implements simple broadcasted binary operations,
-    for atomic and recursive arrays.
-    All operations are element-wise binary operations
-    (i.e. involving only 2 arrays at a time),
-    to prevent the user from accidentally exploding dimension sizes of the resulting array.
-    Besides linking to 'Rcpp',
-    'broadcast' does not rely on any external libraries,
-    thus minimizing the number of dependencies.
-    'broadcast' supports the following operators.
-    1) Relational operators (`==`, `!=`, `<`, `>`, `<=`, `>=`);
-    2) Boolean combiner operators (`&`, `|`, `xor()`, "not-and");
-    3) Arithmetic operators (`+`, `-`, `*`, `/`, `^` "intmod", `pmin()`, `pmax()`);
-    4) String concatination operators (`+` , `*`);
-    6) Broadcasted 'lapply' for recursive arrays;
-    7) Broadcasted insertion.
-    The broadcasted operations are fast and memory efficient
-    (which is not just good for computer efficiency, but also for the environment).
+		for atomic and recursive arrays.
+		All operations are element-wise binary operations
+		(i.e. involving only 2 arrays at a time).
+		Besides linking to 'Rcpp',
+		'broadcast' does not depend on, vendor, link to, or otherwise use any external libraries;
+		'broadcast' was essentially made from scratch and can be installed out-of-the-box.
+		The broadcasted implementations include, but are not limited to, the following.
+		 1) Relational operators (like `==`, `!=`, `<`, `>`, `<=`, `>=`);
+		 2) Boolean combiner operators (like `&`, `|`, `xor()`, "not-and");
+		 3) Arithmetic operators (like `+`, `-`, `*`, `/`, `^`, `pmin()`, `pmax()`);
+		 4) String concatenation operators;
+		 5) Some broadcasted versions of operators from the 'tinycodet' package.
+		 6) Broadcasted S4 implementations of `ifelse()` and `vapply()`.
+		The broadcasted implementations strive to minimize computation time and memory usage
+		(which is not just good for computer efficiency, but also for the environment).
 License: MPL-2.0 | file LICENSE
 Encoding: UTF-8
 LinkingTo: Rcpp

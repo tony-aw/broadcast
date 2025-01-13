@@ -1,202 +1,162 @@
 # set-up ====
 
 library(stringi)
-# dMacro_skeletons <- qs::qread("dMacro_skeletons")
-# macros <- stri_c(dMacro_skeletons, collapse = "\n")
+
+macro_dim <- readr::read_file("macro_dim.txt")
+macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
+macro_action <- readr::read_file("macro_action.txt")
+
+header_for_sourcing <- stri_c(
+  "
+  #include <Rcpp/Lightest>
+  
+  using namespace Rcpp;
+  ",
+  macro_action,
+  "\n",
+  macro_dim,
+  "\n",
+  macro_typeswitch_numeric,
+  "\n",
+  macro_op
+)
 
 
-macro_dim_1_8 <- readr::read_file("macro_dim_1_8.txt")
-macro_dim_16 <- readr::read_file("macro_dim_16.txt")
-macro_dim_docall <- readr::read_file("macro_dim_docall.txt")
-macro_typeswitch_complex <- readr::read_file("macro_typeswitch_complex.txt")
-macro_dim_general <- readr::read_file("macro_dim_general.txt")
+header_for_package <- "
 
-header <- stri_c("
-
-#include <Rcpp.h>
+#include <Rcpp/Lightest>
+#include \"Broadcast.h\"
 
 using namespace Rcpp;
-",
-  macro_dim_1_8,
-  "\n",
-  macro_dim_16,
-  "\n",
-  macro_dim_docall,
-  "\n",
-  macro_dim_general,
-  "\n",
-  macro_typeswitch_complex,
-  "\n",
-  
-  "
-  
-  
-  //' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_test)]]
-int rcpp_test(int x, int y) {
-  return (x + y);
-}
-  
-  "
-)
-
-cat(header)
-cat(stringi::stri_replace_all(header, "", fixed = "\\") )
-readr::write_file(header, "header.txt")
-
-Rcpp::sourceCpp(code = header)
 
 
-Rcpp::cppFunction(
-  "
-  SEXP complex_plus(
-    SEXP x, SEXP y
-  ) {
-    R_xlen_t n = Rf_xlength(x);
-    Rcomplex *px = COMPLEX(x);
-    Rcomplex *py = COMPLEX(y);
-    SEXP out = PROTECT(Rf_allocVector(CPLXSXP, n));
-    Rcomplex *pout;
-    pout = COMPLEX(out);
-    
-    
-    for(int i = 0; i < n; ++i) {
-      pout[i] = px[i] + py[i];
-    }
-    
-    UNPROTECT(1);
-    return out;
-  }
-  "
-)
+"
 
-gen <- function() {
-  sample(c(1:10, NA, NaN, Inf, -Inf))
-}
+readr::write_file(header_for_sourcing, "header.txt")
 
-x <- gen() + gen() * -1i
-y <- gen() + gen() * -1i
-
-tinytest::expect_equal(
-  x + y,
-  complex_plus(x, y)
-)
+Rcpp::sourceCpp(code = header_for_sourcing)
 
 
-Rcpp::cppFunction(
-  "
-  SEXP complex_plus(
-    SEXP x, SEXP y
-  ) {
-    R_xlen_t n = Rf_xlength(x);
-    Rcomplex *px = COMPLEX(x);
-    double *py = REAL(y);
-    SEXP out = PROTECT(Rf_allocVector(CPLXSXP, n));
-    Rcomplex *pout;
-    pout = COMPLEX(out);
-    
-    
-    for(int i = 0; i < n; ++i) {
-      pout[i] = px[i] + as<Rcomplex>(py[i]);
-    }
-    
-    UNPROTECT(1);
-    return out;
-  }
-  "
-)
-
-gen <- function() {
-  sample(c(1:10, NA, NaN, Inf, -Inf))
-}
-
-x <- gen() + gen() * -1i
-y <- gen() + gen() * -1i
-
-tinytest::expect_equal(
-  x + y,
-  complex_plus(x, y)
-)
 
 ################################################################################
-# dfunction skeleton ====
+# Functions ====
 #
 
-txt <- "
+
+txt0 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bcD_cplx_d)]]
-SEXP rcpp_bcD_cplx_d(
+// [[Rcpp::export(.rcpp_cplx_plus)]]
+Rcomplex rcpp_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
+  
+  Rcomplex out;
+  
+  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
+    out.r = NA_REAL;
+    out.i = NA_REAL;
+    return out;
+  }
+  
+  out.r = x.r + y.r;
+  out.i = x.i + y.i;
+  return out;
+}
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_cplx_min)]]
+Rcomplex rcpp_cplx_min( const Rcomplex& x, const Rcomplex& y) {
+  
+  Rcomplex out;
+  
+  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
+    out.r = NA_REAL;
+    out.i = NA_REAL;
+    return out;
+  }
+  
+  out.r = x.r - y.r ;
+  out.i = x.i - y.i ;
+  return out;
+}
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_cplx_mult)]]
+Rcomplex rcpp_cplx_mult( const Rcomplex& x, const Rcomplex& y) {
+  
+  Rcomplex out;
+  
+  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
+    out.r = NA_REAL;
+    out.i = NA_REAL;
+    return out;
+  }
+  
+  out.r = x.r * y.r - x.i * y.i;
+  out.i = x.r * y.i + y.r * x.i;
+  return out;
+}
+
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_cplx_div)]]
+Rcomplex rcpp_cplx_div( const Rcomplex& x, const Rcomplex& y) {
+  
+  Rcomplex out;
+  
+  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
+    out.r = NA_REAL;
+    out.i = NA_REAL;
+    return out;
+  }
+  
+  
+  double ratio, den;
+  double abr, abi;
+
+  if( (abr = y.r) < 0) abr = - abr;
+  if( (abi = y.i) < 0) abi = - abi;
+  if( abr <= abi ) {
+    ratio = y.r / y.i ;
+    den = y.i * (1 + ratio*ratio);
+    out.r = (x.r*ratio + x.i) / den;
+    out.i = (x.i*ratio - x.r) / den;
+  }
+  else {
+    ratio = y.i / y.r ;
+    den = y.r * (1 + ratio*ratio);
+    out.r = (x.r + x.i*ratio) / den;
+    out.i = (x.i - x.r*ratio) / den;
+  }
+  return out ;
+
+}
+"
+
+txt1 <- "
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bc_cplx_v)]]
+SEXP rcpp_bc_cplx_v(
   SEXP x, SEXP y,
-  List sub_x,
-  List sub_y,
-  SEXP dimcumprod_x, SEXP dimcumprod_y, R_xlen_t nout, int op
+  R_xlen_t nout, int op
 ) {
 
-
-double *pdim_x;
-pdim_x = REAL(dimcumprod_x);
-double *pdim_y;
-pdim_y = REAL(dimcumprod_y);
-
-R_xlen_t flatind_x;
-R_xlen_t flatind_y;
-
-Rcomplex tempout;
 
 SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));
 Rcomplex *pout;
 pout = COMPLEX(out);
 
-switch(op) {
-  case 1:
-  {
-    MACRO_TYPESWITCH_NUMERIC(
-      MACRO_DIM_DOCALL,
-      tempout.r = NA_REAL; tempout.i = NA_REAL,
-      tempout = (Rcomplex)px[flatind_x] + (Rcomplex)py[flatind_y]
-    );
-    break;
-  }
-  case 2:
-  {
-    MACRO_TYPESWITCH_NUMERIC(
-      MACRO_DIM_DOCALL,
-      tempout = NA_REAL,
-      tempout = px[flatind_x] - py[flatind_y]
-    );
-    break;
-  }
-  case 3:
-  {
-    MACRO_TYPESWITCH_NUMERIC(
-      MACRO_DIM_DOCALL,
-      tempout = NA_REAL,
-      tempout = px[flatind_x] * py[flatind_y]
-    );
-    break;
-  }
-  case 4:
-  {
-    MACRO_TYPESWITCH_NUMERIC(
-      MACRO_DIM_DOCALL,
-      tempout = NA_REAL,
-      tempout = (Rcomplex)px[flatind_x] / (Rcomplex)py[flatind_y]
-    );
-    break;
-  }
-  case 5:
-  {
-    MACRO_TYPESWITCH_NUMERIC(
-      MACRO_DIM_DOCALL,
-      tempout = NA_REAL,
-      tempout = pow((Rcomplex)px[flatind_x], (Rcomplex)py[flatind_y])
-    );
-    break;
-  }
-}
+const Rcomplex *px = COMPLEX(x);
+const Rcomplex *py = COMPLEX(y);
+
+MACRO_OP_CPLX_MATH(
+  MACRO_DIM_VECTOR
+);
 
 UNPROTECT(1);
 return out;
@@ -208,88 +168,97 @@ return out;
 
 
 
-txt <- stringi::stri_c(header, txt, collapse = "\n\n")
-Rcpp::sourceCpp(code = txt)
-
-
-################################################################################
-# gfunction skeleton ====
-#
-
-# THIS WORKS :-)
-
-txt <- "
-
+txt2 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bcD_cplx_general)]]
-SEXP rcpp_bcD_cplx_general(
-  SEXP x, SEXP y,
-  const SEXP s1, const SEXP s2,
-  const SEXP xdims1, const SEXP xdims2, const R_xlen_t nout, int op
+// [[Rcpp::export(.rcpp_bc_cplx_ov)]]
+SEXP rcpp_bc_cplx_ov(
+  SEXP x, SEXP y, bool RxC, SEXP out_dim,
+  R_xlen_t nout, int op
 ) {
-  
-  Rcomplex tempout;
 
-  SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));
-  Rcomplex *pout;
-  pout = REAL(out);
-  
-  switch(op) {
-    case 1:
-    {
-      MACRO_TYPESWITCH_NUMERIC(
-        MACRO_DIM_GENERAL,
-        tempout = NA_REAL,
-        tempout = (Rcomplex)px[flatind_x] + (Rcomplex)py[flatind_y]
-      );
-      break;
-    }
-    case 2:
-    {
-      MACRO_TYPESWITCH_NUMERIC(
-        MACRO_DIM_GENERAL,
-        tempout = NA_REAL,
-        tempout = (Rcomplex)px[flatind_x] - (Rcomplex)py[flatind_y]
-      );
-      break;
-    }
-    case 3:
-    {
-      MACRO_TYPESWITCH_NUMERIC(
-        MACRO_DIM_GENERAL,
-        tempout = NA_REAL,
-        tempout = (Rcomplex)px[flatind_x] * (Rcomplex)py[flatind_y]
-      );
-      break;
-    }
-    case 4:
-    {
-      MACRO_TYPESWITCH_NUMERIC(
-        MACRO_DIM_GENERAL,
-        tempout = NA_REAL,
-        tempout = (Rcomplex)px[flatind_x] / (Rcomplex)py[flatind_y]
-      );
-      break;
-    }
-    case 5:
-    {
-      MACRO_TYPESWITCH_NUMERIC(
-        MACRO_DIM_GENERAL,
-        tempout = NA_REAL,
-        tempout = pow((Rcomplex)px[flatind_x], (Rcomplex)py[flatind_y])
-      );
-      break;
-    }
-  
-  }
-  
-  
-  UNPROTECT(1);
-  return out;
-  
-  
+SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));
+Rcomplex *pout;
+pout = COMPLEX(out);
+
+const Rcomplex *px = COMPLEX(x);
+const Rcomplex *py = COMPLEX(y);
+
+
+MACRO_OP_CPLX_MATH(
+  MACRO_DIM_ORTHOVECTOR
+);
+
+UNPROTECT(1);
+return out;
+
+}
+
+
+"
+
+txt3 <- "
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bc_cplx_bs)]]
+SEXP rcpp_bc_cplx_bs(
+  SEXP x, SEXP y,
+  SEXP by_x,
+  SEXP by_y,
+  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx,
+  int op
+) {
+
+SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));
+Rcomplex *pout;
+pout = COMPLEX(out);
+
+const Rcomplex *px = COMPLEX(x);
+const Rcomplex *py = COMPLEX(y);
+
+
+MACRO_OP_CPLX_MATH(
+  MACRO_DIM_BIGSMALL_DOCALL
+);
+
+UNPROTECT(1);
+return out;
+
+}
+
+
+"
+
+
+txt4 <- "
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bc_cplx_d)]]
+SEXP rcpp_bc_cplx_d(
+  SEXP x, SEXP y,
+  SEXP by_x,
+  SEXP by_y,
+  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op
+) {
+
+SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));
+Rcomplex *pout;
+pout = COMPLEX(out);
+
+const Rcomplex *px = COMPLEX(x);
+const Rcomplex *py = COMPLEX(y);
+
+
+MACRO_OP_CPLX_MATH(
+  MACRO_DIM_DOCALL
+);
+
+UNPROTECT(1);
+return out;
+
 }
 
 
@@ -297,105 +266,18 @@ SEXP rcpp_bcD_cplx_general(
 
 
 
-txt <- stringi::stri_c(header, txt, collapse = "\n\n")
+txt <- stringi::stri_c(
+  header_for_sourcing,
+  txt0, txt1, txt2, txt3, txt4,
+  collapse = "\n\n"
+)
+
 Rcpp::sourceCpp(code = txt)
 
-
-################################################################################
-# perform tests ====
-#
-
-x.dim <- c(50:48)
-x.len <- prod(x.dim)
-x.data <- sample(c(NA, 1.1:1000.1), x.len, TRUE)
-x <- array(x.data, x.dim)
-y <- array(1L, c(1,1,1))
-# x + y # gives error; hence need broadcasting
-dimcumprod_x <- cumprod(dim(x))
-dimcumprod_y <- cumprod(dim(y))
-out.dim <- pmax(dim(x), dim(y))
-out.len <- prod(out.dim)
-dimcumprod_out <- cumprod(out.dim)
-inds_x <- lapply(out.dim, \(n)1:n)
-inds_y <- lapply(out.dim, \(n)rep(1L, n))
-
-expected <- as.vector(drop(y) / x)
-
-out1 <- .rcpp_bcD_cplx_d(
-  y, x, inds_y, inds_x,
-  dimcumprod_y, dimcumprod_x, out.len, 4L
+txt <- stringi::stri_c(
+  header_for_package,
+  txt0, txt1, txt2, txt3, txt4,
+  collapse = "\n\n"
 )
-out2 <- .rcpp_bcD_cplx_general(
-  y, x, inds_y, inds_x, dim(y), dim(x), out.len, 4L
-)
-
-tinytest::expect_equal(expected, out1)
-tinytest::expect_equal(expected, out2)
-tinytest::expect_equal(expected, outer(y, x, "/") |> as.vector())
-
-px <- as.integer(x)
-py <- as.integer(y)
-
-foo <- bench::mark(
-  base = as.vector(drop(y) / x),
-  outer = outer(y, x, "/") |> as.vector(),
-  bc_d = .rcpp_bcD_cplx_d(
-    y, x, inds_y, inds_x,
-    dimcumprod_y, dimcumprod_x, out.len, 4L
-  ),
-  bc_general = .rcpp_bcD_cplx_general(
-    y, x, inds_y, inds_x, dim(y), dim(x), out.len, 4L
-  ),
-  min_iterations = 500
-)
-summary(foo)
-ggplot2::autoplot(foo)
-
-
-
-# bigger benchmark
-
-x.dim <- c(60:58)
-x.len <- prod(x.dim)
-x.data <- sample(c(NA, 1.1:1000.1), x.len, TRUE)
-x <- array(x.data, x.dim)
-y <- array(1.1:50.1, c(60,1,1))
-# x + y # gives error; hence need broadcasting
-dimcumprod_x <- cumprod(dim(x))
-dimcumprod_y <- cumprod(dim(y))
-out.dim <- pmax(dim(x), dim(y))
-out.len <- prod(out.dim)
-dimcumprod_out <- cumprod(out.dim)
-inds_x <- lapply(out.dim, \(n) 1:n)
-inds_y <- list(1:60, rep(1L, 59), rep(1L, 58))
-
-
-out1 <- .rcpp_bcD_cplx_d(
-  x, y, inds_x, inds_y,
-  dimcumprod_x, dimcumprod_y, out.len, 4L
-)
-out2 <- .rcpp_bcD_cplx_general(
-  x, y, inds_x, inds_y, dim(x), dim(y), out.len, 4L
-)
-tinytest::expect_equal(
-  out1, out2
-)
-
-
-foo <- bench::mark(
-  base = as.vector(x / drop(y)),
-  outer = outer(x, y, "/") |> as.vector(),
-  bc_d = .rcpp_bcD_cplx_d(
-    x, y, inds_x, inds_y,
-    dimcumprod_x, dimcumprod_y, out.len, 4L
-  ),
-  bc_general = .rcpp_bcD_cplx_general(
-    x, y, inds_x, inds_y, dim(x), dim(y), out.len, 4L
-  ),
-  check = FALSE, # because base and outer wouldn't work correctly here
-  min_iterations = 500
-)
-summary(foo)
-ggplot2::autoplot(foo)
-
+readr::write_file(txt, "src/rcpp_bc_cplx.cpp")
 
