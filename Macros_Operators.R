@@ -440,16 +440,13 @@ macro_op_str_rel <- "
 } while(0)
 "
 
-
-
-
-macro_op_str_conc <- "
-#define MACRO_OP_STR_CONC(DIMCODE) do {	\\
+macro_op_str_dist <- "
+#define MACRO_OP_STR_DIST(DIMCODE) do {	\\
   switch(op) {	\\
   case 1:	\\
   {	\\
     DIMCODE(                                                          \\
-      out[flatind_out] = rcpp_string_plus(px[flatind_x], py[flatind_y]) \\
+      pout[flatind_out] = rcpp_str_dist_led(x[flatind_x], y[flatind_y])   \\
     );                                                                \\
     break;	\\
   }	\\
@@ -461,6 +458,127 @@ macro_op_str_conc <- "
 } while(0)
 "
 
+
+
+macro_op_str_conc <- "
+#define MACRO_OP_STR_CONC(DIMCODE) do {	\\
+  switch(op) {	\\
+  case 1:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      out[flatind_out] = rcpp_string_plus(x[flatind_x], y[flatind_y]) \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  default:	\\
+  {	\\
+    stop(\"given operator not supported in the given context\");	\\
+  }	\\
+}	\\
+} while(0)
+"
+# 
+# 
+# ################################################################################
+# # Ifelse ====
+# #
+# 
+# txt <- "
+# #define MACRO_OP_IFELSE(DIMCODE) do {   \	\\
+#   switch(TYPEOF(x)) {	\\
+#     case LGLSXP:	\\
+#     {	\\
+#       const int *px = LOGICAL_RO(x);	\\
+#       const int *py = LOGICAL_RO(y);	\\
+#       	\\
+#       SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));	\\
+#       int *pout;	\\
+#       pout = LOGICAL(out);	\\
+#       	\\
+#       MACRO_DIM_VECTOR(	\\
+#         MACRO_ACTION2(	\\
+#           pcond[flatind_out] == NA_LOGICAL,	\\
+#           pout[flatind_out] = NA_LOGICAL,	\\
+#           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+#         )	\\
+#       );	\\
+#       	\\
+#       UNPROTECT(1);	\\
+#       return out;	\\
+#       	\\
+#     }	\\
+#     case INTSXP:	\\
+#     {	\\
+#       const int *px = INTEGER_RO(x);	\\
+#       const int *py = INTEGER_RO(y);	\\
+#       	\\
+#       SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));	\\
+#       int *pout;	\\
+#       pout = INTEGER(out);	\\
+#       	\\
+#       MACRO_DIM_VECTOR(	\\
+#         MACRO_ACTION2(	\\
+#           pcond[flatind_out] == NA_LOGICAL,	\\
+#           pout[flatind_out] = NA_INTEGER,	\\
+#           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+#         )	\\
+#       );	\\
+#       	\\
+#       UNPROTECT(1);	\\
+#       return out;	\\
+#       	\\
+#     }	\\
+#     case REALSXP:	\\
+#     {	\\
+#       const double *px = REAL_RO(x);	\\
+#       const double *py = REAL_RO(y);	\\
+#       	\\
+#       SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\\
+#       double *pout;	\\
+#       pout = REAL(out);	\\
+#       	\\
+#       MACRO_DIM_VECTOR(	\\
+#         MACRO_ACTION2(	\\
+#           pcond[flatind_out] == NA_LOGICAL,	\\
+#           pout[flatind_out] = NA_REAL,	\\
+#           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+#         )	\\
+#       );	\\
+#       	\\
+#       UNPROTECT(1);	\\
+#       return out;	\\
+#       	\\
+#     }	\\
+#     case CPLXSXP:	\\
+#     {	\\
+#       const Rcomplex *px = COMPLEX_RO(x);	\\
+#       const Rcomplex *py = COMPLEX_RO(y);	\\
+#       	\\
+#       SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\\
+#       Rcomplex *pout;	\\
+#       pout = COMPLEX(out);	\\
+#       	\\
+#       MACRO_DIM_VECTOR(	\\
+#         MACRO_ACTION2(	\\
+#           pcond[flatind_out] == NA_LOGICAL,	\\
+#           pout[flatind_out] = rcpp_cplx_returnNA(),	\\
+#           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+#         )	\\
+#       );	\\
+#       	\\
+#       UNPROTECT(1);	\\
+#       return out;	\\
+#       	\\
+#     }	\\
+#     ...string...
+#     ...raw...
+#     default:	\\
+#     {	\\
+#       stop(\"unsupported type\");	\\
+#     }	\\
+#   }	\\
+# } while(0)
+# "
 
 ################################################################################
 # Save Macros ====
@@ -482,6 +600,8 @@ macro_op <- stri_c(
   macro_op_str_conc,
   "\n",
   macro_op_str_rel,
+  "\n",
+  macro_op_str_dist,
   "\n"
 )
 

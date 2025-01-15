@@ -9,5 +9,14 @@ if ( requireNamespace("tinytest", quietly=TRUE) ){
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bc_num")
   )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "bc_b")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "bc_str")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "bc_cplx")
+  )
 }
 

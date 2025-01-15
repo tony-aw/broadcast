@@ -35,6 +35,13 @@
   return(c("+"))
 }
 
+
+#' @keywords internal
+#' @noRd
+.op_str_dist <- function() {
+  return(c("levenshtein"))
+}
+
 #' @keywords internal
 #' @noRd
 .op_cplx_rel <- function() {

@@ -5,6 +5,7 @@ library(stringi)
 macro_dim <- readr::read_file("macro_dim.txt")
 macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
 macro_action <- readr::read_file("macro_action.txt")
+macro_op <- readr::read_file("macro_op.txt")
 
 header_for_sourcing <- stri_c(
   "
@@ -68,13 +69,11 @@ txt1 <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_str_v)]]
 SEXP rcpp_bc_str_v(
-  SEXP x, SEXP y,
+  CharacterVector x, CharacterVector y, 
   R_xlen_t nout, int op
 ) {
 
 
-CharacterVector px = as<CharacterVector>(x);
-CharacterVector py = as<CharacterVector>(y);
 CharacterVector out(nout);
 MACRO_OP_STR_CONC(
   MACRO_DIM_VECTOR
@@ -96,12 +95,10 @@ txt2 <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_str_ov)]]
 SEXP rcpp_bc_str_ov(
-  SEXP x, SEXP y, bool RxC, SEXP out_dim,
+  CharacterVector x, CharacterVector y,  bool RxC, SEXP out_dim,
   R_xlen_t nout, int op
 ) {
 
-CharacterVector px = as<CharacterVector>(x);
-CharacterVector py = as<CharacterVector>(y);
 CharacterVector out(nout);
 
 MACRO_OP_STR_CONC(
@@ -122,15 +119,14 @@ txt3 <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_str_bs)]]
 SEXP rcpp_bc_str_bs(
-  SEXP x, SEXP y,
+  CharacterVector x, CharacterVector y, 
   SEXP by_x,
   SEXP by_y,
   SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx,
   int op
 ) {
 
-CharacterVector px = as<CharacterVector>(x);
-CharacterVector py = as<CharacterVector>(y);
+
 CharacterVector out(nout);
 
 MACRO_OP_STR_CONC(
@@ -151,15 +147,13 @@ txt4 <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_str_d)]]
 SEXP rcpp_bc_str_d(
-  SEXP x, SEXP y,
+  CharacterVector x, CharacterVector y, 
   SEXP by_x,
   SEXP by_y,
   SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op
 ) {
 
 
-CharacterVector px = as<CharacterVector>(x);
-CharacterVector py = as<CharacterVector>(y);
 CharacterVector out(nout);
 
 MACRO_OP_STR_CONC(

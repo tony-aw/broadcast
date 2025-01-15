@@ -11,14 +11,18 @@ bc.str(x, y, op)
 
 \item{op}{a single string, giving the operator. \cr
 Supported concatenation operators: +. \cr
-Supported relational operators: ==, !=. \cr}
+Supported relational operators: ==, !=. \cr
+Supported distance operators: levenshtein. \cr}
 }
 \value{
-For concatenation operators: \cr
+For concatenation operation: \cr
 A character array as a result of the broadcasted concatenation operation. \cr
 \cr
-For relational operators: \cr
+For relational operation: \cr
 A logical array as a result of the broadcasted relational comparison. \cr
+\cr
+For distance operation: \cr
+An integer array as a result of the broadcasted relational comparison. \cr
 \cr
 }
 \description{

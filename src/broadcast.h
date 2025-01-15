@@ -2248,7 +2248,7 @@ case 16:                                       \
   case 1:	\
   {	\
     DIMCODE(                                                          \
-      out[flatind_out] = rcpp_string_plus(px[flatind_x], py[flatind_y]) \
+      out[flatind_out] = rcpp_string_plus(x[flatind_x], y[flatind_y]) \
     );                                                                \
     break;	\
   }	\
@@ -2282,6 +2282,23 @@ case 16:                                       \
         MACRO_ASSIGN_C((int)!R_compute_identical(px[flatind_x], py[flatind_y], 0))  \
       )                                                       \
     );         \
+    break;	\
+  }	\
+  default:	\
+  {	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
+
+
+#define MACRO_OP_STR_DIST(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_str_dist_led(x[flatind_x], y[flatind_y])   \
+    );                                                                \
     break;	\
   }	\
   default:	\

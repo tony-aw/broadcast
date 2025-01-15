@@ -3,6 +3,36 @@
 
 #' @keywords internal
 #' @noRd
+rcpp_str_dist_led <- function(x, y) {
+    .Call(`_broadcast_rcpp_str_dist_led`, x, y)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcDist_str_v <- function(x, y, nout, op) {
+    .Call(`_broadcast_rcpp_bcDist_str_v`, x, y, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcDist_str_ov <- function(x, y, RxC, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bcDist_str_ov`, x, y, RxC, out_dim, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcDist_str_bs <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, bigx, op) {
+    .Call(`_broadcast_rcpp_bcDist_str_bs`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, bigx, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcDist_str_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bcDist_str_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_cplx_equal <- function(x, y) {
     .Call(`_broadcast_rcpp_cplx_equal`, x, y)
 }
@@ -201,6 +231,30 @@
 
 #' @keywords internal
 #' @noRd
+.rcpp_bc_list_v <- function(x, y, nout, f) {
+    .Call(`_broadcast_rcpp_bc_list_v`, x, y, nout, f)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bc_list_ov <- function(x, y, RxC, out_dim, nout, f) {
+    .Call(`_broadcast_rcpp_bc_list_ov`, x, y, RxC, out_dim, nout, f)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bc_list_bs <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, bigx, f) {
+    .Call(`_broadcast_rcpp_bc_list_bs`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, bigx, f)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bc_list_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, f) {
+    .Call(`_broadcast_rcpp_bc_list_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, f)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_string_plus <- function(x, y) {
     .Call(`_broadcast_rcpp_string_plus`, x, y)
 }
@@ -227,12 +281,6 @@
 #' @noRd
 .rcpp_bc_str_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
     .Call(`_broadcast_rcpp_bc_str_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_seq_mlen <- function(x) {
-    .Call(`_broadcast_rcpp_seq_mlen`, x)
 }
 
 #' @keywords internal
