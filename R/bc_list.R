@@ -29,6 +29,9 @@ bc.list <- function(x, y, f) {
   if(!is.function(f)) {
     stop("`f` must be a function")
   }
+  if(.n_args(f) != 2L) {
+    stop("`f` must be a function that takes in exactly 2 arguments")
+  }
   
   
   # general prep:

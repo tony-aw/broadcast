@@ -9,14 +9,14 @@
 #' 
 #' @param x,y conformable atomic arrays of typee `complex`.
 #' @param op a single string, giving the operator. \cr
-#' Supported concatenation operators: `r paste0(broadcast:::.op_cplx_math(), collapse = ", ")`. \cr
+#' Supported arithmetic operators: `r paste0(broadcast:::.op_cplx_math(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_cplx_rel(), collapse = ", ")`. \cr
 #' 
 #' 
 #'
 #' @returns
-#' For concatenation operators: \cr
-#' A complex array as a result of the broadcasted concatenation operation. \cr
+#' For arithmetic operators: \cr
+#' A complex array as a result of the broadcasted arithmetic operation. \cr
 #' \cr
 #' For relational operators: \cr
 #' A logical array as a result of the broadcasted relational comparison. \cr

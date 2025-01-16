@@ -231,6 +231,36 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
+.rcpp_cplx_returnNA <- function() {
+    .Call(`_broadcast_rcpp_cplx_returnNA`)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bc_ifelse_v <- function(cond, x, y, nout) {
+    .Call(`_broadcast_rcpp_bc_ifelse_v`, cond, x, y, nout)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bc_ifelse_ov <- function(cond, x, y, RxC, out_dim, nout) {
+    .Call(`_broadcast_rcpp_bc_ifelse_ov`, cond, x, y, RxC, out_dim, nout)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bc_ifelse_bs <- function(cond, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, bigx) {
+    .Call(`_broadcast_rcpp_bc_ifelse_bs`, cond, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, bigx)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bc_ifelse_d <- function(cond, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout) {
+    .Call(`_broadcast_rcpp_bc_ifelse_d`, cond, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_bc_list_v <- function(x, y, nout, f) {
     .Call(`_broadcast_rcpp_bc_list_v`, x, y, nout, f)
 }

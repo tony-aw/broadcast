@@ -481,104 +481,156 @@ macro_op_str_conc <- "
 # 
 # ################################################################################
 # # Ifelse ====
-# #
-# 
-# txt <- "
-# #define MACRO_OP_IFELSE(DIMCODE) do {   \	\\
-#   switch(TYPEOF(x)) {	\\
-#     case LGLSXP:	\\
-#     {	\\
-#       const int *px = LOGICAL_RO(x);	\\
-#       const int *py = LOGICAL_RO(y);	\\
-#       	\\
-#       SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));	\\
-#       int *pout;	\\
-#       pout = LOGICAL(out);	\\
-#       	\\
-#       MACRO_DIM_VECTOR(	\\
-#         MACRO_ACTION2(	\\
-#           pcond[flatind_out] == NA_LOGICAL,	\\
-#           pout[flatind_out] = NA_LOGICAL,	\\
-#           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
-#         )	\\
-#       );	\\
-#       	\\
-#       UNPROTECT(1);	\\
-#       return out;	\\
-#       	\\
-#     }	\\
-#     case INTSXP:	\\
-#     {	\\
-#       const int *px = INTEGER_RO(x);	\\
-#       const int *py = INTEGER_RO(y);	\\
-#       	\\
-#       SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));	\\
-#       int *pout;	\\
-#       pout = INTEGER(out);	\\
-#       	\\
-#       MACRO_DIM_VECTOR(	\\
-#         MACRO_ACTION2(	\\
-#           pcond[flatind_out] == NA_LOGICAL,	\\
-#           pout[flatind_out] = NA_INTEGER,	\\
-#           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
-#         )	\\
-#       );	\\
-#       	\\
-#       UNPROTECT(1);	\\
-#       return out;	\\
-#       	\\
-#     }	\\
-#     case REALSXP:	\\
-#     {	\\
-#       const double *px = REAL_RO(x);	\\
-#       const double *py = REAL_RO(y);	\\
-#       	\\
-#       SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\\
-#       double *pout;	\\
-#       pout = REAL(out);	\\
-#       	\\
-#       MACRO_DIM_VECTOR(	\\
-#         MACRO_ACTION2(	\\
-#           pcond[flatind_out] == NA_LOGICAL,	\\
-#           pout[flatind_out] = NA_REAL,	\\
-#           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
-#         )	\\
-#       );	\\
-#       	\\
-#       UNPROTECT(1);	\\
-#       return out;	\\
-#       	\\
-#     }	\\
-#     case CPLXSXP:	\\
-#     {	\\
-#       const Rcomplex *px = COMPLEX_RO(x);	\\
-#       const Rcomplex *py = COMPLEX_RO(y);	\\
-#       	\\
-#       SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\\
-#       Rcomplex *pout;	\\
-#       pout = COMPLEX(out);	\\
-#       	\\
-#       MACRO_DIM_VECTOR(	\\
-#         MACRO_ACTION2(	\\
-#           pcond[flatind_out] == NA_LOGICAL,	\\
-#           pout[flatind_out] = rcpp_cplx_returnNA(),	\\
-#           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
-#         )	\\
-#       );	\\
-#       	\\
-#       UNPROTECT(1);	\\
-#       return out;	\\
-#       	\\
-#     }	\\
-#     ...string...
-#     ...raw...
-#     default:	\\
-#     {	\\
-#       stop(\"unsupported type\");	\\
-#     }	\\
-#   }	\\
-# } while(0)
-# "
+#
+
+macro_op_ifelse <- "
+#define MACRO_OP_IFELSE(DIMCODE) do {       \\
+  switch(TYPEOF(x)) {	\\
+    case LGLSXP:	\\
+    {	\\
+      const int *px = LOGICAL_RO(x);	\\
+      const int *py = LOGICAL_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));	\\
+      int *pout;	\\
+      pout = LOGICAL(out);	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION2(	\\
+          pcond[flatind_out] == NA_LOGICAL,	\\
+          pout[flatind_out] = NA_LOGICAL,	\\
+          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+        )	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case INTSXP:	\\
+    {	\\
+      const int *px = INTEGER_RO(x);	\\
+      const int *py = INTEGER_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));	\\
+      int *pout;	\\
+      pout = INTEGER(out);	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION2(	\\
+          pcond[flatind_out] == NA_LOGICAL,	\\
+          pout[flatind_out] = NA_INTEGER,	\\
+          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+        )	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case REALSXP:	\\
+    {	\\
+      const double *px = REAL_RO(x);	\\
+      const double *py = REAL_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\\
+      double *pout;	\\
+      pout = REAL(out);	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION2(	\\
+          pcond[flatind_out] == NA_LOGICAL,	\\
+          pout[flatind_out] = NA_REAL,	\\
+          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+        )	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case CPLXSXP:	\\
+    {	\\
+      const Rcomplex *px = COMPLEX_RO(x);	\\
+      const Rcomplex *py = COMPLEX_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\\
+      Rcomplex *pout;	\\
+      pout = COMPLEX(out);	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION2(	\\
+          pcond[flatind_out] == NA_LOGICAL,	\\
+          pout[flatind_out] = rcpp_cplx_returnNA(),	\\
+          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+        )	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case STRSXP:	\\
+    {	\\
+      const SEXP *px = STRING_PTR_RO(x);	\\
+      const SEXP *py = STRING_PTR_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\\
+      SEXP *pout;	\\
+      pout = STRING_PTR(out);	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION2(	\\
+          pcond[flatind_out] == NA_LOGICAL,	\\
+          pout[flatind_out] = NA_STRING,	\\
+          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+        )	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case RAWSXP:	\\
+    {	\\
+      const Rbyte *px = RAW_RO(x);	\\
+      const Rbyte *py = RAW_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\\
+      Rbyte *pout;	\\
+      pout = RAW(out);	\\
+      	\\
+      DIMCODE(	\\
+        pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case VECSXP:	\\
+    {	\\
+      SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION2(	\\
+          pcond[flatind_out] == NA_LOGICAL,	\\
+          SET_VECTOR_ELT(out, flatind_out, R_NilValue),	\\
+          SET_VECTOR_ELT(out, flatind_out, pcond[flatind_out] ? VECTOR_ELT(x, flatind_x) : VECTOR_ELT(y, flatind_y))	\\
+        )	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    default:	\\
+    {	\\
+      stop(\"unsupported type\");	\\
+    }	\\
+  }	\\
+} while(0)
+"
 
 ################################################################################
 # Save Macros ====
@@ -602,6 +654,8 @@ macro_op <- stri_c(
   macro_op_str_rel,
   "\n",
   macro_op_str_dist,
+  "\n",
+  macro_op_ifelse,
   "\n"
 )
 

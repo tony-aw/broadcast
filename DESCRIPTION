@@ -12,12 +12,11 @@ Description: Implements simple broadcasted binary operations,
 		'broadcast' does not depend on, vendor, link to, or otherwise use any external libraries;
 		'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 		The broadcasted implementations include, but are not limited to, the following.
-		 1) Relational operators (like `==`, `!=`, `<`, `>`, `<=`, `>=`);
-		 2) Boolean combiner operators (like `&`, `|`, `xor()`, "not-and");
-		 3) Arithmetic operators (like `+`, `-`, `*`, `/`, `^`, `pmin()`, `pmax()`);
-		 4) String concatenation operators;
-		 5) Some broadcasted versions of operators from the 'tinycodet' package.
-		 6) Broadcasted S4 implementations of `ifelse()` and `vapply()`.
+		  1) Relational operators (like `==`, `!=`, `<`, `>`, `<=`, `>=`; also supports precision-based relational operators);
+		  2) Boolean combiner operators (like `&`, `|`, `xor()`, "not-and");
+		  3) Arithmetic operators (like `+`, `-`, `*`, `/`, `^`, `pmin()`, `pmax()`);
+		  4) String distance and concatenation operators;
+		  5) Broadcasted S4 implementations of `ifelse()` and `vapply()`.
 		The broadcasted implementations strive to minimize computation time and memory usage
 		(which is not just good for computer efficiency, but also for the environment).
 License: MPL-2.0 | file LICENSE
@@ -29,4 +28,4 @@ Depends:
     R (>= 4.2.0)
 Imports: 
     Rcpp (>= 1.0.11)
-Suggests: tinytest
+Suggests: tinytest, roxygen2

@@ -43,6 +43,17 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 # Functions ====
 #
 
+txt0 <- "
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_cplx_returnNA)]]
+Rcomplex rcpp_cplx_returnNA() {
+    Rcomplex out;
+    out.r = NA_REAL;
+    out.i = NA_REAL;
+    return out;
+  }
+"
 
 txt1 <- "
 
@@ -51,39 +62,14 @@ txt1 <- "
 // [[Rcpp::export(.rcpp_bc_ifelse_v)]]
 SEXP rcpp_bc_ifelse_v(
   SEXP cond, SEXP x, SEXP y,
-  R_xlen_t nout, int op
+  R_xlen_t nout
 ) {
 
 const int *pcond = INTEGER(cond);
 
-
-switch(TYPEOF(x)) {
-  case LGLSXP:
-  {
-    const int *px = INTEGER(x);
-    const int *py = INTEGER(y);
-    
-    SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-    int *pout;
-    pout = LOGICAL(out);
-    
-    MACRO_DIM_VECTOR(
-      MACRO_ACTION2(
-        pcond[flatind_out] == NA_LOGICAL,
-        pout[flatind_out] = NA_LOGICAL,
-        pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]
-      )
-    );
-    
-    UNPROTECT(1);
-    return out;
-    
-  }
-  default:
-  {
-    stop(\"unsupported type\");
-  }
-}
+MACRO_OP_IFELSE(
+  MACRO_DIM_VECTOR
+);
 
 }
 
@@ -96,27 +82,17 @@ txt2 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_b_ov)]]
-SEXP rcpp_bc_b_ov(
-  SEXP x, SEXP y, bool RxC, SEXP out_dim,
-  R_xlen_t nout, int op
+// [[Rcpp::export(.rcpp_bc_ifelse_ov)]]
+SEXP rcpp_bc_ifelse_ov(
+  SEXP cond, SEXP x, SEXP y, bool RxC, SEXP out_dim,
+  R_xlen_t nout
 ) {
 
-int tempout;
+const int *pcond = INTEGER(cond);
 
-int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-
-const int *px = INTEGER(x);
-const int *py = INTEGER(y);
-
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
-
-MACRO_OP_B_ANDOR(MACRO_DIM_ORTHOVECTOR);
-
-UNPROTECT(1);
-return out;
+MACRO_OP_IFELSE(
+  MACRO_DIM_ORTHOVECTOR
+);
 
 }
 
@@ -127,31 +103,19 @@ txt3 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_b_bs)]]
-SEXP rcpp_bc_b_bs(
-  SEXP x, SEXP y,
+// [[Rcpp::export(.rcpp_bc_ifelse_bs)]]
+SEXP rcpp_bc_ifelse_bs(
+  SEXP cond, SEXP x, SEXP y,
   SEXP by_x,
   SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx,
-  int op
+  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx
 ) {
 
+const int *pcond = INTEGER(cond);
 
-int tempout;
-
-int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-
-const int *px = INTEGER(x);
-const int *py = INTEGER(y);
-
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
-
-MACRO_OP_B_ANDOR(MACRO_DIM_BIGSMALL_DOCALL);
-
-UNPROTECT(1);
-return out;
+MACRO_OP_IFELSE(
+  MACRO_DIM_BIGSMALL_DOCALL
+);
 
 }
 
@@ -163,30 +127,19 @@ txt4 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_b_d)]]
-SEXP rcpp_bc_b_d(
-  SEXP x, SEXP y,
+// [[Rcpp::export(.rcpp_bc_ifelse_d)]]
+SEXP rcpp_bc_ifelse_d(
+  SEXP cond, SEXP x, SEXP y,
   SEXP by_x,
   SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op
+  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout
 ) {
 
+const int *pcond = INTEGER(cond);
 
-int tempout;
-
-int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-
-const int *px = INTEGER(x);
-const int *py = INTEGER(y);
-
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
-
-MACRO_OP_B_ANDOR(MACRO_DIM_DOCALL);
-
-UNPROTECT(1);
-return out;
+MACRO_OP_IFELSE(
+  MACRO_DIM_DOCALL
+);
 
 }
 
@@ -197,16 +150,22 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt1,
+  txt0, txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 
 Rcpp::sourceCpp(code = txt)
+
+
+cond <- c(TRUE, FALSE, NA)
+yes <- as.double(1:3)
+no <- as.double(4:6)
+.rcpp_bc_ifelse_v(cond, yes, no, 3L)
 
 txt <- stringi::stri_c(
   header_for_package,
   txt0, txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
-readr::write_file(txt, "src/rcpp_bc_b.cpp")
+readr::write_file(txt, "src/rcpp_bc_ifelse.cpp")
 

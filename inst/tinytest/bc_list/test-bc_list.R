@@ -19,7 +19,7 @@ test_make_dims <- function(n) {
   }
   return(out)
 }
-.return_NA <- broadcast:::.return_NA
+.return_missing <- broadcast:::.return_missing
 gen <- function(n) sample(list(letters, month.abb, 1:10), n, TRUE)
 
 
@@ -83,6 +83,9 @@ for(iSample in 1:5) { # re-do tests with different random configurations
         out <- bc.list(x, y, op)
       }
       # END CASES
+      
+      # ensure correct dimensions:
+      dim(expected) <- tdim
       
       expect_equal(
         expected, out

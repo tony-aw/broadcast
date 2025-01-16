@@ -10,12 +10,12 @@ bc.cplx(x, y, op)
 \item{x, y}{conformable atomic arrays of typee \code{complex}.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported concatenation operators: +, -, *, /. \cr
+Supported arithmetic operators: +, -, *, /. \cr
 Supported relational operators: ==, !=. \cr}
 }
 \value{
-For concatenation operators: \cr
-A complex array as a result of the broadcasted concatenation operation. \cr
+For arithmetic operators: \cr
+A complex array as a result of the broadcasted arithmetic operation. \cr
 \cr
 For relational operators: \cr
 A logical array as a result of the broadcasted relational comparison. \cr

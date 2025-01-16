@@ -19,7 +19,7 @@ test_make_dims <- function(n) {
   }
   return(out)
 }
-.return_NA <- broadcast:::.return_NA
+.return_missing <- broadcast:::.return_missing
 
 gen <- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
 
@@ -29,14 +29,14 @@ gen <- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
 x <- as.array(gen() + gen() * -1i)
 y <- as.array(gen() + gen() * -1i)
 expect_equal(
-  bc.cplx(x, y, "+"),
+  bc.cplx(x, y, "+") |> as.vector(),
   as.vector(x + y)
 )
 
 x <- as.array(gen() + gen() * -1i)
 y <- as.array(gen() + gen() * -1i)
 expect_equal(
-  bc.cplx(x, y, "+"),
+  bc.cplx(x, y, "+") |> as.vector(),
   as.vector(x + y)
 )
 enumerate <- enumerate + 2L
@@ -110,10 +110,12 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
       # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
       ind.NaN <- is.nan(expected[[i]])
-      expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+      expected[[i]][ind.NaN] <- .return_missing(expected[[i]][ind.NaN])
       ind.NaN <- is.nan(out[[i]])
-      out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+      out[[i]][ind.NaN] <- .return_missing(out[[i]][ind.NaN])
       
+      # ensure correct dimensions:
+      dim(expected[[i]]) <- tdim
       
       i <- i + 1L
     }
@@ -194,9 +196,12 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
       # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
       ind.NaN <- is.nan(expected[[i]])
-      expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+      expected[[i]][ind.NaN] <- .return_missing(expected[[i]][ind.NaN])
       ind.NaN <- is.nan(out[[i]])
-      out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+      out[[i]][ind.NaN] <- .return_missing(out[[i]][ind.NaN])
+      
+      # ensure correct dimensions:
+      dim(expected[[i]]) <- tdim
       
       i <- i + 1L
     }
@@ -277,9 +282,12 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
       # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
       ind.NaN <- is.nan(expected[[i]])
-      expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+      expected[[i]][ind.NaN] <- .return_missing(expected[[i]][ind.NaN])
       ind.NaN <- is.nan(out[[i]])
-      out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+      out[[i]][ind.NaN] <- .return_missing(out[[i]][ind.NaN])
+      
+      # ensure correct dimensions:
+      dim(expected[[i]]) <- tdim
       
       i <- i + 1L
     }
@@ -360,9 +368,12 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
       # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
       ind.NaN <- is.nan(expected[[i]])
-      expected[[i]][ind.NaN] <- .return_NA(expected[[i]][ind.NaN])
+      expected[[i]][ind.NaN] <- .return_missing(expected[[i]][ind.NaN])
       ind.NaN <- is.nan(out[[i]])
-      out[[i]][ind.NaN] <- .return_NA(out[[i]][ind.NaN])
+      out[[i]][ind.NaN] <- .return_missing(out[[i]][ind.NaN])
+      
+      # ensure correct dimensions:
+      dim(expected[[i]]) <- tdim
       
       i <- i + 1L
     }

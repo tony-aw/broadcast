@@ -40,6 +40,14 @@
 }
 
 
+#' @keywords internal
+#' @noRd
+.n_args <- function(f) {
+  n.args <- names(formals(args(f)))
+  n.args <- setdiff(n.args, "...") |> length()
+  return(n.args)
+}
+
 
 #' @keywords internal
 #' @noRd
@@ -151,7 +159,7 @@
 
 #' @keywords internal
 #' @noRd
-.return_NA <- function(x) {
+.return_missing <- function(x) {
   if(is.logical(x)) {
     return(rep(NA, length(x)))
   }
@@ -167,6 +175,9 @@
   else if(is.character(x)) {
     return(rep(NA_character_, length(x)))
   }
+  else if(is.list(x)) {
+    return(rep(list(NULL), length(x)))
+  }
 }
 
 
@@ -180,25 +191,6 @@
 #' @keywords internal
 #' @noRd
 .prep_arrays <- function(x, y) {
-  
-  # drop dimensions for scalars:
-  if(length(x) == 1L) {
-    x <- drop(x)
-  }
-  if(length(y) == 1L) {
-    y <- drop(y)
-  }
-  
-  # drop dimension when both x and y are strictly 1d arrays or vectors:
-  if(.ndims(x) <= 1L && .ndims(y) <= 1L) {
-    # if both are 1d arrays or vectors, drop dimensions
-    # if only one is a 1d array, DON'T drop dimensions,
-    # since it may be orthogonal broadcasting
-    # (i.e. colvector * rowvector = 1d * 2d)
-    # also, 1d %op% matrix is not the same as vector %op% matrix when broadcasted
-    dim(x) <- NULL
-    dim(y) <- NULL
-  }
   
   # normalize dimensions:
   x.dim <- dim(x)
@@ -225,8 +217,27 @@
 #' @noRd
 .simplify_arrays <- function(x, y) {
 
+  # drop dimensions for vectors and scalars:
+  if(length(x) == 1L) {
+    dim(x) <- NULL
+  }
+  if(length(y) == 1L) {
+    dim(y) <- NULL
+  }
+  if(.ndims(x) <= 1L && .ndims(y) <= 1L) {
+    # if both are 1d arrays or vectors, drop dimensions
+    # if only one is a 1d array, DON'T drop dimensions,
+    # since it may be orthogonal broadcasting
+    # (i.e. colvector * rowvector = 1d * 2d)
+    # also, 1d %op% matrix is not the same as vector %op% matrix when broadcasted
+    dim(x) <- NULL
+    dim(y) <- NULL
+  }
+  # end dropping dimensions for vectors and scalars
+  
   x.dim <- dim(x)
   y.dim <- dim(y)
+  
   
   # drop common 1L dimensions:
   if(length(x.dim) > 1L && length(y.dim) > 1L) {
