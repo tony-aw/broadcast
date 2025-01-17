@@ -85,6 +85,19 @@ macro_action_boolean <- "
 
 "
 
+
+macro_action_vapply <- "
+#define MACRO_ACTION_VAPPLY(ASSIGNCODE, ERRORCHECK, ERRORCODE, DOCODE) do { \\
+  ASSIGNCODE;   \\
+  if(ERRORCHECK) {  \\
+    ERRORCODE;  \\
+  } \\
+  else {  \\
+    DOCODE; \\
+  } \\
+} while(0)
+"
+
 macro_action <- stri_c(
   macro_action1,
   "\n",
@@ -96,7 +109,10 @@ macro_action <- stri_c(
   "\n",
   macro_action_boolean,
   "\n",
-  macro_doublepass
+  macro_doublepass,
+  "\n",
+  macro_action_vapply,
+  "\n"
 )
 
 readr::write_file(macro_action, "macro_action.txt")

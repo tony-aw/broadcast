@@ -1,7 +1,9 @@
 #' Broadcasted Operations for Character/String Arrays
 #'
 #' @description
-#' The `bc.str()` function performs broadcasted operations on 2 character/string arrays. \cr
+#' The `bc.str()` function
+#' performs broadcasted operations on 2 character/string arrays. \cr
+#' `bc.chr()` is an alias for `bc.str()`. \cr
 #' 
 #' @param x,y conformable atomic arrays of typee `character`.
 #' @param op a single string, giving the operator. \cr
@@ -67,6 +69,9 @@ bc.str <- function(x, y, op) {
   
 }
 
+#' @rdname bc.str
+#' @export
+bc.chr <- bc.str
 
 
 #' @keywords internal

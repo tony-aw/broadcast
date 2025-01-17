@@ -153,6 +153,12 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
+rcpp_bc_bind <- function(out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_x, out_dim) {
+    invisible(.Call(`_broadcast_rcpp_bc_bind`, out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_x, out_dim))
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_cplx_plus <- function(x, y) {
     .Call(`_broadcast_rcpp_cplx_plus`, x, y)
 }
@@ -311,6 +317,66 @@ rcpp_str_dist_led <- function(x, y) {
 #' @noRd
 .rcpp_bc_str_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
     .Call(`_broadcast_rcpp_bc_str_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcapply_v <- function(out, x, y, nout, f) {
+    invisible(.Call(`_broadcast_rcpp_bcapply_v`, out, x, y, nout, f))
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcapply_ov <- function(out, x, y, RxC, out_dim, nout, f) {
+    invisible(.Call(`_broadcast_rcpp_bcapply_ov`, out, x, y, RxC, out_dim, nout, f))
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcapply_bs <- function(out, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, bigx, f) {
+    invisible(.Call(`_broadcast_rcpp_bcapply_bs`, out, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, bigx, f))
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcapply_d <- function(out, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, f) {
+    invisible(.Call(`_broadcast_rcpp_bcapply_d`, out, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, f))
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bindhelper_max_type <- function(x) {
+    .Call(`_broadcast_rcpp_bindhelper_max_type`, x)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bindhelper_max_dimlen <- function(x) {
+    .Call(`_broadcast_rcpp_bindhelper_max_dimlen`, x)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bindhelper_neednorm <- function(x, target_dimlen) {
+    .Call(`_broadcast_rcpp_bindhelper_neednorm`, x, target_dimlen)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bindhelper_sum_along <- function(x, along) {
+    .Call(`_broadcast_rcpp_bindhelper_sum_along`, x, along)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bindhelper_conf_dims_2 <- function(x, y, along) {
+    .Call(`_broadcast_rcpp_bindhelper_conf_dims_2`, x, y, along)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bindhelper_conf_dims_all <- function(lst_dims, target, along) {
+    .Call(`_broadcast_rcpp_bindhelper_conf_dims_all`, lst_dims, target, along)
 }
 
 #' @keywords internal

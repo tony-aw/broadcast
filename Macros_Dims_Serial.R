@@ -480,6 +480,151 @@ cat(templatecode_docall2)
 macro_dim_docall <- templatecode_docall2
 
 
+################################################################################
+# Macro Bind ====
+#
+
+# MISTAKE: cannot use the same iterations for `x` and `out`!!!
+
+BINDTYPES <- 2:16
+
+all_for <- sprintf(
+  "\t for(int iter%d = pstart[%d]; iter%d <= pend[%d]; ++iter%d) {\t\\",
+  1:16, 0:15,  1:16, 0:15, 1:16
+)
+forout <- c(
+  "\t\\",
+  sprintf("i_out%d = iter%d * pdcp_out[%d];\t\\", 2:16, 2:16, 1:15)
+)
+forx <- c(
+  "\t\\",
+  sprintf("i_x%d = pby_x[%d] * (iter%d - pstart[%d]) * pdcp_x[%d];\t\\", 2:16, 1:15, 2:16, 1:15, 1:15)
+)
+all_for <- stri_c(all_for, forout, forx, sep = "\n")
+cat(all_for[16])
+
+all_parts_out <- c(
+  "iter1",
+  sprintf("i_out%d", 2:16)
+)
+all_parts_x <- c(
+  "pby_x[0] * (iter1 - pstart[0])",
+  sprintf("i_x%d", 2:16)
+)
+
+all_out_decl <- sprintf("i_out%d", 2:16)
+all_x_decl <- sprintf("i_x%d", 2:16) 
+
+temp <- "
+#define MACRO_DIM_BIND_<dtype>(DOCODE) do {  \\
+  double *pdcp_out = REAL(dimcumprod_out);  \\
+  double *pdcp_x = REAL(dimcumprod_x);  \\
+                                        \\
+  const int *pby_x = INTEGER_RO(by_x);  \\
+  const int *pstart = INTEGER_RO(starts); \\
+  const int *pend = INTEGER_RO(ends);    \\
+  R_xlen_t flatind_out;                 \\
+  R_xlen_t flatind_x;                   \\
+  R_xlen_t <all_out_decl>;              \\
+  R_xlen_t <all_x_decl>;                \\
+  <startfor>
+        flatind_out = <main_out>;       \\
+        flatind_x = <main_x>;           \\
+        DOCODE;                         \\
+  <endfor>
+} while(0)
+
+
+
+"
+
+dMacro_skeletons <- character(length(BINDTYPES))
+names(dMacro_skeletons) <- BINDTYPES
+counter <- 1
+for(i in BINDTYPES) {
+  
+  current_out_decl <- stri_c(all_out_decl[1:(i-1)], collapse = ", ")
+  current_x_decl <- stri_c(all_x_decl[1:(i-1)], collapse = ", ")
+  current_for <- stri_c(all_for[i:1], collapse = "\n")
+  current_main_out <- stri_c(all_parts_out[1:i], collapse = " + ")
+  current_main_x <- stri_c(all_parts_x[1:i], collapse = " + ")
+  current_end <- stri_c(rep("\t }\t\\", i), collapse = "\n")
+  
+  current_fixed <- c(
+    "<dtype>",
+    "<all_out_decl>",
+    "<all_x_decl>",
+    "<startfor>",
+    "<main_out>",
+    "<main_x>",
+    "<endfor>"
+  )
+  current_replacement <- c(
+    i,
+    current_out_decl,
+    current_x_decl,
+    current_for,
+    current_main_out,
+    current_main_x,
+    current_end
+  )
+  
+  out <- stri_replace_all(
+    temp,
+    fixed = current_fixed,
+    replacement = current_replacement,
+    case_insensitive = FALSE,
+    vectorize_all = FALSE
+  )
+  
+  dMacro_skeletons[counter] <- out
+  counter <- counter + 1
+}
+
+cat(dMacro_skeletons[[1]])
+
+
+macro_dim_bind <- stri_c(dMacro_skeletons, collapse = "\n")
+
+
+################################################################################
+# do call Bind ====
+#
+
+
+# cases:
+case <-
+  "case %d:                                       \\
+  MACRO_DIM_BIND_%d(DOCODE);    \\
+  break;                                        \\
+"
+cases <- sprintf(case, BINDTYPES, BINDTYPES) |> stringi::stri_c(collapse = "")
+
+
+cat(cases)
+
+templatecode_docall <- "
+
+#define MACRO_DIM_BIND_DOCALL(DOCODE) do {     \\
+  int ndims = Rf_length(out_dim);         \\
+                                          \\
+  switch(ndims) {       \\
+    <cases>       \\
+  }       \\
+} while(0)"
+
+templatecode_docall2 <- stringi::stri_replace_all(
+  templatecode_docall,
+  fixed = c("<cases>"),
+  replacement = c(cases),
+  vectorize_all = FALSE
+)
+
+
+cat(templatecode_docall2)
+
+
+macro_dim_bind_docall <- templatecode_docall2
 
 ################################################################################
 # Save macros ====
@@ -500,6 +645,10 @@ macro_dim <- stri_c(
   macro_dim_d,
   "\n",
   macro_dim_docall,
+  "\n",
+  macro_dim_bind,
+  "\n",
+  macro_dim_bind_docall,
   "\n"
 )
 

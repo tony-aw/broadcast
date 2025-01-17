@@ -477,11 +477,11 @@ macro_op_str_conc <- "
 }	\\
 } while(0)
 "
-# 
-# 
-# ################################################################################
-# # Ifelse ====
-#
+
+
+################################################################################
+# Ifelse ====
+
 
 macro_op_ifelse <- "
 #define MACRO_OP_IFELSE(DIMCODE) do {       \\
@@ -632,6 +632,88 @@ macro_op_ifelse <- "
 } while(0)
 "
 
+
+################################################################################
+# vapply ====
+
+macro_op_apply <- "
+#define MACRO_OP_APPLY(DIMCODE) do {       \\
+  switch(TYPEOF(out)) {	\\
+    case LGLSXP:	\\
+    {	\\
+      int *pout;	\\
+      pout = LOGICAL(out);	\\
+      	\\
+      DIMCODE(	\\
+        pout[flatind_out] = LOGICAL(f(x, y, flatind_x, flatind_y))[0] \\
+      );	\\
+      break; \\
+    }	\\
+    case INTSXP:	\\
+    {	\\
+      int *pout;	\\
+      pout = INTEGER(out);	\\
+      	\\
+      DIMCODE(	\\
+        pout[flatind_out] = INTEGER(f(x, y, flatind_x, flatind_y))[0] \\
+      );	\\
+      break; \\
+    }	\\
+    case REALSXP:	\\
+    {	\\
+      double *pout;	\\
+      pout = REAL(out);	\\
+      DIMCODE(	\\
+        pout[flatind_out] = REAL(f(x, y, flatind_x, flatind_y))[0] \\
+      );	\\
+      break; \\
+    }	\\
+    case CPLXSXP:	\\
+    {	\\
+      Rcomplex *pout;	\\
+      pout = COMPLEX(out);	\\
+      DIMCODE(	\\
+        pout[flatind_out] = COMPLEX(f(x, y, flatind_x, flatind_y))[0] \\
+      );	\\
+      break; \\
+    }	\\
+    case STRSXP:	\\
+    {	\\
+      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\\
+      SEXP *pout;	\\
+      pout = STRING_PTR(out);	\\
+      	\\
+      DIMCODE(	\\
+        pout[flatind_out] = STRING_PTR(f(x, y, flatind_x, flatind_y))[0] \\
+      );	\\
+      break; \\
+    }	\\
+    case RAWSXP:	\\
+    {	\\
+      Rbyte *pout;	\\
+      pout = RAW(out);	\\
+      	\\
+      DIMCODE(	\\
+        pout[flatind_out] = RAW(f(x, y, flatind_x, flatind_y))[0] \\
+      );	\\
+      break; \\
+    }	\\
+    case VECSXP:	\\
+    {	\\
+     DIMCODE(	\\
+        SET_VECTOR_ELT(out, flatind_out, f(x, y, flatind_x, flatind_y))	\\
+      );	\\
+      break; \\
+    }	\\
+    default:	\\
+    {	\\
+      stop(\"unsupported type\");	\\
+    }	\\
+  }	\\
+} while(0)
+"
+
+
 ################################################################################
 # Save Macros ====
 #
@@ -656,6 +738,8 @@ macro_op <- stri_c(
   macro_op_str_dist,
   "\n",
   macro_op_ifelse,
+  "\n",
+  macro_op_apply,
   "\n"
 )
 

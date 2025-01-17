@@ -51,6 +51,17 @@
 
 #' @keywords internal
 #' @noRd
+.transform_function <- function(f, subset_x, subset_y) {
+  fnew <- function(x, y, flatind_x, flatind_y) {
+    x <- subset_x(x, flatind_x)
+    y <- subset_y(y, flatind_y)
+    return(f(x, y))
+  }
+  return(fnew)
+}
+
+#' @keywords internal
+#' @noRd
 .determine_dimmode <- function(x, y, out.dim, abortcall) {
   
   x.dim <- dim(x)

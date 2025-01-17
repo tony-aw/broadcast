@@ -70,3 +70,15 @@
   MACRO1;                                     \
   MACRO2;                                     \
 } while(0)
+
+
+#define MACRO_ACTION_VAPPLY(ASSIGNCODE, ERRORCHECK, ERRORCODE, DOCODE) do { \
+  ASSIGNCODE;   \
+  if(ERRORCHECK) {  \
+    ERRORCODE;  \
+  } \
+  else {  \
+    DOCODE; \
+  } \
+} while(0)
+

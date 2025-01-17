@@ -2,9 +2,12 @@
 % Please edit documentation in R/bc_str.R
 \name{bc.str}
 \alias{bc.str}
+\alias{bc.chr}
 \title{Broadcasted Operations for Character/String Arrays}
 \usage{
 bc.str(x, y, op)
+
+bc.chr(x, y, op)
 }
 \arguments{
 \item{x, y}{conformable atomic arrays of typee \code{character}.}
@@ -26,7 +29,9 @@ An integer array as a result of the broadcasted relational comparison. \cr
 \cr
 }
 \description{
-The \code{bc.str()} function performs broadcasted operations on 2 character/string arrays. \cr
+The \code{bc.str()} function
+performs broadcasted operations on 2 character/string arrays. \cr
+\code{bc.chr()} is an alias for \code{bc.str()}. \cr
 }
 \examples{
 x.dim <- c(10:8)
