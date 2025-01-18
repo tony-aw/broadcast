@@ -1,22 +1,22 @@
 Package: broadcast
-Title: Simple Broadcasted Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies
+Title: Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies
 Version: 0.0.0.9000
 Authors@R: person("Tony", "Wilkes", role = c("aut", "cre", "cph"),
                   email = "tony_a_wilkes@outlook.com",
                   comment = c(ORCID = "0000-0001-9498-8379"))
-Description: Implements simple broadcasted binary operations,
+Description: Implements simple broadcasted binding and binary operations,
 		for atomic and recursive arrays.
-		All operations are element-wise binary operations
-		(i.e. involving only 2 arrays at a time).
 		Besides linking to 'Rcpp',
 		'broadcast' does not depend on, vendor, link to, or otherwise use any external libraries;
 		'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 		The broadcasted implementations include, but are not limited to, the following.
-		  1) Relational operators (like `==`, `!=`, `<`, `>`, `<=`, `>=`; also supports precision-based relational operators);
-		  2) Boolean combiner operators (like `&`, `|`, `xor()`, "not-and");
-		  3) Arithmetic operators (like `+`, `-`, `*`, `/`, `^`, `pmin()`, `pmax()`);
-		  4) String distance and concatenation operators;
-		  5) Broadcasted S4 implementations of `ifelse()` and `vapply()`.
+		  1) Relational operations (like `==`, `!=`, `<`, `>`, `<=`, `>=`; can also take into account Machine precision);
+		  2) Arithmetic operations (like `+`, `-`, `*`, `/`, `^`, `pmin()`, `pmax()`, integer modulo);
+		  3) Boolean combiner operations (like `&`, `|`, `xor()`, "nand");
+		  4) String distance and concatenation operations;
+		  5) Broadcasted S4 implementation of `ifelse()`;
+		  6) A Broadcasted apply-like function;
+		  7) Binding arrays along arbitrary axis, with broadcast support.
 		The broadcasted implementations strive to minimize computation time and memory usage
 		(which is not just good for computer efficiency, but also for the environment).
 License: MPL-2.0 | file LICENSE
@@ -28,4 +28,4 @@ Depends:
     R (>= 4.2.0)
 Imports: 
     Rcpp (>= 1.0.11)
-Suggests: tinytest, roxygen2
+Suggests: tinytest, roxygen2, altdoc, kableExtra

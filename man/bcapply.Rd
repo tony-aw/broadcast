@@ -4,21 +4,28 @@
 \alias{bcapply}
 \title{Apply a Function to 2 Broadcasted Arrays}
 \usage{
-bcapply(x, y, f)
+bcapply(x, y, f, v = "list")
 }
 \arguments{
 \item{x, y}{conformable atomic or recursive arrays.}
 
 \item{f}{a function that takes in exactly \bold{2} arguments,
 and \bold{returns} a result
-that can be stored in a single element of a recursive or atomic array. \cr}
+that can be stored in a single element of a recursive or atomic array.}
+
+\item{v}{a single string, giving the scalar type for a single iteration. \cr
+If \code{NULL} or \code{"list"} (default), the result will be a recursive array. \cr
+If it is certain that, for every iteration,
+\code{f()} always results in a \bold{single atomic scalar},
+the user can specify the type in \code{v} to pre-allocate the result. \cr
+Pre-allocating the results leads to slightly faster and more memory efficient code. \cr}
 }
 \value{
 An atomic or recursive array with dimensions \code{bc_dim(x, y)}. \cr
 }
 \description{
 The \code{bcapply()} function
-applies a function to 2 arrays with broadcasting.
+applies a function to 2 arrays with broadcasting. \cr
 }
 \examples{
 x.dim <- c(c(10, 2,2))
@@ -29,8 +36,6 @@ gen <- function(n) sample(list(letters, month.abb, 1:10), n, TRUE)
 x <- array(gen(10), x.dim)
 y <- array(gen(10), c(10,1,1))
 
-bc.list(
-  x, y,
-  \(x, y)c(length(x) == length(y), typeof(x) == typeof(y))
-)
+f <- function(x, y) list(x, y)
+bcapply(x, y, f)
 }

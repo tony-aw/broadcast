@@ -16,7 +16,7 @@ void rcpp_bcapply_v(
   R_xlen_t nout, Function f
 ) {
 
-MACRO_OP_APPLY(MACRO_DIM_VECTOR);
+MACRO_OP_BCAPPLY(MACRO_DIM_VECTOR);
 
 }
 
@@ -31,7 +31,7 @@ void rcpp_bcapply_ov(
   R_xlen_t nout, Function f
 ) {
 
-MACRO_OP_APPLY(MACRO_DIM_ORTHOVECTOR);
+MACRO_OP_BCAPPLY(MACRO_DIM_ORTHOVECTOR);
 
 }
 
@@ -50,7 +50,7 @@ void rcpp_bcapply_bs(
 ) {
 
 
-MACRO_OP_APPLY(MACRO_DIM_BIGSMALL_DOCALL);
+MACRO_OP_BCAPPLY(MACRO_DIM_BIGSMALL_DOCALL);
 
 
 }
@@ -69,7 +69,7 @@ void rcpp_bcapply_d(
 ) {
 
 
-MACRO_OP_APPLY(MACRO_DIM_DOCALL);
+MACRO_OP_BCAPPLY(MACRO_DIM_DOCALL);
 
 
 }

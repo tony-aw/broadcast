@@ -54,7 +54,7 @@ void rcpp_bcapply_v(
   R_xlen_t nout, Function f
 ) {
 
-MACRO_OP_APPLY(MACRO_DIM_VECTOR);
+MACRO_OP_BCAPPLY(MACRO_DIM_VECTOR);
 
 }
 
@@ -73,7 +73,7 @@ void rcpp_bcapply_ov(
   R_xlen_t nout, Function f
 ) {
 
-MACRO_OP_APPLY(MACRO_DIM_ORTHOVECTOR);
+MACRO_OP_BCAPPLY(MACRO_DIM_ORTHOVECTOR);
 
 }
 
@@ -94,7 +94,7 @@ void rcpp_bcapply_bs(
 ) {
 
 
-MACRO_OP_APPLY(MACRO_DIM_BIGSMALL_DOCALL);
+MACRO_OP_BCAPPLY(MACRO_DIM_BIGSMALL_DOCALL);
 
 
 }
@@ -116,7 +116,7 @@ void rcpp_bcapply_d(
 ) {
 
 
-MACRO_OP_APPLY(MACRO_DIM_DOCALL);
+MACRO_OP_BCAPPLY(MACRO_DIM_DOCALL);
 
 
 }
@@ -141,15 +141,18 @@ txt <- stringi::stri_c(
 )
 readr::write_file(txt, "src/rcpp_bcapply.cpp")
 
+################################################################################
+# small test ====
 
-# small test:
+library(broadcast)
+library(tinytest)
 f <- function(x, y, ix, iy) {
-  return(x[ix + 1] + y[iy + 1])
+  return(x[[ix]] + y[[iy]])
 }
 f2 <- function(x, y) x + y
 n <- 3e4
-x <- 1:n
-y <- 1:n
+x <- array(1:n, c(n, 1))
+y <- array(1:n, c(n, 1))
 f(x, y, 1, 1) |> typeof()
 out <- integer(n)
 print(out)
@@ -164,9 +167,10 @@ expect_equal(
 
 foo <- bench::mark(
   mapply(f2, x, y),
-  .rcpp_bcapply_v(integer(n), x, y, n, f),
+  bcapply(x, y, f2, "integer"),
   min_iterations = 100,
   check = FALSE
 )
 summary(foo)
 ggplot2::autoplot(foo)
+

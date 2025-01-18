@@ -2950,7 +2950,7 @@ case 16:                                       \
 } while(0)
 
 
-#define MACRO_OP_APPLY(DIMCODE) do {       \
+#define MACRO_OP_BCAPPLY(DIMCODE) do {       \
   switch(TYPEOF(out)) {	\
     case LGLSXP:	\
     {	\
@@ -2958,7 +2958,7 @@ case 16:                                       \
       pout = LOGICAL(out);	\
       	\
       DIMCODE(	\
-        pout[flatind_out] = LOGICAL(f(x, y, flatind_x, flatind_y))[0] \
+        pout[flatind_out] = LOGICAL(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
       );	\
       break; \
     }	\
@@ -2968,7 +2968,7 @@ case 16:                                       \
       pout = INTEGER(out);	\
       	\
       DIMCODE(	\
-        pout[flatind_out] = INTEGER(f(x, y, flatind_x, flatind_y))[0] \
+        pout[flatind_out] = INTEGER(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
       );	\
       break; \
     }	\
@@ -2977,7 +2977,7 @@ case 16:                                       \
       double *pout;	\
       pout = REAL(out);	\
       DIMCODE(	\
-        pout[flatind_out] = REAL(f(x, y, flatind_x, flatind_y))[0] \
+        pout[flatind_out] = REAL(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
       );	\
       break; \
     }	\
@@ -2986,7 +2986,7 @@ case 16:                                       \
       Rcomplex *pout;	\
       pout = COMPLEX(out);	\
       DIMCODE(	\
-        pout[flatind_out] = COMPLEX(f(x, y, flatind_x, flatind_y))[0] \
+        pout[flatind_out] = COMPLEX(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
       );	\
       break; \
     }	\
@@ -2997,7 +2997,7 @@ case 16:                                       \
       pout = STRING_PTR(out);	\
       	\
       DIMCODE(	\
-        pout[flatind_out] = STRING_PTR(f(x, y, flatind_x, flatind_y))[0] \
+        pout[flatind_out] = STRING_PTR(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
       );	\
       break; \
     }	\
@@ -3007,14 +3007,15 @@ case 16:                                       \
       pout = RAW(out);	\
       	\
       DIMCODE(	\
-        pout[flatind_out] = RAW(f(x, y, flatind_x, flatind_y))[0] \
+        pout[flatind_out] = RAW(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
       );	\
       break; \
     }	\
     case VECSXP:	\
     {	\
+     List pout = Rcpp::as<List>(out);  \
      DIMCODE(	\
-        SET_VECTOR_ELT(out, flatind_out, f(x, y, flatind_x, flatind_y))	\
+        pout[flatind_out] = f(x, y, flatind_x + 1, flatind_y + 1)	\
       );	\
       break; \
     }	\

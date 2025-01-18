@@ -51,10 +51,10 @@
 
 #' @keywords internal
 #' @noRd
-.transform_function <- function(f, subset_x, subset_y) {
+.transform_function <- function(f) {
   fnew <- function(x, y, flatind_x, flatind_y) {
-    x <- subset_x(x, flatind_x)
-    y <- subset_y(y, flatind_y)
+    x <- x[[flatind_x]]
+    y <- y[[flatind_y]]
     return(f(x, y))
   }
   return(fnew)
