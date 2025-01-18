@@ -351,8 +351,8 @@ rcpp_bc_bind <- function(out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_
 
 #' @keywords internal
 #' @noRd
-.rcpp_bindhelper_max_dimlen <- function(x) {
-    .Call(`_broadcast_rcpp_bindhelper_max_dimlen`, x)
+.rcpp_bindhelper_dimlens <- function(x) {
+    .Call(`_broadcast_rcpp_bindhelper_dimlens`, x)
 }
 
 #' @keywords internal
@@ -369,14 +369,14 @@ rcpp_bc_bind <- function(out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_
 
 #' @keywords internal
 #' @noRd
-.rcpp_bindhelper_conf_dims_2 <- function(x, y, along) {
-    .Call(`_broadcast_rcpp_bindhelper_conf_dims_2`, x, y, along)
+.rcpp_bindhelper_conf_dims_2 <- function(x, y, along, max_bc) {
+    .Call(`_broadcast_rcpp_bindhelper_conf_dims_2`, x, y, along, max_bc)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bindhelper_conf_dims_all <- function(lst_dims, target, along) {
-    .Call(`_broadcast_rcpp_bindhelper_conf_dims_all`, lst_dims, target, along)
+.rcpp_bindhelper_conf_dims_all <- function(lst_dims, target, along, max_bc) {
+    .Call(`_broadcast_rcpp_bindhelper_conf_dims_all`, lst_dims, target, along, max_bc)
 }
 
 #' @keywords internal

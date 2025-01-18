@@ -941,14 +941,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_bindhelper_max_dimlen
-int rcpp_bindhelper_max_dimlen(SEXP x);
-RcppExport SEXP _broadcast_rcpp_bindhelper_max_dimlen(SEXP xSEXP) {
+// rcpp_bindhelper_dimlens
+SEXP rcpp_bindhelper_dimlens(SEXP x);
+RcppExport SEXP _broadcast_rcpp_bindhelper_dimlens(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_max_dimlen(x));
+    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_dimlens(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -977,28 +977,30 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_bindhelper_conf_dims_2
-bool rcpp_bindhelper_conf_dims_2(SEXP x, SEXP y, int along);
-RcppExport SEXP _broadcast_rcpp_bindhelper_conf_dims_2(SEXP xSEXP, SEXP ySEXP, SEXP alongSEXP) {
+bool rcpp_bindhelper_conf_dims_2(SEXP x, SEXP y, int along, int max_bc);
+RcppExport SEXP _broadcast_rcpp_bindhelper_conf_dims_2(SEXP xSEXP, SEXP ySEXP, SEXP alongSEXP, SEXP max_bcSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
     Rcpp::traits::input_parameter< int >::type along(alongSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_conf_dims_2(x, y, along));
+    Rcpp::traits::input_parameter< int >::type max_bc(max_bcSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_conf_dims_2(x, y, along, max_bc));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_bindhelper_conf_dims_all
-bool rcpp_bindhelper_conf_dims_all(SEXP lst_dims, SEXP target, int along);
-RcppExport SEXP _broadcast_rcpp_bindhelper_conf_dims_all(SEXP lst_dimsSEXP, SEXP targetSEXP, SEXP alongSEXP) {
+bool rcpp_bindhelper_conf_dims_all(SEXP lst_dims, SEXP target, int along, int max_bc);
+RcppExport SEXP _broadcast_rcpp_bindhelper_conf_dims_all(SEXP lst_dimsSEXP, SEXP targetSEXP, SEXP alongSEXP, SEXP max_bcSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type lst_dims(lst_dimsSEXP);
     Rcpp::traits::input_parameter< SEXP >::type target(targetSEXP);
     Rcpp::traits::input_parameter< int >::type along(alongSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_conf_dims_all(lst_dims, target, along));
+    Rcpp::traits::input_parameter< int >::type max_bc(max_bcSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_conf_dims_all(lst_dims, target, along, max_bc));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1079,11 +1081,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bcapply_bs", (DL_FUNC) &_broadcast_rcpp_bcapply_bs, 11},
     {"_broadcast_rcpp_bcapply_d", (DL_FUNC) &_broadcast_rcpp_bcapply_d, 10},
     {"_broadcast_rcpp_bindhelper_max_type", (DL_FUNC) &_broadcast_rcpp_bindhelper_max_type, 1},
-    {"_broadcast_rcpp_bindhelper_max_dimlen", (DL_FUNC) &_broadcast_rcpp_bindhelper_max_dimlen, 1},
+    {"_broadcast_rcpp_bindhelper_dimlens", (DL_FUNC) &_broadcast_rcpp_bindhelper_dimlens, 1},
     {"_broadcast_rcpp_bindhelper_neednorm", (DL_FUNC) &_broadcast_rcpp_bindhelper_neednorm, 2},
     {"_broadcast_rcpp_bindhelper_sum_along", (DL_FUNC) &_broadcast_rcpp_bindhelper_sum_along, 2},
-    {"_broadcast_rcpp_bindhelper_conf_dims_2", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_2, 3},
-    {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 3},
+    {"_broadcast_rcpp_bindhelper_conf_dims_2", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_2, 4},
+    {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 4},
     {"_broadcast_rcpp_recycle_seq_mlen", (DL_FUNC) &_broadcast_rcpp_recycle_seq_mlen, 2},
     {"C_check_conf_dim",          (DL_FUNC) &C_check_conf_dim,          2},
     {"C_dims_all_orthogonal",     (DL_FUNC) &C_dims_all_orthogonal,     2},

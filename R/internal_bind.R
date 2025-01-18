@@ -74,7 +74,6 @@
   }
   
   return(input)
-  
 }
 
 #' @keywords internal
@@ -110,7 +109,7 @@
 
 #' @keywords internal
 #' @noRd
-.internal_bind_array <- function(input, along, abortcall) {
+.internal_bind_array <- function(input, along, max_bc, abortcall) {
   
   INTMAX <- 2^31 - 1L
   LONGMAX <- 2^52 - 1L
@@ -120,16 +119,22 @@
   if(!all_arrays) {
     stop(simpleError("can only bind arrays", call = abortcall))
   }
-  max_ndims <- .rcpp_bindhelper_max_dimlen(input)
+  max_ndims <- max(.rcpp_bindhelper_dimlens(input))
   .bind_check_input(input, along, max_ndims, abortcall)
   
   
   # normalize input:
   input <- .bind_normalize_input(input, along, max_ndims)
   if(along == 0L) along <- 1L
+  max_ndims <- max(.rcpp_bindhelper_dimlens(input))
   
-  # re-check max dim:
-  max_ndims <- .rcpp_bindhelper_max_dimlen(input)
+  
+  # check dimlens:
+  dimlens <- .rcpp_bindhelper_dimlens(input)
+  if(length(unique(dimlens)) > 1L) {
+    stop("input malformed")
+  }
+  max_ndims <- max(dimlens)
   if(max_ndims > 16L) {
     stop(simpleError(
       "arrays with more than 16 dimensions are not supported", call = abortcall
@@ -149,7 +154,7 @@
   
   # check if input is conformable:
   # NOTE: only 1 dimension may be broadcasted per array, for the user's safety
-  is_conf <- .rcpp_bindhelper_conf_dims_all(input.dims, out.dim, along - 1L)
+  is_conf <- .rcpp_bindhelper_conf_dims_all(input.dims, out.dim, along - 1L, max_bc)
   if(!is_conf) {
     stop(simpleError("arrays are not conformable for binding", call = abortcall))
   }
@@ -168,6 +173,10 @@
   mycoerce <- .bind_alias_coerce(out.type, abortcall)
   
   # MAIN FUNCTION:
+  need_pad <- round(max_ndims/2L) != (max_ndims /2L)
+  if(need_pad) {
+    out.dim <- c(out.dim, 1L)
+  }
   counter <- 1L
   max_ndims <- length(out.dim)
   dcp_out <- c(1, cumprod(out.dim))
@@ -175,7 +184,7 @@
     
     # construct parameters:
     x <- input[[i]]
-    x.dim <- dim(x)
+    x.dim <- c(dim(x), 0L) # padding is safe even when not needed
     size_along <- x.dim[along]
     starts <- rep(1L, max_ndims)
     starts[along] <- counter
@@ -183,7 +192,7 @@
     ends[along] <- counter + size_along - 1L
     by_x <- .make_by(x.dim, out.dim)
     by_x[along] <- 1L
-    dcp_x <- c(1, cumprod(x.dim))
+    dcp_x <- c(1, cumprod(x.dim)) # is already longer than needed, so no padding required
     
     # coerce input:
     x <- mycoerce(x)

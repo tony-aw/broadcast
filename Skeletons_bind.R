@@ -145,14 +145,14 @@ y <- array(as.double(-1:-25), c(n, n, n))
 input <- list(x, y, x, y, x, y)
 
 out1 <- abind::abind(input, along = 1L)
-out2 <- .internal_bind_array(input, 1L, sys.call())
+out2 <- .internal_bind_array(input, 1L, 1L, sys.call())
 expect_equivalent(
   out1, out2
 )
 
 foo <- bench::mark(
   abind = abind::abind(input, along = 2L),
-  bc = .internal_bind_array(input, 2L, sys.call()),
+  bc = .internal_bind_array(input, 2L, 1L, sys.call()),
   cbind = do.call(cbind, input),
   min_iterations = 100,
   check = FALSE # because abind adds empty dimnames

@@ -1672,38 +1672,6 @@ i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
 
 
 
-#define MACRO_DIM_BIND_3(DOCODE) do {  \
-  double *pdcp_out = REAL(dimcumprod_out);  \
-  double *pdcp_x = REAL(dimcumprod_x);  \
-                                        \
-  const int *pby_x = INTEGER_RO(by_x);  \
-  const int *pstart = INTEGER_RO(starts); \
-  const int *pend = INTEGER_RO(ends);    \
-  R_xlen_t flatind_out;                 \
-  R_xlen_t flatind_x;                   \
-  R_xlen_t i_out2, i_out3;              \
-  R_xlen_t i_x2, i_x3;                \
-  	 for(int iter3 = pstart[2]; iter3 <= pend[2]; ++iter3) {	\
-i_out3 = iter3 * pdcp_out[2];	\
-i_x3 = pby_x[2] * (iter3 - pstart[2]) * pdcp_x[2];	\
-	 for(int iter2 = pstart[1]; iter2 <= pend[1]; ++iter2) {	\
-i_out2 = iter2 * pdcp_out[1];	\
-i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
-	 for(int iter1 = pstart[0]; iter1 <= pend[0]; ++iter1) {	\
-	\
-	\
-        flatind_out = iter1 + i_out2 + i_out3;       \
-        flatind_x = pby_x[0] * (iter1 - pstart[0]) + i_x2 + i_x3;           \
-        DOCODE;                         \
-  	 }	\
-	 }	\
-	 }	\
-} while(0)
-
-
-
-
-
 #define MACRO_DIM_BIND_4(DOCODE) do {  \
   double *pdcp_out = REAL(dimcumprod_out);  \
   double *pdcp_x = REAL(dimcumprod_x);  \
@@ -1731,46 +1699,6 @@ i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
         flatind_x = pby_x[0] * (iter1 - pstart[0]) + i_x2 + i_x3 + i_x4;           \
         DOCODE;                         \
   	 }	\
-	 }	\
-	 }	\
-	 }	\
-} while(0)
-
-
-
-
-
-#define MACRO_DIM_BIND_5(DOCODE) do {  \
-  double *pdcp_out = REAL(dimcumprod_out);  \
-  double *pdcp_x = REAL(dimcumprod_x);  \
-                                        \
-  const int *pby_x = INTEGER_RO(by_x);  \
-  const int *pstart = INTEGER_RO(starts); \
-  const int *pend = INTEGER_RO(ends);    \
-  R_xlen_t flatind_out;                 \
-  R_xlen_t flatind_x;                   \
-  R_xlen_t i_out2, i_out3, i_out4, i_out5;              \
-  R_xlen_t i_x2, i_x3, i_x4, i_x5;                \
-  	 for(int iter5 = pstart[4]; iter5 <= pend[4]; ++iter5) {	\
-i_out5 = iter5 * pdcp_out[4];	\
-i_x5 = pby_x[4] * (iter5 - pstart[4]) * pdcp_x[4];	\
-	 for(int iter4 = pstart[3]; iter4 <= pend[3]; ++iter4) {	\
-i_out4 = iter4 * pdcp_out[3];	\
-i_x4 = pby_x[3] * (iter4 - pstart[3]) * pdcp_x[3];	\
-	 for(int iter3 = pstart[2]; iter3 <= pend[2]; ++iter3) {	\
-i_out3 = iter3 * pdcp_out[2];	\
-i_x3 = pby_x[2] * (iter3 - pstart[2]) * pdcp_x[2];	\
-	 for(int iter2 = pstart[1]; iter2 <= pend[1]; ++iter2) {	\
-i_out2 = iter2 * pdcp_out[1];	\
-i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
-	 for(int iter1 = pstart[0]; iter1 <= pend[0]; ++iter1) {	\
-	\
-	\
-        flatind_out = iter1 + i_out2 + i_out3 + i_out4 + i_out5;       \
-        flatind_x = pby_x[0] * (iter1 - pstart[0]) + i_x2 + i_x3 + i_x4 + i_x5;           \
-        DOCODE;                         \
-  	 }	\
-	 }	\
 	 }	\
 	 }	\
 	 }	\
@@ -1813,54 +1741,6 @@ i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
         flatind_x = pby_x[0] * (iter1 - pstart[0]) + i_x2 + i_x3 + i_x4 + i_x5 + i_x6;           \
         DOCODE;                         \
   	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-} while(0)
-
-
-
-
-
-#define MACRO_DIM_BIND_7(DOCODE) do {  \
-  double *pdcp_out = REAL(dimcumprod_out);  \
-  double *pdcp_x = REAL(dimcumprod_x);  \
-                                        \
-  const int *pby_x = INTEGER_RO(by_x);  \
-  const int *pstart = INTEGER_RO(starts); \
-  const int *pend = INTEGER_RO(ends);    \
-  R_xlen_t flatind_out;                 \
-  R_xlen_t flatind_x;                   \
-  R_xlen_t i_out2, i_out3, i_out4, i_out5, i_out6, i_out7;              \
-  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7;                \
-  	 for(int iter7 = pstart[6]; iter7 <= pend[6]; ++iter7) {	\
-i_out7 = iter7 * pdcp_out[6];	\
-i_x7 = pby_x[6] * (iter7 - pstart[6]) * pdcp_x[6];	\
-	 for(int iter6 = pstart[5]; iter6 <= pend[5]; ++iter6) {	\
-i_out6 = iter6 * pdcp_out[5];	\
-i_x6 = pby_x[5] * (iter6 - pstart[5]) * pdcp_x[5];	\
-	 for(int iter5 = pstart[4]; iter5 <= pend[4]; ++iter5) {	\
-i_out5 = iter5 * pdcp_out[4];	\
-i_x5 = pby_x[4] * (iter5 - pstart[4]) * pdcp_x[4];	\
-	 for(int iter4 = pstart[3]; iter4 <= pend[3]; ++iter4) {	\
-i_out4 = iter4 * pdcp_out[3];	\
-i_x4 = pby_x[3] * (iter4 - pstart[3]) * pdcp_x[3];	\
-	 for(int iter3 = pstart[2]; iter3 <= pend[2]; ++iter3) {	\
-i_out3 = iter3 * pdcp_out[2];	\
-i_x3 = pby_x[2] * (iter3 - pstart[2]) * pdcp_x[2];	\
-	 for(int iter2 = pstart[1]; iter2 <= pend[1]; ++iter2) {	\
-i_out2 = iter2 * pdcp_out[1];	\
-i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
-	 for(int iter1 = pstart[0]; iter1 <= pend[0]; ++iter1) {	\
-	\
-	\
-        flatind_out = iter1 + i_out2 + i_out3 + i_out4 + i_out5 + i_out6 + i_out7;       \
-        flatind_x = pby_x[0] * (iter1 - pstart[0]) + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7;           \
-        DOCODE;                         \
-  	 }	\
-	 }	\
 	 }	\
 	 }	\
 	 }	\
@@ -1924,62 +1804,6 @@ i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
 
 
 
-#define MACRO_DIM_BIND_9(DOCODE) do {  \
-  double *pdcp_out = REAL(dimcumprod_out);  \
-  double *pdcp_x = REAL(dimcumprod_x);  \
-                                        \
-  const int *pby_x = INTEGER_RO(by_x);  \
-  const int *pstart = INTEGER_RO(starts); \
-  const int *pend = INTEGER_RO(ends);    \
-  R_xlen_t flatind_out;                 \
-  R_xlen_t flatind_x;                   \
-  R_xlen_t i_out2, i_out3, i_out4, i_out5, i_out6, i_out7, i_out8, i_out9;              \
-  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9;                \
-  	 for(int iter9 = pstart[8]; iter9 <= pend[8]; ++iter9) {	\
-i_out9 = iter9 * pdcp_out[8];	\
-i_x9 = pby_x[8] * (iter9 - pstart[8]) * pdcp_x[8];	\
-	 for(int iter8 = pstart[7]; iter8 <= pend[7]; ++iter8) {	\
-i_out8 = iter8 * pdcp_out[7];	\
-i_x8 = pby_x[7] * (iter8 - pstart[7]) * pdcp_x[7];	\
-	 for(int iter7 = pstart[6]; iter7 <= pend[6]; ++iter7) {	\
-i_out7 = iter7 * pdcp_out[6];	\
-i_x7 = pby_x[6] * (iter7 - pstart[6]) * pdcp_x[6];	\
-	 for(int iter6 = pstart[5]; iter6 <= pend[5]; ++iter6) {	\
-i_out6 = iter6 * pdcp_out[5];	\
-i_x6 = pby_x[5] * (iter6 - pstart[5]) * pdcp_x[5];	\
-	 for(int iter5 = pstart[4]; iter5 <= pend[4]; ++iter5) {	\
-i_out5 = iter5 * pdcp_out[4];	\
-i_x5 = pby_x[4] * (iter5 - pstart[4]) * pdcp_x[4];	\
-	 for(int iter4 = pstart[3]; iter4 <= pend[3]; ++iter4) {	\
-i_out4 = iter4 * pdcp_out[3];	\
-i_x4 = pby_x[3] * (iter4 - pstart[3]) * pdcp_x[3];	\
-	 for(int iter3 = pstart[2]; iter3 <= pend[2]; ++iter3) {	\
-i_out3 = iter3 * pdcp_out[2];	\
-i_x3 = pby_x[2] * (iter3 - pstart[2]) * pdcp_x[2];	\
-	 for(int iter2 = pstart[1]; iter2 <= pend[1]; ++iter2) {	\
-i_out2 = iter2 * pdcp_out[1];	\
-i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
-	 for(int iter1 = pstart[0]; iter1 <= pend[0]; ++iter1) {	\
-	\
-	\
-        flatind_out = iter1 + i_out2 + i_out3 + i_out4 + i_out5 + i_out6 + i_out7 + i_out8 + i_out9;       \
-        flatind_x = pby_x[0] * (iter1 - pstart[0]) + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9;           \
-        DOCODE;                         \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-} while(0)
-
-
-
-
-
 #define MACRO_DIM_BIND_10(DOCODE) do {  \
   double *pdcp_out = REAL(dimcumprod_out);  \
   double *pdcp_x = REAL(dimcumprod_x);  \
@@ -2025,70 +1849,6 @@ i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
         flatind_x = pby_x[0] * (iter1 - pstart[0]) + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10;           \
         DOCODE;                         \
   	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-} while(0)
-
-
-
-
-
-#define MACRO_DIM_BIND_11(DOCODE) do {  \
-  double *pdcp_out = REAL(dimcumprod_out);  \
-  double *pdcp_x = REAL(dimcumprod_x);  \
-                                        \
-  const int *pby_x = INTEGER_RO(by_x);  \
-  const int *pstart = INTEGER_RO(starts); \
-  const int *pend = INTEGER_RO(ends);    \
-  R_xlen_t flatind_out;                 \
-  R_xlen_t flatind_x;                   \
-  R_xlen_t i_out2, i_out3, i_out4, i_out5, i_out6, i_out7, i_out8, i_out9, i_out10, i_out11;              \
-  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11;                \
-  	 for(int iter11 = pstart[10]; iter11 <= pend[10]; ++iter11) {	\
-i_out11 = iter11 * pdcp_out[10];	\
-i_x11 = pby_x[10] * (iter11 - pstart[10]) * pdcp_x[10];	\
-	 for(int iter10 = pstart[9]; iter10 <= pend[9]; ++iter10) {	\
-i_out10 = iter10 * pdcp_out[9];	\
-i_x10 = pby_x[9] * (iter10 - pstart[9]) * pdcp_x[9];	\
-	 for(int iter9 = pstart[8]; iter9 <= pend[8]; ++iter9) {	\
-i_out9 = iter9 * pdcp_out[8];	\
-i_x9 = pby_x[8] * (iter9 - pstart[8]) * pdcp_x[8];	\
-	 for(int iter8 = pstart[7]; iter8 <= pend[7]; ++iter8) {	\
-i_out8 = iter8 * pdcp_out[7];	\
-i_x8 = pby_x[7] * (iter8 - pstart[7]) * pdcp_x[7];	\
-	 for(int iter7 = pstart[6]; iter7 <= pend[6]; ++iter7) {	\
-i_out7 = iter7 * pdcp_out[6];	\
-i_x7 = pby_x[6] * (iter7 - pstart[6]) * pdcp_x[6];	\
-	 for(int iter6 = pstart[5]; iter6 <= pend[5]; ++iter6) {	\
-i_out6 = iter6 * pdcp_out[5];	\
-i_x6 = pby_x[5] * (iter6 - pstart[5]) * pdcp_x[5];	\
-	 for(int iter5 = pstart[4]; iter5 <= pend[4]; ++iter5) {	\
-i_out5 = iter5 * pdcp_out[4];	\
-i_x5 = pby_x[4] * (iter5 - pstart[4]) * pdcp_x[4];	\
-	 for(int iter4 = pstart[3]; iter4 <= pend[3]; ++iter4) {	\
-i_out4 = iter4 * pdcp_out[3];	\
-i_x4 = pby_x[3] * (iter4 - pstart[3]) * pdcp_x[3];	\
-	 for(int iter3 = pstart[2]; iter3 <= pend[2]; ++iter3) {	\
-i_out3 = iter3 * pdcp_out[2];	\
-i_x3 = pby_x[2] * (iter3 - pstart[2]) * pdcp_x[2];	\
-	 for(int iter2 = pstart[1]; iter2 <= pend[1]; ++iter2) {	\
-i_out2 = iter2 * pdcp_out[1];	\
-i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
-	 for(int iter1 = pstart[0]; iter1 <= pend[0]; ++iter1) {	\
-	\
-	\
-        flatind_out = iter1 + i_out2 + i_out3 + i_out4 + i_out5 + i_out6 + i_out7 + i_out8 + i_out9 + i_out10 + i_out11;       \
-        flatind_x = pby_x[0] * (iter1 - pstart[0]) + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11;           \
-        DOCODE;                         \
-  	 }	\
-	 }	\
 	 }	\
 	 }	\
 	 }	\
@@ -2172,78 +1932,6 @@ i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
 
 
 
-#define MACRO_DIM_BIND_13(DOCODE) do {  \
-  double *pdcp_out = REAL(dimcumprod_out);  \
-  double *pdcp_x = REAL(dimcumprod_x);  \
-                                        \
-  const int *pby_x = INTEGER_RO(by_x);  \
-  const int *pstart = INTEGER_RO(starts); \
-  const int *pend = INTEGER_RO(ends);    \
-  R_xlen_t flatind_out;                 \
-  R_xlen_t flatind_x;                   \
-  R_xlen_t i_out2, i_out3, i_out4, i_out5, i_out6, i_out7, i_out8, i_out9, i_out10, i_out11, i_out12, i_out13;              \
-  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12, i_x13;                \
-  	 for(int iter13 = pstart[12]; iter13 <= pend[12]; ++iter13) {	\
-i_out13 = iter13 * pdcp_out[12];	\
-i_x13 = pby_x[12] * (iter13 - pstart[12]) * pdcp_x[12];	\
-	 for(int iter12 = pstart[11]; iter12 <= pend[11]; ++iter12) {	\
-i_out12 = iter12 * pdcp_out[11];	\
-i_x12 = pby_x[11] * (iter12 - pstart[11]) * pdcp_x[11];	\
-	 for(int iter11 = pstart[10]; iter11 <= pend[10]; ++iter11) {	\
-i_out11 = iter11 * pdcp_out[10];	\
-i_x11 = pby_x[10] * (iter11 - pstart[10]) * pdcp_x[10];	\
-	 for(int iter10 = pstart[9]; iter10 <= pend[9]; ++iter10) {	\
-i_out10 = iter10 * pdcp_out[9];	\
-i_x10 = pby_x[9] * (iter10 - pstart[9]) * pdcp_x[9];	\
-	 for(int iter9 = pstart[8]; iter9 <= pend[8]; ++iter9) {	\
-i_out9 = iter9 * pdcp_out[8];	\
-i_x9 = pby_x[8] * (iter9 - pstart[8]) * pdcp_x[8];	\
-	 for(int iter8 = pstart[7]; iter8 <= pend[7]; ++iter8) {	\
-i_out8 = iter8 * pdcp_out[7];	\
-i_x8 = pby_x[7] * (iter8 - pstart[7]) * pdcp_x[7];	\
-	 for(int iter7 = pstart[6]; iter7 <= pend[6]; ++iter7) {	\
-i_out7 = iter7 * pdcp_out[6];	\
-i_x7 = pby_x[6] * (iter7 - pstart[6]) * pdcp_x[6];	\
-	 for(int iter6 = pstart[5]; iter6 <= pend[5]; ++iter6) {	\
-i_out6 = iter6 * pdcp_out[5];	\
-i_x6 = pby_x[5] * (iter6 - pstart[5]) * pdcp_x[5];	\
-	 for(int iter5 = pstart[4]; iter5 <= pend[4]; ++iter5) {	\
-i_out5 = iter5 * pdcp_out[4];	\
-i_x5 = pby_x[4] * (iter5 - pstart[4]) * pdcp_x[4];	\
-	 for(int iter4 = pstart[3]; iter4 <= pend[3]; ++iter4) {	\
-i_out4 = iter4 * pdcp_out[3];	\
-i_x4 = pby_x[3] * (iter4 - pstart[3]) * pdcp_x[3];	\
-	 for(int iter3 = pstart[2]; iter3 <= pend[2]; ++iter3) {	\
-i_out3 = iter3 * pdcp_out[2];	\
-i_x3 = pby_x[2] * (iter3 - pstart[2]) * pdcp_x[2];	\
-	 for(int iter2 = pstart[1]; iter2 <= pend[1]; ++iter2) {	\
-i_out2 = iter2 * pdcp_out[1];	\
-i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
-	 for(int iter1 = pstart[0]; iter1 <= pend[0]; ++iter1) {	\
-	\
-	\
-        flatind_out = iter1 + i_out2 + i_out3 + i_out4 + i_out5 + i_out6 + i_out7 + i_out8 + i_out9 + i_out10 + i_out11 + i_out12 + i_out13;       \
-        flatind_x = pby_x[0] * (iter1 - pstart[0]) + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12 + i_x13;           \
-        DOCODE;                         \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-} while(0)
-
-
-
-
-
 #define MACRO_DIM_BIND_14(DOCODE) do {  \
   double *pdcp_out = REAL(dimcumprod_out);  \
   double *pdcp_x = REAL(dimcumprod_x);  \
@@ -2301,86 +1989,6 @@ i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
         flatind_x = pby_x[0] * (iter1 - pstart[0]) + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12 + i_x13 + i_x14;           \
         DOCODE;                         \
   	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-} while(0)
-
-
-
-
-
-#define MACRO_DIM_BIND_15(DOCODE) do {  \
-  double *pdcp_out = REAL(dimcumprod_out);  \
-  double *pdcp_x = REAL(dimcumprod_x);  \
-                                        \
-  const int *pby_x = INTEGER_RO(by_x);  \
-  const int *pstart = INTEGER_RO(starts); \
-  const int *pend = INTEGER_RO(ends);    \
-  R_xlen_t flatind_out;                 \
-  R_xlen_t flatind_x;                   \
-  R_xlen_t i_out2, i_out3, i_out4, i_out5, i_out6, i_out7, i_out8, i_out9, i_out10, i_out11, i_out12, i_out13, i_out14, i_out15;              \
-  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12, i_x13, i_x14, i_x15;                \
-  	 for(int iter15 = pstart[14]; iter15 <= pend[14]; ++iter15) {	\
-i_out15 = iter15 * pdcp_out[14];	\
-i_x15 = pby_x[14] * (iter15 - pstart[14]) * pdcp_x[14];	\
-	 for(int iter14 = pstart[13]; iter14 <= pend[13]; ++iter14) {	\
-i_out14 = iter14 * pdcp_out[13];	\
-i_x14 = pby_x[13] * (iter14 - pstart[13]) * pdcp_x[13];	\
-	 for(int iter13 = pstart[12]; iter13 <= pend[12]; ++iter13) {	\
-i_out13 = iter13 * pdcp_out[12];	\
-i_x13 = pby_x[12] * (iter13 - pstart[12]) * pdcp_x[12];	\
-	 for(int iter12 = pstart[11]; iter12 <= pend[11]; ++iter12) {	\
-i_out12 = iter12 * pdcp_out[11];	\
-i_x12 = pby_x[11] * (iter12 - pstart[11]) * pdcp_x[11];	\
-	 for(int iter11 = pstart[10]; iter11 <= pend[10]; ++iter11) {	\
-i_out11 = iter11 * pdcp_out[10];	\
-i_x11 = pby_x[10] * (iter11 - pstart[10]) * pdcp_x[10];	\
-	 for(int iter10 = pstart[9]; iter10 <= pend[9]; ++iter10) {	\
-i_out10 = iter10 * pdcp_out[9];	\
-i_x10 = pby_x[9] * (iter10 - pstart[9]) * pdcp_x[9];	\
-	 for(int iter9 = pstart[8]; iter9 <= pend[8]; ++iter9) {	\
-i_out9 = iter9 * pdcp_out[8];	\
-i_x9 = pby_x[8] * (iter9 - pstart[8]) * pdcp_x[8];	\
-	 for(int iter8 = pstart[7]; iter8 <= pend[7]; ++iter8) {	\
-i_out8 = iter8 * pdcp_out[7];	\
-i_x8 = pby_x[7] * (iter8 - pstart[7]) * pdcp_x[7];	\
-	 for(int iter7 = pstart[6]; iter7 <= pend[6]; ++iter7) {	\
-i_out7 = iter7 * pdcp_out[6];	\
-i_x7 = pby_x[6] * (iter7 - pstart[6]) * pdcp_x[6];	\
-	 for(int iter6 = pstart[5]; iter6 <= pend[5]; ++iter6) {	\
-i_out6 = iter6 * pdcp_out[5];	\
-i_x6 = pby_x[5] * (iter6 - pstart[5]) * pdcp_x[5];	\
-	 for(int iter5 = pstart[4]; iter5 <= pend[4]; ++iter5) {	\
-i_out5 = iter5 * pdcp_out[4];	\
-i_x5 = pby_x[4] * (iter5 - pstart[4]) * pdcp_x[4];	\
-	 for(int iter4 = pstart[3]; iter4 <= pend[3]; ++iter4) {	\
-i_out4 = iter4 * pdcp_out[3];	\
-i_x4 = pby_x[3] * (iter4 - pstart[3]) * pdcp_x[3];	\
-	 for(int iter3 = pstart[2]; iter3 <= pend[2]; ++iter3) {	\
-i_out3 = iter3 * pdcp_out[2];	\
-i_x3 = pby_x[2] * (iter3 - pstart[2]) * pdcp_x[2];	\
-	 for(int iter2 = pstart[1]; iter2 <= pend[1]; ++iter2) {	\
-i_out2 = iter2 * pdcp_out[1];	\
-i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
-	 for(int iter1 = pstart[0]; iter1 <= pend[0]; ++iter1) {	\
-	\
-	\
-        flatind_out = iter1 + i_out2 + i_out3 + i_out4 + i_out5 + i_out6 + i_out7 + i_out8 + i_out9 + i_out10 + i_out11 + i_out12 + i_out13 + i_out14 + i_out15;       \
-        flatind_x = pby_x[0] * (iter1 - pstart[0]) + i_x2 + i_x3 + i_x4 + i_x5 + i_x6 + i_x7 + i_x8 + i_x9 + i_x10 + i_x11 + i_x12 + i_x13 + i_x14 + i_x15;           \
-        DOCODE;                         \
-  	 }	\
-	 }	\
 	 }	\
 	 }	\
 	 }	\
@@ -2492,44 +2100,23 @@ i_x2 = pby_x[1] * (iter2 - pstart[1]) * pdcp_x[1];	\
     case 2:                                       \
   MACRO_DIM_BIND_2(DOCODE);    \
   break;                                        \
-case 3:                                       \
-  MACRO_DIM_BIND_3(DOCODE);    \
-  break;                                        \
 case 4:                                       \
   MACRO_DIM_BIND_4(DOCODE);    \
-  break;                                        \
-case 5:                                       \
-  MACRO_DIM_BIND_5(DOCODE);    \
   break;                                        \
 case 6:                                       \
   MACRO_DIM_BIND_6(DOCODE);    \
   break;                                        \
-case 7:                                       \
-  MACRO_DIM_BIND_7(DOCODE);    \
-  break;                                        \
 case 8:                                       \
   MACRO_DIM_BIND_8(DOCODE);    \
-  break;                                        \
-case 9:                                       \
-  MACRO_DIM_BIND_9(DOCODE);    \
   break;                                        \
 case 10:                                       \
   MACRO_DIM_BIND_10(DOCODE);    \
   break;                                        \
-case 11:                                       \
-  MACRO_DIM_BIND_11(DOCODE);    \
-  break;                                        \
 case 12:                                       \
   MACRO_DIM_BIND_12(DOCODE);    \
   break;                                        \
-case 13:                                       \
-  MACRO_DIM_BIND_13(DOCODE);    \
-  break;                                        \
 case 14:                                       \
   MACRO_DIM_BIND_14(DOCODE);    \
-  break;                                        \
-case 15:                                       \
-  MACRO_DIM_BIND_15(DOCODE);    \
   break;                                        \
 case 16:                                       \
   MACRO_DIM_BIND_16(DOCODE);    \

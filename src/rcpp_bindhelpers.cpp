@@ -1,7 +1,5 @@
-
 #include <Rcpp/Lightest>
 using namespace Rcpp;
-
 
 //' @keywords internal
 //' @noRd
@@ -43,29 +41,29 @@ String rcpp_bindhelper_max_type(
   return out;
 }
 
-
-
-
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bindhelper_max_dimlen)]]
-int rcpp_bindhelper_max_dimlen(
-  SEXP x
+// [[Rcpp::export(.rcpp_bindhelper_dimlens)]]
+SEXP rcpp_bindhelper_dimlens(
+    SEXP x
 ) {
   int n = Rf_length(x);
   SEXP tempout;
   SEXP tempdim;
   int tempdimlen;
-  int out = 0;
+  
+  SEXP out = PROTECT(Rf_allocVector(INTSXP, n));
+  int *pout;
+  pout = INTEGER(out);
+  
   for(int i = 0; i < n; ++i) {
     tempout = VECTOR_ELT(x, i);
     tempdim = Rf_getAttrib(tempout, R_DimSymbol);
     tempdimlen = Rf_length(tempdim);
-    if(tempdimlen > out) {
-      out = tempdimlen;
-    }
+    pout[i] = tempdimlen;
   }
   
+  UNPROTECT(1);
   return out;
 }
 
@@ -74,14 +72,14 @@ int rcpp_bindhelper_max_dimlen(
 //' @noRd
 // [[Rcpp::export(.rcpp_bindhelper_neednorm)]]
 SEXP rcpp_bindhelper_neednorm(
-  SEXP x, int target_dimlen
+    SEXP x, int target_dimlen
 ) {
   int n = Rf_length(x);
   
   SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
   int *pout;
   pout = LOGICAL(out);
-  
+
   SEXP tempout;
   SEXP tempdim;
   int tempdimlen;
@@ -108,7 +106,7 @@ SEXP rcpp_bindhelper_neednorm(
 //' @noRd
 // [[Rcpp::export(.rcpp_bindhelper_sum_along)]]
 R_xlen_t rcpp_bindhelper_sum_along(
-  SEXP x, int along
+    SEXP x, int along
 ) {
   int n = Rf_length(x);
   SEXP tempout;
@@ -129,7 +127,7 @@ R_xlen_t rcpp_bindhelper_sum_along(
 //' @noRd
 // [[Rcpp::export(.rcpp_bindhelper_conf_dims_2)]]
 bool rcpp_bindhelper_conf_dims_2(
-  SEXP x, SEXP y, int along
+  SEXP x, SEXP y, int along, int max_bc
 ) {
   if(Rf_length(x) != Rf_length(y)) {
     return false;
@@ -150,25 +148,26 @@ bool rcpp_bindhelper_conf_dims_2(
       }
     }
   }
-  if(count_bc > 1) {
+  if(count_bc > max_bc) {
     return false;
   }
   return true;
 }
 
+
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_bindhelper_conf_dims_all)]]
 bool rcpp_bindhelper_conf_dims_all(
-  SEXP lst_dims, SEXP target, int along
+  SEXP lst_dims, SEXP target, int along, int max_bc
 ) {
-  
+
   int n = Rf_length(lst_dims);
   bool is_conf;
   SEXP tempout;
   for(int i = 0; i< n; ++i) {
     tempout = VECTOR_ELT(lst_dims, i);
-    is_conf = rcpp_bindhelper_conf_dims_2(target, tempout, along);
+    is_conf = rcpp_bindhelper_conf_dims_2(target, tempout, along, max_bc);
     if(!is_conf) {
       return false;
     }

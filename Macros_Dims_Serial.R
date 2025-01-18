@@ -486,7 +486,7 @@ macro_dim_docall <- templatecode_docall2
 
 # MISTAKE: cannot use the same iterations for `x` and `out`!!!
 
-BINDTYPES <- 2:16
+BINDTYPES <- seq(2, 16, 2)
 
 all_for <- sprintf(
   "\t for(int iter%d = pstart[%d]; iter%d <= pend[%d]; ++iter%d) {\t\\",
