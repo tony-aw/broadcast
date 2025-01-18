@@ -5,37 +5,67 @@
 \alias{broadcast-package}
 \alias{broadcast}
 \alias{broadcast_help}
-\title{broadcast: Subset Methods as Alternatives to the Square Brackets Operators for Programming}
+\title{broadcast: Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies}
 \description{
 broadcast: \cr
-Simple broadcasted binary operations for atomic and recursive arrays in 'R'. \cr
+Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
+Implements simple broadcasted binding and binary operations, for atomic and recursive arrays.
+
+Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, or otherwise use any external libraries;
+'broadcast' was essentially made from scratch and can be installed out-of-the-box.
+
+The broadcasted implementations include, but are not limited to, the following:
+\enumerate{
+\item Relational operations (like \code{==}, \code{!=}, \code{<}, \code{>}, \code{<=}, \code{>=}; can also take into account Machine precision);
+\item Arithmetic operations (like \code{+}, \code{-}, \code{*}, \code{/}, \code{^}, \code{pmin()}, \code{pmax()}, integer modulo);
+\item Boolean combiner operations (like \code{&}, \code{|}, \code{xor()}, "nand");
+\item String distance and concatenation operations;
+\item Broadcasted S4 implementation of \code{ifelse()};
+\item A Broadcasted apply-like function;
+\item Binding arrays along any arbitrary axis, with broadcast support.
 }
-\details{
-The 'broadcast' package provides a set of type-specific functions
-for broadcasted operations. \cr
-The functions use an API similar to the \link[base]{outer} and \link[base]{sweep} functions. \cr
+
+The broadcasted implementations strive to minimize computation time and memory usage (which is not just good for computer efficiency, but also for the environment).
+}
+\section{Getting Started}{
+
+An introduction and overview of the package can be found on the website. \cr
 \cr
-The following functions are available:
-\itemize{
-\item \link{bc.num}: Broadcasted operations for numeric (types \code{int} and \code{dbl}) arrays.
-\item \code{bc.bool}: Broadcasted operations for logical/Boolean arrays.
-\item \code{bc.cplx}: Broadcasted operations for \code{complex} arrays.
-\item \code{bc.str}: Broadcasted operations for \code{character} arrays.
-\item \code{bc.list}: Broadcasted operations for recursive arrays.
 }
 
-Each of these functions support 2 types of operations:
+\section{Methods and Functions}{
+
+
+\bold{Type Specific Binary Operations} \cr
+'broadcast' provides a set of functions for type-specific binary operations
+for broadcasted operations. \cr
+These functions use an API similar to the \link[base]{outer} and \link[base]{sweep} functions. \cr
+\cr
+The following functions for type-specific binary operations are available:
 \itemize{
-\item \code{regular} operations, which return an array of the same type. \cr
-For example: +, -, *, /, etc.
-\item \code{relational} operations, which return a logical array. \cr
-For example: ==, !=, etc.
+\item \link{bc.num}: numeric arithmetic and relational operations;
+\item \link{bc.b}: Boolean combiner operations;
+\item \link{bc.cplx}: complex arithmetic and equality operations;
+\item \link{bc.str}: string equality, concatenation, and distance operations;
+\item \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 }
 
-The 'broadcast' package supports relational operators (==, !=, <, > <=, >=),
-logical combiners (&, |, xor, nand),
-arithmetic (+, -, *, /, ^)
+\bold{S4 implementations} \cr
+'broadcast' also comes with 2 generic S4 methods:
+\itemize{
+\item \link{bc_ifelse}: Broadcasted version of \link[base]{ifelse}.
+\item \link{bcapply}: Broadcasted apply-like function. \cr \cr
 }
+
+\bold{Binding Implementations} \cr
+... \cr
+\cr
+\bold{Other functions} \cr
+'broadcast' also provides
+\link[=as_bool]{type-casting} functions,
+which preserve names and dimensions - convenient for arrays. \cr \cr
+}
+
 \references{
 The badges shown in the documentation of this R-package were made using the services of: \url{https://shields.io/}
 }

@@ -1,30 +1,27 @@
-#' Atomic Type Casting With Names and Dimensions Preserved
+#' Atomic and List Type Casting With Names and Dimensions Preserved
 #'
 #' @description
-#' Atomic type casting in R is generally performed using the functions
-#' \link[base]{as.logical}, \link[base]{as.integer},
-#' \link[base]{as.double}, \link[base]{as.character},
-#' \link[base]{as.complex}, and \link[base]{as.raw}. \cr
-#' \cr
-#' Converting an object between atomic types using these functions
-#' strips the object of its attributes,
-#' including (dim)names and dimensions. \cr
-#' \cr
-#' The functions provided here by the 'tinycodet' package
-#' preserve the dimensions, dimnames, and names. \cr
+#' Type casting usually strips away attributes of objects. \cr
+#' The functions provided here preserve dimensions, dimnames, and names,
+#' which may be more convenient for arrays and array-like objects. \cr
 #' \cr
 #' The functions are as follows: \cr
 #'
 #'  * \code{as_bool()}: converts object to atomic type \code{logical} (\code{TRUE, FALSE, NA}).
 #'  * \code{as_int()}: converts object to atomic type \code{integer}.
-#'  * \code{as_dbl()}: converts object to atomic type \code{double} (AKA decimal numbers).
+#'  * \code{as_dbl()}: converts object to atomic type \code{double} (AKA numeric).
 #'  * \code{as_chr()}: converts object to atomic type \code{character}.
 #'  * \code{as_cplx()}: converts object to atomic type \code{complex}.
-#'  * \code{as_raw()}:converts object to atomic type \code{raw}.
+#'  * \code{as_raw()}: converts object to atomic type \code{raw}.
+#'  * \code{as_list()}: converts object to recursive type \code{list}. \cr
+#' 
+#' `as_num()` is an alias for `as_dbl()`. \cr
+#' `as_str()` is an alias for `as_chr()`. \cr
+#' \cr
+#' See also \link[base]{typeof}. \cr \cr
+#' 
 #'
-#'
-#' @param x vector, matrix, array
-#' (or a similar object where all elements share the same type).
+#' @param x an R object.
 #' @param ... further arguments passed to or from other methods.
 #'
 #'
@@ -34,17 +31,17 @@
 #' The converted object. \cr \cr
 #'
 #'
-#' @example inst/examples/atomic_typecast.R
+#' @example inst/examples/typecast.R
 #'
 #' 
 #'
 #'
 
-#' @name atomic_typecast
+#' @name typecast
 NULL
 
 
-#' @rdname atomic_typecast
+#' @rdname typecast
 #' @export
 as_bool <- function(x, ...) {
   temp.attr <- .attr_typecast(x)
@@ -54,7 +51,7 @@ as_bool <- function(x, ...) {
 }
 
 
-#' @rdname atomic_typecast
+#' @rdname typecast
 #' @export
 as_int <- function(x, ...) {
   temp.attr <- .attr_typecast(x)
@@ -64,7 +61,7 @@ as_int <- function(x, ...) {
 }
 
 
-#' @rdname atomic_typecast
+#' @rdname typecast
 #' @export
 as_dbl <- function(x, ...) {
   temp.attr <- .attr_typecast(x)
@@ -73,8 +70,12 @@ as_dbl <- function(x, ...) {
   return(out)
 }
 
+#' @rdname typecast
+#' @export
+as_num <- as_dbl
 
-#' @rdname atomic_typecast
+
+#' @rdname typecast
 #' @export
 as_chr <- function(x, ...) {
   temp.attr <- .attr_typecast(x)
@@ -84,7 +85,13 @@ as_chr <- function(x, ...) {
 }
 
 
-#' @rdname atomic_typecast
+#' @rdname typecast
+#' @export
+as_str <- as_chr
+
+
+
+#' @rdname typecast
 #' @export
 as_cplx <- function(x, ...) {
   temp.attr <- .attr_typecast(x)
@@ -94,7 +101,7 @@ as_cplx <- function(x, ...) {
 }
 
 
-#' @rdname atomic_typecast
+#' @rdname typecast
 #' @export
 as_raw <- function(x, ...) {
   temp.attr <- .attr_typecast(x)
@@ -102,6 +109,18 @@ as_raw <- function(x, ...) {
   attributes(out) <- temp.attr
   return(out)
 }
+
+
+#' @rdname typecast
+#' @export
+as_list<- function(x, ...) {
+  temp.attr <- .attr_typecast(x)
+  out <- as.list(x, ...)
+  attributes(out) <- temp.attr
+  return(out)
+}
+
+
 
 
 #' @keywords internal

@@ -18,7 +18,8 @@ If \code{NULL} or \code{"list"} (default), the result will be a recursive array.
 If it is certain that, for every iteration,
 \code{f()} always results in a \bold{single atomic scalar},
 the user can specify the type in \code{v} to pre-allocate the result. \cr
-Pre-allocating the results leads to slightly faster and more memory efficient code. \cr}
+Pre-allocating the results leads to slightly faster and more memory efficient code. \cr
+NOTE: Incorrectly specifying \code{v} leads to undefined behaviour. \cr}
 }
 \value{
 An atomic or recursive array with dimensions \code{bc_dim(x, y)}. \cr

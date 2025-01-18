@@ -34,16 +34,22 @@ performs broadcasted operations on 2 character/string arrays. \cr
 \code{bc.chr()} is an alias for \code{bc.str()}. \cr
 }
 \examples{
-x.dim <- c(10:8)
-x.len <- prod(x.dim)
-x <- array(letters, x.dim)
+
+# string concatenation:
+x <- array(letters, c(10, 2, 1))
 y <- array(letters, c(10,1,1))
-
-bc.str(x, y, "==")
-bc.str(x, y, "!=")
-
 bc.str(x, y, "+")
 
+
+# string (in)equality:
 bc.str(array(letters), array(letters), "==")
 bc.str(array(letters), array(letters), "!=")
+
+
+# string distance (Levenshtein):
+x <- array(month.name, c(12, 1))
+y <- array(month.abb, c(1, 12))
+out <- bc.str(x, y, "levenshtein")
+dimnames(out) <- list(month.name, month.abb)
+print(out)
 }
