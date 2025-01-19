@@ -20,19 +20,17 @@
 
 #' @keywords internal
 #' @noRd
-.stop_conf_dim <- function(x, y, abortcall) {
-  x.dim <- dim(x)
-  y.dim <- dim(y)
+.stop_conf_dim <- function(x.dim, y.dim, x.len, y.len, abortcall) {
   
   if(is.null(x.dim) || is.null(y.dim)) {
-    if(length(x) != length(y)) {
-      if(length(x) != 1 && length(y) != 1) {
+    if(x.len != y.len) {
+      if(x.len != 1 && y.len != 1) {
         stop(simpleError("`x` and `y` are not conformable", call = abortcall))
       }
     }
   }
   else {
-    out <- .C_check_conf_dim(dim(x), dim(y))
+    out <- .C_check_conf_dim(x.dim, y.dim)
     if(!out) {
       stop(simpleError("`x` and `y` are not conformable", call = abortcall))
     }
@@ -62,13 +60,10 @@
 
 #' @keywords internal
 #' @noRd
-.determine_dimmode <- function(x, y, out.dim, abortcall) {
-  
-  x.dim <- dim(x)
-  y.dim <- dim(y)
+.determine_dimmode <- function(x.dim, y.dim, x.len, y.len, out.dim, abortcall) {
   
   # use vector mode:
-  if(length(x) == 1L || length(y) == 1L) { # x and/or y are/is scalar(s)
+  if(x.len == 1L || y.len == 1L) { # x and/or y are/is scalar(s)
     return(1L)
   }
   else if(is.null(x.dim) || is.null(y.dim)) { # x and/or y are/is vector(s)
@@ -124,9 +119,9 @@
 
 #' @keywords internal
 #' @noRd
-.determine_out.len <- function(x, y, out.dim) {
-  if(is.null(dim(x)) || is.null(dim(y))) {
-    return(max(length(x), length(y)))
+.determine_out.len <- function(x.dim, y.dim, x.len, y.len, out.dim) {
+  if(is.null(x.dim) || is.null(y.dim)) {
+    return(max(x.len, y.len))
   }
   else {
     return(prod(out.dim))
@@ -138,7 +133,7 @@
 
 #' @keywords internal
 #' @noRd
-.make_by <- function(target.dim, out.dim) {
+.make_by <- function(target.dim) {
   # this approach is faster than ifelse()
   ind1 <- which(target.dim == 1L)
   ind0 <- which(target.dim > 1L)
@@ -201,53 +196,46 @@
 
 #' @keywords internal
 #' @noRd
-.prep_arrays <- function(x, y) {
+.normalize_dims <- function(x.dim, y.dim) {
   
   # normalize dimensions:
-  x.dim <- dim(x)
-  y.dim <- dim(y)
   if(!is.null(x.dim) && !is.null(y.dim)) {
     x.ndims <- length(x.dim)
     y.ndims <- length(y.dim)
     if(x.ndims > y.ndims) {
-      dim(y) <- c(y.dim, rep(1L, x.ndims - y.ndims))
+      y.dim <- c(y.dim, rep(1L, x.ndims - y.ndims))
     }
     if(y.ndims > x.ndims) {
-      dim(x) <- c(x.dim, rep(1L, y.ndims - x.ndims))
+      x.dim <- c(x.dim, rep(1L, y.ndims - x.ndims))
     }
   }
-  x.dim <- dim(x)
-  y.dim <- dim(y)
   
-  return(list(x, y))
+  return(list(x.dim, y.dim))
   
 }
 
 
 #' @keywords internal
 #' @noRd
-.simplify_arrays <- function(x, y) {
+.simplify_dims <- function(x.dim, y.dim, x.len, y.len) {
 
   # drop dimensions for vectors and scalars:
-  if(length(x) == 1L) {
-    dim(x) <- NULL
+  if(x.len == 1L) {
+    x.dim <- NULL
   }
-  if(length(y) == 1L) {
-    dim(y) <- NULL
+  if(y.len == 1L) {
+    y.dim <- NULL
   }
-  if(.ndims(x) <= 1L && .ndims(y) <= 1L) {
+  if(length(x.dim) <= 1L && length(y.dim) <= 1L) {
     # if both are 1d arrays or vectors, drop dimensions
     # if only one is a 1d array, DON'T drop dimensions,
     # since it may be orthogonal broadcasting
     # (i.e. colvector * rowvector = 1d * 2d)
     # also, 1d %op% matrix is not the same as vector %op% matrix when broadcasted
-    dim(x) <- NULL
-    dim(y) <- NULL
+    x.dim <- NULL
+    y.dim <- NULL
   }
   # end dropping dimensions for vectors and scalars
-  
-  x.dim <- dim(x)
-  y.dim <- dim(y)
   
   
   # drop common 1L dimensions:
@@ -259,8 +247,6 @@
     }
     if(length(x.dim) == 0L) x.dim <- NULL
     if(length(y.dim) == 0L) y.dim <- NULL
-    dim(x) <- x.dim
-    dim(y) <- y.dim
   } # end dropping dimensions
   
   
@@ -310,9 +296,6 @@
       
     } # end loop
     
-    dim(x) <- x.dim
-    dim(y) <- y.dim
-    
   } # end merging
   
   
@@ -320,19 +303,19 @@
   # chunkification allows reduction of the amount of required compiled code,
   # thus reducing compilaion & installation time of the package
   if(length(x.dim) > 2L && length(y.dim) > 2L) {
-    x.ndims <- .ndims(x)
-    y.ndims <- .ndims(y)
+    x.ndims <- length(x.dim)
+    y.ndims <- length(y.dim)
     
     if(!.is.even(x.ndims)) {
-      dim(x) <- c(dim(x), 1L)
+      x.dim <- c(x.dim, 1L)
     }
     if(!.is.even(y.ndims)) {
-      dim(y) <- c(dim(y), 1L)
+      y.dim <- c(y.dim, 1L)
     }
   } # end chunkification
   
   
-  return(list(x, y))
+  return(list(x.dim, y.dim))
 }
 
 

@@ -56,8 +56,10 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # print(x)
           # print(y)
           # print(tdim)
-          # cat("\n")
-          
+          # # cat("\n")
+          # 
+          # cat("dim(x) = ", dim(x), "\n")
+          # cat("dim(y) = ", dim(y), "\n")
           
           # DO TESTS BY CASE:
           if(is.null(tdim)) {

@@ -78,32 +78,15 @@ bc.chr <- bc.str
 #' @noRd
 .bc_str_conc <- function(x, y, op, abortcall) {
   
-  
-  # general prep:
-  prep <- .prep_arrays(x, y)
-  x <- prep[[1L]]
-  y <- prep[[2L]]
-  x.dim <- dim(x)
-  y.dim <- dim(y)
-  
-  
-  # Check & determine dimensions to return:
-  .stop_conf_dim(x, y, abortcall)
-  out.dimorig <- .determine_out.dim(x.dim, y.dim, abortcall)
-  out.len <- .determine_out.len(x, y, out.dimorig)
-  
-  
-  # Simplify arrays, to reduce broadcast load:
-  simp <- .simplify_arrays(x, y)
-  x <- simp[[1L]]
-  y <- simp[[2L]]
-  x.dim <- dim(x)
-  y.dim <- dim(y)
-  out.dimsimp <- .determine_out.dim(x.dim, y.dim, abortcall)
-  
-  
-  # Broadcast:
-  dimmode <- .determine_dimmode(x, y, out.dimsimp)
+  prep <- .prep_binary(x, y, abortcall)
+  x.dim <- prep[[1L]]
+  y.dim <- prep[[2L]]
+  # x.len <- prep[[3L]]
+  # y.len <- prep[[4L]]
+  out.dimorig <- prep[[5L]]
+  out.dimsimp <- prep[[6L]]
+  out.len <- prep[[7L]]
+  dimmode <- prep[[8L]]
   
   if(dimmode == 1L) { # vector mode
     out <- .rcpp_bc_str_v(x, y, out.len, op)
@@ -113,8 +96,8 @@ bc.chr <- bc.str
     out <- .rcpp_bc_str_ov(x, y, RxC, out.dimsimp, out.len, op)
   }
   else if(dimmode == 3L){ # big-small mode
-    by_x <- .make_by(x.dim, out.dimsimp)
-    by_y <- .make_by(y.dim, out.dimsimp)
+    by_x <- .make_by(x.dim)
+    by_y <- .make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     if(all(x.dim == out.dimsimp)) {
@@ -129,8 +112,8 @@ bc.chr <- bc.str
   }
   else if(dimmode == 4L) { # general mode
     
-    by_x <- .make_by(x.dim, out.dimsimp)
-    by_y <- .make_by(y.dim, out.dimsimp)
+    by_x <- .make_by(x.dim)
+    by_y <- .make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     
@@ -151,31 +134,16 @@ bc.chr <- bc.str
 #' @noRd
 .bc_str_rel <- function(x, y, op, abortcall) {
   
-  # general prep:
-  prep <- .prep_arrays(x, y)
-  x <- prep[[1L]]
-  y <- prep[[2L]]
-  x.dim <- dim(x)
-  y.dim <- dim(y)
+  prep <- .prep_binary(x, y, abortcall)
+  x.dim <- prep[[1L]]
+  y.dim <- prep[[2L]]
+  # x.len <- prep[[3L]]
+  # y.len <- prep[[4L]]
+  out.dimorig <- prep[[5L]]
+  out.dimsimp <- prep[[6L]]
+  out.len <- prep[[7L]]
+  dimmode <- prep[[8L]]
   
-  
-  # Check & determine dimensions to return:
-  .stop_conf_dim(x, y, abortcall)
-  out.dimorig <- .determine_out.dim(x.dim, y.dim, abortcall)
-  out.len <- .determine_out.len(x, y, out.dimorig)
-  
-  
-  # Simplify arrays, to reduce broadcast load:
-  simp <- .simplify_arrays(x, y)
-  x <- simp[[1L]]
-  y <- simp[[2L]]
-  x.dim <- dim(x)
-  y.dim <- dim(y)
-  out.dimsimp <- .determine_out.dim(x.dim, y.dim, abortcall)
-  
-  
-  # Broadcast:
-  dimmode <- .determine_dimmode(x, y, out.dimsimp)
   
   if(dimmode == 1L) { # vector mode
     out <- .rcpp_bcRel_str_v(x, y, out.len, op)
@@ -185,8 +153,8 @@ bc.chr <- bc.str
     out <- .rcpp_bcRel_str_ov(x, y, RxC, out.dimsimp, out.len, op)
   }
   else if(dimmode == 3L){ # big-small mode
-    by_x <- .make_by(x.dim, out.dimsimp)
-    by_y <- .make_by(y.dim, out.dimsimp)
+    by_x <- .make_by(x.dim)
+    by_y <- .make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     if(all(x.dim == out.dimsimp)) {
@@ -201,8 +169,8 @@ bc.chr <- bc.str
   }
   else if(dimmode == 4L) { # general mode
     
-    by_x <- .make_by(x.dim, out.dimsimp)
-    by_y <- .make_by(y.dim, out.dimsimp)
+    by_x <- .make_by(x.dim)
+    by_y <- .make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     
@@ -224,31 +192,15 @@ bc.chr <- bc.str
 #' @noRd
 .bc_str_dist <- function(x, y, op, abortcall) {
   
-  # general prep:
-  prep <- .prep_arrays(x, y)
-  x <- prep[[1L]]
-  y <- prep[[2L]]
-  x.dim <- dim(x)
-  y.dim <- dim(y)
-  
-  
-  # Check & determine dimensions to return:
-  .stop_conf_dim(x, y, abortcall)
-  out.dimorig <- .determine_out.dim(x.dim, y.dim, abortcall)
-  out.len <- .determine_out.len(x, y, out.dimorig)
-  
-  
-  # Simplify arrays, to reduce broadcast load:
-  simp <- .simplify_arrays(x, y)
-  x <- simp[[1L]]
-  y <- simp[[2L]]
-  x.dim <- dim(x)
-  y.dim <- dim(y)
-  out.dimsimp <- .determine_out.dim(x.dim, y.dim, abortcall)
-  
-  
-  # Broadcast:
-  dimmode <- .determine_dimmode(x, y, out.dimsimp)
+  prep <- .prep_binary(x, y, abortcall)
+  x.dim <- prep[[1L]]
+  y.dim <- prep[[2L]]
+  # x.len <- prep[[3L]]
+  # y.len <- prep[[4L]]
+  out.dimorig <- prep[[5L]]
+  out.dimsimp <- prep[[6L]]
+  out.len <- prep[[7L]]
+  dimmode <- prep[[8L]]
   
   if(dimmode == 1L) { # vector mode
     out <- .rcpp_bcDist_str_v(x, y, out.len, op)
@@ -258,8 +210,8 @@ bc.chr <- bc.str
     out <- .rcpp_bcDist_str_ov(x, y, RxC, out.dimsimp, out.len, op)
   }
   else if(dimmode == 3L){ # big-small mode
-    by_x <- .make_by(x.dim, out.dimsimp)
-    by_y <- .make_by(y.dim, out.dimsimp)
+    by_x <- .make_by(x.dim)
+    by_y <- .make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     if(all(x.dim == out.dimsimp)) {
@@ -274,8 +226,8 @@ bc.chr <- bc.str
   }
   else if(dimmode == 4L) { # general mode
     
-    by_x <- .make_by(x.dim, out.dimsimp)
-    by_y <- .make_by(y.dim, out.dimsimp)
+    by_x <- .make_by(x.dim)
+    by_y <- .make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     

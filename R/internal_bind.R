@@ -190,7 +190,7 @@
     starts[along] <- counter
     ends <- out.dim
     ends[along] <- counter + size_along - 1L
-    by_x <- .make_by(x.dim, out.dim)
+    by_x <- .make_by(x.dim)
     by_x[along] <- 1L
     dcp_x <- c(1, cumprod(x.dim)) # is already longer than needed, so no padding required
     

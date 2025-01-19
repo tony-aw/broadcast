@@ -20,12 +20,13 @@ bc_dim <- function(
     x, y
 ) {
   
-  prep <- .prep_arrays(x, y)
-  x <- prep[[1L]]
-  y <- prep[[2L]]
-  
   x.dim <- dim(x)
   y.dim <- dim(y)
+  
+  prep <- .normalize_dims(x.dim, y.dim)
+  x.dim <- prep[[1L]]
+  y.dim <- prep[[2L]]
+ 
   out.dim <- .determine_out.dim(x.dim, y.dim, sys.call())
   return(out.dim)
 }
