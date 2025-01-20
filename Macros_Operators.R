@@ -92,20 +92,11 @@ macro_op_num_math <- "
       MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
         DIMCODE,	\\
         MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C(rcpp_mod_longint((double)px[flatind_x], (double)py[flatind_y])) 	\\
-      );	\\
-      break;	\\
-    }	\\
-    case 7:	\\
-    {	\\
-      MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
-        DIMCODE,	\\
-        MACRO_ASSIGN_C(NA_REAL),	\\
         MACRO_ASSIGN_C(((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y]) 	\\
       );	\\
       break;	\\
     }	\\
-    case 8:	\\
+    case 7:	\\
     {	\\
       MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\\
         DIMCODE,	\\

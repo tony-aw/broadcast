@@ -1,3 +1,4 @@
+
 #include <Rcpp/Lightest>
 using namespace Rcpp;
 
@@ -43,24 +44,20 @@ String rcpp_bindhelper_max_type(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bindhelper_dimlens)]]
-SEXP rcpp_bindhelper_dimlens(
+// [[Rcpp::export(.rcpp_bindhelper_vdims)]]
+SEXP rcpp_bindhelper_vdims(
     SEXP x
 ) {
   int n = Rf_length(x);
   SEXP tempout;
   SEXP tempdim;
-  int tempdimlen;
   
-  SEXP out = PROTECT(Rf_allocVector(INTSXP, n));
-  int *pout;
-  pout = INTEGER(out);
+  SEXP out = PROTECT(Rf_allocVector(VECSXP, n));
   
   for(int i = 0; i < n; ++i) {
     tempout = VECTOR_ELT(x, i);
     tempdim = Rf_getAttrib(tempout, R_DimSymbol);
-    tempdimlen = Rf_length(tempdim);
-    pout[i] = tempdimlen;
+    SET_VECTOR_ELT(out, i, tempdim);
   }
   
   UNPROTECT(1);
@@ -106,15 +103,13 @@ SEXP rcpp_bindhelper_neednorm(
 //' @noRd
 // [[Rcpp::export(.rcpp_bindhelper_sum_along)]]
 R_xlen_t rcpp_bindhelper_sum_along(
-    SEXP x, int along
+    SEXP lst_dims, int along
 ) {
-  int n = Rf_length(x);
-  SEXP tempout;
+  int n = Rf_length(lst_dims);
   SEXP tempdim;
   R_xlen_t out = 0;
   for(int i = 0; i < n; ++i) {
-    tempout = VECTOR_ELT(x, i);
-    tempdim = Rf_getAttrib(tempout, R_DimSymbol);
+    tempdim = VECTOR_ELT(lst_dims, i);
     out += INTEGER(tempdim)[along];
   }
   
@@ -174,4 +169,3 @@ bool rcpp_bindhelper_conf_dims_all(
   }
   return true;
 }
-

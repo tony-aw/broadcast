@@ -138,14 +138,14 @@ library(broadcast)
 
 .internal_bind_array <- broadcast:::.internal_bind_array
 
+along <- 3L
+n <- 10
+x <- array(as.double(1:25), c(n, n))
+y <- array(as.double(-1:-25), c(n, n))
+input <- list(x, y)
 
-n <- 75
-x <- array(as.double(1:25), c(n, n, n))
-y <- array(as.double(-1:-25), c(n, n, n))
-input <- list(x, y, x, y, x, y)
-
-out1 <- abind::abind(input, along = 1L)
-out2 <- .internal_bind_array(input, 1L, 1L, sys.call())
+out1 <- abind::abind(input, along = along)
+out2 <- .internal_bind_array(input, along, 1L, sys.call())
 expect_equivalent(
   out1, out2
 )

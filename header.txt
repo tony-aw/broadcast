@@ -2453,20 +2453,11 @@ case 16:                                       \
       MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
         DIMCODE,	\
         MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C(rcpp_mod_longint((double)px[flatind_x], (double)py[flatind_y])) 	\
-      );	\
-      break;	\
-    }	\
-    case 7:	\
-    {	\
-      MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
         MACRO_ASSIGN_C(((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y]) 	\
       );	\
       break;	\
     }	\
-    case 8:	\
+    case 7:	\
     {	\
       MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
         DIMCODE,	\
@@ -3012,9 +3003,8 @@ case 16:                                       \
     }	\
     case VECSXP:	\
     {	\
-     List pout = Rcpp::as<List>(out);  \
      DIMCODE(	\
-        pout[flatind_out] = f(x, y, flatind_x + 1, flatind_y + 1)	\
+        SET_VECTOR_ELT(out, flatind_out, f(x, y, flatind_x + 1, flatind_y + 1))	\
       );	\
       break; \
     }	\

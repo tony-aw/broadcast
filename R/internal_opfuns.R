@@ -2,7 +2,7 @@
 #' @keywords internal
 #' @noRd
 .op_num_math <- function() {
-  return(c("+", "-", "*", "/", "^", "intmod", "pmin", "pmax"))
+  return(c("+", "-", "*", "/", "^", "pmin", "pmax"))
 }
 
 #' @keywords internal

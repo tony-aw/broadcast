@@ -19,8 +19,8 @@ The broadcasted implementations include, but are not limited to, the following:
 \item Relational operations (like \code{==}, \code{!=}, \code{<}, \code{>}, \code{<=}, \code{>=}; can also take into account Machine precision);
 \item Arithmetic operations (like \code{+}, \code{-}, \code{*}, \code{/}, \code{^}, \code{pmin()}, \code{pmax()}, integer modulo);
 \item Boolean combiner operations (like \code{&}, \code{|}, \code{xor()}, "nand");
-\item String distance and concatenation operations;
-\item Broadcasted S4 implementation of \code{ifelse()};
+\item String distance, (in)equality, and concatenation operations;
+\item A Broadcasted implementation of \code{ifelse()};
 \item A Broadcasted apply-like function;
 \item Binding arrays along any arbitrary axis, with broadcast support.
 }
@@ -50,8 +50,8 @@ The following functions for type-specific binary operations are available:
 \item \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 }
 
-\bold{S4 implementations} \cr
-'broadcast' also comes with 2 generic S4 methods:
+\bold{General functions} \cr
+'broadcast' also comes with 2 general broadcasted functions:
 \itemize{
 \item \link{bc_ifelse}: Broadcasted version of \link[base]{ifelse}.
 \item \link{bcapply}: Broadcasted apply-like function. \cr \cr

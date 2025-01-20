@@ -33,5 +33,5 @@ macro_op,
 
 cat(header)
 Rcpp::sourceCpp(code = header)
-readr::write_file(header, "src/broadcast.h")
+readr::write_file(header, "inst/include/broadcast.h")
 

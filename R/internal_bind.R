@@ -33,7 +33,7 @@
 
 #' @keywords internal
 #' @noRd
-.bind_check_input <- function(input, along, max_ndims, abortcall) {
+.bind_check_max_ndims <- function(max_ndims, along, abortcall) {
   if(max_ndims > 16L) {
     stop(simpleError("arrays with more than 16 dimensions are not supported", call = abortcall))
   }
@@ -50,31 +50,32 @@
 
 #' @keywords internal
 #' @noRd
-.bind_normalize_input <- function(input, along, max_ndims) {
+.bind_normalize_dims <- function(input.dims, along, max_ndims) {
   if(along > 0L && along <= max_ndims) {
-    which_neednorm <- which(.rcpp_bindhelper_neednorm(input, max_ndims))
+    which_neednorm <- which(lengths(input.dims) < max_ndims)
     if(length(which_neednorm) > 0L) {
       for(i in which_neednorm) {
-        input.dim <- dim(input[[i]])
-        dim(input[[i]]) <- c(input.dim, rep_len(1L, max_ndims - length(input.dim)))
+        temp <- input.dims[[i]]
+        input.dims[[i]] <- c(temp, rep_len(1L, max_ndims - length(temp)))
       }
     }
   }
   else if(along == 0L) {
-    for(i in 1:length(input)) {
-      input.dim <- dim(input[[i]])
-      dim(input[[i]]) <- c(1L, input.dim, rep_len(1L, max_ndims - length(input.dim)))
+    for(i in 1:length(input.dims)) {
+      temp <- input.dims[[i]]
+      input.dims[[i]] <- c(1L, temp, rep_len(1L, max_ndims - length(temp)))
     }
   }
   else if(along == (max_ndims + 1L)) {
-    for(i in 1:length(input)) {
-      input.dim <- dim(input[[i]])
-      dim(input[[i]]) <- c(input.dim, rep_len(1L, max_ndims - length(input.dim) + 1L))
+    for(i in 1:length(input.dims)) {
+      temp <- input.dims[[i]]
+      input.dims[[i]] <- c(temp, rep_len(1L, max_ndims - length(temp) + 1L))
     }
   }
   
-  return(input)
+  return(input.dims)
 }
+
 
 #' @keywords internal
 #' @noRd
@@ -114,23 +115,30 @@
   INTMAX <- 2^31 - 1L
   LONGMAX <- 2^52 - 1L
   
-  # check input:
+  # check if all input are arrays:
   all_arrays <- vapply(input, is.array, logical(1L)) |> all()
   if(!all_arrays) {
     stop(simpleError("can only bind arrays", call = abortcall))
   }
-  max_ndims <- max(.rcpp_bindhelper_dimlens(input))
-  .bind_check_input(input, along, max_ndims, abortcall)
   
   
-  # normalize input:
-  input <- .bind_normalize_input(input, along, max_ndims)
+  # make input.dims:
+  input.dims <- .rcpp_bindhelper_vdims(input)
+  
+  
+  # check max dims:
+  max_ndims <- max(lengths(input.dims))
+  .bind_check_max_ndims(max_ndims, along, abortcall)
+  
+  
+  # normalize input.dims:
+  input.dims <- .bind_normalize_dims(input.dims, along, max_ndims)
   if(along == 0L) along <- 1L
-  max_ndims <- max(.rcpp_bindhelper_dimlens(input))
+  max_ndims <- max(lengths(input.dims))
   
   
   # check dimlens:
-  dimlens <- .rcpp_bindhelper_dimlens(input)
+  dimlens <- lengths(input.dims)
   if(length(unique(dimlens)) > 1L) {
     stop("input malformed")
   }
@@ -141,9 +149,17 @@
     ))
   }
   
-  # determine dim(out):
-  input.dims <- lapply(input, dim)
-  size_along <- .rcpp_bindhelper_sum_along(input, along - 1L)
+  
+  # chunkify input.dims:
+  need_pad <- round(max_ndims/2L) != (max_ndims /2L)
+  if(need_pad) {
+    input.dims <- lapply(input.dims, \(x)c(x, 1L))
+  }
+  max_ndims <- max(lengths(input.dims))
+  
+  
+  # determine out.dim (padded):
+  size_along <- .rcpp_bindhelper_sum_along(input.dims, along - 1L)
   out.dim <- do.call(pmax, input.dims)
   out.dim[along] <- size_along
   out.dim <- as.integer(out.dim)
@@ -151,6 +167,7 @@
   if(any(out.dim > INTMAX) || anyNA(out.dim) || out.len > LONGMAX) {
     stop(simpleError("output too large to allocate", call = abortcall))
   }
+  
   
   # check if input is conformable:
   # NOTE: only 1 dimension may be broadcasted per array, for the user's safety
@@ -167,16 +184,21 @@
   
   # allocate output:
   out <- vector(out.type, out.len)
-  dim(out) <- out.dim
+  if(need_pad) {
+    # keep out.dim padded, but don't pad the actual dim(out)
+    dim(out) <- out.dim[-length(out.dim)]
+  }
+  else {
+    dim(out) <- out.dim
+  }
+  
+  
   
   # alias coercion function:
   mycoerce <- .bind_alias_coerce(out.type, abortcall)
   
+  
   # MAIN FUNCTION:
-  need_pad <- round(max_ndims/2L) != (max_ndims /2L)
-  if(need_pad) {
-    out.dim <- c(out.dim, 1L)
-  }
   counter <- 1L
   max_ndims <- length(out.dim)
   dcp_out <- c(1, cumprod(out.dim))
@@ -184,7 +206,7 @@
     
     # construct parameters:
     x <- input[[i]]
-    x.dim <- c(dim(x), 0L) # padding is safe even when not needed
+    x.dim <- input.dims[[i]]
     size_along <- x.dim[along]
     starts <- rep(1L, max_ndims)
     starts[along] <- counter
@@ -192,7 +214,7 @@
     ends[along] <- counter + size_along - 1L
     by_x <- .make_by(x.dim)
     by_x[along] <- 1L
-    dcp_x <- c(1, cumprod(x.dim)) # is already longer than needed, so no padding required
+    dcp_x <- c(1, cumprod(x.dim))
     
     # coerce input:
     x <- mycoerce(x)

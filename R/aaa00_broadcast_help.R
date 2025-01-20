@@ -34,8 +34,8 @@
 #'  * \link{bc.str}: string equality, concatenation, and distance operations;
 #'  * \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 #' 
-#' \bold{S4 implementations} \cr
-#' 'broadcast' also comes with 2 generic S4 methods:
+#' \bold{General functions} \cr
+#' 'broadcast' also comes with 2 general broadcasted functions:
 #' 
 #'  * \link{bc_ifelse}: Broadcasted version of \link[base]{ifelse}.
 #'  * \link{bcapply}: Broadcasted apply-like function. \cr \cr
