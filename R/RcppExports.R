@@ -15,24 +15,6 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_abind_all_conform_dims <- function(conform_dim, arg_dim, n, along) {
-    .Call(`_broadcast_rcpp_abind_all_conform_dims`, conform_dim, arg_dim, n, along)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_abind_get_maxdims <- function(arg_dim) {
-    .Call(`_broadcast_rcpp_abind_get_maxdims`, arg_dim)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_abind_check_conform_dims <- function(conform_dim, arg_dim, n, along) {
-    .Call(`_broadcast_rcpp_abind_check_conform_dims`, conform_dim, arg_dim, n, along)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_abind_get_dimnames <- function(x, along) {
     .Call(`_broadcast_rcpp_abind_get_dimnames`, x, along)
 }

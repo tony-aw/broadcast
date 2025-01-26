@@ -117,20 +117,20 @@ void rcpp_bc_bind(
 
 
 
-txt <- stringi::stri_c(
+txt_source <- stringi::stri_c(
   header_for_sourcing,
   txt,
   collapse = "\n\n"
 )
 
-Rcpp::sourceCpp(code = txt)
+Rcpp::sourceCpp(code = txt_source)
 
-txt <- stringi::stri_c(
+txt_pkg <- stringi::stri_c(
   header_for_package,
   txt,
   collapse = "\n\n"
 )
-readr::write_file(txt, "src/rcpp_bc_bind.cpp")
+readr::write_file(txt_pkg, "src/rcpp_bc_bind.cpp")
 
 
 ################################################################################

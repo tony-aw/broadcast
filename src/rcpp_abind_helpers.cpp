@@ -1,67 +1,6 @@
-#include <Rcpp.h>
+#include <Rcpp/Lightest>
 
 using namespace Rcpp;
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_abind_all_conform_dims)]]
-bool rcpp_abind_all_conform_dims(
-  IntegerVector conform_dim, IntegerMatrix arg_dim, int n, int along
-) {
-  int m = arg_dim.nrow();
-  for(int i = 0; i < n; ++i) {
-    for(int j = 0; j < m; ++j) {
-      if(j != (along - 1)) {
-        if(conform_dim[j] != arg_dim(j, i)) {
-          return false;
-        }
-      }
-    }
-  }
- return true;
-}
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_abind_get_maxdims)]]
-IntegerVector rcpp_abind_get_maxdims(
-  IntegerMatrix arg_dim
-) {
-  int n_dims = arg_dim.nrow();
-  IntegerVector out(n_dims);
-  for(int i = 0; i < n_dims; ++i) {
-    IntegerMatrix::Row temp = arg_dim(i, _);
-    out[i] = max(temp);
-  }
-  return out;
-}
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_abind_check_conform_dims)]]
-LogicalVector rcpp_abind_check_conform_dims(
-  IntegerVector conform_dim, IntegerMatrix arg_dim, int n, int along
-) {
-  LogicalVector out(n);
-  int m = arg_dim.nrow();
-  for(int i = 0; i < n; ++i) {
-    int counter = 0;
-    for(int j = 0; j < m; ++j) {
-      if(j != (along - 1)) {
-        if(conform_dim[j] != arg_dim(j, i)) {
-          counter++;
-        }
-      }
-    }
-    if(counter == 0) {
-      out[i] = true;
-    }
-  }
-  return out;
-}
 
 
 //' @keywords internal

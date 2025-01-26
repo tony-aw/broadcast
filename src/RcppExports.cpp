@@ -35,45 +35,6 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// rcpp_abind_all_conform_dims
-bool rcpp_abind_all_conform_dims(IntegerVector conform_dim, IntegerMatrix arg_dim, int n, int along);
-RcppExport SEXP _broadcast_rcpp_abind_all_conform_dims(SEXP conform_dimSEXP, SEXP arg_dimSEXP, SEXP nSEXP, SEXP alongSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type conform_dim(conform_dimSEXP);
-    Rcpp::traits::input_parameter< IntegerMatrix >::type arg_dim(arg_dimSEXP);
-    Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    Rcpp::traits::input_parameter< int >::type along(alongSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_abind_all_conform_dims(conform_dim, arg_dim, n, along));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_abind_get_maxdims
-IntegerVector rcpp_abind_get_maxdims(IntegerMatrix arg_dim);
-RcppExport SEXP _broadcast_rcpp_abind_get_maxdims(SEXP arg_dimSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerMatrix >::type arg_dim(arg_dimSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_abind_get_maxdims(arg_dim));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_abind_check_conform_dims
-LogicalVector rcpp_abind_check_conform_dims(IntegerVector conform_dim, IntegerMatrix arg_dim, int n, int along);
-RcppExport SEXP _broadcast_rcpp_abind_check_conform_dims(SEXP conform_dimSEXP, SEXP arg_dimSEXP, SEXP nSEXP, SEXP alongSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type conform_dim(conform_dimSEXP);
-    Rcpp::traits::input_parameter< IntegerMatrix >::type arg_dim(arg_dimSEXP);
-    Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    Rcpp::traits::input_parameter< int >::type along(alongSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_abind_check_conform_dims(conform_dim, arg_dim, n, along));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_abind_get_dimnames
 List rcpp_abind_get_dimnames(List x, int along);
 RcppExport SEXP _broadcast_rcpp_abind_get_dimnames(SEXP xSEXP, SEXP alongSEXP) {
@@ -1114,9 +1075,6 @@ RcppExport SEXP C_pmax(SEXP, SEXP);
 static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_set_vind_32_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_32_atomic, 3},
     {"_broadcast_rcpp_set_vind_64_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_64_atomic, 3},
-    {"_broadcast_rcpp_abind_all_conform_dims", (DL_FUNC) &_broadcast_rcpp_abind_all_conform_dims, 4},
-    {"_broadcast_rcpp_abind_get_maxdims", (DL_FUNC) &_broadcast_rcpp_abind_get_maxdims, 1},
-    {"_broadcast_rcpp_abind_check_conform_dims", (DL_FUNC) &_broadcast_rcpp_abind_check_conform_dims, 4},
     {"_broadcast_rcpp_abind_get_dimnames", (DL_FUNC) &_broadcast_rcpp_abind_get_dimnames, 2},
     {"_broadcast_rcpp_rcbind_get_sizes", (DL_FUNC) &_broadcast_rcpp_rcbind_get_sizes, 2},
     {"_broadcast_rcpp_str_dist_led", (DL_FUNC) &_broadcast_rcpp_str_dist_led, 2},
