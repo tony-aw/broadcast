@@ -24,3 +24,10 @@
 .C_dims_all_orthogonal <- function(xdim, ydim) {
   .Call("C_dims_all_orthogonal", xdim = as.integer(xdim), ydim = as.integer(ydim))
 }
+
+
+#' @keywords Internal
+#' @noRd
+.C_any_nonNULL <- function(x) {
+  .Call("C_any_nonNULL", x = x)
+}

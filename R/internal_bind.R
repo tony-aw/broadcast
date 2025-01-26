@@ -110,7 +110,7 @@
 
 #' @keywords internal
 #' @noRd
-.internal_bind_array <- function(input, along, max_bc, abortcall) {
+.internal_bind_array <- function(input, along, max_bc, name_along, abortcall) {
   
   INTMAX <- 2^31 - 1L
   LONGMAX <- 2^52 - 1L
@@ -129,6 +129,19 @@
   # check max dims:
   max_ndims <- max(lengths(input.dims))
   .bind_check_max_ndims(max_ndims, along, abortcall)
+  
+  
+  # set name_along related variables:
+  extra_dimensional <- FALSE
+  if(along == 0L || along > max_ndims) {
+    extra_dimensional <- TRUE
+  }
+  if(name_along && !extra_dimensional) {
+    # note: dimension `along` never gets broadcasted, so no need to worry about that
+    arg.dimnames <- .rcpp_abind_get_dimnames(input, along)
+    arg.marginlen <- vapply(input, \(x)dim(x)[along], integer(1L))
+    name_along <- .bind_name_along_reasonable(input, arg.dimnames)
+  }
   
   
   # normalize input.dims:
@@ -178,6 +191,7 @@
   
   # determine "highest" type:
   out.type <- .rcpp_bindhelper_max_type(input)
+  out.type <- .types()[out.type]
   if(out.type == "unknown") {
     stop(simpleError("unknown type of array given", call = abortcall))
   }
@@ -191,7 +205,6 @@
   else {
     dim(out) <- out.dim
   }
-  
   
   
   # alias coercion function:
@@ -224,6 +237,22 @@
     
     # set counter:
     counter <- counter + size_along
+  }
+  
+  
+  
+  # name_along:
+  if(name_along) {
+    if(!extra_dimensional) {
+      .bind_set_alongnames(out, along, input, arg.dimnames, arg.marginlen)
+    }
+    if(extra_dimensional) {
+      if(!is.null(names(input))) {
+        dimnames(out)[[along]] <- names(input)
+      } else {
+        dimnames(out)[[along]] <- paste0("X", seq_len(dim(out)[along]))
+      }
+    }
   }
   
   return(out)

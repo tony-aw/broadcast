@@ -3,6 +3,48 @@
 
 #' @keywords internal
 #' @noRd
+.rcpp_set_vind_32_atomic <- function(x, ind, rp) {
+    invisible(.Call(`_broadcast_rcpp_set_vind_32_atomic`, x, ind, rp))
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_set_vind_64_atomic <- function(x, ind, rp) {
+    invisible(.Call(`_broadcast_rcpp_set_vind_64_atomic`, x, ind, rp))
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_abind_all_conform_dims <- function(conform_dim, arg_dim, n, along) {
+    .Call(`_broadcast_rcpp_abind_all_conform_dims`, conform_dim, arg_dim, n, along)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_abind_get_maxdims <- function(arg_dim) {
+    .Call(`_broadcast_rcpp_abind_get_maxdims`, arg_dim)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_abind_check_conform_dims <- function(conform_dim, arg_dim, n, along) {
+    .Call(`_broadcast_rcpp_abind_check_conform_dims`, conform_dim, arg_dim, n, along)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_abind_get_dimnames <- function(x, along) {
+    .Call(`_broadcast_rcpp_abind_get_dimnames`, x, along)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_rcbind_get_sizes <- function(lst, imargin) {
+    .Call(`_broadcast_rcpp_rcbind_get_sizes`, lst, imargin)
+}
+
+#' @keywords internal
+#' @noRd
 rcpp_str_dist_led <- function(x, y) {
     .Call(`_broadcast_rcpp_str_dist_led`, x, y)
 }

@@ -60,10 +60,55 @@ void rcpp_bc_bind(
 ) {
 
 
-double *pout = REAL(out);
-double *px = REAL(x);
-
-MACRO_DIM_BIND_DOCALL(pout[flatind_out] = px[flatind_x]);
+  switch(TYPEOF(out)) {
+    case RAWSXP:
+    {
+      Rbyte *pout = RAW(out);
+      Rbyte *px = RAW(x);
+      MACRO_DIM_BIND_DOCALL(pout[flatind_out] = px[flatind_x]);
+      break;
+    }
+    case LGLSXP:
+    {
+      int *pout = LOGICAL(out);
+      int *px = LOGICAL(x);
+      MACRO_DIM_BIND_DOCALL(pout[flatind_out] = px[flatind_x]);
+      break;
+    }
+    case INTSXP:
+    {
+      int *pout = INTEGER(out);
+      int *px = INTEGER(x);
+      MACRO_DIM_BIND_DOCALL(pout[flatind_out] = px[flatind_x]);
+      break;
+    }
+    case REALSXP:
+    {
+      double *pout = REAL(out);
+      double *px = REAL(x);
+      MACRO_DIM_BIND_DOCALL(pout[flatind_out] = px[flatind_x]);
+      break;
+    }
+    case CPLXSXP:
+    {
+      Rcomplex *pout = COMPLEX(out);
+      Rcomplex *px = COMPLEX(x);
+      MACRO_DIM_BIND_DOCALL(pout[flatind_out] = px[flatind_x]);
+      break;
+    }
+    case STRSXP:
+    {
+      SEXP *pout = STRING_PTR(out);
+      SEXP *px = STRING_PTR(x);
+      MACRO_DIM_BIND_DOCALL(pout[flatind_out] = px[flatind_x]);
+      break;
+    }
+    case VECSXP:
+    {
+      MACRO_DIM_BIND_DOCALL(SET_VECTOR_ELT(out, flatind_out, VECTOR_ELT(x, flatind_x)));
+      break;
+    }
+  }
 
 }
 
@@ -138,21 +183,24 @@ library(broadcast)
 
 .internal_bind_array <- broadcast:::.internal_bind_array
 
-along <- 3L
+along <- 2L
 n <- 10
-x <- array(as.double(1:25), c(n, n))
-y <- array(as.double(-1:-25), c(n, n))
+nms <- function(n) sample(letters, n, TRUE)
+x <- array(as.double(1:25), c(n, n, n))
+y <- array(as.double(-1:-25), c(n, n, n))
+dimnames(x) <- lapply(dim(x), nms)
+dimnames(y) <- lapply(dim(y), nms)
 input <- list(x, y)
 
 out1 <- abind::abind(input, along = along)
-out2 <- .internal_bind_array(input, along, 1L, sys.call())
+out2 <- .internal_bind_array(input, along, 1L, TRUE, sys.call())
 expect_equivalent(
   out1, out2
 )
 
 foo <- bench::mark(
-  abind = abind::abind(input, along = 2L),
-  bc = .internal_bind_array(input, 2L, 1L, sys.call()),
+  abind = abind::abind(input, along = along),
+  bc = .internal_bind_array(input, along, 1L, TRUE, sys.call()),
   cbind = do.call(cbind, input),
   min_iterations = 100,
   check = FALSE # because abind adds empty dimnames

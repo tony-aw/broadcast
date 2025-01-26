@@ -14,6 +14,11 @@
 }
 
 
+
+.types <- function() {
+  return(c("unknown", "raw", "logical", "integer", "double", "complex", "character", "list"))
+}
+
 #' @keywords internal
 #' @noRd
 .determine_highest_atmoic_type <- function(x, y) {

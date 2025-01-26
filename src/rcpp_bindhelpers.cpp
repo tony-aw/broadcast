@@ -5,37 +5,37 @@ using namespace Rcpp;
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_bindhelper_max_type)]]
-String rcpp_bindhelper_max_type(
+int rcpp_bindhelper_max_type(
     SEXP x
 ) {
   int n = Rf_length(x);
   SEXP tempout;
-  String out;
+  int out = 1;
   for(int i = 0; i < n; ++i) {
     tempout = VECTOR_ELT(x, i);
     if(TYPEOF(tempout) == VECSXP) {
-      out = "list";
+      out = 8;
     }
-    else if(TYPEOF(tempout) == STRSXP) {
-      out = "character";
+    else if(TYPEOF(tempout) == STRSXP && out < 8) {
+      out = 7;
     }
-    else if(TYPEOF(tempout) == CPLXSXP) {
-      out = "complex";
+    else if(TYPEOF(tempout) == CPLXSXP && out < 7) {
+      out = 6;
     }
-    else if(TYPEOF(tempout) == REALSXP) {
-      out = "double";
+    else if(TYPEOF(tempout) == REALSXP && out < 6) {
+      out = 5;
     }
-    else if(TYPEOF(tempout) == INTSXP) {
-      out = "integer";
+    else if(TYPEOF(tempout) == INTSXP && out < 5) {
+      out = 4;
     }
-    else if(TYPEOF(tempout) == LGLSXP) {
-      out = "logical";
+    else if(TYPEOF(tempout) == LGLSXP && out < 4) {
+      out = 3;
     }
-    else if(TYPEOF(tempout) == RAWSXP) {
-      out = "raw";
+    else if(TYPEOF(tempout) == RAWSXP && out < 3) {
+      out = 2;
     }
-    else {
-      out = "unknown";
+    else if(out < 2){
+      out = 1;
     }
   }
   

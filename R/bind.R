@@ -1,0 +1,198 @@
+#' Dimensional Binding of Objects
+#'
+#' @description
+#' The `bind_`implementations provide dimensional binding functionalities. \cr
+#' \cr
+#' The following implementations are available:
+#' 
+#'  - `bind_mat()` binds dimensionless (atomic/recursive) vectors and (atomic/recursive) matrices row- or column-wise. \cr
+#'  Allows for recycling.
+#'  - `bind_array()` binds (atomic/recursive) arrays and (atomic/recursive) matrices. \cr
+#'  Allows for broadcasting.
+#'  - `bind_dt()` binds data.tables and other data.frame-like objects. \cr
+#'  This function is only available if the 'data.table' package is installed. \cr
+#'  Returns a `data.table`. \cr
+#'  Faster than `do.call(cbind, ...)` or `do.call(rbind, ...)` for regular `data.frame` objects. \cr
+#' 
+#' 
+#' Note that the naming convention of the binding implementations here is
+#' "bind_" followed by the \bold{resulting class} (abbreviated). \cr
+#' I.e. `bind_mat` \bold{returns} a matrix, but can bind both matrices and vectors. \cr
+#' And `bind_array` \bold{returns} an array, but can bind both arrays and matrices. \cr
+#' And `bind_dt` \bold{returns} a data.table, but can bind not only data.tables,
+#' but also most other data.frame-like objects. \cr \cr
+#' 
+#' 
+#' 
+#' @param input a list of only the appropriate objects. \cr
+#' If `input` is named,
+#' its names will be used for the names of dimension `along` of the output,
+#' as far as possible.
+#' @param along a single integer,
+#' indicating the dimension along which to bind the dimensions. \cr
+#' I.e. use `along = 1` for row-binding, `along = 2` for column-binding, etc. \cr
+#' For arrays, additional flexibility is available:
+#'  * Specifying `along = 0` will bind the arrays on a new dimension before the first,
+#'  making `along` the new first dimension.
+#'  * Specifying `along = n+1`, with `n` being the last available dimension,
+#'  will create an additional dimension (`n+1`) and bind the arrays along that new dimension.
+#' @param max_bc integer, for `bind_array`. \cr
+#' Specify here the number of dimensions that are allowed to be broadcasted when binding arrays. \cr
+#' If `max_bc = 0L`, \bold{no} broadcasting will be allowed at all.
+#' @param name_deparse Boolean, for `bind_mat()`. \cr
+#' Indicates if dimension `along` should be named. \cr
+#' Uses the naming method from \link[base]{rbind}/\link[base]{cbind} itself.
+#' @param name_along Boolean, for `bind_array()`. \cr
+#' Indicates if dimension `along` should be named.
+#' @param comnames_from either integer scalar or `NULL`,
+#' for `bind_mat()` and  `bind_array()`. \cr
+#' Indicates which object in `input` should be used for naming the shared dimension. \cr
+#' If `NULL`, no communal names will be given. \cr
+#' For example: \cr
+#' When binding columns of matrices, the matrices will share the same rownames. \cr
+#' Using `comnames_from = 10` will then result in `bind_array()` using
+#' `rownames(input[[10]])` for the rownames of the output.
+#' @param name_flat Boolean, for `bind_array()`. \cr
+#' Indicates if flat indices should be named. \cr
+#' Note that setting this to `TRUE` will reduce performance considerably. \cr
+#' `r .mybadge_performance_set2("FALSE")`
+#' @param ... arguments to be passed to \link[data.table]{rbindlist}. \cr \cr
+#' 
+#'  
+#' 
+#' @details
+#' The API of `bind_array()` is inspired by the fantastic
+#' \code{abind::}\link[abind]{abind} function
+#' by Tony Plare & Richard Heiberger (2016). \cr
+#' But `bind_array()` differs considerably from \code{abind::}\link[abind]{abind}
+#' in the following ways:
+#'  
+#'  - `bind_array()` differs from \code{abind::}\link[abind]{abind}
+#'  in that it can handle recursive arrays properly \cr
+#'  (the \code{abind::}\link[abind]{abind} function would unlist everything to atomic arrays,
+#'  ruining the structure).
+#'  - `bind_array()` allows for broadcasting,
+#'  while \code{abind::}\link[abind]{abind} does not support broadcasting.
+#'  - `bind_array()` is generally faster than \code{abind::}\link[abind]{abind},
+#'  as `bind_array()` relies heavily on 'C' and 'C++' code.
+#'  - unlike \code{abind::}\link[abind]{abind},
+#'  `bind_array()` only binds (atomic/recursive) arrays and matrices. \cr
+#'  `bind_array()`does not attempt to convert things to arrays when they are not arrays,
+#'  but will give an error instead. \cr
+#'  This saves computation time and prevents unexpected results.
+#'  - `bind_array()` has more streamlined naming options,
+#'  compared to \code{abind::}\link[abind]{abind}. \cr \cr
+#'  
+#'  
+#' `bind_mat()` is a modified version of \link[base]{rbind}/\link[base]{cbind}. \cr
+#' The primary differences is that `bind_mat()` gives an error when fractional recycling is attempted
+#' (like binding  `1:3` with `1:10`). \cr \cr
+#' 
+#' 
+#' @returns
+#' The bound object.
+#'
+#' @references Plate T, Heiberger R (2016). \emph{abind: Combine Multidimensional Arrays}. R package version 1.4-5, \url{https://CRAN.R-project.org/package=abind}.
+#'
+#' @example inst/examples/bind.R
+#' 
+#'  
+
+
+#' @name bind
+NULL
+
+
+
+#' @rdname bind
+#' @export
+bind_mat <- function(
+    input, along, name_deparse = TRUE, comnames_from = 1L
+) {
+  
+  # error checks:
+  .bind_check_args(along, name_deparse, comnames_from, FALSE, abortcall = sys.call())
+  if(any(vapply(input, is.data.frame, logical(1L)))) {
+    stop("use `bind_dt to bind data.frame-like objects")
+  }
+  
+  if(along == 1L) imargin <- 2L
+  else if(along == 2L) imargin <- 1L
+  else {
+    stop("`along` must be 1 or 2")
+  }
+  
+  sizes <- .rcpp_rcbind_get_sizes(input, imargin - 1L)
+  sizes <- sizes[sizes != 1L]
+  if(length(sizes) > 1) {
+    fractions <- sizes / min(sizes)
+    if(any(fractions != round(fractions))) {
+      stop("fractional recycling not allowed")
+    }
+  }
+  
+  
+  name_deparse <- as.integer(name_deparse)
+  if(along == 1L) {
+    out <- do.call(rbind, c(input, list(deparse.level = name_deparse)))
+    not_along <- 2L
+  }
+  if(along == 2L) {
+    out <- do.call(cbind, c(input, list(deparse.level = name_deparse)))
+    not_along <- 1L
+  }
+  
+  
+  if(is.null(comnames_from)) {
+    dimnames(out)[[not_along]] <- NULL
+  }
+  if(!is.null(comnames_from)) {
+    comarg <- input[[comnames_from]]
+    if(is.array(comarg) && !is.null(dimnames(comarg))) {
+      dimnames(out)[[not_along]] <- dimnames(comarg)[[not_along]]
+    }
+    else {
+      if(!is.null(names(comarg))) {
+        dimnames(out)[[not_along]] <- names(comarg)
+      }
+    }
+  }
+  
+  
+  return(out)
+}
+
+
+#' @rdname bind
+#' @export
+bind_array <- function(
+    input, along, max_bc = 1L, name_along = TRUE, comnames_from = 1L, name_flat = FALSE
+) {
+  
+  .bind_check_args(along, name_along, comnames_from, name_flat, abortcall = sys.call())
+  
+  out <- .internal_bind_array(input, along, max_bc, name_along, sys.call())
+  
+  return(out)
+}
+
+
+#' @rdname bind
+#' @export
+bind_dt <- function(
+    input, along, ...
+) {
+  
+  if(!requireNamespace("data.table")) {
+    stop("'data.table' is not available")
+  }
+  
+  if(along == 1) {
+    out <- data.table::rbindlist(input, ...)
+  }
+  if(along == 2) {
+    out <- do.call(data.table::data.table, c(input, check.names = TRUE))
+  }
+  return(out)
+  
+}
