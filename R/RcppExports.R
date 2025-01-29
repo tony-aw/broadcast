@@ -3,18 +3,6 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_set_vind_32_atomic <- function(x, ind, rp) {
-    invisible(.Call(`_broadcast_rcpp_set_vind_32_atomic`, x, ind, rp))
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_set_vind_64_atomic <- function(x, ind, rp) {
-    invisible(.Call(`_broadcast_rcpp_set_vind_64_atomic`, x, ind, rp))
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_abind_get_dimnames <- function(x, along) {
     .Call(`_broadcast_rcpp_abind_get_dimnames`, x, along)
 }
@@ -407,5 +395,17 @@ rcpp_bc_bind <- function(out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_
 #' @noRd
 .rcpp_recycle_seq_mlen <- function(x, y) {
     .Call(`_broadcast_rcpp_recycle_seq_mlen`, x, y)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_set_vind_32_atomic <- function(x, ind, rp) {
+    invisible(.Call(`_broadcast_rcpp_set_vind_32_atomic`, x, ind, rp))
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_set_vind_64_atomic <- function(x, ind, rp) {
+    invisible(.Call(`_broadcast_rcpp_set_vind_64_atomic`, x, ind, rp))
 }
 

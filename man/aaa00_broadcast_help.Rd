@@ -5,7 +5,7 @@
 \alias{broadcast-package}
 \alias{broadcast}
 \alias{broadcast_help}
-\title{broadcast: Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies}
+\title{broadcast: Simple Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies}
 \description{
 broadcast: \cr
 Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
@@ -58,7 +58,9 @@ The following functions for type-specific binary operations are available:
 }
 
 \bold{Binding Implementations} \cr
-... \cr
+'broadcast' provides 3 binding implementations: \cr
+\link{bind_mat}, \link{bind_array}, and \link{bind_dt}. \cr
+\cr
 \cr
 \bold{Other functions} \cr
 'broadcast' also provides

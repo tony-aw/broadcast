@@ -34,46 +34,50 @@
 #' @noRd
 .bind_set_comnames <- function(out, sel, input, along) {
   
-  if(along == 0) {
-    obj <- input[[sel]]
-    obj.dimnames <- dimnames(obj)
-    out.dimnames <- dimnames(out)
-    if(is.null(out.dimnames)) {
-      out.dimnames <- rep(list(NULL), length(dim(out)))
-    }
-    if(!is.null(obj.dimnames)) {
-      data.table::setattr(out, "dimnames", c(out.dimnames[1], obj.dimnames))
-    }
-    return(invisible(NULL))
-  }
-  
-  N <- max(
-    1L,
-    vapply(input, function(x) length(dim(x)), integer(1L))
-  )
-  if(along > N) {
-    obj <- input[[sel]]
-    obj.dimnames <- dimnames(obj)
-    out.dimnames <- dimnames(out)
-    N <- length(out.dimnames)
-    if(!is.null(obj.dimnames)) {
-      data.table::setattr(out, "dimnames", c(obj.dimnames, out.dimnames[N]))
-    }
-    return(invisible(NULL))
-  }
-  
-  
-  obj <- input[[sel]]
-  obj.dimnames <- dimnames(obj)
+  # general prep:
   out.dimnames <- dimnames(out)
   if(is.null(out.dimnames)) {
     out.dimnames <- rep(list(NULL), length(dim(out)))
   }
+  obj <- input[[sel]]
+  obj.dimnames <- dimnames(obj)
+  n <- length(dim(obj))
+  
+  if(along == 0) {
+    if(!is.null(obj.dimnames)) {
+      ind <- which(dim(out)[2:n] == dim(obj))
+      if(length(ind) > 0L) {
+        out.dimnames[ind + 1L] <- obj.dimnames[ind]
+        data.table::setattr(out, "dimnames", out.dimnames)
+      }
+    }
+    return(invisible(NULL))
+  }
+  
+  input.dims <- .rcpp_bindhelper_vdims(input)
+  max_ndims <- max(lengths(input.dims))
+  if(along > max_ndims) {
+    if(!is.null(obj.dimnames)) {
+      ind <- which(dim(out)[1:n] == dim(obj))
+      if(length(ind) > 0L) {
+        out.dimnames[ind] <- obj.dimnames[ind]
+        data.table::setattr(out, "dimnames", out.dimnames)
+      }
+    }
+    return(invisible(NULL))
+  }
+  
+  
   if(!is.null(obj.dimnames)) {
-    out.dimnames[-along] <- obj.dimnames[-along]
-    data.table::setattr(out, "dimnames", out.dimnames)
+    ind <- which(dim(out)[1:n] == dim(obj))
+    ind <- ind[ind != along]
+    if(length(ind) > 0L) {
+      out.dimnames[ind] <- obj.dimnames[ind]
+      data.table::setattr(out, "dimnames", out.dimnames)
+    }
   }
   return(invisible(NULL))
+  
 }
 
 

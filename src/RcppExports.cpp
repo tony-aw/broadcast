@@ -11,30 +11,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// rcpp_set_vind_32_atomic
-void rcpp_set_vind_32_atomic(SEXP x, const SEXP ind, const SEXP rp);
-RcppExport SEXP _broadcast_rcpp_set_vind_32_atomic(SEXP xSEXP, SEXP indSEXP, SEXP rpSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const SEXP >::type ind(indSEXP);
-    Rcpp::traits::input_parameter< const SEXP >::type rp(rpSEXP);
-    rcpp_set_vind_32_atomic(x, ind, rp);
-    return R_NilValue;
-END_RCPP
-}
-// rcpp_set_vind_64_atomic
-void rcpp_set_vind_64_atomic(SEXP x, const SEXP ind, const SEXP rp);
-RcppExport SEXP _broadcast_rcpp_set_vind_64_atomic(SEXP xSEXP, SEXP indSEXP, SEXP rpSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const SEXP >::type ind(indSEXP);
-    Rcpp::traits::input_parameter< const SEXP >::type rp(rpSEXP);
-    rcpp_set_vind_64_atomic(x, ind, rp);
-    return R_NilValue;
-END_RCPP
-}
 // rcpp_abind_get_dimnames
 List rcpp_abind_get_dimnames(List x, int along);
 RcppExport SEXP _broadcast_rcpp_abind_get_dimnames(SEXP xSEXP, SEXP alongSEXP) {
@@ -1065,6 +1041,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_set_vind_32_atomic
+void rcpp_set_vind_32_atomic(SEXP x, const SEXP ind, const SEXP rp);
+RcppExport SEXP _broadcast_rcpp_set_vind_32_atomic(SEXP xSEXP, SEXP indSEXP, SEXP rpSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const SEXP >::type ind(indSEXP);
+    Rcpp::traits::input_parameter< const SEXP >::type rp(rpSEXP);
+    rcpp_set_vind_32_atomic(x, ind, rp);
+    return R_NilValue;
+END_RCPP
+}
+// rcpp_set_vind_64_atomic
+void rcpp_set_vind_64_atomic(SEXP x, const SEXP ind, const SEXP rp);
+RcppExport SEXP _broadcast_rcpp_set_vind_64_atomic(SEXP xSEXP, SEXP indSEXP, SEXP rpSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const SEXP >::type ind(indSEXP);
+    Rcpp::traits::input_parameter< const SEXP >::type rp(rpSEXP);
+    rcpp_set_vind_64_atomic(x, ind, rp);
+    return R_NilValue;
+END_RCPP
+}
 
 RcppExport SEXP C_any_nonNULL(SEXP);
 RcppExport SEXP C_check_conf_dim(SEXP, SEXP);
@@ -1073,8 +1073,6 @@ RcppExport SEXP C_findfirst_mergable_dims(SEXP, SEXP);
 RcppExport SEXP C_pmax(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_broadcast_rcpp_set_vind_32_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_32_atomic, 3},
-    {"_broadcast_rcpp_set_vind_64_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_64_atomic, 3},
     {"_broadcast_rcpp_abind_get_dimnames", (DL_FUNC) &_broadcast_rcpp_abind_get_dimnames, 2},
     {"_broadcast_rcpp_rcbind_get_sizes", (DL_FUNC) &_broadcast_rcpp_rcbind_get_sizes, 2},
     {"_broadcast_rcpp_str_dist_led", (DL_FUNC) &_broadcast_rcpp_str_dist_led, 2},
@@ -1141,6 +1139,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bindhelper_conf_dims_2", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_2, 4},
     {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 4},
     {"_broadcast_rcpp_recycle_seq_mlen", (DL_FUNC) &_broadcast_rcpp_recycle_seq_mlen, 2},
+    {"_broadcast_rcpp_set_vind_32_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_32_atomic, 3},
+    {"_broadcast_rcpp_set_vind_64_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_64_atomic, 3},
     {"C_any_nonNULL",             (DL_FUNC) &C_any_nonNULL,             1},
     {"C_check_conf_dim",          (DL_FUNC) &C_check_conf_dim,          2},
     {"C_dims_all_orthogonal",     (DL_FUNC) &C_dims_all_orthogonal,     2},

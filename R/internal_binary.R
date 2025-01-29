@@ -8,6 +8,8 @@
   y.dim <- dim(y)
   x.len <- length(x)
   y.len <- length(y)
+  if(is.null(x.dim)) x.dim <- x.len
+  if(is.null(y.dim)) y.dim <- y.len
   
   # normalize dimensions:
   prep <- .normalize_dims(x.dim, y.dim)

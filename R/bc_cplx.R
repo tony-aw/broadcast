@@ -1,4 +1,4 @@
-#' Broadcasted Operations for Character/String Arrays
+#' Broadcasted Operations for Complex Number Arrays
 #'
 #' @description
 #' The `bc.cplx()` function performs broadcasted operations on 2 `complex` arrays. \cr

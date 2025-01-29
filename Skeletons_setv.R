@@ -25,7 +25,7 @@ template<int RTYPE> void rcpp_set_vind_32_template(
 ) {
   R_xlen_t n = Rf_xlength(ind);
   
-  const int *pind = INTEGER(ind);
+  const int *pind = INTEGER_RO(ind);
   
   if(rp.length() == n) {
     for(R_xlen_t i = 0; i < n; ++i) {
@@ -109,7 +109,7 @@ template<int RTYPE> void rcpp_set_vind_64_template(
 ) {
   R_xlen_t n = Rf_xlength(ind);
   
-  const double *pind = REAL(ind);
+  const double *pind = REAL_RO(ind);
   
   if(rp.length() == n) {
     for(R_xlen_t i = 0; i < n; ++i) {
@@ -196,7 +196,7 @@ cat(code)
 
 Rcpp::sourceCpp(code = code)
 
-fileConn <- file("src/dynamic_rcpp_set_vind.cpp")
+fileConn <- file("src/rcpp_set_vind.cpp")
 writeLines(code, fileConn)
 close(fileConn)
 

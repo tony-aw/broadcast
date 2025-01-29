@@ -2,7 +2,7 @@
 % Please edit documentation in R/bc_cplx.R
 \name{bc.cplx}
 \alias{bc.cplx}
-\title{Broadcasted Operations for Character/String Arrays}
+\title{Broadcasted Operations for Complex Number Arrays}
 \usage{
 bc.cplx(x, y, op)
 }

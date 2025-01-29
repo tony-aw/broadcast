@@ -115,13 +115,20 @@ bind_mat <- function(
   if(any(vapply(input, is.data.frame, logical(1L)))) {
     stop("use `bind_dt to bind data.frame-like objects")
   }
-  
   if(along == 1L) imargin <- 2L
   else if(along == 2L) imargin <- 1L
   else {
     stop("`along` must be 1 or 2")
   }
   
+  
+  # empty bind:
+  if(all(lengths(input) == 0L)) {
+    .internal_bind_empty(input, comnames_from)
+  }
+  
+  
+  # main function:
   sizes <- .rcpp_rcbind_get_sizes(input, imargin - 1L)
   sizes <- sizes[sizes != 1L]
   if(length(sizes) > 1) {
@@ -169,9 +176,21 @@ bind_array <- function(
     input, along, max_bc = 1L, name_along = TRUE, comnames_from = 1L, name_flat = FALSE
 ) {
   
+  # checks:
   .bind_check_args(along, name_along, comnames_from, name_flat, abortcall = sys.call())
   
+  # empty bind:
+  if(all(lengths(input) == 0L)) {
+    .internal_bind_empty(input, comnames_from)
+  }
+  
+  # main function:
   out <- .internal_bind_array(input, along, max_bc, name_along, sys.call())
+  
+  if(!is.null(comnames_from)) {
+    .bind_set_comnames(out, comnames_from, input, along)
+  }
+  
   
   return(out)
 }

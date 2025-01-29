@@ -121,6 +121,10 @@
     stop(simpleError("can only bind arrays", call = abortcall))
   }
   
+  # remove zero-length arrays
+  # NOTE: only remove within this function, as we want to keep them for comnames
+  # NOTE: all empty input already covered before running this function
+  input <- input[lengths(input) > 0L] 
   
   # make input.dims:
   input.dims <- .rcpp_bindhelper_vdims(input)
@@ -256,4 +260,16 @@
   }
   
   return(out)
+}
+
+
+#' @keywords internal
+#' @noRd
+.internal_bind_empty <- function(input, comnames_from) {
+  if(is.null(comnames_from)) {
+    return(unname(input[[1L]]))
+  }
+  else {
+    return(input[comnames_from])
+  }
 }

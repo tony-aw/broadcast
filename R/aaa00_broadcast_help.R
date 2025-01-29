@@ -1,4 +1,4 @@
-#' broadcast: Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies
+#' broadcast: Simple Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies
 #' 
 #' @description
 #' broadcast: \cr
@@ -41,7 +41,9 @@
 #'  * \link{bcapply}: Broadcasted apply-like function. \cr \cr
 #'  
 #' \bold{Binding Implementations} \cr
-#' ... \cr
+#' 'broadcast' provides 3 binding implementations: \cr
+#' \link{bind_mat}, \link{bind_array}, and \link{bind_dt}. \cr
+#' \cr
 #' \cr
 #' \bold{Other functions} \cr
 #' 'broadcast' also provides

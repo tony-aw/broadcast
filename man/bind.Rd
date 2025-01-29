@@ -146,6 +146,14 @@ bind_array(input, along = 2L)
 bind_array(input, along = 3L) # bind on new dimension after last
 
 
+# binding, wwith empty arrays
+emptyarray <- array(numeric(0L), c(0L, 3L))
+dimnames(emptyarray) <- list(NULL, paste("empty", 1:3))
+print(emptyarray)
+input <- list(x = x, y = emptyarray)
+bind_array(input, along = 1L, comnames_from = 2L) # row-bind
+
+
 
 ################################################################################
 
