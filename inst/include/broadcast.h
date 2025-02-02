@@ -50,6 +50,37 @@
 
 
 
+
+#define MACRO_ACTION_INTEGER1(NACHECK, NACODE, DOLEFT, DORIGHT, DOCODE) do {      \
+  if(NACHECK) {                                                   \
+  	  NACODE;                                                     \
+  }                                                               \
+	else {                                                          \
+	  e1 = DOLEFT;                                                  \
+	  e2 = DORIGHT;                                                 \
+	  DOCODE;                                                       \
+	}                                                               \
+} while(0)
+
+
+
+
+#define MACRO_ACTION_INTEGER2(RULECHECK, RULECODE, NACHECK, NACODE, DOLEFT, DORIGHT, DOCODE) do {      \
+  if(RULECHECK) {                                                   \
+    RULECODE;                                                       \
+  }                                                                 \
+  if(NACHECK) {                                                   \
+  	  NACODE;                                                     \
+  }                                                               \
+	else {                                                          \
+	  e1 = DOLEFT;                                                  \
+	  e2 = DORIGHT;                                                 \
+	  DOCODE;                                                       \
+	}                                                               \
+} while(0)
+
+
+
 #define MACRO_ACTION_BOOLEAN(XREF, YREF, PRECHECK, PRECODE, NACODE, DOCODE) do { \
                                           \
   xTRUE = rcpp_isTRUE(XREF);                 \
@@ -85,6 +116,1172 @@
   else {  \
     DOCODE; \
   } \
+} while(0)
+
+
+
+
+#define MACRO_TYPESWITCH_DECIMAL_COMMON(DIMCODE, NACODE, DOCODE) do {      \
+  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
+  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
+  if(xint && yint) {                                        \
+    const int *px = INTEGER_RO(x);                                        \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION2(                                           \
+        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(xint && !yint) {                                  \
+    const int *px = INTEGER_RO(x);                                        \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION2(                                           \
+        px[flatind_x] == NA_INTEGER,  \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && yint) {                                  \
+    const double *px = REAL_RO(x);                                           \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION2(                                           \
+        py[flatind_y] == NA_INTEGER,  \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && !yint) {                                 \
+    const double *px = REAL_RO(x);                                           \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION1(                                           \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+} while(0)
+
+
+
+
+#define MACRO_TYPESWITCH_DECIMAL_CAREFUL(DIMCODE, NACODE, DOCODE) do {      \
+  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
+  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
+  if(xint && yint) {                                        \
+    const int *px = INTEGER_RO(x);                                        \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION2(                                           \
+        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(xint && !yint) {                                  \
+    const int *px = INTEGER_RO(x);                                        \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION2(                                           \
+        px[flatind_x] == NA_INTEGER || R_isnancpp(py[flatind_y]), \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && yint) {                                  \
+    const double *px = REAL_RO(x);                                           \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION2(                                           \
+        R_isnancpp(px[flatind_x]) || py[flatind_y] == NA_INTEGER,  \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && !yint) {                                 \
+    const double *px = REAL_RO(x);                                           \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION2(                                           \
+        R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+} while(0)
+
+
+
+
+#define MACRO_TYPESWITCH_DECIMAL_SIMPLE(DIMCODE, DOCODE) do {      \
+  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
+  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
+  if(xint && yint) {                                        \
+    const int *px = INTEGER_RO(x);                                        \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(DOCODE);                                                      \
+  }                                                         \
+  else if(xint && !yint) {                                  \
+    const int *px = INTEGER_RO(x);                                        \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(DOCODE);                                                      \
+  }                                                         \
+  else if(!xint && yint) {                                  \
+    const double *px = REAL_RO(x);                                           \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(DOCODE);                                                      \
+  }                                                         \
+  else if(!xint && !yint) {                                 \
+    const double *px = REAL_RO(x);                                           \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(DOCODE);                                                      \
+  }                                                         \
+} while(0)
+
+
+
+
+#define MACRO_TYPESWITCH_DECIMAL_SPECIAL(DIMCODE, RULECHECK, RULECODE, NACODE, DOCODE) do {      \
+  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
+  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
+  if(xint && yint) {                                        \
+    const int *px = INTEGER_RO(x);                                        \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION4(                                           \
+        RULECHECK,                                                    \
+        RULECODE,                                                     \
+        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(xint && !yint) {                                  \
+    const int *px = INTEGER_RO(x);                                        \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION4(                                           \
+        RULECHECK,                                                    \
+        RULECODE,                                                     \
+        px[flatind_x] == NA_INTEGER,  \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && yint) {                                  \
+    const double *px = REAL_RO(x);                                           \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION4(                                           \
+        RULECHECK,                                                    \
+        RULECODE,                                                     \
+        py[flatind_y] == NA_INTEGER,  \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && !yint) {                                 \
+    const double *px = REAL_RO(x);                                           \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION3(                                           \
+        RULECHECK,                                                    \
+        RULECODE,                                                     \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+} while(0)
+
+
+
+
+#define MACRO_TYPESWITCH_DECIMAL_REL(DIMCODE, NACODE1, DOCODE1, NACODE2, DOCODE2) do {      \
+  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
+  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
+  if(xint && yint) {                                        \
+    const int *px = INTEGER_RO(x);                                \
+    const int *py = INTEGER_RO(y);                                \
+    DIMCODE(                                                      \
+      MACRO_DOUBLEPASS(                                           \
+        MACRO_ACTION2(                                           \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
+          NACODE1,                                               \
+          DOCODE1                                                \
+        ),                                                      \
+        MACRO_ACTION2(                                          \
+          R_isnancpp(tempcalc),                                   \
+          NACODE2,                                               \
+          DOCODE2                                               \
+        )                                                       \
+      )                                                         \
+    );                                                          \
+  }                                                             \
+  else if(xint && !yint) {                                      \
+    const int *px = INTEGER_RO(x);                              \
+    const double *py = REAL_RO(y);                              \
+    DIMCODE(                                                    \
+      MACRO_DOUBLEPASS(                                         \
+        MACRO_ACTION2(                                           \
+          px[flatind_x] == NA_INTEGER || R_isnancpp(py[flatind_y]),  \
+          NACODE1,                                               \
+          DOCODE1                                                \
+        ),                                                      \
+        MACRO_ACTION2(                                          \
+          R_isnancpp(tempcalc),                                   \
+          NACODE2,                                               \
+          DOCODE2                                               \
+        )                                                       \
+      )                                                         \
+    );                                                          \
+  }                                                             \
+  else if(!xint && yint) {                                      \
+    const double *px = REAL_RO(x);                              \
+    const int *py = INTEGER_RO(y);                              \
+    DIMCODE(                                                    \
+      MACRO_DOUBLEPASS(                                         \
+        MACRO_ACTION2(                                           \
+          R_isnancpp(px[flatind_x]) || py[flatind_y] == NA_INTEGER,  \
+          NACODE1,                                               \
+          DOCODE1                                                \
+        ),                                                      \
+        MACRO_ACTION2(                                          \
+          R_isnancpp(tempcalc),                                   \
+          NACODE2,                                               \
+          DOCODE2                                               \
+        )                                                       \
+      )                                                         \
+    );                                                          \
+  }                                                             \
+  else if(!xint && !yint) {                                     \
+    const double *px = REAL_RO(x);                              \
+    const double *py = REAL_RO(y);                              \
+    DIMCODE(                                                    \
+      MACRO_DOUBLEPASS(                                         \
+        MACRO_ACTION2(                                           \
+          R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
+          NACODE1,                                               \
+          DOCODE1                                                \
+        ),                                                      \
+        MACRO_ACTION2(                                          \
+          R_isnancpp(tempcalc),                                   \
+          NACODE2,                                               \
+          DOCODE2                                               \
+        )                                                       \
+      )                                                         \
+    );                                                       \
+  }                                                         \
+} while(0)
+
+
+
+
+#define MACRO_TYPESWITCH_INTEGER1(DIMCODE, NACODE, DOCODE) do {      \
+  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
+  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
+  double e1;                                                \
+  double e2;                                                \
+  if(xint && yint) {                                        \
+    const int *px = INTEGER_RO(x);                                        \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER1(                                           \
+        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
+        NACODE,                                               \
+        (double)px[flatind_x],                                   \
+        (double)py[flatind_y],                                   \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(xint && !yint) {                                  \
+    const int *px = INTEGER_RO(x);                                        \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER1(                                           \
+        px[flatind_x] == NA_INTEGER || R_isnancpp(py[flatind_y]), \
+        NACODE,                                               \
+        (double)px[flatind_x],                                   \
+        trunc(py[flatind_y]),                                   \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && yint) {                                  \
+    const double *px = REAL_RO(x);                                           \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER1(                                           \
+        R_isnancpp(px[flatind_x]) || py[flatind_y] == NA_INTEGER,  \
+        NACODE,                                                     \
+        trunc(px[flatind_x]),                                   \
+        (double)py[flatind_y],                                   \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && !yint) {                                 \
+    const double *px = REAL_RO(x);                                           \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER1(                                           \
+        R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
+        NACODE,                                               \
+        trunc(px[flatind_x]),                                   \
+        trunc(py[flatind_y]),                                   \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+} while(0)
+
+
+
+
+#define MACRO_TYPESWITCH_INTEGER2(DIMCODE, RULECHECK, RULECODE, NACODE, DOCODE) do {      \
+  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
+  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
+  double e1;                                                \
+  double e2;                                                \
+  if(xint && yint) {                                        \
+    const int *px = INTEGER_RO(x);                                        \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER2(                                           \
+        RULECHECK,                                                      \
+        RULECODE,                                                       \
+        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
+        NACODE,                                               \
+        (double)px[flatind_x],                                   \
+        (double)py[flatind_y],                                   \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(xint && !yint) {                                  \
+    const int *px = INTEGER_RO(x);                                        \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER2(                                           \
+        RULECHECK,                                                      \
+        RULECODE,                                                       \
+        px[flatind_x] == NA_INTEGER || R_isnancpp(py[flatind_y]), \
+        NACODE,                                               \
+        (double)px[flatind_x],                                   \
+        trunc(py[flatind_y]),                                   \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && yint) {                                  \
+    const double *px = REAL_RO(x);                                           \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER2(                                           \
+        RULECHECK,                                                      \
+        RULECODE,                                                       \
+        R_isnancpp(px[flatind_x]) || py[flatind_y] == NA_INTEGER,  \
+        NACODE,                                                     \
+        trunc(px[flatind_x]),                                   \
+        (double)py[flatind_y],                                   \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && !yint) {                                 \
+    const double *px = REAL_RO(x);                                           \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER2(                                           \
+        RULECHECK,                                                      \
+        RULECODE,                                                       \
+        R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
+        NACODE,                                               \
+        trunc(px[flatind_x]),                                   \
+        trunc(py[flatind_y]),                                   \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+} while(0)
+
+
+
+
+#define MACRO_ASSIGN_C(INPUTCODE) do {  \
+  tempout = INPUTCODE;              \
+  pout[flatind_out] = tempout;      \
+} while(0)
+
+
+#define MACRO_OP_DEC_MATH(DIMCODE) do {	\
+  switch(op) {	\
+    case 1:	\
+    {	\
+      MACRO_TYPESWITCH_DECIMAL_COMMON(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C((double)px[flatind_x] + (double)py[flatind_y])	\
+      );	\
+      break;	\
+    }	\
+    case 2:	\
+    {	\
+      MACRO_TYPESWITCH_DECIMAL_COMMON(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C((double)px[flatind_x] - (double)py[flatind_y])	\
+      );	\
+      break;	\
+    }	\
+    case 3:	\
+    {	\
+      MACRO_TYPESWITCH_DECIMAL_COMMON(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C((double)px[flatind_x] * (double)py[flatind_y])	\
+      );	\
+      break;	\
+    }	\
+    case 4:	\
+    {	\
+      MACRO_TYPESWITCH_DECIMAL_COMMON(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C((double)px[flatind_x] / (double)py[flatind_y])	\
+      );	\
+      break;	\
+    }	\
+    case 5:	\
+    {	\
+      MACRO_TYPESWITCH_DECIMAL_SPECIAL(	\
+        DIMCODE,	\
+        (double)px[flatind_x] == 1 || (double)py[flatind_y] == 0,	\
+        MACRO_ASSIGN_C(1),	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(R_pow((double)px[flatind_x], (double)py[flatind_y]))	\
+      );	\
+      break;	\
+    }	\
+    case 6:	\
+    {	\
+      MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y]) 	\
+      );	\
+      break;	\
+    }	\
+    case 7:	\
+    {	\
+      MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y]) 	\
+      );	\
+      break;	\
+    }	\
+    default:	\
+    {	\
+      stop("given operator not supported in the given context");	\
+    }	\
+  }	\
+} while(0)
+
+
+#define MACRO_OP_DEC_REL(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] == py[flatind_y])  \
+    );	\
+    break;	\
+  }	\
+  case 2:	\
+  {	\
+    MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] != py[flatind_y])  \
+    );	\
+    break;	\
+  }	\
+  case 3:	\
+  {	\
+    MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] < py[flatind_y])  \
+    );	\
+    break;	\
+  }	\
+  case 4:	\
+  {	\
+    MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] > py[flatind_y])  \
+    );	\
+    break;	\
+  }	\
+  case 5:	\
+  {	\
+    MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] <= py[flatind_y])  \
+    );	\
+    break;	\
+  }	\
+  case 6:	\
+  {	\
+    MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(px[flatind_x] >= py[flatind_y])  \
+    );	\
+    break;	\
+  }	\
+  case 7:	\
+  {	\
+    MACRO_TYPESWITCH_DECIMAL_REL(	\
+      DIMCODE,	\
+      tempcalc = NA_REAL,	\
+      tempcalc = abs((double)px[flatind_x] - (double)py[flatind_y]), \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(tempcalc < prec)  \
+    );	\
+    break;	\
+  }	\
+  case 8:	\
+  {	\
+    MACRO_TYPESWITCH_DECIMAL_REL(	\
+      DIMCODE,	\
+      tempcalc = NA_REAL,	\
+      tempcalc = abs((double)px[flatind_x] - (double)py[flatind_y]),	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(tempcalc >= prec)  \
+    );	\
+    break;	\
+  }	\
+  case 9:	\
+  {	\
+    MACRO_TYPESWITCH_DECIMAL_REL(	\
+      DIMCODE,	\
+      tempcalc = NA_REAL,	\
+      tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(tempcalc <= -prec)  \
+    );	\
+    break;	\
+  }	\
+  case 10:	\
+  {	\
+    MACRO_TYPESWITCH_DECIMAL_REL(	\
+      DIMCODE,	\
+      tempcalc = NA_REAL,	\
+      tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(tempcalc >= prec)  \
+    );	\
+    break;	\
+  }	\
+  case 11:	\
+  {	\
+    MACRO_TYPESWITCH_DECIMAL_REL(	\
+      DIMCODE,	\
+      tempcalc = NA_REAL,	\
+      tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),  \
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(tempcalc < prec)  \
+    );	\
+    break;	\
+  }	\
+  case 12:	\
+  {	\
+    MACRO_TYPESWITCH_DECIMAL_REL(	\
+      DIMCODE,	\
+      tempcalc = NA_REAL,	\
+      tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(tempcalc > -prec)  \
+    );	\
+    break;	\
+  }	\
+  default:	\
+  {	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
+
+
+#define MACRO_OP_INT_MATH(DIMCODE) do {	\
+  double intmax = pow(2, 53);           \
+  double intmin = -1 * intmax;          \
+  switch(op) {	\
+    case 1:	\
+    {	\
+      MACRO_TYPESWITCH_INTEGER1(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(rcpp_int53_guard(e1 + e2, intmin, intmax))	\
+      );	\
+      break;	\
+    }	\
+    case 2:	\
+    {	\
+      MACRO_TYPESWITCH_INTEGER1(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(rcpp_int53_guard(e1 - e2, intmin, intmax))	\
+      );	\
+      break;	\
+    }	\
+    case 3:	\
+    {	\
+      MACRO_TYPESWITCH_INTEGER1(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(rcpp_int53_guard(e1 * e2, intmin, intmax))	\
+      );	\
+      break;	\
+    }	\
+    case 4:	\
+    {	\
+      MACRO_TYPESWITCH_INTEGER1(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(rcpp_int53_guard(trunc(e1 / e2), intmin, intmax))	\
+      );	\
+      break;	\
+    }	\
+    case 5:	\
+    {	\
+      MACRO_TYPESWITCH_INTEGER2(	\
+        DIMCODE,	\
+        px[flatind_x] == 1 || py[flatind_y] == 0,	\
+        MACRO_ASSIGN_C(1),	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(rcpp_int53_guard(R_pow(e1, e2), intmin, intmax))	\
+      );	\
+      break;	\
+    }	\
+    case 6:	\
+    {	\
+      MACRO_TYPESWITCH_INTEGER1(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C((e1 < e2) ? e1 : e2) 	\
+      );	\
+      break;	\
+    }	\
+    case 7:	\
+    {	\
+      MACRO_TYPESWITCH_INTEGER1(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C((e1 > e2) ? e1 : e2) 	\
+      );	\
+      break;	\
+    }	\
+    default:	\
+    {	\
+      stop("given operator not supported in the given context");	\
+    }	\
+  }	\
+} while(0)
+
+
+#define MACRO_OP_INT_REL(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    MACRO_TYPESWITCH_INTEGER1(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(e1 == e2)  \
+    );	\
+    break;	\
+  }	\
+  case 2:	\
+  {	\
+    MACRO_TYPESWITCH_INTEGER1(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(e1 != e2)  \
+    );	\
+    break;	\
+  }	\
+  case 3:	\
+  {	\
+    MACRO_TYPESWITCH_INTEGER1(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(e1 < e2)  \
+    );	\
+    break;	\
+  }	\
+  case 4:	\
+  {	\
+    MACRO_TYPESWITCH_INTEGER1(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(e1 > e2)  \
+    );	\
+    break;	\
+  }	\
+  case 5:	\
+  {	\
+    MACRO_TYPESWITCH_INTEGER1(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(e1 <= e2)  \
+    );	\
+    break;	\
+  }	\
+  case 6:	\
+  {	\
+    MACRO_TYPESWITCH_INTEGER1(	\
+      DIMCODE,	\
+      MACRO_ASSIGN_C(NA_LOGICAL), \
+      MACRO_ASSIGN_C(e1 >= e2)  \
+    );	\
+    break;	\
+  }	\
+  default:	\
+  {	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
+
+
+#define MACRO_OP_B_ANDOR(DIMCODE) do {	\
+  switch(op) {	\
+    case 1:	\
+    {	\
+      DIMCODE(                      \
+        MACRO_ACTION_BOOLEAN(       \
+          px[flatind_x], py[flatind_y],       \
+          xFALSE || yFALSE,         \
+          MACRO_ASSIGN_C(0),        \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                 \
+          MACRO_ASSIGN_C((bool)px[flatind_x] && (bool)py[flatind_y])  \
+        )                                                       \
+      );                                                       \
+      break;	\
+    }	\
+    case 2:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ACTION_BOOLEAN(                                           \
+          px[flatind_x], py[flatind_y],       \
+          xTRUE || yTRUE,                   \
+          MACRO_ASSIGN_C(1),                                            \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+          MACRO_ASSIGN_C((bool)px[flatind_x] || (bool)py[flatind_y])  \
+        )                                                       \
+      );                                                        \
+      break;	\
+    }	\
+    case 3:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ACTION2(                                                  \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,   \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+          MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \
+        )                                                       \
+      );                                                                \
+      break;	\
+    }	\
+    case 4:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ACTION_BOOLEAN(                                           \
+          px[flatind_x], py[flatind_y],       \
+          xTRUE || yTRUE,                   \
+          MACRO_ASSIGN_C(0),                                            \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+          MACRO_ASSIGN_C(!(bool)px[flatind_x] && !(bool)py[flatind_y])  \
+        )                                                       \
+      );                                                        \
+      break;	\
+    }	\
+    default:	\
+    {	\
+      stop("given operator not supported in the given context");	\
+    }	\
+  }	\
+} while(0)
+
+
+#define MACRO_OP_CPLX_MATH(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_cplx_plus(px[flatind_x], py[flatind_y])  \
+    );                                                                \
+    break;	\
+  }	\
+  case 2:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_cplx_min(px[flatind_x], py[flatind_y])  \
+    );                                                                \
+    break;	\
+  }	\
+  case 3:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_cplx_mult(px[flatind_x], py[flatind_y])  \
+    );                                                                \
+    break;	\
+  }	\
+  case 4:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_cplx_div(px[flatind_x], py[flatind_y])   \
+    );                                                                \
+    break;	\
+  }	\
+  default:	\
+  {	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
+
+
+#define MACRO_OP_CPLX_REL(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_cplx_equal(px[flatind_x], py[flatind_y])  \
+    );                                                                \
+    break;	\
+  }	\
+  case 2:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_cplx_unequal(px[flatind_x], py[flatind_y])  \
+    );                                                                \
+    break;	\
+  }	\
+  default:	\
+  {	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
+
+
+#define MACRO_OP_STR_CONC(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    DIMCODE(                                                          \
+      out[flatind_out] = rcpp_string_plus(x[flatind_x], y[flatind_y]) \
+    );                                                                \
+    break;	\
+  }	\
+  default:	\
+  {	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
+
+
+#define MACRO_OP_STR_REL(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    DIMCODE(                                                          \
+      MACRO_ACTION2(                                                  \
+        px[flatind_x] == NA_STRING || py[flatind_y] == NA_STRING,   \
+        MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+        MACRO_ASSIGN_C((int)R_compute_identical(px[flatind_x], py[flatind_y], 0))  \
+      )                                                       \
+    );                                                                \
+    break;	\
+  }	\
+  case 2:	\
+  {	\
+    DIMCODE(                                                          \
+      MACRO_ACTION2(                                                  \
+        px[flatind_x] == NA_STRING || py[flatind_y] == NA_STRING,   \
+        MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+        MACRO_ASSIGN_C((int)!R_compute_identical(px[flatind_x], py[flatind_y], 0))  \
+      )                                                       \
+    );         \
+    break;	\
+  }	\
+  default:	\
+  {	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
+
+
+#define MACRO_OP_STR_DIST(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_str_dist_led(x[flatind_x], y[flatind_y])   \
+    );                                                                \
+    break;	\
+  }	\
+  default:	\
+  {	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
+
+
+#define MACRO_OP_IFELSE(DIMCODE) do {       \
+  switch(TYPEOF(x)) {	\
+    case LGLSXP:	\
+    {	\
+      const int *px = LOGICAL_RO(x);	\
+      const int *py = LOGICAL_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));	\
+      int *pout;	\
+      pout = LOGICAL(out);	\
+      	\
+      DIMCODE(	\
+        MACRO_ACTION2(	\
+          pcond[flatind_out] == NA_LOGICAL,	\
+          pout[flatind_out] = NA_LOGICAL,	\
+          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
+        )	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case INTSXP:	\
+    {	\
+      const int *px = INTEGER_RO(x);	\
+      const int *py = INTEGER_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));	\
+      int *pout;	\
+      pout = INTEGER(out);	\
+      	\
+      DIMCODE(	\
+        MACRO_ACTION2(	\
+          pcond[flatind_out] == NA_LOGICAL,	\
+          pout[flatind_out] = NA_INTEGER,	\
+          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
+        )	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case REALSXP:	\
+    {	\
+      const double *px = REAL_RO(x);	\
+      const double *py = REAL_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\
+      double *pout;	\
+      pout = REAL(out);	\
+      	\
+      DIMCODE(	\
+        MACRO_ACTION2(	\
+          pcond[flatind_out] == NA_LOGICAL,	\
+          pout[flatind_out] = NA_REAL,	\
+          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
+        )	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case CPLXSXP:	\
+    {	\
+      const Rcomplex *px = COMPLEX_RO(x);	\
+      const Rcomplex *py = COMPLEX_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\
+      Rcomplex *pout;	\
+      pout = COMPLEX(out);	\
+      	\
+      DIMCODE(	\
+        MACRO_ACTION2(	\
+          pcond[flatind_out] == NA_LOGICAL,	\
+          pout[flatind_out] = rcpp_cplx_returnNA(),	\
+          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
+        )	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case STRSXP:	\
+    {	\
+      const SEXP *px = STRING_PTR_RO(x);	\
+      const SEXP *py = STRING_PTR_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\
+      SEXP *pout;	\
+      pout = STRING_PTR(out);	\
+      	\
+      DIMCODE(	\
+        MACRO_ACTION2(	\
+          pcond[flatind_out] == NA_LOGICAL,	\
+          pout[flatind_out] = NA_STRING,	\
+          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
+        )	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case RAWSXP:	\
+    {	\
+      const Rbyte *px = RAW_RO(x);	\
+      const Rbyte *py = RAW_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\
+      Rbyte *pout;	\
+      pout = RAW(out);	\
+      	\
+      DIMCODE(	\
+        pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case VECSXP:	\
+    {	\
+      SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\
+      	\
+      DIMCODE(	\
+        MACRO_ACTION2(	\
+          pcond[flatind_out] == NA_LOGICAL,	\
+          SET_VECTOR_ELT(out, flatind_out, R_NilValue),	\
+          SET_VECTOR_ELT(out, flatind_out, pcond[flatind_out] ? VECTOR_ELT(x, flatind_x) : VECTOR_ELT(y, flatind_y))	\
+        )	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    default:	\
+    {	\
+      stop("unsupported type");	\
+    }	\
+  }	\
+} while(0)
+
+
+#define MACRO_OP_BCAPPLY(DIMCODE) do {       \
+  switch(TYPEOF(out)) {	\
+    case LGLSXP:	\
+    {	\
+      int *pout;	\
+      pout = LOGICAL(out);	\
+      	\
+      DIMCODE(	\
+        pout[flatind_out] = LOGICAL(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
+      );	\
+      break; \
+    }	\
+    case INTSXP:	\
+    {	\
+      int *pout;	\
+      pout = INTEGER(out);	\
+      	\
+      DIMCODE(	\
+        pout[flatind_out] = INTEGER(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
+      );	\
+      break; \
+    }	\
+    case REALSXP:	\
+    {	\
+      double *pout;	\
+      pout = REAL(out);	\
+      DIMCODE(	\
+        pout[flatind_out] = REAL(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
+      );	\
+      break; \
+    }	\
+    case CPLXSXP:	\
+    {	\
+      Rcomplex *pout;	\
+      pout = COMPLEX(out);	\
+      DIMCODE(	\
+        pout[flatind_out] = COMPLEX(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
+      );	\
+      break; \
+    }	\
+    case STRSXP:	\
+    {	\
+      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\
+      SEXP *pout;	\
+      pout = STRING_PTR(out);	\
+      	\
+      DIMCODE(	\
+        pout[flatind_out] = STRING_PTR(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
+      );	\
+      break; \
+    }	\
+    case RAWSXP:	\
+    {	\
+      Rbyte *pout;	\
+      pout = RAW(out);	\
+      	\
+      DIMCODE(	\
+        pout[flatind_out] = RAW(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
+      );	\
+      break; \
+    }	\
+    case VECSXP:	\
+    {	\
+     DIMCODE(	\
+        SET_VECTOR_ELT(out, flatind_out, f(x, y, flatind_x + 1, flatind_y + 1))	\
+      );	\
+      break; \
+    }	\
+    default:	\
+    {	\
+      stop("unsupported type");	\
+    }	\
+  }	\
 } while(0)
 
 
@@ -2124,898 +3321,6 @@ case 16:                                       \
        \
   }       \
 } while(0)
-
-
-
-#define MACRO_TYPESWITCH_NUMERIC_COMMON(DIMCODE, NACODE, DOCODE) do {      \
-  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
-  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
-  if(xint && yint) {                                        \
-    const int *px = INTEGER_RO(x);                                        \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                           \
-        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(xint && !yint) {                                  \
-    const int *px = INTEGER_RO(x);                                        \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                           \
-        px[flatind_x] == NA_INTEGER,  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(!xint && yint) {                                  \
-    const double *px = REAL_RO(x);                                           \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                           \
-        py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(!xint && !yint) {                                 \
-    const double *px = REAL_RO(x);                                           \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION1(                                           \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_NUMERIC_CAREFUL(DIMCODE, NACODE, DOCODE) do {      \
-  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
-  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
-  if(xint && yint) {                                        \
-    const int *px = INTEGER_RO(x);                                        \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                           \
-        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(xint && !yint) {                                  \
-    const int *px = INTEGER_RO(x);                                        \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                           \
-        px[flatind_x] == NA_INTEGER || R_isnancpp(py[flatind_y]), \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(!xint && yint) {                                  \
-    const double *px = REAL_RO(x);                                           \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                           \
-        R_isnancpp(px[flatind_x]) || py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(!xint && !yint) {                                 \
-    const double *px = REAL_RO(x);                                           \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                           \
-        R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_NUMERIC_SIMPLE(DIMCODE, DOCODE) do {      \
-  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
-  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
-  if(xint && yint) {                                        \
-    const int *px = INTEGER_RO(x);                                        \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(DOCODE);                                                      \
-  }                                                         \
-  else if(xint && !yint) {                                  \
-    const int *px = INTEGER_RO(x);                                        \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(DOCODE);                                                      \
-  }                                                         \
-  else if(!xint && yint) {                                  \
-    const double *px = REAL_RO(x);                                           \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(DOCODE);                                                      \
-  }                                                         \
-  else if(!xint && !yint) {                                 \
-    const double *px = REAL_RO(x);                                           \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(DOCODE);                                                      \
-  }                                                         \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_NUMERIC_SPECIAL(DIMCODE, RULECHECK, RULECODE, NACODE, DOCODE) do {      \
-  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
-  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
-  if(xint && yint) {                                        \
-    const int *px = INTEGER_RO(x);                                        \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION4(                                           \
-        RULECHECK,                                                    \
-        RULECODE,                                                     \
-        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(xint && !yint) {                                  \
-    const int *px = INTEGER_RO(x);                                        \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION4(                                           \
-        RULECHECK,                                                    \
-        RULECODE,                                                     \
-        px[flatind_x] == NA_INTEGER,  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(!xint && yint) {                                  \
-    const double *px = REAL_RO(x);                                           \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION4(                                           \
-        RULECHECK,                                                    \
-        RULECODE,                                                     \
-        py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(!xint && !yint) {                                 \
-    const double *px = REAL_RO(x);                                           \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION3(                                           \
-        RULECHECK,                                                    \
-        RULECODE,                                                     \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_NUMERIC_REL(DIMCODE, NACODE1, DOCODE1, NACODE2, DOCODE2) do {      \
-  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
-  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
-  if(xint && yint) {                                        \
-    const int *px = INTEGER_RO(x);                                \
-    const int *py = INTEGER_RO(y);                                \
-    DIMCODE(                                                      \
-      MACRO_DOUBLEPASS(                                           \
-        MACRO_ACTION2(                                           \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-          NACODE1,                                               \
-          DOCODE1                                                \
-        ),                                                      \
-        MACRO_ACTION2(                                          \
-          R_isnancpp(tempcalc),                                   \
-          NACODE2,                                               \
-          DOCODE2                                               \
-        )                                                       \
-      )                                                         \
-    );                                                          \
-  }                                                             \
-  else if(xint && !yint) {                                      \
-    const int *px = INTEGER_RO(x);                              \
-    const double *py = REAL_RO(y);                              \
-    DIMCODE(                                                    \
-      MACRO_DOUBLEPASS(                                         \
-        MACRO_ACTION2(                                           \
-          px[flatind_x] == NA_INTEGER || R_isnancpp(py[flatind_y]),  \
-          NACODE1,                                               \
-          DOCODE1                                                \
-        ),                                                      \
-        MACRO_ACTION2(                                          \
-          R_isnancpp(tempcalc),                                   \
-          NACODE2,                                               \
-          DOCODE2                                               \
-        )                                                       \
-      )                                                         \
-    );                                                          \
-  }                                                             \
-  else if(!xint && yint) {                                      \
-    const double *px = REAL_RO(x);                              \
-    const int *py = INTEGER_RO(y);                              \
-    DIMCODE(                                                    \
-      MACRO_DOUBLEPASS(                                         \
-        MACRO_ACTION2(                                           \
-          R_isnancpp(px[flatind_x]) || py[flatind_y] == NA_INTEGER,  \
-          NACODE1,                                               \
-          DOCODE1                                                \
-        ),                                                      \
-        MACRO_ACTION2(                                          \
-          R_isnancpp(tempcalc),                                   \
-          NACODE2,                                               \
-          DOCODE2                                               \
-        )                                                       \
-      )                                                         \
-    );                                                          \
-  }                                                             \
-  else if(!xint && !yint) {                                     \
-    const double *px = REAL_RO(x);                              \
-    const double *py = REAL_RO(y);                              \
-    DIMCODE(                                                    \
-      MACRO_DOUBLEPASS(                                         \
-        MACRO_ACTION2(                                           \
-          R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
-          NACODE1,                                               \
-          DOCODE1                                                \
-        ),                                                      \
-        MACRO_ACTION2(                                          \
-          R_isnancpp(tempcalc),                                   \
-          NACODE2,                                               \
-          DOCODE2                                               \
-        )                                                       \
-      )                                                         \
-    );                                                       \
-  }                                                         \
-} while(0)
-
-
-
-#define MACRO_ASSIGN_C(INPUTCODE) do {  \
-  tempout = INPUTCODE;              \
-  pout[flatind_out] = tempout;      \
-} while(0)
-
-
-#define MACRO_OP_NUM_MATH(DIMCODE) do {	\
-  switch(op) {	\
-    case 1:	\
-    {	\
-      MACRO_TYPESWITCH_NUMERIC_COMMON(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C((double)px[flatind_x] + (double)py[flatind_y])	\
-      );	\
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      MACRO_TYPESWITCH_NUMERIC_COMMON(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C((double)px[flatind_x] - (double)py[flatind_y])	\
-      );	\
-      break;	\
-    }	\
-    case 3:	\
-    {	\
-      MACRO_TYPESWITCH_NUMERIC_COMMON(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C((double)px[flatind_x] * (double)py[flatind_y])	\
-      );	\
-      break;	\
-    }	\
-    case 4:	\
-    {	\
-      MACRO_TYPESWITCH_NUMERIC_COMMON(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C((double)px[flatind_x] / (double)py[flatind_y])	\
-      );	\
-      break;	\
-    }	\
-    case 5:	\
-    {	\
-      MACRO_TYPESWITCH_NUMERIC_SPECIAL(	\
-        DIMCODE,	\
-        (double)px[flatind_x] == 1 || (double)py[flatind_y] == 0,	\
-        MACRO_ASSIGN_C(1),	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C(R_pow((double)px[flatind_x], (double)py[flatind_y]))	\
-      );	\
-      break;	\
-    }	\
-    case 6:	\
-    {	\
-      MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C(((double)px[flatind_x] < (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y]) 	\
-      );	\
-      break;	\
-    }	\
-    case 7:	\
-    {	\
-      MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C(((double)px[flatind_x] > (double)py[flatind_y]) ? (double)px[flatind_x] : (double)py[flatind_y]) 	\
-      );	\
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_OP_NUM_REL(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] == py[flatind_y])  \
-    );	\
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] != py[flatind_y])  \
-    );	\
-    break;	\
-  }	\
-  case 3:	\
-  {	\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] < py[flatind_y])  \
-    );	\
-    break;	\
-  }	\
-  case 4:	\
-  {	\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] > py[flatind_y])  \
-    );	\
-    break;	\
-  }	\
-  case 5:	\
-  {	\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] <= py[flatind_y])  \
-    );	\
-    break;	\
-  }	\
-  case 6:	\
-  {	\
-    MACRO_TYPESWITCH_NUMERIC_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] >= py[flatind_y])  \
-    );	\
-    break;	\
-  }	\
-  case 7:	\
-  {	\
-    MACRO_TYPESWITCH_NUMERIC_REL(	\
-      DIMCODE,	\
-      tempcalc = NA_REAL,	\
-      tempcalc = abs((double)px[flatind_x] - (double)py[flatind_y]), \
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(tempcalc < prec)  \
-    );	\
-    break;	\
-  }	\
-  case 8:	\
-  {	\
-    MACRO_TYPESWITCH_NUMERIC_REL(	\
-      DIMCODE,	\
-      tempcalc = NA_REAL,	\
-      tempcalc = abs((double)px[flatind_x] - (double)py[flatind_y]),	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(tempcalc >= prec)  \
-    );	\
-    break;	\
-  }	\
-  case 9:	\
-  {	\
-    MACRO_TYPESWITCH_NUMERIC_REL(	\
-      DIMCODE,	\
-      tempcalc = NA_REAL,	\
-      tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),  \
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(tempcalc <= -prec)  \
-    );	\
-    break;	\
-  }	\
-  case 10:	\
-  {	\
-    MACRO_TYPESWITCH_NUMERIC_REL(	\
-      DIMCODE,	\
-      tempcalc = NA_REAL,	\
-      tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),  \
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(tempcalc >= prec)  \
-    );	\
-    break;	\
-  }	\
-  case 11:	\
-  {	\
-    MACRO_TYPESWITCH_NUMERIC_REL(	\
-      DIMCODE,	\
-      tempcalc = NA_REAL,	\
-      tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),  \
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(tempcalc < prec)  \
-    );	\
-    break;	\
-  }	\
-  case 12:	\
-  {	\
-    MACRO_TYPESWITCH_NUMERIC_REL(	\
-      DIMCODE,	\
-      tempcalc = NA_REAL,	\
-      tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(tempcalc > -prec)  \
-    );	\
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_B_ANDOR(DIMCODE) do {	\
-  switch(op) {	\
-    case 1:	\
-    {	\
-      DIMCODE(                      \
-        MACRO_ACTION_BOOLEAN(       \
-          px[flatind_x], py[flatind_y],       \
-          xFALSE || yFALSE,         \
-          MACRO_ASSIGN_C(0),        \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                 \
-          MACRO_ASSIGN_C((bool)px[flatind_x] && (bool)py[flatind_y])  \
-        )                                                       \
-      );                                                       \
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ACTION_BOOLEAN(                                           \
-          px[flatind_x], py[flatind_y],       \
-          xTRUE || yTRUE,                   \
-          MACRO_ASSIGN_C(1),                                            \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C((bool)px[flatind_x] || (bool)py[flatind_y])  \
-        )                                                       \
-      );                                                        \
-      break;	\
-    }	\
-    case 3:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ACTION2(                                                  \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,   \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \
-        )                                                       \
-      );                                                                \
-      break;	\
-    }	\
-    case 4:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ACTION_BOOLEAN(                                           \
-          px[flatind_x], py[flatind_y],       \
-          xTRUE || yTRUE,                   \
-          MACRO_ASSIGN_C(0),                                            \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C(!(bool)px[flatind_x] && !(bool)py[flatind_y])  \
-        )                                                       \
-      );                                                        \
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_OP_CPLX_MATH(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_cplx_plus(px[flatind_x], py[flatind_y])  \
-    );                                                                \
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_cplx_min(px[flatind_x], py[flatind_y])  \
-    );                                                                \
-    break;	\
-  }	\
-  case 3:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_cplx_mult(px[flatind_x], py[flatind_y])  \
-    );                                                                \
-    break;	\
-  }	\
-  case 4:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_cplx_div(px[flatind_x], py[flatind_y])   \
-    );                                                                \
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_CPLX_REL(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_cplx_equal(px[flatind_x], py[flatind_y])  \
-    );                                                                \
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_cplx_unequal(px[flatind_x], py[flatind_y])  \
-    );                                                                \
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_STR_CONC(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    DIMCODE(                                                          \
-      out[flatind_out] = rcpp_string_plus(x[flatind_x], y[flatind_y]) \
-    );                                                                \
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_STR_REL(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                                  \
-        px[flatind_x] == NA_STRING || py[flatind_y] == NA_STRING,   \
-        MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-        MACRO_ASSIGN_C((int)R_compute_identical(px[flatind_x], py[flatind_y], 0))  \
-      )                                                       \
-    );                                                                \
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                                  \
-        px[flatind_x] == NA_STRING || py[flatind_y] == NA_STRING,   \
-        MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-        MACRO_ASSIGN_C((int)!R_compute_identical(px[flatind_x], py[flatind_y], 0))  \
-      )                                                       \
-    );         \
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_STR_DIST(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_str_dist_led(x[flatind_x], y[flatind_y])   \
-    );                                                                \
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_IFELSE(DIMCODE) do {       \
-  switch(TYPEOF(x)) {	\
-    case LGLSXP:	\
-    {	\
-      const int *px = LOGICAL_RO(x);	\
-      const int *py = LOGICAL_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));	\
-      int *pout;	\
-      pout = LOGICAL(out);	\
-      	\
-      DIMCODE(	\
-        MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_LOGICAL,	\
-          pout[flatind_out] = NA_LOGICAL,	\
-          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-        )	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case INTSXP:	\
-    {	\
-      const int *px = INTEGER_RO(x);	\
-      const int *py = INTEGER_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));	\
-      int *pout;	\
-      pout = INTEGER(out);	\
-      	\
-      DIMCODE(	\
-        MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_LOGICAL,	\
-          pout[flatind_out] = NA_INTEGER,	\
-          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-        )	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case REALSXP:	\
-    {	\
-      const double *px = REAL_RO(x);	\
-      const double *py = REAL_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\
-      double *pout;	\
-      pout = REAL(out);	\
-      	\
-      DIMCODE(	\
-        MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_LOGICAL,	\
-          pout[flatind_out] = NA_REAL,	\
-          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-        )	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case CPLXSXP:	\
-    {	\
-      const Rcomplex *px = COMPLEX_RO(x);	\
-      const Rcomplex *py = COMPLEX_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\
-      Rcomplex *pout;	\
-      pout = COMPLEX(out);	\
-      	\
-      DIMCODE(	\
-        MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_LOGICAL,	\
-          pout[flatind_out] = rcpp_cplx_returnNA(),	\
-          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-        )	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case STRSXP:	\
-    {	\
-      const SEXP *px = STRING_PTR_RO(x);	\
-      const SEXP *py = STRING_PTR_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\
-      SEXP *pout;	\
-      pout = STRING_PTR(out);	\
-      	\
-      DIMCODE(	\
-        MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_LOGICAL,	\
-          pout[flatind_out] = NA_STRING,	\
-          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-        )	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case RAWSXP:	\
-    {	\
-      const Rbyte *px = RAW_RO(x);	\
-      const Rbyte *py = RAW_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\
-      Rbyte *pout;	\
-      pout = RAW(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case VECSXP:	\
-    {	\
-      SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\
-      	\
-      DIMCODE(	\
-        MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_LOGICAL,	\
-          SET_VECTOR_ELT(out, flatind_out, R_NilValue),	\
-          SET_VECTOR_ELT(out, flatind_out, pcond[flatind_out] ? VECTOR_ELT(x, flatind_x) : VECTOR_ELT(y, flatind_y))	\
-        )	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    default:	\
-    {	\
-      stop("unsupported type");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_OP_BCAPPLY(DIMCODE) do {       \
-  switch(TYPEOF(out)) {	\
-    case LGLSXP:	\
-    {	\
-      int *pout;	\
-      pout = LOGICAL(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = LOGICAL(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
-      );	\
-      break; \
-    }	\
-    case INTSXP:	\
-    {	\
-      int *pout;	\
-      pout = INTEGER(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = INTEGER(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
-      );	\
-      break; \
-    }	\
-    case REALSXP:	\
-    {	\
-      double *pout;	\
-      pout = REAL(out);	\
-      DIMCODE(	\
-        pout[flatind_out] = REAL(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
-      );	\
-      break; \
-    }	\
-    case CPLXSXP:	\
-    {	\
-      Rcomplex *pout;	\
-      pout = COMPLEX(out);	\
-      DIMCODE(	\
-        pout[flatind_out] = COMPLEX(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
-      );	\
-      break; \
-    }	\
-    case STRSXP:	\
-    {	\
-      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\
-      SEXP *pout;	\
-      pout = STRING_PTR(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = STRING_PTR(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
-      );	\
-      break; \
-    }	\
-    case RAWSXP:	\
-    {	\
-      Rbyte *pout;	\
-      pout = RAW(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = RAW(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
-      );	\
-      break; \
-    }	\
-    case VECSXP:	\
-    {	\
-     DIMCODE(	\
-        SET_VECTOR_ELT(out, flatind_out, f(x, y, flatind_x + 1, flatind_y + 1))	\
-      );	\
-      break; \
-    }	\
-    default:	\
-    {	\
-      stop("unsupported type");	\
-    }	\
-  }	\
-} while(0)
-
 
 
 #endif

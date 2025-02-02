@@ -56,6 +56,43 @@ macro_action4 <- "
 
 "
 
+
+macro_action_integer1 <- "
+
+#define MACRO_ACTION_INTEGER1(NACHECK, NACODE, DOLEFT, DORIGHT, DOCODE) do {      \\
+  if(NACHECK) {                                                   \\
+  	  NACODE;                                                     \\
+  }                                                               \\
+	else {                                                          \\
+	  e1 = DOLEFT;                                                  \\
+	  e2 = DORIGHT;                                                 \\
+	  DOCODE;                                                       \\
+	}                                                               \\
+} while(0)
+
+"
+
+
+
+macro_action_integer2 <- "
+
+#define MACRO_ACTION_INTEGER2(RULECHECK, RULECODE, NACHECK, NACODE, DOLEFT, DORIGHT, DOCODE) do {      \\
+  if(RULECHECK) {                                                   \\
+    RULECODE;                                                       \\
+  }                                                                 \\
+  if(NACHECK) {                                                   \\
+  	  NACODE;                                                     \\
+  }                                                               \\
+	else {                                                          \\
+	  e1 = DOLEFT;                                                  \\
+	  e2 = DORIGHT;                                                 \\
+	  DOCODE;                                                       \\
+	}                                                               \\
+} while(0)
+
+"
+
+
 macro_doublepass <- "
 #define MACRO_DOUBLEPASS(MACRO1, MACRO2) do{  \\
   MACRO1;                                     \\
@@ -106,6 +143,10 @@ macro_action <- stri_c(
   macro_action3,
   "\n",
   macro_action4,
+  "\n",
+  macro_action_integer1,
+  "\n",
+  macro_action_integer2,
   "\n",
   macro_action_boolean,
   "\n",

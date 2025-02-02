@@ -6,8 +6,11 @@
   if(.ndims(x) > 16L || .ndims(y) > 16L) {
     stop(simpleError("arrays with more than 16 dimensions are not supported", call = abortcall))
   }
+  if(length(x) == 0L || length(y) == 0L) {
+    stop(simpleError("zero-length objects not supported", call = abortcall))
+  }
   if(!is.character(op) || length(op) != 1L) {
-    stop(simpleError("`op` must be single string"))
+    stop(simpleError("`op` must be single string", call = abortcall))
   }
 }
 
@@ -144,6 +147,7 @@
   ind1 <- which(target.dim == 1L)
   ind0 <- which(target.dim > 1L)
   indices <- vector("list", length(target.dim))
+  # using lapply to get ALTREP Compact integer vectors
   indices[ind1] <- lapply(out.dim[ind1], \(n)rep(1L, n))
   indices[ind0] <- lapply(out.dim[ind0], \(n)1:n)
   return(indices)

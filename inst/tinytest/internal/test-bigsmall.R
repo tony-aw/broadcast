@@ -11,7 +11,7 @@ make_dims <- function(n) {
   sample(c(1L, 5L), n, TRUE)
 }
 
-bs <- broadcast:::.rcpp_bc_dbl_bs
+bs <- broadcast:::.rcpp_bc_dec_bs
 
 # bigx ====
 

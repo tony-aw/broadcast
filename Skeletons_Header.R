@@ -19,11 +19,11 @@ header <- stri_c("
 ",
 macro_action,
 "\n",
-macro_dim,
-"\n",
 macro_typeswitch_numeric,
 "\n",
 macro_op,
+"\n",
+macro_dim,
 
 "
 

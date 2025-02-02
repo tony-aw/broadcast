@@ -43,7 +43,7 @@ These functions use an API similar to the \link[base]{outer} and \link[base]{swe
 \cr
 The following functions for type-specific binary operations are available:
 \itemize{
-\item \link{bc.num}: numeric arithmetic and relational operations;
+\item \link{bc.d}: numeric arithmetic and relational operations;
 \item \link{bc.b}: Boolean combiner operations;
 \item \link{bc.cplx}: complex arithmetic and equality operations;
 \item \link{bc.str}: string equality, concatenation, and distance operations;

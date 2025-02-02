@@ -28,7 +28,7 @@
 #' \cr
 #' The following functions for type-specific binary operations are available:
 #' 
-#'  * \link{bc.num}: numeric arithmetic and relational operations;
+#'  * \link{bc.d}: numeric arithmetic and relational operations;
 #'  * \link{bc.b}: Boolean combiner operations;
 #'  * \link{bc.cplx}: complex arithmetic and equality operations;
 #'  * \link{bc.str}: string equality, concatenation, and distance operations;

@@ -122,11 +122,11 @@ bc.b <- function(x, y, op) {
   dimmode <- prep[[8L]]
   
   if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bcRel_dbl_v(x, y, out.len, op, 0)
+    out <- .rcpp_bcRel_dec_v(x, y, out.len, op, 0)
   }
   else if(dimmode == 2L) { # orthogonal vector mode
     RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bcRel_dbl_ov(x, y, RxC, out.dimsimp, out.len, op, 0)
+    out <- .rcpp_bcRel_dec_ov(x, y, RxC, out.dimsimp, out.len, op, 0)
   }
   else if(dimmode == 3L){ # big-small mode
     by_x <- .make_by(x.dim)
@@ -139,7 +139,7 @@ bc.b <- function(x, y, op) {
     else {
       bigx <- FALSE
     }
-    out <- .rcpp_bcRel_dbl_bs(
+    out <- .rcpp_bcRel_dec_bs(
       x, y, by_x, by_y, dcp_x, dcp_y, as.integer(out.dimsimp), out.len, bigx, op, 0
     )
   }
@@ -150,7 +150,7 @@ bc.b <- function(x, y, op) {
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     
-    out <- .rcpp_bcRel_dbl_d(
+    out <- .rcpp_bcRel_dec_d(
       x, y, by_x, by_y,
       dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op, 0
     )

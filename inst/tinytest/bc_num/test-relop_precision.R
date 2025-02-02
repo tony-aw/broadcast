@@ -26,20 +26,20 @@ equal <- c(rep(TRUE, 3), rep(FALSE, 6), rep(NA, 6))
 smaller <- c(rep(FALSE, 6), rep(TRUE, 3), rep(NA, 6))
 bigger <- c(rep(FALSE, 3), rep(TRUE, 3), rep(FALSE, 3), rep(NA, 6))
 
-expect_equal(bc.num(x, y, "d==") |> as.vector(), equal)
-expect_equal(bc.num(x, y, "d<=") |> as.vector(), equal | smaller)
-expect_equal(bc.num(x, y, "d>=") |> as.vector(), equal | bigger)
-expect_equal(bc.num(x, y, "d!=") |> as.vector(), !equal)
-expect_equal(bc.num(x, y, "d<") |> as.vector(), !equal & smaller)
-expect_equal(bc.num(x, y, "d>") |> as.vector(), !equal & bigger)
+expect_equal(bc.d(x, y, "d==") |> as.vector(), equal)
+expect_equal(bc.d(x, y, "d<=") |> as.vector(), equal | smaller)
+expect_equal(bc.d(x, y, "d>=") |> as.vector(), equal | bigger)
+expect_equal(bc.d(x, y, "d!=") |> as.vector(), !equal)
+expect_equal(bc.d(x, y, "d<") |> as.vector(), !equal & smaller)
+expect_equal(bc.d(x, y, "d>") |> as.vector(), !equal & bigger)
 
 enumerate <- enumerate + 6L
 
 
 # relational checks ====
-expect_equal(bc.num(x, y, "d!="), !(bc.num(x, y, "d==")))
-expect_equal(bc.num(x, y, "d<="), !(bc.num(x, y, "d>")))
-expect_equal(bc.num(x, y, "d>="), !(bc.num(x, y, "d<")))
+expect_equal(bc.d(x, y, "d!="), !(bc.d(x, y, "d==")))
+expect_equal(bc.d(x, y, "d<="), !(bc.d(x, y, "d>")))
+expect_equal(bc.d(x, y, "d>="), !(bc.d(x, y, "d<")))
 
 enumerate <- enumerate + 3L
 
@@ -51,27 +51,27 @@ d1 <- d[, 1] |> as.double() |> as.array()
 d2 <- d[, 2] |> as.double() |> as.array()
 expect_equal(
   as.vector(d1 == d2),
-  bc.num(d1, d2, "d==") |> as.vector()
+  bc.d(d1, d2, "d==") |> as.vector()
 )
 expect_equal(
   as.vector(d1 != d2),
-  bc.num(d1, d2, "d!=") |> as.vector()
+  bc.d(d1, d2, "d!=") |> as.vector()
 )
 expect_equal(
   as.vector(d1 <= d2),
-  bc.num(d1, d2, "d<=") |> as.vector()
+  bc.d(d1, d2, "d<=") |> as.vector()
 )
 expect_equal(
   as.vector(d1 >= d2),
-  bc.num(d1, d2, "d>=") |> as.vector()
+  bc.d(d1, d2, "d>=") |> as.vector()
 )
 expect_equal(
   as.vector(d1 < d2),
-  bc.num(d1, d2, "d<") |> as.vector()
+  bc.d(d1, d2, "d<") |> as.vector()
 )
 expect_equal(
   as.vector(d1 > d2),
-  bc.num(d1, d2, "d>") |> as.vector()
+  bc.d(d1, d2, "d>") |> as.vector()
 )
 
 enumerate <- enumerate + 6L
@@ -87,42 +87,42 @@ all_inf <- which(is.infinite(d1) & is.infinite(d2) & sign(d1) == sign(d2))
 
 expect <- as.vector(d1 == d2)
 expect[all_inf] <- NA
-out <- bc.num(d1, d2, "d==") |> as.vector()
+out <- bc.d(d1, d2, "d==") |> as.vector()
 expect_equal(
   expect, out
 )
 
 expect <- as.vector(d1 != d2)
 expect[all_inf] <- NA
-out <- bc.num(d1, d2, "d!=") |> as.vector()
+out <- bc.d(d1, d2, "d!=") |> as.vector()
 expect_equal(
   expect, out
 )
 
 expect <- as.vector(d1 <= d2)
 expect[all_inf] <- NA
-out <- bc.num(d1, d2, "d<=") |> as.vector()
+out <- bc.d(d1, d2, "d<=") |> as.vector()
 expect_equal(
   expect, out
 )
 
 expect <- as.vector(d1 >= d2)
 expect[all_inf] <- NA
-out <- bc.num(d1, d2, "d>=") |> as.vector()
+out <- bc.d(d1, d2, "d>=") |> as.vector()
 expect_equal(
   expect, out
 )
 
 expect <- as.vector(d1 < d2)
 expect[all_inf] <- NA
-out <- bc.num(d1, d2, "d<") |> as.vector()
+out <- bc.d(d1, d2, "d<") |> as.vector()
 expect_equal(
   expect, out
 )
 
 expect <- as.vector(d1 > d2)
 expect[all_inf] <- NA
-out <- bc.num(d1, d2, "d>") |> as.vector()
+out <- bc.d(d1, d2, "d>") |> as.vector()
 expect_equal(
   expect, out
 )

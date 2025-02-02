@@ -7,7 +7,7 @@ errorfun <- function(tt) {
 }
 
 
-ortho <- broadcast:::.rcpp_bc_dbl_ov
+ortho <- broadcast:::.rcpp_bc_dec_ov
 
 
 

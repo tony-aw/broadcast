@@ -45,6 +45,37 @@
 
 
 
+
+#define MACRO_ACTION_INTEGER1(NACHECK, NACODE, DOLEFT, DORIGHT, DOCODE) do {      \
+  if(NACHECK) {                                                   \
+  	  NACODE;                                                     \
+  }                                                               \
+	else {                                                          \
+	  e1 = DOLEFT;                                                  \
+	  e2 = DORIGHT;                                                 \
+	  DOCODE;                                                       \
+	}                                                               \
+} while(0)
+
+
+
+
+#define MACRO_ACTION_INTEGER2(RULECHECK, RULECODE, NACHECK, NACODE, DOLEFT, DORIGHT, DOCODE) do {      \
+  if(RULECHECK) {                                                   \
+    RULECODE;                                                       \
+  }                                                                 \
+  if(NACHECK) {                                                   \
+  	  NACODE;                                                     \
+  }                                                               \
+	else {                                                          \
+	  e1 = DOLEFT;                                                  \
+	  e2 = DORIGHT;                                                 \
+	  DOCODE;                                                       \
+	}                                                               \
+} while(0)
+
+
+
 #define MACRO_ACTION_BOOLEAN(XREF, YREF, PRECHECK, PRECODE, NACODE, DOCODE) do { \
                                           \
   xTRUE = rcpp_isTRUE(XREF);                 \
