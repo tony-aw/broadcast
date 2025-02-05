@@ -297,12 +297,6 @@ rcpp_bc_bind <- function(out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_
 
 #' @keywords internal
 #' @noRd
-.rcpp_int53_guard <- function(out, intmin, intmax) {
-    .Call(`_broadcast_rcpp_int53_guard`, out, intmin, intmax)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_bc_int_v <- function(x, y, nout, op) {
     .Call(`_broadcast_rcpp_bc_int_v`, x, y, nout, op)
 }

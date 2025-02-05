@@ -34,9 +34,13 @@
 #' For arrays, additional flexibility is available:
 #'  * Specifying `along = 0` will bind the arrays on a new dimension before the first,
 #'  making `along` the new first dimension.
-#'  * Specifying `along = n+1`, with `n` being the last available dimension,
-#'  will create an additional dimension (`n+1`) and bind the arrays along that new dimension.
-#' @param max_bc integer, for `bind_array`. \cr
+#'  * Specifying `along = N + 1`, with `N = `\link[base]{max}`(`\link{lst.ndim}`(input))`,
+#'  will create an additional dimension (`N + 1`) and bind the arrays along that new dimension.
+#' @param revalong for `bind_array()` only. \cr
+#' Same as `along`, but counting backwards. \cr
+#' I.e. `revalong = 0` is equivalent to `along = N+1`, and `revalong = N+1` is equivalent to `along = 0`; \cr
+#' with `N = `\link[base]{max}`(`\link{lst.ndim}`(input))`.
+#' @param max_bc integer, for `bind_array` only. \cr
 #' Specify here the number of dimensions that are allowed to be broadcasted when binding arrays. \cr
 #' If `max_bc = 0L`, \bold{no} broadcasting will be allowed at all.
 #' @param name_deparse Boolean, for `bind_mat()`. \cr
@@ -52,10 +56,6 @@
 #' When binding columns of matrices, the matrices will share the same rownames. \cr
 #' Using `comnames_from = 10` will then result in `bind_array()` using
 #' `rownames(input[[10]])` for the rownames of the output.
-#' @param name_flat Boolean, for `bind_array()`. \cr
-#' Indicates if flat indices should be named. \cr
-#' Note that setting this to `TRUE` will reduce performance considerably. \cr
-#' `r .mybadge_performance_set2("FALSE")`
 #' @param ... arguments to be passed to \link[data.table]{rbindlist}. \cr \cr
 #' 
 #'  
@@ -111,7 +111,7 @@ bind_mat <- function(
 ) {
   
   # error checks:
-  .bind_check_args(along, name_deparse, comnames_from, FALSE, abortcall = sys.call())
+  .bind_check_args(along, name_deparse, comnames_from, abortcall = sys.call())
   if(any(vapply(input, is.data.frame, logical(1L)))) {
     stop("use `bind_dt to bind data.frame-like objects")
   }
@@ -173,11 +173,19 @@ bind_mat <- function(
 #' @rdname bind
 #' @export
 bind_array <- function(
-    input, along, max_bc = 1L, name_along = TRUE, comnames_from = 1L, name_flat = FALSE
+    input, along, revalong, max_bc = 1L, name_along = TRUE, comnames_from = 1L
 ) {
   
+  if(!missing(along) && !missing(revalong)) {
+    stop("cannot specify both `along` and `revalong`")
+  }
+  if(!missing(revalong)) {
+    N <- max(lst.ndim(input))
+    along <- N + 1 - revalong
+  }
+  
   # checks:
-  .bind_check_args(along, name_along, comnames_from, name_flat, abortcall = sys.call())
+  .bind_check_args(along, name_along, comnames_from, abortcall = sys.call())
   
   # empty bind:
   if(all(lengths(input) == 0L)) {

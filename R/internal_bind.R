@@ -4,7 +4,7 @@
 #' @keywords internal
 #' @noRd
 .bind_check_args <- function(
-    along, name_along, comnames_from, name_flat, abortcall
+    along, name_along, comnames_from, abortcall
 ) {
   
   if(!is.numeric(along) || length(along) != 1) {
@@ -22,10 +22,6 @@
     if(!is.numeric(comnames_from) || length(comnames_from) != 1) {
       stop(simpleError("`comnames_from` must be an integer scalar or `NULL`", call = abortcall))
     }
-  }
-  
-  if(!is.logical(name_flat) || length(name_flat) != 1) {
-    stop(simpleError("`name_flat` must be a Boolean", call = abortcall))
   }
   
 }

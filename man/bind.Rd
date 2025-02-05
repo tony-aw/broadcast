@@ -12,10 +12,10 @@ bind_mat(input, along, name_deparse = TRUE, comnames_from = 1L)
 bind_array(
   input,
   along,
+  revalong,
   max_bc = 1L,
   name_along = TRUE,
-  comnames_from = 1L,
-  name_flat = FALSE
+  comnames_from = 1L
 )
 
 bind_dt(input, along, ...)
@@ -33,8 +33,8 @@ For arrays, additional flexibility is available:
 \itemize{
 \item Specifying \code{along = 0} will bind the arrays on a new dimension before the first,
 making \code{along} the new first dimension.
-\item Specifying \code{along = n+1}, with \code{n} being the last available dimension,
-will create an additional dimension (\code{n+1}) and bind the arrays along that new dimension.
+\item Specifying \code{along = N + 1}, with \verb{N = }\link[base]{max}\code{(}\link{lst.ndim}\verb{(input))},
+will create an additional dimension (\code{N + 1}) and bind the arrays along that new dimension.
 }}
 
 \item{name_deparse}{Boolean, for \code{bind_mat()}. \cr
@@ -50,17 +50,17 @@ When binding columns of matrices, the matrices will share the same rownames. \cr
 Using \code{comnames_from = 10} will then result in \code{bind_array()} using
 \code{rownames(input[[10]])} for the rownames of the output.}
 
-\item{max_bc}{integer, for \code{bind_array}. \cr
+\item{revalong}{for \code{bind_array()} only. \cr
+Same as \code{along}, but counting backwards. \cr
+I.e. \code{revalong = 0} is equivalent to \code{along = N+1}, and \code{revalong = N+1} is equivalent to \code{along = 0}; \cr
+with \verb{N = }\link[base]{max}\code{(}\link{lst.ndim}\verb{(input))}.}
+
+\item{max_bc}{integer, for \code{bind_array} only. \cr
 Specify here the number of dimensions that are allowed to be broadcasted when binding arrays. \cr
 If \code{max_bc = 0L}, \bold{no} broadcasting will be allowed at all.}
 
 \item{name_along}{Boolean, for \code{bind_array()}. \cr
 Indicates if dimension \code{along} should be named.}
-
-\item{name_flat}{Boolean, for \code{bind_array()}. \cr
-Indicates if flat indices should be named. \cr
-Note that setting this to \code{TRUE} will reduce performance considerably. \cr
-\ifelse{html}{\figure{for_performance-set_to_FALSE-red.svg}{options: alt='[for performance: set to FALSE]'}}{\link[=broadcast_help]{for performance: set to FALSE}}}
 
 \item{...}{arguments to be passed to \link[data.table]{rbindlist}. \cr \cr}
 }

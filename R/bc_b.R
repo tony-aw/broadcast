@@ -1,9 +1,10 @@
-#' Broadcasted Operations for Logical Arrays
+#' Broadcasted Boolean Operations
 #'
 #' @description
-#' The `bc.b()` function performs broadcasted operations on 2 logical arrays. \cr
+#' The `bc.b()` function
+#' performs broadcasted Boolean operations on 2 logical or numeric arrays. \cr
 #' 
-#' @param x,y conformable atomic arrays of types `logical`, `integer`, or `double`.
+#' @param x,y conformable logical or numeric arrays.
 #' @param op a single string, giving the operator. \cr
 #' Supported Boolean combiner operators: `r paste0(broadcast:::.op_b_andor(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_b_rel(), collapse = ", ")`. \cr

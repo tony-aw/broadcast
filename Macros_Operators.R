@@ -308,11 +308,20 @@ macro_op_int_math <- "
       MACRO_TYPESWITCH_INTEGER1(	\\
         DIMCODE,	\\
         MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C((e1 < e2) ? e1 : e2) 	\\
+        MACRO_ASSIGN_C(rcpp_int53_mod(e1, e2, intmin, intmax))	\\
       );	\\
       break;	\\
     }	\\
     case 7:	\\
+    {	\\
+      MACRO_TYPESWITCH_INTEGER1(	\\
+        DIMCODE,	\\
+        MACRO_ASSIGN_C(NA_REAL),	\\
+        MACRO_ASSIGN_C((e1 < e2) ? e1 : e2) 	\\
+      );	\\
+      break;	\\
+    }	\\
+    case 8:	\\
     {	\\
       MACRO_TYPESWITCH_INTEGER1(	\\
         DIMCODE,	\\

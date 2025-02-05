@@ -16,16 +16,15 @@ Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, or o
 
 The broadcasted implementations include, but are not limited to, the following:
 \enumerate{
+\item A more efficient and broadcasted version of \code{abind()}, for binding arrays along an arbitrary dimension;
 \item Relational operations (like \code{==}, \code{!=}, \code{<}, \code{>}, \code{<=}, \code{>=}; can also take into account Machine precision);
 \item Arithmetic operations (like \code{+}, \code{-}, \code{*}, \code{/}, \code{^}, \code{pmin()}, \code{pmax()}, integer modulo);
 \item Boolean combiner operations (like \code{&}, \code{|}, \code{xor()}, "nand");
 \item String distance, (in)equality, and concatenation operations;
 \item A Broadcasted implementation of \code{ifelse()};
 \item A Broadcasted apply-like function;
-\item Binding arrays along any arbitrary axis, with broadcast support.
-}
-
 The broadcasted implementations strive to minimize computation time and memory usage (which is not just good for computer efficiency, but also for the environment).
+}
 }
 \section{Getting Started}{
 

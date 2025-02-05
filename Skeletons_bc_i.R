@@ -46,10 +46,7 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 
 txt0 <- "
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_int53_guard)]]
-double rcpp_int53_guard(
+inline double rcpp_int53_guard(
   double out, double intmin, double intmax
 ) {
   if(out > intmax) {
@@ -61,6 +58,13 @@ double rcpp_int53_guard(
   return out;
 }
 
+
+inline double rcpp_int53_mod(double x, double y, double intmin, double intmax) {
+  if(x < intmin || x > intmax || y < intmin || y > intmax) {
+    return NA_REAL;
+  }
+  return (long long) x % (long long) y;
+}
 
 "
 

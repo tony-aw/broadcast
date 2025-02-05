@@ -1,31 +1,32 @@
-#' Broadcasted Operations for Numeric Arrays
+#' Broadcasted Decimal Numeric Operations
 #'
 #' @description
-#' The `bc.d()` function performs broadcasted operations on 2 numeric arrays. \cr
+#' The `bc.d()` function
+#' performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr
 #' 
-#' @param x,y conformable atomic arrays of types `logical`, `integer`, or `double`.
+#' @param x,y conformable logical or numeric arrays.
 #' @param op a single string, giving the operator. \cr
-#' Supported arithmetic operators: `r paste0(broadcast:::.op_num_math(), collapse = ", ")`. \cr
-#' Supported relational operators: `r paste0(broadcast:::.op_num_rel(), collapse = ", ")`. \cr
+#' Supported arithmetic operators: `r paste0(broadcast:::.op_dec_math(), collapse = ", ")`. \cr
+#' Supported relational operators: `r paste0(broadcast:::.op_dec_rel(), collapse = ", ")`. \cr
 #' @param prec a single number between 0 and 0.1, giving the machine precision to use. \cr
 #' Only relevant for the following operators: \cr
-#' `r paste0(broadcast:::.op_num_rel()[7:12], collapse = ", ")` \cr
+#' `r paste0(broadcast:::.op_dec_rel()[7:12], collapse = ", ")` \cr
 #' See the
-#' `r paste0(broadcast:::.op_num_rel()[7:12], collapse = ", ")` operators
+#' `r paste0(broadcast:::.op_dec_rel()[7:12], collapse = ", ")` operators
 #' from the 'tinycodet' package for details. \cr
 #' 
 #' 
 #'
 #' @returns
 #' For arithmetic operators: \cr
-#' A numeric array as a result of the broadcasted arithmetic operation. \cr
+#' A numeric array as a result of the broadcasted decimal arithmetic operation. \cr
 #' \cr
 #' For relational operators: \cr
-#' A logical array as a result of the broadcasted relational comparison. \cr
+#' A logical array as a result of the broadcasted decimal relational comparison. \cr
 #' \cr
 #'
 #'
-#' @example inst/examples/bc_num.R
+#' @example inst/examples/bc_d.R
 #' 
 
 
@@ -40,14 +41,14 @@ bc.d <- function(x, y, op, prec = sqrt(.Machine$double.eps)) {
   }
   
   # get operator:
-  op_math <- which(.op_num_math() == op)
-  op_rel <- which(.op_num_rel() == op)
+  op_math <- which(.op_dec_math() == op)
+  op_rel <- which(.op_dec_rel() == op)
   
   if(length(op_math)) {
-    return(.bc_num_math(x, y, op_math, sys.call()))
+    return(.bc_dec_math(x, y, op_math, sys.call()))
   }
   else if(length(op_rel)) {
-    return(.bc_num_rel(x, y, op_rel, prec, sys.call()))
+    return(.bc_dec_rel(x, y, op_rel, prec, sys.call()))
   }
   else {
     stop("given operator not supported in the given context")
@@ -60,7 +61,7 @@ bc.d <- function(x, y, op, prec = sqrt(.Machine$double.eps)) {
 
 #' @keywords internal
 #' @noRd
-.bc_num_math <- function(x, y, op, abortcall) {
+.bc_dec_math <- function(x, y, op, abortcall) {
   
   prep <- .prep_binary(x, y, abortcall)
   x.dim <- prep[[1L]]
@@ -116,7 +117,7 @@ bc.d <- function(x, y, op, prec = sqrt(.Machine$double.eps)) {
 
 #' @keywords internal
 #' @noRd
-.bc_num_rel <- function(x, y, op, prec, abortcall) {
+.bc_dec_rel <- function(x, y, op, prec, abortcall) {
   
   # precision checks:
   if(!is.numeric(prec) || length(prec) != 1L) {

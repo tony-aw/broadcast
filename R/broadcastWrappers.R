@@ -31,3 +31,16 @@
 .C_any_nonNULL <- function(x) {
   .Call("C_any_nonNULL", x = x)
 }
+
+
+#' @keywords Internal
+#' @noRd
+.C_lst_ndims <- function(x) {
+  .Call("C_lst_ndims", x = x)
+}
+
+#' @keywords Internal
+#' @noRd
+.C_lst_typeof <- function(x) {
+  .Call("C_lst_typeof", x = x)
+}

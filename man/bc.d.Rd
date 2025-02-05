@@ -2,12 +2,12 @@
 % Please edit documentation in R/bc_d.R
 \name{bc.d}
 \alias{bc.d}
-\title{Broadcasted Operations for Numeric Arrays}
+\title{Broadcasted Decimal Numeric Operations}
 \usage{
 bc.d(x, y, op, prec = sqrt(.Machine$double.eps))
 }
 \arguments{
-\item{x, y}{conformable atomic arrays of types \code{logical}, \code{integer}, or \code{double}.}
+\item{x, y}{conformable logical or numeric arrays.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. \cr
@@ -22,14 +22,15 @@ from the 'tinycodet' package for details. \cr}
 }
 \value{
 For arithmetic operators: \cr
-A numeric array as a result of the broadcasted arithmetic operation. \cr
+A numeric array as a result of the broadcasted decimal arithmetic operation. \cr
 \cr
 For relational operators: \cr
-A logical array as a result of the broadcasted relational comparison. \cr
+A logical array as a result of the broadcasted decimal relational comparison. \cr
 \cr
 }
 \description{
-The \code{bc.d()} function performs broadcasted operations on 2 numeric arrays. \cr
+The \code{bc.d()} function
+performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr
 }
 \examples{
 x.dim <- c(10:8)

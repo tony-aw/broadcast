@@ -1,14 +1,32 @@
 
 #' @keywords internal
 #' @noRd
-.op_num_math <- function() {
+.op_dec_math <- function() {
   return(c("+", "-", "*", "/", "^", "pmin", "pmax"))
 }
 
 #' @keywords internal
 #' @noRd
-.op_num_rel <- function() {
+.op_dec_rel <- function() {
   return(c("==", "!=", "<", ">", "<=", ">=", "d==", "d!=", "d<", "d>", "d<=", "d>="))
+}
+
+#' @keywords internal
+#' @noRd
+.op_int_math <- function() {
+  return(c("+", "-", "*", "/", "^", "%%", "pmin", "pmax"))
+}
+
+#' @keywords internal
+#' @noRd
+.op_int_rel <- function() {
+  return(c("==", "!=", "<", ">", "<=", ">="))
+}
+
+#' @keywords internal
+#' @noRd
+.op_int_special <- function() {
+  return(c("gcd", "lcm"))
 }
 
 #' @keywords internal

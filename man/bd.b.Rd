@@ -2,12 +2,12 @@
 % Please edit documentation in R/bc_b.R
 \name{bc.b}
 \alias{bc.b}
-\title{Broadcasted Operations for Logical Arrays}
+\title{Broadcasted Boolean Operations}
 \usage{
 bc.b(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable atomic arrays of types \code{logical}, \code{integer}, or \code{double}.}
+\item{x, y}{conformable logical or numeric arrays.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported Boolean combiner operators: &, |, xor, nand. \cr
@@ -22,7 +22,8 @@ A logical array as a result of the broadcasted relational comparison. \cr
 \cr
 }
 \description{
-The \code{bc.b()} function performs broadcasted operations on 2 logical arrays. \cr
+The \code{bc.b()} function
+performs broadcasted Boolean operations on 2 logical or numeric arrays. \cr
 }
 \examples{
 x.dim <- c(10:8)

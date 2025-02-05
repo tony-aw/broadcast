@@ -793,19 +793,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_int53_guard
-double rcpp_int53_guard(double out, double intmin, double intmax);
-RcppExport SEXP _broadcast_rcpp_int53_guard(SEXP outSEXP, SEXP intminSEXP, SEXP intmaxSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type out(outSEXP);
-    Rcpp::traits::input_parameter< double >::type intmin(intminSEXP);
-    Rcpp::traits::input_parameter< double >::type intmax(intmaxSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_int53_guard(out, intmin, intmax));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_bc_int_v
 SEXP rcpp_bc_int_v(SEXP x, SEXP y, R_xlen_t nout, int op);
 RcppExport SEXP _broadcast_rcpp_bc_int_v(SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP, SEXP opSEXP) {
@@ -1209,6 +1196,8 @@ RcppExport SEXP C_any_nonNULL(SEXP);
 RcppExport SEXP C_check_conf_dim(SEXP, SEXP);
 RcppExport SEXP C_dims_all_orthogonal(SEXP, SEXP);
 RcppExport SEXP C_findfirst_mergable_dims(SEXP, SEXP);
+RcppExport SEXP C_lst_ndims(SEXP);
+RcppExport SEXP C_lst_typeof(SEXP);
 RcppExport SEXP C_pmax(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
@@ -1261,7 +1250,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bc_ifelse_ov", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_ov, 6},
     {"_broadcast_rcpp_bc_ifelse_bs", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_bs, 10},
     {"_broadcast_rcpp_bc_ifelse_d", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_d, 9},
-    {"_broadcast_rcpp_int53_guard", (DL_FUNC) &_broadcast_rcpp_int53_guard, 3},
     {"_broadcast_rcpp_bc_int_v", (DL_FUNC) &_broadcast_rcpp_bc_int_v, 4},
     {"_broadcast_rcpp_bc_int_ov", (DL_FUNC) &_broadcast_rcpp_bc_int_ov, 6},
     {"_broadcast_rcpp_bc_int_bs", (DL_FUNC) &_broadcast_rcpp_bc_int_bs, 10},
@@ -1292,6 +1280,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"C_check_conf_dim",          (DL_FUNC) &C_check_conf_dim,          2},
     {"C_dims_all_orthogonal",     (DL_FUNC) &C_dims_all_orthogonal,     2},
     {"C_findfirst_mergable_dims", (DL_FUNC) &C_findfirst_mergable_dims, 2},
+    {"C_lst_ndims",               (DL_FUNC) &C_lst_ndims,               1},
+    {"C_lst_typeof",              (DL_FUNC) &C_lst_typeof,              1},
     {"C_pmax",                    (DL_FUNC) &C_pmax,                    2},
     {NULL, NULL, 0}
 };
