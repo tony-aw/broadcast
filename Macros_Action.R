@@ -80,7 +80,7 @@ macro_action_integer2 <- "
   if(RULECHECK) {                                                   \\
     RULECODE;                                                       \\
   }                                                                 \\
-  if(NACHECK) {                                                   \\
+  else if(NACHECK) {                                                   \\
   	  NACODE;                                                     \\
   }                                                               \\
 	else {                                                          \\

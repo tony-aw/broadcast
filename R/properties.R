@@ -43,14 +43,3 @@ lst.ndim <- function(x) {
 lst.typeof <- function(x) {
   return(.C_lst_typeof(x))
 }
-
-#' @rdname properties
-#' @export
-len <- length
-
-
-#' @rdname properties
-#' @export
-lst.len <- lengths
-
-

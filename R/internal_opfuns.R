@@ -14,7 +14,7 @@
 #' @keywords internal
 #' @noRd
 .op_int_math <- function() {
-  return(c("+", "-", "*", "/", "^", "%%", "pmin", "pmax"))
+  return(c("+", "-", "*", "/", "^", "pmin", "pmax"))
 }
 
 #' @keywords internal
@@ -25,7 +25,7 @@
 
 #' @keywords internal
 #' @noRd
-.op_int_special <- function() {
+.op_int_nat <- function() {
   return(c("gcd", "lcm"))
 }
 

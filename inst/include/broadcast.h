@@ -69,7 +69,7 @@
   if(RULECHECK) {                                                   \
     RULECODE;                                                       \
   }                                                                 \
-  if(NACHECK) {                                                   \
+  else if(NACHECK) {                                                   \
   	  NACODE;                                                     \
   }                                                               \
 	else {                                                          \
@@ -776,10 +776,10 @@
     {	\
       MACRO_TYPESWITCH_INTEGER2(	\
         DIMCODE,	\
-        px[flatind_x] == 1 || py[flatind_y] == 0,	\
+        trunc(px[flatind_x]) == 1 || trunc(py[flatind_y]) == 0,	\
         MACRO_ASSIGN_C(1),	\
         MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C(rcpp_int53_guard(R_pow(e1, e2), intmin, intmax))	\
+        MACRO_ASSIGN_C(rcpp_int53_guard(trunc(R_pow(e1, e2)), intmin, intmax))	\
       );	\
       break;	\
     }	\
@@ -788,20 +788,11 @@
       MACRO_TYPESWITCH_INTEGER1(	\
         DIMCODE,	\
         MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C(rcpp_int53_mod(e1, e2, intmin, intmax))	\
-      );	\
-      break;	\
-    }	\
-    case 7:	\
-    {	\
-      MACRO_TYPESWITCH_INTEGER1(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
         MACRO_ASSIGN_C((e1 < e2) ? e1 : e2) 	\
       );	\
       break;	\
     }	\
-    case 8:	\
+    case 7:	\
     {	\
       MACRO_TYPESWITCH_INTEGER1(	\
         DIMCODE,	\

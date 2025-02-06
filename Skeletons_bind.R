@@ -184,7 +184,7 @@ library(broadcast)
 .internal_bind_array <- broadcast:::.internal_bind_array
 
 along <- 2L
-n <- 100
+n <- 150L
 nms <- function(n) sample(letters, n, TRUE)
 x <- array(as.double(1:25), c(n, n, n))
 y <- array(as.double(-1:-25), c(n, n, n))

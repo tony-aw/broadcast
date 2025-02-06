@@ -5,8 +5,6 @@
 \alias{ndim}
 \alias{lst.ndim}
 \alias{lst.typeof}
-\alias{len}
-\alias{lst.len}
 \title{Small property functions}
 \usage{
 ndim(x)
@@ -14,10 +12,6 @@ ndim(x)
 lst.ndim(x)
 
 lst.typeof(x)
-
-len()
-
-lst.len(x, use.names = TRUE)
 }
 \arguments{
 \item{x}{an object.\cr
