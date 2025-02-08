@@ -116,30 +116,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_cplx_equal
-int rcpp_cplx_equal(const Rcomplex& x, const Rcomplex& y);
-RcppExport SEXP _broadcast_rcpp_cplx_equal(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcomplex& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const Rcomplex& >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_cplx_equal(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_cplx_unequal
-int rcpp_cplx_unequal(const Rcomplex& x, const Rcomplex& y);
-RcppExport SEXP _broadcast_rcpp_cplx_unequal(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcomplex& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const Rcomplex& >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_cplx_unequal(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_bcRel_cplx_v
 SEXP rcpp_bcRel_cplx_v(SEXP x, SEXP y, R_xlen_t nout, int op);
 RcppExport SEXP _broadcast_rcpp_bcRel_cplx_v(SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP, SEXP opSEXP) {
@@ -526,54 +502,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
     rcpp_bc_bind(out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_x, out_dim);
     return R_NilValue;
-END_RCPP
-}
-// rcpp_cplx_plus
-Rcomplex rcpp_cplx_plus(const Rcomplex& x, const Rcomplex& y);
-RcppExport SEXP _broadcast_rcpp_cplx_plus(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcomplex& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const Rcomplex& >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_cplx_plus(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_cplx_min
-Rcomplex rcpp_cplx_min(const Rcomplex& x, const Rcomplex& y);
-RcppExport SEXP _broadcast_rcpp_cplx_min(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcomplex& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const Rcomplex& >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_cplx_min(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_cplx_mult
-Rcomplex rcpp_cplx_mult(const Rcomplex& x, const Rcomplex& y);
-RcppExport SEXP _broadcast_rcpp_cplx_mult(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcomplex& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const Rcomplex& >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_cplx_mult(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_cplx_div
-Rcomplex rcpp_cplx_div(const Rcomplex& x, const Rcomplex& y);
-RcppExport SEXP _broadcast_rcpp_cplx_div(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcomplex& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const Rcomplex& >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_cplx_div(x, y));
-    return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_bc_cplx_v
@@ -1208,8 +1136,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bcDist_str_ov", (DL_FUNC) &_broadcast_rcpp_bcDist_str_ov, 6},
     {"_broadcast_rcpp_bcDist_str_bs", (DL_FUNC) &_broadcast_rcpp_bcDist_str_bs, 10},
     {"_broadcast_rcpp_bcDist_str_d", (DL_FUNC) &_broadcast_rcpp_bcDist_str_d, 9},
-    {"_broadcast_rcpp_cplx_equal", (DL_FUNC) &_broadcast_rcpp_cplx_equal, 2},
-    {"_broadcast_rcpp_cplx_unequal", (DL_FUNC) &_broadcast_rcpp_cplx_unequal, 2},
     {"_broadcast_rcpp_bcRel_cplx_v", (DL_FUNC) &_broadcast_rcpp_bcRel_cplx_v, 4},
     {"_broadcast_rcpp_bcRel_cplx_ov", (DL_FUNC) &_broadcast_rcpp_bcRel_cplx_ov, 6},
     {"_broadcast_rcpp_bcRel_cplx_bs", (DL_FUNC) &_broadcast_rcpp_bcRel_cplx_bs, 10},
@@ -1233,10 +1159,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bc_b_bs", (DL_FUNC) &_broadcast_rcpp_bc_b_bs, 10},
     {"_broadcast_rcpp_bc_b_d", (DL_FUNC) &_broadcast_rcpp_bc_b_d, 9},
     {"_broadcast_rcpp_bc_bind", (DL_FUNC) &_broadcast_rcpp_bc_bind, 8},
-    {"_broadcast_rcpp_cplx_plus", (DL_FUNC) &_broadcast_rcpp_cplx_plus, 2},
-    {"_broadcast_rcpp_cplx_min", (DL_FUNC) &_broadcast_rcpp_cplx_min, 2},
-    {"_broadcast_rcpp_cplx_mult", (DL_FUNC) &_broadcast_rcpp_cplx_mult, 2},
-    {"_broadcast_rcpp_cplx_div", (DL_FUNC) &_broadcast_rcpp_cplx_div, 2},
     {"_broadcast_rcpp_bc_cplx_v", (DL_FUNC) &_broadcast_rcpp_bc_cplx_v, 4},
     {"_broadcast_rcpp_bc_cplx_ov", (DL_FUNC) &_broadcast_rcpp_bc_cplx_ov, 6},
     {"_broadcast_rcpp_bc_cplx_bs", (DL_FUNC) &_broadcast_rcpp_bc_cplx_bs, 10},

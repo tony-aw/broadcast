@@ -89,7 +89,20 @@ And \code{bind_array} \bold{returns} an array, but can bind both arrays and matr
 And \code{bind_dt} \bold{returns} a data.table, but can bind not only data.tables,
 but also most other data.frame-like objects. \cr \cr
 }
-\details{
+\section{Empty inputs}{
+
+If argument \code{input} has length \code{0},
+or it contains exclusively objects where one or more dimensions are \code{0},
+an error is returned. \cr
+\cr
+If \code{input} has length \code{1}, these functions simply return \code{input[[1L]]}. \cr
+\cr
+}
+
+\section{Additional details for \code{bind_array()} and \code{bind_mat()}}{
+
+\bold{Differences with \code{abind()}, \code{rbind()}/\code{cbind()}} \cr
+
 The API of \code{bind_array()} is inspired by the fantastic
 \code{abind::}\link[abind]{abind} function
 by Tony Plare & Richard Heiberger (2016). \cr
@@ -114,9 +127,22 @@ compared to \code{abind::}\link[abind]{abind}. \cr \cr
 }
 
 \code{bind_mat()} is a modified version of \link[base]{rbind}/\link[base]{cbind}. \cr
-The primary differences is that \code{bind_mat()} gives an error when fractional recycling is attempted
-(like binding  \code{1:3} with \code{1:10}). \cr \cr
+\code{bind_mat()} differs from \link[base]{rbind}/\link[base]{cbind} in the following ways:
+\itemize{
+\item it has more streamlined naming options/
+\item \code{bind_mat()} gives an error when fractional recycling is attempted
+(like binding  \code{1:3} with \code{1:10}).
+\item \code{bind}
+The primary differences is that  \cr \cr
+\cr
 }
+
+\bold{Naming} \cr
+
+... \cr
+\cr
+}
+
 \examples{
 
 # bind_array ====

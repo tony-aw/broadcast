@@ -1,11 +1,35 @@
 #
 
+#' @keywords internal
+#' @noRd
+.bind_input_fix <- function(input, is_dt, abortcall) {
+  if(length(input) == 0L) {
+    stop(simpleError("`input` cannot be an empty list"))
+  }
+  if(!is_dt) {
+    input <- input[lengths(input) > 0L]
+    if(length(input) == 0L) {
+      stop(simpleError("`input` must contain at least one non-zero array/vector"))
+    }
+  }
+  if(is_dt) {
+    vnrows <- vapply(input, nrow, integer(1L))
+    vncols <- vapply(input, ncol, integer(1L))
+    input <- input[vnrows > 0L & vncols > 0L]
+    if(length(input) == 0L) {
+      stop(simpleError("`input` must contain at least one non-empty data.frame-like object"))
+    }
+  }
+  
+  return(input)
+}
 
 #' @keywords internal
 #' @noRd
 .bind_check_args <- function(
     along, name_along, comnames_from, abortcall
 ) {
+  
   
   if(!is.numeric(along) || length(along) != 1) {
     stop(simpleError("`along` must be an integer scalar", call = abortcall))
@@ -111,11 +135,7 @@
   INTMAX <- 2^31 - 1L
   LONGMAX <- 2^52 - 1L
   
-  # check if all input are arrays:
-  all_arrays <- vapply(input, is.array, logical(1L)) |> all()
-  if(!all_arrays) {
-    stop(simpleError("can only bind arrays", call = abortcall))
-  }
+  
   
   # remove zero-length arrays
   # NOTE: only remove within this function, as we want to keep them for comnames
@@ -258,14 +278,3 @@
   return(out)
 }
 
-
-#' @keywords internal
-#' @noRd
-.internal_bind_empty <- function(input, comnames_from) {
-  if(is.null(comnames_from)) {
-    return(unname(input[[1L]]))
-  }
-  else {
-    return(input[comnames_from])
-  }
-}

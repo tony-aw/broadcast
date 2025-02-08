@@ -45,18 +45,6 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
-.rcpp_cplx_equal <- function(x, y) {
-    .Call(`_broadcast_rcpp_cplx_equal`, x, y)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_cplx_unequal <- function(x, y) {
-    .Call(`_broadcast_rcpp_cplx_unequal`, x, y)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_bcRel_cplx_v <- function(x, y, nout, op) {
     .Call(`_broadcast_rcpp_bcRel_cplx_v`, x, y, nout, op)
 }
@@ -191,30 +179,6 @@ rcpp_str_dist_led <- function(x, y) {
 #' @noRd
 rcpp_bc_bind <- function(out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_x, out_dim) {
     invisible(.Call(`_broadcast_rcpp_bc_bind`, out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_x, out_dim))
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_cplx_plus <- function(x, y) {
-    .Call(`_broadcast_rcpp_cplx_plus`, x, y)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_cplx_min <- function(x, y) {
-    .Call(`_broadcast_rcpp_cplx_min`, x, y)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_cplx_mult <- function(x, y) {
-    .Call(`_broadcast_rcpp_cplx_mult`, x, y)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_cplx_div <- function(x, y) {
-    .Call(`_broadcast_rcpp_cplx_div`, x, y)
 }
 
 #' @keywords internal

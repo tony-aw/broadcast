@@ -47,10 +47,7 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 
 txt0 <- "
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_cplx_equal)]]
-int rcpp_cplx_equal(
+inline int rcpp_cplx_equal(
     const Rcomplex& x, const Rcomplex& y
 ) {
   if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
@@ -63,10 +60,7 @@ int rcpp_cplx_equal(
 }
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_cplx_unequal)]]
-int rcpp_cplx_unequal(
+inline int rcpp_cplx_unequal(
     const Rcomplex& x, const Rcomplex& y
 ) {
   if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {

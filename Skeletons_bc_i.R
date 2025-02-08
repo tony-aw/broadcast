@@ -58,18 +58,6 @@ inline double rcpp_int53_guard(
   return out;
 }
 
-
-inline double rcpp_int53_mod(double x, double y, double intmin, double intmax) {
-  if(x < intmin || x > intmax || y < intmin || y > intmax) {
-    return NA_REAL;
-  }
-  if((long long) y == 0) {
-    return NA_REAL;
-  }
-  double out = (long long) x % (long long) y;
-  return out;
-}
-
 "
 
 txt1 <- "

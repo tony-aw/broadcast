@@ -11,7 +11,7 @@ broadcast: \cr
 Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
 Implements simple broadcasted binding and binary operations, for atomic and recursive arrays.
 
-Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, or otherwise use any external libraries;
+Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;
 'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 
 The broadcasted implementations include, but are not limited to, the following:

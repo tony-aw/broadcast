@@ -60,7 +60,18 @@
 #' 
 #'  
 #' 
-#' @details
+#' @section Empty inputs:
+#' If argument `input` has length `0`,
+#' or it contains exclusively objects where one or more dimensions are `0`,
+#' an error is returned. \cr
+#' \cr
+#' If `input` has length `1`, these functions simply return `input[[1L]]`. \cr
+#' \cr
+#' 
+#' 
+#' @section Additional details for `bind_array()` and `bind_mat()`: 
+#' \bold{Differences with `abind()`, `rbind()`/`cbind()`} \cr
+#' 
 #' The API of `bind_array()` is inspired by the fantastic
 #' \code{abind::}\link[abind]{abind} function
 #' by Tony Plare & Richard Heiberger (2016). \cr
@@ -85,8 +96,19 @@
 #'  
 #'  
 #' `bind_mat()` is a modified version of \link[base]{rbind}/\link[base]{cbind}. \cr
-#' The primary differences is that `bind_mat()` gives an error when fractional recycling is attempted
-#' (like binding  `1:3` with `1:10`). \cr \cr
+#' `bind_mat()` differs from \link[base]{rbind}/\link[base]{cbind} in the following ways:
+#' 
+#'  - it has more streamlined naming options/
+#'  - `bind_mat()` gives an error when fractional recycling is attempted
+#'  (like binding  `1:3` with `1:10`).
+#'  - `bind` 
+#' The primary differences is that  \cr \cr
+#' \cr
+#' 
+#' \bold{Naming} \cr
+#' 
+#' ... \cr
+#' \cr
 #' 
 #' 
 #' @returns
@@ -120,13 +142,13 @@ bind_mat <- function(
   else {
     stop("`along` must be 1 or 2")
   }
+  input <- .bind_input_fix(input, FALSE, sys.call())
   
   
-  # empty bind:
-  if(all(lengths(input) == 0L)) {
-    .internal_bind_empty(input, comnames_from)
+  # return original:
+  if(length(input) == 1L) {
+    return(input[[1L]])
   }
-  
   
   # main function:
   sizes <- .rcpp_rcbind_get_sizes(input, imargin - 1L)
@@ -137,7 +159,6 @@ bind_mat <- function(
       stop("fractional recycling not allowed")
     }
   }
-  
   
   name_deparse <- as.integer(name_deparse)
   if(along == 1L) {
@@ -176,9 +197,16 @@ bind_array <- function(
     input, along, revalong, max_bc = 1L, name_along = TRUE, comnames_from = 1L
 ) {
   
+  # error checks:
   if(!missing(along) && !missing(revalong)) {
     stop("cannot specify both `along` and `revalong`")
   }
+  all_arrays <- vapply(input, is.array, logical(1L)) |> all()
+  if(!all_arrays) {
+    stop(simpleError("can only bind arrays", call = sys.call()))
+  }
+  
+  # revalong:
   if(!missing(revalong)) {
     N <- max(lst.ndim(input))
     along <- N + 1 - revalong
@@ -186,20 +214,22 @@ bind_array <- function(
   
   # checks:
   .bind_check_args(along, name_along, comnames_from, abortcall = sys.call())
+  input <- .bind_input_fix(input, FALSE, sys.call())
   
-  # empty bind:
-  if(all(lengths(input) == 0L)) {
-    .internal_bind_empty(input, comnames_from)
+  # return original:
+  if(length(input) == 1L) {
+    return(input[[1L]])
   }
-  
+
   # main function:
   out <- .internal_bind_array(input, along, max_bc, name_along, sys.call())
   
+  # add comnames:
   if(!is.null(comnames_from)) {
     .bind_set_comnames(out, comnames_from, input, along)
   }
   
-  
+  # return output:
   return(out)
 }
 
@@ -213,7 +243,18 @@ bind_dt <- function(
   if(!requireNamespace("data.table")) {
     stop("'data.table' is not available")
   }
+  input <- .bind_input_fix(input, TRUE, sys.call())
   
+  if(along != 1L && along != 2L) {
+    stop("`along` must be `1` or `2`")
+  }
+  
+  # return original:
+  if(length(input) == 1L) {
+    return(input[[1L]])
+  }
+  
+  # main function:
   if(along == 1) {
     out <- data.table::rbindlist(input, ...)
   }

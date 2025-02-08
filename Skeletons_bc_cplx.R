@@ -5,6 +5,7 @@ library(stringi)
 macro_dim <- readr::read_file("macro_dim.txt")
 macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
 macro_action <- readr::read_file("macro_action.txt")
+macro_op <- readr::read_file("macro_op.txt")
 
 header_for_sourcing <- stri_c(
   "
@@ -45,10 +46,7 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 
 txt0 <- "
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_cplx_plus)]]
-Rcomplex rcpp_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
+inline Rcomplex rcpp_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
   
   Rcomplex out;
   
@@ -63,10 +61,8 @@ Rcomplex rcpp_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
   return out;
 }
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_cplx_min)]]
-Rcomplex rcpp_cplx_min( const Rcomplex& x, const Rcomplex& y) {
+
+inline Rcomplex rcpp_cplx_min( const Rcomplex& x, const Rcomplex& y) {
   
   Rcomplex out;
   
@@ -81,10 +77,8 @@ Rcomplex rcpp_cplx_min( const Rcomplex& x, const Rcomplex& y) {
   return out;
 }
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_cplx_mult)]]
-Rcomplex rcpp_cplx_mult( const Rcomplex& x, const Rcomplex& y) {
+
+inline Rcomplex rcpp_cplx_mult( const Rcomplex& x, const Rcomplex& y) {
   
   Rcomplex out;
   
@@ -100,10 +94,8 @@ Rcomplex rcpp_cplx_mult( const Rcomplex& x, const Rcomplex& y) {
 }
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_cplx_div)]]
-Rcomplex rcpp_cplx_div( const Rcomplex& x, const Rcomplex& y) {
+
+inline Rcomplex rcpp_cplx_div( const Rcomplex& x, const Rcomplex& y) {
   
   Rcomplex out;
   

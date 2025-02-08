@@ -8,10 +8,7 @@ using namespace Rcpp;
 
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_cplx_plus)]]
-Rcomplex rcpp_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
+inline Rcomplex rcpp_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
   
   Rcomplex out;
   
@@ -26,10 +23,8 @@ Rcomplex rcpp_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
   return out;
 }
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_cplx_min)]]
-Rcomplex rcpp_cplx_min( const Rcomplex& x, const Rcomplex& y) {
+
+inline Rcomplex rcpp_cplx_min( const Rcomplex& x, const Rcomplex& y) {
   
   Rcomplex out;
   
@@ -44,10 +39,8 @@ Rcomplex rcpp_cplx_min( const Rcomplex& x, const Rcomplex& y) {
   return out;
 }
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_cplx_mult)]]
-Rcomplex rcpp_cplx_mult( const Rcomplex& x, const Rcomplex& y) {
+
+inline Rcomplex rcpp_cplx_mult( const Rcomplex& x, const Rcomplex& y) {
   
   Rcomplex out;
   
@@ -63,10 +56,8 @@ Rcomplex rcpp_cplx_mult( const Rcomplex& x, const Rcomplex& y) {
 }
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_cplx_div)]]
-Rcomplex rcpp_cplx_div( const Rcomplex& x, const Rcomplex& y) {
+
+inline Rcomplex rcpp_cplx_div( const Rcomplex& x, const Rcomplex& y) {
   
   Rcomplex out;
   
