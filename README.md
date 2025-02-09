@@ -78,6 +78,10 @@ Third, ‘broadcast’ provides several generic functions for broadcasting:
 
  
 
+To get started, please visit the website: …
+
+ 
+
 # 🤷🏽Why use ‘broadcast’
 
 **Efficiency**
@@ -120,12 +124,6 @@ of R’s API.
  
 
 # 🔧Installation
-
-…
-
- 
-
-# 🚀Getting Started
 
 …
 

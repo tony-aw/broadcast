@@ -1,18 +1,17 @@
 Package: broadcast
-Title: Simple Broadcasted and Type-Consistent Operations for Atomic and Recursive Arrays with Minimal Dependencies
+Title: Simple Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies
 Version: 0.0.0.9
 Authors@R: person("Tony", "Wilkes", role = c("aut", "cre", "cph"),
                   email = "tony_a_wilkes@outlook.com",
                   comment = c(ORCID = "0000-0001-9498-8379"))
-Description: Implements simple broadcasted binding and binary operations,
-		for atomic and recursive arrays.
+Description: Implements simple broadcasted operations for atomic and recursive arrays.
 		Besides linking to 'Rcpp',
 		'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;
 		'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 		The broadcasted implementations include, but are not limited to, the following.
 		  1) A more efficient and broadcasted version of `abind()`, for binding arrays along an arbitrary dimension;
 		  2) Relational operations (like `==`, `!=`, `<`, `>`, `<=`, `>=`; can also take into account Machine precision);
-		  3) Arithmetic operations (like `+`, `-`, `*`, `/`, `^`, `pmin()`, `pmax()`, integer modulo);
+		  3) Arithmetic operations (like `+`, `-`, `*`, `/`, `^`, `pmin()`, `pmax()`);
 		  4) Boolean combiner operations (like `&`, `|`, `xor()`, "nand");
 		  5) String distance, (in)equality, and concatenation operations;
 		  6) A Broadcasted implementation of `ifelse()`;

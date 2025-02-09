@@ -21,30 +21,33 @@
 #' 
 #' @section Methods and Functions:
 #' 
-#' \bold{Type Specific Binary Operations} \cr
-#' 'broadcast' provides a set of functions for type-specific binary operations
-#' for broadcasted operations. \cr
+#' \bold{Outer-like functions} \cr
+#' 'broadcast' provides a set of functions for binary, element-wise, outer operations
+#' with broadcasting. \cr
 #' These functions use an API similar to the \link[base]{outer} and \link[base]{sweep} functions. \cr
 #' \cr
 #' The following functions for type-specific binary operations are available:
 #' 
-#'  * \link{bc.d}: numeric arithmetic and relational operations;
-#'  * \link{bc.b}: Boolean combiner operations;
-#'  * \link{bc.cplx}: complex arithmetic and equality operations;
-#'  * \link{bc.str}: string equality, concatenation, and distance operations;
+#'  * \link{bc.d}: decimal (64bit) arithmetic and relational operations;
+#'  * \link{bc.i}: integer (53bit) arithmetic and relational operations;
+#'  * \link{bc.b}: Boolean combiner and relational operations;
+#'  * \link{bc.cplx}: complex arithmetic and (in)equality operations;
+#'  * \link{bc.str}: string (in)equality, concatenation, and distance operations;
 #'  * \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
+#' 
+#' 
+#' \bold{Binding Implementations} \cr
+#' 'broadcast' provides 3 binding implementations: \cr
+#' \link{bind_mat}, \link{bind_array}, and \link{bind_dt}. \cr
+#' \cr
 #' 
 #' \bold{General functions} \cr
 #' 'broadcast' also comes with 2 general broadcasted functions:
 #' 
 #'  * \link{bc_ifelse}: Broadcasted version of \link[base]{ifelse}.
 #'  * \link{bcapply}: Broadcasted apply-like function. \cr \cr
-#'  
-#' \bold{Binding Implementations} \cr
-#' 'broadcast' provides 3 binding implementations: \cr
-#' \link{bind_mat}, \link{bind_array}, and \link{bind_dt}. \cr
-#' \cr
-#' \cr
+#' 
+#' 
 #' \bold{Other functions} \cr
 #' 'broadcast' also provides
 #' \link[=as_bool]{type-casting} functions,

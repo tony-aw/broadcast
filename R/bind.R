@@ -142,16 +142,16 @@ bind_mat <- function(
   else {
     stop("`along` must be 1 or 2")
   }
-  input <- .bind_input_fix(input, FALSE, sys.call())
+  input2 <- .bind_input_fix(input, FALSE, sys.call())
   
   
   # return original:
-  if(length(input) == 1L) {
-    return(input[[1L]])
+  if(length(input2) == 1L) {
+    return(input2[[1L]])
   }
   
   # main function:
-  sizes <- .rcpp_rcbind_get_sizes(input, imargin - 1L)
+  sizes <- .rcpp_rcbind_get_sizes(input2, imargin - 1L)
   sizes <- sizes[sizes != 1L]
   if(length(sizes) > 1) {
     fractions <- sizes / min(sizes)
@@ -162,15 +162,15 @@ bind_mat <- function(
   
   name_deparse <- as.integer(name_deparse)
   if(along == 1L) {
-    out <- do.call(rbind, c(input, list(deparse.level = name_deparse)))
+    out <- do.call(rbind, c(input2, list(deparse.level = name_deparse)))
     not_along <- 2L
   }
   if(along == 2L) {
-    out <- do.call(cbind, c(input, list(deparse.level = name_deparse)))
+    out <- do.call(cbind, c(input2, list(deparse.level = name_deparse)))
     not_along <- 1L
   }
   
-  
+  # use original input here:
   if(is.null(comnames_from)) {
     dimnames(out)[[not_along]] <- NULL
   }
@@ -214,19 +214,19 @@ bind_array <- function(
   
   # checks:
   .bind_check_args(along, name_along, comnames_from, abortcall = sys.call())
-  input <- .bind_input_fix(input, FALSE, sys.call())
+  input2 <- .bind_input_fix(input, FALSE, sys.call())
   
   # return original:
-  if(length(input) == 1L) {
-    return(input[[1L]])
+  if(length(input2) == 1L) {
+    return(input2[[1L]])
   }
 
   # main function:
-  out <- .internal_bind_array(input, along, max_bc, name_along, sys.call())
+  out <- .internal_bind_array(input2, along, max_bc, name_along, sys.call())
   
   # add comnames:
   if(!is.null(comnames_from)) {
-    .bind_set_comnames(out, comnames_from, input, along)
+    .bind_set_comnames(out, comnames_from, input, along) # using original input
   }
   
   # return output:
@@ -243,23 +243,23 @@ bind_dt <- function(
   if(!requireNamespace("data.table")) {
     stop("'data.table' is not available")
   }
-  input <- .bind_input_fix(input, TRUE, sys.call())
+  input2 <- .bind_input_fix(input, TRUE, sys.call())
   
   if(along != 1L && along != 2L) {
     stop("`along` must be `1` or `2`")
   }
   
   # return original:
-  if(length(input) == 1L) {
-    return(input[[1L]])
+  if(length(input2) == 1L) {
+    return(input2[[1L]])
   }
   
   # main function:
   if(along == 1) {
-    out <- data.table::rbindlist(input, ...)
+    out <- data.table::rbindlist(input2, ...)
   }
   if(along == 2) {
-    out <- do.call(data.table::data.table, c(input, check.names = TRUE))
+    out <- do.call(data.table::data.table, c(input2, check.names = TRUE))
   }
   return(out)
   
