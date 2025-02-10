@@ -89,60 +89,11 @@ And \code{bind_array} \bold{returns} an array, but can bind both arrays and matr
 And \code{bind_dt} \bold{returns} a data.table, but can bind not only data.tables,
 but also most other data.frame-like objects. \cr \cr
 }
-\section{Empty inputs}{
-
-If argument \code{input} has length \code{0},
-or it contains exclusively objects where one or more dimensions are \code{0},
-an error is returned. \cr
-\cr
-If \code{input} has length \code{1}, these functions simply return \code{input[[1L]]}. \cr
+\details{
+For in-depth information about the binding implentations in the 'broadcast' package,
+please refer to \link{broadcast_bind}. \cr
 \cr
 }
-
-\section{Additional details for \code{bind_array()} and \code{bind_mat()}}{
-
-\bold{Differences with \code{abind()}, \code{rbind()}/\code{cbind()}} \cr
-
-The API of \code{bind_array()} is inspired by the fantastic
-\code{abind::}\link[abind]{abind} function
-by Tony Plare & Richard Heiberger (2016). \cr
-But \code{bind_array()} differs considerably from \code{abind::}\link[abind]{abind}
-in the following ways:
-\itemize{
-\item \code{bind_array()} differs from \code{abind::}\link[abind]{abind}
-in that it can handle recursive arrays properly \cr
-(the \code{abind::}\link[abind]{abind} function would unlist everything to atomic arrays,
-ruining the structure).
-\item \code{bind_array()} allows for broadcasting,
-while \code{abind::}\link[abind]{abind} does not support broadcasting.
-\item \code{bind_array()} is generally faster than \code{abind::}\link[abind]{abind},
-as \code{bind_array()} relies heavily on 'C' and 'C++' code.
-\item unlike \code{abind::}\link[abind]{abind},
-\code{bind_array()} only binds (atomic/recursive) arrays and matrices. \cr
-\code{bind_array()}does not attempt to convert things to arrays when they are not arrays,
-but will give an error instead. \cr
-This saves computation time and prevents unexpected results.
-\item \code{bind_array()} has more streamlined naming options,
-compared to \code{abind::}\link[abind]{abind}. \cr \cr
-}
-
-\code{bind_mat()} is a modified version of \link[base]{rbind}/\link[base]{cbind}. \cr
-\code{bind_mat()} differs from \link[base]{rbind}/\link[base]{cbind} in the following ways:
-\itemize{
-\item it has more streamlined naming options/
-\item \code{bind_mat()} gives an error when fractional recycling is attempted
-(like binding  \code{1:3} with \code{1:10}).
-\item \code{bind}
-The primary differences is that  \cr \cr
-\cr
-}
-
-\bold{Naming} \cr
-
-... \cr
-\cr
-}
-
 \examples{
 
 # bind_array ====

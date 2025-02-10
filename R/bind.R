@@ -58,57 +58,12 @@
 #' `rownames(input[[10]])` for the rownames of the output.
 #' @param ... arguments to be passed to \link[data.table]{rbindlist}. \cr \cr
 #' 
+#' @details
+#' For in-depth information about the binding implentations in the 'broadcast' package,
+#' please refer to \link{broadcast_bind}. \cr
+#' \cr
 #'  
 #' 
-#' @section Empty inputs:
-#' If argument `input` has length `0`,
-#' or it contains exclusively objects where one or more dimensions are `0`,
-#' an error is returned. \cr
-#' \cr
-#' If `input` has length `1`, these functions simply return `input[[1L]]`. \cr
-#' \cr
-#' 
-#' 
-#' @section Additional details for `bind_array()` and `bind_mat()`: 
-#' \bold{Differences with `abind()`, `rbind()`/`cbind()`} \cr
-#' 
-#' The API of `bind_array()` is inspired by the fantastic
-#' \code{abind::}\link[abind]{abind} function
-#' by Tony Plare & Richard Heiberger (2016). \cr
-#' But `bind_array()` differs considerably from \code{abind::}\link[abind]{abind}
-#' in the following ways:
-#'  
-#'  - `bind_array()` differs from \code{abind::}\link[abind]{abind}
-#'  in that it can handle recursive arrays properly \cr
-#'  (the \code{abind::}\link[abind]{abind} function would unlist everything to atomic arrays,
-#'  ruining the structure).
-#'  - `bind_array()` allows for broadcasting,
-#'  while \code{abind::}\link[abind]{abind} does not support broadcasting.
-#'  - `bind_array()` is generally faster than \code{abind::}\link[abind]{abind},
-#'  as `bind_array()` relies heavily on 'C' and 'C++' code.
-#'  - unlike \code{abind::}\link[abind]{abind},
-#'  `bind_array()` only binds (atomic/recursive) arrays and matrices. \cr
-#'  `bind_array()`does not attempt to convert things to arrays when they are not arrays,
-#'  but will give an error instead. \cr
-#'  This saves computation time and prevents unexpected results.
-#'  - `bind_array()` has more streamlined naming options,
-#'  compared to \code{abind::}\link[abind]{abind}. \cr \cr
-#'  
-#'  
-#' `bind_mat()` is a modified version of \link[base]{rbind}/\link[base]{cbind}. \cr
-#' `bind_mat()` differs from \link[base]{rbind}/\link[base]{cbind} in the following ways:
-#' 
-#'  - it has more streamlined naming options/
-#'  - `bind_mat()` gives an error when fractional recycling is attempted
-#'  (like binding  `1:3` with `1:10`).
-#'  - `bind` 
-#' The primary differences is that  \cr \cr
-#' \cr
-#' 
-#' \bold{Naming} \cr
-#' 
-#' ... \cr
-#' \cr
 #' 
 #' 
 #' @returns

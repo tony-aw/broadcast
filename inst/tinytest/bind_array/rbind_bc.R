@@ -41,8 +41,8 @@ for(iSample in 1:5) {
         
         # make input:
         x.dim <- y.dim <- z.dim <- test_make_dims(nDims)
-        x.dim <- x.dim[1]
-        y.dim <- y.dim[1:2]
+        x.dim <- x.dim
+        y.dim <- y.dim
         x.dim[along] <- sample(1:10, 1)
         y.dim[along] <- sample(1:10, 1)
         z.dim[along] <- sample(1:10, 1)
@@ -50,8 +50,8 @@ for(iSample in 1:5) {
         y.data <- datagens[[iDataY]]()
         z.data <- datagens[[iDataZ]]()
         
-        x <- array(x.data, x.dim)
-        y <- array(y.data, y.dim)
+        x <- array(x.data, x.dim[1]) |> array_recycle(x.dim)
+        y <- array(y.data, y.dim[1:2]) |> array_recycle(y.dim)
         z <- array(z.data, z.dim)
         emptyarray <- array(numeric(0L), c(3,3,0))
         
@@ -77,20 +77,20 @@ for(iSample in 1:5) {
         
         
         # tests:
-        input <- list(emptyarray, x, y, z)
-        out <- bind_array(input, along)
+        input <- list(emptyarray, x[, 1, 1, drop=FALSE], y[,,1, drop=FALSE], z)
+        out <- bind_array(input, along, max_bc = 2L)
         expect_equal(
           expected, out
         ) |> errorfun()
         
-        input <- list(x, y, z, emptyarray)
-        out <- bind_array(input, along)
+        input <- list(x[, 1, 1, drop=FALSE], y[,,1, drop=FALSE], z, emptyarray)
+        out <- bind_array(input, along, max_bc = 2L)
         expect_equal(
           expected, out
         ) |> errorfun()
         
-        input <- list(x, y, emptyarray, z)
-        out <- bind_array(input, along)
+        input <- list(emptyarray, x[, 1, 1, drop=FALSE], y[,,1, drop=FALSE], emptyarray, z)
+        out <- bind_array(input, along, max_bc = 2L)
         expect_equal(
           expected, out
         ) |> errorfun()
