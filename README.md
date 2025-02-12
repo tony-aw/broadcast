@@ -1,6 +1,6 @@
 
- <img src="man/figures/logo2.png" width="300" />      
- <!-- badges: start -->
+ [<img src="man/figures/logo2.png" width="300" />](https://github.com/tony-aw/broadcast)
+       <!-- badges: start -->
 
 [![Project Status: WIP - Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
