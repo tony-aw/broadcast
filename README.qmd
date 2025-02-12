@@ -1,6 +1,8 @@
 ---
-title: "Broadcast"
-format: gfm
+format:
+  gfm: default
+  html:
+    embed-resources: true
 editor: visual
 ---
 
@@ -8,7 +10,8 @@ editor: visual
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  out.width = "100%"
+  out.width = "100%",
+  fig.width = 4
 )
 library(badger)
 library(knitr)
@@ -16,13 +19,15 @@ library(tinycodet)
 set.seed(1)
 ```
 
-<!-- badges: start -->
+ ![](man/figures/logo2.png){width=300}    
+ 
+ <!-- badges: start -->
 
-`r badge_repostatus("WIP")` `r badge_lifecycle("experimental")` `r badge_custom("ORCID", "0000-0001-9498-8379", "green",   "https://orcid.org/0000-0001-9498-8379")`
+`r badge_repostatus("WIP")`
+`r badge_lifecycle("experimental")`
+`r badge_custom("ORCID", "0000-0001-9498-8379", "green", "https://orcid.org/0000-0001-9498-8379")`
 
 <!-- badges: end -->
-
- 
 
 # 🗺️Overview
 
@@ -67,11 +72,9 @@ Third, 'broadcast' provides several generic functions for broadcasting:
 
  
 
-
 To get started, please visit the website: ...
 
-&nbsp;
-
+ 
 
 # 🤷🏽Why use 'broadcast'
 
@@ -106,7 +109,6 @@ Since 'broadcast' does not depend any library from another language, 'broadcast'
 # 🔧Installation
 
 ...
-
 
  
 
