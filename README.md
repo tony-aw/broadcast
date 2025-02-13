@@ -99,7 +99,7 @@ that have high (\> 95%) coverage.
 
  
 
-**Minimal Dependencies & High Consistency**
+**Minimal Dependencies**
 
 Besides linking to ‘Rcpp’, ‘broadcast’ does not depend on, vendor, link
 to, include, or otherwise use any external libraries; ‘broadcast’ was
