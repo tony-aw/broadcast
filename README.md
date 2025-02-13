@@ -1,5 +1,5 @@
 
- [<img src="man/figures/logo2.png" width="250" />](https://github.com/tony-aw/broadcast)
+ [<img src="man/figures/logo.png" width="250" />](https://github.com/tony-aw/broadcast)
          <!-- badges: start -->
 
 [![Project Status: WIP - Initial development is in progress, but there
