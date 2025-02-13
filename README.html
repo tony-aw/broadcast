@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -2996,7 +3030,7 @@ vertical-align: -.125em;
 <section id="overview" class="level1">
 <h1>🗺️Overview</h1>
 <p>The ‘broadcast’ package, as the name suggests, performs “broadcasting” (similar to broadcasting in the ‘Numpy’ module for ‘Python’).</p>
-<p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling arrays <strong>without</strong> allocating additional memory, which is considerably <strong>faster</strong> and <strong>more memory-efficient</strong> that R’s regular recycling mechanism.</p>
+<p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling arrays <strong>without</strong> allocating additional memory, which is considerably <strong>faster</strong> and <strong>more memory-efficient</strong> than R’s regular recycling mechanism.</p>
 <p>Please read the article “Broadcasting explained” for a more complete explanation of what “broadcasting” is.</p>
 <p> </p>
 <p>At its core, the ‘broadcast’ package provides 3 functionalities, all 3 related to “broadcasting”:</p>
@@ -3026,8 +3060,6 @@ The outer-like functions provided by ‘broadcast’ have very strict broadcasti
 <li><code>bc_ifelse()</code>: a broadcasted <code>ifelse()</code> function. Broadcasts between the <code>yes</code> and <code>no</code> arguments.</li>
 </ul>
 <p> </p>
-<p>To get started, please visit the website: …</p>
-<p> </p>
 </section>
 <section id="why-use-broadcast" class="level1">
 <h1>🤷🏽Why use ‘broadcast’</h1>
@@ -3038,20 +3070,40 @@ Efficient programs use less energy and resources, and is thus better for the env
 As a favoured language for the sciences, ‘R’ should not throw away an opportunity to become more efficient.</p>
 <p>The Benchmarks show that ‘broadcast’ has a somewhat similar speed as equivalent operations in ‘Numpy’.</p>
 <p> </p>
-<p><strong>High Coverage</strong></p>
+<p><strong>High Test Coverage</strong></p>
 <p>The ‘broadcast’ package has been developed with a <code>set of unit tests</code> that have high (&gt; 95%) coverage.</p>
 <p> </p>
 <p><strong>Minimal Dependencies &amp; High Consistency</strong></p>
 <p>Besides linking to ‘Rcpp’, ‘broadcast’ does not depend on, vendor, link to, include, or otherwise use any external libraries; ‘broadcast’ was essentially made from scratch and can be installed out-of-the-box.</p>
-<p>‘broadcast’ thus avoids “dependency hell”, bBut that is not the only advantage of maintaining minimal dependencies.</p>
-<p>All other alternatives to ‘broadcast’ (as far as I am aware), rely on external libraries from other languages - like ‘Numpy’ or ‘xtensor’. These cannot guarantee to behave consistent with R’s API.<br>
-Since ‘broadcast’ does not depend any library from another language, ‘broadcast’ is able to remain consistent in its behaviour with the rest of R’s API.</p>
+<p>Not using external libraries brings a number of advantages:</p>
+<ul>
+<li><strong>avoid dependency hell</strong>: Every dependency that is added to a software package increases the likelihood of something breaking (AKA “dependency hell”). ‘broadcast’ thus avoids this.</li>
+<li><strong>avoid wasting resources for translations</strong>: Using libraries from other languages, such as ‘xtensor’ (‘C++’) or ‘Numpy’ (‘Python’) means that - at some point - one needs to convert between the structure of R to that of the other language, and vice-versa, which wastes precious time and memory. ‘broadcast’ requires no such translations of structures, and thus does not waste precious time and memory.</li>
+<li><strong>ensure consistent API</strong>: Using libraries from other languages also means one cannot always guarantee consistent behaviour of some operations. For example: both ‘Numpy’ and ‘xtensor’ have only limited support for missing values, whereas ‘R’ supports missing values for both atomic and recursive array/vector types (except type of ‘Raw’). Since ‘broadcast’ does not rely on external libraries, it can ensure consistent behaviour.</li>
+</ul>
 <p> </p>
 </section>
 <section id="installation" class="level1">
 <h1>🔧Installation</h1>
-<p>…</p>
+<p>One can install the ‘broadcast’ package from GitHub like so:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;https://github.com/tony-aw/broadcast&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And attach the package - thus exposing its functions to the namespace - using:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broadcast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And one can open the introduction help page of the ‘broadcast’ package using any of the following:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>?broadcast<span class="sc">::</span>broadcast</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>?broadcast<span class="sc">::</span><span class="st">`</span><span class="at">broadcast-package</span><span class="st">`</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>?broadcast<span class="sc">::</span>broadcast_help</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p> </p>
+</section>
+<section id="getting-started" class="level1">
+<h1>🚀Getting started</h1>
+<p>To get started, please visit the website: …</p>
 <p> </p>
 </section>
 
