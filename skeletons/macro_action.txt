@@ -97,6 +97,17 @@
 
 
 
+#define MACRO_ACTION_BOOLEAN_REL(XREF, YREF, NACODE, DOCODE) do { \
+  if(XREF == NA_INTEGER || YREF == NA_INTEGER) {                   \
+    NACODE;                               \
+  }                                       \
+  else {                                  \
+    DOCODE;                               \
+  }                                       \
+} while(0)
+
+
+
 #define MACRO_DOUBLEPASS(MACRO1, MACRO2) do{  \
   MACRO1;                                     \
   MACRO2;                                     \

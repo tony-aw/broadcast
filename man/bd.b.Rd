@@ -10,20 +10,19 @@ bc.b(x, y, op)
 \item{x, y}{conformable logical or numeric arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported Boolean combiner operators: &, |, xor, nand. \cr
-Supported relational operators: ==, !=, <, >, <=, >=. \cr}
+Supported Boolean  operators: &, |, xor, nand, ==, !=. \cr}
 }
 \value{
-For the boolean combiner operators: \cr
-A logical array as a result of the broadcasted arithmetic operation. \cr
-\cr
-For relational operators: \cr
-A logical array as a result of the broadcasted relational comparison. \cr
-\cr
+A logical array as a result of the broadcasted Boolean operation. \cr \cr
 }
 \description{
 The \code{bc.b()} function
-performs broadcasted Boolean operations on 2 logical or numeric arrays. \cr
+performs broadcasted Boolean operations on 2 logical or integer arrays. \cr
+\cr
+Please note that these operations will treat the input as Boolean. \cr
+Therefore, something like \code{bc.b(1, 2, "==")} returns \code{TRUE},
+because both \code{1} and \code{2} are \code{TRUE} when cast as Boolean. \cr
+\cr
 }
 \examples{
 x.dim <- c(10:8)
@@ -36,12 +35,7 @@ bc.b(x, y, "&")
 bc.b(x, y, "|")
 bc.b(x, y, "xor")
 bc.b(x, y, "nand")
-
 bc.b(x, y, "==")
 bc.b(x, y, "!=")
-bc.b(x, y, "<")
-bc.b(x, y, ">")
-bc.b(x, y, "<=")
-bc.b(x, y, ">=")
 
 }

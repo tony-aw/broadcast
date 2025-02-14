@@ -29,16 +29,11 @@
   return(c("gcd", "lcm"))
 }
 
-#' @keywords internal
-#' @noRd
-.op_b_rel <- function() {
-  return(c("==", "!=", "<", ">", "<=", ">="))
-}
 
 #' @keywords internal
 #' @noRd
-.op_b_andor <- function() {
-  return(c("&", "|", "xor", "nand"))
+.op_b <- function() {
+  return(c("&", "|", "xor", "nand", "==", "!="))
 }
 
 #' @keywords internal

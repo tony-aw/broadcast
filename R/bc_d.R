@@ -3,6 +3,7 @@
 #' @description
 #' The `bc.d()` function
 #' performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr
+#' `bc.num()` is an alias for `bc.d()`. \cr \cr
 #' 
 #' @param x,y conformable logical or numeric arrays.
 #' @param op a single string, giving the operator. \cr
@@ -56,6 +57,11 @@ bc.d <- function(x, y, op, prec = sqrt(.Machine$double.eps)) {
   
   
 }
+
+
+#' @rdname bc.d
+#' @export
+bc.num <- bc.d
 
 
 

@@ -8,11 +8,6 @@ bc.b(x, y, "&")
 bc.b(x, y, "|")
 bc.b(x, y, "xor")
 bc.b(x, y, "nand")
-
 bc.b(x, y, "==")
 bc.b(x, y, "!=")
-bc.b(x, y, "<")
-bc.b(x, y, ">")
-bc.b(x, y, "<=")
-bc.b(x, y, ">=")
 

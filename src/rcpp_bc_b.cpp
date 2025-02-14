@@ -7,19 +7,13 @@ using namespace Rcpp;
 
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_isTRUE)]]
-bool rcpp_isTRUE(
+inline bool rcpp_isTRUE(
   int x
 ) {
   return(x != NA_INTEGER && x != 0);
 }
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_isFALSE)]]
-bool rcpp_isFALSE(
+inline bool rcpp_isFALSE(
   int x
 ) {
   return(x != NA_INTEGER && x == 0);

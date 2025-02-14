@@ -130,6 +130,7 @@ txt_pkg <- stringi::stri_c(
   txt,
   collapse = "\n\n"
 )
+setwd("..")
 readr::write_file(txt_pkg, "src/rcpp_bc_bind.cpp")
 
 

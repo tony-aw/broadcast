@@ -454,6 +454,28 @@ macro_op_bool_math <- "
       );                                                        \\
       break;	\\
     }	\\
+    case 5:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        MACRO_ACTION_BOOLEAN_REL(                                           \\
+          px[flatind_x], py[flatind_y],       \\
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
+          MACRO_ASSIGN_C((bool)px[flatind_x] == (bool)py[flatind_y])  \\
+        )                                                       \\
+      );                                                        \\
+      break;	\\
+    }	\\
+    case 6:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        MACRO_ACTION_BOOLEAN_REL(                                           \\
+          px[flatind_x], py[flatind_y],       \\
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
+          MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \\
+        )                                                       \\
+      );                                                        \\
+      break;	\\
+    }	\\
     default:	\\
     {	\\
       stop(\"given operator not supported in the given context\");	\\

@@ -28,6 +28,12 @@ A logical array as a result of the broadcasted integer relational comparison. \c
 \description{
 The \code{bc.i()} function
 performs broadcasted integer numeric operations on 2 numeric or logical arrays. \cr
+\cr
+Please note that these operations will treat the input as 53bit integers,
+and will efficiently truncate when necessary. \cr
+Therefore, something like \code{bc.i(1, 1.5, "==")} returns \code{TRUE},
+because \code{trunc(1.5)} equals \code{1}. \cr
+\cr
 }
 \examples{
 x.dim <- c(10:8)

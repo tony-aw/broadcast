@@ -395,28 +395,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_isTRUE
-bool rcpp_isTRUE(int x);
-RcppExport SEXP _broadcast_rcpp_isTRUE(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_isTRUE(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_isFALSE
-bool rcpp_isFALSE(int x);
-RcppExport SEXP _broadcast_rcpp_isFALSE(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_isFALSE(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_bc_b_v
 SEXP rcpp_bc_b_v(SEXP x, SEXP y, R_xlen_t nout, int op);
 RcppExport SEXP _broadcast_rcpp_bc_b_v(SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP, SEXP opSEXP) {
@@ -1151,8 +1129,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bcRel_str_ov", (DL_FUNC) &_broadcast_rcpp_bcRel_str_ov, 6},
     {"_broadcast_rcpp_bcRel_str_bs", (DL_FUNC) &_broadcast_rcpp_bcRel_str_bs, 10},
     {"_broadcast_rcpp_bcRel_str_d", (DL_FUNC) &_broadcast_rcpp_bcRel_str_d, 9},
-    {"_broadcast_rcpp_isTRUE", (DL_FUNC) &_broadcast_rcpp_isTRUE, 1},
-    {"_broadcast_rcpp_isFALSE", (DL_FUNC) &_broadcast_rcpp_isFALSE, 1},
     {"_broadcast_rcpp_bc_b_v", (DL_FUNC) &_broadcast_rcpp_bc_b_v, 4},
     {"_broadcast_rcpp_bc_b_ov", (DL_FUNC) &_broadcast_rcpp_bc_b_ov, 6},
     {"_broadcast_rcpp_bc_b_bs", (DL_FUNC) &_broadcast_rcpp_bc_b_bs, 10},

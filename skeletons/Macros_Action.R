@@ -122,6 +122,18 @@ macro_action_boolean <- "
 
 "
 
+macro_action_boolean_rel <- "
+#define MACRO_ACTION_BOOLEAN_REL(XREF, YREF, NACODE, DOCODE) do { \\
+  if(XREF == NA_INTEGER || YREF == NA_INTEGER) {                   \\
+    NACODE;                               \\
+  }                                       \\
+  else {                                  \\
+    DOCODE;                               \\
+  }                                       \\
+} while(0)
+
+"
+
 
 macro_action_vapply <- "
 #define MACRO_ACTION_VAPPLY(ASSIGNCODE, ERRORCHECK, ERRORCODE, DOCODE) do { \\
@@ -149,6 +161,8 @@ macro_action <- stri_c(
   macro_action_integer2,
   "\n",
   macro_action_boolean,
+  "\n",
+  macro_action_boolean_rel,
   "\n",
   macro_doublepass,
   "\n",

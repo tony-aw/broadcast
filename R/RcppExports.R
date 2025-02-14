@@ -141,18 +141,6 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
-.rcpp_isTRUE <- function(x) {
-    .Call(`_broadcast_rcpp_isTRUE`, x)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_isFALSE <- function(x) {
-    .Call(`_broadcast_rcpp_isFALSE`, x)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_bc_b_v <- function(x, y, nout, op) {
     .Call(`_broadcast_rcpp_bc_b_v`, x, y, nout, op)
 }

@@ -2,9 +2,12 @@
 % Please edit documentation in R/bc_d.R
 \name{bc.d}
 \alias{bc.d}
+\alias{bc.num}
 \title{Broadcasted Decimal Numeric Operations}
 \usage{
 bc.d(x, y, op, prec = sqrt(.Machine$double.eps))
+
+bc.num(x, y, op, prec = sqrt(.Machine$double.eps))
 }
 \arguments{
 \item{x, y}{conformable logical or numeric arrays.}
@@ -31,6 +34,7 @@ A logical array as a result of the broadcasted decimal relational comparison. \c
 \description{
 The \code{bc.d()} function
 performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr
+\code{bc.num()} is an alias for \code{bc.d()}. \cr \cr
 }
 \examples{
 x.dim <- c(10:8)
