@@ -2,12 +2,9 @@
 % Please edit documentation in R/bc_str.R
 \name{bc.str}
 \alias{bc.str}
-\alias{bc.chr}
-\title{Broadcasted Operations for Character/String Arrays}
+\title{Broadcasted String Operations}
 \usage{
 bc.str(x, y, op)
-
-bc.chr(x, y, op)
 }
 \arguments{
 \item{x, y}{conformable atomic arrays of typee \code{character}.}
@@ -25,13 +22,12 @@ For relational operation: \cr
 A logical array as a result of the broadcasted relational comparison. \cr
 \cr
 For distance operation: \cr
-An integer array as a result of the broadcasted relational comparison. \cr
+An integer array as a result of the broadcasted distance measurement. \cr
 \cr
 }
 \description{
 The \code{bc.str()} function
-performs broadcasted operations on 2 character/string arrays. \cr
-\code{bc.chr()} is an alias for \code{bc.str()}. \cr
+performs broadcasted string operations on pairs of arrays. \cr \cr
 }
 \examples{
 

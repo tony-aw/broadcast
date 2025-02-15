@@ -1,9 +1,8 @@
-#' Broadcasted Operations for Character/String Arrays
+#' Broadcasted String Operations
 #'
 #' @description
 #' The `bc.str()` function
-#' performs broadcasted operations on 2 character/string arrays. \cr
-#' `bc.chr()` is an alias for `bc.str()`. \cr
+#' performs broadcasted string operations on pairs of arrays. \cr \cr
 #' 
 #' @param x,y conformable atomic arrays of typee `character`.
 #' @param op a single string, giving the operator. \cr
@@ -20,7 +19,7 @@
 #' A logical array as a result of the broadcasted relational comparison. \cr
 #' \cr
 #' For distance operation: \cr
-#' An integer array as a result of the broadcasted relational comparison. \cr
+#' An integer array as a result of the broadcasted distance measurement. \cr
 #' \cr
 #'
 #'
@@ -66,12 +65,8 @@ bc.str <- function(x, y, op) {
     stop("given operator not supported in the given context")
   }
   
-  
 }
 
-#' @rdname bc.str
-#' @export
-bc.chr <- bc.str
 
 
 #' @keywords internal

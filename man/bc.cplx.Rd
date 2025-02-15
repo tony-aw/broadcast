@@ -2,12 +2,12 @@
 % Please edit documentation in R/bc_cplx.R
 \name{bc.cplx}
 \alias{bc.cplx}
-\title{Broadcasted Operations for Complex Number Arrays}
+\title{Broadcasted Complex Numeric Operations}
 \usage{
 bc.cplx(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable atomic arrays of typee \code{complex}.}
+\item{x, y}{conformable atomic arrays of type \code{complex}.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported arithmetic operators: +, -, *, /. \cr
@@ -22,7 +22,7 @@ A logical array as a result of the broadcasted relational comparison. \cr
 \cr
 }
 \description{
-The \code{bc.cplx()} function performs broadcasted operations on 2 \code{complex} arrays. \cr
+The \code{bc.cplx()} function performs broadcasted complex numeric operations pairs of arrays. \cr
 \cr
 Note that \code{bc.cplx()} uses more strict \code{NA} checks than base 'R': \cr
 If for an element of either \code{x} or \code{y}, either the real or imaginary part is \code{NA} or \code{NaN},

@@ -1,13 +1,13 @@
-#' Broadcasted Operations for Complex Number Arrays
+#' Broadcasted Complex Numeric Operations
 #'
 #' @description
-#' The `bc.cplx()` function performs broadcasted operations on 2 `complex` arrays. \cr
+#' The `bc.cplx()` function performs broadcasted complex numeric operations pairs of arrays. \cr
 #' \cr
 #' Note that `bc.cplx()` uses more strict `NA` checks than base 'R': \cr
 #' If for an element of either `x` or `y`, either the real or imaginary part is `NA` or `NaN`,
 #' than the result of the operation for that element is necessarily `NA`. \cr
 #' 
-#' @param x,y conformable atomic arrays of typee `complex`.
+#' @param x,y conformable atomic arrays of type `complex`.
 #' @param op a single string, giving the operator. \cr
 #' Supported arithmetic operators: `r paste0(broadcast:::.op_cplx_math(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_cplx_rel(), collapse = ", ")`. \cr
