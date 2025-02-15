@@ -1,4 +1,4 @@
-#' Broadcasted Integer Numeric Operations
+#' Broadcasted Integer Numeric Operations with Extra Overflow Protection
 #'
 #' @description
 #' The `bc.i()` function
@@ -23,7 +23,8 @@
 #' as a result of the broadcasted arithmetic operation. \cr
 #' Base 'R' supports 53 bit integers,
 #' which thus range from approximately `-9` quadrillion to `+9` quadrillion. \cr
-#' Values outside of this range will be returned as `-Inf` or `Inf`. \cr
+#' Values outside of this range will be returned as `-Inf` or `Inf`,
+#' as an extra protection against integer overflow. \cr
 #' \cr
 #' For relational operators: \cr
 #' A logical array as a result of the broadcasted integer relational comparison. \cr

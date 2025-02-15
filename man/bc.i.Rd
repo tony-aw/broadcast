@@ -2,7 +2,7 @@
 % Please edit documentation in R/bc_i.R
 \name{bc.i}
 \alias{bc.i}
-\title{Broadcasted Integer Numeric Operations}
+\title{Broadcasted Integer Numeric Operations with Extra Overflow Protection}
 \usage{
 bc.i(x, y, op)
 }
@@ -19,7 +19,8 @@ A numeric array of whole numbers,
 as a result of the broadcasted arithmetic operation. \cr
 Base 'R' supports 53 bit integers,
 which thus range from approximately \code{-9} quadrillion to \code{+9} quadrillion. \cr
-Values outside of this range will be returned as \code{-Inf} or \code{Inf}. \cr
+Values outside of this range will be returned as \code{-Inf} or \code{Inf},
+as an extra protection against integer overflow. \cr
 \cr
 For relational operators: \cr
 A logical array as a result of the broadcasted integer relational comparison. \cr
