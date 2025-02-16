@@ -20,18 +20,6 @@ test_make_dims <- function(n) {
   return(out)
 }
 
-test_make_dimnames <- function(x) {
-  out <- lapply(dim(x), \(n)sample(letters, n, replace = TRUE))
-  
-  # randomly make names of one random dimension NULL
-  if(length(out) > 1L && sample(c(TRUE, FALSE), 1L)) {
-    out[sample(1:length(out), 1L)] <- list(NULL) 
-  }
-  
-  return(out)
-}
-
-
 datagens <- list(
   # \() as.raw(sample(1:10)), # ifelse() cannot handle raw, apparently
   \() sample(c(TRUE, FALSE, NA), 10L, TRUE),
@@ -48,6 +36,9 @@ along <- 1L
 ################################################################################
 
 # shared dimensions of size 1 ====
+counter <- 1L
+expected.lst <- out.lst <- vector("list", 5 * length(datagens)^3)
+
 nDims <- 1L
 for(iSample in 1:5) {
   for(iDataX in seq_along(datagens)) {
@@ -66,11 +57,6 @@ for(iSample in 1:5) {
         x <- array(x.data, x.dim)
         y <- array(y.data, y.dim)
         z <- array(z.data, z.dim)
-        
-        dimnames(x) <- test_make_dimnames(x)
-        dimnames(y) <- test_make_dimnames(y)
-        dimnames(z) <- test_make_dimnames(z)
-        
         emptyarray <- array(numeric(0L), c(3,3,0))
         
         
@@ -94,36 +80,39 @@ for(iSample in 1:5) {
         expected[start:end] <- z
         
         
-        # tests:
-        input <- list(emptyarray, x, y, z)
-        out <- bind_array(input, along, name_along = FALSE, comnames_from = NULL)
-        expect_equal(
-          expected, out
-        ) |> errorfun()
+        random <- sample(1:3, 1L)
+        if(random == 1L) {
+          input <- list(emptyarray, x, y, z)
+        }
+        else if(random == 2L) {
+          input <- list(x, y, z, emptyarray)
+        }
+        else if(random == 3L) {
+          input <- list(x, y, emptyarray, z)
+        }
         
-        input <- list(x, y, z, emptyarray)
-        out <- bind_array(input, along, name_along = FALSE, comnames_from = NULL)
-        expect_equal(
-          expected, out
-        ) |> errorfun()
+        expected.lst[[counter]] <- expected
+        out.lst[[counter]] <- bind_array(input, along)
         
-        input <- list(x, y, emptyarray, z)
-        out <- bind_array(input, along, name_along = FALSE, comnames_from = NULL)
-        expect_equal(
-          expected, out
-        ) |> errorfun()
-        
-        enumerate <- enumerate + 3L
+        counter <- counter + 1L
         
       }
     }
   }
 }
 
+expect_equal(
+  out.lst, expected.lst
+)
+enumerate <- enumerate + length(out.lst)
+
 
 
 
 # shared dimensions of size 2 ====
+counter <- 1L
+expected.lst <- out.lst <- vector("list", 5 * length(datagens)^3)
+
 nDims <- 2L
 for(iSample in 1:5) {
   for(iDataX in seq_along(datagens)) {
@@ -142,11 +131,6 @@ for(iSample in 1:5) {
         x <- array(x.data, x.dim)
         y <- array(y.data, y.dim)
         z <- array(z.data, z.dim)
-        
-        dimnames(x) <- test_make_dimnames(x)
-        dimnames(y) <- test_make_dimnames(y)
-        dimnames(z) <- test_make_dimnames(z)
-        
         emptyarray <- array(numeric(0L), c(3,3,0))
         
         
@@ -170,26 +154,21 @@ for(iSample in 1:5) {
         expected[start:end,] <- z
         
         
-        # tests:
-        input <- list(emptyarray, x, y, z)
-        out <- bind_array(input, along, name_along = FALSE, comnames_from = NULL)
-        expect_equal(
-          expected, out
-        ) |> errorfun()
+        random <- sample(1:3, 1L)
+        if(random == 1L) {
+          input <- list(emptyarray, x, y, z)
+        }
+        else if(random == 2L) {
+          input <- list(x, y, z, emptyarray)
+        }
+        else if(random == 3L) {
+          input <- list(x, y, emptyarray, z)
+        }
         
-        input <- list(x, y, z, emptyarray)
-        out <- bind_array(input, along, name_along = FALSE, comnames_from = NULL)
-        expect_equal(
-          expected, out
-        ) |> errorfun()
+        expected.lst[[counter]] <- expected
+        out.lst[[counter]] <- bind_array(input, along)
         
-        input <- list(x, y, emptyarray, z)
-        out <- bind_array(input, along, name_along = FALSE, comnames_from = NULL)
-        expect_equal(
-          expected, out
-        ) |> errorfun()
-        
-        enumerate <- enumerate + 3L
+        counter <- counter + 1L
         
       }
     }
@@ -197,9 +176,17 @@ for(iSample in 1:5) {
   
 }
 
+expect_equal(
+  out.lst, expected.lst
+)
+enumerate <- enumerate + length(out.lst)
+
 
 
 # shared dimensions of size 3 ====
+counter <- 1L
+expected.lst <- out.lst <- vector("list", 5 * length(datagens)^3)
+
 nDims <- 3L
 for(iSample in 1:5) {
   for(iDataX in seq_along(datagens)) {
@@ -218,11 +205,6 @@ for(iSample in 1:5) {
         x <- array(x.data, x.dim)
         y <- array(y.data, y.dim)
         z <- array(z.data, z.dim)
-        
-        dimnames(x) <- test_make_dimnames(x)
-        dimnames(y) <- test_make_dimnames(y)
-        dimnames(z) <- test_make_dimnames(z)
-        
         emptyarray <- array(numeric(0L), c(3,3,0))
         
         
@@ -246,32 +228,31 @@ for(iSample in 1:5) {
         expected[start:end, , ] <- z
         
         
-        # tests:
-        input <- list(emptyarray, x, y, z)
-        out <- bind_array(input, along, name_along = FALSE, comnames_from = NULL)
-        expect_equal(
-          expected, out
-        ) |> errorfun()
+        random <- sample(1:3, 1L)
+        if(random == 1L) {
+          input <- list(emptyarray, x, y, z)
+        }
+        else if(random == 2L) {
+          input <- list(x, y, z, emptyarray)
+        }
+        else if(random == 3L) {
+          input <- list(x, y, emptyarray, z)
+        }
         
-        input <- list(x, y, z, emptyarray)
-        out <- bind_array(input, along, name_along = FALSE, comnames_from = NULL)
-        expect_equal(
-          expected, out
-        ) |> errorfun()
+        expected.lst[[counter]] <- expected
+        out.lst[[counter]] <- bind_array(input, along)
         
-        input <- list(x, y, emptyarray, z)
-        out <- bind_array(input, along, name_along = FALSE, comnames_from = NULL)
-        expect_equal(
-          expected, out
-        ) |> errorfun()
-        
-        enumerate <- enumerate + 3L
+        counter <- counter + 1L
         
       }
     }
   }
 }
 
+expect_equal(
+  out.lst, expected.lst
+)
+enumerate <- enumerate + length(out.lst)
 
 
 

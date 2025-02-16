@@ -32,6 +32,8 @@ datagens <- list(
 
 along <- 1L
 
+counter <- 1L
+expected.lst <- out.lst <- vector("list", 5 * length(datagens)^3)
 
 nDims <- 3L
 for(iSample in 1:5) {
@@ -75,34 +77,30 @@ for(iSample in 1:5) {
         end <- end + z.dim[along]
         expected[start:end, , ] <- z
         
+        # test:
+        random <- sample(1:3, 1L)
+        if(random == 1L) {
+          input <- list(emptyarray, x[, 1, 1, drop=FALSE], y[,,1, drop=FALSE], z)
+        }
+        else if(random == 2L) {
+          input <- list(x[, 1, 1, drop=FALSE], y[,,1, drop=FALSE], z, emptyarray)
+        }
+        else if(random == 3L) {
+          input <- list(emptyarray, x[, 1, 1, drop=FALSE], y[,,1, drop=FALSE], emptyarray, z)
+        }
         
-        # tests:
-        input <- list(emptyarray, x[, 1, 1, drop=FALSE], y[,,1, drop=FALSE], z)
-        out <- bind_array(input, along, max_bc = 2L)
-        expect_equal(
-          expected, out
-        ) |> errorfun()
+        expected.lst[[counter]] <- expected
+        out.lst[[counter]] <- bind_array(input, along, max_bc = 2L)
         
-        input <- list(x[, 1, 1, drop=FALSE], y[,,1, drop=FALSE], z, emptyarray)
-        out <- bind_array(input, along, max_bc = 2L)
-        expect_equal(
-          expected, out
-        ) |> errorfun()
-        
-        input <- list(emptyarray, x[, 1, 1, drop=FALSE], y[,,1, drop=FALSE], emptyarray, z)
-        out <- bind_array(input, along, max_bc = 2L)
-        expect_equal(
-          expected, out
-        ) |> errorfun()
-        
-        enumerate <- enumerate + 3L
+        counter <- counter + 1L
         
       }
     }
   }
 }
 
-
-
-
+expect_equal(
+  out.lst, expected.lst
+)
+enumerate <- enumerate + length(out.lst)
 

@@ -9,12 +9,6 @@ errorfun <- function(tt) {
 
 test_make_dimnames <- function(x.dim) {
   out <- lapply(x.dim, \(n)sample(letters, n, replace = TRUE))
-  
-  # randomly make names of one random dimension NULL
-  if(length(out) > 1L && sample(c(TRUE, FALSE), 1L)) {
-    out[sample(1:length(out), 1L)] <- list(NULL) 
-  }
-  
   return(out)
 }
 

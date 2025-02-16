@@ -7,7 +7,7 @@
 bc.b(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable logical or numeric arrays.}
+\item{x, y}{conformable logical (or 32bit integer) arrays.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported Boolean  operators: &, |, xor, nand, ==, !=. \cr}
@@ -17,7 +17,7 @@ A logical array as a result of the broadcasted Boolean operation. \cr \cr
 }
 \description{
 The \code{bc.b()} function
-performs broadcasted Boolean operations on 2 logical or integer arrays. \cr
+performs broadcasted Boolean operations on 2 logical (or 32bit integer) arrays. \cr
 \cr
 Please note that these operations will treat the input as Boolean. \cr
 Therefore, something like \code{bc.b(1, 2, "==")} returns \code{TRUE},

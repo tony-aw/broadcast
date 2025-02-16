@@ -2,14 +2,14 @@
 #'
 #' @description
 #' The `bc.b()` function
-#' performs broadcasted Boolean operations on 2 logical or integer arrays. \cr
+#' performs broadcasted Boolean operations on 2 logical (or 32bit integer) arrays. \cr
 #' \cr
 #' Please note that these operations will treat the input as Boolean. \cr
 #' Therefore, something like `bc.b(1, 2, "==")` returns `TRUE`,
 #' because both `1` and `2` are `TRUE` when cast as Boolean. \cr
 #' \cr
 #' 
-#' @param x,y conformable logical or numeric arrays.
+#' @param x,y conformable logical (or 32bit integer) arrays.
 #' @param op a single string, giving the operator. \cr
 #' Supported Boolean  operators: `r paste0(broadcast:::.op_b(), collapse = ", ")`. \cr
 #' 
@@ -28,14 +28,8 @@ bc.b <- function(x, y, op) {
   
   # checks:
   .stop_general(x, y, op, sys.call())
-  if(is.numeric(x)) {
-    x <- as_bool(x)
-  }
-  if(is.numeric(y)) {
-    y <- as_bool(y)
-  }
   if(!.is_logical_like(x) || !.is_logical_like(y)) {
-    stop("`x` and `y` must be logical or integer arrays")
+    stop("`x` and `y` must be logical (or logical-like) arrays")
   }
   
   # get operator:
