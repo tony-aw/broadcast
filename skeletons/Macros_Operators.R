@@ -258,20 +258,38 @@ macro_op_int_math <- "
   switch(op) {	\\
     case 1:	\\
     {	\\
-      MACRO_TYPESWITCH_INTEGER1(	\\
-        DIMCODE,	\\
-        MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C(rcpp_int53_guard(e1 + e2, intmin, intmax))	\\
-      );	\\
+      if(TYPEOF(x) == INTSXP && TYPEOF(y) == INTSXP) {    \\
+        MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
+          DIMCODE,	\\
+          MACRO_ASSIGN_C(NA_REAL),	\\
+          MACRO_ASSIGN_C((double)px[flatind_x] + (double)py[flatind_y])	\\
+        );	\\
+      }   \\
+      else {    \\
+        MACRO_TYPESWITCH_INTEGER1(	\\
+          DIMCODE,	\\
+          MACRO_ASSIGN_C(NA_REAL),	\\
+          MACRO_ASSIGN_C(rcpp_int53_guard(e1 + e2, intmin, intmax))	\\
+        );	\\
+      }   \\
       break;	\\
     }	\\
     case 2:	\\
     {	\\
-      MACRO_TYPESWITCH_INTEGER1(	\\
-        DIMCODE,	\\
-        MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C(rcpp_int53_guard(e1 - e2, intmin, intmax))	\\
-      );	\\
+      if(TYPEOF(x) == INTSXP && TYPEOF(y) == INTSXP) {    \\
+        MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
+          DIMCODE,	\\
+          MACRO_ASSIGN_C(NA_REAL),	\\
+          MACRO_ASSIGN_C((double)px[flatind_x] - (double)py[flatind_y])	\\
+        );	\\
+      }   \\
+      else {    \\
+        MACRO_TYPESWITCH_INTEGER1(	\\
+          DIMCODE,	\\
+          MACRO_ASSIGN_C(NA_REAL),	\\
+          MACRO_ASSIGN_C(rcpp_int53_guard(e1 - e2, intmin, intmax))	\\
+        );	\\
+      }   \\
       break;	\\
     }	\\
     case 3:	\\
@@ -285,11 +303,20 @@ macro_op_int_math <- "
     }	\\
     case 4:	\\
     {	\\
-      MACRO_TYPESWITCH_INTEGER1(	\\
-        DIMCODE,	\\
-        MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C(rcpp_int53_guard(trunc(e1 / e2), intmin, intmax))	\\
-      );	\\
+      if(TYPEOF(x) == INTSXP && TYPEOF(y) == INTSXP) {    \\
+        MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
+          DIMCODE,	\\
+          MACRO_ASSIGN_C(NA_REAL),	\\
+          MACRO_ASSIGN_C(trunc((double) px[flatind_x] / (double)py[flatind_y]))	\\
+        );	\\
+      }   \\
+      else {    \\
+        MACRO_TYPESWITCH_INTEGER1(	\\
+          DIMCODE,	\\
+          MACRO_ASSIGN_C(NA_REAL),	\\
+          MACRO_ASSIGN_C(rcpp_int53_guard(trunc(e1 / e2), intmin, intmax))	\\
+        );	\\
+      }   \\
       break;	\\
     }	\\
     case 5:	\\
