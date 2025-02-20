@@ -58,6 +58,33 @@ inline double rcpp_int53_guard(
   return out;
 }
 
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_gcd)]]
+long long rcpp_gcd(
+  long long x, long long y
+) {
+
+  long long a = abs(x);
+  long long b = abs(y);
+  
+  if (a == 0) {
+    return b;
+  }
+  if (b == 0) {
+    return a;
+  }
+  if (a == b) {
+    return a;
+  }
+  if (a > b) {
+    return rcpp_gcd(a - b, b);
+  }
+  return rcpp_gcd(a, b - a);
+}
+
+
 "
 
 txt1 <- "

@@ -249,6 +249,12 @@ rcpp_bc_bind <- function(out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_
 
 #' @keywords internal
 #' @noRd
+.rcpp_gcd <- function(x, y) {
+    .Call(`_broadcast_rcpp_gcd`, x, y)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_bc_int_v <- function(x, y, nout, op) {
     .Call(`_broadcast_rcpp_bc_int_v`, x, y, nout, op)
 }

@@ -398,3 +398,61 @@
 } while(0)
 
 
+
+
+#define MACRO_TYPESWITCH_INTEGER_MOD(DIMCODE, NACODE, RULECODE, DOCODE) do {      \
+  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
+  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
+  if(xint && yint) {                                        \
+    const int *px = INTEGER_RO(x);                                        \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER_MOD1(                                           \
+        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(xint && !yint) {                                  \
+    const int *px = INTEGER_RO(x);                                        \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER_MOD2(                                           \
+        px[flatind_x] == NA_INTEGER || R_isnancpp(py[flatind_y]),  \
+        MACRO_OVERFLOW(py[flatind_y]),           \
+        NACODE,                                               \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && yint) {                                  \
+    const double *px = REAL_RO(x);                                           \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER_MOD2(                                           \
+        R_isnancpp(px[flatind_x]) || py[flatind_y] == NA_INTEGER,  \
+        MACRO_OVERFLOW(px[flatind_x]),           \
+        NACODE,                                               \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && !yint) {                                 \
+    const double *px = REAL_RO(x);                                           \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER_MOD2(                                           \
+        R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
+        MACRO_OVERFLOW(px[flatind_x]) || MACRO_OVERFLOW(py[flatind_y]),           \
+        NACODE,                                               \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+} while(0)
+
+

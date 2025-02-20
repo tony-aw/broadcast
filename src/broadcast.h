@@ -5,6 +5,11 @@
 
 
 
+#define MACRO_OVERFLOW(REF) ((REF) < intmin || (REF) > intmax)
+
+
+
+
 #define MACRO_ACTION1(DOCODE) do {      \
   DOCODE;                                     \
 } while(0)
@@ -75,6 +80,33 @@
 	else {                                                          \
 	  e1 = DOLEFT;                                                  \
 	  e2 = DORIGHT;                                                 \
+	  DOCODE;                                                       \
+	}                                                               \
+} while(0)
+
+
+
+
+#define MACRO_ACTION_INTEGER_MOD1(NACHECK, NACODE, DOCODE) do {      \
+  if(NACHECK) {                                                   \
+    NACODE;                                                     \
+  }                                                             \
+	else {                                                          \
+	  DOCODE;                                                       \
+	}                                                               \
+} while(0)
+
+
+
+
+#define MACRO_ACTION_INTEGER_MOD2(NACHECK, RULECHECK, NACODE, RULECODE, DOCODE) do {      \
+  if(NACHECK) {                                                   \
+    NACODE;                                                     \
+  }                                                                 \
+  else if(RULECHECK) {                                                   \
+    RULECODE;                                                       \
+  }                                                                 \
+	else {                                                          \
 	  DOCODE;                                                       \
 	}                                                               \
 } while(0)
@@ -532,6 +564,64 @@
 
 
 
+#define MACRO_TYPESWITCH_INTEGER_MOD(DIMCODE, NACODE, RULECODE, DOCODE) do {      \
+  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
+  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
+  if(xint && yint) {                                        \
+    const int *px = INTEGER_RO(x);                                        \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER_MOD1(                                           \
+        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(xint && !yint) {                                  \
+    const int *px = INTEGER_RO(x);                                        \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER_MOD2(                                           \
+        px[flatind_x] == NA_INTEGER || R_isnancpp(py[flatind_y]),  \
+        MACRO_OVERFLOW(py[flatind_y]),           \
+        NACODE,                                               \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && yint) {                                  \
+    const double *px = REAL_RO(x);                                           \
+    const int *py = INTEGER_RO(y);                                        \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER_MOD2(                                           \
+        R_isnancpp(px[flatind_x]) || py[flatind_y] == NA_INTEGER,  \
+        MACRO_OVERFLOW(px[flatind_x]),           \
+        NACODE,                                               \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else if(!xint && !yint) {                                 \
+    const double *px = REAL_RO(x);                                           \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION_INTEGER_MOD2(                                           \
+        R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
+        MACRO_OVERFLOW(px[flatind_x]) || MACRO_OVERFLOW(py[flatind_y]),           \
+        NACODE,                                               \
+        NACODE,                                               \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+} while(0)
+
+
+
+
 #define MACRO_ASSIGN_C(INPUTCODE) do {  \
   tempout = INPUTCODE;              \
   pout[flatind_out] = tempout;      \
@@ -794,20 +884,12 @@
     }	\
     case 4:	\
     {	\
-      if(TYPEOF(x) == INTSXP && TYPEOF(y) == INTSXP) {    \
-        MACRO_TYPESWITCH_DECIMAL_COMMON(	\
-          DIMCODE,	\
-          MACRO_ASSIGN_C(NA_REAL),	\
-          MACRO_ASSIGN_C(trunc((double) px[flatind_x] / (double)py[flatind_y]))	\
-        );	\
-      }   \
-      else {    \
-        MACRO_TYPESWITCH_INTEGER1(	\
-          DIMCODE,	\
-          MACRO_ASSIGN_C(NA_REAL),	\
-          MACRO_ASSIGN_C(rcpp_int53_guard(trunc(e1 / e2), intmin, intmax))	\
-        );	\
-      }   \
+      MACRO_TYPESWITCH_INTEGER_MOD(	\
+        DIMCODE,	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C(NA_REAL),	\
+        MACRO_ASSIGN_C((double)rcpp_gcd(px[flatind_x], py[flatind_y]))	\
+      );    \
       break;	\
     }	\
     case 5:	\
@@ -981,6 +1063,50 @@
           px[flatind_x], py[flatind_y],       \
           MACRO_ASSIGN_C(NA_LOGICAL),                                   \
           MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \
+        )                                                       \
+      );                                                        \
+      break;	\
+    }	\
+    case 7:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ACTION_BOOLEAN_REL(                                           \
+          px[flatind_x], py[flatind_y],       \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+          MACRO_ASSIGN_C((bool)px[flatind_x] < (bool)py[flatind_y])  \
+        )                                                       \
+      );                                                        \
+      break;	\
+    }	\
+    case 8:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ACTION_BOOLEAN_REL(                                           \
+          px[flatind_x], py[flatind_y],       \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+          MACRO_ASSIGN_C((bool)px[flatind_x] > (bool)py[flatind_y])  \
+        )                                                       \
+      );                                                        \
+      break;	\
+    }	\
+    case 9:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ACTION_BOOLEAN_REL(                                           \
+          px[flatind_x], py[flatind_y],       \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+          MACRO_ASSIGN_C((bool)px[flatind_x] <= (bool)py[flatind_y])  \
+        )                                                       \
+      );                                                        \
+      break;	\
+    }	\
+    case 10:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ACTION_BOOLEAN_REL(                                           \
+          px[flatind_x], py[flatind_y],       \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+          MACRO_ASSIGN_C((bool)px[flatind_x] >= (bool)py[flatind_y])  \
         )                                                       \
       );                                                        \
       break;	\

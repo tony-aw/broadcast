@@ -33,6 +33,7 @@ macro_dim,
 
 cat(header)
 Rcpp::sourceCpp(code = header)
+readr::write_file(header, "header.txt")
 setwd("..")
 readr::write_file(header, "src/broadcast.h")
 

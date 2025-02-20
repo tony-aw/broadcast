@@ -1,10 +1,6 @@
 ---
 title: "Broadcasting Explained"
-format:
-  html:
-    toc: true
-    toc_depth: 2
-    embed-resources: true
+prefer-html: true
 vignette: >
   %\VignetteIndexEntry{Broadcasting Explained}
   %\VignetteEngine{quarto::html}
@@ -58,9 +54,9 @@ Error in x + y : non-conformable arrays
 
 
 When computing the outer sum of these orthogonal vectors, both vectors need to be recycled to equal size in order to compute the outer computation.  
-I.e. `x` needs its single column to be recycled (in this case) 5 times, and `y` needs its single row to be recycled 5 times, creating 2 conformable matrices.  
+I.e. `x` needs its single column to be recycled(in this case) 5 times, and `y` needs its single row to be recycled 5 times, creating 2 conformable matrices.  
 
-In 'R' this can be done manually, or using `outer() |> drop()`:
+'R' provides linear **vector** recycling, but not recycling of array dimensions. Instead, in base 'R' we need to **replicate** the array dimensions. This can be done manually, or using `outer() |> drop()`:
 
 ```{r}
 x[, rep(1L, 5L)] + y[rep(1L, 5L),]
@@ -72,7 +68,7 @@ outer(x, y, "+") |> drop()
 
 ## What is the problem exactly?
 
-When `x` and `y` are small arrays, like in the above example, there is hardly a problem; but when `x` and `y` become larger, the 3 matrices (`x` is recycled to a matrix, `y` is recycled to a matrix, and the result is also matrix) also become larger.
+When `x` and `y` are small arrays, like in the above example, there is hardly a problem; but when `x` and `y` become larger, the 3 matrices (`x` is replicated to a matrix, `y` is replicated to a matrix, and the result is also matrix) also become larger.
 
 If the 3 matrices become too large, you may overflow the available memory, and get a message like the following:
 
@@ -87,12 +83,13 @@ The problem isn't limited to available memory. As the object sizes increase, the
 
 ## Introducing Broadcasting
 
-In an operation like `outer(x, y, "+")`, `x` and `y` are recycled to become the same size. The thing is, recycling of `x` and `y` does not need to happen physically; they only need to be recycled virtually.  
+In an operation like `outer(x, y, "+")`, `x` and `y` are replicated to become the same size. The thing is, physical replication of the dimensions of `x` and `y` should not be necessary; they only need to be recycled virtually.  
 
-Virtual recycling does not actually recycle `x` and `y`. Instead, nested loops in 'C' and 'C++' are used to simulate a recycled array.  
+Virtual recycling does not actually physically replicate `x` and `y`. Instead, nested loops in 'C' and 'C++' are used to simulate a recycled array.  
+This is similar to how 'R' recycles regular vectors.  
 Virtual recycling requires no additional memory (apart from allocating the final end result), and it is much faster and much more memory efficient than using `outer()` or something similar.
 
-And **that** is what broadcasting does: broadcasting provides **fast** virtual recycling of array dimenisons in the context of operations involving 2 (or more) arrays **without** allocating additional memory.
+And **that** is what broadcasting does: broadcasting provides **fast** virtual recycling of array dimensions in the context of operations involving 2 (or more) arrays **without** allocating additional memory.
 
 In the earlier example, we used:
 

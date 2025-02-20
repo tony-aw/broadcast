@@ -1,6 +1,7 @@
 
- [<img src="man/figures/logo.png" width="250" />](https://github.com/tony-aw/broadcast)
-         <!-- badges: start -->
+# [<img src="man/figures/logo.png" width="250" />](https://github.com/tony-aw/broadcast)
+
+ <!-- badges: start -->
 
 [![Project Status: WIP - Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
@@ -10,15 +11,16 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 <!-- badges: end -->
 
-# 🗺️Overview
+## 🗺️Overview
 
 The ‘broadcast’ package, as the name suggests, performs “broadcasting”
 (similar to broadcasting in the ‘Numpy’ module for ‘Python’).
 
 In the context of operations involving 2 (or more) arrays,
-“broadcasting” refers to recycling arrays **without** allocating
-additional memory, which is considerably **faster** and **more
-memory-efficient** than R’s regular recycling mechanism.
+“broadcasting” refers to recycling array dimensions **without**
+allocating additional memory, which is considerably **faster** and
+**more memory-efficient** than R’s regular dimensions repetition
+mechanism.
 
 Please read the article “Broadcasting explained” for a more complete
 explanation of what “broadcasting” is.
@@ -33,7 +35,7 @@ related to “broadcasting”:
 First, ‘broadcast’ provides functions for element-wise outer
 computations between any 2 arrays.  
 These are similar to base R’s `outer()` function, but using
-broadcasting, which is faster and more efficient than the recycling
+broadcasting, which is faster and more efficient than the mechanism
 employed by `outer()`.  
 The outer-like functions provided by ‘broadcast’ are optimised for a
 large set of operations, including, but not limited to, the following:
@@ -76,19 +78,35 @@ Third, ‘broadcast’ provides several generic functions for broadcasting:
 
  
 
-# 🤷🏽Why use ‘broadcast’
+## 🤷🏽Why use ‘broadcast’
 
 **Efficiency**
 
-Broadcasting is faster and more memory efficient than recycling.  
+Broadcasting dimensions is faster and more memory efficient than
+repeating dimensions.  
 This is not simply a need for speed.  
 Efficient programs use less energy and resources, and is thus better for
 the environment.  
 As a favoured language for the sciences, ‘R’ should not throw away an
 opportunity to become more efficient.
 
-The Benchmarks show that ‘broadcast’ has a somewhat similar speed as
+The `Benchmarks` show that ‘broadcast’ has a somewhat similar speed as
 equivalent operations in ‘Numpy’.
+
+ 
+
+**Convenience**
+
+Broadcasting can make many applications much easier to write.  
+For example:  
+Suppose you want to compute some metric on all possible pair-wise
+combinations of the elements of 2 vectors.  
+You *could* write slow and ugly nested for-loops…  
+But you can instead also make the vectors orthogonal, and perform the
+broadcasting computation on the 2 orthogonal vectors.  
+The broadcasted method runs **much** faster, is faster to type, and
+easier to reason about, than using the clumsy nested for-loops.  
+For more practical examples, see `Examples of Practical Applictaions`.
 
  
 
@@ -107,17 +125,17 @@ essentially made from scratch and can be installed out-of-the-box.
 
 Not using external libraries brings a number of advantages:
 
-- **avoid dependency hell**: Every dependency that is added to a
+- **Avoid dependency hell**: Every dependency that is added to a
   software package increases the likelihood of something breaking (AKA
   “dependency hell”). ‘broadcast’ thus avoids this.
-- **avoid wasting resources for translations**: Using libraries from
+- **Avoid wasting resources for translations**: Using libraries from
   other languages, such as ‘xtensor’ (‘C++’) or ‘Numpy’ (‘Python’) means
   that - at some point - one needs to convert between the structure of R
   to that of the other language, and vice-versa, which wastes precious
   time and memory. ‘broadcast’ requires no such translations of
   structures, and thus does not waste precious time and memory.
-- **ensure consistent API**: Using libraries from other languages also
-  means one cannot always guarantee consistent behaviour of some
+- **Ensure consistent behaviour**: Using libraries from other languages
+  also means one cannot always guarantee consistent behaviour of some
   operations. For example: both ‘Numpy’ and ‘xtensor’ have only limited
   support for missing values, whereas ‘R’ supports missing values for
   both atomic and recursive array/vector types (except type of ‘Raw’).
@@ -126,34 +144,11 @@ Not using external libraries brings a number of advantages:
 
  
 
-# 🔧Installation
+## 📖Documentation
 
-One can install the ‘broadcast’ package from GitHub like so:
-
-``` r
-remotes::install_github("https://github.com/tony-aw/broadcast")
-```
-
-And attach the package - thus exposing its functions to the namespace -
-using:
-
-``` r
-library(broadcast)
-```
-
-And one can open the introduction help page of the ‘broadcast’ package
-using any of the following:
-
-``` r
-?broadcast::broadcast
-?broadcast::`broadcast-package`
-?broadcast::broadcast_help
-```
-
- 
-
-# 🚀Getting started
-
-To get started, please visit the website: …
+- Installation:
+- Broadcasting Explained:
+- Examples of Practical Applications:
+- Comparisons & Benchmarks:
 
  

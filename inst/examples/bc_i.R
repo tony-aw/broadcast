@@ -7,7 +7,7 @@ y <- array(1:50, c(10,1,1))
 bc.i(x, y, "+")
 bc.i(x, y, "-")
 bc.i(x, y, "*")
-bc.i(x, y, "/")
+bc.i(x, y, "gcd") # greatest common divisor
 bc.i(x, y, "^")
 
 bc.i(x, y, "==")

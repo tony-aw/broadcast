@@ -18,7 +18,7 @@ The broadcasted implementations include, but are not limited to, the following:
 \enumerate{
 \item A more efficient and broadcasted version of \code{abind()}, for binding arrays along an arbitrary dimension;
 \item Relational operations (like \code{==}, \code{!=}, \code{<}, \code{>}, \code{<=}, \code{>=}; can also take into account Machine precision);
-\item Arithmetic operations (like \code{+}, \code{-}, \code{*}, \code{/}, \code{^}, \code{pmin()}, \code{pmax()});
+\item Arithmetic operations (like \code{+}, \code{-}, \code{*}, \code{/}, "gcd", \code{^}, \code{pmin()}, \code{pmax()});
 \item Boolean combiner operations (like \code{&}, \code{|}, \code{xor()}, "nand");
 \item String distance, (in)equality, and concatenation operations;
 \item A Broadcasted implementation of \code{ifelse()};
@@ -44,7 +44,7 @@ The following functions for type-specific binary operations are available:
 \itemize{
 \item \link{bc.d}: decimal (64bit) arithmetic and relational operations;
 \item \link{bc.i}: integer (53bit) arithmetic and relational operations;
-\item \link{bc.b}: Boolean combiner and relational operations;
+\item \link{bc.b}: Boolean operations;
 \item \link{bc.cplx}: complex arithmetic and (in)equality operations;
 \item \link{bc.str}: string (in)equality, concatenation, and distance operations;
 \item \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr

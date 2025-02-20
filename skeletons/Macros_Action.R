@@ -9,6 +9,12 @@ macro_action1 <- "
 
 "
 
+macro_overflow <- "
+
+#define MACRO_OVERFLOW(REF) ((REF) < intmin || (REF) > intmax)
+
+"
+
 
 macro_action2 <- "
 
@@ -93,6 +99,38 @@ macro_action_integer2 <- "
 "
 
 
+
+macro_action_integer_mod1 <- "
+
+#define MACRO_ACTION_INTEGER_MOD1(NACHECK, NACODE, DOCODE) do {      \\
+  if(NACHECK) {                                                   \\
+    NACODE;                                                     \\
+  }                                                             \\
+	else {                                                          \\
+	  DOCODE;                                                       \\
+	}                                                               \\
+} while(0)
+
+"
+
+macro_action_integer_mod2 <- "
+
+#define MACRO_ACTION_INTEGER_MOD2(NACHECK, RULECHECK, NACODE, RULECODE, DOCODE) do {      \\
+  if(NACHECK) {                                                   \\
+    NACODE;                                                     \\
+  }                                                                 \\
+  else if(RULECHECK) {                                                   \\
+    RULECODE;                                                       \\
+  }                                                                 \\
+	else {                                                          \\
+	  DOCODE;                                                       \\
+	}                                                               \\
+} while(0)
+
+"
+
+
+
 macro_doublepass <- "
 #define MACRO_DOUBLEPASS(MACRO1, MACRO2) do{  \\
   MACRO1;                                     \\
@@ -148,6 +186,8 @@ macro_action_vapply <- "
 "
 
 macro_action <- stri_c(
+  macro_overflow,
+  "\n",
   macro_action1,
   "\n",
   macro_action2,
@@ -159,6 +199,10 @@ macro_action <- stri_c(
   macro_action_integer1,
   "\n",
   macro_action_integer2,
+  "\n",
+  macro_action_integer_mod1,
+  "\n",
+  macro_action_integer_mod2,
   "\n",
   macro_action_boolean,
   "\n",

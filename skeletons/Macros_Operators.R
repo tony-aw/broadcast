@@ -303,20 +303,12 @@ macro_op_int_math <- "
     }	\\
     case 4:	\\
     {	\\
-      if(TYPEOF(x) == INTSXP && TYPEOF(y) == INTSXP) {    \\
-        MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
-          DIMCODE,	\\
-          MACRO_ASSIGN_C(NA_REAL),	\\
-          MACRO_ASSIGN_C(trunc((double) px[flatind_x] / (double)py[flatind_y]))	\\
-        );	\\
-      }   \\
-      else {    \\
-        MACRO_TYPESWITCH_INTEGER1(	\\
-          DIMCODE,	\\
-          MACRO_ASSIGN_C(NA_REAL),	\\
-          MACRO_ASSIGN_C(rcpp_int53_guard(trunc(e1 / e2), intmin, intmax))	\\
-        );	\\
-      }   \\
+      MACRO_TYPESWITCH_INTEGER_MOD(	\\
+        DIMCODE,	\\
+        MACRO_ASSIGN_C(NA_REAL),	\\
+        MACRO_ASSIGN_C(NA_REAL),	\\
+        MACRO_ASSIGN_C((double)rcpp_gcd(px[flatind_x], py[flatind_y]))	\\
+      );    \\
       break;	\\
     }	\\
     case 5:	\\
@@ -499,6 +491,50 @@ macro_op_bool_math <- "
           px[flatind_x], py[flatind_y],       \\
           MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
           MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \\
+        )                                                       \\
+      );                                                        \\
+      break;	\\
+    }	\\
+    case 7:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        MACRO_ACTION_BOOLEAN_REL(                                           \\
+          px[flatind_x], py[flatind_y],       \\
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
+          MACRO_ASSIGN_C((bool)px[flatind_x] < (bool)py[flatind_y])  \\
+        )                                                       \\
+      );                                                        \\
+      break;	\\
+    }	\\
+    case 8:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        MACRO_ACTION_BOOLEAN_REL(                                           \\
+          px[flatind_x], py[flatind_y],       \\
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
+          MACRO_ASSIGN_C((bool)px[flatind_x] > (bool)py[flatind_y])  \\
+        )                                                       \\
+      );                                                        \\
+      break;	\\
+    }	\\
+    case 9:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        MACRO_ACTION_BOOLEAN_REL(                                           \\
+          px[flatind_x], py[flatind_y],       \\
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
+          MACRO_ASSIGN_C((bool)px[flatind_x] <= (bool)py[flatind_y])  \\
+        )                                                       \\
+      );                                                        \\
+      break;	\\
+    }	\\
+    case 10:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        MACRO_ACTION_BOOLEAN_REL(                                           \\
+          px[flatind_x], py[flatind_y],       \\
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
+          MACRO_ASSIGN_C((bool)px[flatind_x] >= (bool)py[flatind_y])  \\
         )                                                       \\
       );                                                        \\
       break;	\\

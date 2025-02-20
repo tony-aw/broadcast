@@ -698,6 +698,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_gcd
+long long rcpp_gcd(long long x, long long y);
+RcppExport SEXP _broadcast_rcpp_gcd(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< long long >::type x(xSEXP);
+    Rcpp::traits::input_parameter< long long >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_gcd(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_bc_int_v
 SEXP rcpp_bc_int_v(SEXP x, SEXP y, R_xlen_t nout, int op);
 RcppExport SEXP _broadcast_rcpp_bc_int_v(SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP, SEXP opSEXP) {
@@ -1147,6 +1159,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bc_ifelse_ov", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_ov, 6},
     {"_broadcast_rcpp_bc_ifelse_bs", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_bs, 10},
     {"_broadcast_rcpp_bc_ifelse_d", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_d, 9},
+    {"_broadcast_rcpp_gcd", (DL_FUNC) &_broadcast_rcpp_gcd, 2},
     {"_broadcast_rcpp_bc_int_v", (DL_FUNC) &_broadcast_rcpp_bc_int_v, 4},
     {"_broadcast_rcpp_bc_int_ov", (DL_FUNC) &_broadcast_rcpp_bc_int_ov, 6},
     {"_broadcast_rcpp_bc_int_bs", (DL_FUNC) &_broadcast_rcpp_bc_int_bs, 10},

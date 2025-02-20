@@ -1,5 +1,10 @@
 
 
+#define MACRO_OVERFLOW(REF) ((REF) < intmin || (REF) > intmax)
+
+
+
+
 #define MACRO_ACTION1(DOCODE) do {      \
   DOCODE;                                     \
 } while(0)
@@ -70,6 +75,33 @@
 	else {                                                          \
 	  e1 = DOLEFT;                                                  \
 	  e2 = DORIGHT;                                                 \
+	  DOCODE;                                                       \
+	}                                                               \
+} while(0)
+
+
+
+
+#define MACRO_ACTION_INTEGER_MOD1(NACHECK, NACODE, DOCODE) do {      \
+  if(NACHECK) {                                                   \
+    NACODE;                                                     \
+  }                                                             \
+	else {                                                          \
+	  DOCODE;                                                       \
+	}                                                               \
+} while(0)
+
+
+
+
+#define MACRO_ACTION_INTEGER_MOD2(NACHECK, RULECHECK, NACODE, RULECODE, DOCODE) do {      \
+  if(NACHECK) {                                                   \
+    NACODE;                                                     \
+  }                                                                 \
+  else if(RULECHECK) {                                                   \
+    RULECODE;                                                       \
+  }                                                                 \
+	else {                                                          \
 	  DOCODE;                                                       \
 	}                                                               \
 } while(0)

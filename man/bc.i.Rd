@@ -10,7 +10,7 @@ bc.i(x, y, op)
 \item{x, y}{conformable logical or numeric arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. \cr
+Supported arithmetic operators: +, -, *, gcd, ^, pmin, pmax. \cr
 Supported relational operators: ==, !=, <, >, <=, >=. \cr}
 }
 \value{
@@ -46,7 +46,7 @@ y <- array(1:50, c(10,1,1))
 bc.i(x, y, "+")
 bc.i(x, y, "-")
 bc.i(x, y, "*")
-bc.i(x, y, "/")
+bc.i(x, y, "gcd") # greatest common divisor
 bc.i(x, y, "^")
 
 bc.i(x, y, "==")

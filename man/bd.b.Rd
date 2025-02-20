@@ -10,7 +10,7 @@ bc.b(x, y, op)
 \item{x, y}{conformable logical (or 32bit integer) arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported Boolean  operators: &, |, xor, nand, ==, !=. \cr}
+Supported Boolean  operators: &, |, xor, nand, ==, !=, <, >, <=, >=. \cr}
 }
 \value{
 A logical array as a result of the broadcasted Boolean operation. \cr \cr

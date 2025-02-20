@@ -14,7 +14,7 @@
 #' @keywords internal
 #' @noRd
 .op_int_math <- function() {
-  return(c("+", "-", "*", "/", "^", "pmin", "pmax"))
+  return(c("+", "-", "*", "gcd", "^", "pmin", "pmax"))
 }
 
 #' @keywords internal
@@ -33,7 +33,7 @@
 #' @keywords internal
 #' @noRd
 .op_b <- function() {
-  return(c("&", "|", "xor", "nand", "==", "!="))
+  return(c("&", "|", "xor", "nand", "==", "!=", "<", ">", "<=", ">="))
 }
 
 #' @keywords internal
