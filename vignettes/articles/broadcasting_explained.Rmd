@@ -1,9 +1,12 @@
 ---
 title: "Broadcasting Explained"
-prefer-html: true
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
 vignette: >
   %\VignetteIndexEntry{Broadcasting Explained}
-  %\VignetteEngine{quarto::html}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -54,7 +57,7 @@ Error in x + y : non-conformable arrays
 
 
 When computing the outer sum of these orthogonal vectors, both vectors need to be recycled to equal size in order to compute the outer computation.  
-I.e. `x` needs its single column to be recycled(in this case) 5 times, and `y` needs its single row to be recycled 5 times, creating 2 conformable matrices.  
+I.e. `x` needs its single column to be recycled (in this case) 5 times, and `y` needs its single row to be recycled 5 times, creating 2 conformable matrices.  
 
 'R' provides linear **vector** recycling, but not recycling of array dimensions. Instead, in base 'R' we need to **replicate** the array dimensions. This can be done manually, or using `outer() |> drop()`:
 
@@ -282,24 +285,30 @@ One of the dimensions, namely the third dimension, is not compatible. Therefore,
 In the context of an operation involving exactly 2 arrays, this sub-section explains which dimensions of which array is broadcasted, and which dimension of which array is left as-is.  
 There are 3 scenarios relevant for this explanation.
 
+&nbsp;
+
 **Scenario 1:**  
 For some dimension `i`, `dim(x)[i]` and `dim(y)[i]` are equal.  
-In this scenario, no broadcasting needs to occur on that dimension for either array.  
+In this scenario, no broadcasting needs to occur on that dimension for either array.
+
+&nbsp;
 
 
 **Scenario 2:**  
 For some dimension `i`, suppose `dim(x)[i] == 1` and `dim(y)[i] > 1`.  
 Then dimension `dim(x)[i]` is **broadcasted** to size `dim(y)[i]`.  
-Similarly, if `dim(x)[i] > 1` and `dim(y)[i] == 1`, dimension `dim(y)[i]` is **broadcasted** to size `dim(x)[i]`.  
+Similarly, if `dim(x)[i] > 1` and `dim(y)[i] == 1`, dimension `dim(y)[i]` is **broadcasted** to size `dim(x)[i]`.
+
+&nbsp;
 
 
-**Scenario 2:**  
+**Scenario 3:**  
 Finally, suppose for some dimension `i`, `dim(x)[i] > 1`, and `dim(y)[i]` is non-existing.  
 I.e., `x` has more dimensions than `y`.  
 In this case, the missing dimension in `y` is replaced with a dimensions of size `1`, and scenario 2 is used.  
 Similarly, if `dim(y)[i] > 1` and `dim(x)[i]` is non-existing, the missing dimension in `x` is replaced with a dimension of size `1` and we get back to scenario 2.  
 
-It does not matter how much difference there is between the number of dimensions of `x` and the number of dimensions of `y`: any number of missing dimensions will be replaced with `1`, as long as the total number of dimensions for each array does not exceed `16`.  
+It does not matter how much difference there is between the number of dimensions of `x` and the number of dimensions of `y`: any number of missing dimensions will be replaced with `1`, as long as the total number of dimensions for each array does not exceed `16`.
 
 &nbsp;
 
@@ -317,6 +326,7 @@ y <- array(rnorm(10), c(10, 1, 5, 1))
 dimx <- dim(x)
 dimy <- dim(y)
 foo <- data.frame(
+  i = 1:length(dimx),
   `dim(x)` = dimx,
   `dim(y)` = c(dimy, NA),
   broadcasted = c("neither", "neither", "x", "y", "y"),

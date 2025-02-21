@@ -1,7 +1,7 @@
 
 # [<img src="man/figures/logo.png" width="250" />](https://github.com/tony-aw/broadcast)
 
- <!-- badges: start -->
+<!-- badges: start -->
 
 [![Project Status: WIP - Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
@@ -10,6 +10,8 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
 
 <!-- badges: end -->
+
+ 
 
 ## 🗺️Overview
 
@@ -46,9 +48,8 @@ large set of operations, including, but not limited to, the following:
 - string concatenation, string (in)equality, and string distance
   (Levenshtein) operations.
 
-Note also, that base ‘R’ `outer()` function has some sloppy rules
-regarding the dimensions of the output, making it hard to predict the
-output shape.  
+Base ‘R’ `outer()` function has some sloppy rules regarding the
+dimensions of the output, making it hard to predict the output shape.  
 The outer-like functions provided by ‘broadcast’ have very strict
 broadcasting rules, making it easy to accurately predict the dimensions
 of the result.
@@ -98,9 +99,8 @@ equivalent operations in ‘Numpy’.
 **Convenience**
 
 Broadcasting can make many applications much easier to write.  
-For example:  
-Suppose you want to compute some metric on all possible pair-wise
-combinations of the elements of 2 vectors.  
+For Example: Suppose you want to compute some metric on all possible
+pair-wise combinations of the elements of 2 vectors.  
 You *could* write slow and ugly nested for-loops…  
 But you can instead also make the vectors orthogonal, and perform the
 broadcasting computation on the 2 orthogonal vectors.  
@@ -150,5 +150,31 @@ Not using external libraries brings a number of advantages:
 - Broadcasting Explained:
 - Examples of Practical Applications:
 - Comparisons & Benchmarks:
+
+ 
+
+<div style="background-color:rgba(200, 200, 200, 0.25);">
+
+> 📑 NOTE
+>
+> This is a Note.
+
+</div>
+
+<div style="background-color:rgba(200, 200, 10, 0.25);">
+
+> ⚠️ WARNING
+>
+> This is a Warning.
+
+</div>
+
+<div style="background-color:rgba(200, 10, 10, 0.25);">
+
+> ☢️ ERROR
+>
+> This is an Error.
+
+</div>
 
  
