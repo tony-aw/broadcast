@@ -30,7 +30,7 @@ datagens <- list(
   \() sample(list(letters, month.abb, 1:10))
 )
 
-along <- 1L
+along <- 2L
 
 counter <- 1L
 expected.lst <- out.lst <- vector("list", 5 * length(datagens)^3)
@@ -52,9 +52,9 @@ for(iSample in 1:5) {
         y.data <- datagens[[iDataY]]()
         z.data <- datagens[[iDataZ]]()
         
-        # here there's rowbinding, so keep object.dim[1] intact
-        x <- array(x.data, x.dim[1]) |> array_recycle(x.dim)
-        y <- array(y.data, y.dim[1:2]) |> array_recycle(y.dim)
+        # here there's colbinding, so keep object.dim[2] intact
+        x <- array(x.data, c(1, x.dim[2])) |> array_recycle(x.dim)
+        y <- array(y.data, c(1, y.dim[2:3])) |> array_recycle(y.dim)
         z <- array(z.data, z.dim)
         emptyarray <- array(numeric(0L), c(3,3,0))
         
@@ -68,30 +68,32 @@ for(iSample in 1:5) {
         
         start <- 1
         end <- x.dim[along]
-        expected[start:end, , ] <- x
+        expected[, start:end, ] <- x
         
         start <- start + x.dim[along]
         end <- end + y.dim[along]
-        expected[start:end, , ] <- y
+        expected[, start:end, ] <- y
         
         start <- start + y.dim[along]
         end <- end + z.dim[along]
-        expected[start:end, , ] <- z
+        expected[, start:end, ] <- z
         
         # test:
         random <- sample(1:3, 1L)
         if(random == 1L) {
-          input <- list(emptyarray, x[, 1, 1, drop=FALSE], y[,,1, drop=FALSE], z)
+          input <- list(emptyarray, x[1, , 1, drop=FALSE], y[1,,, drop=FALSE], z)
         }
         else if(random == 2L) {
-          input <- list(x[, 1, 1, drop=FALSE], y[,,1, drop=FALSE], z, emptyarray)
+          input <- list(x[1, , 1, drop=FALSE], y[1,,, drop=FALSE], z, emptyarray)
         }
         else if(random == 3L) {
-          input <- list(emptyarray, x[, 1, 1, drop=FALSE], y[,,1, drop=FALSE], emptyarray, z)
+          input <- list(emptyarray, x[1, , 1, drop=FALSE], y[1,,, drop=FALSE], emptyarray, z)
         }
         
+
         expected.lst[[counter]] <- expected
         out.lst[[counter]] <- bind_array(input, along, max_bc = 2L)
+        
         
         counter <- counter + 1L
         
