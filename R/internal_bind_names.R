@@ -9,7 +9,7 @@
 
 #' @keywords internal
 #' @noRd
-.bind_set_alongnames <- function(
+.bind_get_alongnames <- function(
     out, along, input, arg.dimnames, arg.marginlen
 ) {
   # this function is only run when along != 0 and along != (N+1)
@@ -23,16 +23,15 @@
     .rcpp_set_vind_32_atomic(name_along, indx - 1L, temp.dimnames)
     start.pos <- start.pos + marginlen
   }
-  dimnames <- rep(list(NULL), length(dim(out)))
-  dimnames[[along]] <- name_along
-  data.table::setattr(out, "dimnames", dimnames)
-  return(invisible(NULL))
+  out.dimnames <- rep(list(NULL), length(dim(out)))
+  out.dimnames[[along]] <- name_along
+  return(out.dimnames)
 }
 
 
 #' @keywords internal
 #' @noRd
-.bind_set_comnames <- function(out, sel, input, along) {
+.bind_inplace_comnames <- function(out, sel, input, along) {
   
   # general prep:
   out.dimnames <- dimnames(out)
@@ -48,10 +47,10 @@
       ind <- which(dim(out)[2:n] == dim(obj))
       if(length(ind) > 0L) {
         out.dimnames[ind + 1L] <- obj.dimnames[ind]
-        data.table::setattr(out, "dimnames", out.dimnames)
+        dimnames(out) <- out.dimnames # this is a shallow copy
       }
     }
-    return(invisible(NULL))
+    return(out)
   }
   
   input.dims <- .rcpp_bindhelper_vdims(input)
@@ -61,10 +60,10 @@
       ind <- which(dim(out)[1:n] == dim(obj))
       if(length(ind) > 0L) {
         out.dimnames[ind] <- obj.dimnames[ind]
-        data.table::setattr(out, "dimnames", out.dimnames)
+        dimnames(out) <- out.dimnames
       }
     }
-    return(invisible(NULL))
+    return(out)
   }
   
   
@@ -73,10 +72,10 @@
     ind <- ind[ind != along]
     if(length(ind) > 0L) {
       out.dimnames[ind] <- obj.dimnames[ind]
-      data.table::setattr(out, "dimnames", out.dimnames)
+      dimnames(out) <- out.dimnames
     }
   }
-  return(invisible(NULL))
+  return(out)
   
 }
 

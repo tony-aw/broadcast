@@ -181,7 +181,7 @@ bind_array <- function(
   
   # add comnames:
   if(!is.null(comnames_from)) {
-    .bind_set_comnames(out, comnames_from, input, along) # using original input
+    out <- .bind_inplace_comnames(out, comnames_from, input, along) # using original input
   }
   
   # return output:

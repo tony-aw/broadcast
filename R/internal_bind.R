@@ -264,7 +264,7 @@
   # name_along:
   if(name_along) {
     if(!extra_dimensional) {
-      .bind_set_alongnames(out, along, input, arg.dimnames, arg.marginlen)
+      dimnames(out) <- .bind_get_alongnames(out, along, input, arg.dimnames, arg.marginlen)
     }
     if(extra_dimensional) {
       if(!is.null(names(input))) {

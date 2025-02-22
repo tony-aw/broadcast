@@ -1,0 +1,167 @@
+---
+title: "Benchmarks"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Benchmarks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(broadcast)
+library(bench)
+```
+
+
+&nbsp;
+
+# Introduction
+
+In this article, the speed of 'broadcast' is compared to the speed of 'Numpy' via {reticulate}. Important to note: in these comparisons, conversion from Numpy to 'R' is DISABLED; this allows us to compare the speed more fairly. When conversion would be enabled, precious time would be wasted to convert from Numpy structures to comparable 'R' structures.
+
+
+&nbsp;
+
+# Many Orthogonal Arrays
+
+## The set-up
+
+8 pairs of decimal number arrays are created in both 'R' and 'Numpy'. They all have a length of (approximately) 9*10^6 elements. Each pair will have a different number of dimensions, from 2 to 9 (hence 8 pairs of arrays).
+I.e. a pair of 2d arrays, a pair of 3d arrays, etc.
+
+These pairs of arrays are fully orthogonal, thus the maximum amount of broadcasting will be employed.
+
+For each pair of array the outer sum is computed using 'broadcast' and 'Numpy'. This computation is repeated 100 times, and the median result is taken.
+
+Thus we get the following code:
+
+```{r eval = FALSE, echo=TRUE}
+# set-up ====
+library(broadcast)
+library(tinycodet)
+import_as(~rt, "reticulate")
+np <- rt$import("numpy", convert = FALSE)
+
+
+# loop
+lst.out <- vector("list", 8)
+counter <- 1L
+target_len <- 9e6
+
+for(i in 2:9) {
+  print(i)
+  n <- round(target_len^(1/i)) |> as.integer()
+  len <- n^i
+  cat("i = ", i, "\n")
+  cat("n = ", n, "\n")
+  cat("len = ", len, "\n")
+  x.dims <- rep(c(n, 1L), i - 1)[1:i]
+  y.dims <- rep(c(1L, n), i - 1)[1:i]
+  a.dims <- rt$r_to_py(as.list(x.dims))
+  b.dims <- rt$r_to_py(as.list(y.dims))
+  
+  npa <- np$random$random_sample(a.dims)
+  npb <- np$random$random_sample(b.dims)
+  a <- array(runif(100), x.dims)
+  b <- array(runif(100), y.dims)
+  
+  res <- bench::mark(
+    broadcast = bc.num(a, b, "+"),
+    `numpy (NO conversion to R)` = npa + npb,
+    check = FALSE,
+    min_iterations = 100,
+  )
+  
+  out <- res$median
+  names(out) <- names(res$expression)
+  out <- out[c("broadcast", "numpy (NO conversion to R)")]
+  lst.out[[counter]] <- out
+  counter <- counter + 1L
+}
+
+bm_numpy_loop <- do.call(rbind, lst.out) |> as.data.frame()
+bm_numpy_loop$i <- 2:9
+
+```
+
+
+&nbsp;
+
+## The result
+
+The {tinyplot} package is used to produce the following resulting graph:
+
+```{r echo=FALSE, eval=TRUE, fig.width=8, fig.height=4}
+load("bm_numpy_loop.RData")
+
+library(tinyplot)
+
+df <- tidyr::pivot_longer(as.data.frame(bm_numpy_loop), 1:2)
+module <- df$name
+tinytheme("minimal")
+tinyplot::tinyplot(
+  df$i, df$value, by = module, type = "l",
+  xlab = "number of dimensions",
+  ylab = "computation time (seconds)"
+)
+
+```
+
+
+&nbsp;
+
+
+# Large non-orthogonal arrays comparisons
+
+How about arrays that are not fully orthogonal, but still require a lot of broadcasting in pari-wise computations?
+
+Here is the benchmark:
+
+```{r eval=FALSE, echo=TRUE}
+
+library(broadcast)
+library(tinycodet)
+import_as(~rt, "reticulate")
+np <- rt$import("numpy", convert = FALSE)
+
+n <- 26L
+npa <- np$random$rand(n, 1L, n, 1L, n)
+npb <- np$random$rand(n, n, 1L, n, 1L)
+
+a.dim <- c(n, rep(c(1L, n), 2))
+b.dim <- c(n, rep(c(n, 1L), 2))
+a <- array(rnorm(100), a.dim)
+b <- array(rnorm(100), b.dim)
+
+bm_numpy_large <- bench::mark(
+  broadcast = bc.num(a, b, "+"),
+  `numpy (no conversion to R)` = npa + npb,
+  check = FALSE,
+  min_iterations = 200,
+)
+summary(bm_numpy_large)
+ggplot2::autoplot(bm_numpy_large)
+save(bm_numpy_large, file = "bm_numpy_large.RData")
+
+```
+
+```{r echo=FALSE, eval=TRUE, fig.width=8}
+load("bm_numpy_large.RData")
+summary(bm_numpy_large)
+ggplot2::autoplot(bm_numpy_large)
+```
+
+
+&nbsp;
+
+&nbsp;

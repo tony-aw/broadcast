@@ -21,12 +21,17 @@ print(y)
 # binding the arrays
 input <- list(x = x, y = y)
 bind_array(input, along = 0L) # binds on new dimension before first
-bind_array(input, along = 1L) # binds on first dimension
+bind_array(input, along = 1L) # binds on first dimension (i.e. rows)
 bind_array(input, along = 2L)
 bind_array(input, along = 3L) # bind on new dimension after last
 
+bind_array(input, revalong = 0L) # binds on new dimension after last
+bind_array(input, revalong = 1L) # binds on last dimension (i.e. columns)
+bind_array(input, revalong = 2L)
+bind_array(input, revalong = 3L) # bind on new dimension before first
 
-# binding, wwith empty arrays
+
+# binding, with empty arrays
 emptyarray <- array(numeric(0L), c(0L, 3L))
 dimnames(emptyarray) <- list(NULL, paste("empty", 1:3))
 print(emptyarray)
