@@ -69,17 +69,17 @@ for(iSample in 1:5) { # re-do tests with different random configurations
       }
       else if(length(x) == 1L && length(y) > 1L) {
         # CASE 3: x is scalar, y is not
-        expected <- basefun((x), array_recycle((y), tdim))
+        expected <- basefun((x), array_replicate((y), tdim))
         out <- bc.list(x, y, op)
       }
       else if(length(y) == 1L && length(x) > 1L) {
         # CASE 4: y is scalar, x is not
-        expected <- basefun(array_recycle((x), tdim), (y))
+        expected <- basefun(array_replicate((x), tdim), (y))
         out <- bc.list(x, y, op)
       }
       else {
         # CASE 5: x and y are both non-reducible arrays
-        expected <- basefun(array_recycle((x), tdim), array_recycle((y), tdim))
+        expected <- basefun(array_replicate((x), tdim), array_replicate((y), tdim))
         out <- bc.list(x, y, op)
       }
       # END CASES

@@ -5,7 +5,7 @@
 #' as the result of an broadcasted binary element-wise operation between 2 arrays
 #' `x` and `y`.
 #'
-#' @param x,y an atomic array or matrix.
+#' @param x,y an atomic or recursive array.
 #' 
 #' @returns
 #' Returns the recycled array.
@@ -20,8 +20,20 @@ bc_dim <- function(
     x, y
 ) {
   
-  x.dim <- dim(x)
-  y.dim <- dim(y)
+  if(!is.array(x)) {
+    x.dim <- length(x)
+  }
+  else {
+    x.dim <- dim(x)
+  }
+  
+  if(!is.array(y)) {
+    y.dim <- length(y)
+  }
+  else {
+    y.dim <- dim(y)
+  }
+  
   
   prep <- .normalize_dims(x.dim, y.dim)
   x.dim <- prep[[1L]]

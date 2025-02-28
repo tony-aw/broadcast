@@ -87,17 +87,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(as.double(x), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), as.double(y))
           out[[i]] <- bc.d(x, y, op)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         # END CASES
@@ -178,17 +178,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(as.double(x), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), as.double(y))
           out[[i]] <- bc.d(x, y, op)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         # END CASES
@@ -268,17 +268,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(as.double(x), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), as.double(y))
           out[[i]] <- bc.d(x, y, op)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         # END CASES
@@ -359,17 +359,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(as.double(x), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), as.double(y))
           out[[i]] <- bc.d(x, y, op)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         # END CASES
@@ -450,17 +450,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(as.double(x), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), as.double(y))
           out[[i]] <- bc.d(x, y, op)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         # END CASES
@@ -541,17 +541,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(as.double(x), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), as.double(y))
           out[[i]] <- bc.d(x, y, op)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         # END CASES
@@ -634,17 +634,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(as.double(x), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), as.double(y))
           out[[i]] <- bc.d(x, y, op)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         # END CASES
@@ -725,17 +725,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(as.double(x), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), as.double(y))
           out[[i]] <- bc.d(x, y, op)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         # END CASES
@@ -817,17 +817,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(as.double(x), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), as.double(y))
           out[[i]] <- bc.d(x, y, op)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         # END CASES
@@ -908,17 +908,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(as.double(x), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), as.double(y))
           out[[i]] <- bc.d(x, y, op)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         # END CASES
@@ -1001,17 +1001,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(as.double(x), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), as.double(y))
           out[[i]] <- bc.d(x, y, op)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         # END CASES
@@ -1092,17 +1092,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected[[i]] <- basefun(as.double(x), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(as.double(x), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), as.double(y))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), as.double(y))
           out[[i]] <- bc.d(x, y, op)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected[[i]] <- basefun(array_recycle(as_dbl(x), tdim), array_recycle(as_dbl(y), tdim))
+          expected[[i]] <- basefun(array_replicate(as_dbl(x), tdim), array_replicate(as_dbl(y), tdim))
           out[[i]] <- bc.d(x, y, op)
         }
         # END CASES

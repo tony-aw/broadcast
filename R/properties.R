@@ -34,12 +34,20 @@ ndim <- function(x) {
 #' @rdname properties
 #' @export
 lst.ndim <- function(x) {
-  return(.C_lst_ndims(x))
+  out <- .C_lst_ndims(x)
+  dim(out) <- dim(x)
+  dimnames(out) <- dim(x)
+  names(out) <- names(x)
+  return(out)
 }
 
 
 #' @rdname properties
 #' @export
 lst.typeof <- function(x) {
-  return(.C_lst_typeof(x))
+  out <- .C_lst_typeof(x)
+  dim(out) <- dim(x)
+  dimnames(out) <- dim(x)
+  names(out) <- names(x)
+  return(out)
 }

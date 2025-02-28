@@ -3,7 +3,10 @@
 #' @keywords internal
 #' @noRd
 .stop_general <- function(x, y, op, abortcall) {
-  if(.ndims(x) > 16L || .ndims(y) > 16L) {
+  if(!.is_array_like(x) || !.is_array_like(y)) {
+    stop(simpleError("input must be arrays or simple vecors", call = abortcall))
+  }
+  if(ndim(x) > 16L || ndim(y) > 16L) {
     stop(simpleError("arrays with more than 16 dimensions are not supported", call = abortcall))
   }
   if(length(x) == 0L || length(y) == 0L) {
@@ -187,24 +190,17 @@
 
 #' @keywords internal
 #' @noRd
-.ndims <- function(x) {
-  return(length(dim(x)))
-}
-
-
-#' @keywords internal
-#' @noRd
 .normalize_dims <- function(x.dim, y.dim) {
   
   # normalize dimensions:
   if(!is.null(x.dim) && !is.null(y.dim)) {
-    x.ndims <- length(x.dim)
-    y.ndims <- length(y.dim)
-    if(x.ndims > y.ndims) {
-      y.dim <- c(y.dim, rep(1L, x.ndims - y.ndims))
+    xndim <- length(x.dim)
+    yndim <- length(y.dim)
+    if(xndim > yndim) {
+      y.dim <- c(y.dim, rep(1L, xndim - yndim))
     }
-    if(y.ndims > x.ndims) {
-      x.dim <- c(x.dim, rep(1L, y.ndims - x.ndims))
+    if(yndim > xndim) {
+      x.dim <- c(x.dim, rep(1L, yndim - xndim))
     }
   }
   
@@ -301,13 +297,13 @@
   # chunkification allows reduction of the amount of required compiled code,
   # thus reducing compilaion & installation time of the package
   if(length(x.dim) > 2L && length(y.dim) > 2L) {
-    x.ndims <- length(x.dim)
-    y.ndims <- length(y.dim)
+    xndim <- length(x.dim)
+    yndim <- length(y.dim)
     
-    if(!.is.even(x.ndims)) {
+    if(!.is.even(xndim)) {
       x.dim <- c(x.dim, 1L)
     }
-    if(!.is.even(y.ndims)) {
+    if(!.is.even(yndim)) {
       y.dim <- c(y.dim, 1L)
     }
   } # end chunkification

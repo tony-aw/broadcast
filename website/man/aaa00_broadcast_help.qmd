@@ -1,0 +1,117 @@
+---
+title: aaa00_broadcast_help
+---
+
+## broadcast: Simple Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies {.unnumbered}
+
+
+### Description
+
+broadcast: <br />
+Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies. <br /> <br />
+Implements simple broadcasted operations for atomic and recursive arrays.
+
+Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;
+'broadcast' was essentially made from scratch and can be installed out-of-the-box.
+
+The broadcasted implementations include, but are not limited to, the following:
+
+
+<ol>
+<li> A more efficient and broadcasted version of <code>abind()</code>, for binding arrays along an arbitrary dimension;
+
+</li>
+<li> Relational operations (like <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>; can also take into account Machine precision);
+
+</li>
+<li> Arithmetic operations (like <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, &quot;gcd&quot;, <code>^</code>, <code>pmin()</code>, <code>pmax()</code>);
+
+</li>
+<li> Boolean combiner operations (like <code>&amp;</code>, <code>|</code>, <code>xor()</code>, &quot;nand&quot;);
+
+</li>
+<li> String distance, (in)equality, and concatenation operations;
+
+</li>
+<li> A Broadcasted implementation of <code>ifelse()</code>;
+
+</li>
+<li> A Broadcasted apply-like function;
+The broadcasted implementations strive to minimize computation time and memory usage (which is not just good for computer efficiency, but also for the environment).
+
+</li></ol>
+
+
+
+### Getting Started
+
+An introduction and overview of the package can be found on the website. <br />
+<br />
+
+
+
+### Methods and Functions
+
+<b>Outer-like functions</b> <br />
+'broadcast' provides a set of functions for binary, element-wise, outer operations
+with broadcasting. <br />
+These functions use an API similar to the outer and sweep functions. <br />
+<br />
+The following functions for type-specific binary operations are available:
+
+
+<ul>
+<li> bc.d: decimal (64bit) arithmetic and relational operations;
+
+</li>
+<li> bc.i: integer (53bit) arithmetic and relational operations;
+
+</li>
+<li> bc.b: Boolean operations;
+
+</li>
+<li> bc.cplx: complex arithmetic and (in)equality operations;
+
+</li>
+<li> bc.str: string (in)equality, concatenation, and distance operations;
+
+</li>
+<li> bc.list: apply any 'R' function to 2 recursive arrays with broadcasting. <br /> <br />
+
+</li></ul>
+
+<b>Binding Implementations</b> <br />
+'broadcast' provides 3 binding implementations: <br />
+bind_mat, bind_array, and bind_dt. <br />
+<br />
+
+<b>General functions</b> <br />
+'broadcast' also comes with 2 general broadcasted functions:
+
+
+<ul>
+<li> bc_ifelse: Broadcasted version of ifelse.
+
+</li>
+<li> bcapply: Broadcasted apply-like function. <br /> <br />
+
+</li></ul>
+
+<b>Other functions</b> <br />
+'broadcast' also provides
+type-casting functions,
+which preserve names and dimensions - convenient for arrays. <br /> <br />
+
+
+
+### Author(s)
+
+<strong>Author, Maintainer</strong>: Tony Wilkes <a href="mailto:tony_a_wilkes@outlook.com">tony_a_wilkes@outlook.com</a> (<a href="https://orcid.org/0000-0001-9498-8379">ORCID</a>)
+
+
+
+### References
+
+The badges shown in the documentation of this R-package were made using the services of: <a href="https://shields.io/">https://shields.io/</a>
+
+

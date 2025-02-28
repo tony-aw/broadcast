@@ -72,17 +72,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- as.logical(x) & array_recycle(as_bool(y), tdim)
+            expected[[i]] <- as.logical(x) & array_replicate(as_bool(y), tdim)
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- array_recycle(as_bool(x), tdim) & as.logical(y)
+            expected[[i]] <- array_replicate(as_bool(x), tdim) & as.logical(y)
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- array_recycle(as_bool(x), tdim) & array_recycle(as_bool(y), tdim)
+            expected[[i]] <- array_replicate(as_bool(x), tdim) & array_replicate(as_bool(y), tdim)
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -164,17 +164,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- as.logical(x) | array_recycle(as_bool(y), tdim)
+            expected[[i]] <- as.logical(x) | array_replicate(as_bool(y), tdim)
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- array_recycle(as_bool(x), tdim) | as.logical(y)
+            expected[[i]] <- array_replicate(as_bool(x), tdim) | as.logical(y)
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- array_recycle(as_bool(x), tdim) | array_recycle(as_bool(y), tdim)
+            expected[[i]] <- array_replicate(as_bool(x), tdim) | array_replicate(as_bool(y), tdim)
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -256,17 +256,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- xor(as.logical(x), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- xor(as.logical(x), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- xor(array_recycle(as_bool(x), tdim), as.logical(y))
+            expected[[i]] <- xor(array_replicate(as_bool(x), tdim), as.logical(y))
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- xor(array_recycle(as_bool(x), tdim), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- xor(array_replicate(as_bool(x), tdim), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -348,17 +348,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- nand(as.logical(x), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(as.logical(x), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), as.logical(y))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), as.logical(y))
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -442,17 +442,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- nand(as.logical(x), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(as.logical(x), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), as.logical(y))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), as.logical(y))
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -534,17 +534,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- nand(as.logical(x), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(as.logical(x), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), as.logical(y))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), as.logical(y))
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -627,17 +627,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- nand(as.logical(x), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(as.logical(x), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), as.logical(y))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), as.logical(y))
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -720,17 +720,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- nand(as.logical(x), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(as.logical(x), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), as.logical(y))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), as.logical(y))
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -812,17 +812,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- nand(as.logical(x), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(as.logical(x), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), as.logical(y))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), as.logical(y))
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -904,17 +904,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- nand(as.logical(x), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(as.logical(x), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), as.logical(y))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), as.logical(y))
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- nand(array_recycle(as_bool(x), tdim), array_recycle(as_bool(y), tdim))
+            expected[[i]] <- nand(array_replicate(as_bool(x), tdim), array_replicate(as_bool(y), tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES

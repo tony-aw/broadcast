@@ -28,7 +28,7 @@ for(i in seq(2, 8, 2)) {
   out.dim <- pmax(x.dim, y.dim) |> as.integer()
   out.len <- prod(out.dim)
   
-  expected <- x + array_recycle(y, out.dim)
+  expected <- x + array_replicate(y, out.dim)
   expected[is.nan(expected)] <- NA
   out <- bs(x, y, by_x, by_y, x.dcp, y.dcp, out.dim, out.len, TRUE, 1L)
   out[is.nan(out)] <- NA
@@ -56,7 +56,7 @@ for(i in seq(2, 8, 2)) { # dimension 2 to 14 (i.e, 2*1 to 2*7)
   out.dim <- pmax(x.dim, y.dim) |> as.integer()
   out.len <- prod(out.dim)
   
-  expected <- array_recycle(x, out.dim) + y
+  expected <- array_replicate(x, out.dim) + y
   expected[is.nan(expected)] <- NA
   out <- bs(x, y, by_x, by_y, x.dcp, y.dcp, out.dim, out.len, FALSE, 1L)
   out[is.nan(out)] <- NA

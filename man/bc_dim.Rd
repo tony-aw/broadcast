@@ -7,7 +7,7 @@
 bc_dim(x, y)
 }
 \arguments{
-\item{x, y}{an atomic array or matrix.}
+\item{x, y}{an atomic or recursive array.}
 }
 \value{
 Returns the recycled array.

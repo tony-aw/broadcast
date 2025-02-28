@@ -195,9 +195,8 @@ bind_dt <- function(
     input, along, ...
 ) {
   
-  if(!requireNamespace("data.table")) {
-    stop("'data.table' is not available")
-  }
+  # data.table is a suggested package
+  
   input2 <- .bind_input_fix(input, TRUE, sys.call())
   
   if(along != 1L && along != 2L) {

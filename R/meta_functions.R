@@ -13,4 +13,3 @@
     file, txt)
   sprintf("\\ifelse{html}{%s}{%s}", html, text)
 }
-

@@ -1,0 +1,123 @@
+---
+title: typecast
+---
+## Atomic and List Type Casting With Names and Dimensions Preserved {.unnumbered}
+
+
+### Description
+
+Type casting usually strips away attributes of objects. <br />
+The functions provided here preserve dimensions, dimnames, and names,
+which may be more convenient for arrays and array-like objects. <br />
+<br />
+The functions are as follows: <br />
+
+
+<ul>
+<li> <code>as_bool()</code>: converts object to atomic type <code>logical</code> (<code>TRUE, FALSE, NA</code>).
+
+</li>
+<li> <code>as_int()</code>: converts object to atomic type <code>integer</code>.
+
+</li>
+<li> <code>as_dbl()</code>: converts object to atomic type <code>double</code> (AKA numeric).
+
+</li>
+<li> <code>as_chr()</code>: converts object to atomic type <code>character</code>.
+
+</li>
+<li> <code>as_cplx()</code>: converts object to atomic type <code>complex</code>.
+
+</li>
+<li> <code>as_raw()</code>: converts object to atomic type <code>raw</code>.
+
+</li>
+<li> <code>as_list()</code>: converts object to recursive type <code>list</code>. <br />
+
+</li></ul>
+
+<code>as_num()</code> is an alias for <code>as_dbl()</code>. <br />
+<code>as_str()</code> is an alias for <code>as_chr()</code>. <br />
+<br />
+See also typeof. <br /> <br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>as_bool(x, ...)
+
+as_int(x, ...)
+
+as_dbl(x, ...)
+
+as_num(x, ...)
+
+as_chr(x, ...)
+
+as_str(x, ...)
+
+as_cplx(x, ...)
+
+as_raw(x, ...)
+
+as_list(x, ...)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<td>
+an R object.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from other methods.
+</td></tr>
+</table>
+
+
+### Value
+
+The converted object. <br /> <br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE}
+library("broadcast")
+
+
+# matrix example ====
+x <- matrix(sample(-1:28), ncol = 5)
+colnames(x) <- month.name[1:5]
+rownames(x) <- month.abb[1:6]
+names(x) <- c(letters[1:20], LETTERS[1:10])
+print(x)
+
+as_bool(x)
+as_int(x)
+as_dbl(x)
+as_chr(x)
+as_cplx(x)
+as_raw(x)
+
+
+################################################################################
+
+# factor example ====
+x <- factor(month.abb, levels = month.abb)
+names(x) <- month.name
+print(x)
+
+as_bool(as_int(x) > 6)
+as_int(x)
+as_dbl(x)
+as_chr(x)
+as_cplx(x)
+as_raw(x)
+
+
+```

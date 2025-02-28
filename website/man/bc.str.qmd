@@ -1,0 +1,75 @@
+---
+title: bc.str
+---
+## Broadcasted String Operations {.unnumbered}
+
+
+### Description
+
+The <code>bc.str()</code> function
+performs broadcasted string operations on pairs of arrays. <br /> <br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>bc.str(x, y, op)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code>, <code id="y">y</code></td>
+<td>
+conformable atomic arrays of typee <code>character</code>.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
+<td>
+a single string, giving the operator. <br />
+Supported concatenation operators: +. <br />
+Supported relational operators: ==, !=. <br />
+Supported distance operators: levenshtein. <br />
+</td></tr>
+</table>
+
+
+### Value
+
+For concatenation operation: <br />
+A character array as a result of the broadcasted concatenation operation. <br />
+<br />
+For relational operation: <br />
+A logical array as a result of the broadcasted relational comparison. <br />
+<br />
+For distance operation: <br />
+An integer array as a result of the broadcasted distance measurement. <br />
+<br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE}
+library("broadcast")
+
+
+# string concatenation:
+x <- array(letters, c(10, 2, 1))
+y <- array(letters, c(10,1,1))
+bc.str(x, y, "+")
+
+
+# string (in)equality:
+bc.str(array(letters), array(letters), "==")
+bc.str(array(letters), array(letters), "!=")
+
+
+# string distance (Levenshtein):
+x <- array(month.name, c(12, 1))
+y <- array(month.abb, c(1, 12))
+out <- bc.str(x, y, "levenshtein")
+dimnames(out) <- list(month.name, month.abb)
+print(out)
+
+
+```

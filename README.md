@@ -1,13 +1,11 @@
 
-# [<img src="man/figures/logo.png" width="250" />](https://github.com/tony-aw/broadcast)
+
+# broadcast <img src="man/figures/broadcast.png" align="right" height="139" alt="" />
 
 <!-- badges: start -->
 
-[![Project Status: WIP - Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
+`r badge_repostatus("WIP")` `r badge_lifecycle("experimental")`
+`r badge_custom("ORCID", "0000-0001-9498-8379", "green", "https://orcid.org/0000-0001-9498-8379")`
 
 <!-- badges: end -->
 
@@ -151,30 +149,4 @@ Not using external libraries brings a number of advantages:
 - Examples of Practical Applications:
 - Comparisons & Benchmarks:
 
- 
-
-<div style="background-color:rgba(200, 200, 200, 0.25);">
-
-> 📑 NOTE
->
-> This is a Note.
-
-</div>
-
-<div style="background-color:rgba(200, 200, 10, 0.25);">
-
-> ⚠️ WARNING
->
-> This is a Warning.
-
-</div>
-
-<div style="background-color:rgba(200, 10, 10, 0.25);">
-
-> ☢️ ERROR
->
-> This is an Error.
-
-</div>
-
- 
+   

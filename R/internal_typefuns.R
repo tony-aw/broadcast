@@ -14,7 +14,12 @@
 }
 
 
+.is_array_like <- function(x) {
+  return(is.array(x) || is.vector(x))
+}
 
+#' @keywords internal
+#' @noRd
 .types <- function() {
   return(c("unknown", "raw", "logical", "integer", "double", "complex", "character", "list"))
 }

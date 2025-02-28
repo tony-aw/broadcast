@@ -1,0 +1,61 @@
+---
+title: "Installation"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+To install 'broadcast' from GitHub, one may run the following code in 'R':
+
+```{r echo=TRUE, eval=FALSE}
+
+remotes::install_github("https://github.com/tony-aw/broadcast")
+
+```
+
+
+'broadcast' is not a large package per-sé, but it does contain a large amount of compiled code ('C' and 'C++'). Compilation of the package may be slow on some operating systems, especially Linux systems; please be patient. On my own personal laptop (Windows 11), installation takes about 2 minutes.
+
+If installation is too slow, one may try to speed up the installation using multi-threading, for example like so:
+
+```{r echo=TRUE, eval=FALSE}
+
+nthreads <- 8L # specify number of threads
+Sys.setenv(MAKEFLAGS = paste0("-j", nthreads)) # may speed up installation
+
+remotes::install_github("https://github.com/tony-aw/broadcast")
+
+```
+
+
+&nbsp;
+
+To attach the package - thus expose its functions to the namespace - please use the following:
+
+```{r echo=TRUE, eval=FALSE}
+
+library(broadcast)
+
+```
+
+
+&nbsp;
+
+To open the introduction help page of the ‘broadcast’ package, please use any of the following:
+
+```{r echo=TRUE, eval=FALSE}
+
+?broadcast::broadcast
+?broadcast::broadcast_help
+?broadcast::`broadcast-package`
+
+```
+
+
+&nbsp;
+&nbsp;
