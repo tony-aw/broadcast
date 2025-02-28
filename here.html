@@ -1,0 +1,328 @@
+<!DOCTYPE html><html><head><title>R: Rd Converters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>Rd2HTML {tools}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Rd Converters </h2>
+
+<h3>Description</h3>
+
+<p>These functions take the output of <code>parse_Rd()</code>, an
+<code>Rd</code> object, and produce a help page from it.  As they are mainly
+intended for internal use, their interfaces are subject to change.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>Rd2HTML(Rd, out = "", package = "", defines = .Platform$OS.type,
+        Links = NULL, Links2 = NULL,
+        stages = "render", outputEncoding = "UTF-8",
+        dynamic = FALSE, no_links = FALSE, fragment = FALSE,
+        stylesheet = if (dynamic) "/doc/html/R.css" else "R.css",
+        texmath = getOption("help.htmlmath"),
+        concordance = FALSE,
+        standalone = TRUE,
+        hooks = list(),
+        toc = isTRUE(getOption("help.htmltoc")),
+        Rhtml = FALSE,
+        ...)
+
+Rd2txt(Rd, out = "", package = "", defines = .Platform$OS.type,
+       stages = "render", outputEncoding = "",
+       fragment = FALSE, options, ...)
+
+Rd2latex(Rd, out = "", defines = .Platform$OS.type,
+         stages = "render", outputEncoding = "UTF-8",
+         fragment = FALSE, ..., writeEncoding = TRUE,
+         concordance = FALSE)
+
+Rd2ex(Rd, out = "", defines = .Platform$OS.type,
+      stages = "render", outputEncoding = "UTF-8",
+      commentDontrun = TRUE, commentDonttest = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="Rd">Rd</code></td>
+<td>
+<p> a filename or <code>Rd</code> object to use as input. </p>
+</td></tr>
+<tr><td><code id="out">out</code></td>
+<td>
+<p>a filename or connection object to which to write the
+output.  The default <code>out = ""</code> is equivalent to
+<code>out = stdout()</code>.</p>
+</td></tr>
+<tr><td><code id="package">package</code></td>
+<td>
+<p> the package to list in the output. </p>
+</td></tr>
+<tr><td><code id="defines">defines</code></td>
+<td>
+<p> string(s) to use in <code style="white-space: pre;">&#8288;#ifdef&#8288;</code> tests. </p>
+</td></tr>
+<tr><td><code id="stages">stages</code></td>
+<td>
+<p> at which stage (<code>"build"</code>, <code>"install"</code>, or
+<code>"render"</code>) should <code style="white-space: pre;">&#8288;\Sexpr&#8288;</code> macros be executed? See the
+notes below.</p>
+</td></tr>
+<tr><td><code id="outputEncoding">outputEncoding</code></td>
+<td>
+<p> see the &lsquo;Encodings&rsquo; section below.</p>
+</td></tr>
+<tr><td><code id="dynamic">dynamic</code></td>
+<td>
+<p>logical: set links for render-time resolution by
+dynamic help system.</p>
+</td></tr>
+<tr><td><code id="no_links">no_links</code></td>
+<td>
+<p>logical: suppress hyperlinks to other help topics.
+Used by <code>R CMD Rdconv</code>.</p>
+</td></tr>
+<tr><td><code id="fragment">fragment</code></td>
+<td>
+<p>logical:  should fragments of Rd files be accepted?  See the
+notes below.</p>
+</td></tr>
+<tr><td><code id="stylesheet">stylesheet</code></td>
+<td>
+<p>character: a URL for a stylesheet to be used in the header
+of the HTML output page.</p>
+</td></tr>
+<tr><td><code id="texmath">texmath</code></td>
+<td>
+<p>character: controls how mathematics in <code style="white-space: pre;">&#8288;\eqn&#8288;</code> and
+<code style="white-space: pre;">&#8288;\deqn&#8288;</code> commands are typeset in HTML output. Useful values
+are <code>"katex"</code> (default) and <code>"mathjax"</code> to use
+<a href="https://katex.org/">KaTeX</a> or
+<a href="https://www.mathjax.org/">MathJax</a> respectively, otherwise
+basic substitutions are used. May be ignored under certain
+circumstances, e.g., if the help page already uses macros from the
+<code>mathjaxr</code> package.
+</p>
+</td></tr>
+<tr><td><code id="concordance">concordance</code></td>
+<td>
+<p>Whether concordance data should be embedded in the
+output file and attached to the return value.</p>
+</td></tr>
+<tr><td><code id="standalone">standalone</code></td>
+<td>
+<p>logical: whether the output is intended to be a
+standalone HTML file. If <code>FALSE</code>, the header and footer are
+omitted, so that the output can be combined with other fragments.
+</p>
+</td></tr>
+<tr><td><code id="hooks">hooks</code></td>
+<td>
+<p>A list of functions controlling details of
+output. Currently the only component used is <code>pkg_href</code>, which
+is used by <code>pkg2HTML</code> to determine the output HTML file path
+given a package name as input. </p>
+</td></tr>
+<tr><td><code id="toc">toc</code></td>
+<td>
+<p>logical: whether the HTML output should include a table
+of contents. Ignored unless <code>standalone = TRUE</code>. </p>
+</td></tr>
+<tr><td><code id="Rhtml">Rhtml</code></td>
+<td>
+<p>logical: whether the output is intended to be a Rhtml
+file that can be processed using <a href="https://CRAN.R-project.org/package=knitr"><span class="pkg">knitr</span></a>. If <code>TRUE</code>, the
+examples section is wrapped inside a <code>rcode</code> block. </p>
+</td></tr>
+<tr><td><code id="Links">Links</code>, <code id="Links2">Links2</code></td>
+<td>
+<p><code>NULL</code> or a named (by topics) character vector of
+links, as returned by <code>findHTMLlinks</code>.</p>
+</td></tr>
+<tr><td><code id="options">options</code></td>
+<td>
+<p>An optional named list of options to pass to
+<code>Rd2txt_options</code>.</p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p> additional parameters to pass to <code>parse_Rd</code> when
+<code>Rd</code> is a filename. </p>
+</td></tr>
+<tr><td><code id="writeEncoding">writeEncoding</code></td>
+<td>
+<p>should <code style="white-space: pre;">&#8288;\inputencoding&#8288;</code> lines be written in
+the file for non-ASCII encodings?</p>
+</td></tr>
+<tr><td><code id="commentDontrun">commentDontrun</code></td>
+<td>
+<p>should <code style="white-space: pre;">&#8288;\dontrun&#8288;</code> sections be commented
+out?</p>
+</td></tr>
+<tr><td><code id="commentDonttest">commentDonttest</code></td>
+<td>
+<p>should <code style="white-space: pre;">&#8288;\donttest&#8288;</code> sections be commented out?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions convert help documents: <code>Rd2HTML</code> produces HTML,
+<code>Rd2txt</code> produces plain text, <code>Rd2latex</code> produces LaTeX.
+<code>Rd2ex</code> extracts the examples in the format used by
+<code>example</code> and <span class="rlang"><b>R</b></span> utilities.
+</p>
+<p>Each of the functions accepts a filename for an Rd file, and
+will use <code>parse_Rd</code> to parse it before applying the
+conversions or checks.
+</p>
+<p>The difference between arguments <code>Link</code> and <code>Link2</code> is that
+links are looked in them in turn, so lazy-evaluation can be used to
+only do a second-level search for links if required.
+</p>
+<p>Before <span class="rlang"><b>R</b></span> 3.6.0, the default for <code>Rd2latex</code> was <code>outputEncoding = "ASCII"</code>,
+including using the second option of <code style="white-space: pre;">&#8288;\enc&#8288;</code> markup, because LaTeX
+versions did not provide enough coverage of UTF-8 glyphs for a long time.
+</p>
+<p><code>Rd2txt</code> will format text paragraphs to a width determined by
+<code>width</code>, with appropriate margins.  The default is to be close to
+the rendering in versions of <span class="rlang"><b>R</b></span> &lt; 2.10.0.
+</p>
+<p><code>Rd2txt</code> will use directional quotes (see <code>sQuote</code>)
+if option <code>"useFancyQuotes"</code> is true (usually the default,
+see <code>sQuote</code>) and
+</p>
+<p>the current encoding is UTF-8 or a single-byte encoding (except C).
+(Directional quotes are not attempted in East Asian locales as they are
+usually double-width, which looks wrong with English text.)
+</p>
+<p>Various aspects of formatting by <code>Rd2txt</code> are controlled by the
+<code>options</code> argument, documented with the <code>Rd2txt_options</code>
+function.  Changes made using <code>options</code> are temporary, those
+made with <code>Rd2txt_options</code> are persistent.
+</p>
+<p>When <code>fragment = TRUE</code>, the <code>Rd</code> file will be rendered
+with no processing of <code style="white-space: pre;">&#8288;\Sexpr&#8288;</code> elements or conditional defines
+using <code style="white-space: pre;">&#8288;#ifdef&#8288;</code> or <code style="white-space: pre;">&#8288;#ifndef&#8288;</code>.  Normally a fragment represents
+text within a section, but if the first element of the fragment
+is a section macro, the whole fragment will be rendered as
+a series of sections, without the usual sorting.
+</p>
+
+
+<h3>Value</h3>
+
+<p>These functions are executed mainly for the side effect of writing the
+converted help page.  Their value is the name of the output file
+(invisibly).  For <code>Rd2latex</code>, the output name is given an
+attribute <code>"latexEncoding"</code> giving the encoding of the file in a
+form suitable for use with the LaTeX &lsquo;<span class="samp">&#8288;inputenc&#8288;</span>&rsquo; package. For
+<code>Rd2HTML</code> with <code>standalone = FALSE</code>, an attribute
+<code>"info"</code> gives supplementary information such as the contents of
+the <code>name</code> and <code>title</code> fields. This is currently
+experimental, and the details are subject to change.
+</p>
+<p>For <code>Rd2HTML</code> and <code>Rd2latex</code> with <code>concordance = TRUE</code>, a 
+<code>"concordance"</code> attribute is added, containing an
+<code>Rconcordance</code> object.
+</p>
+
+
+<h3>Encodings</h3>
+
+<p>Rd files are normally intended to be rendered on a wide variety of
+systems, so care must be taken in the encoding of non-ASCII
+characters.  In general, any such encoding should be declared using
+the &lsquo;<span class="samp">&#8288;encoding&#8288;</span>&rsquo; section for there to be any hope of correct
+rendering.
+</p>
+<p>For output, the <code>outputEncoding</code> argument will be used:
+<code>outputEncoding = ""</code> will choose the native encoding for the
+current system.
+</p>
+<p>If the text cannot be converted to the <code>outputEncoding</code>, byte
+substitution will be used (see <code>iconv</code>): <code>Rd2latex</code>
+and <code>Rd2ex</code> give a warning.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The <code style="white-space: pre;">&#8288;\Sexpr&#8288;</code> macro includes
+<span class="rlang"><b>R</b></span> code that will be executed at one of three times: <em>build</em> time
+(when a package's source code is built into a tarball),
+<em>install</em> time (when the package is installed or
+built into a binary package), and <em>render</em> time (when the man
+page is converted to a readable format).
+</p>
+<p>For example, this man page was:
+</p>
+
+<ol>
+<li><p> built on
+2024-04-24 at 10:27:38,
+</p>
+</li>
+<li><p> installed on
+2024-04-24 at 10:27:38, and
+</p>
+</li>
+<li><p> rendered on
+2025-02-28 at 08:50:11.
+</p>
+</li></ol>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Duncan Murdoch, Brian Ripley
+</p>
+
+
+<h3>References</h3>
+
+ <p><a href="https://developer.r-project.org/parseRd.pdf">https://developer.r-project.org/parseRd.pdf</a> </p>
+
+
+<h3>See Also</h3>
+
+<p><code>parse_Rd</code>, <code>checkRd</code>,
+<code>findHTMLlinks</code>, <code>Rd2txt_options</code>,
+<code>matchConcordance</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+## Simulate rendering of this (installed) page in HTML and text format
+Rd &lt;- Rd_db("tools")[["Rd2HTML.Rd"]]
+
+outfile &lt;- tempfile(fileext = ".html")
+Rd2HTML(Rd, outfile, package = "tools") |&gt; browseURL()
+
+outfile &lt;- tempfile(fileext = ".txt")
+Rd2txt(Rd, outfile, package = "tools") |&gt; file.show()
+</code></pre>
+
+<hr /><div style="text-align: center;">[Package <em>tools</em> version 4.4.0 ]</div></main>
+
+</div>
+</body></html>

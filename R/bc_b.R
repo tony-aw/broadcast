@@ -22,7 +22,7 @@
 #' 
 
 
-#' @rdname bd.b
+#' @rdname bc.b
 #' @export
 bc.b <- function(x, y, op) {
   

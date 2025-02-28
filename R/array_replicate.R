@@ -1,4 +1,4 @@
-#' Recycle Array Dimensions
+#' Replicate Array Dimensions
 #'
 #' @description
 #' The `array_replicate()` function

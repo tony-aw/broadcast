@@ -4,9 +4,14 @@ project:
 website:
   title: "broadcast"
   navbar:
+    background: "#FCF5E5"
+    text-decoration: underline
+    text-decoration-color: black
+    search: true
+    pinned: true
     left:
       - text: Guides
-        href: vignettes/a_installation.qmd
+        href: vignettes/a_readme.qmd
       - text: Reference
         href: man/aaa00_broadcast_help.qmd
       - text: About
@@ -14,17 +19,30 @@ website:
 
   sidebar:
     - title: Guides
-      contents: vignettes/*
+      collapse-level: 1
+      contents:
+      - auto: vignettes/*
     
     - title: References
-      contents: man/*
+      contents:
+      - text: broadcast
+        href: man/aaa00_broadcast_help.qmd
+      - section: outer computations
+        contents: man/outer-like functions/*
+      - section: generic fuctions
+        contents: man/generic functions/*
+      - section: binding implementations
+        contents: man/binding implementations/*
+      - section: helper functions
+        contents: man/helper functions/*
     
     - title: Abput
       contents: about/*
 
 format:
   html:
-    theme: cosmo
+    fontsize: 1.2em
     toc: true
-
+    number-sections: true
+    theme: [cosmo, light.css]
 
