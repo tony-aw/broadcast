@@ -42,9 +42,9 @@ These functions use an API similar to the \link[base]{outer} and \link[base]{swe
 \cr
 The following functions for type-specific binary operations are available:
 \itemize{
-\item \link{bc.d}: decimal (64bit) arithmetic and relational operations;
-\item \link{bc.i}: integer (53bit) arithmetic and relational operations;
 \item \link{bc.b}: Boolean operations;
+\item \link{bc.i}: integer (53bit) arithmetic and relational operations;
+\item \link{bc.d}: decimal (64bit) arithmetic and relational operations;
 \item \link{bc.cplx}: complex arithmetic and (in)equality operations;
 \item \link{bc.str}: string (in)equality, concatenation, and distance operations;
 \item \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr

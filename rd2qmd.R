@@ -1,4 +1,7 @@
 
+# set-up ====
+library(stringi)
+
 # from the altdoc package:
 .readlines <- function(x) {
   readLines(x, warn = FALSE)
@@ -135,6 +138,7 @@
 }
 
 
+# convert Rd to qmd ====
 lst.files <- list.files("man", pattern = "Rd")
 pkgpath <- getwd()
 for(i in lst.files) {
@@ -143,3 +147,58 @@ for(i in lst.files) {
   outpath <- file.path("website", "man")
   .rd2qmd(filepath, outpath, pkgpath)
 }
+
+
+# adapt man titles ====
+detection <- "---\ntitle:"
+lst.files <- list.files("website/man/", pattern = "qmd")
+for(i in lst.files) {
+  filename <- i
+  title <- stri_replace_last(filename, "", fixed = ".qmd")
+  temp <- readLines(file.path("website", "man", filename))
+  check <- stringi::stri_detect(paste0(temp[1:2], collapse = "\n"), fixed = detection)
+  if(!check && !stri_detect(title, fixed = "aaa")) {
+    temp <- c("---", paste0("title: ", title), "---", temp)
+    writeLines(temp, file.path("website", "man", filename))
+  }
+}
+
+
+# move man files to proper folder ====
+outerfiles <- paste0("bc.", c("b", "i", "d", "cplx", "str", "list"), ".qmd")
+file.copy(
+  file.path("website", "man", outerfiles),
+  file.path("website", "man", "outer", outerfiles),
+  overwrite = TRUE
+)
+bindfiles <- paste0(c("bind", "aaa01_broadcast_bind"), ".qmd")
+file.copy(
+  file.path("website", "man", bindfiles),
+  file.path("website", "man", "bind", bindfiles),
+  overwrite = TRUE
+)
+genericfiles <- c("bc_ifelse.qmd", "bcapply.qmd")
+file.copy(
+  file.path("website", "man", genericfiles),
+  file.path("website", "man", "generic", genericfiles),
+  overwrite = TRUE
+)
+otherfiles <- setdiff(
+  list.files(file.path("website", "man"), pattern = ".qmd"),
+  c(outerfiles, bindfiles, genericfiles, "aaa00_broadcast_help.qmd")
+)
+file.copy(
+  file.path("website", "man", otherfiles),
+  file.path("website", "man", "other", otherfiles),
+  overwrite = TRUE
+)
+
+
+# cut moved files ====
+lst.files <- list.files(file.path("website", "man"), pattern = ".qmd")
+lst.files <- setdiff(lst.files, "aaa00_broadcast_help.qmd")
+file.remove(file.path("website", "man", lst.files))
+
+
+# end of rd2qmd ====
+

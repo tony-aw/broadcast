@@ -28,9 +28,9 @@
 #' \cr
 #' The following functions for type-specific binary operations are available:
 #' 
-#'  * \link{bc.d}: decimal (64bit) arithmetic and relational operations;
-#'  * \link{bc.i}: integer (53bit) arithmetic and relational operations;
 #'  * \link{bc.b}: Boolean operations;
+#'  * \link{bc.i}: integer (53bit) arithmetic and relational operations;
+#'  * \link{bc.d}: decimal (64bit) arithmetic and relational operations;
 #'  * \link{bc.cplx}: complex arithmetic and (in)equality operations;
 #'  * \link{bc.str}: string (in)equality, concatenation, and distance operations;
 #'  * \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr

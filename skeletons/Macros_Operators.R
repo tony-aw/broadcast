@@ -905,7 +905,6 @@ macro_op_bcapply <- "
     }	\\
     case STRSXP:	\\
     {	\\
-      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\\
       SEXP *pout;	\\
       pout = STRING_PTR(out);	\\
       	\\

@@ -1,15 +1,13 @@
 #' Broadcasted Ifelse
 #'
 #' @description
-#' The `bc_ifelse()` S4 generic method
+#' The `bc_ifelse()` function
 #' performs a broadcasted form of \link[base]{ifelse}. \cr
 #' 
 #' @param cond `logical` vector or array with the length equal to `prod(bc_dim(yes, no))`.
 #' @param yes,no conformable arrays of the same type. \cr
 #' All atomic types (see \link[base]{atomic}) are supported. \cr
-#' Recursive arrays of type `list` are also supported. \cr
-#' since `bc_ifelse()` is an S4 generic, it can be extended to support special array classes. \cr
-#' 
+#' Recursive arrays of type `list` are also supported. \cr \cr
 #' 
 #' 
 #'

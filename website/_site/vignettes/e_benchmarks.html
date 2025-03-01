@@ -96,7 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link active" href="../vignettes/a_readme.html" rel="" target="" aria-current="page">
- <span class="menu-text">Guides</span></a>
+ <span class="menu-text">Guides and Vignettes</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../man/aaa00_broadcast_help.html" rel="" target="">
@@ -145,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -188,10 +188,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#keeping-comparisons-fair" id="toc-keeping-comparisons-fair" class="nav-link" data-scroll-target="#keeping-comparisons-fair"><span class="header-section-number">2</span> Keeping comparisons fair</a></li>
-  <li><a href="#many-orthogonal-arrays" id="toc-many-orthogonal-arrays" class="nav-link" data-scroll-target="#many-orthogonal-arrays"><span class="header-section-number">3</span> Many Orthogonal Arrays</a></li>
-  <li><a href="#large-non-orthogonal-arrays-comparisons" id="toc-large-non-orthogonal-arrays-comparisons" class="nav-link" data-scroll-target="#large-non-orthogonal-arrays-comparisons"><span class="header-section-number">4</span> Large non-orthogonal arrays comparisons</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#keeping-comparisons-fair" id="toc-keeping-comparisons-fair" class="nav-link" data-scroll-target="#keeping-comparisons-fair">Keeping comparisons fair</a></li>
+  <li><a href="#many-orthogonal-arrays" id="toc-many-orthogonal-arrays" class="nav-link" data-scroll-target="#many-orthogonal-arrays">Many Orthogonal Arrays</a></li>
+  <li><a href="#large-non-orthogonal-arrays-comparisons" id="toc-large-non-orthogonal-arrays-comparisons" class="nav-link" data-scroll-target="#large-non-orthogonal-arrays-comparisons">Large non-orthogonal arrays comparisons</a></li>
   </ul>
 </nav>
     </div>
@@ -216,13 +216,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>&nbsp;</p>
-<section id="introduction" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
 <p>In this article, the speed of ‘broadcast’ is compared to the speed of ‘Numpy’ via {reticulate}.</p>
 <p>&nbsp;</p>
 </section>
-<section id="keeping-comparisons-fair" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Keeping comparisons fair</h1>
+<section id="keeping-comparisons-fair" class="level1">
+<h1>Keeping comparisons fair</h1>
 <p>To keep the comparisons between ‘broadcast’ and ‘Numpy’+‘reticulate’ fair, a number of measures have been taken:</p>
 <ul>
 <li>conversion from Numpy to ‘R’ is DISABLED; this allows for comparing the speed more fairly. When conversion would be enabled, precious time would be wasted to convert from Numpy structures to comparable ‘R’ structures.</li>
@@ -231,8 +231,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>&nbsp;</p>
 </section>
-<section id="many-orthogonal-arrays" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Many Orthogonal Arrays</h1>
+<section id="many-orthogonal-arrays" class="level1">
+<h1>Many Orthogonal Arrays</h1>
 <p>8 pairs of decimal number arrays are created in both ‘R’ and ‘Numpy’. They all have a length of (approximately) 9*10^6 elements. Each pair will have a different number of dimensions, from 2 to 9 (hence 8 pairs of arrays). I.e. a pair of 2d arrays, a pair of 3d arrays, etc.</p>
 <p>These pairs of arrays are fully orthogonal, thus the maximum amount of broadcasting will be employed.</p>
 <p>For each pair of array the outer sum is computed using ‘broadcast’ and ‘Numpy’. This computation is repeated 100 times, and the median result is taken.</p>
@@ -301,8 +301,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>&nbsp;</p>
 </section>
-<section id="large-non-orthogonal-arrays-comparisons" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Large non-orthogonal arrays comparisons</h1>
+<section id="large-non-orthogonal-arrays-comparisons" class="level1">
+<h1>Large non-orthogonal arrays comparisons</h1>
 <p>How about arrays that are not fully orthogonal, but still require a lot of broadcasting in pari-wise computations?</p>
 <p>Here is the benchmark:</p>
 <div class="cell">

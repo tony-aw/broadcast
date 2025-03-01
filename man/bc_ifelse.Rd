@@ -11,8 +11,7 @@ bc_ifelse(cond, yes, no)
 
 \item{yes, no}{conformable arrays of the same type. \cr
 All atomic types (see \link[base]{atomic}) are supported. \cr
-Recursive arrays of type \code{list} are also supported. \cr
-since \code{bc_ifelse()} is an S4 generic, it can be extended to support special array classes. \cr}
+Recursive arrays of type \code{list} are also supported. \cr \cr}
 }
 \value{
 The ouput, here referred to as \code{out},
@@ -29,7 +28,7 @@ and \code{out[i]} is \code{list(NULL)} when \code{yes} and \code{no} are recursi
 }
 }
 \description{
-The \code{bc_ifelse()} S4 generic method
+The \code{bc_ifelse()} function
 performs a broadcasted form of \link[base]{ifelse}. \cr
 }
 \examples{

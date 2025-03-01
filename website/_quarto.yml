@@ -10,7 +10,7 @@ website:
     search: true
     pinned: true
     left:
-      - text: Guides
+      - text: Guides and Vignettes
         href: vignettes/a_readme.qmd
       - text: Reference
         href: man/aaa00_broadcast_help.qmd
@@ -18,7 +18,8 @@ website:
         href: about/LICENSE.qmd
 
   sidebar:
-    - title: Guides
+    - title: Guides and Vignettes
+      style: docked
       collapse-level: 1
       contents:
       - auto: vignettes/*
@@ -28,13 +29,19 @@ website:
       - text: broadcast
         href: man/aaa00_broadcast_help.qmd
       - section: outer computations
-        contents: man/outer-like functions/*
+        contents:
+        - man/outer/bc.b.qmd
+        - man/outer/bc.i.qmd
+        - man/outer/bc.d.qmd
+        - man/outer/bc.cplx.qmd
+        - man/outer/bc.str.qmd
+        - man/outer/bc.list.qmd
       - section: generic fuctions
-        contents: man/generic functions/*
+        contents: man/generic/*
       - section: binding implementations
-        contents: man/binding implementations/*
-      - section: helper functions
-        contents: man/helper functions/*
+        contents: man/bind/*
+      - section: other functions
+        contents: man/other/*
     
     - title: Abput
       contents: about/*
@@ -43,6 +50,5 @@ format:
   html:
     fontsize: 1.2em
     toc: true
-    number-sections: true
-    theme: [cosmo, light.css]
+    theme: [pandoc, light.css]
 

@@ -139,6 +139,8 @@ txt <- stringi::stri_c(
   txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
+
+setwd("..")
 readr::write_file(txt, "src/rcpp_bcapply.cpp")
 
 ################################################################################

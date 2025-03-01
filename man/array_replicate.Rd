@@ -2,7 +2,7 @@
 % Please edit documentation in R/array_replicate.R
 \name{array_replicate}
 \alias{array_replicate}
-\title{Recycle Array Dimensions}
+\title{Replicate Array Dimensions}
 \usage{
 array_replicate(x, tdim)
 }
