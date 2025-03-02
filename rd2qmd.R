@@ -2,7 +2,7 @@
 # set-up ====
 library(stringi)
 
-# from the altdoc package:
+# ADAPTED from the altdoc package:
 .readlines <- function(x) {
   readLines(x, warn = FALSE)
 }
@@ -91,7 +91,7 @@ library(stringi)
     }
     
     block <- sprintf(
-      "```{r, warning=FALSE, message=FALSE, eval=%s}",
+      "```{r, warning=FALSE, message=FALSE, eval=%s, collapse = TRUE, comment = NA}",
       block_eval
     )
     

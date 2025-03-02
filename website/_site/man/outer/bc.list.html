@@ -63,6 +63,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../man/figures/broadcast.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -119,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../../man/aaa00_broadcast_help.html" rel="" target="" aria-current="page">
- <span class="menu-text">Reference</span></a>
+ <span class="menu-text">Reference Manual</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../about/LICENSE.html" rel="" target="">
@@ -377,36 +378,34 @@ a function that takes in exactly <b>2</b> arguments, and <b>returns</b> a result
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.list</span>(</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  x, y,</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  \(x, y)<span class="fu">c</span>(<span class="fu">length</span>(x) <span class="sc">==</span> <span class="fu">length</span>(y), <span class="fu">typeof</span>(x) <span class="sc">==</span> <span class="fu">typeof</span>(y))</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>, , 1
-
-      [,1]      [,2]     
- [1,] logical,2 logical,2
- [2,] logical,2 logical,2
- [3,] logical,2 logical,2
- [4,] logical,2 logical,2
- [5,] logical,2 logical,2
- [6,] logical,2 logical,2
- [7,] logical,2 logical,2
- [8,] logical,2 logical,2
- [9,] logical,2 logical,2
-[10,] logical,2 logical,2
-
-, , 2
-
-      [,1]      [,2]     
- [1,] logical,2 logical,2
- [2,] logical,2 logical,2
- [3,] logical,2 logical,2
- [4,] logical,2 logical,2
- [5,] logical,2 logical,2
- [6,] logical,2 logical,2
- [7,] logical,2 logical,2
- [8,] logical,2 logical,2
- [9,] logical,2 logical,2
-[10,] logical,2 logical,2</code></pre>
-</div>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 1</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="do">##       [,1]      [,2]     </span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] logical,2 logical,2</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] logical,2 logical,2</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] logical,2 logical,2</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] logical,2 logical,2</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] logical,2 logical,2</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] logical,2 logical,2</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] logical,2 logical,2</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] logical,2 logical,2</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] logical,2 logical,2</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] logical,2 logical,2</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 2</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="do">##       [,1]      [,2]     </span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] logical,2 logical,2</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] logical,2 logical,2</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] logical,2 logical,2</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] logical,2 logical,2</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] logical,2 logical,2</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] logical,2 logical,2</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] logical,2 logical,2</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] logical,2 logical,2</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] logical,2 logical,2</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] logical,2 logical,2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
