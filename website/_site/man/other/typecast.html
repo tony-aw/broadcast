@@ -415,25 +415,25 @@ further arguments passed to or from other methods.
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    January February March April May
-Jan       1       14    18     3  12
-Feb       5       23     9     6   4
-Mar      16       27    20    -1   0
-Apr      26       22    21    24  28
-May      13       25    15     7   8
-Jun      17       11    19     2  10
+Jan       6       21     0    16  24
+Feb      18       13     8    10  12
+Mar      23       22    17     3  28
+Apr       7        5    26     2  14
+May      27       19     1     9  15
+Jun      11       20    25     4  -1
 attr(,"names")
  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
 [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_bool</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    January February March April   May
-Jan    TRUE     TRUE  TRUE  TRUE  TRUE
-Feb    TRUE     TRUE  TRUE  TRUE  TRUE
-Mar    TRUE     TRUE  TRUE  TRUE FALSE
-Apr    TRUE     TRUE  TRUE  TRUE  TRUE
-May    TRUE     TRUE  TRUE  TRUE  TRUE
-Jun    TRUE     TRUE  TRUE  TRUE  TRUE
+<pre><code>    January February March April  May
+Jan    TRUE     TRUE FALSE  TRUE TRUE
+Feb    TRUE     TRUE  TRUE  TRUE TRUE
+Mar    TRUE     TRUE  TRUE  TRUE TRUE
+Apr    TRUE     TRUE  TRUE  TRUE TRUE
+May    TRUE     TRUE  TRUE  TRUE TRUE
+Jun    TRUE     TRUE  TRUE  TRUE TRUE
 attr(,"names")
  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
 [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</code></pre>
@@ -441,12 +441,12 @@ attr(,"names")
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_int</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    January February March April May
-Jan       1       14    18     3  12
-Feb       5       23     9     6   4
-Mar      16       27    20    -1   0
-Apr      26       22    21    24  28
-May      13       25    15     7   8
-Jun      17       11    19     2  10
+Jan       6       21     0    16  24
+Feb      18       13     8    10  12
+Mar      23       22    17     3  28
+Apr       7        5    26     2  14
+May      27       19     1     9  15
+Jun      11       20    25     4  -1
 attr(,"names")
  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
 [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</code></pre>
@@ -454,12 +454,12 @@ attr(,"names")
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_dbl</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    January February March April May
-Jan       1       14    18     3  12
-Feb       5       23     9     6   4
-Mar      16       27    20    -1   0
-Apr      26       22    21    24  28
-May      13       25    15     7   8
-Jun      17       11    19     2  10
+Jan       6       21     0    16  24
+Feb      18       13     8    10  12
+Mar      23       22    17     3  28
+Apr       7        5    26     2  14
+May      27       19     1     9  15
+Jun      11       20    25     4  -1
 attr(,"names")
  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
 [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</code></pre>
@@ -467,12 +467,12 @@ attr(,"names")
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_chr</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    January February March April May 
-Jan "1"     "14"     "18"  "3"   "12"
-Feb "5"     "23"     "9"   "6"   "4" 
-Mar "16"    "27"     "20"  "-1"  "0" 
-Apr "26"    "22"     "21"  "24"  "28"
-May "13"    "25"     "15"  "7"   "8" 
-Jun "17"    "11"     "19"  "2"   "10"
+Jan "6"     "21"     "0"   "16"  "24"
+Feb "18"    "13"     "8"   "10"  "12"
+Mar "23"    "22"     "17"  "3"   "28"
+Apr "7"     "5"      "26"  "2"   "14"
+May "27"    "19"     "1"   "9"   "15"
+Jun "11"    "20"     "25"  "4"   "-1"
 attr(,"names")
  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
 [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</code></pre>
@@ -480,12 +480,12 @@ attr(,"names")
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_cplx</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    January February March April   May
-Jan    1+0i    14+0i 18+0i  3+0i 12+0i
-Feb    5+0i    23+0i  9+0i  6+0i  4+0i
-Mar   16+0i    27+0i 20+0i -1+0i  0+0i
-Apr   26+0i    22+0i 21+0i 24+0i 28+0i
-May   13+0i    25+0i 15+0i  7+0i  8+0i
-Jun   17+0i    11+0i 19+0i  2+0i 10+0i
+Jan    6+0i    21+0i  0+0i 16+0i 24+0i
+Feb   18+0i    13+0i  8+0i 10+0i 12+0i
+Mar   23+0i    22+0i 17+0i  3+0i 28+0i
+Apr    7+0i     5+0i 26+0i  2+0i 14+0i
+May   27+0i    19+0i  1+0i  9+0i 15+0i
+Jun   11+0i    20+0i 25+0i  4+0i -1+0i
 attr(,"names")
  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
 [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</code></pre>
@@ -493,12 +493,12 @@ attr(,"names")
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_raw</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    January February March April May
-Jan      01       0e    12    03  0c
-Feb      05       17    09    06  04
-Mar      10       1b    14    00  00
-Apr      1a       16    15    18  1c
-May      0d       19    0f    07  08
-Jun      11       0b    13    02  0a
+Jan      06       15    00    10  18
+Feb      12       0d    08    0a  0c
+Mar      17       16    11    03  1c
+Apr      07       05    1a    02  0e
+May      1b       13    01    09  0f
+Jun      0b       14    19    04  00
 attr(,"names")
  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
 [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</code></pre>

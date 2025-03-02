@@ -1,5 +1,3 @@
-
-
 library(stringi)
 
 txt <- "
@@ -258,7 +256,7 @@ macro_op_int_math <- "
   switch(op) {	\\
     case 1:	\\
     {	\\
-      if(TYPEOF(x) == INTSXP && TYPEOF(y) == INTSXP) {    \\
+      if(!rcpp_int53_need_guard1(x, y)) {    \\
         MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
           DIMCODE,	\\
           MACRO_ASSIGN_C(NA_REAL),	\\
@@ -276,7 +274,7 @@ macro_op_int_math <- "
     }	\\
     case 2:	\\
     {	\\
-      if(TYPEOF(x) == INTSXP && TYPEOF(y) == INTSXP) {    \\
+      if(!rcpp_int53_need_guard1(x, y)) {    \\
         MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
           DIMCODE,	\\
           MACRO_ASSIGN_C(NA_REAL),	\\
@@ -294,11 +292,20 @@ macro_op_int_math <- "
     }	\\
     case 3:	\\
     {	\\
-      MACRO_TYPESWITCH_INTEGER1(	\\
-        DIMCODE,	\\
-        MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C(rcpp_int53_guard(e1 * e2, intmin, intmax))	\\
-      );	\\
+      if(!rcpp_int53_need_guard2(x, y)) {    \\
+        MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
+          DIMCODE,	\\
+          MACRO_ASSIGN_C(NA_REAL),	\\
+          MACRO_ASSIGN_C((double)px[flatind_x] * (double)py[flatind_y])	\\
+        );	\\
+      }   \\
+      else {    \\
+        MACRO_TYPESWITCH_INTEGER1(	\\
+          DIMCODE,	\\
+          MACRO_ASSIGN_C(NA_REAL),	\\
+          MACRO_ASSIGN_C(rcpp_int53_guard(e1 * e2, intmin, intmax))	\\
+        );	\\
+      }   \\
       break;	\\
     }	\\
     case 4:	\\

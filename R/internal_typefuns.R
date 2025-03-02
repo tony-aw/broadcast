@@ -24,6 +24,23 @@
   return(c("unknown", "raw", "logical", "integer", "double", "complex", "character", "list"))
 }
 
+
+#' @keywords internal
+#' @noRd
+.make_int53scalar <- function(x) {
+  return(x)
+  if(is.na(x)||is.infinite(x)) {
+    return(x)
+  }
+  intmax <- 2^53
+  intmin <- -1*intmax
+  if(x >= intmin && x <= intmax) {
+    return(as_int(x))
+  }
+  return(x)
+}
+
+
 #' @keywords internal
 #' @noRd
 .determine_highest_atmoic_type <- function(x, y) {

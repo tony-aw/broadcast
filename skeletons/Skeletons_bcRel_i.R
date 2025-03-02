@@ -173,6 +173,8 @@ txt <- stringi::stri_c(
 
 Rcpp::sourceCpp(code = txt)
 
+setwd("..")
+
 txt <- stringi::stri_c(
   header_for_package,
   txt1, txt2, txt3, txt4,

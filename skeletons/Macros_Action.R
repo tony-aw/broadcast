@@ -1,4 +1,3 @@
-
 library(stringi)
 
 macro_action1 <- "
@@ -215,4 +214,3 @@ macro_action <- stri_c(
 )
 
 readr::write_file(macro_action, "macro_action.txt")
-

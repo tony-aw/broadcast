@@ -45,6 +45,16 @@ bc.i <- function(x, y, op) {
     stop("`x` and `y` must be numeric or logical arrays")
   }
   
+  
+  # make x and y integer scalars if possible:
+  if(length(x) == 1L) {
+    x <- .make_int53scalar(x)
+  }
+  if(length(y) == 1L) {
+    y <- .make_int53scalar(y)
+  }
+  
+  
   # get operator:
   op_math <- which(.op_int_math() == op)
   op_rel <- which(.op_int_rel() == op)

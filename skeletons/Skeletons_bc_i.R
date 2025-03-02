@@ -46,6 +46,32 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 
 txt0 <- "
 
+
+inline bool rcpp_int53_need_guard1(
+  SEXP x, SEXP y
+) {
+  if(TYPEOF(x) == INTSXP || TYPEOF(x) == LGLSXP) {
+    if(TYPEOF(y) == INTSXP || TYPEOF(y) == LGLSXP) {
+      return false;
+    }
+  }
+  return true;
+}
+
+
+inline bool rcpp_int53_need_guard2(
+  SEXP x, SEXP y
+) {
+  if(TYPEOF(x) == INTSXP && TYPEOF(y) == LGLSXP) {
+    return false;
+  }
+  if(TYPEOF(x) == LGLSXP && TYPEOF(y) == INTSXP) {
+    return false;
+  }
+  return true;
+}
+
+
 inline double rcpp_int53_guard(
   double out, double intmin, double intmax
 ) {
@@ -211,12 +237,13 @@ txt <- stringi::stri_c(
 
 Rcpp::sourceCpp(code = txt)
 
-setwd("..")
 
 txt <- stringi::stri_c(
   header_for_package,
   txt0, txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
+
+setwd("..")
 readr::write_file(txt, "src/rcpp_bc_int.cpp")
 

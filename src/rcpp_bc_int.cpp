@@ -8,6 +8,32 @@ using namespace Rcpp;
 
 
 
+
+inline bool rcpp_int53_need_guard1(
+  SEXP x, SEXP y
+) {
+  if(TYPEOF(x) == INTSXP || TYPEOF(x) == LGLSXP) {
+    if(TYPEOF(y) == INTSXP || TYPEOF(y) == LGLSXP) {
+      return false;
+    }
+  }
+  return true;
+}
+
+
+inline bool rcpp_int53_need_guard2(
+  SEXP x, SEXP y
+) {
+  if(TYPEOF(x) == INTSXP && TYPEOF(y) == LGLSXP) {
+    return false;
+  }
+  if(TYPEOF(x) == LGLSXP && TYPEOF(y) == INTSXP) {
+    return false;
+  }
+  return true;
+}
+
+
 inline double rcpp_int53_guard(
   double out, double intmin, double intmax
 ) {
