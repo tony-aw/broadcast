@@ -1,8 +1,8 @@
-x.dim <- c(10:8)
+x.dim <- c(4:2)
 x.len <- prod(x.dim)
 gen <- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
 x <- array(gen() + gen() * -1i, x.dim)
-y <- array(gen() + gen() * -1i, c(10,1,1))
+y <- array(gen() + gen() * -1i, c(4,1,1))
 
 bc.cplx(x, y, "==")
 bc.cplx(x, y, "!=")

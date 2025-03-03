@@ -1,0 +1,83 @@
+---
+title: bc.d
+---
+## Broadcasted Decimal Numeric Operations {.unnumbered}
+
+
+### Description
+
+The <code>bc.d()</code> function
+performs broadcasted decimal numeric operations on 2 numeric or logical arrays. <br />
+<code>bc.num()</code> is an alias for <code>bc.d()</code>. <br /> <br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>bc.d(x, y, op, prec = sqrt(.Machine\$double.eps))
+
+bc.num(x, y, op, prec = sqrt(.Machine\$double.eps))
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code>, <code id="y">y</code></td>
+<td>
+conformable logical or numeric arrays.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
+<td>
+a single string, giving the operator. <br />
+Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. <br />
+Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;=. <br />
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="prec">prec</code></td>
+<td>
+a single number between 0 and 0.1, giving the machine precision to use. <br />
+Only relevant for the following operators: <br />
+d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;= <br />
+See the
+d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;= operators
+from the 'tinycodet' package for details. <br />
+</td></tr>
+</table>
+
+
+### Value
+
+For arithmetic operators: <br />
+A numeric array as a result of the broadcasted decimal arithmetic operation. <br />
+<br />
+For relational operators: <br />
+A logical array as a result of the broadcasted decimal relational comparison. <br />
+<br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+x.dim <- c(4:2)
+x.len <- prod(x.dim)
+x.data <- sample(c(NA, 1.1:1000.1), x.len, TRUE)
+x <- array(x.data, x.dim)
+y <- array(1:50, c(4,1,1))
+
+bc.d(x, y, "+")
+bc.d(x, y, "-")
+bc.d(x, y, "*")
+bc.d(x, y, "/")
+bc.d(x, y, "^")
+
+bc.d(x, y, "==")
+bc.d(x, y, "!=")
+bc.d(x, y, "<")
+bc.d(x, y, ">")
+bc.d(x, y, "<=")
+bc.d(x, y, ">=")
+
+
+```

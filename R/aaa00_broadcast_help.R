@@ -38,7 +38,7 @@
 #' 
 #' \bold{Binding Implementations} \cr
 #' 'broadcast' provides 3 binding implementations: \cr
-#' \link{bind_mat}, \link{bind_array}, and \link{bind_dt}. \cr
+#' \link[=bind_array]{bind_mat, bind_array, and bind_dt}. \cr
 #' \cr
 #' 
 #' \bold{General functions} \cr

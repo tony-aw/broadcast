@@ -1,0 +1,52 @@
+---
+title: bc_dim
+---
+## Predict Broadcasted dimensions {.unnumbered}
+
+
+### Description
+
+<code>bc_dim(x, y)</code> gives the dimensions an array would have,
+as the result of an broadcasted binary element-wise operation between 2 arrays
+<code>x</code> and <code>y</code>.
+
+
+
+### Usage
+
+<pre><code class='language-R'>bc_dim(x, y)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code>, <code id="y">y</code></td>
+<td>
+an atomic or recursive array.
+</td></tr>
+</table>
+
+
+### Value
+
+Returns the recycled array.
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+x.dim <- c(4:2)
+x.len <- prod(x.dim)
+x.data <- sample(c(TRUE, FALSE, NA), x.len, TRUE)
+x <- array(x.data, x.dim)
+y <- array(1:50, c(4,1,1))
+
+dim(bc.b(x, y, "&")) == bc_dim(x, y)
+dim(bc.b(x, y, "|")) == bc_dim(x, y)
+
+
+
+```
