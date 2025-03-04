@@ -54,5 +54,20 @@ for(i in lst.files) {
 }
 
 
+# create links in vignettes ====
+funs <- getNamespaceExports("broadcast")
+lst.files <- list.files("website/vignettes/", pattern = "qmd")
+for(i in lst.files) {
+  filepath <- file.path("website", "vignettes", i)
+  temp <- readLines(filepath)
+  p <- paste0("`", funs, "()`")
+  rp <- paste0("[", funs, "]", "(/man/", rd_index(funs), ".qmd)")
+  temp <- stri_replace_all(
+    temp, rp, fixed = p, vectorize_all = FALSE
+  )
+  writeLines(temp, file.path("website", "vignettes", i))
+}
+
+
 # end of rd2qmd ====
 

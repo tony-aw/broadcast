@@ -161,8 +161,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#outer-like-functions" id="toc-outer-like-functions" class="nav-link" data-scroll-target="#outer-like-functions"><span class="header-section-number">2</span> Outer-like functions</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#outer-like-functions" id="toc-outer-like-functions" class="nav-link" data-scroll-target="#outer-like-functions">Outer-like functions</a></li>
+  <li><a href="#binding-implementations" id="toc-binding-implementations" class="nav-link" data-scroll-target="#binding-implementations">Binding implementations</a></li>
   </ul>
 </nav>
     </div>
@@ -187,20 +188,59 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>&nbsp;</p>
-<section id="introduction" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>The ‘broadcast’ package provides 3 main broadcasted functionalities:</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>The ‘broadcast’ package provides 4 main functionalities:</p>
 <ul>
 <li>outer-like functions to perform broadcasted outer-computations</li>
-<li>broadcasted generic functions</li>
-<li>broadcasted dimensional binding</li>
+<li>broadcasted generic pair-wise functions</li>
+<li>broadcasted dimensional binding of arrays (and also matrices and data.tables)</li>
+<li>array typecasting with dimensions and names preserved</li>
 </ul>
-<p>This guide will give an overview of each of these 3 functionalities.</p>
+<p>This guide will give an overview of each of these 4 functionalities.</p>
 <p>&nbsp;</p>
 </section>
-<section id="outer-like-functions" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Outer-like functions</h1>
-<p>The ‘broadcast’</p>
+<section id="outer-like-functions" class="level1">
+<h1>Outer-like functions</h1>
+<p>The ‘broadcast’ package provides functions that perform Broadcasted outer operations, similar to base R’s <code>outer()</code> function. The outer-like functions are the following:</p>
+<ul>
+<li><a href="../man/bc.b.html">bc.b</a>: Broadcasted Boolean operations.</li>
+<li><a href="../man/bc.i.html">bc.i</a> : Broadcasted (53bit) Integer Numeric operations.</li>
+<li><a href="../man/bc.d.html">bc.d</a>: Broadcasted (64bit) Decimal Numeric operations.</li>
+<li><a href="../man/bc.cplx.html">bc.cplx</a>: Broadcasted Complex Numeric operations.</li>
+<li><a href="../man/bc.str.html">bc.str</a>: Broadcasted String operations.</li>
+<li><a href="../man/bc.list.html">bc.list</a>: Broadcasted operations on Recursive arrays.</li>
+</ul>
+<p>There are several things to note about the above functions.</p>
+<p>First, the naming convention is “bc.” followed by some abbreviation of the operation type. For example, “b” refers to “Boolean operations”, “i” to “Integer Numeric operations”, and “d” to “Decimal Numeric Operations”.</p>
+<p>Second, the <code>outer()</code> function from base ‘R’ is only optimized for the “*” operator; all other operators are called “regularly”, somewhat (but not entirely) similar as functions would be called in an <code>apply()</code>-like function. The outer-like functions provided by ‘broadcast’, however, come with a very large set of optimised operators, written and compiled in ‘C’ and ‘C++’.</p>
+<p>Third, where base ‘R’ provides a single <code>outer()</code> function, ‘broadcast’ provides several outer-like functions. This is done for the following reasons:</p>
+<ul>
+<li>As stated earlier, the outer-like functions provided by ‘broadcast’ come with a very large set of pre-compiled, optimised operations.<br>
+Fitting all of those operators into a single outer-like function would be inefficient, and would also make it easy for the user to lose track of all of the supported operators.</li>
+<li>Splitting the numeric-ish operations into Boolean, (53bit) Integer, and (64bit) Decimal numbers, allows for only performing typecasting when necessary; more importantly, typecasting here is performed at the ‘C’ level, without allocating an entirely new vector/array.<br>
+This allows for far more efficient code.<br>
+For example: <code>bc.i(x, y "+")</code> is significantly faster and more memory efficient than <code>bc.d(trunc(x), trunc(y), "+")</code>, as the latter results in producing unnecessary copies of both <code>x</code> and <code>y</code>.</li>
+</ul>
+<p>For details on the operators supported in each of the outer-like functions, please refer to the relevant sections in the Reference Manual.</p>
+<p>&nbsp;</p>
+</section>
+<section id="binding-implementations" class="level1">
+<h1>Binding implementations</h1>
+<p>‘broadcast’ provides 3 functions for dimensional binding:</p>
+<ul>
+<li><a href="../man/bind.html">bind_mat</a>: binds vectors and matrices row-wise or column-wise; allows for vector (i.e.&nbsp;linear) recycling.</li>
+<li><a href="../man/bind.html">bind_array</a>: binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting.</li>
+<li><a href="../man/bind.html">bind_dt</a>: binds data.frames and data.tables; allows for matching unmatched columns.</li>
+</ul>
+<p>Note that the naming convention of the binding implementations here is “bind_” followed by the <strong>resulting class</strong> (abbreviated) - i.e.&nbsp;…</p>
+<ul>
+<li><a href="../man/bind.html">bind_mat</a> <strong>returns</strong> a matrix, but can bind both matrices and vectors.</li>
+<li><a href="../man/bind.html">bind_array</a> <strong>returns</strong> an array, but can bind both arrays and matrices.</li>
+<li><a href="../man/bind.html">bind_dt</a> <strong>returns</strong> a data.table, but can bind not only data.tables, but also most other data.frame-like objects.</li>
+</ul>
+<p>The <a href="../man/bind.html">bind_dt</a> function is only callable if the ‘data.table’ package is also installed.</p>
+<p>&nbsp;</p>
 <p>&nbsp; &nbsp;</p>
 
 

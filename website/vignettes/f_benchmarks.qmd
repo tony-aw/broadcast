@@ -126,7 +126,7 @@ load("bm_numpy_loop.RData")
 library(tinyplot) |> suppressWarnings()
 
 df1 <- data.frame(
-  bc = median_bc, numpy = median_np, i = 2:9
+  broadcast = median_bc, numpy = median_np, i = 2:9
 )
 df1 <- tidyr::pivot_longer(df1, 1:2, values_to = "median")
 df2 <- data.frame(
