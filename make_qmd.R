@@ -56,9 +56,9 @@ for(i in lst.files) {
 
 # create links in vignettes ====
 funs <- getNamespaceExports("broadcast")
-lst.files <- list.files(file.path("preprocess", "vignettes"), pattern = "qmd")
+lst.files <- list.files(file.path("website", "vignettes"), pattern = "qmd")
 for(i in lst.files) {
-  filepath <- file.path("preprocess", "vignettes", i)
+  filepath <- file.path("website", "vignettes", i)
   temp <- readLines(filepath)
   p <- paste0("`", funs, "()`")
   rp <- paste0("[`", funs, "()`]", "(/man/", rd_index(funs), ".qmd)")
