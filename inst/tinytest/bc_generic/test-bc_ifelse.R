@@ -101,7 +101,7 @@ for(iSample in 1:5) { # re-do tests with different random configurations
           expected[ind] <- list(NULL)
         }
         
-        expect_equivalent( # because ifelse() is a bit sloppy sometimes
+        expect_equivalent( # equivalent instead of equal because ifelse() is a bit sloppy sometimes
           expected, out
         ) |> errorfun()
         

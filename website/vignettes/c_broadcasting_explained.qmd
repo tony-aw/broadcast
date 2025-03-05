@@ -87,7 +87,7 @@ The problem isn't limited to available memory. As the object sizes increase, the
 In an operation like `outer(x, y, "+")`, `x` and `y` are replicated to become the same size. The thing is, physical replication - and thus copying - of the dimensions of `x` and `y` should not be necessary; they only need to be recycled virtually.  
 
 Virtual recycling does not actually physically replicate `x` and `y`. Instead, nested loops in 'C' and 'C++' are used to simulate a recycled array.  
-This is similar to how 'R' recycles regular vectors.  
+This is similar to how 'R' recycles regular (i.e. dimensionless) vectors.  
 Virtual recycling requires no additional memory (apart from allocating the final end result); it is much faster and much more memory efficient than using the `outer()` function or something similar.
 
 And **that** is what broadcasting does: broadcasting provides **fast** virtual recycling of array dimensions in the context of operations involving 2 (or more) arrays **without** allocating additional memory.
@@ -337,12 +337,42 @@ foo <- data.frame(
     rep("", 2),
     "dim(x)[i] recycled to size 5",
     "dim(y)[i] recycled to size 9",
-    "dim(y) extended by 1"
+    "dim(y) extended by 1 & recycled to size 6"
   ),
   check.names = FALSE
 )
 
 knitr::kable(foo) |> kableExtra::column_spec(1:6, border_left = TRUE, border_right = TRUE)
+
+```
+
+
+&nbsp;
+
+# Orthogonal Arrays
+
+In the documentation of 'broadcast', the reader may come across the term "orthogonal arrays" here and there.  
+
+For the purposes of broadcasting, the reader may consider any pair arrays, `x` and `y`, to be "orthogonal" if **all** of the following holds for that pair of arrays:  
+
+ - For **every** dimension index `i`, `dim(x)[i] != dim(y)[i]`
+ - For **every** dimensions index `i`,`dim(x)[i]` is `1` or missing, **OR** `dim(y)[i]` is `1` or missing.
+
+
+For example, the following 2 arrays are orthogonal:
+
+```{r echo=TRUE, eval=FALSE}
+x <- array(1:10, c(10, 1, 8, 1, 10))
+y <- array(1:10, c(1, 9, 1, 9, 1, 11))
+
+```
+
+And the following 2 arrays are not orthogonal:
+
+
+```{r echo=TRUE, eval=FALSE}
+x <- array(1:10, c(10, 1, 8, 1, 10))
+y <- array(1:10, c(10, 9, 1, 9, 10))
 
 ```
 

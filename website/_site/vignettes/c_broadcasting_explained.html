@@ -173,7 +173,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../vignettes/d_functions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Functionality Overview</span></a>
+ <span class="menu-text">Functions Design Explained</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -211,6 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#conformability" id="toc-conformability" class="nav-link" data-scroll-target="#conformability"><span class="header-section-number">4.1</span> Conformability</a></li>
   <li><a href="#which-dimensions-are-broadcasted" id="toc-which-dimensions-are-broadcasted" class="nav-link" data-scroll-target="#which-dimensions-are-broadcasted"><span class="header-section-number">4.2</span> Which dimensions are broadcasted</a></li>
   </ul></li>
+  <li><a href="#orthogonal-arrays" id="toc-orthogonal-arrays" class="nav-link" data-scroll-target="#orthogonal-arrays"><span class="header-section-number">5</span> Orthogonal Arrays</a></li>
   </ul>
 </nav>
     </div>
@@ -303,7 +304,7 @@ I.e. <code>x</code> needs its single column to be recycled (in this case) 5 time
 <h2 data-number="2.3" class="anchored" data-anchor-id="introducing-broadcasting"><span class="header-section-number">2.3</span> Introducing Broadcasting</h2>
 <p>In an operation like <code>outer(x, y, "+")</code>, <code>x</code> and <code>y</code> are replicated to become the same size. The thing is, physical replication - and thus copying - of the dimensions of <code>x</code> and <code>y</code> should not be necessary; they only need to be recycled virtually.</p>
 <p>Virtual recycling does not actually physically replicate <code>x</code> and <code>y</code>. Instead, nested loops in ‘C’ and ‘C++’ are used to simulate a recycled array.<br>
-This is similar to how ‘R’ recycles regular vectors.<br>
+This is similar to how ‘R’ recycles regular (i.e.&nbsp;dimensionless) vectors.<br>
 Virtual recycling requires no additional memory (apart from allocating the final end result); it is much faster and much more memory efficient than using the <code>outer()</code> function or something similar.</p>
 <p>And <strong>that</strong> is what broadcasting does: broadcasting provides <strong>fast</strong> virtual recycling of array dimensions in the context of operations involving 2 (or more) arrays <strong>without</strong> allocating additional memory.</p>
 <p>In the earlier example, we used:</p>
@@ -705,7 +706,7 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
 <td style="text-align: right; border-left: 1px solid; border-right: 1px solid;">NA</td>
 <td style="text-align: left; border-left: 1px solid; border-right: 1px solid;">y</td>
 <td style="text-align: left; border-left: 1px solid; border-right: 1px solid;">dim(y)[i] is missing</td>
-<td style="text-align: left; border-left: 1px solid; border-right: 1px solid;">dim(y) extended by 1</td>
+<td style="text-align: left; border-left: 1px solid; border-right: 1px solid;">dim(y) extended by 1 &amp; recycled to size 6</td>
 </tr>
 </tbody>
 </table>
@@ -713,10 +714,30 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
 
 </div>
 </div>
+<p>&nbsp;</p>
+</section>
+</section>
+<section id="orthogonal-arrays" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Orthogonal Arrays</h1>
+<p>In the documentation of ‘broadcast’, the reader may come across the term “orthogonal arrays” here and there.</p>
+<p>For the purposes of broadcasting, the reader may consider any pair arrays, <code>x</code> and <code>y</code>, to be “orthogonal” if <strong>all</strong> of the following holds for that pair of arrays:</p>
+<ul>
+<li>For <strong>every</strong> dimension index <code>i</code>, <code>dim(x)[i] != dim(y)[i]</code></li>
+<li>For <strong>every</strong> dimensions index <code>i</code>,<code>dim(x)[i]</code> is <code>1</code> or missing, <strong>OR</strong> <code>dim(y)[i]</code> is <code>1</code> or missing.</li>
+</ul>
+<p>For example, the following 2 arrays are orthogonal:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">1</span>, <span class="dv">10</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And the following 2 arrays are not orthogonal:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">1</span>, <span class="dv">10</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>&nbsp; &nbsp;</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

@@ -1,13 +1,6 @@
 ---
 title: "Practical Applications"
-output:
-  rmarkdown::html_vignette:
-    toc: true
-    number_sections: true
-vignette: >
-  %\VignetteIndexEntry{Practical Applications}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+format: html
 ---
 
 ```{r, include = FALSE}
@@ -57,17 +50,19 @@ which.min(dist); dist[which.min(dist)]
 &nbsp;
 
 
-# Find most resembling string
+# Perform computation on all possible pairs
 
-If you have 2 vectors of strings, and you want to find which pair of strings (one string from each vector), you'll need to find the string distance of all possible combinations.
+Suppose you have 2 vectors of strings, and you want to find concatenate every possible pair strings.
 
-This can be done very fast and very conveniently with 'broadcast', using the following code:
+In base R, this would require a either a loop (which is slow), or repeating the vectors several times (which requires more memory).
+
+The 'broadcasted way to do this, is to make the vectors orthogonal, and concatenate the strings of the orthogonal vectors, using the following code:
 
 ```{r}
-x <- array(month.name)
-y <- array(month.abb, c(1, 12))
+x <- array(letters[1:10], c(10, 1))
+y <- array(letters[1:10], c(1, 10))
 
-out <- bc.str(x, y, "levenshtein")
+out <- bc.str(x, y, "+")
 dimnames(out) <- list(x, y)
 print(out)
 

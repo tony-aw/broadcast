@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>R-package: broadcast - Functionality Overview</title>
+<title>R-package: broadcast - Functions Design Explained</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -103,7 +103,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../vignettes/d_functions.html">Functionality Overview</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../vignettes/d_functions.html">Functions Design Explained</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -136,7 +136,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../vignettes/d_functions.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Functionality Overview</span></a>
+ <span class="menu-text">Functions Design Explained</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -172,7 +172,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Functionality Overview</h1>
+<h1 class="title">Functions Design Explained</h1>
 </div>
 
 
@@ -193,28 +193,31 @@ ul.task-list li input[type="checkbox"] {
 <p>The ‘broadcast’ package provides 4 main functionalities:</p>
 <ul>
 <li>outer-like functions to perform broadcasted outer-computations</li>
-<li>broadcasted generic pair-wise functions</li>
 <li>broadcasted dimensional binding of arrays (and also matrices and data.tables)</li>
+<li>broadcasted generic pair-wise functions</li>
 <li>array typecasting with dimensions and names preserved</li>
 </ul>
-<p>This guide will give an overview of each of these 4 functionalities.</p>
+<p>This guide will explain the design choices of the functions provided by the ‘broadcast’ ‘R’-package.</p>
 <p>&nbsp;</p>
 </section>
 <section id="outer-like-functions" class="level1">
 <h1>Outer-like functions</h1>
 <p>The ‘broadcast’ package provides functions that perform Broadcasted outer operations, similar to base R’s <code>outer()</code> function. The outer-like functions are the following:</p>
 <ul>
-<li><a href="../man/bc.b.html">bc.b</a>: Broadcasted Boolean operations.</li>
-<li><a href="../man/bc.i.html">bc.i</a> : Broadcasted (53bit) Integer Numeric operations.</li>
-<li><a href="../man/bc.d.html">bc.d</a>: Broadcasted (64bit) Decimal Numeric operations.</li>
-<li><a href="../man/bc.cplx.html">bc.cplx</a>: Broadcasted Complex Numeric operations.</li>
-<li><a href="../man/bc.str.html">bc.str</a>: Broadcasted String operations.</li>
-<li><a href="../man/bc.list.html">bc.list</a>: Broadcasted operations on Recursive arrays.</li>
+<li><a href="../man/bc.b.html"><code>bc.b()</code></a>: Broadcasted Boolean operations.</li>
+<li><a href="../man/bc.i.html"><code>bc.i()</code></a> : Broadcasted (53bit) Integer Numeric operations.</li>
+<li><a href="../man/bc.d.html"><code>bc.d()</code></a>: Broadcasted (64bit) Decimal Numeric operations.</li>
+<li><a href="../man/bc.cplx.html"><code>bc.cplx()</code></a>: Broadcasted Complex Numeric operations.</li>
+<li><a href="../man/bc.str.html"><code>bc.str()</code></a>: Broadcasted String operations.</li>
+<li><a href="../man/bc.list.html"><code>bc.list()</code></a>: Broadcasted operations on Recursive arrays.</li>
 </ul>
 <p>There are several things to note about the above functions.</p>
-<p>First, the naming convention is “bc.” followed by some abbreviation of the operation type. For example, “b” refers to “Boolean operations”, “i” to “Integer Numeric operations”, and “d” to “Decimal Numeric Operations”.</p>
-<p>Second, the <code>outer()</code> function from base ‘R’ is only optimized for the “*” operator; all other operators are called “regularly”, somewhat (but not entirely) similar as functions would be called in an <code>apply()</code>-like function. The outer-like functions provided by ‘broadcast’, however, come with a very large set of optimised operators, written and compiled in ‘C’ and ‘C++’.</p>
-<p>Third, where base ‘R’ provides a single <code>outer()</code> function, ‘broadcast’ provides several outer-like functions. This is done for the following reasons:</p>
+<p>First, the naming convention is “bc.” followed by some abbreviation of the operation type.<br>
+For example, “b” refers to “Boolean operations”, “i” to “Integer Numeric operations”, and “d” to “Decimal Numeric Operations”.</p>
+<p>Second, the <code>outer()</code> function from base ‘R’ is only optimized for the “*” operator; all other operators are called “regularly”, somewhat (but not entirely) similar as functions would be called in an <code>apply()</code>-like function.<br>
+The outer-like functions provided by ‘broadcast’, however, come with a very large set of optimised operators, written and compiled in ‘C’ and ‘C++’.</p>
+<p>Third, where base ‘R’ provides a single <code>outer()</code> function, ‘broadcast’ provides several outer-like functions.<br>
+This is done for the following reasons:</p>
 <ul>
 <li>As stated earlier, the outer-like functions provided by ‘broadcast’ come with a very large set of pre-compiled, optimised operations.<br>
 Fitting all of those operators into a single outer-like function would be inefficient, and would also make it easy for the user to lose track of all of the supported operators.</li>
@@ -222,6 +225,23 @@ Fitting all of those operators into a single outer-like function would be ineffi
 This allows for far more efficient code.<br>
 For example: <code>bc.i(x, y "+")</code> is significantly faster and more memory efficient than <code>bc.d(trunc(x), trunc(y), "+")</code>, as the latter results in producing unnecessary copies of both <code>x</code> and <code>y</code>.</li>
 </ul>
+<p>Finally, much like the <code>outer()</code> function from base ‘R’, the outer-like functions provided by ‘broadcast’, are pair-wise functions; i.e.&nbsp;they operate on 2 arrays at a time.<br>
+This is intentional, as it is quite difficult to reason about broadcasting when it involves more than a pair of arrays.</p>
+<p>&nbsp;</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="../man/bc.d.html"><code>bc.num()</code></a> is an alias for <a href="../man/bc.d.html"><code>bc.d()</code></a>.</p>
+</div>
+</div>
+<p>&nbsp;</p>
 <p>For details on the operators supported in each of the outer-like functions, please refer to the relevant sections in the Reference Manual.</p>
 <p>&nbsp;</p>
 </section>
@@ -229,17 +249,29 @@ For example: <code>bc.i(x, y "+")</code> is significantly faster and more memory
 <h1>Binding implementations</h1>
 <p>‘broadcast’ provides 3 functions for dimensional binding:</p>
 <ul>
-<li><a href="../man/bind.html">bind_mat</a>: binds vectors and matrices row-wise or column-wise; allows for vector (i.e.&nbsp;linear) recycling.</li>
-<li><a href="../man/bind.html">bind_array</a>: binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting.</li>
-<li><a href="../man/bind.html">bind_dt</a>: binds data.frames and data.tables; allows for matching unmatched columns.</li>
+<li><a href="../man/bind.html"><code>bind_mat()</code></a>: binds vectors and matrices row-wise or column-wise; allows for vector (i.e.&nbsp;linear) recycling.</li>
+<li><a href="../man/bind.html"><code>bind_array()</code></a>: binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting.</li>
+<li><a href="../man/bind.html"><code>bind_dt()</code></a>: binds data.frames and data.tables; allows for matching unmatched columns.</li>
 </ul>
 <p>Note that the naming convention of the binding implementations here is “bind_” followed by the <strong>resulting class</strong> (abbreviated) - i.e.&nbsp;…</p>
 <ul>
-<li><a href="../man/bind.html">bind_mat</a> <strong>returns</strong> a matrix, but can bind both matrices and vectors.</li>
-<li><a href="../man/bind.html">bind_array</a> <strong>returns</strong> an array, but can bind both arrays and matrices.</li>
-<li><a href="../man/bind.html">bind_dt</a> <strong>returns</strong> a data.table, but can bind not only data.tables, but also most other data.frame-like objects.</li>
+<li><a href="../man/bind.html"><code>bind_mat()</code></a> <strong>returns</strong> a matrix, but can bind both matrices and vectors.</li>
+<li><a href="../man/bind.html"><code>bind_array()</code></a> <strong>returns</strong> an array, but can bind both arrays and matrices.</li>
+<li><a href="../man/bind.html"><code>bind_dt()</code></a> <strong>returns</strong> a data.table, but can bind not only data.tables, but also most other data.frame-like objects.</li>
 </ul>
-<p>The <a href="../man/bind.html">bind_dt</a> function is only callable if the ‘data.table’ package is also installed.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <a href="../man/bind.html"><code>bind_dt()</code></a> function is only callable if the ‘data.table’ package is also installed.</p>
+</div>
+</div>
 <p>&nbsp;</p>
 <p>&nbsp; &nbsp;</p>
 

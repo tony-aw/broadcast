@@ -1,0 +1,116 @@
+---
+title: "Functionality Overview"
+format: html
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval=TRUE, echo=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(broadcast)
+library(kableExtra) |> suppressWarnings()
+```
+
+
+&nbsp;
+
+# Introduction
+
+The 'broadcast' package provides 4 main functionalities:
+
+ - outer-like functions to perform broadcasted outer-computations
+ - broadcasted dimensional binding of arrays (and also matrices and data.tables)
+ - broadcasted generic pair-wise functions
+ - array typecasting with dimensions and names preserved
+ 
+This guide will give an overview of each of these 4 functionalities.
+
+
+&nbsp;
+
+# Outer-like functions
+
+
+The 'broadcast' package provides functions that perform Broadcasted outer operations,
+similar to base R's `outer()` function.
+The outer-like functions are the following:
+
+ - `bc.b()`: Broadcasted Boolean operations.
+ - `bc.i()` : Broadcasted (53bit) Integer Numeric operations.
+ - `bc.d()`: Broadcasted (64bit) Decimal Numeric operations.
+ - `bc.cplx()`: Broadcasted Complex Numeric operations.
+ - `bc.str()`: Broadcasted String operations.
+ - `bc.list()`: Broadcasted operations on Recursive arrays.
+ 
+ 
+
+There are several things to note about the above functions.
+
+First, the naming convention is "bc." followed by some abbreviation of the operation type.  
+For example, "b" refers to "Boolean operations", "i" to "Integer Numeric operations", and "d" to "Decimal Numeric Operations".
+
+Second, the `outer()` function from base 'R' is only optimized for the "*" operator; all other operators are called "regularly", somewhat (but not entirely) similar as functions would be called in an `apply()`-like function.  
+The outer-like functions provided by 'broadcast', however, come with a very large set of optimised operators, written and compiled in 'C' and 'C++'.
+
+Third, where base 'R' provides a single `outer()` function, 'broadcast' provides several outer-like functions.  
+This is done for the following reasons:
+
+ - As stated earlier, the outer-like functions provided by 'broadcast' come with a very large set of pre-compiled, optimised operations.  
+ Fitting all of those operators into a single outer-like function would be inefficient, and would also make it easy for the user to lose track of all of the supported operators.
+ - Splitting the numeric-ish operations into Boolean, (53bit) Integer, and (64bit) Decimal numbers, allows for only performing typecasting when necessary; more importantly, typecasting here is performed at the 'C' level, without allocating an entirely new vector/array.  
+ This allows for far more efficient code.  
+ For example: `bc.i(x, y "+")` is significantly faster and more memory efficient than `bc.d(trunc(x), trunc(y), "+")`, as the latter results in producing unnecessary copies of both `x` and `y`.
+
+Finally, much like the `outer()` function from base 'R', the outer-like functions provided by 'broadcast', are pair-wise functions; i.e. they operate on 2 arrays at a time.  
+This is intentional, as it is quite difficult to reason about broadcasting when it involves more than a pair of arrays.
+
+&nbsp;
+
+::: {.callout-note}
+
+ `bc.num()` is an alias for `bc.d()`.
+
+:::
+
+&nbsp;
+
+For details on the operators supported in each of the outer-like functions, please refer to the relevant sections in the Reference Manual.
+
+  
+ 
+&nbsp;
+
+# Binding implementations
+
+'broadcast' provides 3 functions for dimensional binding:
+
+ - `bind_mat()`: binds vectors and matrices row-wise or column-wise; allows for vector (i.e. linear) recycling.
+ - `bind_array()`: binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting.
+ - `bind_dt()`: binds data.frames and data.tables; allows for matching unmatched columns.
+ 
+Note that the naming convention of the binding implementations here is
+"bind_" followed by the **resulting class** (abbreviated) - i.e. ...
+
+ - `bind_mat()` **returns** a matrix, but can bind both matrices and vectors.
+ - `bind_array()` **returns** an array, but can bind both arrays and matrices.
+ - `bind_dt()` **returns** a data.table, but can bind not only data.tables, but also most other data.frame-like objects.
+
+
+
+::: {.callout-note}
+
+The `bind_dt()` function is only callable if the 'data.table' package is also installed.
+
+:::
+
+&nbsp;
+
+
+
+&nbsp;
+&nbsp;

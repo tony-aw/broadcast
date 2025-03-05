@@ -17,8 +17,9 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 ## 🗺️Overview
 
-The ‘broadcast’ package, as the name suggests, performs “broadcasting”
-(similar to broadcasting in the ‘Numpy’ module for ‘Python’).
+The ‘broadcast’ ‘R’-package, as the name suggests, performs
+“broadcasting” (similar to broadcasting in the ‘Numpy’ module for
+‘Python’).
 
 In the context of operations involving 2 (or more) arrays,
 “broadcasting” refers to recycling array dimensions **without**
@@ -148,9 +149,13 @@ Not using external libraries brings a number of advantages:
 
 ## 📖Documentation
 
-- Installation:
-- Broadcasting Explained:
-- Examples of Practical Applications:
-- Comparisons & Benchmarks:
+The documentation in the ‘broadcast’ website is divided into 3 main
+navigationable sections:
+
+- Guides and Vignettes: Here you’ll find the topic-oriented guides in
+  the form of a few Vignettes.
+- Reference Manual: Here you’ll find the function-oriented reference
+  manual.
+- About: Here you’ll find mainly the Changelog and License file.
 
    

@@ -1,0 +1,351 @@
+---
+title: "Broadcasting Explained"
+format:
+  html:
+    number-sections: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval=TRUE, echo=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(broadcast)
+library(kableExtra) |> suppressWarnings()
+```
+
+
+&nbsp;
+
+# Introduction
+
+In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory or making needles copies. This is considerably **faster** and **more memory-efficient** than R's regular dimensions repetition (and similar) mechanisms, such as the mechanism utilized inside the `outer()` function.
+
+This article explains the concept of "broadcasting" in more detail.
+A good understanding of atomic and recursive arrays in base 'R' is somewhat essential to follow this article.
+
+&nbsp;
+
+# What is broadcasting and why is it needed?
+
+## Example case
+
+Let's start with a simple example.  
+Consider 2 orthogonal 1d arrays, namely the column vector `x` and the row vector `y`:
+
+```{r}
+x <- array(1:5, c(5, 1))
+y <- array(1:5*10, c(1, 5))
+print(x)
+print(y)
+```
+
+Suppose one wishes to compute the outer sum of these 2 vectors.  
+
+This won't work in base 'R':
+
+```{r eval=FALSE, echo=TRUE}
+x + y
+Error in x + y : non-conformable arrays
+```
+
+
+When computing the outer sum of these orthogonal vectors, both vectors need to be recycled to equal size in order to compute the outer computation.  
+I.e. `x` needs its single column to be recycled (in this case) 5 times, and `y` needs its single row to be recycled 5 times, creating 2 conformable matrices.  
+
+'R' provides linear **vector** recycling, but not recycling of array dimensions. Instead, in base 'R' we need to **replicate** (and thus **copy**) the array dimensions. This can be done manually, or using `outer() |> drop()`:
+
+```{r}
+x[, rep(1L, 5L)] + y[rep(1L, 5L),]
+
+outer(x, y, "+") |> drop()
+```
+
+&nbsp;
+
+## What is the problem?
+
+When `x` and `y` are small arrays, like in the above example, there is hardly a problem; but when `x` and `y` become larger, the 3 matrices (`x` is replicated to a matrix, `y` is replicated to a matrix, and the result is also matrix) also become larger.
+
+If the 3 matrices become too large, you may require more memory than is available in your current system, resulting in a message like the following:
+
+```{r eval=FALSE, echo=TRUE}
+> Error: cannot allocate vector of size
+```
+
+
+The problem isn't limited to available memory. As the object sizes increase, the speed decreases. And let's not forget that computational inefficiency in general is also bad for the environment.
+
+&nbsp;
+
+## Introducing Broadcasting
+
+In an operation like `outer(x, y, "+")`, `x` and `y` are replicated to become the same size. The thing is, physical replication - and thus copying - of the dimensions of `x` and `y` should not be necessary; they only need to be recycled virtually.  
+
+Virtual recycling does not actually physically replicate `x` and `y`. Instead, nested loops in 'C' and 'C++' are used to simulate a recycled array.  
+This is similar to how 'R' recycles regular (i.e. dimensionless) vectors.  
+Virtual recycling requires no additional memory (apart from allocating the final end result); it is much faster and much more memory efficient than using the `outer()` function or something similar.
+
+And **that** is what broadcasting does: broadcasting provides **fast** virtual recycling of array dimensions in the context of operations involving 2 (or more) arrays **without** allocating additional memory.
+
+In the earlier example, we used:
+
+```{r}
+x[, rep(1L, 5L)] + y[rep(1L, 5L),]
+
+outer(x, y, "+") |> drop()
+```
+
+To compute the outer sum using broadcasting through the 'broadcast' package, we can do the following:
+
+```{r}
+library(broadcast)
+
+bc.num(x, y, "+")
+
+```
+
+The result is the same (as it should). But as the size of the resulting array increases, the broadcasted functions become more and more efficient in terms of both speed and memory, in comparison with base 'R' approaches.  
+
+Benchmarks can be found on the website.
+
+&nbsp;
+
+# Illustrating Broadcasting
+
+In the previous example 2 orthogonal vectors were created:
+
+```{r}
+print(x)
+print(y)
+```
+
+
+Computing the broadcasted outer sum of `x` and `y` produced the following:
+
+```{r}
+bc.num(x, y, "+")
+```
+
+
+So what exactly does broadcasting compute here?
+
+The following table illustrates what broadcasting does, conceptually:
+
+```{r eval=TRUE, echo=FALSE}
+
+
+foo <- cbind(
+  sprintf("x[%d] + y[%d]", 1:5, 1),
+  sprintf("x[%d] + y[%d]", 1:5, 2),
+  sprintf("x[%d] + y[%d]", 1:5, 3),
+  sprintf("x[%d] + y[%d]", 1:5, 4),
+  sprintf("x[%d] + y[%d]", 1:5, 5)
+)
+
+knitr::kable(foo) |> kableExtra::column_spec(1:5, border_left = TRUE, border_right = TRUE)
+
+```
+
+
+This is an example of a simple outer operation of 2 orthogonal vectors. But broadcasting provided by the 'broadcast' package is not limited to only those kinds of arrays.
+
+Any 2 arrays with each no more than 16 dimensions are supported. And any number of dimensions can be broadcasted simultaneously.
+
+&nbsp;
+
+Let's broadcast a vector with a matrix.
+
+Consider the following column vector:
+
+```{r}
+x <- array(1:5 * 10, dim = c(5,1))
+print(x)
+```
+
+And the following matrix:
+
+```{r}
+y <- matrix(1:20, 5, 4)
+print(y)
+```
+
+Let's see what happens if we sum them together using broadcasting:
+
+```{r}
+bc.num(x, y, "+")
+```
+
+What happens here is that `y` remains the same, but column vector `x` is **virtually** recycled 4 times, but without requiring 4 times more memory. This is also be illustrated in the following table:
+
+```{r eval=TRUE, echo=FALSE}
+
+
+foo <- cbind(
+  sprintf("x[%d] + y[%d, %d]", 1:5, 1:5, 1),
+  sprintf("x[%d] + y[%d, %d]", 1:5, 1:5, 2),
+  sprintf("x[%d] + y[%d, %d]", 1:5, 1:5, 3),
+  sprintf("x[%d] + y[%d, %d]", 1:5, 1:5, 4)
+)
+
+knitr::kable(foo) |> kableExtra::column_spec(1:4, border_left = TRUE, border_right = TRUE)
+
+```
+
+
+&nbsp;
+
+# Broadcasting limitations and rules
+
+The previous section used the examples of a simple outer operation with 1d arrays and matrices, as they are easier to display on a flat screen then 3d-arrays.   
+But broadcasting provided by the 'broadcast' package is not limited to only those kinds of arrays.
+
+Any 2 arrays with each no more than 16 dimensions are supported. And any number of dimensions can be broadcasted simultaneously.
+
+&nbsp;
+
+## Conformability
+
+Broadcasted operations only work when 2 arrays are conformable for broadcasting.  
+
+Consider again 2 arrays `x` and `y`, and their dimensions given by `dim(x)` and `dim(y)`, respectively.  
+'broadcast' goes through `dim(x)` and `dim(y)`, from left (i.e. first dimension / rows) to right (i.e. the last dimension), and checks for each axis `i` if **at least one** of the following conditions is TRUE:
+
+ - `dim(x)[i]` and `dim(y)[i]` are equal;
+ - either `dim(x)[i]` or `dim(y)[i]` is `1`;
+ - either `dim(x)[i]` or `dim(y)[i]` is non-existing.
+ 
+if at least one of the above conditions is true for each and every one of the dimensions of `x` and `y`, the 2 arrays are compatible for broadcasted operations. If not, they are not compatible, and attempting to perform a broadcasted operations results in an error.
+
+
+To illustrate, let's check 2 arrays to see if they are compatible:
+
+```{r echo = TRUE, eval = TRUE}
+x <- array(rnorm(10), c(10, 1, 9, 6))
+y <- array(rnorm(10), c(10, 5, 1))
+```
+
+
+```{r echo=FALSE, eval=TRUE}
+dimx <- dim(x)
+dimy <- dim(y)
+foo <- data.frame(
+  `dim(x)` = dimx,
+  `dim(y)` = c(dimy, NA),
+  compatible = rep(TRUE, 4),
+  reason = c("equal", "either is 1", "either is 1", "either is missing"),
+  check.names = FALSE
+)
+
+knitr::kable(foo) |> kableExtra::column_spec(1:4, border_left = TRUE, border_right = TRUE)
+
+```
+
+As shown in the data.frame above, all dimensions of `x` and `y` are compatible.  
+Therefore, broadcasted binary operations involving `x` and `y` can be performed.
+
+&nbsp;
+
+Now let's look at another 2 arrays, and see if they are compatible:
+
+
+```{r echo = TRUE, eval=TRUE}
+x <- array(rnorm(10), c(10, 1, 9, 6))
+y <- array(rnorm(10), c(10, 5, 2))
+```
+
+
+```{r echo=FALSE, eval=TRUE}
+dimx <- dim(x)
+dimy <- dim(y)
+foo <- data.frame(
+  `dim(x)` = dimx,
+  `dim(y)` = c(dimy, NA),
+  compatible = c(TRUE, TRUE, FALSE, TRUE),
+  reason = c("equal", "either is 1", "not equal & neither is 1/missing", "either is missing"),
+  check.names = FALSE
+)
+
+knitr::kable(foo) |> kableExtra::column_spec(1:4, border_left = TRUE, border_right = TRUE)
+
+```
+
+One of the dimensions, namely the third dimension, is not compatible. Therefore, these 2 arrays are **not** conformable for broadcasted operations.
+
+&nbsp;
+
+## Which dimensions are broadcasted
+
+In the context of an operation involving exactly 2 arrays, this sub-section explains which dimensions of which array is broadcasted, and which dimension of which array is left as-is.  
+There are 3 scenarios relevant for this explanation.
+
+&nbsp;
+
+**Scenario 1:**  
+For some dimension `i`, `dim(x)[i]` and `dim(y)[i]` are equal.  
+In this scenario, no broadcasting needs to occur on that dimension for either array.
+
+&nbsp;
+
+
+**Scenario 2:**  
+For some dimension `i`, suppose `dim(x)[i] == 1` and `dim(y)[i] > 1`.  
+Then dimension `dim(x)[i]` is **broadcasted** to size `dim(y)[i]`.  
+Similarly, if `dim(x)[i] > 1` and `dim(y)[i] == 1`, dimension `dim(y)[i]` is **broadcasted** to size `dim(x)[i]`.
+
+&nbsp;
+
+
+**Scenario 3:**  
+Finally, suppose for some dimension `i`, `dim(x)[i] > 1`, and `dim(y)[i]` is non-existing.  
+I.e., `x` has more dimensions than `y`.  
+In this case, the missing dimension in `y` is replaced with a dimensions of size `1`, and scenario 2 is used.  
+Similarly, if `dim(y)[i] > 1` and `dim(x)[i]` is non-existing, the missing dimension in `x` is replaced with a dimension of size `1` and we get back to scenario 2.  
+
+It does not matter how much difference there is between the number of dimensions of `x` and the number of dimensions of `y`: any number of missing dimensions will be replaced with `1`, as long as the total number of dimensions for each array does not exceed `16`.
+
+&nbsp;
+
+**Illustration**
+
+To illustrate, let's check 2 conformable arrays, and see which dimension of which array is broadcasted by how much
+
+```{r echo = TRUE, eval = TRUE}
+x <- array(rnorm(10), c(10, 1, 1, 9, 6))
+y <- array(rnorm(10), c(10, 1, 5, 1))
+```
+
+
+```{r echo=FALSE, eval=TRUE}
+dimx <- dim(x)
+dimy <- dim(y)
+foo <- data.frame(
+  i = 1:length(dimx),
+  `dim(x)` = dimx,
+  `dim(y)` = c(dimy, NA),
+  broadcasted = c("neither", "neither", "x", "y", "y"),
+  reason = c(
+    "dims equal", "dims equal",
+    "dim(x)[i] == 1", "dim(y)[i] == 1",
+    "dim(y)[i] is missing"
+  ),
+  note = c(
+    rep("", 2),
+    "dim(x)[i] recycled to size 5",
+    "dim(y)[i] recycled to size 9",
+    "dim(y) extended by 1"
+  ),
+  check.names = FALSE
+)
+
+knitr::kable(foo) |> kableExtra::column_spec(1:6, border_left = TRUE, border_right = TRUE)
+
+```
+
+
+&nbsp;
+&nbsp;

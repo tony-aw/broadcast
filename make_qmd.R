@@ -12,18 +12,18 @@ pkgpath <- getwd()
 for(i in lst.files) {
   print(i)
   filepath <- file.path("man", i)
-  outpath <- file.path("website", "preprocess")
+  outpath <- file.path("preprocess", "man")
   rd_links(filepath, outpath, funs)
 }
 
 
 
 # convert Rd to qmd ====
-lst.files <- list.files(file.path("website", "preprocess"), pattern = "Rd")
+lst.files <- list.files(file.path("preprocess", "man"), pattern = "Rd")
 pkgpath <- getwd()
 for(i in lst.files) {
   print(i)
-  filepath <- file.path("website", "preprocess", i)
+  filepath <- file.path("preprocess", "man", i)
   outpath <- file.path("website", "man")
   rd2qmd(filepath, outpath, pkgpath)
 }
@@ -56,17 +56,22 @@ for(i in lst.files) {
 
 # create links in vignettes ====
 funs <- getNamespaceExports("broadcast")
-lst.files <- list.files("website/vignettes/", pattern = "qmd")
+lst.files <- list.files(file.path("preprocess", "vignettes"), pattern = "qmd")
 for(i in lst.files) {
-  filepath <- file.path("website", "vignettes", i)
+  filepath <- file.path("preprocess", "vignettes", i)
   temp <- readLines(filepath)
   p <- paste0("`", funs, "()`")
-  rp <- paste0("[", funs, "]", "(/man/", rd_index(funs), ".qmd)")
+  rp <- paste0("[`", funs, "()`]", "(/man/", rd_index(funs), ".qmd)")
   temp <- stri_replace_all(
     temp, rp, fixed = p, vectorize_all = FALSE
   )
   writeLines(temp, file.path("website", "vignettes", i))
 }
+
+
+# make readmes ====
+quarto::quarto_render("website/index.qmd", "gfm", "Readme.md")
+file.copy("website/Readme.md", "Readme.md")
 
 
 # end of rd2qmd ====
