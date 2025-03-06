@@ -24,8 +24,10 @@ pkgpath <- getwd()
 for(i in lst.files) {
   print(i)
   filepath <- file.path("preprocess", "man", i)
+  temp_html <- stri_replace_last(i, ".html", fixed = ".Rd")
+  temp_html <- file.path("preprocess", "man", temp_html)
   outpath <- file.path("website", "man")
-  rd2qmd(filepath, outpath, pkgpath)
+  rd2qmd(filepath, temp_html, outpath, pkgpath)
 }
 
 

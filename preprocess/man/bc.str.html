@@ -1,0 +1,90 @@
+<!DOCTYPE html><html><head><title>R: Broadcasted String Operations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>bc.str</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Broadcasted String Operations</h2>
+
+<h3>Description</h3>
+
+<p>The <code>bc.str()</code> function
+performs broadcasted string operations on pairs of arrays. <br /> <br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>bc.str(x, y, op)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="x">x</code>, <code id="y">y</code></td>
+<td>
+<p>conformable atomic arrays of typee <code>character</code>.</p>
+</td></tr>
+<tr><td><code id="op">op</code></td>
+<td>
+<p>a single string, giving the operator. <br />
+Supported concatenation operators: +. <br />
+Supported relational operators: ==, !=. <br />
+Supported distance operators: levenshtein. <br /></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>For concatenation operation: <br />
+A character array as a result of the broadcasted concatenation operation. <br />
+<br />
+For relational operation: <br />
+A logical array as a result of the broadcasted relational comparison. <br />
+<br />
+For distance operation: <br />
+An integer array as a result of the broadcasted distance measurement. <br />
+<br />
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+# string concatenation:
+x &lt;- array(letters, c(10, 2, 1))
+y &lt;- array(letters, c(10,1,1))
+bc.str(x, y, "+")
+
+
+# string (in)equality:
+bc.str(array(letters), array(letters), "==")
+bc.str(array(letters), array(letters), "!=")
+
+
+# string distance (Levenshtein):
+x &lt;- array(month.name, c(12, 1))
+y &lt;- array(month.abb, c(1, 12))
+out &lt;- bc.str(x, y, "levenshtein")
+dimnames(out) &lt;- list(month.name, month.abb)
+print(out)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

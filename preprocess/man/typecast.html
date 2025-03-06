@@ -1,0 +1,138 @@
+<!DOCTYPE html><html><head><title>R: Atomic and List Type Casting With Names and Dimensions...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>typecast</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Atomic and List Type Casting With Names and Dimensions Preserved</h2>
+
+<h3>Description</h3>
+
+<p>Type casting usually strips away attributes of objects. <br />
+The functions provided here preserve dimensions, dimnames, and names,
+which may be more convenient for arrays and array-like objects. <br />
+<br />
+The functions are as follows: <br />
+</p>
+
+<ul>
+<li> <p><code>as_bool()</code>: converts object to atomic type <code>logical</code> (<code>TRUE, FALSE, NA</code>).
+</p>
+</li>
+<li> <p><code>as_int()</code>: converts object to atomic type <code>integer</code>.
+</p>
+</li>
+<li> <p><code>as_dbl()</code>: converts object to atomic type <code>double</code> (AKA numeric).
+</p>
+</li>
+<li> <p><code>as_chr()</code>: converts object to atomic type <code>character</code>.
+</p>
+</li>
+<li> <p><code>as_cplx()</code>: converts object to atomic type <code>complex</code>.
+</p>
+</li>
+<li> <p><code>as_raw()</code>: converts object to atomic type <code>raw</code>.
+</p>
+</li>
+<li> <p><code>as_list()</code>: converts object to recursive type <code>list</code>. <br />
+</p>
+</li></ul>
+
+<p><code>as_num()</code> is an alias for <code>as_dbl()</code>. <br />
+<code>as_str()</code> is an alias for <code>as_chr()</code>. <br />
+<br />
+See also typeof. <br /> <br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>as_bool(x, ...)
+
+as_int(x, ...)
+
+as_dbl(x, ...)
+
+as_num(x, ...)
+
+as_chr(x, ...)
+
+as_str(x, ...)
+
+as_cplx(x, ...)
+
+as_raw(x, ...)
+
+as_list(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="x">x</code></td>
+<td>
+<p>an R object.</p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The converted object. <br /> <br />
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+# matrix example ====
+x &lt;- matrix(sample(-1:28), ncol = 5)
+colnames(x) &lt;- month.name[1:5]
+rownames(x) &lt;- month.abb[1:6]
+names(x) &lt;- c(letters[1:20], LETTERS[1:10])
+print(x)
+
+as_bool(x)
+as_int(x)
+as_dbl(x)
+as_chr(x)
+as_cplx(x)
+as_raw(x)
+
+
+################################################################################
+
+# factor example ====
+x &lt;- factor(month.abb, levels = month.abb)
+names(x) &lt;- month.name
+print(x)
+
+as_bool(as_int(x) &gt; 6)
+as_int(x)
+as_dbl(x)
+as_chr(x)
+as_cplx(x)
+as_raw(x)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

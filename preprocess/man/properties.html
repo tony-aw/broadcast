@@ -1,0 +1,146 @@
+<!DOCTYPE html><html><head><title>R: Small property functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>properties</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Small property functions</h2>
+
+<h3>Description</h3>
+
+<p><code>ndim()</code> returns the number of dimensions of an object. <br />
+<code>lst.ndim()</code> returns the number of dimensions of every list-element. <br />
+<code>lst.typeof()</code> returns the (internal) type of every list-element. <br />
+<code>len()</code> is an alias for <code>length</code>. <br />
+<code>lst.len()</code> is an alias for <code>lengths</code>. <br />
+<br />
+These functions were all designed to be efficient. <br />
+<br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>ndim(x)
+
+lst.ndim(x)
+
+lst.typeof(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="x">x</code></td>
+<td>
+<p>an object.<br />
+For functions starting with <code>lst.</code>, <code>x</code> must be a list (i.e. recursive vector or recursive array). <br /></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An integer scalar
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+# bind_array ====
+
+# here, atomic and recursive arrays are mixed,
+# resulting in recursive arrays
+
+# creating the arrays
+x &lt;- c(
+  lapply(1:3, \(x)sample(c(TRUE, FALSE, NA))),
+  lapply(1:3, \(x)sample(1:10)),
+  lapply(1:3, \(x)rnorm(10)),
+  lapply(1:3, \(x)sample(letters))
+)
+x &lt;- matrix(x, 4, 3, byrow = TRUE)
+dimnames(x) &lt;- list(letters[1:4], LETTERS[1:3])
+print(x)
+
+y &lt;- matrix(1:12, 4, 3)
+print(y)
+
+# binding the arrays
+input &lt;- list(x = x, y = y)
+bind_array(input, along = 0L) # binds on new dimension before first
+bind_array(input, along = 1L) # binds on first dimension (i.e. rows)
+bind_array(input, along = 2L)
+bind_array(input, along = 3L) # bind on new dimension after last
+
+bind_array(input, revalong = 0L) # binds on new dimension after last
+bind_array(input, revalong = 1L) # binds on last dimension (i.e. columns)
+bind_array(input, revalong = 2L)
+bind_array(input, revalong = 3L) # bind on new dimension before first
+
+
+# binding, with empty arrays
+emptyarray &lt;- array(numeric(0L), c(0L, 3L))
+dimnames(emptyarray) &lt;- list(NULL, paste("empty", 1:3))
+print(emptyarray)
+input &lt;- list(x = x, y = emptyarray)
+bind_array(input, along = 1L, comnames_from = 2L) # row-bind
+
+
+
+################################################################################
+
+# bind_mat ====
+
+# here, atomic and recursive matrices are mixed,
+# resulting in a recursive matrix
+
+x &lt;- c(
+  lapply(1:3, \(x)sample(c(TRUE, FALSE, NA))),
+  lapply(1:3, \(x)sample(1:10)),
+  lapply(1:3, \(x)rnorm(10)),
+  lapply(1:3, \(x)sample(letters))
+)
+x &lt;- matrix(x, 4, 3, byrow = TRUE)
+dimnames(x) &lt;- list(letters[1:4], LETTERS[1:3])
+print(x)
+
+y &lt;- matrix(1:12, 4, 3)
+print(y)
+
+bind_mat(list(x = x, y = y), 2L)
+
+
+
+################################################################################
+
+# bind_dt ====
+
+
+x &lt;- data.frame(a = 1:12, b = month.abb) # data.frame
+y &lt;- data.table::data.table(a = 1:12, b = month.abb) # data.table
+
+bind_dt(list(x = x, y = y), 2L) # column bind
+
+bind_dt(list(x = x, y = y), 1L) # row bind
+
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

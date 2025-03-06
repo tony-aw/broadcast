@@ -13,7 +13,7 @@ bind_array(
   input,
   along,
   revalong,
-  max_bc = 1L,
+  ndim2bc = 1L,
   name_along = TRUE,
   comnames_from = 1L
 )
@@ -55,9 +55,9 @@ Same as \code{along}, but counting backwards. \cr
 I.e. \code{revalong = 0} is equivalent to \code{along = N+1}, and \code{revalong = N+1} is equivalent to \code{along = 0}; \cr
 with \verb{N = }\link[base]{max}\code{(}\link{lst.ndim}\verb{(input))}.}
 
-\item{max_bc}{integer, for \code{bind_array} only. \cr
-Specify here the number of dimensions that are allowed to be broadcasted when binding arrays. \cr
-If \code{max_bc = 0L}, \bold{no} broadcasting will be allowed at all.}
+\item{ndim2bc}{non-negative integer, for \code{bind_array} only. \cr
+Specify here the maximum number of dimensions that are allowed to be broadcasted when binding arrays. \cr
+If \code{ndim2bc = 0L}, \bold{no} broadcasting will be allowed at all.}
 
 \item{name_along}{Boolean, for \code{bind_array()}. \cr
 Indicates if dimension \code{along} should be named.}

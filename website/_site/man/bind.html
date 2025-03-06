@@ -78,7 +78,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
-  "type": "overlay",
+  "type": "textbox",
   "limit": 20,
   "language": {
     "search-no-results-text": "No results",
@@ -302,7 +302,7 @@ bind_array(
   input,
   along,
   revalong,
-  max_bc = 1L,
+  ndim2bc = 1L,
   name_along = TRUE,
   comnames_from = 1L
 )
@@ -364,10 +364,10 @@ for <code>bind_array()</code> only. <br> Same as <code>along</code>, but countin
 </tr>
 <tr>
 <td style="white-space: collapse; font-family: monospace; vertical-align: top">
-<code id="max_bc">max_bc</code>
+<code id="ndim2bc">ndim2bc</code>
 </td>
 <td>
-integer, for <code>bind_array</code> only. <br> Specify here the number of dimensions that are allowed to be broadcasted when binding arrays. <br> If <code>max_bc = 0L</code>, <b>no</b> broadcasting will be allowed at all.
+non-negative integer, for <code>bind_array</code> only. <br> Specify here the maximum number of dimensions that are allowed to be broadcasted when binding arrays. <br> If <code>ndim2bc = 0L</code>, <b>no</b> broadcasting will be allowed at all.
 </td>
 </tr>
 <tr>

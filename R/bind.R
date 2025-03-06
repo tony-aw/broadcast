@@ -40,9 +40,9 @@
 #' Same as `along`, but counting backwards. \cr
 #' I.e. `revalong = 0` is equivalent to `along = N+1`, and `revalong = N+1` is equivalent to `along = 0`; \cr
 #' with `N = `\link[base]{max}`(`\link{lst.ndim}`(input))`.
-#' @param max_bc integer, for `bind_array` only. \cr
-#' Specify here the number of dimensions that are allowed to be broadcasted when binding arrays. \cr
-#' If `max_bc = 0L`, \bold{no} broadcasting will be allowed at all.
+#' @param ndim2bc non-negative integer, for `bind_array` only. \cr
+#' Specify here the maximum number of dimensions that are allowed to be broadcasted when binding arrays. \cr
+#' If `ndim2bc = 0L`, \bold{no} broadcasting will be allowed at all.
 #' @param name_deparse Boolean, for `bind_mat()`. \cr
 #' Indicates if dimension `along` should be named. \cr
 #' Uses the naming method from \link[base]{rbind}/\link[base]{cbind} itself.
@@ -149,7 +149,7 @@ bind_mat <- function(
 #' @rdname bind
 #' @export
 bind_array <- function(
-    input, along, revalong, max_bc = 1L, name_along = TRUE, comnames_from = 1L
+    input, along, revalong, ndim2bc = 1L, name_along = TRUE, comnames_from = 1L
 ) {
   
   # error checks:
@@ -177,7 +177,7 @@ bind_array <- function(
   }
 
   # main function:
-  out <- .internal_bind_array(input2, along, max_bc, name_along, sys.call())
+  out <- .internal_bind_array(input2, along, ndim2bc, name_along, sys.call())
   
   # add comnames:
   if(!is.null(comnames_from)) {

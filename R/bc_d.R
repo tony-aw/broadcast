@@ -36,7 +36,7 @@
 bc.d <- function(x, y, op, prec = sqrt(.Machine$double.eps)) {
   
   # checks:
-  .stop_general(x, y, op, sys.call())
+  .binay_stop_general(x, y, op, sys.call())
   if(!.is_numeric_like(x) || !.is_numeric_like(y)) {
     stop("`x` and `y` must be numeric or logical arrays")
   }
@@ -69,7 +69,7 @@ bc.num <- bc.d
 #' @noRd
 .bc_dec_math <- function(x, y, op, abortcall) {
   
-  prep <- .prep_binary(x, y, abortcall)
+  prep <- .binay_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]
@@ -135,7 +135,7 @@ bc.num <- bc.d
   }
   
   
-  prep <- .prep_binary(x, y, abortcall)
+  prep <- .binay_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]

@@ -1,0 +1,80 @@
+<!DOCTYPE html><html><head><title>R: Broadcasted Boolean Operations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>bc.b</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Broadcasted Boolean Operations</h2>
+
+<h3>Description</h3>
+
+<p>The <code>bc.b()</code> function
+performs broadcasted Boolean operations on 2 logical (or 32bit integer) arrays. <br />
+<br />
+Please note that these operations will treat the input as Boolean. <br />
+Therefore, something like <code>bc.b(1, 2, "==")</code> returns <code>TRUE</code>,
+because both <code>1</code> and <code>2</code> are <code>TRUE</code> when cast as Boolean. <br />
+<br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>bc.b(x, y, op)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="x">x</code>, <code id="y">y</code></td>
+<td>
+<p>conformable logical (or 32bit integer) arrays.</p>
+</td></tr>
+<tr><td><code id="op">op</code></td>
+<td>
+<p>a single string, giving the operator. <br />
+Supported Boolean  operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br /></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A logical array as a result of the broadcasted Boolean operation. <br /> <br />
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>x.dim &lt;- c(4:2)
+x.len &lt;- prod(x.dim)
+x.data &lt;- sample(c(TRUE, FALSE, NA), x.len, TRUE)
+x &lt;- array(x.data, x.dim)
+y &lt;- array(1:50, c(4,1,1))
+
+bc.b(x, y, "&amp;")
+bc.b(x, y, "|")
+bc.b(x, y, "xor")
+bc.b(x, y, "nand")
+bc.b(x, y, "==")
+bc.b(x, y, "!=")
+
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

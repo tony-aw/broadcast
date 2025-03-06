@@ -1,0 +1,83 @@
+<!DOCTYPE html><html><head><title>R: Apply a Function to 2 Broadcasted Arrays</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>bcapply</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply a Function to 2 Broadcasted Arrays</h2>
+
+<h3>Description</h3>
+
+<p>The <code>bcapply()</code> function
+applies a function to 2 arrays with broadcasting. <br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>bcapply(x, y, f, v = "list")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="x">x</code>, <code id="y">y</code></td>
+<td>
+<p>conformable atomic or recursive arrays.</p>
+</td></tr>
+<tr><td><code id="f">f</code></td>
+<td>
+<p>a function that takes in exactly <b>2</b> arguments,
+and <b>returns</b> a result
+that can be stored in a single element of a recursive or atomic array.</p>
+</td></tr>
+<tr><td><code id="v">v</code></td>
+<td>
+<p>a single string, giving the scalar type for a single iteration. <br />
+If <code>NULL</code> or <code>"list"</code> (default), the result will be a recursive array. <br />
+If it is certain that, for every iteration,
+<code>f()</code> always results in a <b>single atomic scalar</b>,
+the user can specify the type in <code>v</code> to pre-allocate the result. <br />
+Pre-allocating the results leads to slightly faster and more memory efficient code. <br />
+NOTE: Incorrectly specifying <code>v</code> leads to undefined behaviour. <br /></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An atomic or recursive array with dimensions <code>bc_dim(x, y)</code>. <br />
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>x.dim &lt;- c(c(10, 2,2))
+x.len &lt;- prod(x.dim)
+
+gen &lt;- function(n) sample(list(letters, month.abb, 1:10), n, TRUE)
+
+x &lt;- array(gen(10), x.dim)
+y &lt;- array(gen(10), c(10,1,1))
+
+f &lt;- function(x, y) list(x, y)
+bcapply(x, y, f)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

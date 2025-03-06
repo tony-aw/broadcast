@@ -22,7 +22,7 @@
 bc.list <- function(x, y, f) {
   
   # checks:
-  .stop_general(x, y, "", sys.call())
+  .binay_stop_general(x, y, "", sys.call())
   if(!is.list(x) || !is.list(y)) {
     stop("`x` and `y` must be recursive arrays")
   }
@@ -35,7 +35,7 @@ bc.list <- function(x, y, f) {
   
   
   # general prep:
-  prep <- .prep_binary(x, y, sys.call())
+  prep <- .binay_prep(x, y, sys.call())
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]

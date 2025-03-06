@@ -107,9 +107,10 @@ Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, incl
 
 Not using external libraries brings a number of advantages:
 
--   **Avoid dependency hell**: Every dependency that is added to a software package increases the likelihood of something breaking (AKA "dependency hell"). 'broadcast' thus avoids this.
--   **Avoid wasting resources for translations**: Using libraries from other languages, such as 'xtensor' ('C++') or 'Numpy' ('Python') means that - at some point - one needs to convert between the structure of R to that of the other language, and vice-versa, which wastes precious time and memory. 'broadcast' requires no such translations of structures, and thus does not waste precious time and memory.
--   **Ensure consistent behaviour**: Using libraries from other languages also means one cannot always guarantee consistent behaviour of some operations. For example: both 'Numpy' and 'xtensor' have only limited support for missing values, whereas 'R' supports missing values for both atomic and recursive array/vector types (except type of 'Raw'). Since 'broadcast' does not rely on external libraries, it can ensure consistent behaviour.
+ - **Avoid dependency hell**: Every dependency that is added to a software package increases the likelihood of something breaking (AKA "dependency hell"). 'broadcast' thus avoids this.
+ - **Avoid wasting resources for translations**: Using libraries from other languages, such as 'xtensor' ('C++') or 'Numpy' ('Python') means that - at some point - one needs to convert between the structure of R to that of the other language, and vice-versa, which wastes precious time and memory. 'broadcast' requires no such translations of structures, and thus does not waste precious time and memory.
+ - **Ensure consistent behaviour**: Using libraries from other languages also means one cannot always guarantee consistent behaviour of some operations. For example: both 'Numpy' and 'xtensor' have only limited support for missing values, whereas 'R' supports missing values for both atomic and recursive array/vector types (except type of 'Raw'). Since 'broadcast' does not rely on external libraries, it can ensure consistent behaviour.
+
 
 &nbsp;
 

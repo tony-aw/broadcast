@@ -32,7 +32,7 @@
 bc.str <- function(x, y, op) {
   
   # checks:
-  .stop_general(x, y, op, sys.call())
+  .binay_stop_general(x, y, op, sys.call())
   if(!is.character(x) || !is.character(y)) {
     stop("`x` and `y` must be character/string arrays")
   }
@@ -73,7 +73,7 @@ bc.str <- function(x, y, op) {
 #' @noRd
 .bc_str_conc <- function(x, y, op, abortcall) {
   
-  prep <- .prep_binary(x, y, abortcall)
+  prep <- .binay_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]
@@ -129,7 +129,7 @@ bc.str <- function(x, y, op) {
 #' @noRd
 .bc_str_rel <- function(x, y, op, abortcall) {
   
-  prep <- .prep_binary(x, y, abortcall)
+  prep <- .binay_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]
@@ -187,7 +187,7 @@ bc.str <- function(x, y, op) {
 #' @noRd
 .bc_str_dist <- function(x, y, op, abortcall) {
   
-  prep <- .prep_binary(x, y, abortcall)
+  prep <- .binay_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]

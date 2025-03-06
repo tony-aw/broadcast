@@ -1,0 +1,95 @@
+<!DOCTYPE html><html><head><title>R: Broadcasted Ifelse</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>bc_ifelse</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Broadcasted Ifelse</h2>
+
+<h3>Description</h3>
+
+<p>The <code>bc_ifelse()</code> function
+performs a broadcasted form of ifelse. <br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>bc_ifelse(cond, yes, no)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="cond">cond</code></td>
+<td>
+<p><code>logical</code> vector or array with the length equal to <code>prod(bc_dim(yes, no))</code>.</p>
+</td></tr>
+<tr><td><code id="yes">yes</code>, <code id="no">no</code></td>
+<td>
+<p>conformable arrays of the same type. <br />
+All atomic types (see atomic) are supported. <br />
+Recursive arrays of type <code>list</code> are also supported. <br /> <br /></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The ouput, here referred to as <code>out</code>,
+will be an array of the same type as <code>yes</code> and <code>no</code>. <br />
+After broadcasting <code>yes</code> against <code>no</code>,
+given any element index <code>i</code>,
+the following will hold for the output:
+</p>
+
+<ul>
+<li><p> when <code>cond[i] == TRUE</code>, <code>out[i]</code> is <code>yes[i]</code>;
+</p>
+</li>
+<li><p> when <code>cond[i] == FALSE</code>, <code>out[i]</code> is <code>no[i]</code>;
+</p>
+</li>
+<li><p> when <code>cond[i]</code> is <code>NA</code>,
+<code>out[i]</code> is <code>NA</code> when <code>yes</code> and <code>no</code> are atomic,
+and <code>out[i]</code> is <code>list(NULL)</code> when <code>yes</code> and <code>no</code> are recursive. <br /> <br />
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>x.dim &lt;- c(c(10, 2,2))
+x.len &lt;- prod(x.dim)
+
+gen &lt;- function(n) sample(list(letters, month.abb, 1:10), n, TRUE)
+
+x &lt;- array(gen(10), x.dim)
+y &lt;- array(gen(10), c(10,1,1))
+
+cond &lt;- bc.list(
+  x, y,
+  \(x, y)c(length(x) == length(y) &amp;&amp; typeof(x) == typeof(y))
+) |&gt; as_bool()
+
+bc_ifelse(cond, yes = x, no = y)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

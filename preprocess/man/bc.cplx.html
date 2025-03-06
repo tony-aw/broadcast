@@ -1,0 +1,89 @@
+<!DOCTYPE html><html><head><title>R: Broadcasted Complex Numeric Operations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>bc.cplx</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Broadcasted Complex Numeric Operations</h2>
+
+<h3>Description</h3>
+
+<p>The <code>bc.cplx()</code> function performs broadcasted complex numeric operations pairs of arrays. <br />
+<br />
+Note that <code>bc.cplx()</code> uses more strict <code>NA</code> checks than base 'R': <br />
+If for an element of either <code>x</code> or <code>y</code>, either the real or imaginary part is <code>NA</code> or <code>NaN</code>,
+than the result of the operation for that element is necessarily <code>NA</code>. <br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>bc.cplx(x, y, op)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="x">x</code>, <code id="y">y</code></td>
+<td>
+<p>conformable atomic arrays of type <code>complex</code>.</p>
+</td></tr>
+<tr><td><code id="op">op</code></td>
+<td>
+<p>a single string, giving the operator. <br />
+Supported arithmetic operators: +, -, *, /. <br />
+Supported relational operators: ==, !=. <br /></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>For arithmetic operators: <br />
+A complex array as a result of the broadcasted arithmetic operation. <br />
+<br />
+For relational operators: <br />
+A logical array as a result of the broadcasted relational comparison. <br />
+<br />
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>x.dim &lt;- c(4:2)
+x.len &lt;- prod(x.dim)
+gen &lt;- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
+x &lt;- array(gen() + gen() * -1i, x.dim)
+y &lt;- array(gen() + gen() * -1i, c(4,1,1))
+
+bc.cplx(x, y, "==")
+bc.cplx(x, y, "!=")
+
+bc.cplx(x, y, "+")
+
+bc.cplx(array(gen() + gen() * -1i), array(gen() + gen() * -1i), "==")
+bc.cplx(array(gen() + gen() * -1i), array(gen() + gen() * -1i), "!=")
+
+x &lt;- gen() + gen() * -1i
+y &lt;- gen() + gen() * -1i
+out &lt;- bc.cplx(array(x), array(y), "*")
+cbind(x, y, x*y, out)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

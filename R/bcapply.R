@@ -31,7 +31,7 @@
 bcapply <- function(x, y, f, v = "list") {
   
   # checks:
-  .stop_general(x, y, "", sys.call())
+  .binay_stop_general(x, y, "", sys.call())
   if(!is.function(f)) {
     stop("`f` must be a function")
   }
@@ -40,7 +40,7 @@ bcapply <- function(x, y, f, v = "list") {
   }
   
   # General prep:
-  prep <- .prep_binary(x, y, sys.call())
+  prep <- .binay_prep(x, y, sys.call())
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]

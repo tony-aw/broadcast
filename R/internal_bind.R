@@ -130,12 +130,22 @@
 
 #' @keywords internal
 #' @noRd
-.internal_bind_array <- function(input, along, max_bc, name_along, abortcall) {
+.internal_bind_array <- function(input, along, ndim2bc, name_along, abortcall) {
   
   INTMAX <- 2^31 - 1L
   LONGMAX <- 2^52 - 1L
   
-  
+  # check ndim2bc:
+  if(!is.numeric(ndim2bc)) {
+    stop(simpleError("`ndim2bc` must be an integer", call = abortcall))
+  }
+  ndim2bc <- as.integer(ndim2bc)
+  if(is.na(ndim2bc)) {
+    stop(simpleError("`ndim2bc` cannot be `NA`", call = abortcall))
+  }
+  if(ndim2bc < 0) {
+    stop(simpleError("`ndim2bc` must be non-negative", call = abortcall))
+  }
   
   # remove zero-length arrays
   # NOTE: only remove within this function, as we want to keep them for comnames
@@ -204,7 +214,7 @@
   
   # check if input is conformable:
   # NOTE: only 1 dimension may be broadcasted per array, for the user's safety
-  is_conf <- .rcpp_bindhelper_conf_dims_all(input.dims, out.dim, along - 1L, max_bc)
+  is_conf <- .rcpp_bindhelper_conf_dims_all(input.dims, out.dim, along - 1L, ndim2bc)
   if(!is_conf) {
     stop(simpleError("arrays are not conformable for binding", call = abortcall))
   }

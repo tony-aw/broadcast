@@ -39,6 +39,6 @@ bc_dim <- function(
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
  
-  out.dim <- .determine_out.dim(x.dim, y.dim, sys.call())
+  out.dim <- .binay_determine_out.dim(x.dim, y.dim, sys.call())
   return(out.dim)
 }

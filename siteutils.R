@@ -87,7 +87,7 @@ qmd_extractlinks <- function(source_file, target_dir, funs) {
   readLines(x, warn = FALSE)
 }
 
-rd2qmd <- function(source_file, target_dir, path) {
+rd2qmd <- function(source_file, temp_html, target_dir, path) {
   if (missing(source_file) || !file.exists(source_file)) {
     stop("source_file must be a valid file path.", call. = FALSE)
   }
@@ -97,11 +97,10 @@ rd2qmd <- function(source_file, target_dir, path) {
   
   # Rd -> html
   rd <- tools::parse_Rd(source_file)
-  tmp_html <- paste0(tempfile(), ".html")
-  tools::Rd2HTML(rd, out = tmp_html)
+  tools::Rd2HTML(rd, out = temp_html)
   
   # superfluous header and footer
-  tmp <- .readlines(tmp_html)
+  tmp <- .readlines(temp_html)
   tmp <- tmp[(grep("</table>$", tmp)[1] + 1):length(tmp)]
   tmp <- utils::head(tmp, -4)
   

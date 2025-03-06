@@ -1,0 +1,97 @@
+<!DOCTYPE html><html><head><title>R: Broadcasted Integer Numeric Operations with Extra Overflow...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>bc.i</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Broadcasted Integer Numeric Operations with Extra Overflow Protection</h2>
+
+<h3>Description</h3>
+
+<p>The <code>bc.i()</code> function
+performs broadcasted integer numeric operations on 2 numeric or logical arrays. <br />
+<br />
+Please note that these operations will treat the input as 53bit integers,
+and will efficiently truncate when necessary. <br />
+Therefore, something like <code>bc.i(1, 1.5, "==")</code> returns <code>TRUE</code>,
+because <code>trunc(1.5)</code> equals <code>1</code>. <br />
+<br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>bc.i(x, y, op)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="x">x</code>, <code id="y">y</code></td>
+<td>
+<p>conformable logical or numeric arrays.</p>
+</td></tr>
+<tr><td><code id="op">op</code></td>
+<td>
+<p>a single string, giving the operator. <br />
+Supported arithmetic operators: +, -, *, gcd, ^, pmin, pmax. <br />
+Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br /></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>For arithmetic operators: <br />
+A numeric array of whole numbers,
+as a result of the broadcasted arithmetic operation. <br />
+Base 'R' supports 53 bit integers,
+which thus range from approximately <code>-9</code> quadrillion to <code>+9</code> quadrillion. <br />
+Values outside of this range will be returned as <code>-Inf</code> or <code>Inf</code>,
+as an extra protection against integer overflow. <br />
+<br />
+For relational operators: <br />
+A logical array as a result of the broadcasted integer relational comparison. <br />
+<br />
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>x.dim &lt;- c(4:2)
+x.len &lt;- prod(x.dim)
+x.data &lt;- sample(c(NA, 1.1:1000.1), x.len, TRUE)
+x &lt;- array(x.data, x.dim)
+y &lt;- array(1:50, c(4,1,1))
+
+bc.i(x, y, "+")
+bc.i(x, y, "-")
+bc.i(x, y, "*")
+bc.i(x, y, "gcd") # greatest common divisor
+bc.i(x, y, "^")
+
+bc.i(x, y, "==")
+bc.i(x, y, "!=")
+bc.i(x, y, "&lt;")
+bc.i(x, y, "&gt;")
+bc.i(x, y, "&lt;=")
+bc.i(x, y, "&gt;=")
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

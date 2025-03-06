@@ -3,11 +3,13 @@ project:
 
 
 website:
+  search:
+    location: navbar
+    type: textbox
   title: "R-package: broadcast"
   favicon: man/figures/broadcast.png
   navbar:
     background: "gray"
-    search: true
     pinned: true
     left:
       - text: Guides and Vignettes
@@ -22,11 +24,13 @@ website:
       style: docked
       collapse-level: 1
       contents:
+      - text: Guides and Vignettes
       - auto: vignettes/*
     
     - title: Reference Manual
       contents:
-      - text: broadcast
+      - text: Reference Manual
+      - text: broadcast help
         href: man/aaa00_broadcast_help.qmd
       - man/bc.b.qmd
       - man/bc.i.qmd
@@ -44,7 +48,9 @@ website:
       - man/typecast.qmd
     
     - title: About
-      contents: about/*
+      contents:
+      - text: About
+      - auto: about/*
 
 format:
   html:

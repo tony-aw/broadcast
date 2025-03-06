@@ -44,7 +44,7 @@ bind_array(
   input,
   along,
   revalong,
-  max_bc = 1L,
+  ndim2bc = 1L,
   name_along = TRUE,
   comnames_from = 1L
 )
@@ -105,11 +105,11 @@ Same as <code>along</code>, but counting backwards. <br />
 I.e. <code>revalong = 0</code> is equivalent to <code>along = N+1</code>, and <code>revalong = N+1</code> is equivalent to <code>along = 0</code>; <br />
 with <code style="white-space: pre;">N = </code>max<code>(</code>[lst.ndim](properties.qmd)<code style="white-space: pre;">(input))</code>.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="max_bc">max_bc</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="ndim2bc">ndim2bc</code></td>
 <td>
-integer, for <code>bind_array</code> only. <br />
-Specify here the number of dimensions that are allowed to be broadcasted when binding arrays. <br />
-If <code>max_bc = 0L</code>, <b>no</b> broadcasting will be allowed at all.
+non-negative integer, for <code>bind_array</code> only. <br />
+Specify here the maximum number of dimensions that are allowed to be broadcasted when binding arrays. <br />
+If <code>ndim2bc = 0L</code>, <b>no</b> broadcasting will be allowed at all.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="name_along">name_along</code></td>
 <td>

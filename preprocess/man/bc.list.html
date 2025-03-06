@@ -1,0 +1,73 @@
+<!DOCTYPE html><html><head><title>R: Broadcasted Operations for Recursive Arrays</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>bc.list</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Broadcasted Operations for Recursive Arrays</h2>
+
+<h3>Description</h3>
+
+<p>The <code>bc.list()</code> function performs broadcasted operations on 2 Recursive arrays. <br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>bc.list(x, y, f)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="x">x</code>, <code id="y">y</code></td>
+<td>
+<p>conformable Recursive arrays (i.e. arrays of type <code>list</code>).</p>
+</td></tr>
+<tr><td><code id="f">f</code></td>
+<td>
+<p>a function that takes in exactly <b>2</b> arguments,
+and <b>returns</b> a result that can be stored in a single element of a list. <br /></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A recursive array. <br />
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>x.dim &lt;- c(c(10, 2,2))
+x.len &lt;- prod(x.dim)
+
+gen &lt;- function(n) sample(list(letters, month.abb, 1:10), n, TRUE)
+
+x &lt;- array(gen(10), x.dim)
+y &lt;- array(gen(10), c(10,1,1))
+
+bc.list(
+  x, y,
+  \(x, y)c(length(x) == length(y), typeof(x) == typeof(y))
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
