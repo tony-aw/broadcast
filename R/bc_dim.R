@@ -35,10 +35,10 @@ bc_dim <- function(
   }
   
   
-  prep <- .normalize_dims(x.dim, y.dim)
+  prep <- .binary_normalize_dims(x.dim, y.dim)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
  
-  out.dim <- .binay_determine_out.dim(x.dim, y.dim, sys.call())
+  out.dim <- .binary_determine_out.dim(x.dim, y.dim, sys.call())
   return(out.dim)
 }

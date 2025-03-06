@@ -32,7 +32,7 @@
 bc.cplx <- function(x, y, op) {
   
   # checks:
-  .binay_stop_general(x, y, op, sys.call())
+  .binary_stop_general(x, y, op, sys.call())
   if(!is.complex(x) || !is.complex(y)) {
     stop("`x` and `y` must be complex arrays")
   }
@@ -60,7 +60,7 @@ bc.cplx <- function(x, y, op) {
 #' @noRd
 .bc_cplx_math <- function(x, y, op, abortcall) {
   
-  prep <- .binay_prep(x, y, abortcall)
+  prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]
@@ -116,7 +116,7 @@ bc.cplx <- function(x, y, op) {
 #' @noRd
 .bc_cplx_rel <- function(x, y, op, abortcall) {
   
-  prep <- .binay_prep(x, y, abortcall)
+  prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]

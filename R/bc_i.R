@@ -40,7 +40,7 @@
 bc.i <- function(x, y, op) {
   
   # checks:
-  .binay_stop_general(x, y, op, sys.call())
+  .binary_stop_general(x, y, op, sys.call())
   if(!.is_numeric_like(x) || !.is_numeric_like(y)) {
     stop("`x` and `y` must be numeric or logical arrays")
   }
@@ -78,7 +78,7 @@ bc.i <- function(x, y, op) {
 #' @noRd
 .bc_int_math <- function(x, y, op, abortcall) {
   
-  prep <- .binay_prep(x, y, abortcall)
+  prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]
@@ -134,7 +134,7 @@ bc.i <- function(x, y, op) {
 #' @noRd
 .bc_int_rel <- function(x, y, op, abortcall) {
   
-  prep <- .binay_prep(x, y, abortcall)
+  prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]

@@ -3,7 +3,7 @@
 
 #' @keywords internal
 #' @noRd
-.binay_stop_general <- function(x, y, op, abortcall) {
+.binary_stop_general <- function(x, y, op, abortcall) {
   if(!.is_array_like(x) || !.is_array_like(y)) {
     stop(simpleError("input must be arrays or simple vecors", call = abortcall))
   }
@@ -21,7 +21,7 @@
 
 #' @keywords internal
 #' @noRd
-.binay_prep <- function(x, y, abortcall) {
+.binary_prep <- function(x, y, abortcall) {
   
   x.dim <- dim(x)
   y.dim <- dim(y)
@@ -31,25 +31,25 @@
   if(is.null(y.dim)) y.dim <- y.len
   
   # normalize dimensions:
-  prep <- .normalize_dims(x.dim, y.dim)
+  prep <- .binary_normalize_dims(x.dim, y.dim)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   
   
   # Check & determine dimensions to return:
-  .stop_conf_dim(x.dim, y.dim, x.len, y.len, abortcall)
-  out.dimorig <- .binay_determine_out.dim(x.dim, y.dim, abortcall)
-  out.len <- .binay_determine_out.len(x.dim, y.dim, x.len, y.len, out.dimorig)
+  .binary_stop_conf_dim(x.dim, y.dim, x.len, y.len, abortcall)
+  out.dimorig <- .binary_determine_out.dim(x.dim, y.dim, abortcall)
+  out.len <- .binary_determine_out.len(x.dim, y.dim, x.len, y.len, out.dimorig)
   
   
   # Simplify arrays, to reduce broadcast load:
-  simp <- .simplify_dims(x.dim, y.dim, x.len, y.len)
+  simp <- .binary_simplify_dims(x.dim, y.dim, x.len, y.len)
   x.dim <- simp[[1L]]
   y.dim <- simp[[2L]]
-  out.dimsimp <- .binay_determine_out.dim(x.dim, y.dim, abortcall)
+  out.dimsimp <- .binary_determine_out.dim(x.dim, y.dim, abortcall)
   
   # Determine type of dimensional relationship for broadcasting:
-  dimmode <- .binay_determine_dimmode(x.dim, y.dim, x.len, y.len, out.dimsimp, abortcall)
+  dimmode <- .binary_determine_dimmode(x.dim, y.dim, x.len, y.len, out.dimsimp, abortcall)
   
   out <- list(
     x.dim = x.dim,
@@ -70,7 +70,7 @@
 
 #' @keywords internal
 #' @noRd
-.stop_conf_dim <- function(x.dim, y.dim, x.len, y.len, abortcall) {
+.binary_stop_conf_dim <- function(x.dim, y.dim, x.len, y.len, abortcall) {
   
   if(is.null(x.dim) || is.null(y.dim)) {
     if(x.len != y.len) {
@@ -89,7 +89,7 @@
 
 #' @keywords internal
 #' @noRd
-.binay_determine_dimmode <- function(x.dim, y.dim, x.len, y.len, out.dim, abortcall) {
+.binary_determine_dimmode <- function(x.dim, y.dim, x.len, y.len, out.dim, abortcall) {
   
   # use vector mode:
   if(x.len == 1L || y.len == 1L) { # x and/or y are/is scalar(s)
@@ -120,7 +120,7 @@
 
 #' @keywords internal
 #' @noRd
-.binay_determine_out.dim <- function(x.dim, y.dim, abortcall) {
+.binary_determine_out.dim <- function(x.dim, y.dim, abortcall) {
   if(is.null(x.dim) && is.null(y.dim)) {
     return(NULL)
   }
@@ -149,7 +149,7 @@
 
 #' @keywords internal
 #' @noRd
-.binay_determine_out.len <- function(x.dim, y.dim, x.len, y.len, out.dim) {
+.binary_determine_out.len <- function(x.dim, y.dim, x.len, y.len, out.dim) {
   if(is.null(x.dim) || is.null(y.dim)) {
     return(max(x.len, y.len))
   }
@@ -163,7 +163,7 @@
 
 #' @keywords internal
 #' @noRd
-.normalize_dims <- function(x.dim, y.dim) {
+.binary_normalize_dims <- function(x.dim, y.dim) {
   
   # normalize dimensions:
   if(!is.null(x.dim) && !is.null(y.dim)) {
@@ -185,7 +185,7 @@
 
 #' @keywords internal
 #' @noRd
-.simplify_dims <- function(x.dim, y.dim, x.len, y.len) {
+.binary_simplify_dims <- function(x.dim, y.dim, x.len, y.len) {
   
   # drop dimensions for vectors and scalars:
   if(x.len == 1L) {

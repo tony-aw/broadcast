@@ -27,7 +27,7 @@
 bc.b <- function(x, y, op) {
   
   # checks:
-  .binay_stop_general(x, y, op, sys.call())
+  .binary_stop_general(x, y, op, sys.call())
   if(!.is_logical_like(x) || !.is_logical_like(y)) {
     stop("`x` and `y` must be logical (or logical-like) arrays")
   }
@@ -51,7 +51,7 @@ bc.b <- function(x, y, op) {
 #' @noRd
 .bc_b <- function(x, y, op, abortcall) {
   
-  prep <- .binay_prep(x, y, abortcall)
+  prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]

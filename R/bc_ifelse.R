@@ -52,7 +52,7 @@ bc_ifelse <- function(cond, yes, no) {
   y <- no
   
   # Prep:
-  prep <- .binay_prep(x, y, sys.call())
+  prep <- .binary_prep(x, y, sys.call())
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]
