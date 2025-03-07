@@ -465,8 +465,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_bc_bind
-void rcpp_bc_bind(SEXP out, SEXP x, SEXP starts, SEXP ends, SEXP by_x, SEXP dimcumprod_out, SEXP dimcumprod_x, SEXP out_dim);
-RcppExport SEXP _broadcast_rcpp_bc_bind(SEXP outSEXP, SEXP xSEXP, SEXP startsSEXP, SEXP endsSEXP, SEXP by_xSEXP, SEXP dimcumprod_outSEXP, SEXP dimcumprod_xSEXP, SEXP out_dimSEXP) {
+void rcpp_bc_bind(SEXP out, SEXP x, SEXP starts, SEXP ends, SEXP by_x, SEXP dcp_out, SEXP dcp_x, SEXP out_dim);
+RcppExport SEXP _broadcast_rcpp_bc_bind(SEXP outSEXP, SEXP xSEXP, SEXP startsSEXP, SEXP endsSEXP, SEXP by_xSEXP, SEXP dcp_outSEXP, SEXP dcp_xSEXP, SEXP out_dimSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type out(outSEXP);
@@ -474,10 +474,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type starts(startsSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ends(endsSEXP);
     Rcpp::traits::input_parameter< SEXP >::type by_x(by_xSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type dimcumprod_out(dimcumprod_outSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type dimcumprod_x(dimcumprod_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp_out(dcp_outSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp_x(dcp_xSEXP);
     Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
-    rcpp_bc_bind(out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_x, out_dim);
+    rcpp_bc_bind(out, x, starts, ends, by_x, dcp_out, dcp_x, out_dim);
     return R_NilValue;
 END_RCPP
 }

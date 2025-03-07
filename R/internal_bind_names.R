@@ -1,4 +1,38 @@
 
+#' @keywords internal
+#' @noRd
+.bind_stop_name_along <- function(
+    name_along, comnames_from, abortcall
+) {
+  
+  if(!is.logical(name_along) || length(name_along) != 1) {
+    stop(simpleError("`name_along` must be a Boolean", call = abortcall))
+  }
+}
+
+#' @keywords internal
+#' @noRd
+.bind_stop_name_deparse <- function(
+    name_deparse, abortcall
+) {
+  
+  if(!is.logical(name_deparse) || length(name_deparse) != 1) {
+    stop(simpleError("`name_deparse` must be a Boolean", call = abortcall))
+  }
+}
+
+#' @keywords internal
+#' @noRd
+.bind_stop_comnames_from <- function(
+    comnames_from, abortcall
+) {
+  
+  if(!is.null(comnames_from)) {
+    if(!is.numeric(comnames_from) || length(comnames_from) != 1) {
+      stop(simpleError("`comnames_from` must be an integer scalar or `NULL`", call = abortcall))
+    }
+  }
+}
 
 #' @keywords internal
 #' @noRd

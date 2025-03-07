@@ -35,7 +35,7 @@ A good understanding of atomic and recursive arrays in base 'R' is somewhat esse
 ## Example case
 
 Let's start with a simple example.  
-Consider 2 orthogonal 1d arrays, namely the column vector `x` and the row vector `y`:
+Consider the column vector `x` and the row vector `y`:
 
 ```{r}
 x <- array(1:5, c(5, 1))
@@ -54,7 +54,7 @@ Error in x + y : non-conformable arrays
 ```
 
 
-When computing the outer sum of these orthogonal vectors, both vectors need to be recycled to equal size in order to compute the outer computation.  
+When computing the outer sum of these vectors, both vectors need to be recycled to equal size in order to compute the outer computation.  
 I.e. `x` needs its single column to be recycled (in this case) 5 times, and `y` needs its single row to be recycled 5 times, creating 2 conformable matrices.  
 
 'R' provides linear **vector** recycling, but not recycling of array dimensions. Instead, in base 'R' we need to **replicate** (and thus **copy**) the array dimensions. This can be done manually, or using `outer() |> drop()`:
@@ -352,8 +352,20 @@ knitr::kable(foo) |> kableExtra::column_spec(1:6, border_left = TRUE, border_rig
 # Orthogonal Arrays
 
 In the documentation of 'broadcast', the reader may come across the term "orthogonal arrays" here and there.  
+"orthogonal" is a term that can mean a great many things; this section therefore explains what "orthogonal" is meant in the context of broadcasting.
 
-For the purposes of broadcasting, the reader may consider any pair arrays, `x` and `y`, to be "orthogonal" if **all** of the following holds for that pair of arrays:  
+Consider a row-vector `x` and column-vector `y`:
+
+```{r}
+x <- array(1:5, c(5, 1))
+y <- array(1:5*10, c(1, 5))
+print(x)
+print(y)
+```
+
+These vectors are (in a very literal sense) perpendicular to each other, and thus in that sense orthogonal to each other.  
+This type of orthogonality can be extended to arrays as follows.  
+For the purposes of broadcasting, any pair of arrays, `x` and `y`, can be referred to as being "orthogonal" if **all** of the following holds for that pair of arrays:  
 
  - For **every** dimension index `i`, `dim(x)[i] != dim(y)[i]`
  - For **every** dimensions index `i`,`dim(x)[i]` is `1` or missing, **OR** `dim(y)[i]` is `1` or missing.

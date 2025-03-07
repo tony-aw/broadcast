@@ -56,7 +56,7 @@ txt <- "
 void rcpp_bc_bind(
   SEXP out, SEXP x,
   SEXP starts, SEXP ends, SEXP by_x,
-  SEXP dimcumprod_out, SEXP dimcumprod_x, SEXP out_dim
+  SEXP dcp_out, SEXP dcp_x, SEXP out_dim
 ) {
 
 

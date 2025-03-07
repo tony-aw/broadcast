@@ -88,7 +88,9 @@ bind_mat <- function(
 ) {
   
   # error checks:
-  .bind_check_args(along, name_deparse, comnames_from, abortcall = sys.call())
+  # naming argument checks:
+  .bind_stop_name_deparse(name_deparse, abortcall = sys.call())
+  .bind_stop_comnames_from(comnames_from, abortcall = sys.call())
   if(any(vapply(input, is.data.frame, logical(1L)))) {
     stop("use `bind_dt to bind data.frame-like objects")
   }
@@ -149,27 +151,28 @@ bind_mat <- function(
 #' @rdname bind
 #' @export
 bind_array <- function(
-    input, along, revalong, ndim2bc = 1L, name_along = TRUE, comnames_from = 1L
+    input, along = NULL, revalong = NULL, ndim2bc = 1L, name_along = TRUE, comnames_from = 1L
 ) {
   
   # error checks:
-  if(!missing(along) && !missing(revalong)) {
-    stop("cannot specify both `along` and `revalong`")
-  }
   all_arrays <- vapply(input, is.array, logical(1L)) |> all()
   if(!all_arrays) {
     stop(simpleError("can only bind arrays", call = sys.call()))
   }
   
-  # revalong:
-  if(!missing(revalong)) {
-    N <- max(lst.ndim(input))
-    along <- N + 1 - revalong
-  }
-  
-  # checks:
-  .bind_check_args(along, name_along, comnames_from, abortcall = sys.call())
+  # input fix:
   input2 <- .bind_input_fix(input, FALSE, sys.call())
+  
+  
+  # along fix:
+  # check (rev)along:
+  along <- .bind_arg_revalong(along, revalong,  max(lst.ndim(input2)), sys.call())
+  
+  
+  # naming argument checks:
+  .bind_stop_name_along(name_along, abortcall = sys.call())
+  .bind_stop_comnames_from(comnames_from, abortcall = sys.call())
+  
   
   # return original:
   if(length(input2) == 1L) {

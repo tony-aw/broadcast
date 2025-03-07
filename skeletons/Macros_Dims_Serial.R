@@ -517,8 +517,8 @@ all_x_decl <- sprintf("i_x%d", 2:16)
 
 temp <- "
 #define MACRO_DIM_BIND_<dtype>(DOCODE) do {  \\
-  double *pdcp_out = REAL(dimcumprod_out);  \\
-  double *pdcp_x = REAL(dimcumprod_x);  \\
+  double *pdcp_out = REAL(dcp_out);  \\
+  double *pdcp_x = REAL(dcp_x);  \\
                                         \\
   const int *pby_x = INTEGER_RO(by_x);  \\
   const int *pstart = INTEGER_RO(starts); \\

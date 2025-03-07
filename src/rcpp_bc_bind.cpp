@@ -1,5 +1,3 @@
-
-
 #include <Rcpp.h>
 #include "Broadcast.h"
 
@@ -10,11 +8,11 @@ using namespace Rcpp;
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(rcpp_bc_bind)]]
+// [[Rcpp::export(.rcpp_bc_bind)]]
 void rcpp_bc_bind(
   SEXP out, SEXP x,
   SEXP starts, SEXP ends, SEXP by_x,
-  SEXP dimcumprod_out, SEXP dimcumprod_x, SEXP out_dim
+  SEXP dcp_out, SEXP dcp_x, SEXP out_dim
 ) {
 
 
@@ -69,5 +67,3 @@ void rcpp_bc_bind(
   }
 
 }
-
-

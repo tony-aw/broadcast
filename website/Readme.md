@@ -113,13 +113,6 @@ For more practical examples, see `Examples of Practical Applictaions`.
 
  
 
-**High Test Coverage**
-
-The ‘broadcast’ package has been developed with a `set of unit tests`
-that have high (\> 95%) coverage.
-
- 
-
 **Minimal Dependencies**
 
 Besides linking to ‘Rcpp’, ‘broadcast’ does not depend on, vendor, link

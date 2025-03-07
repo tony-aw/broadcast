@@ -165,8 +165,8 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
-rcpp_bc_bind <- function(out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_x, out_dim) {
-    invisible(.Call(`_broadcast_rcpp_bc_bind`, out, x, starts, ends, by_x, dimcumprod_out, dimcumprod_x, out_dim))
+.rcpp_bc_bind <- function(out, x, starts, ends, by_x, dcp_out, dcp_x, out_dim) {
+    invisible(.Call(`_broadcast_rcpp_bc_bind`, out, x, starts, ends, by_x, dcp_out, dcp_x, out_dim))
 }
 
 #' @keywords internal

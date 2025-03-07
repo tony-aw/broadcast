@@ -24,29 +24,45 @@
   return(input)
 }
 
+
 #' @keywords internal
 #' @noRd
-.bind_check_args <- function(
-    along, name_along, comnames_from, abortcall
+.bind_arg_revalong <- function(
+    along, revalong, ndim_max, abortcall
 ) {
   
+  if(ndim_max > 16L) {
+    stop(simpleError("arrays with more than 16 dimensions are not supported", call = abortcall))
+  }
   
+  rev <- FALSE
+  if(is.null(along) && is.null(revalong)) {
+    stop(simpleError("cannot specify both `along` and `revalong`", call = abortcall))
+  }
+  if(!is.null(revalong)) {
+    along <- revalong
+    rev <- TRUE
+  }
   if(!is.numeric(along) || length(along) != 1) {
-    stop(simpleError("`along` must be an integer scalar", call = abortcall))
+    stop(simpleError("`(rev)along` must be an integer scalar", call = abortcall))
   }
+  
   if(along < 0L || along > 16L) {
-    stop(simpleError("`along` may not be negative or larger than 16", call = abortcall))
+    stop(simpleError("`(rev)along` may not be negative or larger than 16", call = abortcall))
   }
   
-  if(!is.logical(name_along) || length(name_along) != 1) {
-    stop(simpleError("`name_along` must be a Boolean", call = abortcall))
+  if(rev) {
+    N <- ndim_max
+    along <- N + 1 - revalong
   }
   
-  if(!is.null(comnames_from)) {
-    if(!is.numeric(comnames_from) || length(comnames_from) != 1) {
-      stop(simpleError("`comnames_from` must be an integer scalar or `NULL`", call = abortcall))
-    }
+  
+  if(along > (ndim_max + 1L) || along < 0L) { # check < 0L again, since revalong was applied
+    stop(simpleError("`(rev)along` out of bounds", call = abortcall))
   }
+  
+  
+  return(along)
   
 }
 
@@ -63,7 +79,7 @@
     }
   }
   if(along > (max_ndims + 1L)) {
-    stop(simpleError("`along` too large for the given arrays", call = abortcall))
+    stop(simpleError("`(rev)along` out of range for the given arrays", call = abortcall))
   }
 }
 
@@ -136,8 +152,8 @@
   LONGMAX <- 2^52 - 1L
   
   # check ndim2bc:
-  if(!is.numeric(ndim2bc)) {
-    stop(simpleError("`ndim2bc` must be an integer", call = abortcall))
+  if(!is.numeric(ndim2bc) || length(ndim2bc) != 1L) {
+    stop(simpleError("`ndim2bc` must be an integer scalar", call = abortcall))
   }
   ndim2bc <- as.integer(ndim2bc)
   if(is.na(ndim2bc)) {
@@ -208,7 +224,7 @@
   out.dim <- as.integer(out.dim)
   out.len <- prod(out.dim)
   if(any(out.dim > INTMAX) || anyNA(out.dim) || out.len > LONGMAX) {
-    stop(simpleError("output too large to allocate", call = abortcall))
+    stop(simpleError("output will exceed maximum vector size", call = abortcall))
   }
   
   
@@ -263,7 +279,7 @@
     x <- mycoerce(x)
     
     # pass-by-reference modification:
-    rcpp_bc_bind(out, x, starts - 1L, ends -1L, by_x, dcp_out, dcp_x, out.dim)
+    .rcpp_bc_bind(out, x, starts - 1L, ends -1L, by_x, dcp_out, dcp_x, out.dim)
     
     # set counter:
     counter <- counter + size_along

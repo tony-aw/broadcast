@@ -11,8 +11,8 @@ bind_mat(input, along, name_deparse = TRUE, comnames_from = 1L)
 
 bind_array(
   input,
-  along,
-  revalong,
+  along = NULL,
+  revalong = NULL,
   ndim2bc = 1L,
   name_along = TRUE,
   comnames_from = 1L
