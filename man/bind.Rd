@@ -11,8 +11,8 @@ bind_mat(input, along, name_deparse = TRUE, comnames_from = 1L)
 
 bind_array(
   input,
-  along = NULL,
-  revalong = NULL,
+  along,
+  rev = FALSE,
   ndim2bc = 1L,
   name_along = TRUE,
   comnames_from = 1L
@@ -50,9 +50,11 @@ When binding columns of matrices, the matrices will share the same rownames. \cr
 Using \code{comnames_from = 10} will then result in \code{bind_array()} using
 \code{rownames(input[[10]])} for the rownames of the output.}
 
-\item{revalong}{for \code{bind_array()} only. \cr
-Same as \code{along}, but counting backwards. \cr
-I.e. \code{revalong = 0} is equivalent to \code{along = N+1}, and \code{revalong = N+1} is equivalent to \code{along = 0}; \cr
+\item{rev}{Boolean, for \code{bind_array()} only. \cr
+Indicates if \code{along} should be reversed, counting backwards. \cr
+If \code{FALSE} (default), \code{along} works like normally; if \code{TRUE}, \code{along} is reversed. \cr
+I.e. \verb{along = 0, rev = TRUE} is equivalent to \verb{along = N+1, rev = FALSE}; \cr
+and \verb{along = N+1, rev = TRUE} is equivalent to \verb{along = 0, rev = FALSE}; \cr
 with \verb{N = }\link[base]{max}\code{(}\link{lst.ndim}\verb{(input))}.}
 
 \item{ndim2bc}{non-negative integer, for \code{bind_array} only. \cr
@@ -122,10 +124,10 @@ bind_array(input, along = 1L) # binds on first dimension (i.e. rows)
 bind_array(input, along = 2L)
 bind_array(input, along = 3L) # bind on new dimension after last
 
-bind_array(input, revalong = 0L) # binds on new dimension after last
-bind_array(input, revalong = 1L) # binds on last dimension (i.e. columns)
-bind_array(input, revalong = 2L)
-bind_array(input, revalong = 3L) # bind on new dimension before first
+bind_array(input, along = 0L, TRUE) # binds on new dimension after last
+bind_array(input, along = 1L, TRUE) # binds on last dimension (i.e. columns)
+bind_array(input, along = 2L, TRUE)
+bind_array(input, along = 3L, TRUE) # bind on new dimension before first
 
 
 # binding, with empty arrays
@@ -164,14 +166,16 @@ bind_mat(list(x = x, y = y), 2L)
 ################################################################################
 
 # bind_dt ====
+if(require(data.table)) {
+  x <- data.frame(a = 1:12, b = month.abb) # data.frame
+  y <- data.table::data.table(a = 1:12, b = month.abb) # data.table
+  
+  bind_dt(list(x = x, y = y), 2L) # column bind
+  
+  bind_dt(list(x = x, y = y), 1L) # row bind
+  
+}
 
-
-x <- data.frame(a = 1:12, b = month.abb) # data.frame
-y <- data.table::data.table(a = 1:12, b = month.abb) # data.table
-
-bind_dt(list(x = x, y = y), 2L) # column bind
-
-bind_dt(list(x = x, y = y), 1L) # row bind
 
 }
 \references{

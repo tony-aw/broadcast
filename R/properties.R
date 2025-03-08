@@ -17,7 +17,7 @@
 #' An integer scalar
 #'
 #'
-#' @example inst/examples/bind.R
+#' @example inst/examples/properties.R
 #' 
 
 

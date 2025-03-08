@@ -26,64 +26,64 @@ enumerate <- enumerate + 2L
 
 
 
-# arg (rev)along errors ====
+# arg along errors ====
 input <- list(
   array(1:10), array(1:10)
 )
 expect_error(
   bind_array(input, 1:10),
-  pattern = "`(rev)along` must be an integer scalar",
+  pattern = "`along` must be an integer scalar",
   fixed = TRUE
 )
 expect_error(
-  bind_array(input, revalong = 1:10),
-  pattern = "`(rev)along` must be an integer scalar",
+  bind_array(input, 1:10, TRUE),
+  pattern = "`along` must be an integer scalar",
   fixed = TRUE
 )
 expect_error(
   bind_array(input, "a"),
-  pattern = "`(rev)along` must be an integer scalar",
+  pattern = "`along` must be an integer scalar",
   fixed = TRUE
 )
 expect_error(
-  bind_array(input, revalong = "a"),
-  pattern = "`(rev)along` must be an integer scalar",
+  bind_array(input, "a", TRUE),
+  pattern = "`along` must be an integer scalar",
   fixed = TRUE
 )
 expect_error(
   bind_array(input, -1),
-  pattern = "`(rev)along` may not be negative or larger than 16",
+  pattern = "`along` may not be negative or larger than 16",
   fixed = TRUE
 )
 expect_error(
-  bind_array(input, revalong = -1),
-  pattern = "`(rev)along` may not be negative or larger than 16",
+  bind_array(input, -1, TRUE),
+  pattern = "`along` may not be negative or larger than 16",
   fixed = TRUE
 )
 expect_error(
   bind_array(input, 17),
-  pattern = "`(rev)along` may not be negative or larger than 16",
+  pattern = "`along` may not be negative or larger than 16",
   fixed = TRUE
 )
 expect_error(
-  bind_array(input, revalong = 17),
-  pattern = "`(rev)along` may not be negative or larger than 16",
+  bind_array(input, 17, TRUE),
+  pattern = "`along` may not be negative or larger than 16",
   fixed = TRUE
 )
 expect_error(
   bind_array(input, 3L),
-  pattern = "`(rev)along` out of bounds",
+  pattern = "`along` out of bounds",
   fixed = TRUE
 )
 expect_error(
-  bind_array(input, revalong = 3L),
-  pattern = "`(rev)along` out of bounds",
+  bind_array(input, 3L, TRUE),
+  pattern = "`along` out of bounds",
   fixed = TRUE
 )
 enumerate <- enumerate + 10L
 
 
-# arg (rev)along errors ====
+# arg along errors ====
 input <- list(
   array(1:10), array(1:10)
 )

@@ -207,12 +207,12 @@ ul.task-list li input[type="checkbox"] {
 <h1>Outer-like functions</h1>
 <p>The ‘broadcast’ package provides functions that perform Broadcasted outer operations, similar to base R’s <code>outer()</code> function. The outer-like functions are the following:</p>
 <ul>
-<li><a href="../man/bc.b.html">[[[<code>bc.b()</code>](/man/bc.b.qmd)](/man/bc.b.qmd)](/man/bc.b.qmd)</a>: Broadcasted Boolean operations.</li>
-<li><a href="../man/bc.i.html">[[[<code>bc.i()</code>](/man/bc.i.qmd)](/man/bc.i.qmd)](/man/bc.i.qmd)</a> : Broadcasted (53bit) Integer Numeric operations.</li>
-<li><a href="../man/bc.d.html">[[[<code>bc.d()</code>](/man/bc.d.qmd)](/man/bc.d.qmd)](/man/bc.d.qmd)</a>: Broadcasted (64bit) Decimal Numeric operations.</li>
-<li><a href="../man/bc.cplx.html">[[[<code>bc.cplx()</code>](/man/bc.cplx.qmd)](/man/bc.cplx.qmd)](/man/bc.cplx.qmd)</a>: Broadcasted Complex Numeric operations.</li>
-<li><a href="../man/bc.str.html">[[[<code>bc.str()</code>](/man/bc.str.qmd)](/man/bc.str.qmd)](/man/bc.str.qmd)</a>: Broadcasted String operations.</li>
-<li><a href="../man/bc.list.html">[[[<code>bc.list()</code>](/man/bc.list.qmd)](/man/bc.list.qmd)](/man/bc.list.qmd)</a>: Broadcasted operations on Recursive arrays.</li>
+<li><a href="../man/bc.b.html"><code>bc.b()</code></a>: Broadcasted Boolean operations.</li>
+<li><a href="../man/bc.i.html"><code>bc.i()</code></a> Broadcasted (53bit) Integer Numeric operations.</li>
+<li><a href="../man/bc.d.html"><code>bc.d()</code></a>: Broadcasted (64bit) Decimal Numeric operations.</li>
+<li><a href="../man/bc.cplx.html"><code>bc.cplx()</code></a>: Broadcasted Complex Numeric operations.</li>
+<li><a href="../man/bc.str.html"><code>bc.str()</code></a>: Broadcasted String operations.</li>
+<li><a href="../man/bc.list.html"><code>bc.list()</code></a>: Broadcasted operations on Recursive arrays.</li>
 </ul>
 <p>There are several things to note about the above functions.</p>
 <p>First, the naming convention is “bc.” followed by some abbreviation of the operation type.<br>
@@ -241,7 +241,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><a href="../man/bc.d.html">[[[<code>bc.num()</code>](/man/bc.d.qmd)](/man/bc.d.qmd)](/man/bc.d.qmd)</a> is an alias for <a href="../man/bc.d.html">[[[<code>bc.d()</code>](/man/bc.d.qmd)](/man/bc.d.qmd)](/man/bc.d.qmd)</a>.</p>
+<p><a href="../man/bc.d.html"><code>bc.num()</code></a> is an alias for <a href="../man/bc.d.html"><code>bc.d()</code></a>.</p>
 </div>
 </div>
 <p>&nbsp;</p>
@@ -252,15 +252,15 @@ Note
 <h1>Binding implementations</h1>
 <p>‘broadcast’ provides 3 functions for dimensional binding:</p>
 <ul>
-<li><a href="../man/bind.html">[[[<code>bind_mat()</code>](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)</a>: binds vectors and matrices row-wise or column-wise; allows for vector (i.e.&nbsp;linear) recycling.</li>
-<li><a href="../man/bind.html">[[[<code>bind_array()</code>](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)</a>: binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting.</li>
-<li><a href="../man/bind.html">[[[<code>bind_dt()</code>](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)</a>: binds data.frames and data.tables; allows for matching unmatched columns.</li>
+<li><a href="../man/bind.html"><code>bind_mat()</code></a>: binds vectors and matrices row-wise or column-wise; allows for vector (i.e.&nbsp;linear) recycling.</li>
+<li><a href="../man/bind.html"><code>bind_array()</code></a>: binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting.</li>
+<li><a href="../man/bind.html"><code>bind_dt()</code></a>: binds data.frames and data.tables; allows for matching unmatched columns.</li>
 </ul>
 <p>Note that the naming convention of the binding implementations here is “bind_” followed by the <strong>resulting class</strong> (abbreviated) - i.e.&nbsp;…</p>
 <ul>
-<li><a href="../man/bind.html">[[[<code>bind_mat()</code>](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)</a> <strong>returns</strong> a matrix, but can bind both matrices and vectors.</li>
-<li><a href="../man/bind.html">[[[<code>bind_array()</code>](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)</a> <strong>returns</strong> an array, but can bind both arrays and matrices.</li>
-<li><a href="../man/bind.html">[[[<code>bind_dt()</code>](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)</a> <strong>returns</strong> a data.table, but can bind not only data.tables, but also most other data.frame-like objects.</li>
+<li><a href="../man/bind.html"><code>bind_mat()</code></a> <strong>returns</strong> a matrix, but can bind both matrices and vectors.</li>
+<li><a href="../man/bind.html"><code>bind_array()</code></a> <strong>returns</strong> an array, but can bind both arrays and matrices.</li>
+<li><a href="../man/bind.html"><code>bind_dt()</code></a> <strong>returns</strong> a data.table, but can bind not only data.tables, but also most other data.frame-like objects.</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -272,7 +272,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <a href="../man/bind.html">[[[<code>bind_dt()</code>](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)</a> function is only callable if the ‘data.table’ package is also installed.</p>
+<p>The <a href="../man/bind.html"><code>bind_dt()</code></a> function is only callable if the ‘data.table’ package is also installed.</p>
 </div>
 </div>
 <p>&nbsp;</p>

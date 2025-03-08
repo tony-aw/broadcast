@@ -27,40 +27,35 @@
 
 #' @keywords internal
 #' @noRd
-.bind_arg_revalong <- function(
-    along, revalong, ndim_max, abortcall
+.bind_arg_along <- function(
+    along, rev, ndim_max, abortcall
 ) {
   
   if(ndim_max > 16L) {
     stop(simpleError("arrays with more than 16 dimensions are not supported", call = abortcall))
   }
   
-  rev <- FALSE
-  if(is.null(along) && is.null(revalong)) {
-    stop(simpleError("cannot specify both `along` and `revalong`", call = abortcall))
+  if(!isTRUE(rev) && !isFALSE(rev)) {
+    stop(simpleError("`rev` must be either `TRUE` or `FALSE`"))
   }
-  if(!is.null(revalong)) {
-    along <- revalong
-    rev <- TRUE
-  }
+  
   if(!is.numeric(along) || length(along) != 1) {
-    stop(simpleError("`(rev)along` must be an integer scalar", call = abortcall))
+    stop(simpleError("`along` must be an integer scalar", call = abortcall))
   }
   
   if(along < 0L || along > 16L) {
-    stop(simpleError("`(rev)along` may not be negative or larger than 16", call = abortcall))
+    stop(simpleError("`along` may not be negative or larger than 16", call = abortcall))
   }
   
-  if(rev) {
+  if(isTRUE(rev)) {
     N <- ndim_max
-    along <- N + 1 - revalong
+    along <- N + 1 - along
   }
   
   
-  if(along > (ndim_max + 1L) || along < 0L) { # check < 0L again, since revalong was applied
-    stop(simpleError("`(rev)along` out of bounds", call = abortcall))
+  if(along > (ndim_max + 1L) || along < 0L) { # check < 0L again, since rev was applied
+    stop(simpleError("`along` out of bounds", call = abortcall))
   }
-  
   
   return(along)
   

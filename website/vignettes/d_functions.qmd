@@ -40,12 +40,12 @@ The 'broadcast' package provides functions that perform Broadcasted outer operat
 similar to base R's `outer()` function.
 The outer-like functions are the following:
 
- - [[[[`bc.b()`](/man/bc.b.qmd)](/man/bc.b.qmd)](/man/bc.b.qmd)](/man/bc.b.qmd): Broadcasted Boolean operations.
- - [[[[`bc.i()`](/man/bc.i.qmd)](/man/bc.i.qmd)](/man/bc.i.qmd)](/man/bc.i.qmd) : Broadcasted (53bit) Integer Numeric operations.
- - [[[[`bc.d()`](/man/bc.d.qmd)](/man/bc.d.qmd)](/man/bc.d.qmd)](/man/bc.d.qmd): Broadcasted (64bit) Decimal Numeric operations.
- - [[[[`bc.cplx()`](/man/bc.cplx.qmd)](/man/bc.cplx.qmd)](/man/bc.cplx.qmd)](/man/bc.cplx.qmd): Broadcasted Complex Numeric operations.
- - [[[[`bc.str()`](/man/bc.str.qmd)](/man/bc.str.qmd)](/man/bc.str.qmd)](/man/bc.str.qmd): Broadcasted String operations.
- - [[[[`bc.list()`](/man/bc.list.qmd)](/man/bc.list.qmd)](/man/bc.list.qmd)](/man/bc.list.qmd): Broadcasted operations on Recursive arrays.
+ - [`bc.b()`](/man/bc.b.qmd): Broadcasted Boolean operations.
+ - [`bc.i()`](/man/bc.i.qmd) Broadcasted (53bit) Integer Numeric operations.
+ - [`bc.d()`](/man/bc.d.qmd): Broadcasted (64bit) Decimal Numeric operations.
+ - [`bc.cplx()`](/man/bc.cplx.qmd): Broadcasted Complex Numeric operations.
+ - [`bc.str()`](/man/bc.str.qmd): Broadcasted String operations.
+ - [`bc.list()`](/man/bc.list.qmd): Broadcasted operations on Recursive arrays.
  
  
 
@@ -73,7 +73,7 @@ This is intentional, as it is quite difficult to reason about broadcasting when 
 
 ::: {.callout-note}
 
- [[[[`bc.num()`](/man/bc.d.qmd)](/man/bc.d.qmd)](/man/bc.d.qmd)](/man/bc.d.qmd) is an alias for [[[[`bc.d()`](/man/bc.d.qmd)](/man/bc.d.qmd)](/man/bc.d.qmd)](/man/bc.d.qmd).
+ [`bc.num()`](/man/bc.d.qmd) is an alias for [`bc.d()`](/man/bc.d.qmd).
 
 :::
 
@@ -89,22 +89,22 @@ For details on the operators supported in each of the outer-like functions, plea
 
 'broadcast' provides 3 functions for dimensional binding:
 
- - [[[[`bind_mat()`](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd): binds vectors and matrices row-wise or column-wise; allows for vector (i.e. linear) recycling.
- - [[[[`bind_array()`](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd): binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting.
- - [[[[`bind_dt()`](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd): binds data.frames and data.tables; allows for matching unmatched columns.
+ - [`bind_mat()`](/man/bind.qmd): binds vectors and matrices row-wise or column-wise; allows for vector (i.e. linear) recycling.
+ - [`bind_array()`](/man/bind.qmd): binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting.
+ - [`bind_dt()`](/man/bind.qmd): binds data.frames and data.tables; allows for matching unmatched columns.
  
 Note that the naming convention of the binding implementations here is
 "bind_" followed by the **resulting class** (abbreviated) - i.e. ...
 
- - [[[[`bind_mat()`](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd) **returns** a matrix, but can bind both matrices and vectors.
- - [[[[`bind_array()`](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd) **returns** an array, but can bind both arrays and matrices.
- - [[[[`bind_dt()`](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd) **returns** a data.table, but can bind not only data.tables, but also most other data.frame-like objects.
+ - [`bind_mat()`](/man/bind.qmd) **returns** a matrix, but can bind both matrices and vectors.
+ - [`bind_array()`](/man/bind.qmd) **returns** an array, but can bind both arrays and matrices.
+ - [`bind_dt()`](/man/bind.qmd) **returns** a data.table, but can bind not only data.tables, but also most other data.frame-like objects.
 
 
 
 ::: {.callout-note}
 
-The [[[[`bind_dt()`](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd)](/man/bind.qmd) function is only callable if the 'data.table' package is also installed.
+The [`bind_dt()`](/man/bind.qmd) function is only callable if the 'data.table' package is also installed.
 
 :::
 

@@ -62,7 +62,7 @@ lst.files <- list.files(file.path("website", "vignettes"), pattern = "qmd")
 for(i in lst.files) {
   filepath <- file.path("website", "vignettes", i)
   temp <- readLines(filepath)
-  p <- paste0("`", funs, "()`")
+  p <- paste0("\\link{", funs, "()}")
   rp <- paste0("[`", funs, "()`]", "(/man/", rd_index(funs), ".qmd)")
   temp <- stri_replace_all(
     temp, rp, fixed = p, vectorize_all = FALSE

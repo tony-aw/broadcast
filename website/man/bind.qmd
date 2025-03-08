@@ -42,8 +42,8 @@ but also most other data.frame-like objects. <br /> <br />
 
 bind_array(
   input,
-  along = NULL,
-  revalong = NULL,
+  along,
+  rev = FALSE,
   ndim2bc = 1L,
   name_along = TRUE,
   comnames_from = 1L
@@ -98,11 +98,13 @@ When binding columns of matrices, the matrices will share the same rownames. <br
 Using <code>comnames_from = 10</code> will then result in <code>bind_array()</code> using
 <code>rownames(input[[10]])</code> for the rownames of the output.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="revalong">revalong</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="rev">rev</code></td>
 <td>
-for <code>bind_array()</code> only. <br />
-Same as <code>along</code>, but counting backwards. <br />
-I.e. <code>revalong = 0</code> is equivalent to <code>along = N+1</code>, and <code>revalong = N+1</code> is equivalent to <code>along = 0</code>; <br />
+Boolean, for <code>bind_array()</code> only. <br />
+Indicates if <code>along</code> should be reversed, counting backwards. <br />
+If <code>FALSE</code> (default), <code>along</code> works like normally; if <code>TRUE</code>, <code>along</code> is reversed. <br />
+I.e. <code style="white-space: pre;">along = 0, rev = TRUE</code> is equivalent to <code style="white-space: pre;">along = N+1, rev = FALSE</code>; <br />
+and <code style="white-space: pre;">along = N+1, rev = TRUE</code> is equivalent to <code style="white-space: pre;">along = 0, rev = FALSE</code>; <br />
 with <code style="white-space: pre;">N = </code>max<code>(</code>[lst.ndim](properties.qmd)<code style="white-space: pre;">(input))</code>.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="ndim2bc">ndim2bc</code></td>
@@ -174,10 +176,10 @@ bind_array(input, along = 1L) # binds on first dimension (i.e. rows)
 bind_array(input, along = 2L)
 bind_array(input, along = 3L) # bind on new dimension after last
 
-bind_array(input, revalong = 0L) # binds on new dimension after last
-bind_array(input, revalong = 1L) # binds on last dimension (i.e. columns)
-bind_array(input, revalong = 2L)
-bind_array(input, revalong = 3L) # bind on new dimension before first
+bind_array(input, along = 0L, TRUE) # binds on new dimension after last
+bind_array(input, along = 1L, TRUE) # binds on last dimension (i.e. columns)
+bind_array(input, along = 2L, TRUE)
+bind_array(input, along = 3L, TRUE) # bind on new dimension before first
 
 
 # binding, with empty arrays
@@ -216,14 +218,16 @@ bind_mat(list(x = x, y = y), 2L)
 ################################################################################
 
 # bind_dt ====
+if(require(data.table)) {
+  x <- data.frame(a = 1:12, b = month.abb) # data.frame
+  y <- data.table::data.table(a = 1:12, b = month.abb) # data.table
+  
+  bind_dt(list(x = x, y = y), 2L) # column bind
+  
+  bind_dt(list(x = x, y = y), 1L) # row bind
+  
+}
 
-
-x <- data.frame(a = 1:12, b = month.abb) # data.frame
-y <- data.table::data.table(a = 1:12, b = month.abb) # data.table
-
-bind_dt(list(x = x, y = y), 2L) # column bind
-
-bind_dt(list(x = x, y = y), 1L) # row bind
 
 
 

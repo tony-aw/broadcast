@@ -36,9 +36,11 @@
 #'  making `along` the new first dimension.
 #'  * Specifying `along = N + 1`, with `N = `\link[base]{max}`(`\link{lst.ndim}`(input))`,
 #'  will create an additional dimension (`N + 1`) and bind the arrays along that new dimension.
-#' @param revalong for `bind_array()` only. \cr
-#' Same as `along`, but counting backwards. \cr
-#' I.e. `revalong = 0` is equivalent to `along = N+1`, and `revalong = N+1` is equivalent to `along = 0`; \cr
+#' @param rev Boolean, for `bind_array()` only. \cr
+#' Indicates if `along` should be reversed, counting backwards. \cr
+#' If `FALSE` (default), `along` works like normally; if `TRUE`, `along` is reversed. \cr
+#' I.e. `along = 0, rev = TRUE` is equivalent to `along = N+1, rev = FALSE`; \cr
+#' and `along = N+1, rev = TRUE` is equivalent to `along = 0, rev = FALSE`; \cr
 #' with `N = `\link[base]{max}`(`\link{lst.ndim}`(input))`.
 #' @param ndim2bc non-negative integer, for `bind_array` only. \cr
 #' Specify here the maximum number of dimensions that are allowed to be broadcasted when binding arrays. \cr
@@ -151,7 +153,7 @@ bind_mat <- function(
 #' @rdname bind
 #' @export
 bind_array <- function(
-    input, along = NULL, revalong = NULL, ndim2bc = 1L, name_along = TRUE, comnames_from = 1L
+    input, along, rev = FALSE, ndim2bc = 1L, name_along = TRUE, comnames_from = 1L
 ) {
   
   # error checks:
@@ -166,7 +168,7 @@ bind_array <- function(
   
   # along fix:
   # check (rev)along:
-  along <- .bind_arg_revalong(along, revalong,  max(lst.ndim(input2)), sys.call())
+  along <- .bind_arg_along(along, rev, max(lst.ndim(input2)), sys.call())
   
   
   # naming argument checks:
