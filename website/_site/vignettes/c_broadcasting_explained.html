@@ -214,7 +214,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#conformability" id="toc-conformability" class="nav-link" data-scroll-target="#conformability"><span class="header-section-number">4.1</span> Conformability</a></li>
   <li><a href="#which-dimensions-are-broadcasted" id="toc-which-dimensions-are-broadcasted" class="nav-link" data-scroll-target="#which-dimensions-are-broadcasted"><span class="header-section-number">4.2</span> Which dimensions are broadcasted</a></li>
   </ul></li>
-  <li><a href="#orthogonal-arrays" id="toc-orthogonal-arrays" class="nav-link" data-scroll-target="#orthogonal-arrays"><span class="header-section-number">5</span> Orthogonal Arrays</a></li>
+  <li><a href="#dimensionless-vectors" id="toc-dimensionless-vectors" class="nav-link" data-scroll-target="#dimensionless-vectors"><span class="header-section-number">5</span> Dimensionless Vectors</a></li>
+  <li><a href="#orthogonal-arrays" id="toc-orthogonal-arrays" class="nav-link" data-scroll-target="#orthogonal-arrays"><span class="header-section-number">6</span> Orthogonal Arrays</a></li>
   </ul>
 </nav>
     </div>
@@ -709,7 +710,7 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
 <td style="text-align: right; border-left: 1px solid; border-right: 1px solid;">NA</td>
 <td style="text-align: left; border-left: 1px solid; border-right: 1px solid;">y</td>
 <td style="text-align: left; border-left: 1px solid; border-right: 1px solid;">dim(y)[i] is missing</td>
-<td style="text-align: left; border-left: 1px solid; border-right: 1px solid;">dim(y) extended by 1 &amp; recycled to size 6</td>
+<td style="text-align: left; border-left: 1px solid; border-right: 1px solid;">dim(y) extended with a 1; dim(y)[i] recycled to size 6</td>
 </tr>
 </tbody>
 </table>
@@ -720,11 +721,17 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
 <p>&nbsp;</p>
 </section>
 </section>
-<section id="orthogonal-arrays" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Orthogonal Arrays</h1>
+<section id="dimensionless-vectors" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Dimensionless Vectors</h1>
+<p>The functions in ‘broadcast’ treat dimensionless vectors are treated as 1-dimensional column-vectors. This is analogous to standard linear algebraic convention, where an vector of unspecified orientation is taken to be a column-vector.</p>
+<p>I.e. <code>1:10</code> is the same as <code>array(1:10, dim = c(10))</code>.</p>
+<p>&nbsp;</p>
+</section>
+<section id="orthogonal-arrays" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Orthogonal Arrays</h1>
 <p>In the documentation of ‘broadcast’, the reader may come across the term “orthogonal arrays” here and there.<br>
-“orthogonal” is a term that can mean a great many things; this section therefore explains what “orthogonal” is meant in the context of broadcasting.</p>
-<p>Consider a row-vector <code>x</code> and column-vector <code>y</code>:</p>
+“orthogonal” is a term that can mean a great many things; this section therefore explains what “orthogonal” means in the context of broadcasting.</p>
+<p>Consider a column-vector <code>x</code> and row-vector <code>y</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>))</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span><span class="sc">*</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>

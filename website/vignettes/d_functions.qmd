@@ -51,13 +51,10 @@ The outer-like functions are the following:
 
 There are several things to note about the above functions.
 
-First, the naming convention is "bc." followed by some abbreviation of the operation type.  
-For example, "b" refers to "Boolean operations", "i" to "Integer Numeric operations", and "d" to "Decimal Numeric Operations".
-
-Second, the `outer()` function from base 'R' is only optimized for the "*" operator; all other operators are called "regularly", somewhat (but not entirely) similar as functions would be called in an `apply()`-like function.  
+First, the `outer()` function from base 'R' is only optimized for the "*" operator; all other operators are called "regularly", somewhat (but not entirely) similar as functions would be called in an `apply()`-like function.  
 The outer-like functions provided by 'broadcast', however, come with a very large set of optimised operators, written and compiled in 'C' and 'C++'.
 
-Third, where base 'R' provides a single `outer()` function, 'broadcast' provides several outer-like functions.  
+Second, where base 'R' provides a single `outer()` function, 'broadcast' provides several outer-like functions.  
 This is done for the following reasons:
 
  - As stated earlier, the outer-like functions provided by 'broadcast' come with a very large set of pre-compiled, optimised operations.  
@@ -89,17 +86,10 @@ For details on the operators supported in each of the outer-like functions, plea
 
 'broadcast' provides 3 functions for dimensional binding:
 
- - [`bind_mat()`](/man/bind.qmd): binds vectors and matrices row-wise or column-wise; allows for vector (i.e. linear) recycling.
- - [`bind_array()`](/man/bind.qmd): binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting.
- - [`bind_dt()`](/man/bind.qmd): binds data.frames and data.tables; allows for matching unmatched columns.
+ - [`bind_mat()`](/man/bind.qmd): binds vectors and matrices row-wise or column-wise; allows for vector (i.e. linear) recycling. Returns a matrix.
+ - [`bind_array()`](/man/bind.qmd): binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting. Returns an array.
+ - [`bind_dt()`](/man/bind.qmd): binds data.frames and data.tables; allows for matching unmatched columns. Returns a data.table.
  
-Note that the naming convention of the binding implementations here is
-"bind_" followed by the **resulting class** (abbreviated) - i.e. ...
-
- - [`bind_mat()`](/man/bind.qmd) **returns** a matrix, but can bind both matrices and vectors.
- - [`bind_array()`](/man/bind.qmd) **returns** an array, but can bind both arrays and matrices.
- - [`bind_dt()`](/man/bind.qmd) **returns** a data.table, but can bind not only data.tables, but also most other data.frame-like objects.
-
 
 
 ::: {.callout-note}
@@ -109,6 +99,20 @@ The [`bind_dt()`](/man/bind.qmd) function is only callable if the 'data.table' p
 :::
 
 &nbsp;
+
+
+# Naming convention
+
+The naming convention of the outer-like functions is "bc." followed by some abbreviation of the operation type.  
+For example, "b" refers to "Boolean operations", "i" to "Integer Numeric operations", and "d" to "Decimal Numeric Operations".
+
+&nbsp;
+
+The naming convention of the binding implementations here is "bind_" followed by the **resulting class** (abbreviated) - i.e. ...
+
+ - [`bind_mat()`](/man/bind.qmd) **returns** a matrix, but can bind both matrices and vectors.
+ - [`bind_array()`](/man/bind.qmd) **returns** an array, but can bind both arrays and matrices.
+ - [`bind_dt()`](/man/bind.qmd) **returns** a data.table, but can bind not only data.tables, but also most other data.frame-like objects.
 
 
 

@@ -233,7 +233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="vector-quantization" class="level1">
 <h1>Vector quantization</h1>
 <p>This first example is taken from Numpy’s own documentation.</p>
-<p>The basic operation in Vector Quantization (VQ) finds the closest point in a set of points, called codes in VQ jargon, to a given point, called the observation. In the very simple, two-dimensional case shown below, the values in observation describe the weight and height of an athlete to be classified. The codes represent different classes of athletes. Finding the closest point requires calculating the distance between observation and each of the codes. The shortest distance provides the best match. In this example, codes[0] is the closest class indicating that the athlete is likely a basketball player.</p>
+<p>The basic operation in Vector Quantization (VQ) finds the closest point in a set of points, called codes in VQ jargon, to a given point, called the observation. In the very simple, two-dimensional case shown below, the values in observation describe the weight and height of an athlete to be classified. The codes represent different classes of athletes. Finding the closest point requires calculating the distance between observation and each of the codes. The shortest distance provides the best match. In this example, <code>codes[1]</code> is the closest class indicating that the athlete is likely a basketball player.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>observation <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">c</span>(<span class="fl">111.0</span>, <span class="fl">188.0</span>), <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
@@ -246,10 +246,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>diff <span class="ot">&lt;-</span> <span class="fu">bc.num</span>(codes, observation, <span class="st">"-"</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">apply</span>(diff<span class="sc">^</span><span class="dv">2</span>, 2L, sum) <span class="sc">|&gt;</span> <span class="fu">sqrt</span>()</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(dist); dist[<span class="fu">which.min</span>(dist)]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> matrixStats<span class="sc">::</span><span class="fu">colSums2</span>(diff<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">sqrt</span>()</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(dist) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 125.3395</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>codes[<span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 102</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>&nbsp;</p>
 </section>

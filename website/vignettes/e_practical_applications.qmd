@@ -28,7 +28,7 @@ Broadcasting comes up frequent enough in real world problems. This articles give
 
 This first example is taken from Numpy's own documentation.
 
-The basic operation in Vector Quantization (VQ) finds the closest point in a set of points, called codes in VQ jargon, to a given point, called the observation. In the very simple, two-dimensional case shown below, the values in observation describe the weight and height of an athlete to be classified. The codes represent different classes of athletes. Finding the closest point requires calculating the distance between observation and each of the codes. The shortest distance provides the best match. In this example, codes[0] is the closest class indicating that the athlete is likely a basketball player.
+The basic operation in Vector Quantization (VQ) finds the closest point in a set of points, called codes in VQ jargon, to a given point, called the observation. In the very simple, two-dimensional case shown below, the values in observation describe the weight and height of an athlete to be classified. The codes represent different classes of athletes. Finding the closest point requires calculating the distance between observation and each of the codes. The shortest distance provides the best match. In this example, `codes[1]` is the closest class indicating that the athlete is likely a basketball player.
 
 ```{r}
 
@@ -42,8 +42,10 @@ codes <- array(
 )
 
 diff <- bc.num(codes, observation, "-")
-dist <- apply(diff^2, 2L, sum) |> sqrt()
-which.min(dist); dist[which.min(dist)]
+dist <- matrixStats::colSums2(diff^2) |> sqrt()
+which.min(dist) |> print()
+codes[1] |> print()
+
 ```
 
 

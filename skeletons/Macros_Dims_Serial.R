@@ -484,7 +484,7 @@ macro_dim_docall <- templatecode_docall2
 # Macro Bind ====
 #
 
-# MISTAKE: cannot use the same iterations for `x` and `out`!!!
+# Remember my MISTAKE: cannot use the same iterations for `x` and `out`!!!
 
 BINDTYPES <- seq(2, 16, 2)
 

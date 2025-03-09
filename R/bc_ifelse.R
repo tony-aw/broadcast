@@ -34,9 +34,7 @@
 bc_ifelse <- function(cond, yes, no) {
   
   # checks:
-  if(!is.array(yes) || !is.array(no)) {
-    stop("`yes`, and `no` must be arrays")
-  }
+  .binary_stop_general(yes, no, "", sys.call())
   if(typeof(yes) != typeof(no)) {
     stop("`yes` and `no` must be of the same type")
   }
