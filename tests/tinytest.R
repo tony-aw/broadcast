@@ -27,5 +27,8 @@ if ( requireNamespace("tinytest", quietly=TRUE) ){
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bind_array")
   )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "misc")
+  )
 }
 

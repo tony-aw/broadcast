@@ -36,7 +36,7 @@ ndim <- function(x) {
 lst.ndim <- function(x) {
   out <- .C_lst_ndims(x)
   dim(out) <- dim(x)
-  dimnames(out) <- dim(x)
+  dimnames(out) <- dimnames(x)
   names(out) <- names(x)
   return(out)
 }
@@ -47,7 +47,7 @@ lst.ndim <- function(x) {
 lst.typeof <- function(x) {
   out <- .C_lst_typeof(x)
   dim(out) <- dim(x)
-  dimnames(out) <- dim(x)
+  dimnames(out) <- dimnames(x)
   names(out) <- names(x)
   return(out)
 }
