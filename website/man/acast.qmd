@@ -7,9 +7,11 @@ title: acast
 ### Description
 
 The <code>acast()</code> function spreads subsets of an array margin over a new dimension. <br />
+Written in 'C' and 'C++' for high speed and memory efficiency. <br />
 <br />
-<code>acast()</code> is somewhat analogous to <code>data.table::</code>dcast,
-but it has 2 important differences:
+Roughly speaking, <code>acast()</code> can be thought of as the &quot;array&quot; analogy to
+<code>data.table::</code>dcast. <br />
+But note 2 important differences:
 
 
 <ul>
@@ -17,8 +19,8 @@ but it has 2 important differences:
 
 </li>
 <li> <code>acast()</code> casts into a completely new dimension
-(namely [ndim](properties.qmd)<code>(x) + 1L</code>),
-instead of casting into more columns.
+(namely <code>ndim(x) + 1</code>),
+instead of casting into new columns.
 
 </li></ul>
 
@@ -43,7 +45,11 @@ a scalar integer, specifying the margin to cast from.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="grp">grp</code></td>
 <td>
-a factor, specifying the indices on the <code>margin</code>.
+a factor, where <code>length(grp) == dim(x)[margin]</code>, with at least <code>2</code> unique values,
+specifying which indices of <code>dim(x)[margin]</code> belong to which group. <br />
+Each group will be cast onto a separate index of dimension <code>ndim(x) + 1</code>. <br />
+Unused levels of <code>grp</code> will be dropped. <br />
+If any <code>NA</code> values or levels found in <code>grp</code>, will result in an error.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="fill">fill</code></td>
 <td>
@@ -59,7 +65,22 @@ If <code>x</code> is of type <code>raw</code>, uneven groupings are not supporte
 
 ### Details
 
-A more detailed explanation of the <code>acast()</code> function can be found on the website. <br />
+For the sake of illustration, consider a matrix <code>x</code> and a grouping factor <code>grp</code>. <br />
+Let the integer scalar <code>k</code> represent a group in <code>grp</code>, such that <code>k</code> $\in$ <code>1:nlevels(grp)</code>. <br />
+Then the code <br />
+<code>out = acast(x, margin = 1, grp = grp)</code> <br />
+essentially performs the following for every group <code>k</code>:
+
+
+<ul>
+<li> copy-paste the subset <code>x[grp == k, ]</code> to the subset <code>out[, , k]</code>.
+
+</li></ul>
+
+Please see the examples section
+to get a good idea on how this function casts an array. <br />
+A more detailed explanation of the <code>acast()</code> function
+can be found on the website. <br /> <br />
 
 
 
@@ -69,13 +90,34 @@ An array with the following properties:
 
 
 <ul>
-<li> <code style="white-space: pre;">ndim(out) = ndim(x) + 1l</code>;
+<li> the number of dimensions of the output array is equal to <code>ndim(x) + 1</code>;
 
 </li>
-<li> dimensions equal to <code style="white-space: pre;">c(dim(x), max(tabulate(grp))</code>;
+<li> the dimensions of the output array is equal to <code style="white-space: pre;">c(dim(x), max(tabulate(grp))</code>;
 
 </li>
-<li> dimnames equal to <code>c(dimnames(x), list(levels(grp)))</code>;
+<li> the <code>dimnames</code> of the output array is equal to <code>c(dimnames(x), list(levels(grp)))</code>. <br /> <br />
+
+</li></ul>
+
+
+
+### Back transformation
+
+From the casted array, <br />
+<code>out = acast(x, margin, grp)</code>, <br />
+one can get the original <code>x</code> back by using <br />
+<code>back = asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br />
+Note, however, the following about the back-transformed array <code>back</code>:
+
+
+<ul>
+<li> <code>back</code> will be ordered by <code>grp</code> along dimension <code>margin</code>;
+
+</li>
+<li> if the levels of <code>grp</code> did not have equal frequencies,
+then <code>dim(back)[margin] &gt; dim(x)[margin]</code>,
+and <code>back</code> will have more missing values than <code>x</code>. <br /> <br />
 
 </li></ul>
 
@@ -87,10 +129,13 @@ library("broadcast")
 
 
 x <- cbind(id = c(rep(1:3, each = 2), 1), grp = c(rep(1:2, 3), 2), val = rnorm(7))
+print(x)
+
 grp <- as.factor(x[, 2])
 levels(grp) <- c("a", "b")
 margin <- 1L
-out <- acast(x, margin, grp, TRUE)
+
+acast(x, margin, grp, fill = TRUE)
 
 
 ```

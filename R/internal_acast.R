@@ -55,11 +55,15 @@
   if(max(unclass(grp)) >= dim(x)[margin]) {
     stop(simpleError("`grp` must have less levels than `dim(x)[margin]`", call = abortcall))
   }
-  if(nlevels(grp) < 2L) {
-    stop(simpleError("`grp` must have at least 2 levels", call = abortcall))
+  grp_n <- length(unique(grp))
+  if(grp_n < 2L) {
+    stop(simpleError("`grp` must have at least 2 unique values", call = abortcall))
   }
-  if(anyNA(grp)) {
+  if(anyNA(grp) || anyNA(levels(grp))) {
     stop(simpleError("`grp` cannot be `NA`", call = abortcall))
+  }
+  if(grp_n != nlevels(grp)) {
+    stop(simpleError("`grp` malformed", call = abortcall))
   }
 }
 
@@ -72,6 +76,7 @@
   }
   
 }
+
 
 #' @keywords internal
 #' @noRd

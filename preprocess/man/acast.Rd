@@ -11,7 +11,11 @@ acast(x, margin, grp, fill = FALSE)
 
 \item{margin}{a scalar integer, specifying the margin to cast from.}
 
-\item{grp}{a factor, specifying the indices on the \code{margin}.}
+\item{grp}{a factor, where \code{length(grp) == dim(x)[margin]}, with at least \code{2} unique values,
+specifying which indices of \code{dim(x)[margin]} belong to which group. \cr
+Each group will be cast onto a separate index of dimension \code{ndim(x) + 1}. \cr
+Unused levels of \code{grp} will be dropped. \cr
+If any \code{NA} values or levels found in \code{grp}, will result in an error.}
 
 \item{fill}{Boolean, indicating if missing values should be filled. \cr
 This is used in case the levels of \code{grp} do not have equal frequencies,
@@ -23,31 +27,64 @@ If \code{x} is of type \code{raw}, uneven groupings are not supported.}
 \value{
 An array with the following properties:
 \itemize{
-\item \verb{ndim(out) = ndim(x) + 1l};
-\item dimensions equal to \verb{c(dim(x), max(tabulate(grp))};
-\item dimnames equal to \code{c(dimnames(x), list(levels(grp)))};
+\item the number of dimensions of the output array is equal to \code{ndim(x) + 1};
+\item the dimensions of the output array is equal to \verb{c(dim(x), max(tabulate(grp))};
+\item the \code{dimnames} of the output array is equal to \code{c(dimnames(x), list(levels(grp)))}. \cr \cr
 }
 }
 \description{
 The \code{acast()} function spreads subsets of an array margin over a new dimension. \cr
+Written in 'C' and 'C++' for high speed and memory efficiency. \cr
 \cr
-\code{acast()} is somewhat analogous to \code{data.table::}\link[data.table]{dcast},
-but it has 2 important differences:
+Roughly speaking, \code{acast()} can be thought of as the "array" analogy to
+\code{data.table::}\link[data.table]{dcast}. \cr
+But note 2 important differences:
 \itemize{
 \item \code{acast()} works on arrays instead of data.tables.
 \item \code{acast()} casts into a completely new dimension
-(namely \code{[ndim](properties.qmd)}\code{(x) + 1L}),
-instead of casting into more columns.
+(namely \code{ndim(x) + 1}),
+instead of casting into new columns.
 }
 }
 \details{
-A more detailed explanation of the \code{acast()} function can be found on the website. \cr
+For the sake of illustration, consider a matrix \code{x} and a grouping factor \code{grp}. \cr
+Let the integer scalar \code{k} represent a group in \code{grp}, such that \code{k} \eqn{\in} \code{1:nlevels(grp)}. \cr
+Then the code \cr
+\code{out = acast(x, margin = 1, grp = grp)} \cr
+essentially performs the following for every group \code{k}:
+\itemize{
+\item copy-paste the subset \code{x[grp == k, ]} to the subset \code{out[, , k]}.
 }
+
+Please see the examples section
+to get a good idea on how this function casts an array. \cr
+A more detailed explanation of the \code{acast()} function
+can be found on the website. \cr \cr
+}
+\section{Back transformation}{
+
+
+From the casted array, \cr
+\code{out = acast(x, margin, grp)}, \cr
+one can get the original \code{x} back by using \cr
+\code{back = asplit(out, ndim(out)) |> bind_array(along = margin)}. \cr
+Note, however, the following about the back-transformed array \code{back}:
+\itemize{
+\item \code{back} will be ordered by \code{grp} along dimension \code{margin};
+\item if the levels of \code{grp} did not have equal frequencies,
+then \code{dim(back)[margin] > dim(x)[margin]},
+and \code{back} will have more missing values than \code{x}. \cr \cr
+}
+}
+
 \examples{
 
 x <- cbind(id = c(rep(1:3, each = 2), 1), grp = c(rep(1:2, 3), 2), val = rnorm(7))
+print(x)
+
 grp <- as.factor(x[, 2])
 levels(grp) <- c("a", "b")
 margin <- 1L
-out <- acast(x, margin, grp, TRUE)
+
+acast(x, margin, grp, fill = TRUE)
 }

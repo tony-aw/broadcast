@@ -94,6 +94,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -259,6 +261,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
   <li><a href="#details" id="toc-details" class="nav-link" data-scroll-target="#details">Details</a></li>
   <li><a href="#value" id="toc-value" class="nav-link" data-scroll-target="#value">Value</a></li>
+  <li><a href="#back-transformation" id="toc-back-transformation" class="nav-link" data-scroll-target="#back-transformation">Back transformation</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul></li>
   </ul>
@@ -288,13 +291,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="simple-and-fast-castingpivoting-of-an-array">Simple and Fast Casting/Pivoting of an Array</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>The <code>acast()</code> function spreads subsets of an array margin over a new dimension. <br> <br> <code>acast()</code> is somewhat analogous to <code>data.table::</code>dcast, but it has 2 important differences:</p>
+<p>The <code>acast()</code> function spreads subsets of an array margin over a new dimension. <br> Written in ‘C’ and ‘C++’ for high speed and memory efficiency. <br> <br> Roughly speaking, <code>acast()</code> can be thought of as the "array" analogy to <code>data.table::</code>dcast. <br> But note 2 important differences:</p>
 <ul>
 <li>
 <p><code>acast()</code> works on arrays instead of data.tables.</p>
 </li>
 <li>
-<p><code>acast()</code> casts into a completely new dimension (namely <a href="../man/properties.html">ndim</a><code>(x) + 1L</code>), instead of casting into more columns.</p>
+<p><code>acast()</code> casts into a completely new dimension (namely <code>ndim(x) + 1</code>), instead of casting into new columns.</p>
 </li>
 </ul>
 </section>
@@ -328,7 +331,7 @@ a scalar integer, specifying the margin to cast from.
 <code id="grp">grp</code>
 </td>
 <td>
-a factor, specifying the indices on the <code>margin</code>.
+a factor, where <code>length(grp) == dim(x)[margin]</code>, with at least <code>2</code> unique values, specifying which indices of <code>dim(x)[margin]</code> belong to which group. <br> Each group will be cast onto a separate index of dimension <code>ndim(x) + 1</code>. <br> Unused levels of <code>grp</code> will be dropped. <br> If any <code>NA</code> values or levels found in <code>grp</code>, will result in an error.
 </td>
 </tr>
 <tr>
@@ -344,20 +347,38 @@ Boolean, indicating if missing values should be filled. <br> This is used in cas
 </section>
 <section id="details" class="level3">
 <h3 class="anchored" data-anchor-id="details">Details</h3>
-<p>A more detailed explanation of the <code>acast()</code> function can be found on the website. <br></p>
+<p>For the sake of illustration, consider a matrix <code>x</code> and a grouping factor <code>grp</code>. <br> Let the integer scalar <code>k</code> represent a group in <code>grp</code>, such that <code>k</code> <span class="math inline">\(\in\)</span> <code>1:nlevels(grp)</code>. <br> Then the code <br> <code>out = acast(x, margin = 1, grp = grp)</code> <br> essentially performs the following for every group <code>k</code>:</p>
+<ul>
+<li>
+<p>copy-paste the subset <code>x[grp == k, ]</code> to the subset <code>out[, , k]</code>.</p>
+</li>
+</ul>
+<p>Please see the examples section to get a good idea on how this function casts an array. <br> A more detailed explanation of the <code>acast()</code> function can be found on the website. <br> <br></p>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
 <p>An array with the following properties:</p>
 <ul>
 <li>
-<p><code style="white-space: pre;">ndim(out) = ndim(x) + 1l</code>;</p>
+<p>the number of dimensions of the output array is equal to <code>ndim(x) + 1</code>;</p>
 </li>
 <li>
-<p>dimensions equal to <code style="white-space: pre;">c(dim(x), max(tabulate(grp))</code>;</p>
+<p>the dimensions of the output array is equal to <code style="white-space: pre;">c(dim(x), max(tabulate(grp))</code>;</p>
 </li>
 <li>
-<p>dimnames equal to <code>c(dimnames(x), list(levels(grp)))</code>;</p>
+<p>the <code>dimnames</code> of the output array is equal to <code>c(dimnames(x), list(levels(grp)))</code>. <br> <br></p>
+</li>
+</ul>
+</section>
+<section id="back-transformation" class="level3">
+<h3 class="anchored" data-anchor-id="back-transformation">Back transformation</h3>
+<p>From the casted array, <br> <code>out = acast(x, margin, grp)</code>, <br> one can get the original <code>x</code> back by using <br> <code>back = asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br> Note, however, the following about the back-transformed array <code>back</code>:</p>
+<ul>
+<li>
+<p><code>back</code> will be ordered by <code>grp</code> along dimension <code>margin</code>;</p>
+</li>
+<li>
+<p>if the levels of <code>grp</code> did not have equal frequencies, then <code>dim(back)[margin] &gt; dim(x)[margin]</code>, and <code>back</code> will have more missing values than <code>x</code>. <br> <br></p>
 </li>
 </ul>
 </section>
@@ -368,10 +389,36 @@ Boolean, indicating if missing values should be filled. <br> This is used in cas
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">each =</span> <span class="dv">2</span>), <span class="dv">1</span>), <span class="at">grp =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">2</span>), <span class="at">val =</span> <span class="fu">rnorm</span>(<span class="dv">7</span>))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>grp <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(x[, <span class="dv">2</span>])</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(grp) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>margin <span class="ot">&lt;-</span> 1L</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">acast</span>(x, margin, grp, <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">##      id grp         val</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  1   1  0.53260364</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  1   2 -1.82182360</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]  2   1  0.96343994</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,]  2   2  0.38485009</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,]  3   1  1.09684541</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="do">## [6,]  3   2  0.08133027</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## [7,]  1   2 -1.04575808</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>grp <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(x[, <span class="dv">2</span>])</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(grp) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>margin <span class="ot">&lt;-</span> 1L</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">acast</span>(x, margin, grp, <span class="at">fill =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="do">## , , a</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="do">##      id grp       val</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  1   1 0.5326036</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  2   1 0.9634399</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]  3   1 1.0968454</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] NA  NA        NA</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">## , , b</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="do">##      id grp         val</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  1   2 -1.82182360</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  2   2  0.38485009</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]  3   2  0.08133027</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,]  1   2 -1.04575808</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
