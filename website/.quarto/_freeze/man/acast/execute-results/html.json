@@ -1,0 +1,14 @@
+{
+  "hash": "a4f4ede7c681a888a9205bd4508fa5d3",
+  "result": {
+    "markdown": "---\ntitle: acast\n---\n\n## Simple and Fast Casting/Pivoting of an Array {.unnumbered}\n\n\n### Description\n\nThe <code>acast()</code> function spreads subsets of an array margin over a new dimension. <br />\n<br />\n<code>acast()</code> is somewhat analogous to <code>data.table::</code>dcast,\nbut it has 2 important differences:\n\n\n<ul>\n<li> <code>acast()</code> works on arrays instead of data.tables.\n\n</li>\n<li> <code>acast()</code> casts into a completely new dimension\n(namely [ndim](properties.qmd)<code>(x) + 1L</code>),\ninstead of casting into more columns.\n\n</li></ul>\n\n\n\n### Usage\n\n<pre><code class='language-R'>acast(x, margin, grp, fill = FALSE)\n</code></pre>\n\n\n### Arguments\n\n<table>\n<tr><td style = \"white-space: collapse; font-family: monospace; vertical-align: top\"><code id=\"x\">x</code></td>\n<td>\nan atomic or recursive array.\n</td></tr>\n<tr><td style = \"white-space: collapse; font-family: monospace; vertical-align: top\"><code id=\"margin\">margin</code></td>\n<td>\na scalar integer, specifying the margin to cast from.\n</td></tr>\n<tr><td style = \"white-space: collapse; font-family: monospace; vertical-align: top\"><code id=\"grp\">grp</code></td>\n<td>\na factor, specifying the indices on the <code>margin</code>.\n</td></tr>\n<tr><td style = \"white-space: collapse; font-family: monospace; vertical-align: top\"><code id=\"fill\">fill</code></td>\n<td>\nBoolean, indicating if missing values should be filled. <br />\nThis is used in case the levels of <code>grp</code> do not have equal frequencies,\nand thus additional values must be filled. <br />\nIf <code>x</code> is atomic but not <code>raw</code>, missing values are filled with <code>NA</code>. <br />\nIf <code>x</code> is recursive, missing values are filled with <code>list(NULL)</code>. <br />\nIf <code>x</code> is of type <code>raw</code>, uneven groupings are not supported.\n</td></tr>\n</table>\n\n\n### Details\n\nA more detailed explanation of the <code>acast()</code> function can be found on the website. <br />\n\n\n\n### Value\n\nAn array with the following properties:\n\n\n<ul>\n<li> <code style=\"white-space: pre;\">ndim(out) = ndim(x) + 1l</code>;\n\n</li>\n<li> dimensions equal to <code style=\"white-space: pre;\">c(dim(x), max(tabulate(grp))</code>;\n\n</li>\n<li> dimnames equal to <code>c(dimnames(x), list(levels(grp)))</code>;\n\n</li></ul>\n\n\n\n### Examples\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(\"broadcast\")\n\n\nx <- cbind(id = c(rep(1:3, each = 2), 1), grp = c(rep(1:2, 3), 2), val = rnorm(7))\ngrp <- as.factor(x[, 2])\nlevels(grp) <- c(\"a\", \"b\")\nmargin <- 1L\nout <- acast(x, margin, grp, TRUE)\n\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

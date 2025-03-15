@@ -715,7 +715,6 @@ macro_op_str_conc <- "
 ################################################################################
 # Ifelse ====
 
-
 macro_op_ifelse <- "
 #define MACRO_OP_IFELSE(DIMCODE) do {       \\
   switch(TYPEOF(x)) {	\\

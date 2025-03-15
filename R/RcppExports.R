@@ -13,6 +13,18 @@
     .Call(`_broadcast_rcpp_rcbind_get_sizes`, lst, imargin)
 }
 
+rcpp_factor_count <- function(grp, j) {
+    .Call(`_broadcast_rcpp_factor_count`, grp, j)
+}
+
+rcpp_factor_which <- function(grp, j, size) {
+    .Call(`_broadcast_rcpp_factor_which`, grp, j, size)
+}
+
+rcpp_acast <- function(out, y, starts, lens, subs, dcp_out, dcp_y, grp, grp_n, margin, newdim) {
+    invisible(.Call(`_broadcast_rcpp_acast`, out, y, starts, lens, subs, dcp_out, dcp_y, grp, grp_n, margin, newdim))
+}
+
 #' @keywords internal
 #' @noRd
 rcpp_str_dist_led <- function(x, y) {

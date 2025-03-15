@@ -114,3 +114,12 @@ enumerate <- enumerate + i # count number of tests
 # test results:
 
 
+# errors ====
+expect_error(
+  bc_ifelse(letters, LETTERS, letters),
+  pattern = "`cond` must be a logical array"
+)
+expect_error(
+  bc_ifelse(c(TRUE, FALSE, TRUE, FALSE), letters[1:4], 1:4),
+  pattern = "`yes` and `no` must be of the same type"
+)
