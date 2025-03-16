@@ -53,8 +53,8 @@ for(iSample in 1:5) {
         z.data <- datagens[[iDataZ]]()
         
         # here there's colbinding, so keep object.dim[2] intact
-        x <- array(x.data, c(1, x.dim[2])) |> array_replicate(x.dim)
-        y <- array(y.data, c(1, y.dim[2:3])) |> array_replicate(y.dim)
+        x <- array(x.data, c(1, x.dim[2])) |> rep_dim(x.dim)
+        y <- array(y.data, c(1, y.dim[2:3])) |> rep_dim(y.dim)
         z <- array(z.data, z.dim)
         emptyarray <- array(numeric(0L), c(3,3,0))
         

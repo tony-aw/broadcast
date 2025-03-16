@@ -27,33 +27,28 @@ Implements simple broadcasted operations for atomic and recursive arrays.
 <p>Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;
 'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 </p>
-<p>The broadcasted implementations include, but are not limited to, the following:
+<p>The implementations available in 'broadcast' include, but are not limited to, the following:
 </p>
 
 <ol>
-<li><p> A more efficient and broadcasted version of <code>abind()</code>, for binding arrays along an arbitrary dimension;
+<li><p> A faster, more memory efficient, and broadcasted version of <code>abind()</code>, for binding arrays along an arbitrary dimension;
 </p>
 </li>
-<li><p> Relational operations (like <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>; can also take into account Machine precision);
-</p>
-</li>
-<li><p> Arithmetic operations (like <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, &quot;gcd&quot;, <code>^</code>, <code>pmin()</code>, <code>pmax()</code>);
-</p>
-</li>
-<li><p> Boolean combiner operations (like <code>&amp;</code>, <code>|</code>, <code>xor()</code>, &quot;nand&quot;);
-</p>
-</li>
-<li><p> String distance, (in)equality, and concatenation operations;
+<li><p> A set of broadcasted outer()-like functions, optimised for a large set of relational-, arithmetic-, Boolean-, and string operations.
 </p>
 </li>
 <li><p> A Broadcasted implementation of <code>ifelse()</code>;
 </p>
 </li>
 <li><p> A Broadcasted apply-like function;
-The broadcasted implementations strive to minimize computation time and memory usage (which is not just good for computer efficiency, but also for the environment).
+</p>
+</li>
+<li><p> The <code>acast()</code> function, for casting/pivoting an array into a new dimension.
 </p>
 </li></ol>
 
+<p>The broadcasted implementations strive to minimize computation time and memory usage (which is not just good for computer efficiency, but also for the environment).
+</p>
 
 
 <h3>Getting Started</h3>

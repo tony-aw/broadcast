@@ -72,17 +72,17 @@ for(iSample in 1:5) { # re-do tests with different random configurations
       }
       else if(length(x) == 1L && length(y) > 1L) {
         # CASE 3: x is scalar, y is not
-        expected <- basefun((x), array_replicate((y), tdim))
+        expected <- basefun((x), rep_dim((y), tdim))
         out <- bcapply(x, y, op, v)
       }
       else if(length(y) == 1L && length(x) > 1L) {
         # CASE 4: y is scalar, x is not
-        expected <- basefun(array_replicate((x), tdim), (y))
+        expected <- basefun(rep_dim((x), tdim), (y))
         out <- bcapply(x, y, op, v)
       }
       else {
         # CASE 5: x and y are both non-reducible arrays
-        expected <- basefun(array_replicate((x), tdim), array_replicate((y), tdim))
+        expected <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
         out <- bcapply(x, y, op, v)
       }
       # END CASES
@@ -152,17 +152,17 @@ for(iSample in 1:5) { # re-do tests with different random configurations
       }
       else if(length(x) == 1L && length(y) > 1L) {
         # CASE 3: x is scalar, y is not
-        expected <- basefun((x), array_replicate((y), tdim))
+        expected <- basefun((x), rep_dim((y), tdim))
         out <- bcapply(x, y, op, v)
       }
       else if(length(y) == 1L && length(x) > 1L) {
         # CASE 4: y is scalar, x is not
-        expected <- basefun(array_replicate((x), tdim), (y))
+        expected <- basefun(rep_dim((x), tdim), (y))
         out <- bcapply(x, y, op, v)
       }
       else {
         # CASE 5: x and y are both non-reducible arrays
-        expected <- basefun(array_replicate((x), tdim), array_replicate((y), tdim))
+        expected <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
         out <- bcapply(x, y, op, v)
       }
       # END CASES
@@ -232,17 +232,17 @@ for(iSample in 1:5) { # re-do tests with different random configurations
       }
       else if(length(x) == 1L && length(y) > 1L) {
         # CASE 3: x is scalar, y is not
-        expected <- basefun((x), array_replicate((y), tdim))
+        expected <- basefun((x), rep_dim((y), tdim))
         out <- bcapply(x, y, op, v)
       }
       else if(length(y) == 1L && length(x) > 1L) {
         # CASE 4: y is scalar, x is not
-        expected <- basefun(array_replicate((x), tdim), (y))
+        expected <- basefun(rep_dim((x), tdim), (y))
         out <- bcapply(x, y, op, v)
       }
       else {
         # CASE 5: x and y are both non-reducible arrays
-        expected <- basefun(array_replicate((x), tdim), array_replicate((y), tdim))
+        expected <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
         out <- bcapply(x, y, op, v)
       }
       # END CASES
@@ -312,17 +312,17 @@ for(iSample in 1:5) { # re-do tests with different random configurations
       }
       else if(length(x) == 1L && length(y) > 1L) {
         # CASE 3: x is scalar, y is not
-        expected <- basefun((x), array_replicate((y), tdim))
+        expected <- basefun((x), rep_dim((y), tdim))
         out <- bcapply(x, y, op, v)
       }
       else if(length(y) == 1L && length(x) > 1L) {
         # CASE 4: y is scalar, x is not
-        expected <- basefun(array_replicate((x), tdim), (y))
+        expected <- basefun(rep_dim((x), tdim), (y))
         out <- bcapply(x, y, op, v)
       }
       else {
         # CASE 5: x and y are both non-reducible arrays
-        expected <- basefun(array_replicate((x), tdim), array_replicate((y), tdim))
+        expected <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
         out <- bcapply(x, y, op, v)
       }
       # END CASES
@@ -392,17 +392,17 @@ for(iSample in 1:5) { # re-do tests with different random configurations
       }
       else if(length(x) == 1L && length(y) > 1L) {
         # CASE 3: x is scalar, y is not
-        expected <- basefun((x), array_replicate((y), tdim))
+        expected <- basefun((x), rep_dim((y), tdim))
         out <- bcapply(x, y, op, v)
       }
       else if(length(y) == 1L && length(x) > 1L) {
         # CASE 4: y is scalar, x is not
-        expected <- basefun(array_replicate((x), tdim), (y))
+        expected <- basefun(rep_dim((x), tdim), (y))
         out <- bcapply(x, y, op, v)
       }
       else {
         # CASE 5: x and y are both non-reducible arrays
-        expected <- basefun(array_replicate((x), tdim), array_replicate((y), tdim))
+        expected <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
         out <- bcapply(x, y, op, v)
       }
       # END CASES

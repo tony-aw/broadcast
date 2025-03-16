@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>R-package: broadcast - array_replicate</title>
+<title>R-package: broadcast - rep_dim</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/array_replicate.html">array_replicate</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/rep_dim.html">rep_dim</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -226,20 +226,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/array_replicate.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">array_replicate</span></a>
+  <a href="../man/typecast.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">typecast</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/rep_dim.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">rep_dim</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/properties.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">properties</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/typecast.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">typecast</span></a>
   </div>
 </li>
     </ul>
@@ -268,7 +268,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">array_replicate</h1>
+<h1 class="title">rep_dim</h1>
 </div>
 
 
@@ -287,11 +287,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="replicate-array-dimensions">Replicate Array Dimensions</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>The <code>array_replicate()</code> function replicates array dimensions until the specified dimension sizes are reached, and returns the array. <br> <br> The various broadcasting functions recycle array dimensions virtually, meaning little to no additional memory is needed. <br> The <code>array_replicate()</code> function, however, physically replicates the dimensions of an array (and thus actually occupies additional memory space). <br> <br></p>
+<p>The <code>rep_dim()</code> function replicates array dimensions until the specified dimension sizes are reached, and returns the array. <br> <br> The various broadcasting functions recycle array dimensions virtually, meaning little to no additional memory is needed. <br> The <code>rep_dim()</code> function, however, physically replicates the dimensions of an array (and thus actually occupies additional memory space). <br> <br></p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">array_replicate(x, tdim)
+<pre><code class="language-R">rep_dim(x, tdim)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -339,7 +339,7 @@ an integer vector, giving the target dimension to reach.
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## attr(,"names")</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep"</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">array_replicate</span>(x, <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>)) <span class="co"># replicate to larger size</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">rep_dim</span>(x, <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>)) <span class="co"># replicate to larger size</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 1</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1] [,2] [,3]</span></span>

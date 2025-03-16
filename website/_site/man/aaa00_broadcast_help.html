@@ -192,20 +192,20 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/array_replicate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">array_replicate</span></a>
+  <a href="../man/typecast.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">typecast</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/rep_dim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">rep_dim</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/properties.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">properties</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/typecast.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">typecast</span></a>
   </div>
 </li>
     </ul>
@@ -240,30 +240,25 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="description">Description</h3>
 <p>broadcast: <br> Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies. <br> <br> Implements simple broadcasted operations for atomic and recursive arrays.</p>
 <p>Besides linking to ‘Rcpp’, ‘broadcast’ does not depend on, vendor, link to, include, or otherwise use any external libraries; ‘broadcast’ was essentially made from scratch and can be installed out-of-the-box.</p>
-<p>The broadcasted implementations include, but are not limited to, the following:</p>
+<p>The implementations available in ‘broadcast’ include, but are not limited to, the following:</p>
 <ol>
 <li>
-<p>A more efficient and broadcasted version of <code>abind()</code>, for binding arrays along an arbitrary dimension;</p>
+<p>A faster, more memory efficient, and broadcasted version of <code>abind()</code>, for binding arrays along an arbitrary dimension;</p>
 </li>
 <li>
-<p>Relational operations (like <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>; can also take into account Machine precision);</p>
-</li>
-<li>
-<p>Arithmetic operations (like <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, "gcd", <code>^</code>, <code>pmin()</code>, <code>pmax()</code>);</p>
-</li>
-<li>
-<p>Boolean combiner operations (like <code>&amp;</code>, <code>|</code>, <code>xor()</code>, "nand");</p>
-</li>
-<li>
-<p>String distance, (in)equality, and concatenation operations;</p>
+<p>A set of broadcasted outer()-like functions, optimised for a large set of relational-, arithmetic-, Boolean-, and string operations.</p>
 </li>
 <li>
 <p>A Broadcasted implementation of <code>ifelse()</code>;</p>
 </li>
 <li>
-<p>A Broadcasted apply-like function; The broadcasted implementations strive to minimize computation time and memory usage (which is not just good for computer efficiency, but also for the environment).</p>
+<p>A Broadcasted apply-like function;</p>
+</li>
+<li>
+<p>The <code>acast()</code> function, for casting/pivoting an array into a new dimension.</p>
 </li>
 </ol>
+<p>The broadcasted implementations strive to minimize computation time and memory usage (which is not just good for computer efficiency, but also for the environment).</p>
 </section>
 <section id="getting-started" class="level3">
 <h3 class="anchored" data-anchor-id="getting-started">Getting Started</h3>

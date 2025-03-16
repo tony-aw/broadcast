@@ -8,14 +8,14 @@ Description: Implements simple broadcasted operations for atomic and recursive a
 		Besides linking to 'Rcpp',
 		'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;
 		'broadcast' was essentially made from scratch and can be installed out-of-the-box.
-		The broadcasted implementations include, but are not limited to, the following.
-		  1) A more efficient and broadcasted version of `abind()`, for binding arrays along an arbitrary dimension;
-		  2) Relational operations (like `==`, `!=`, `<`, `>`, `<=`, `>=`; can also take into account Machine precision);
-		  3) Arithmetic operations (like `+`, `-`, `*`, `/`, "gcd", `^`, `pmin()`, `pmax()`);
-		  4) Boolean combiner operations (like `&`, `|`, `xor()`, "nand");
-		  5) String distance, (in)equality, and concatenation operations;
-		  6) A Broadcasted implementation of `ifelse()`;
-		  7) A Broadcasted apply-like function;
+		The implementations available in 'broadcast' include, but are not limited to, the following.
+		  1) A faster, more memory efficient, and broadcasted version of `abind()`,
+		  for binding arrays along an arbitrary dimension;
+		  2) A set of broadcasted outer()-like functions,
+		  optimised for a large set of relational-, arithmetic-, Boolean-, and string operations.
+		  3) A Broadcasted implementation of `ifelse()`;
+		  4) A Broadcasted apply-like function;
+		  5) The `acast()` function, for casting/pivoting an array into a new dimension.
 		The broadcasted implementations strive to minimize computation time and memory usage
 		(which is not just good for computer efficiency, but also for the environment).
 License: MPL-2.0 | file LICENSE
@@ -27,5 +27,5 @@ Depends:
     R (>= 4.2.0)
 Imports: 
     Rcpp (>= 1.0.11)
-Suggests: data.table, tinytest, roxygen2, pkgdown, devtools, kableExtra
+Suggests: data.table, tinytest, roxygen2
 URL: https://github.com/tony-aw/broadcast

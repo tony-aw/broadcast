@@ -1,13 +1,13 @@
 #' Replicate Array Dimensions
 #'
 #' @description
-#' The `array_replicate()` function
+#' The `rep_dim()` function
 #' replicates array dimensions until the specified dimension sizes are reached,
 #' and returns the array. \cr
 #' \cr
 #' The various broadcasting functions recycle array dimensions virtually,
 #' meaning little to no additional memory is needed. \cr
-#' The `array_replicate()` function,
+#' The `rep_dim()` function,
 #' however,
 #' physically replicates the dimensions of an array
 #' (and thus actually occupies additional memory space). \cr
@@ -20,12 +20,12 @@
 #' Returns the replicated array.
 #'
 #'
-#' @example inst/examples/array_replicate.R
+#' @example inst/examples/rep_dim.R
 #' 
 
-#' @rdname array_replicate
+#' @rdname rep_dim
 #' @export
-array_replicate <- function(
+rep_dim <- function(
     x, tdim
 ) {
 

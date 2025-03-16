@@ -24,7 +24,7 @@ The ‘broadcast’ ‘R’-package, as the name suggests, performs
 In the context of operations involving 2 (or more) arrays,
 “broadcasting” refers to recycling array dimensions **without**
 allocating additional memory, which is considerably **faster** and
-**more memory-efficient** than R’s regular dimensions repetition
+**more memory-efficient** than R’s regular dimensions replication
 mechanism.
 
 Please read the article “Broadcasting explained” for a more complete
@@ -43,23 +43,14 @@ These are similar to base R’s `outer()` function, but using
 broadcasting, which is faster and more efficient than the mechanism
 employed by `outer()`.  
 The outer-like functions provided by ‘broadcast’ are optimised for a
-large set of operations, including, but not limited to, the following:
-
-- relational operations (like ==, !=, \<, \>, \<=, \>=, etc.);
-- arithmetic operations (like +, -, \*, /, ^, etc.);
-- Boolean combiner operations (like &, \|, xor, etc.);
-- string concatenation, string (in)equality, and string distance
-  (Levenshtein) operations.
-
-Base ‘R’ `outer()` function has some sloppy rules regarding the
-dimensions of the output, making it hard to predict the output shape.  
-The outer-like functions provided by ‘broadcast’ have very strict
-broadcasting rules, making it easy to accurately predict the dimensions
-of the result.
+large set of relational-, arithmetic-, Boolean-, and string
+operations.  
+These functions have clear broadcasting rules, making it easy to
+accurately predict the dimensions of the result.
 
  
 
-Second, ‘broadcast’ provides the `bind_array()` function, which is an
+Second, ‘broadcast’ provides the `bind_array()` function, which is a
 broadcasted and enhanced form of the fantastic `abind::abind()`
 function:
 
@@ -82,6 +73,12 @@ Third, ‘broadcast’ provides several generic functions for broadcasting:
 
  
 
+Additionally, ‘broadcast’ includes the `acast()` function, for
+casting/pivoting an array into a new dimension. Roughly analogous to
+`data.table::dcast()`, but for arrays.
+
+ 
+
 ## 🤷🏽Why use ‘broadcast’
 
 **Efficiency**
@@ -101,7 +98,8 @@ equivalent operations in ‘Numpy’.
 
 **Convenience**
 
-Broadcasting can make many applications much easier to write.  
+Broadcasting can make many applications much faster to write and easier
+to reason about.  
 For Example: Suppose you want to compute some metric on all possible
 pair-wise combinations of the elements of 2 vectors.  
 You *could* write slow and ugly nested for-loops…  
@@ -128,15 +126,15 @@ Not using external libraries brings a number of advantages:
   other languages, such as ‘xtensor’ (‘C++’) or ‘Numpy’ (‘Python’) means
   that - at some point - one needs to convert between the structure of R
   to that of the other language, and vice-versa, which wastes precious
-  time and memory. ‘broadcast’ requires no such translations of
-  structures, and thus does not waste precious time and memory.
+  time, memory, and power. ‘broadcast’ requires no such translations of
+  structures, and is therefore much less wasteful.
 - **Ensure consistent behaviour**: Using libraries from other languages
-  also means one cannot always guarantee consistent behaviour of some
+  also means one cannot always guarantee consistent behaviour for some
   operations. For example: both ‘Numpy’ and ‘xtensor’ have only limited
   support for missing values, whereas ‘R’ supports missing values for
   both atomic and recursive array/vector types (except type of ‘Raw’).
   Since ‘broadcast’ does not rely on external libraries, it can ensure
-  consistent behaviour.
+  behaviour that is consistent with the rest of ‘R’.
 
  
 

@@ -132,35 +132,30 @@ ul.task-list li input[type="checkbox"] {
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">🗺️Overview</h2>
 <p>The ‘broadcast’ ‘R’-package, as the name suggests, performs “broadcasting” (similar to broadcasting in the ‘Numpy’ module for ‘Python’).</p>
-<p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions <strong>without</strong> allocating additional memory, which is considerably <strong>faster</strong> and <strong>more memory-efficient</strong> than R’s regular dimensions repetition mechanism.</p>
+<p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions <strong>without</strong> allocating additional memory, which is considerably <strong>faster</strong> and <strong>more memory-efficient</strong> than R’s regular dimensions replication mechanism.</p>
 <p>Please read the article “Broadcasting explained” for a more complete explanation of what “broadcasting” is.</p>
 <p>&nbsp;</p>
 <p>At its core, the ‘broadcast’ package provides 3 functionalities, all 3 related to “broadcasting”:</p>
 <p>&nbsp;</p>
 <p>First, ‘broadcast’ provides functions for element-wise outer computations between any 2 arrays.<br>
 These are similar to base R’s <code>outer()</code> function, but using broadcasting, which is faster and more efficient than the mechanism employed by <code>outer()</code>.<br>
-The outer-like functions provided by ‘broadcast’ are optimised for a large set of operations, including, but not limited to, the following:</p>
-<ul>
-<li>relational operations (like ==, !=, &lt;, &gt;, &lt;=, &gt;=, etc.);</li>
-<li>arithmetic operations (like +, -, *, /, ^, etc.);</li>
-<li>Boolean combiner operations (like &amp;, |, xor, etc.);</li>
-<li>string concatenation, string (in)equality, and string distance (Levenshtein) operations.</li>
-</ul>
-<p>Base ‘R’ <code>outer()</code> function has some sloppy rules regarding the dimensions of the output, making it hard to predict the output shape.<br>
-The outer-like functions provided by ‘broadcast’ have very strict broadcasting rules, making it easy to accurately predict the dimensions of the result.</p>
+The outer-like functions provided by ‘broadcast’ are optimised for a large set of relational-, arithmetic-, Boolean-, and string operations.<br>
+These functions have clear broadcasting rules, making it easy to accurately predict the dimensions of the result.</p>
 <p>&nbsp;</p>
-<p>Second, ‘broadcast’ provides the <code>bind_array()</code> function, which is an broadcasted and enhanced form of the fantastic <code>abind::abind()</code> function:</p>
+<p>Second, ‘broadcast’ provides the <a href="./man/bind.html">bind_array()</a> function, which is a broadcasted and enhanced form of the fantastic <code>abind::abind()</code> function:</p>
 <ul>
-<li><code>bind_array()</code> allows for broadcasting (obviously), whereas <code>abind::abind()</code> does not.</li>
-<li><code>bind_array()</code> is significantly <strong>faster</strong> and uses <strong>less memory</strong> than <code>abind::abind()</code>.</li>
-<li><code>bind_array()</code> also differs from <code>abind::abind()</code> in that it can handle recursive arrays properly; <code>abind::abind()</code> unlists everything to atomic arrays, ruining the structure.</li>
+<li><a href="./man/bind.html">bind_array()</a> allows for broadcasting (obviously), whereas <code>abind::abind()</code> does not.</li>
+<li><a href="./man/bind.html">bind_array()</a> is significantly <strong>faster</strong> and uses <strong>less memory</strong> than <code>abind::abind()</code>.</li>
+<li><a href="./man/bind.html">bind_array()</a> also differs from <code>abind::abind()</code> in that it can handle recursive arrays properly; <code>abind::abind()</code> unlists everything to atomic arrays, ruining the structure.</li>
 </ul>
 <p>&nbsp;</p>
 <p>Third, ‘broadcast’ provides several generic functions for broadcasting:</p>
 <ul>
-<li><code>bcapply()</code>: a broadcasted apply-like function that works on pairs of arrays.</li>
-<li><code>bc_ifelse()</code>: a broadcasted <code>ifelse()</code> function. Broadcasts between the <code>yes</code> and <code>no</code> arguments.</li>
+<li><a href="./man/bcapply.html">bcapply()</a>: a broadcasted apply-like function that works on pairs of arrays.</li>
+<li><a href="./man/bc_ifelse.html">bc_ifelse()</a>: a broadcasted <code>ifelse()</code> function. Broadcasts between the <code>yes</code> and <code>no</code> arguments.</li>
 </ul>
+<p>&nbsp;</p>
+<p>Additionally, ‘broadcast’ includes the <a href="./man/acast.html">acast()</a> function, for casting/pivoting an array into a new dimension. Roughly analogous to <code>data.table::dcast()</code>, but for arrays.</p>
 <p>&nbsp;</p>
 </section>
 <section id="why-use-broadcast" class="level2">
@@ -173,7 +168,7 @@ As a favoured language for the sciences, ‘R’ should not throw away an opport
 <p>The <code>Benchmarks</code> show that ‘broadcast’ has a somewhat similar speed as equivalent operations in ‘Numpy’.</p>
 <p>&nbsp;</p>
 <p><strong>Convenience</strong></p>
-<p>Broadcasting can make many applications much easier to write.<br>
+<p>Broadcasting can make many applications much faster to write and easier to reason about.<br>
 For Example: Suppose you want to compute some metric on all possible pair-wise combinations of the elements of 2 vectors.<br>
 You <em>could</em> write slow and ugly nested for-loops…<br>
 But you can instead also make the vectors orthogonal, and perform the broadcasting computation on the 2 orthogonal vectors.<br>
@@ -185,8 +180,8 @@ For more practical examples, see <code>Examples of Practical Applictaions</code>
 <p>Not using external libraries brings a number of advantages:</p>
 <ul>
 <li><strong>Avoid dependency hell</strong>: Every dependency that is added to a software package increases the likelihood of something breaking (AKA “dependency hell”). ‘broadcast’ thus avoids this.</li>
-<li><strong>Avoid wasting resources for translations</strong>: Using libraries from other languages, such as ‘xtensor’ (‘C++’) or ‘Numpy’ (‘Python’) means that - at some point - one needs to convert between the structure of R to that of the other language, and vice-versa, which wastes precious time and memory. ‘broadcast’ requires no such translations of structures, and thus does not waste precious time and memory.</li>
-<li><strong>Ensure consistent behaviour</strong>: Using libraries from other languages also means one cannot always guarantee consistent behaviour of some operations. For example: both ‘Numpy’ and ‘xtensor’ have only limited support for missing values, whereas ‘R’ supports missing values for both atomic and recursive array/vector types (except type of ‘Raw’). Since ‘broadcast’ does not rely on external libraries, it can ensure consistent behaviour.</li>
+<li><strong>Avoid wasting resources for translations</strong>: Using libraries from other languages, such as ‘xtensor’ (‘C++’) or ‘Numpy’ (‘Python’) means that - at some point - one needs to convert between the structure of R to that of the other language, and vice-versa, which wastes precious time, memory, and power. ‘broadcast’ requires no such translations of structures, and is therefore much less wasteful.</li>
+<li><strong>Ensure consistent behaviour</strong>: Using libraries from other languages also means one cannot always guarantee consistent behaviour for some operations. For example: both ‘Numpy’ and ‘xtensor’ have only limited support for missing values, whereas ‘R’ supports missing values for both atomic and recursive array/vector types (except type of ‘Raw’). Since ‘broadcast’ does not rely on external libraries, it can ensure behaviour that is consistent with the rest of ‘R’.</li>
 </ul>
 <p>&nbsp;</p>
 </section>

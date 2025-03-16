@@ -5,4 +5,4 @@ rownames(x) <- letters[1:3]
 names(x) <- month.abb[1:9]
 print(x)
 
-array_replicate(x, c(3,3,2)) # replicate to larger size
+rep_dim(x, c(3,3,2)) # replicate to larger size

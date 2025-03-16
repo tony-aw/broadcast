@@ -75,17 +75,17 @@ for(iSample in 1:5) { # re-do tests with different random configurations
         }
         else if(length(yes) == 1L && length(no) > 1L) {
           # CASE 3: x is scalar, y is not
-          expected <- ifelse(cond, yes, array_replicate(no, tdim))
+          expected <- ifelse(cond, yes, rep_dim(no, tdim))
           out <- bc_ifelse(cond, yes, no)
         }
         else if(length(yes) > 1L && length(no) == 1L) {
           # CASE 4: y is scalar, x is not
-          expected <- ifelse(cond, array_replicate(yes, tdim), no)
+          expected <- ifelse(cond, rep_dim(yes, tdim), no)
           out <- bc_ifelse(cond, yes, no)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
-          expected <- ifelse(cond, array_replicate(yes, tdim), array_replicate(no, tdim))
+          expected <- ifelse(cond, rep_dim(yes, tdim), rep_dim(no, tdim))
           out <- bc_ifelse(cond, yes, no)
         }
         # END CASES

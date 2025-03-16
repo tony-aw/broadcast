@@ -4,8 +4,11 @@ library(stringi)
 source("siteutils.R")
 
 
+################################################################################
+# Create man pages ====
+#
 
-# pre-process Rds for linking ====
+## pre-process Rds for linking ====
 funs <- getNamespaceExports("broadcast")
 lst.files <- list.files("man", pattern = "Rd")
 pkgpath <- getwd()
@@ -18,7 +21,7 @@ for(i in lst.files) {
 
 
 
-# convert Rd to qmd ====
+## convert Rd to qmd ====
 lst.files <- list.files(file.path("preprocess", "man"), pattern = "Rd")
 pkgpath <- getwd()
 for(i in lst.files) {
@@ -31,10 +34,11 @@ for(i in lst.files) {
 }
 
 
-# adapt man titles ====
+## adapt man titles ====
 detection <- "---\ntitle:"
 lst.files <- list.files("website/man/", pattern = "qmd")
 for(i in lst.files) {
+  print(i)
   filename <- i
   title <- stri_replace_last(filename, "", fixed = ".qmd")
   temp <- readLines(file.path("website", "man", filename))
@@ -46,7 +50,7 @@ for(i in lst.files) {
 }
 
 
-# unpack links ====
+## unpack links in man pages ====
 funs <- getNamespaceExports("broadcast")
 lst.files <- list.files("website/man/", pattern = "qmd")
 for(i in lst.files) {
@@ -56,24 +60,37 @@ for(i in lst.files) {
 }
 
 
+################################################################################
+# Create Vignettes, Index page, and GitHub Readme ====
+#
+
+# copy & render intro template ====
+from <- "intro_template.qmd"
+to <- file.path("website", "vignettes", "a_readme.qmd")
+file.copy(from, to, overwrite = TRUE)
+
+quarto::quarto_render(from, "gfm", "README.md")
+
+
+
 # create links in vignettes ====
 funs <- getNamespaceExports("broadcast")
 lst.files <- list.files(file.path("website", "vignettes"), pattern = "qmd")
 for(i in lst.files) {
   filepath <- file.path("website", "vignettes", i)
   temp <- readLines(filepath)
-  p <- paste0("\\link{", funs, "()}")
-  rp <- paste0("[`", funs, "()`]", "(/man/", rd_index(funs), ".qmd)")
+  p <- paste0("`", funs, "()`")
+  rp <- paste0("[", funs, "()]", "(/man/", rd_index(funs), ".qmd)")
   temp <- stri_replace_all(
     temp, rp, fixed = p, vectorize_all = FALSE
   )
   writeLines(temp, file.path("website", "vignettes", i))
 }
 
-
-# make readmes ====
-quarto::quarto_render("website/index.qmd", "gfm", "Readme.md")
-file.copy("website/Readme.md", "Readme.md")
+# copy readme vignette to index page ====
+from <- file.path("website", "vignettes", "a_readme.qmd")
+to <- file.path("website", "index.qmd")
+file.copy(from, to, overwrite = TRUE)
 
 
 # end of rd2qmd ====

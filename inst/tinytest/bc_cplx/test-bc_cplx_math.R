@@ -90,17 +90,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       }
       else if(length(x) == 1L && length(y) > 1L) {
         # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.complex(x), array_replicate(as_cplx(y), tdim))
+        expected[[i]] <- basefun(as.complex(x), rep_dim(as_cplx(y), tdim))
         out[[i]] <- bc.cplx(x, y, op)
       }
       else if(length(y) == 1L && length(x) > 1L) {
         # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(array_replicate(as_cplx(x), tdim), as.complex(y))
+        expected[[i]] <- basefun(rep_dim(as_cplx(x), tdim), as.complex(y))
         out[[i]] <- bc.cplx(x, y, op)
       }
       else {
         # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(array_replicate(as_cplx(x), tdim), array_replicate(as_cplx(y), tdim))
+        expected[[i]] <- basefun(rep_dim(as_cplx(x), tdim), rep_dim(as_cplx(y), tdim))
         out[[i]] <- bc.cplx(x, y, op)
       }
       # END CASES
@@ -176,17 +176,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       }
       else if(length(x) == 1L && length(y) > 1L) {
         # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.complex(x), array_replicate(as_cplx(y), tdim))
+        expected[[i]] <- basefun(as.complex(x), rep_dim(as_cplx(y), tdim))
         out[[i]] <- bc.cplx(x, y, op)
       }
       else if(length(y) == 1L && length(x) > 1L) {
         # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(array_replicate(as_cplx(x), tdim), as.complex(y))
+        expected[[i]] <- basefun(rep_dim(as_cplx(x), tdim), as.complex(y))
         out[[i]] <- bc.cplx(x, y, op)
       }
       else {
         # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(array_replicate(as_cplx(x), tdim), array_replicate(as_cplx(y), tdim))
+        expected[[i]] <- basefun(rep_dim(as_cplx(x), tdim), rep_dim(as_cplx(y), tdim))
         out[[i]] <- bc.cplx(x, y, op)
       }
       # END CASES
@@ -262,17 +262,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       }
       else if(length(x) == 1L && length(y) > 1L) {
         # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.complex(x), array_replicate(as_cplx(y), tdim))
+        expected[[i]] <- basefun(as.complex(x), rep_dim(as_cplx(y), tdim))
         out[[i]] <- bc.cplx(x, y, op)
       }
       else if(length(y) == 1L && length(x) > 1L) {
         # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(array_replicate(as_cplx(x), tdim), as.complex(y))
+        expected[[i]] <- basefun(rep_dim(as_cplx(x), tdim), as.complex(y))
         out[[i]] <- bc.cplx(x, y, op)
       }
       else {
         # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(array_replicate(as_cplx(x), tdim), array_replicate(as_cplx(y), tdim))
+        expected[[i]] <- basefun(rep_dim(as_cplx(x), tdim), rep_dim(as_cplx(y), tdim))
         out[[i]] <- bc.cplx(x, y, op)
       }
       # END CASES
@@ -348,17 +348,17 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       }
       else if(length(x) == 1L && length(y) > 1L) {
         # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.complex(x), array_replicate(as_cplx(y), tdim))
+        expected[[i]] <- basefun(as.complex(x), rep_dim(as_cplx(y), tdim))
         out[[i]] <- bc.cplx(x, y, op)
       }
       else if(length(y) == 1L && length(x) > 1L) {
         # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(array_replicate(as_cplx(x), tdim), as.complex(y))
+        expected[[i]] <- basefun(rep_dim(as_cplx(x), tdim), as.complex(y))
         out[[i]] <- bc.cplx(x, y, op)
       }
       else {
         # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(array_replicate(as_cplx(x), tdim), array_replicate(as_cplx(y), tdim))
+        expected[[i]] <- basefun(rep_dim(as_cplx(x), tdim), rep_dim(as_cplx(y), tdim))
         out[[i]] <- bc.cplx(x, y, op)
       }
       # END CASES

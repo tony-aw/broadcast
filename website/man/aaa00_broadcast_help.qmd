@@ -11,32 +11,27 @@ Implements simple broadcasted operations for atomic and recursive arrays.
 Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;
 'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 
-The broadcasted implementations include, but are not limited to, the following:
+The implementations available in 'broadcast' include, but are not limited to, the following:
 
 
 <ol>
-<li> A more efficient and broadcasted version of <code>abind()</code>, for binding arrays along an arbitrary dimension;
+<li> A faster, more memory efficient, and broadcasted version of <code>abind()</code>, for binding arrays along an arbitrary dimension;
 
 </li>
-<li> Relational operations (like <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>; can also take into account Machine precision);
-
-</li>
-<li> Arithmetic operations (like <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, &quot;gcd&quot;, <code>^</code>, <code>pmin()</code>, <code>pmax()</code>);
-
-</li>
-<li> Boolean combiner operations (like <code>&amp;</code>, <code>|</code>, <code>xor()</code>, &quot;nand&quot;);
-
-</li>
-<li> String distance, (in)equality, and concatenation operations;
+<li> A set of broadcasted outer()-like functions, optimised for a large set of relational-, arithmetic-, Boolean-, and string operations.
 
 </li>
 <li> A Broadcasted implementation of <code>ifelse()</code>;
 
 </li>
 <li> A Broadcasted apply-like function;
-The broadcasted implementations strive to minimize computation time and memory usage (which is not just good for computer efficiency, but also for the environment).
+
+</li>
+<li> The <code>acast()</code> function, for casting/pivoting an array into a new dimension.
 
 </li></ol>
+
+The broadcasted implementations strive to minimize computation time and memory usage (which is not just good for computer efficiency, but also for the environment).
 
 
 

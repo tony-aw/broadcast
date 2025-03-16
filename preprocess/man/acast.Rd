@@ -15,7 +15,7 @@ acast(x, margin, grp, fill = FALSE)
 specifying which indices of \code{dim(x)[margin]} belong to which group. \cr
 Each group will be cast onto a separate index of dimension \code{ndim(x) + 1}. \cr
 Unused levels of \code{grp} will be dropped. \cr
-If any \code{NA} values or levels found in \code{grp}, will result in an error.}
+Any \code{NA} values or levels found in \code{grp} will result in an error.}
 
 \item{fill}{Boolean, indicating if missing values should be filled. \cr
 This is used in case the levels of \code{grp} do not have equal frequencies,

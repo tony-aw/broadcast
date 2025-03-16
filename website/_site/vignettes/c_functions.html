@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>R-package: broadcast - Functions Design Explained</title>
+<title>R-package: broadcast - Functions Overview</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -103,7 +103,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../vignettes/d_functions.html">Functions Design Explained</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../vignettes/c_functions.html">Functions Overview</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -132,14 +132,14 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../vignettes/c_broadcasting_explained.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Broadcasting Explained</span></a>
+  <a href="../vignettes/c_functions.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Functions Overview</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../vignettes/d_functions.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Functions Design Explained</span></a>
+  <a href="../vignettes/d_broadcasting_explained.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Broadcasting Explained</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -167,6 +167,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#outer-like-functions" id="toc-outer-like-functions" class="nav-link" data-scroll-target="#outer-like-functions">Outer-like functions</a></li>
   <li><a href="#binding-implementations" id="toc-binding-implementations" class="nav-link" data-scroll-target="#binding-implementations">Binding implementations</a></li>
+  <li><a href="#acast" id="toc-acast" class="nav-link" data-scroll-target="#acast">Acast</a></li>
+  <li><a href="#type-casting" id="toc-type-casting" class="nav-link" data-scroll-target="#type-casting">Type-casting</a></li>
   <li><a href="#naming-convention" id="toc-naming-convention" class="nav-link" data-scroll-target="#naming-convention">Naming convention</a></li>
   </ul>
 </nav>
@@ -176,7 +178,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Functions Design Explained</h1>
+<h1 class="title">Functions Overview</h1>
 </div>
 
 
@@ -194,11 +196,12 @@ ul.task-list li input[type="checkbox"] {
 <p>&nbsp;</p>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>The ‘broadcast’ package provides 4 main functionalities:</p>
+<p>The ‘broadcast’ package provides 5 main functionalities:</p>
 <ul>
 <li>outer-like functions to perform broadcasted outer-computations</li>
 <li>broadcasted dimensional binding of arrays (and also matrices and data.tables)</li>
 <li>broadcasted generic pair-wise functions</li>
+<li>casting/pivoting an array into a new dimension</li>
 <li>array typecasting with dimensions and names preserved</li>
 </ul>
 <p>This guide will explain the design choices of the functions provided by the ‘broadcast’ ‘R’-package.</p>
@@ -208,22 +211,21 @@ ul.task-list li input[type="checkbox"] {
 <h1>Outer-like functions</h1>
 <p>The ‘broadcast’ package provides functions that perform Broadcasted outer operations, similar to base R’s <code>outer()</code> function. The outer-like functions are the following:</p>
 <ul>
-<li><a href="../man/bc.b.html"><code>bc.b()</code></a>: Broadcasted Boolean operations.</li>
-<li><a href="../man/bc.i.html"><code>bc.i()</code></a> Broadcasted (53bit) Integer Numeric operations.</li>
-<li><a href="../man/bc.d.html"><code>bc.d()</code></a>: Broadcasted (64bit) Decimal Numeric operations.</li>
-<li><a href="../man/bc.cplx.html"><code>bc.cplx()</code></a>: Broadcasted Complex Numeric operations.</li>
-<li><a href="../man/bc.str.html"><code>bc.str()</code></a>: Broadcasted String operations.</li>
-<li><a href="../man/bc.list.html"><code>bc.list()</code></a>: Broadcasted operations on Recursive arrays.</li>
+<li><a href="../man/bc.b.html">bc.b()</a>: Broadcasted Boolean operations.</li>
+<li><a href="../man/bc.i.html">bc.i()</a> Broadcasted (53bit) Integer Numeric operations.</li>
+<li><a href="../man/bc.d.html">bc.d()</a>: Broadcasted (64bit) Decimal Numeric operations.</li>
+<li><a href="../man/bc.cplx.html">bc.cplx()</a>: Broadcasted Complex Numeric operations.</li>
+<li><a href="../man/bc.str.html">bc.str()</a>: Broadcasted String operations.</li>
+<li><a href="../man/bc.list.html">bc.list()</a>: Broadcasted operations on Recursive arrays.</li>
 </ul>
 <p>There are several things to note about the above functions.</p>
-<p>First, the <code>outer()</code> function from base ‘R’ is only optimized for the “*” operator; all other operators are called “regularly”, somewhat (but not entirely) similar as functions would be called in an <code>apply()</code>-like function.<br>
+<p>First, the <code>outer()</code> function from base ‘R’ is only optimized for the “*” operator.<br>
 The outer-like functions provided by ‘broadcast’, however, come with a very large set of optimised operators, written and compiled in ‘C’ and ‘C++’.</p>
 <p>Second, where base ‘R’ provides a single <code>outer()</code> function, ‘broadcast’ provides several outer-like functions.<br>
 This is done for the following reasons:</p>
 <ul>
-<li>As stated earlier, the outer-like functions provided by ‘broadcast’ come with a very large set of pre-compiled, optimised operations.<br>
-Fitting all of those operators into a single outer-like function would be inefficient, and would also make it easy for the user to lose track of all of the supported operators.</li>
-<li>Splitting the numeric-ish operations into Boolean, (53bit) Integer, and (64bit) Decimal numbers, allows for only performing typecasting when necessary; more importantly, typecasting here is performed at the ‘C’ level, without allocating an entirely new vector/array.<br>
+<li>The outer-like functions provided by ‘broadcast’ come with a very large set of pre-compiled, optimised operations; fitting all of those operators into a single outer-like function may result in the user losing track of all of the supported operators.</li>
+<li>Splitting the numeric-ish operations into Boolean, (53bit) Integer, and (64bit) Decimal numbers, allows for only performing typecasting when necessary, and only at the ‘C’ level to prevent allocating an entirely new vector/array.<br>
 This allows for far more efficient code.<br>
 For example: <code>bc.i(x, y "+")</code> is significantly faster and more memory efficient than <code>bc.d(trunc(x), trunc(y), "+")</code>, as the latter results in producing unnecessary copies of both <code>x</code> and <code>y</code>.</li>
 </ul>
@@ -240,7 +242,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><a href="../man/bc.d.html"><code>bc.num()</code></a> is an alias for <a href="../man/bc.d.html"><code>bc.d()</code></a>.</p>
+<p><a href="../man/bc.d.html">bc.num()</a> is an alias for <a href="../man/bc.d.html">bc.d()</a>.</p>
 </div>
 </div>
 <p>&nbsp;</p>
@@ -251,9 +253,9 @@ Note
 <h1>Binding implementations</h1>
 <p>‘broadcast’ provides 3 functions for dimensional binding:</p>
 <ul>
-<li><a href="../man/bind.html"><code>bind_mat()</code></a>: binds vectors and matrices row-wise or column-wise; allows for vector (i.e.&nbsp;linear) recycling. Returns a matrix.</li>
-<li><a href="../man/bind.html"><code>bind_array()</code></a>: binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting. Returns an array.</li>
-<li><a href="../man/bind.html"><code>bind_dt()</code></a>: binds data.frames and data.tables; allows for matching unmatched columns. Returns a data.table.</li>
+<li><a href="../man/bind.html">bind_mat()</a>: binds vectors and matrices row-wise or column-wise; allows for vector (i.e.&nbsp;linear) recycling. Returns a matrix.</li>
+<li><a href="../man/bind.html">bind_array()</a>: binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting. Returns an array.</li>
+<li><a href="../man/bind.html">bind_dt()</a>: binds data.frames and data.tables; allows for matching unmatched columns. Returns a data.table.</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -265,9 +267,20 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <a href="../man/bind.html"><code>bind_dt()</code></a> function is only callable if the ‘data.table’ package is also installed.</p>
+<p>The <a href="../man/bind.html">bind_dt()</a> function is only callable if the ‘data.table’ package is also installed.</p>
 </div>
 </div>
+<p>&nbsp;</p>
+</section>
+<section id="acast" class="level1">
+<h1>Acast</h1>
+<p>The <a href="../man/acast.html">acast()</a> function casts an array into a new dimension.<br>
+Roughly speaking, it is somewhat analogous to <code>data.table::dcast()</code>, except that <a href="../man/acast.html">acast()</a> works on arrays (instead of data.tables) and casts into a entirely new dimension (instead of into more columns).</p>
+<p>&nbsp;</p>
+</section>
+<section id="type-casting" class="level1">
+<h1>Type-casting</h1>
+<p>‘broadcast’ offers type-casting functions. Unlike base R’s type-casting functions (<code>as.logical()</code>, <code>as.integer()</code>, etc.), the type-casting functions from ‘broadcast’ preserve names and dimensions.</p>
 <p>&nbsp;</p>
 </section>
 <section id="naming-convention" class="level1">
@@ -277,9 +290,9 @@ For example, “b” refers to “Boolean operations”, “i” to “Integer N
 <p>&nbsp;</p>
 <p>The naming convention of the binding implementations here is “bind_” followed by the <strong>resulting class</strong> (abbreviated) - i.e.&nbsp;…</p>
 <ul>
-<li><a href="../man/bind.html"><code>bind_mat()</code></a> <strong>returns</strong> a matrix, but can bind both matrices and vectors.</li>
-<li><a href="../man/bind.html"><code>bind_array()</code></a> <strong>returns</strong> an array, but can bind both arrays and matrices.</li>
-<li><a href="../man/bind.html"><code>bind_dt()</code></a> <strong>returns</strong> a data.table, but can bind not only data.tables, but also most other data.frame-like objects.</li>
+<li><a href="../man/bind.html">bind_mat()</a> <strong>returns</strong> a matrix, but can bind both matrices and vectors.</li>
+<li><a href="../man/bind.html">bind_array()</a> <strong>returns</strong> an array, but can bind both arrays and matrices.</li>
+<li><a href="../man/bind.html">bind_dt()</a> <strong>returns</strong> a data.table, but can bind not only data.tables, but also most other data.frame-like objects.</li>
 </ul>
 <p>&nbsp; &nbsp;</p>
 

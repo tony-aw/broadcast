@@ -5,9 +5,6 @@
 library(quarto)
 library(stringi)
 
-file.copy("index.qmd", "vignettes/a_readme.qmd", overwrite = TRUE)
-
-
 
 quarto_render()
 

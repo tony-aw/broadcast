@@ -24,7 +24,7 @@ expect_true(
   broadcast:::.C_dims_all_orthogonal(x.dim, y.dim)
 ) |> errorfun()
 
-expected <- array_replicate(x, out.dim) + array_replicate(y, out.dim)
+expected <- rep_dim(x, out.dim) + rep_dim(y, out.dim)
 expected[is.nan(expected)] <- NA
 out <- ortho(x, y, TRUE, out.dim, out.len, 1L)
 out[is.nan(out)] <- NA
@@ -49,7 +49,7 @@ expect_true(
   broadcast:::.C_dims_all_orthogonal(x.dim, y.dim)
 ) |> errorfun()
 
-expected <- array_replicate(x, out.dim) + array_replicate(y, out.dim)
+expected <- rep_dim(x, out.dim) + rep_dim(y, out.dim)
 expected[is.nan(expected)] <- NA
 out <- ortho(x, y, FALSE, out.dim, out.len, 1L)
 out[is.nan(out)] <- NA

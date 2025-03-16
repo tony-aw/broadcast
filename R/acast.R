@@ -20,7 +20,7 @@
 #' specifying which indices of `dim(x)[margin]` belong to which group. \cr
 #' Each group will be cast onto a separate index of dimension `ndim(x) + 1`. \cr
 #' Unused levels of `grp` will be dropped. \cr
-#' If any `NA` values or levels found in `grp`, will result in an error.
+#' Any `NA` values or levels found in `grp` will result in an error.
 #' @param fill Boolean, indicating if missing values should be filled. \cr
 #' This is used in case the levels of `grp` do not have equal frequencies,
 #' and thus additional values must be filled. \cr
