@@ -23,6 +23,8 @@ test_make_dims <- function(n) {
 gen <- function(n) sample(list(letters, month.abb, 1:10), n, TRUE)
 
 
+# recursive ====
+
 i <- 1L
 
 op <- function(x, y) {
@@ -96,6 +98,21 @@ for(iSample in 1:5) { # re-do tests with different random configurations
   }
 }
 enumerate <- enumerate + i # count number of tests
-# test results:
 
+
+# errors ====
+x <- 1:10
+y <- array(1:10, c(1, 10))
+expect_error(
+  bcapply(x, y, ~ hello),
+  pattern = "`f` must be a function",
+  fixed = TRUE
+)
+f <- \(x) x^2
+expect_error(
+  bcapply(x, y, f),
+  pattern = "`f` must be a function that takes in exactly 2 arguments",
+  fixed = TRUE
+)
+enumerate <- enumerate + 2L
 

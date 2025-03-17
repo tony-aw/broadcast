@@ -162,6 +162,8 @@ yes <- as.double(1:3)
 no <- as.double(4:6)
 .rcpp_bc_ifelse_v(cond, yes, no, 3L)
 
+setwd("..")
+
 txt <- stringi::stri_c(
   header_for_package,
   txt0, txt1, txt2, txt3, txt4,

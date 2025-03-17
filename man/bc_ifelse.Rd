@@ -10,7 +10,7 @@ bc_ifelse(cond, yes, no)
 \item{cond}{\code{logical} vector or array with the length equal to \code{prod(bc_dim(yes, no))}.}
 
 \item{yes, no}{conformable arrays of the same type. \cr
-All atomic types (see \link[base]{atomic}) are supported. \cr
+All atomic types (see \link[base]{atomic}) are supported except for \code{raw}. \cr
 Recursive arrays of type \code{list} are also supported. \cr \cr}
 }
 \value{

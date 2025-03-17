@@ -1,9 +1,8 @@
 # set-up ====
 library(broadcast)
-library(tinycodet)
-import_as(~rt, "reticulate")
-np <- rt$import("numpy", convert = FALSE)
-gc <- rt$import("gc", convert = FALSE)
+library(reticulate)
+np <- import("numpy", convert = FALSE)
+gc <- import("gc", convert = FALSE)
 get_times <- function(obj, j) {
   nms <- names(res$expression)
   j <- which(nms == j)

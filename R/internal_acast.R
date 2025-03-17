@@ -1,7 +1,7 @@
 
 #' @keywords internal
 #' @noRd
-.acast_prestop <- function(x, margin, abortcall) {
+.acast_stop_margin <- function(margin, x, abortcall) {
   
   if(!is.numeric(margin) || length(margin) != 1L) {
     stop(simpleError("`margin` must be an integer scalar", call = abortcall))
@@ -9,10 +9,9 @@
   if(is.na(margin)) {
     stop(simpleError("`margin` cannot be `NA`", call = abortcall))
   }
-  if(margin < 1L) {
-    stop(simpleError("`margin` cannot be zero or negative", call = abortcall))
+  if(margin < 1L || margin > ndim(x)) {
+    stop(simpleError("`margin` out of bounds", call = abortcall))
   }
-  
 }
 
 
@@ -25,20 +24,11 @@
   if(length(x) < 2L) {
     stop(simpleError("zero-length or singular `x` not supported", call = abortcall))
   }
-  if(ndim(x) > 15L) {
+  if(ndim(x) >= 15L) {
     stop(simpleError("acasting would result in an array > 16 dimensions", call = abortcall))
   }
   if(dim(x)[margin] <= 1L) {
     stop(simpleError("`dim(x)[margin]` must be >= 2", call = abortcall))
-  }
-}
-
-
-#' @keywords internal
-#' @noRd
-.acast_stop_margin <- function(margin, x, abortcall) {
-  if(margin > ndim(x)) {
-    stop(simpleError("`margin` cannot be larger than `ndim(x)`", call = abortcall))
   }
 }
 
@@ -50,20 +40,14 @@
     stop(simpleError("`grp` must be a factor", call = abortcall))
   }
   if(length(grp) != dim(x)[margin]) {
-    stop(simpleError("`length(grp) != dim(x)[margin]", call = abortcall))
-  }
-  if(max(unclass(grp)) >= dim(x)[margin]) {
-    stop(simpleError("`grp` must have less levels than `dim(x)[margin]`", call = abortcall))
+    stop(simpleError("length(grp) != dim(x)[margin]", call = abortcall))
   }
   grp_n <- length(unique(grp))
   if(grp_n < 2L) {
     stop(simpleError("`grp` must have at least 2 unique values", call = abortcall))
   }
   if(anyNA(grp) || anyNA(levels(grp))) {
-    stop(simpleError("`grp` cannot be `NA`", call = abortcall))
-  }
-  if(grp_n != nlevels(grp)) {
-    stop(simpleError("`grp` malformed", call = abortcall))
+    stop(simpleError("`grp` cannot have NAs", call = abortcall))
   }
 }
 

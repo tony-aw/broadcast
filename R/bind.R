@@ -96,6 +96,9 @@ bind_mat <- function(
   if(any(vapply(input, is.data.frame, logical(1L)))) {
     stop("use `bind_dt to bind data.frame-like objects")
   }
+  if(any(lst.ndim(input) > 2L)) {
+    stop("use `bind_array()` to bind arrays with more than 2 dimensions")
+  }
   if(along == 1L) imargin <- 2L
   else if(along == 2L) imargin <- 1L
   else {

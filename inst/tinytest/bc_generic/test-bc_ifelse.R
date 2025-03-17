@@ -21,7 +21,6 @@ test_make_dims <- function(n) {
 }
 
 datagens <- list(
-  # \() as.raw(sample(1:10)), # ifelse() cannot handle raw, apparently
   \() sample(c(TRUE, FALSE, NA), 10L, TRUE),
   \() sample(c(-10L:10L, NA_integer_)),
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)),
@@ -120,6 +119,11 @@ expect_error(
   pattern = "`cond` must be a logical array"
 )
 expect_error(
-  bc_ifelse(c(TRUE, FALSE, TRUE, FALSE), letters[1:4], 1:4),
+  bc_ifelse(c(TRUE, FALSE, NA, NA), letters[1:4], 1:4),
   pattern = "`yes` and `no` must be of the same type"
 )
+expect_error(
+  bc_ifelse(c(TRUE, FALSE, NA, NA), as.raw(1:4), as.raw(1:4)),
+  pattern = "`yes` and `no` cannot be type of raw"
+)
+enumerate <- enumerate + 3L

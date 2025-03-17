@@ -44,7 +44,7 @@ rm(list = rem)
 
 subfolders <- c(
   "bind_array", "bc_num", "bc_b", "bc_cplx", "bc_str", "bc_list", "bc_generic",
-  "internal"
+  "internal", "othercast", "misc"
 )
 wd <- SourceFileLocation()
 setwd(wd)

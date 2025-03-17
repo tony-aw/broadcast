@@ -79,16 +79,17 @@
 acast <- function(x, margin, grp, fill = FALSE) {
   
   # first checks:
-  .acast_prestop(x, margin, sys.call())
+  .acast_stop_margin(margin, x, sys.call())
   margin <- as.integer(margin)
   .acast_stop_x(x, margin, sys.call())
-  .acast_stop_margin(margin, x, sys.call())
   .acast_stop_grp(grp, x, margin, sys.call())
   .acast_stop_fill(fill, sys.call())
-  
+  grp <- droplevels(grp, exclude = NA) # drop unused or missing levels
+  if(max(unclass(grp)) != nlevels(grp)) {
+    stop("`grp` malformed")
+  }
   
   # make grp params:
-  grp <- droplevels(grp, exclude = NA) # drop unused or missing levels
   grp_lvls <- levels(grp)
   grp <- unclass(grp)
   grp_tab <- tabulate(grp)
@@ -141,7 +142,7 @@ acast <- function(x, margin, grp, fill = FALSE) {
   # make dimnames:
   out.dimnames <- rep(list(NULL), out.ndim)
   out.dimnames[1:x.ndim] <- dimnames(x)
-  out.dimnames[x.ndim+1L] <- list(grp_lvls)
+  out.dimnames[x.ndim+1L] <- list(grp_lvls) # safe, because I used droplevels()
   dimnames(out) <- out.dimnames
   
   return(out)

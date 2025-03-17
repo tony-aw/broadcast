@@ -38,7 +38,7 @@ To keep the comparisons between 'broadcast' and 'Numpy'+'reticulate' fair, a num
 
 &nbsp;
 
-# Many Orthogonal Arrays
+# The Set-Up
 
 
 8 pairs of decimal number arrays are created in both 'R' and 'Numpy'. They all have a length of (approximately) 9*10^6 elements. Each pair will have a different number of dimensions, from 2 to 9 (hence 8 pairs of arrays).
@@ -53,10 +53,9 @@ Thus we get the following code:
 ```{r eval = FALSE, echo=TRUE}
 # set-up ====
 library(broadcast)
-library(tinycodet)
-import_as(~rt, "reticulate")
-np <- rt$import("numpy", convert = FALSE)
-gc <- rt$import("gc", convert = FALSE)
+library(reticulate)
+np <- import("numpy", convert = FALSE)
+gc <- import("gc", convert = FALSE)
 get_times <- function(obj, j) {
   nms <- names(res$expression)
   j <- which(nms == j)
@@ -110,6 +109,9 @@ for(i in 2:9) {
 
 ```
 
+&nbsp;
+
+# Results
 
 Using {tinyplot}, the median, first quartile, and third quartile of the bench-marked computation times are presented in the following graph:
 
@@ -152,47 +154,9 @@ tinyplot_add(
 
 &nbsp;
 
+# Conclusion
 
-# Large non-orthogonal arrays comparisons
-
-How about arrays that are not fully orthogonal, but still require a lot of broadcasting in pair-wise computations?
-
-Here is the benchmark:
-
-```{r eval=FALSE, echo=TRUE}
-
-library(broadcast)
-library(tinycodet)
-import_as(~rt, "reticulate")
-np <- rt$import("numpy", convert = FALSE)
-gc <- rt$import("gc", convert = FALSE)
-gc$disable()
-
-n <- 26L
-npa <- np$random$rand(n, 1L, n, 1L, n)
-npb <- np$random$rand(n, n, 1L, n, 1L)
-
-a.dim <- c(n, rep(c(1L, n), 2))
-b.dim <- c(n, rep(c(n, 1L), 2))
-a <- array(rnorm(100), a.dim)
-b <- array(rnorm(100), b.dim)
-
-bm_numpy_large <- bench::mark(
-  broadcast = bc.num(a, b, "+"),
-  `numpy (no conversion to R)` = npa + npb,
-  check = FALSE,
-  min_iterations = 200,
-)
-summary(bm_numpy_large)
-ggplot2::autoplot(bm_numpy_large)
-
-```
-
-```{r echo=FALSE, eval=TRUE, fig.width=8}
-load("bm_numpy_large.RData")
-summary(bm_numpy_large)
-ggplot2::autoplot(bm_numpy_large)
-```
+For arrays with a low number of dimensions, 'Numpy' is a bit faster than 'broadcast'. As the number of dimensions increases, however, 'broadcast' beats the speed of 'Numpy'. Either direction the differences are rather small, however, and one can say in general that 'broadcast' and 'Numpy' have somewhat similar speeds.
 
 
 &nbsp;

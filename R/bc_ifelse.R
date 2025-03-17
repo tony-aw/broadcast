@@ -6,7 +6,7 @@
 #' 
 #' @param cond `logical` vector or array with the length equal to `prod(bc_dim(yes, no))`.
 #' @param yes,no conformable arrays of the same type. \cr
-#' All atomic types (see \link[base]{atomic}) are supported. \cr
+#' All atomic types (see \link[base]{atomic}) are supported except for `raw`. \cr
 #' Recursive arrays of type `list` are also supported. \cr \cr
 #' 
 #' 
@@ -37,6 +37,9 @@ bc_ifelse <- function(cond, yes, no) {
   .binary_stop_general(yes, no, "", sys.call())
   if(typeof(yes) != typeof(no)) {
     stop("`yes` and `no` must be of the same type")
+  }
+  if(is.raw(yes) || is.raw(no)) {
+    stop("`yes` and `no` cannot be type of raw")
   }
   if(!is.logical(cond)) {
     stop("`cond` must be a logical array")

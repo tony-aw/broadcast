@@ -200,8 +200,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#keeping-comparisons-fair" id="toc-keeping-comparisons-fair" class="nav-link" data-scroll-target="#keeping-comparisons-fair">Keeping comparisons fair</a></li>
-  <li><a href="#many-orthogonal-arrays" id="toc-many-orthogonal-arrays" class="nav-link" data-scroll-target="#many-orthogonal-arrays">Many Orthogonal Arrays</a></li>
-  <li><a href="#large-non-orthogonal-arrays-comparisons" id="toc-large-non-orthogonal-arrays-comparisons" class="nav-link" data-scroll-target="#large-non-orthogonal-arrays-comparisons">Large non-orthogonal arrays comparisons</a></li>
+  <li><a href="#the-set-up" id="toc-the-set-up" class="nav-link" data-scroll-target="#the-set-up">The Set-Up</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -241,8 +242,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>&nbsp;</p>
 </section>
-<section id="many-orthogonal-arrays" class="level1">
-<h1>Many Orthogonal Arrays</h1>
+<section id="the-set-up" class="level1">
+<h1>The Set-Up</h1>
 <p>8 pairs of decimal number arrays are created in both ‘R’ and ‘Numpy’. They all have a length of (approximately) 9*10^6 elements. Each pair will have a different number of dimensions, from 2 to 9 (hence 8 pairs of arrays). I.e. a pair of 2d arrays, a pair of 3d arrays, etc.</p>
 <p>These pairs of arrays are fully orthogonal, thus the maximum amount of broadcasting will be employed.</p>
 <p>For each pair of array the outer sum is computed using ‘broadcast’ and ‘Numpy’. This computation is repeated 100 times, and the median result is taken.</p>
@@ -250,59 +251,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set-up ====</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broadcast)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tinycodet)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span>rt, <span class="st">"reticulate"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> rt<span class="sc">$</span><span class="fu">import</span>(<span class="st">"numpy"</span>, <span class="at">convert =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>gc <span class="ot">&lt;-</span> rt<span class="sc">$</span><span class="fu">import</span>(<span class="st">"gc"</span>, <span class="at">convert =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>get_times <span class="ot">&lt;-</span> <span class="cf">function</span>(obj, j) {</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  nms <span class="ot">&lt;-</span> <span class="fu">names</span>(res<span class="sc">$</span>expression)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  j <span class="ot">&lt;-</span> <span class="fu">which</span>(nms <span class="sc">==</span> j)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  idx <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(obj<span class="sc">$</span>gc[[j]][, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]) <span class="sc">==</span> <span class="dv">0</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  times <span class="ot">&lt;-</span> obj<span class="sc">$</span>time[[j]][idx]</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(times)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>gc<span class="sc">$</span><span class="fu">disable</span>()</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># loop</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> median_np <span class="ot">&lt;-</span> q1_bc <span class="ot">&lt;-</span> q1_np <span class="ot">&lt;-</span> q3_bc <span class="ot">&lt;-</span> q3_np <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="dv">8</span>)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> 1L</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>target_len <span class="ot">&lt;-</span> <span class="fl">9e6</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>) {</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">round</span>(target_len<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>i)) <span class="sc">|&gt;</span> <span class="fu">as.integer</span>()</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  len <span class="ot">&lt;-</span> n<span class="sc">^</span>i</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"i = "</span>, i, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"n = "</span>, n, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"len = "</span>, len, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, 1L), i <span class="sc">-</span> <span class="dv">1</span>)[<span class="dv">1</span><span class="sc">:</span>i]</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(1L, n), i <span class="sc">-</span> <span class="dv">1</span>)[<span class="dv">1</span><span class="sc">:</span>i]</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  a.dims <span class="ot">&lt;-</span> rt<span class="sc">$</span><span class="fu">r_to_py</span>(<span class="fu">as.list</span>(x.dims))</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  b.dims <span class="ot">&lt;-</span> rt<span class="sc">$</span><span class="fu">r_to_py</span>(<span class="fu">as.list</span>(y.dims))</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  npa <span class="ot">&lt;-</span> np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">random_sample</span>(a.dims)</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  npb <span class="ot">&lt;-</span> np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">random_sample</span>(b.dims)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), x.dims)</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), y.dims)</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">broadcast =</span> <span class="fu">bc.num</span>(a, b, <span class="st">"+"</span>),</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">numpy (NO conversion to R)</span><span class="st">`</span> <span class="ot">=</span> npa <span class="sc">+</span> npb,</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">check =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_iterations =</span> <span class="dv">100</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  bc_all <span class="ot">&lt;-</span> <span class="fu">get_times</span>(res, <span class="st">"broadcast"</span>)</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  np_all <span class="ot">&lt;-</span> <span class="fu">get_times</span>(res, <span class="st">"numpy (NO conversion to R)"</span>)</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  median_bc[counter] <span class="ot">&lt;-</span> <span class="fu">median</span>(bc_all)</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  median_np[counter] <span class="ot">&lt;-</span> <span class="fu">median</span>(np_all)</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  q1_bc[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(bc_all, <span class="fl">0.25</span>)</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  q3_bc[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(bc_all, <span class="fl">0.75</span>)</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  q1_np[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(np_all, <span class="fl">0.25</span>)</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  q3_np[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(np_all, <span class="fl">0.75</span>)</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> 1L</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"numpy"</span>, <span class="at">convert =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>gc <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"gc"</span>, <span class="at">convert =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>get_times <span class="ot">&lt;-</span> <span class="cf">function</span>(obj, j) {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  nms <span class="ot">&lt;-</span> <span class="fu">names</span>(res<span class="sc">$</span>expression)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  j <span class="ot">&lt;-</span> <span class="fu">which</span>(nms <span class="sc">==</span> j)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  idx <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(obj<span class="sc">$</span>gc[[j]][, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]) <span class="sc">==</span> <span class="dv">0</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  times <span class="ot">&lt;-</span> obj<span class="sc">$</span>time[[j]][idx]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(times)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>gc<span class="sc">$</span><span class="fu">disable</span>()</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># loop</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> median_np <span class="ot">&lt;-</span> q1_bc <span class="ot">&lt;-</span> q1_np <span class="ot">&lt;-</span> q3_bc <span class="ot">&lt;-</span> q3_np <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="dv">8</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> 1L</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>target_len <span class="ot">&lt;-</span> <span class="fl">9e6</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>) {</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">round</span>(target_len<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>i)) <span class="sc">|&gt;</span> <span class="fu">as.integer</span>()</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  len <span class="ot">&lt;-</span> n<span class="sc">^</span>i</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"i = "</span>, i, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"n = "</span>, n, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"len = "</span>, len, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, 1L), i <span class="sc">-</span> <span class="dv">1</span>)[<span class="dv">1</span><span class="sc">:</span>i]</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(1L, n), i <span class="sc">-</span> <span class="dv">1</span>)[<span class="dv">1</span><span class="sc">:</span>i]</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  a.dims <span class="ot">&lt;-</span> rt<span class="sc">$</span><span class="fu">r_to_py</span>(<span class="fu">as.list</span>(x.dims))</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  b.dims <span class="ot">&lt;-</span> rt<span class="sc">$</span><span class="fu">r_to_py</span>(<span class="fu">as.list</span>(y.dims))</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  npa <span class="ot">&lt;-</span> np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">random_sample</span>(a.dims)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  npb <span class="ot">&lt;-</span> np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">random_sample</span>(b.dims)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), x.dims)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), y.dims)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">broadcast =</span> <span class="fu">bc.num</span>(a, b, <span class="st">"+"</span>),</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">numpy (NO conversion to R)</span><span class="st">`</span> <span class="ot">=</span> npa <span class="sc">+</span> npb,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">check =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_iterations =</span> <span class="dv">100</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  bc_all <span class="ot">&lt;-</span> <span class="fu">get_times</span>(res, <span class="st">"broadcast"</span>)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  np_all <span class="ot">&lt;-</span> <span class="fu">get_times</span>(res, <span class="st">"numpy (NO conversion to R)"</span>)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  median_bc[counter] <span class="ot">&lt;-</span> <span class="fu">median</span>(bc_all)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  median_np[counter] <span class="ot">&lt;-</span> <span class="fu">median</span>(np_all)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  q1_bc[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(bc_all, <span class="fl">0.25</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  q3_bc[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(bc_all, <span class="fl">0.75</span>)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  q1_np[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(np_all, <span class="fl">0.25</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  q3_np[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(np_all, <span class="fl">0.75</span>)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> 1L</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>&nbsp;</p>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
 <p>Using {tinyplot}, the median, first quartile, and third quartile of the bench-marked computation times are presented in the following graph:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -311,47 +315,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>&nbsp;</p>
 </section>
-<section id="large-non-orthogonal-arrays-comparisons" class="level1">
-<h1>Large non-orthogonal arrays comparisons</h1>
-<p>How about arrays that are not fully orthogonal, but still require a lot of broadcasting in pair-wise computations?</p>
-<p>Here is the benchmark:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broadcast)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tinycodet)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span>rt, <span class="st">"reticulate"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> rt<span class="sc">$</span><span class="fu">import</span>(<span class="st">"numpy"</span>, <span class="at">convert =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>gc <span class="ot">&lt;-</span> rt<span class="sc">$</span><span class="fu">import</span>(<span class="st">"gc"</span>, <span class="at">convert =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>gc<span class="sc">$</span><span class="fu">disable</span>()</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> 26L</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>npa <span class="ot">&lt;-</span> np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">rand</span>(n, 1L, n, 1L, n)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>npb <span class="ot">&lt;-</span> np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">rand</span>(n, n, 1L, n, 1L)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>a.dim <span class="ot">&lt;-</span> <span class="fu">c</span>(n, <span class="fu">rep</span>(<span class="fu">c</span>(1L, n), <span class="dv">2</span>))</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>b.dim <span class="ot">&lt;-</span> <span class="fu">c</span>(n, <span class="fu">rep</span>(<span class="fu">c</span>(n, 1L), <span class="dv">2</span>))</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>), a.dim)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>), b.dim)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>bm_numpy_large <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">broadcast =</span> <span class="fu">bc.num</span>(a, b, <span class="st">"+"</span>),</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">numpy (no conversion to R)</span><span class="st">`</span> <span class="ot">=</span> npa <span class="sc">+</span> npb,</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">check =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_iterations =</span> <span class="dv">200</span>,</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bm_numpy_large)</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">autoplot</span>(bm_numpy_large)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<pre><code>#&gt; # A tibble: 2 × 6
-#&gt;   expression                      min   median `itr/sec` mem_alloc `gc/sec`
-#&gt;   &lt;bch:expr&gt;                 &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
-#&gt; 1 broadcast                    16.6ms   17.6ms      55.4    90.6MB     27.3
-#&gt; 2 numpy (no conversion to R)   25.4ms   30.9ms      32.4        0B      0</code></pre>
-<div class="cell-output-display">
-<p><img src="f_benchmarks_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="768"></p>
-</div>
-</div>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>For arrays with a low number of dimensions, ‘Numpy’ is a bit faster than ‘broadcast’. As the number of dimensions increases, however, ‘broadcast’ beats the speed of ‘Numpy’. Either direction the differences are rather small, however, and one can say in general that ‘broadcast’ and ‘Numpy’ have somewhat similar speeds.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 

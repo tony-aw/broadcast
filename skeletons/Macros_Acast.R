@@ -124,11 +124,13 @@ macro_op_acast_loop <- "
                                                             \\
   for(int i = 0; i < grp_n; ++i) {                          \\
     grp_count = rcpp_factor_count(grp, i + 1);              \\
-    grp_which = rcpp_factor_which(grp, i + 1, grp_count);   \\
-    plens[margin] = grp_count;                              \\
-    SET_VECTOR_ELT(subs, margin, grp_which);                \\
-    DOCODE;                                                 \\
-    pstarts[newdim] = pstarts[newdim] + 1;                  \\
+    if(grp_count > 0) {                                       \\
+      grp_which = rcpp_factor_which(grp, i + 1, grp_count);   \\
+      plens[margin] = grp_count;                              \\
+      SET_VECTOR_ELT(subs, margin, grp_which);                \\
+      DOCODE;                                                 \\
+      pstarts[newdim] = pstarts[newdim] + 1;                  \\
+    }                                                         \\
   }                                                         \\
 } while(0)
 

@@ -740,23 +740,6 @@
       return out;	\
       	\
     }	\
-    case RAWSXP:	\
-    {	\
-      const Rbyte *px = RAW_RO(x);	\
-      const Rbyte *py = RAW_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\
-      Rbyte *pout;	\
-      pout = RAW(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
     case VECSXP:	\
     {	\
       SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\
