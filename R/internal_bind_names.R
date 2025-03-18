@@ -2,11 +2,11 @@
 #' @keywords internal
 #' @noRd
 .bind_stop_name_along <- function(
-    name_along, comnames_from, abortcall
+    name_along, abortcall
 ) {
   
-  if(!is.logical(name_along) || length(name_along) != 1) {
-    stop(simpleError("`name_along` must be a Boolean", call = abortcall))
+  if(!isTRUE(name_along) && !isFALSE(name_along)) {
+    stop(simpleError("`name_along` must be `TRUE` or `FALSE`", call = abortcall))
   }
 }
 
@@ -16,20 +16,26 @@
     name_deparse, abortcall
 ) {
   
-  if(!is.logical(name_deparse) || length(name_deparse) != 1) {
-    stop(simpleError("`name_deparse` must be a Boolean", call = abortcall))
+  if(!isTRUE(name_deparse) && !isFALSE(name_deparse)) {
+    stop(simpleError("`name_deparse` must be `TRUE` or `FALSE`", call = abortcall))
   }
 }
 
 #' @keywords internal
 #' @noRd
 .bind_stop_comnames_from <- function(
-    comnames_from, abortcall
+    comnames_from, input, abortcall
 ) {
   
   if(!is.null(comnames_from)) {
-    if(!is.numeric(comnames_from) || length(comnames_from) != 1) {
+    if(!is.numeric(comnames_from) || length(comnames_from) != 1L) {
       stop(simpleError("`comnames_from` must be an integer scalar or `NULL`", call = abortcall))
+    }
+    if(is.na(comnames_from)) {
+      stop(simpleError("`comnames_from` cannot be `NA`", call = abortcall))
+    }
+    if(comnames_from < 1L || comnames_from > length(input)) {
+      stop(simpleError("`comnames_from` out of bounds", call = abortcall))
     }
   }
 }

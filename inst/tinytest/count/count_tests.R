@@ -42,10 +42,7 @@ rm(list = rem)
 
 # sub folder tests ====
 
-subfolders <- c(
-  "bind_array", "bc_num", "bc_b", "bc_cplx", "bc_str", "bc_list", "bc_generic",
-  "internal", "othercast", "misc"
-)
+subfolders <- list.dirs() |> basename() |> setdiff(c(".", "count"))
 wd <- SourceFileLocation()
 setwd(wd)
 setwd("..")

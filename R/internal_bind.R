@@ -172,16 +172,11 @@
   .bind_check_max_ndims(max_ndims, along, abortcall)
   
   
-  # set name_along related variables:
+  
+  # check if extradimensional - MUST do this BEFORE normalizing dims!
   extra_dimensional <- FALSE
   if(along == 0L || along > max_ndims) {
     extra_dimensional <- TRUE
-  }
-  if(name_along && !extra_dimensional) {
-    # note: dimension `along` never gets broadcasted, so no need to worry about that
-    arg.dimnames <- .rcpp_abind_get_dimnames(input, along)
-    arg.marginlen <- vapply(input, \(x)dim(x)[along], integer(1L))
-    name_along <- .bind_name_along_reasonable(input, arg.dimnames)
   }
   
   
@@ -189,6 +184,15 @@
   input.dims <- .bind_normalize_dims(input.dims, along, max_ndims)
   if(along == 0L) along <- 1L
   max_ndims <- max(lengths(input.dims))
+  
+  
+  # get naming params - must do this AFTER normalizing dims!
+  if(name_along && !extra_dimensional) {
+    # note: dimension `along` never gets broadcasted, so no need to worry about that
+    arg.dimnames <- .rcpp_abind_get_dimnames(input, along)
+    arg.marginlen <- vapply(input.dims, \(x)(x)[along], integer(1L))
+    name_along <- .bind_name_along_reasonable(input, arg.dimnames)
+  }
   
   
   # check dimlens:

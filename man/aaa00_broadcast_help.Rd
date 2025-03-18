@@ -23,7 +23,7 @@ The implementations available in 'broadcast' include, but are not limited to, th
 \item The \code{acast()} function, for casting/pivoting an array into a new dimension.
 }
 
-The broadcasted implementations strive to minimize computation time and memory usage (which is not just good for computer efficiency, but also for the environment).
+The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).
 }
 \section{Getting Started}{
 

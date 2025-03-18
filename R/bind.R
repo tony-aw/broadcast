@@ -90,22 +90,26 @@ bind_mat <- function(
 ) {
   
   # error checks:
-  # naming argument checks:
-  .bind_stop_name_deparse(name_deparse, abortcall = sys.call())
-  .bind_stop_comnames_from(comnames_from, abortcall = sys.call())
   if(any(vapply(input, is.data.frame, logical(1L)))) {
     stop("use `bind_dt to bind data.frame-like objects")
   }
   if(any(lst.ndim(input) > 2L)) {
     stop("use `bind_array()` to bind arrays with more than 2 dimensions")
   }
-  if(along == 1L) imargin <- 2L
-  else if(along == 2L) imargin <- 1L
-  else {
-    stop("`along` must be 1 or 2")
+  if(!is.numeric(along) || length(along) != 1L || along < 0 || along > 2) {
+    stop("`along` must be the integer scalar 1 or 2")
   }
+  
+  # fix input:
   input2 <- .bind_input_fix(input, FALSE, sys.call())
   
+  # naming argument checks:
+  .bind_stop_name_deparse(name_deparse, abortcall = sys.call())
+  .bind_stop_comnames_from(comnames_from, input, abortcall = sys.call())
+  
+  # determine imargin:
+  if(along == 1L) imargin <- 2L
+  else if(along == 2L) imargin <- 1L
   
   # return original:
   if(length(input2) == 1L) {
@@ -176,7 +180,7 @@ bind_array <- function(
   
   # naming argument checks:
   .bind_stop_name_along(name_along, abortcall = sys.call())
-  .bind_stop_comnames_from(comnames_from, abortcall = sys.call())
+  .bind_stop_comnames_from(comnames_from, input, abortcall = sys.call())
   
   
   # return original:

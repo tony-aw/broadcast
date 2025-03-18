@@ -44,15 +44,7 @@
 #' 
 #'  - it has more streamlined naming options/
 #'  - `bind_mat()` gives an error when fractional recycling is attempted
-#'  (like binding  `1:3` with `1:10`).
-#'  - `bind` 
-#' The primary differences is that  \cr \cr
-#' \cr
-#' 
-#' @section Naming:
-#' 
-#' ... \cr
-#' \cr
+#'  (like binding  `1:3` with `1:10`). \cr \cr
 #' 
 #' 
 

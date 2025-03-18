@@ -142,3 +142,44 @@ expect_error(
 enumerate <- enumerate + 2L
 
 
+# naming args errors ====
+x <- cbind(1:10, 1:10)
+dimnames(x) <- list(letters[1:10], LETTERS[1:2])
+input <- list(
+  x, array(1:10), array(numeric(0L))
+)
+expect_error(
+  bind_array(input, 2L, name_along = NA),
+  pattern = "`name_along` must be `TRUE` or `FALSE`",
+  fixed = TRUE
+)
+expect_error(
+  bind_array(input, 2L, name_along = c(TRUE, FALSE)),
+  pattern = "`name_along` must be `TRUE` or `FALSE`",
+  fixed = TRUE
+)
+expect_error(
+  bind_array(input, 2L, comnames_from = 1:10),
+  pattern = "`comnames_from` must be an integer scalar or `NULL`"
+)
+expect_error(
+  bind_array(input, 2L, comnames_from = NA_integer_),
+  pattern = "`comnames_from` cannot be `NA`"
+)
+expect_error(
+  bind_array(input, 2L, comnames_from = 0L),
+  pattern = "`comnames_from` out of bounds"
+)
+expect_error(
+  bind_array(input, 2L, comnames_from = -1),
+  pattern = "`comnames_from` out of bounds"
+)
+expect_error(
+  bind_array(input, 2L, comnames_from = 4L),
+  pattern = "`comnames_from` out of bounds"
+)
+expect_silent(
+  bind_array(input, 2L, comnames_from = 3L)
+)
+enumerate <- enumerate + 8L
+

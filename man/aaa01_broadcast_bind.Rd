@@ -49,17 +49,7 @@ compared to \code{abind::}\link[abind]{abind}. \cr \cr
 \itemize{
 \item it has more streamlined naming options/
 \item \code{bind_mat()} gives an error when fractional recycling is attempted
-(like binding  \code{1:3} with \code{1:10}).
-\item \code{bind}
-The primary differences is that  \cr \cr
-\cr
+(like binding  \code{1:3} with \code{1:10}). \cr \cr
 }
-}
-
-\section{Naming}{
-
-
-... \cr
-\cr
 }
 
