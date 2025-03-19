@@ -20,20 +20,6 @@ test_make_dims <- function(n) {
   return(out)
 }
 
-
-test_make_dimnames <- function(x) {
-  out <- lapply(dim(x), \(n)sample(letters, n, replace = TRUE))
-  
-  # randomly make names of one random dimension NULL
-  if(length(out) > 1L && sample(c(TRUE, FALSE), 1L)) {
-    out[sample(1:length(out), 1L)] <- list(NULL) 
-  }
-  
-  return(out)
-}
-
-
-
 datagens <- list(
   # \() as.raw(sample(1:10)), # ifelse() cannot handle raw, apparently
   \() sample(c(TRUE, FALSE, NA), 10L, TRUE),
@@ -68,19 +54,15 @@ for(iSample in 1:5) {
         emptyarray <- array(numeric(0L), c(3,3,0))
         
         
-        dimnames(x) <- test_make_dimnames(x)
-        dimnames(y) <- test_make_dimnames(y)
-        dimnames(z) <- test_make_dimnames(z)
-        
         # make expected array:
-        expected.dim <- c(x.dim, 3L)
+        expected.dim <- c(3L, x.dim)
         expected.type <- c(x.data, y.data, z.data) |> typeof()
         expected <- vector(expected.type, prod(expected.dim))
         dim(expected) <- expected.dim
         
-        expected[, 1] <- x
-        expected[, 2] <- y
-        expected[, 3] <- z
+        expected[1, ] <- x
+        expected[2, ] <- y
+        expected[3, ] <- z
         
         random <- sample(1:3, 1L)
         if(random == 1L) {
@@ -94,7 +76,7 @@ for(iSample in 1:5) {
         }
         
         expected.lst[[counter]] <- expected
-        out.lst[[counter]] <- bind_array(input, nDims + 1L, name_along = FALSE, comnames_from = NULL)
+        out.lst[[counter]] <- bind_array(input, 0L, name_along = FALSE, comnames_from = NULL)
         
         counter <- counter + 1L
         
@@ -131,19 +113,15 @@ for(iSample in 1:5) {
         emptyarray <- array(numeric(0L), c(3,3,0))
         
         
-        dimnames(x) <- test_make_dimnames(x)
-        dimnames(y) <- test_make_dimnames(y)
-        dimnames(z) <- test_make_dimnames(z)
-        
         # make expected array:
-        expected.dim <- c(x.dim, 3L)
+        expected.dim <- c(3L, x.dim)
         expected.type <- c(x.data, y.data, z.data) |> typeof()
         expected <- vector(expected.type, prod(expected.dim))
         dim(expected) <- expected.dim
         
-        expected[, , 1] <- x
-        expected[, , 2] <- y
-        expected[, , 3] <- z
+        expected[1, , ] <- x
+        expected[2, , ] <- y
+        expected[3, , ] <- z
         
         random <- sample(1:3, 1L)
         if(random == 1L) {
@@ -157,7 +135,7 @@ for(iSample in 1:5) {
         }
         
         expected.lst[[counter]] <- expected
-        out.lst[[counter]] <- bind_array(input, nDims + 1L, name_along = FALSE, comnames_from = NULL)
+        out.lst[[counter]] <- bind_array(input, 0L, name_along = FALSE, comnames_from = NULL)
         
         counter <- counter + 1L
         
@@ -194,19 +172,15 @@ for(iSample in 1:5) {
         emptyarray <- array(numeric(0L), c(3,3,0))
         
         
-        dimnames(x) <- test_make_dimnames(x)
-        dimnames(y) <- test_make_dimnames(y)
-        dimnames(z) <- test_make_dimnames(z)
-        
         # make expected array:
-        expected.dim <- c(x.dim, 3L)
+        expected.dim <- c(3L, x.dim)
         expected.type <- c(x.data, y.data, z.data) |> typeof()
         expected <- vector(expected.type, prod(expected.dim))
         dim(expected) <- expected.dim
         
-        expected[, , , 1] <- x
-        expected[, , , 2] <- y
-        expected[, , , 3] <- z
+        expected[1 , , ,] <- x
+        expected[2 , , ,] <- y
+        expected[3 , , ,] <- z
         
         random <- sample(1:3, 1L)
         if(random == 1L) {
@@ -220,7 +194,7 @@ for(iSample in 1:5) {
         }
         
         expected.lst[[counter]] <- expected
-        out.lst[[counter]] <- bind_array(input, nDims + 1L, name_along = FALSE, comnames_from = NULL)
+        out.lst[[counter]] <- bind_array(input, 0L, name_along = FALSE, comnames_from = NULL)
         
         counter <- counter + 1L
         

@@ -67,7 +67,6 @@ for(iSample in 1:5) {
         z <- array(z.data, z.dim)
         emptyarray <- array(numeric(0L), c(3,3,0))
         
-        
         dimnames(x) <- test_make_dimnames(x)
         dimnames(y) <- test_make_dimnames(y)
         dimnames(z) <- test_make_dimnames(z)
@@ -129,7 +128,6 @@ for(iSample in 1:5) {
         y <- array(y.data, y.dim)
         z <- array(z.data, z.dim)
         emptyarray <- array(numeric(0L), c(3,3,0))
-        
         
         dimnames(x) <- test_make_dimnames(x)
         dimnames(y) <- test_make_dimnames(y)

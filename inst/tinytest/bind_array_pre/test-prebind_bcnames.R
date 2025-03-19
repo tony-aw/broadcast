@@ -23,14 +23,14 @@ y <- array(rnorm(5), c(1, 5), test_make_dimnames(c(1, 5))) # will be broadcasted
 z <- array(rnorm(5), c(5, 5), test_make_dimnames(c(5, 5)))
 emptyarray <- array(rnorm(0), c(5, 5, 0))
 input <- list(emptyarray, x, y, z)
-expected <- array(NA, dim = c(5, 5, 3))
-expected[, , 1] <- x
-expected[, , 2] <- rep_dim(y, c(5,5))
-expected[, , 3] <- z
+expected <- array(NA, dim = c(3, 5, 5))
+expected[1, , ] <- x
+expected[2, , ] <- rep_dim(y, c(5,5))
+expected[3, , ] <- z
 for(i in c(1, 2, 4)) { # i != the broadcasted input
-  dimnames(expected) <- dimnames(input[[i]])
+  dimnames(expected)[2:3] <- dimnames(input[[i]])[1:2]
   expect_equal(
-    bind_array(input, 3L, name_along = FALSE, comnames_from = i),
+    bind_array(input, 0L, name_along = FALSE, comnames_from = i),
     expected
   ) |> errorfun()
   expected <- unname(expected)
@@ -46,13 +46,13 @@ z <- array(rnorm(5), c(5, 5), test_make_dimnames(c(5, 5)))
 emptyarray <- array(rnorm(0), c(5, 5, 0))
 input <- list(x, emptyarray, y, z)
 names(input) <- letters[1:4]
-expected <- array(NA, dim = c(5, 5, 3))
-expected[, , 1] <- x
-expected[, , 2] <- rep_dim(y, c(5,5))
-expected[, , 3] <- z
-dimnames(expected) <- list(NULL, NULL, letters[c(1, 3:4)])
+expected <- array(NA, dim = c(3, 5, 5))
+expected[1 , , ] <- x
+expected[2, , ] <- rep_dim(y, c(5,5))
+expected[3, , ] <- z
+dimnames(expected) <- list(letters[c(1, 3:4)], NULL, NULL)
 expect_equal(
-  bind_array(input, 3L, name_along = TRUE, comnames_from = NULL),
+  bind_array(input, 0L, name_along = TRUE, comnames_from = NULL),
   expected
 )
 enumerate <- enumerate + 1L
