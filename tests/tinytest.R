@@ -34,10 +34,13 @@ if ( requireNamespace("tinytest", quietly=TRUE) ){
     "broadcast", testdir = file.path("tinytest", "bind_array_col")
   )
   tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "bind_array_lyr")
+  )
+  tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bind_array_post")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "bind_array_a")
+    "broadcast", testdir = file.path("tinytest", "bind_array_other")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "othercast")
