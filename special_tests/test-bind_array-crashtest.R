@@ -1,4 +1,7 @@
 
+library(broadcast)
+library(tinytest)
+
 # set-up ====
 enumerate <- 0L
 errorfun <- function(tt) {

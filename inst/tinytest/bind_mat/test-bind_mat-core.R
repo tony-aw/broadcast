@@ -6,6 +6,13 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 
+test_make_dimnames <- function(n) {
+  lapply(n, \(i)sample(letters, i))
+}
+
+
+# cbind/rbind ====
+
 x <- 1:10
 y <- matrix(1:20, ncol = 2)
 expect_equal(
@@ -19,4 +26,4 @@ expect_equal(
 )
 enumerate <- enumerate + 1L
 
-# more tests to add: naming tests...
+

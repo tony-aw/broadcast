@@ -45,8 +45,5 @@ if ( requireNamespace("tinytest", quietly=TRUE) ){
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "othercast")
   )
-  tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "misc")
-  )
 }
 

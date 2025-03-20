@@ -116,7 +116,7 @@ bind_mat <- function(
     return(input2[[1L]])
   }
   
-  # main function:
+  # check for fractional recycling:
   sizes <- .rcpp_rcbind_get_sizes(input2, imargin - 1L)
   sizes <- sizes[sizes != 1L]
   if(length(sizes) > 1) {
@@ -126,6 +126,7 @@ bind_mat <- function(
     }
   }
   
+  # main function::
   name_deparse <- as.integer(name_deparse)
   if(along == 1L) {
     out <- do.call(rbind, c(input2, list(deparse.level = name_deparse)))
@@ -135,11 +136,21 @@ bind_mat <- function(
     out <- do.call(cbind, c(input2, list(deparse.level = name_deparse)))
     not_along <- 1L
   }
-  
-  # use original input here:
-  if(is.null(comnames_from)) {
-    dimnames(out)[[not_along]] <- NULL
+  if(name_deparse == 0L && !is.null(dimnames(out))) {
+    out.dimnames <- dimnames(out)
+    out.dimnames[along] <- list(NULL)
+    dimnames(out) <- out.dimnames
   }
+  
+  
+  # remove comnames:
+  if(!is.null(dimnames(out))) {
+    out.dimnames <- dimnames(out)
+    out.dimnames[not_along] <- list(NULL)
+    dimnames(out) <- out.dimnames
+  }
+  
+  # recreate comnames:
   if(!is.null(comnames_from)) {
     comarg <- input[[comnames_from]]
     if(is.array(comarg) && !is.null(dimnames(comarg))) {
@@ -152,7 +163,7 @@ bind_mat <- function(
     }
   }
   
-  
+  # return:
   return(out)
 }
 
