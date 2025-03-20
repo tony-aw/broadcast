@@ -3,11 +3,8 @@
 #' @noRd
 .acast_stop_margin <- function(margin, x, abortcall) {
   
-  if(!is.numeric(margin) || length(margin) != 1L) {
+  if(!.is.integer_scalar(margin)) {
     stop(simpleError("`margin` must be an integer scalar", call = abortcall))
-  }
-  if(is.na(margin)) {
-    stop(simpleError("`margin` cannot be `NA`", call = abortcall))
   }
   if(margin < 1L || margin > ndim(x)) {
     stop(simpleError("`margin` out of bounds", call = abortcall))

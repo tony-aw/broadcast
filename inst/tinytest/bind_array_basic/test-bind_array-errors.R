@@ -103,7 +103,7 @@ expect_error(
 )
 expect_error(
   bind_array(input, 1L, ndim2bc = NA_integer_),
-  pattern = "`ndim2bc` cannot be `NA`",
+  pattern = "`ndim2bc` must be an integer scalar",
   fixed = TRUE
 )
 expect_error(
@@ -168,7 +168,7 @@ expect_error(
 )
 expect_error(
   bind_array(input, 2L, comnames_from = NA_integer_),
-  pattern = "`comnames_from` cannot be `NA`"
+  pattern = "`comnames_from` must be an integer scalar or `NULL`"
 )
 expect_error(
   bind_array(input, 2L, comnames_from = 0L),

@@ -86,4 +86,11 @@
   return(round(x/2) == x/2)
 }
 
-
+#' @keywords internal
+#' @noRd
+.is.integer_scalar <- function(x) {
+  if(!is.numeric(x) || length(x) != 1) return(FALSE)
+  x <- as.integer(x)
+  if(is.na(x)) return(FALSE)
+  return(TRUE)
+}

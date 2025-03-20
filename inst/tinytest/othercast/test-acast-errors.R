@@ -17,7 +17,7 @@ expect_error(
 )
 expect_error(
   acast(x, NA_integer_, grp, TRUE),
-  pattern = "`margin` cannot be `NA`"
+  pattern = "`margin` must be an integer scalar"
 )
 expect_error(
   acast(x, -1L, grp, TRUE),

@@ -96,7 +96,7 @@ bind_mat <- function(
   if(any(lst.ndim(input) > 2L)) {
     stop("use `bind_array()` to bind arrays with more than 2 dimensions")
   }
-  if(!is.numeric(along) || length(along) != 1L || along < 0 || along > 2) {
+  if(!.is.integer_scalar(along) || along < 0 || along > 2) {
     stop("`along` must be the integer scalar 1 or 2")
   }
   

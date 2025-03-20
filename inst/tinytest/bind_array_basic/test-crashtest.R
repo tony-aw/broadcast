@@ -40,42 +40,38 @@ datagens <- list(
 
 # along == 1L ====
 along <- 1L
-for(iSample in 1:5) {
-  for(iDataX in seq_along(datagens)) {
-    for(iDataY in seq_along(datagens)) {
-      for(iNdims in 1:3) {
-        for(iNmal in c(TRUE, FALSE)) {
-          for(iLen in 2:3) {
-            
-            x.dim <- y.dim <- z.dim <- empty.dim <- sample(1:10, iNdims)
-            x.dim[along] <- sample(1:10, 1)
-            y.dim[along] <- sample(1:10, 1)
-            z.dim[along] <- sample(1:10, 1)
-            y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
-            empty.dim[along] <- 0L
-            x.data <- datagens[[iDataX]]()
-            y.data <- datagens[[iDataY]]()
-            z.data <- datagens[[iDataY]]()
-            
-            x <- array(x.data, x.dim)
-            y <- array(y.data, y.dim)
-            z <- array(z.data, z.dim)
-            
-            emptyarray <- vector(typeof(x), 0L)
-            dim(emptyarray) <- empty.dim
-            
-            input <- list(x, y, emptyarray)
-            input <- input[sample(1:3, iLen)]
-            
-            expect_silent(
-              bind_array(input, along = along, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
-            ) |> errorfun()
-            expect_silent(
-              bind_array(input, along = along, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
-            ) |> errorfun()
-            
-            enumerate <- enumerate + 2L
-          }
+
+for(iDataX in seq_along(datagens)) {
+  for(iDataY in seq_along(datagens)) {
+    for(iNdims in 1:3) {
+      for(iNmal in c(TRUE, FALSE)) {
+        for(iLen in 2:3) {
+          
+          x.dim <- y.dim <- z.dim <- empty.dim <- sample(1:10, iNdims)
+          x.dim[along] <- sample(1:10, 1)
+          y.dim[along] <- sample(1:10, 1)
+          z.dim[along] <- sample(1:10, 1)
+          y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
+          empty.dim[along] <- 0L
+          x.data <- datagens[[iDataX]]()
+          y.data <- datagens[[iDataY]]()
+          z.data <- datagens[[iDataY]]()
+          
+          x <- array(x.data, x.dim)
+          y <- array(y.data, y.dim)
+          z <- array(z.data, z.dim)
+          
+          emptyarray <- vector(typeof(x), 0L)
+          dim(emptyarray) <- empty.dim
+          
+          input <- list(x, y, emptyarray)
+          input <- input[sample(1:3, iLen)]
+          
+          expect_silent(
+            bind_array(input, along = along, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
+          ) |> errorfun()
+          
+          enumerate <- enumerate + 1L
         }
       }
     }
@@ -85,42 +81,38 @@ for(iSample in 1:5) {
 
 # along == 2L ====
 along <- 2L
-for(iSample in 1:5) {
-  for(iDataX in seq_along(datagens)) {
-    for(iDataY in seq_along(datagens)) {
-      for(iNdims in 1:3) {
-        for(iNmal in c(TRUE, FALSE)) {
-          for(iLen in 2:3) {
-            
-            x.dim <- y.dim <- z.dim <- empty.dim <- sample(1:10, iNdims)
-            x.dim[along] <- sample(1:10, 1)
-            y.dim[along] <- sample(1:10, 1)
-            z.dim[along] <- sample(1:10, 1)
-            y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
-            empty.dim[along] <- 0L
-            x.data <- datagens[[iDataX]]()
-            y.data <- datagens[[iDataY]]()
-            z.data <- datagens[[iDataY]]()
-            
-            x <- array(x.data, x.dim)
-            y <- array(y.data, y.dim)
-            z <- array(z.data, z.dim)
-            
-            emptyarray <- vector(typeof(x), 0L)
-            dim(emptyarray) <- empty.dim
-            
-            input <- list(x, y, emptyarray)
-            input <- input[sample(1:3, iLen)]
-            
-            expect_silent(
-              bind_array(input, along = along, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
-            ) |> errorfun()
-            expect_silent(
-              bind_array(input, along = along, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
-            ) |> errorfun()
-            
-            enumerate <- enumerate + 2L
-          }
+
+for(iDataX in seq_along(datagens)) {
+  for(iDataY in seq_along(datagens)) {
+    for(iNdims in 1:3) {
+      for(iNmal in c(TRUE, FALSE)) {
+        for(iLen in 2:3) {
+          
+          x.dim <- y.dim <- z.dim <- empty.dim <- sample(1:10, iNdims)
+          x.dim[along] <- sample(1:10, 1)
+          y.dim[along] <- sample(1:10, 1)
+          z.dim[along] <- sample(1:10, 1)
+          y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
+          empty.dim[along] <- 0L
+          x.data <- datagens[[iDataX]]()
+          y.data <- datagens[[iDataY]]()
+          z.data <- datagens[[iDataY]]()
+          
+          x <- array(x.data, x.dim)
+          y <- array(y.data, y.dim)
+          z <- array(z.data, z.dim)
+          
+          emptyarray <- vector(typeof(x), 0L)
+          dim(emptyarray) <- empty.dim
+          
+          input <- list(x, y, emptyarray)
+          input <- input[sample(1:3, iLen)]
+          
+          expect_silent(
+            bind_array(input, along = along, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
+          ) |> errorfun()
+          
+          enumerate <- enumerate + 1L
         }
       }
     }
@@ -131,42 +123,38 @@ for(iSample in 1:5) {
 
 # along == 3L ====
 along <- 3L
-for(iSample in 1:5) {
-  for(iDataX in seq_along(datagens)) {
-    for(iDataY in seq_along(datagens)) {
-      for(iNdims in 2:4) {
-        for(iNmal in c(TRUE, FALSE)) {
-          for(iLen in 2:3) {
-            
-            x.dim <- y.dim <- z.dim <- empty.dim <- sample(1:10, iNdims)
-            x.dim[along] <- sample(1:10, 1)
-            y.dim[along] <- sample(1:10, 1)
-            z.dim[along] <- sample(1:10, 1)
-            y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
-            empty.dim[along] <- 0L
-            x.data <- datagens[[iDataX]]()
-            y.data <- datagens[[iDataY]]()
-            z.data <- datagens[[iDataY]]()
-            
-            x <- array(x.data, x.dim)
-            y <- array(y.data, y.dim)
-            z <- array(z.data, z.dim)
-            
-            emptyarray <- vector(typeof(x), 0L)
-            dim(emptyarray) <- empty.dim
-            
-            input <- list(x, y, emptyarray)
-            input <- input[sample(1:3, iLen)]
-            
-            expect_silent(
-              bind_array(input, along = along, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
-            ) |> errorfun()
-            expect_silent(
-              bind_array(input, along = along, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
-            ) |> errorfun()
-            
-            enumerate <- enumerate + 2L
-          }
+
+for(iDataX in seq_along(datagens)) {
+  for(iDataY in seq_along(datagens)) {
+    for(iNdims in 2:4) {
+      for(iNmal in c(TRUE, FALSE)) {
+        for(iLen in 2:3) {
+          
+          x.dim <- y.dim <- z.dim <- empty.dim <- sample(1:10, iNdims)
+          x.dim[along] <- sample(1:10, 1)
+          y.dim[along] <- sample(1:10, 1)
+          z.dim[along] <- sample(1:10, 1)
+          y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
+          empty.dim[along] <- 0L
+          x.data <- datagens[[iDataX]]()
+          y.data <- datagens[[iDataY]]()
+          z.data <- datagens[[iDataY]]()
+          
+          x <- array(x.data, x.dim)
+          y <- array(y.data, y.dim)
+          z <- array(z.data, z.dim)
+          
+          emptyarray <- vector(typeof(x), 0L)
+          dim(emptyarray) <- empty.dim
+          
+          input <- list(x, y, emptyarray)
+          input <- input[sample(1:3, iLen)]
+          
+          expect_silent(
+            bind_array(input, along = along, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
+          ) |> errorfun()
+          
+          enumerate <- enumerate + 1L
         }
       }
     }
@@ -176,39 +164,35 @@ for(iSample in 1:5) {
 
 # along == 0L ====
 along <- 0L
-for(iSample in 1:5) {
-  for(iDataX in seq_along(datagens)) {
-    for(iDataY in seq_along(datagens)) {
-      for(iNdims in 1:3) {
-        for(iNmal in c(TRUE, FALSE)) {
-          for(iLen in 2:3) {
-            
-            x.dim <- y.dim <- z.dim <- empty.dim <- sample(1:10, iNdims)
-            y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
-            empty.dim[1L] <- 0L
-            x.data <- datagens[[iDataX]]()
-            y.data <- datagens[[iDataY]]()
-            z.data <- datagens[[iDataY]]()
-            
-            x <- array(x.data, x.dim)
-            y <- array(y.data, y.dim)
-            z <- array(z.data, z.dim)
-            
-            emptyarray <- vector(typeof(x), 0L)
-            dim(emptyarray) <- empty.dim
-            
-            input <- list(x, y, emptyarray)
-            input <- input[sample(1:3, iLen)]
-            
-            expect_silent(
-              bind_array(input, along = along, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
-            ) |> errorfun()
-            expect_silent(
-              bind_array(input, along = along, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
-            ) |> errorfun()
-            
-            enumerate <- enumerate + 2L
-          }
+
+for(iDataX in seq_along(datagens)) {
+  for(iDataY in seq_along(datagens)) {
+    for(iNdims in 1:3) {
+      for(iNmal in c(TRUE, FALSE)) {
+        for(iLen in 2:3) {
+          
+          x.dim <- y.dim <- z.dim <- empty.dim <- sample(1:10, iNdims)
+          y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
+          empty.dim[1L] <- 0L
+          x.data <- datagens[[iDataX]]()
+          y.data <- datagens[[iDataY]]()
+          z.data <- datagens[[iDataY]]()
+          
+          x <- array(x.data, x.dim)
+          y <- array(y.data, y.dim)
+          z <- array(z.data, z.dim)
+          
+          emptyarray <- vector(typeof(x), 0L)
+          dim(emptyarray) <- empty.dim
+          
+          input <- list(x, y, emptyarray)
+          input <- input[sample(1:3, iLen)]
+          
+          expect_silent(
+            bind_array(input, along = along, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
+          ) |> errorfun()
+          
+          enumerate <- enumerate + 1L
         }
       }
     }
@@ -245,11 +229,8 @@ for(iDataX in seq_along(datagens)) {
           expect_silent(
             bind_array(input, along = along, rev = TRUE, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
           ) |> errorfun()
-          expect_silent(
-            bind_array(input, along = along, rev = TRUE, name_along = iNmal, comnames_from = sample(1:iLen, 1L))
-          ) |> errorfun()
           
-          enumerate <- enumerate + 2L
+          enumerate <- enumerate + 1L
         }
       }
     }

@@ -39,7 +39,7 @@
     stop(simpleError("`rev` must be either `TRUE` or `FALSE`", call = abortcall))
   }
   
-  if(!is.numeric(along) || length(along) != 1) {
+  if(!.is.integer_scalar(along)) {
     stop(simpleError("`along` must be an integer scalar", call = abortcall))
   }
   
@@ -74,7 +74,7 @@
     }
   }
   if(along > (max_ndims + 1L)) {
-    stop(simpleError("`(rev)along` out of range for the given arrays", call = abortcall))
+    stop(simpleError("`along` out of range for the given arrays", call = abortcall))
   }
 }
 
@@ -147,13 +147,10 @@
   LONGMAX <- 2^52 - 1L
   
   # check ndim2bc:
-  if(!is.numeric(ndim2bc) || length(ndim2bc) != 1L) {
+  if(!.is.integer_scalar(ndim2bc)) {
     stop(simpleError("`ndim2bc` must be an integer scalar", call = abortcall))
   }
   ndim2bc <- as.integer(ndim2bc)
-  if(is.na(ndim2bc)) {
-    stop(simpleError("`ndim2bc` cannot be `NA`", call = abortcall))
-  }
   if(ndim2bc < 0) {
     stop(simpleError("`ndim2bc` must be non-negative", call = abortcall))
   }

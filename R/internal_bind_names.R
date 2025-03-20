@@ -28,11 +28,8 @@
 ) {
   
   if(!is.null(comnames_from)) {
-    if(!is.numeric(comnames_from) || length(comnames_from) != 1L) {
+    if(!.is.integer_scalar(comnames_from)) {
       stop(simpleError("`comnames_from` must be an integer scalar or `NULL`", call = abortcall))
-    }
-    if(is.na(comnames_from)) {
-      stop(simpleError("`comnames_from` cannot be `NA`", call = abortcall))
     }
     if(comnames_from < 1L || comnames_from > length(input)) {
       stop(simpleError("`comnames_from` out of bounds", call = abortcall))
