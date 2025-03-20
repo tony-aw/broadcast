@@ -231,12 +231,6 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
-.rcpp_cplx_returnNA <- function() {
-    .Call(`_broadcast_rcpp_cplx_returnNA`)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_bc_ifelse_v <- function(cond, x, y, nout) {
     .Call(`_broadcast_rcpp_bc_ifelse_v`, cond, x, y, nout)
 }

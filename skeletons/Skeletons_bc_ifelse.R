@@ -44,10 +44,7 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 #
 
 txt0 <- "
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_cplx_returnNA)]]
-Rcomplex rcpp_cplx_returnNA() {
+inline Rcomplex rcpp_cplx_returnNA() {
     Rcomplex out;
     out.r = NA_REAL;
     out.i = NA_REAL;

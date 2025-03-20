@@ -664,16 +664,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_cplx_returnNA
-Rcomplex rcpp_cplx_returnNA();
-RcppExport SEXP _broadcast_rcpp_cplx_returnNA() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_cplx_returnNA());
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_bc_ifelse_v
 SEXP rcpp_bc_ifelse_v(SEXP cond, SEXP x, SEXP y, R_xlen_t nout);
 RcppExport SEXP _broadcast_rcpp_bc_ifelse_v(SEXP condSEXP, SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP) {
@@ -1202,7 +1192,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bc_dec_ov", (DL_FUNC) &_broadcast_rcpp_bc_dec_ov, 6},
     {"_broadcast_rcpp_bc_dec_bs", (DL_FUNC) &_broadcast_rcpp_bc_dec_bs, 10},
     {"_broadcast_rcpp_bc_dec_d", (DL_FUNC) &_broadcast_rcpp_bc_dec_d, 9},
-    {"_broadcast_rcpp_cplx_returnNA", (DL_FUNC) &_broadcast_rcpp_cplx_returnNA, 0},
     {"_broadcast_rcpp_bc_ifelse_v", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_v, 4},
     {"_broadcast_rcpp_bc_ifelse_ov", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_ov, 6},
     {"_broadcast_rcpp_bc_ifelse_bs", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_bs, 10},

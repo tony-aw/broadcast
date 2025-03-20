@@ -37,6 +37,14 @@ for(i in c(1, 2, 4)) { # i != the broadcasted input
   
   enumerate <- enumerate + 1L
 }
+i <- 3 # i == broadcasted input
+dimnames(expected)[[2]] <- dimnames(input[[i]])[[2]]
+expect_equal(
+  bind_array(input, 3L, name_along = FALSE, comnames_from = i),
+  expected
+) |> errorfun()
+expected <- unname(expected)
+enumerate <- enumerate + 1L
 
 
 # test name_along, 2d ====

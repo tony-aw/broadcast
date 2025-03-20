@@ -80,11 +80,11 @@
   }
   obj <- input[[sel]]
   obj.dimnames <- dimnames(obj)
-  n <- length(dim(obj))
+  n <- ndim(obj)
   
   if(along == 0) {
     if(!is.null(obj.dimnames)) {
-      ind <- which(dim(out)[-1] == dim(obj)) # replaced dim(out)[2:n] with dim(out)[-1]
+      ind <- which(dim(out)[seq(2, n + 1L)] == dim(obj)) # replaced dim(out)[2:n] with dim(out)[seq(2, n + 1L)]
       if(length(ind) > 0L) {
         out.dimnames[ind + 1L] <- obj.dimnames[ind]
         dimnames(out) <- out.dimnames # this is a shallow copy
