@@ -25,6 +25,9 @@ if ( requireNamespace("tinytest", quietly=TRUE) ){
     "broadcast", testdir = file.path("tinytest", "bc_generic")
   )
   tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "bind_array_basic")
+  )
+  tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bind_array_pre")
   )
   tinytest::test_package(
@@ -38,9 +41,6 @@ if ( requireNamespace("tinytest", quietly=TRUE) ){
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bind_array_post")
-  )
-  tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "bind_array_other")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "othercast")

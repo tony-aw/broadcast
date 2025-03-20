@@ -16,13 +16,17 @@ test_make_dimnames <- function(x.dim) {
 # empty input errors ====
 expect_error(
   bind_array(list(), 1L),
-  pattern = "`input` cannot be an empty list"
+  pattern = "`input` must be a list with at least 2 elements"
 )
 expect_error(
-  bind_array(list(array(numeric(0L))), 1L),
+  bind_array(list(array(1:10)), 1L),
+  pattern = "`input` must be a list with at least 2 elements"
+)
+expect_error(
+  bind_array(list(array(numeric(0L)), array(numeric(0L))), 1L),
   pattern = "`input` must contain at least one non-zero array/vector"
 )
-enumerate <- enumerate + 2L
+enumerate <- enumerate + 3L
 
 
 

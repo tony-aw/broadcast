@@ -16,7 +16,11 @@ test_make_dimnames <- function(x.dim) {
 # empty input errors ====
 expect_error(
   bind_mat(list(), 1L),
-  pattern = "`input` cannot be an empty list"
+  pattern = "`input` must be a list with at least 2 elements"
+)
+expect_error(
+  bind_mat(list(cbind(1:10, 1:10)), 1L),
+  pattern = "`input` must be a list with at least 2 elements"
 )
 expect_error(
   bind_mat(list(array(numeric(0L))), 1L),

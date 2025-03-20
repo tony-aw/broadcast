@@ -3,13 +3,13 @@
 #' @keywords internal
 #' @noRd
 .bind_input_fix <- function(input, is_dt, abortcall) {
-  if(length(input) == 0L) {
-    stop(simpleError("`input` cannot be an empty list"))
+  if(length(input) < 2L) {
+    stop(simpleError("`input` must be a list with at least 2 elements", call = abortcall))
   }
   if(!is_dt) {
     input <- input[lengths(input) > 0L]
     if(length(input) == 0L) {
-      stop(simpleError("`input` must contain at least one non-zero array/vector"))
+      stop(simpleError("`input` must contain at least one non-zero array/vector", call = abortcall))
     }
   }
   if(is_dt) {
@@ -17,7 +17,7 @@
     vncols <- vapply(input, ncol, integer(1L))
     input <- input[vnrows > 0L & vncols > 0L]
     if(length(input) == 0L) {
-      stop(simpleError("`input` must contain at least one non-empty data.frame-like object"))
+      stop(simpleError("`input` must contain at least one non-empty data.frame-like object", call = abortcall))
     }
   }
   
@@ -36,7 +36,7 @@
   }
   
   if(!isTRUE(rev) && !isFALSE(rev)) {
-    stop(simpleError("`rev` must be either `TRUE` or `FALSE`"))
+    stop(simpleError("`rev` must be either `TRUE` or `FALSE`", call = abortcall))
   }
   
   if(!is.numeric(along) || length(along) != 1) {
@@ -133,7 +133,7 @@
     coerce <- as.raw
   }
   else {
-    stop(simpleError("unknown type"))
+    stop(simpleError("unknown type", call = abortcall))
   }
   return(coerce)
 }
