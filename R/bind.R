@@ -6,21 +6,15 @@
 #' The following implementations are available:
 #' 
 #'  - `bind_mat()` binds dimensionless (atomic/recursive) vectors and (atomic/recursive) matrices row- or column-wise. \cr
-#'  Allows for recycling.
+#'  Returns a matrix. \cr
+#'  Allows for linear/vector recycling.
 #'  - `bind_array()` binds (atomic/recursive) arrays and (atomic/recursive) matrices. \cr
+#'  Returns an array. \cr
 #'  Allows for broadcasting.
 #'  - `bind_dt()` binds data.tables and other data.frame-like objects. \cr
-#'  This function is only available if the 'data.table' package is installed. \cr
 #'  Returns a `data.table`. \cr
-#'  Faster than `do.call(cbind, ...)` or `do.call(rbind, ...)` for regular `data.frame` objects. \cr
-#' 
-#' 
-#' Note that the naming convention of the binding implementations here is
-#' "bind_" followed by the \bold{resulting class} (abbreviated). \cr
-#' I.e. `bind_mat` \bold{returns} a matrix, but can bind both matrices and vectors. \cr
-#' And `bind_array` \bold{returns} an array, but can bind both arrays and matrices. \cr
-#' And `bind_dt` \bold{returns} a data.table, but can bind not only data.tables,
-#' but also most other data.frame-like objects. \cr \cr
+#'  This function is only available if the 'data.table' package is installed. \cr
+#'  The `bind_dt()` function is faster than `do.call(cbind, ...)` or `do.call(rbind, ...)` for regular `data.frame` objects. \cr
 #' 
 #' 
 #' 
@@ -149,6 +143,7 @@ bind_mat <- function(
     out.dimnames[not_along] <- list(NULL)
     dimnames(out) <- out.dimnames
   }
+  
   
   # recreate comnames:
   if(!is.null(comnames_from)) {

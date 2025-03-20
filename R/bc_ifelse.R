@@ -73,8 +73,8 @@ bc_ifelse <- function(cond, yes, no) {
     out <- .rcpp_bc_ifelse_ov(cond, x, y, RxC, out.dimsimp, out.len)
   }
   else if(dimmode == 3L){ # big-small mode
-    by_x <- .make_by(x.dim)
-    by_y <- .make_by(y.dim)
+    by_x <- .C_make_by(x.dim)
+    by_y <- .C_make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     if(all(x.dim == out.dimsimp)) {
@@ -89,8 +89,8 @@ bc_ifelse <- function(cond, yes, no) {
   }
   else if(dimmode == 4L) { # general mode
     
-    by_x <- .make_by(x.dim)
-    by_y <- .make_by(y.dim)
+    by_x <- .C_make_by(x.dim)
+    by_y <- .C_make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     

@@ -23,12 +23,6 @@
   return(c("==", "!=", "<", ">", "<=", ">="))
 }
 
-#' @keywords internal
-#' @noRd
-.op_int_nat <- function() {
-  return(c("gcd", "lcm"))
-}
-
 
 #' @keywords internal
 #' @noRd

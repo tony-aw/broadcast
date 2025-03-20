@@ -24,32 +24,6 @@
 
 #' @keywords internal
 #' @noRd
-.make_by <- function(target.dim) {
-  # this approach is faster than ifelse()
-  ind1 <- which(target.dim == 1L)
-  ind0 <- which(target.dim > 1L)
-  by <- vector("integer", length(target.dim))
-  by[ind1] <- 0L
-  by[ind0] <- 1L
-  return(by)
-}
-
-
-#' @keywords internal
-#' @noRd
-.make_indices <- function(target.dim, out.dim) {
-  ind1 <- which(target.dim == 1L)
-  ind0 <- which(target.dim > 1L)
-  indices <- vector("list", length(target.dim))
-  # using lapply to get ALTREP Compact integer vectors
-  indices[ind1] <- lapply(out.dim[ind1], \(n)rep(1L, n))
-  indices[ind0] <- lapply(out.dim[ind0], \(n)1:n)
-  return(indices)
-}
-
-
-#' @keywords internal
-#' @noRd
 .make_dcp <- function(dims) {
   return(c(1, cumprod(dims)))
 }

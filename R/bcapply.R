@@ -75,8 +75,8 @@ bcapply <- function(x, y, f, v = "list") {
     .rcpp_bcapply_ov(out, x, y, RxC, out.dimsimp, out.len, fnew)
   }
   else if(dimmode == 3L){ # big-small mode
-    by_x <- .make_by(x.dim)
-    by_y <- .make_by(y.dim)
+    by_x <- .C_make_by(x.dim)
+    by_y <- .C_make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     if(all(x.dim == out.dimsimp)) {
@@ -91,8 +91,8 @@ bcapply <- function(x, y, f, v = "list") {
   }
   else if(dimmode == 4L) { # general mode
     
-    by_x <- .make_by(x.dim)
-    by_y <- .make_by(y.dim)
+    by_x <- .C_make_by(x.dim)
+    by_y <- .C_make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     

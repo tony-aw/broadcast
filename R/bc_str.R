@@ -91,8 +91,8 @@ bc.str <- function(x, y, op) {
     out <- .rcpp_bc_str_ov(x, y, RxC, out.dimsimp, out.len, op)
   }
   else if(dimmode == 3L){ # big-small mode
-    by_x <- .make_by(x.dim)
-    by_y <- .make_by(y.dim)
+    by_x <- .C_make_by(x.dim)
+    by_y <- .C_make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     if(all(x.dim == out.dimsimp)) {
@@ -107,8 +107,8 @@ bc.str <- function(x, y, op) {
   }
   else if(dimmode == 4L) { # general mode
     
-    by_x <- .make_by(x.dim)
-    by_y <- .make_by(y.dim)
+    by_x <- .C_make_by(x.dim)
+    by_y <- .C_make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     
@@ -148,8 +148,8 @@ bc.str <- function(x, y, op) {
     out <- .rcpp_bcRel_str_ov(x, y, RxC, out.dimsimp, out.len, op)
   }
   else if(dimmode == 3L){ # big-small mode
-    by_x <- .make_by(x.dim)
-    by_y <- .make_by(y.dim)
+    by_x <- .C_make_by(x.dim)
+    by_y <- .C_make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     if(all(x.dim == out.dimsimp)) {
@@ -164,8 +164,8 @@ bc.str <- function(x, y, op) {
   }
   else if(dimmode == 4L) { # general mode
     
-    by_x <- .make_by(x.dim)
-    by_y <- .make_by(y.dim)
+    by_x <- .C_make_by(x.dim)
+    by_y <- .C_make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     
@@ -205,8 +205,8 @@ bc.str <- function(x, y, op) {
     out <- .rcpp_bcDist_str_ov(x, y, RxC, out.dimsimp, out.len, op)
   }
   else if(dimmode == 3L){ # big-small mode
-    by_x <- .make_by(x.dim)
-    by_y <- .make_by(y.dim)
+    by_x <- .C_make_by(x.dim)
+    by_y <- .C_make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     if(all(x.dim == out.dimsimp)) {
@@ -221,8 +221,8 @@ bc.str <- function(x, y, op) {
   }
   else if(dimmode == 4L) { # general mode
     
-    by_x <- .make_by(x.dim)
-    by_y <- .make_by(y.dim)
+    by_x <- .C_make_by(x.dim)
+    by_y <- .C_make_by(y.dim)
     dcp_x <- .make_dcp(x.dim)
     dcp_y <- .make_dcp(y.dim)
     

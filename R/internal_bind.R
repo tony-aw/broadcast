@@ -267,7 +267,7 @@
     starts[along] <- counter
     ends <- out.dim
     ends[along] <- counter + size_along - 1L
-    by_x <- .make_by(x.dim)
+    by_x <- .C_make_by(x.dim)
     by_x[along] <- 1L
     dcp_x <- c(1, cumprod(x.dim))
     

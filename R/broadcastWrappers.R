@@ -44,3 +44,10 @@
 .C_lst_typeof <- function(x) {
   .Call("C_lst_typeof", x = x)
 }
+
+#' @keywords Internal
+#' @noRd
+.C_make_by <- function(x) {
+  .Call("C_make_by", target_dim = as.integer(x))
+}
+

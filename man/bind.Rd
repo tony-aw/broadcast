@@ -75,21 +75,16 @@ The \code{bind_}implementations provide dimensional binding functionalities. \cr
 The following implementations are available:
 \itemize{
 \item \code{bind_mat()} binds dimensionless (atomic/recursive) vectors and (atomic/recursive) matrices row- or column-wise. \cr
-Allows for recycling.
+Returns a matrix. \cr
+Allows for linear/vector recycling.
 \item \code{bind_array()} binds (atomic/recursive) arrays and (atomic/recursive) matrices. \cr
+Returns an array. \cr
 Allows for broadcasting.
 \item \code{bind_dt()} binds data.tables and other data.frame-like objects. \cr
-This function is only available if the 'data.table' package is installed. \cr
 Returns a \code{data.table}. \cr
-Faster than \code{do.call(cbind, ...)} or \code{do.call(rbind, ...)} for regular \code{data.frame} objects. \cr
+This function is only available if the 'data.table' package is installed. \cr
+The \code{bind_dt()} function is faster than \code{do.call(cbind, ...)} or \code{do.call(rbind, ...)} for regular \code{data.frame} objects. \cr
 }
-
-Note that the naming convention of the binding implementations here is
-"bind_" followed by the \bold{resulting class} (abbreviated). \cr
-I.e. \code{bind_mat} \bold{returns} a matrix, but can bind both matrices and vectors. \cr
-And \code{bind_array} \bold{returns} an array, but can bind both arrays and matrices. \cr
-And \code{bind_dt} \bold{returns} a data.table, but can bind not only data.tables,
-but also most other data.frame-like objects. \cr \cr
 }
 \details{
 For in-depth information about the binding implentations in the 'broadcast' package,
