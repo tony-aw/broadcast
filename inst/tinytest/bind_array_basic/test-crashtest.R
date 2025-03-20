@@ -51,6 +51,7 @@ for(iSample in 1:5) {
             x.dim[along] <- sample(1:10, 1)
             y.dim[along] <- sample(1:10, 1)
             z.dim[along] <- sample(1:10, 1)
+            y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
             empty.dim[along] <- 0L
             x.data <- datagens[[iDataX]]()
             y.data <- datagens[[iDataY]]()
@@ -95,6 +96,7 @@ for(iSample in 1:5) {
             x.dim[along] <- sample(1:10, 1)
             y.dim[along] <- sample(1:10, 1)
             z.dim[along] <- sample(1:10, 1)
+            y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
             empty.dim[along] <- 0L
             x.data <- datagens[[iDataX]]()
             y.data <- datagens[[iDataY]]()
@@ -140,6 +142,7 @@ for(iSample in 1:5) {
             x.dim[along] <- sample(1:10, 1)
             y.dim[along] <- sample(1:10, 1)
             z.dim[along] <- sample(1:10, 1)
+            y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
             empty.dim[along] <- 0L
             x.data <- datagens[[iDataX]]()
             y.data <- datagens[[iDataY]]()
@@ -181,6 +184,7 @@ for(iSample in 1:5) {
           for(iLen in 2:3) {
             
             x.dim <- y.dim <- z.dim <- empty.dim <- sample(1:10, iNdims)
+            y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
             empty.dim[1L] <- 0L
             x.data <- datagens[[iDataX]]()
             y.data <- datagens[[iDataY]]()
@@ -222,6 +226,7 @@ for(iDataX in seq_along(datagens)) {
         for(iLen in 2:3) {
           
           x.dim <- y.dim <- z.dim <- empty.dim <- sample(1:10, iNdims)
+          y.dim[sample(1:length(y.dim), 1L)] <- 1L # make y  broadcast
           empty.dim[1L] <- 0L
           x.data <- datagens[[iDataX]]()
           y.data <- datagens[[iDataY]]()
