@@ -255,6 +255,12 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
+.rcpp_gcd_rec <- function(x, y) {
+    .Call(`_broadcast_rcpp_gcd_rec`, x, y)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_gcd <- function(x, y) {
     .Call(`_broadcast_rcpp_gcd`, x, y)
 }
@@ -371,12 +377,6 @@ rcpp_str_dist_led <- function(x, y) {
 #' @noRd
 .rcpp_bindhelper_vdims <- function(x) {
     .Call(`_broadcast_rcpp_bindhelper_vdims`, x)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bindhelper_neednorm <- function(x, target_dimlen) {
-    .Call(`_broadcast_rcpp_bindhelper_neednorm`, x, target_dimlen)
 }
 
 #' @keywords internal

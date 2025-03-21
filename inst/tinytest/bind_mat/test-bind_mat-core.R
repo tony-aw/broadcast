@@ -24,6 +24,6 @@ expect_equal(
   rbind(x, y) |> unname(),
   bind_mat(list(x, y), 1L)
 )
-enumerate <- enumerate + 1L
+enumerate <- enumerate + 2L
 
 

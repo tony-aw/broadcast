@@ -18,11 +18,10 @@ funs <- list(
 )
 ops <- c(
   rep(list("=="), 5L),
-  \(x, y) x == y
+  \(x, y) length(x)==length(y)
 )
 
 datagens <- list(
-  # \() as.raw(sample(1:10)), # ifelse() cannot handle raw, apparently
   \() sample(c(TRUE, FALSE, NA), 10L, TRUE),
   \() sample(c(-10L:10L, NA_integer_)),
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)),

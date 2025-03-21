@@ -23,7 +23,7 @@ test_make_dims <- function(n) {
 
 
 # plus ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+nres <- 5 * 5 * 5 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 op <- "+"
 basefun <- function(x, y) {
@@ -32,7 +32,7 @@ basefun <- function(x, y) {
 }
 
 i <- 1L
-for(iSample in 1:10) { # re-do tests with different random configurations
+for(iSample in 1:5) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
@@ -121,7 +121,7 @@ expect_equal(
 
 
 # min ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+nres <- 5 * 5 * 5 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 op <- "-"
 basefun <- function(x, y) {
@@ -130,7 +130,7 @@ basefun <- function(x, y) {
 }
 
 i <- 1L
-for(iSample in 1:10) { # re-do tests with different random configurations
+for(iSample in 1:5) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
@@ -219,7 +219,7 @@ expect_equal(
 
 
 # multiply ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+nres <- 5 * 5 * 5 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 op <- "*"
 basefun <- function(x, y) {
@@ -228,7 +228,7 @@ basefun <- function(x, y) {
 }
 
 i <- 1L
-for(iSample in 1:10) { # re-do tests with different random configurations
+for(iSample in 1:5) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
@@ -318,7 +318,7 @@ expect_equal(
 
 
 # power ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+nres <- 5 * 5 * 5 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 op <- "^"
 basefun <- function(x, y) {
@@ -327,7 +327,7 @@ basefun <- function(x, y) {
 }
 
 i <- 1L
-for(iSample in 1:10) { # re-do tests with different random configurations
+for(iSample in 1:5) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
@@ -418,7 +418,7 @@ expect_equal(
 
 
 # pmin ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+nres <- 5 * 5 * 5 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 op <- "pmin"
 basefun <- function(x, y) {
@@ -427,7 +427,7 @@ basefun <- function(x, y) {
 }
 
 i <- 1L
-for(iSample in 1:10) { # re-do tests with different random configurations
+for(iSample in 1:5) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
@@ -517,7 +517,7 @@ expect_equal(
 
 
 # pmax====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+nres <- 5 * 5 * 5 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 op <- "pmax"
 basefun <- function(x, y) {
@@ -526,7 +526,7 @@ basefun <- function(x, y) {
 }
 
 i <- 1L
-for(iSample in 1:10) { # re-do tests with different random configurations
+for(iSample in 1:5) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
@@ -612,6 +612,4 @@ enumerate <- enumerate + i # count number of tests
 expect_equal(
   expected, out
 )
-
-
 

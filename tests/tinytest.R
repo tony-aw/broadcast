@@ -48,5 +48,10 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "othercast")
   )
+  if(requireNamespace("data.table")) {
+    tinytest::test_package(
+      "broadcast", testdir = file.path("tinytest", "bind_dt")
+    )
+  }
 }
 

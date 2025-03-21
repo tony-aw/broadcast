@@ -225,8 +225,11 @@ bind_dt <- function(
   
   input2 <- .bind_input_fix(input, TRUE, sys.call())
   
+  if(!.is.integer_scalar(along)) {
+    stop("`along` must be the integer scalar 1 or 2")
+  }
   if(along != 1L && along != 2L) {
-    stop("`along` must be `1` or `2`")
+    stop("`along` must be the integer scalar 1 or 2")
   }
   
   # return original:

@@ -733,14 +733,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_gcd
-long long rcpp_gcd(long long x, long long y);
-RcppExport SEXP _broadcast_rcpp_gcd(SEXP xSEXP, SEXP ySEXP) {
+// rcpp_gcd_rec
+long long rcpp_gcd_rec(long long x, long long y);
+RcppExport SEXP _broadcast_rcpp_gcd_rec(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< long long >::type x(xSEXP);
     Rcpp::traits::input_parameter< long long >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_gcd_rec(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_gcd
+double rcpp_gcd(double x, double y);
+RcppExport SEXP _broadcast_rcpp_gcd(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type y(ySEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_gcd(x, y));
     return rcpp_result_gen;
 END_RCPP
@@ -1055,18 +1067,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_bindhelper_neednorm
-SEXP rcpp_bindhelper_neednorm(SEXP x, int target_dimlen);
-RcppExport SEXP _broadcast_rcpp_bindhelper_neednorm(SEXP xSEXP, SEXP target_dimlenSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type target_dimlen(target_dimlenSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_neednorm(x, target_dimlen));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_bindhelper_sum_along
 R_xlen_t rcpp_bindhelper_sum_along(SEXP lst_dims, int along);
 RcppExport SEXP _broadcast_rcpp_bindhelper_sum_along(SEXP lst_dimsSEXP, SEXP alongSEXP) {
@@ -1197,6 +1197,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bc_ifelse_ov", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_ov, 6},
     {"_broadcast_rcpp_bc_ifelse_bs", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_bs, 10},
     {"_broadcast_rcpp_bc_ifelse_d", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_d, 9},
+    {"_broadcast_rcpp_gcd_rec", (DL_FUNC) &_broadcast_rcpp_gcd_rec, 2},
     {"_broadcast_rcpp_gcd", (DL_FUNC) &_broadcast_rcpp_gcd, 2},
     {"_broadcast_rcpp_bc_int_v", (DL_FUNC) &_broadcast_rcpp_bc_int_v, 4},
     {"_broadcast_rcpp_bc_int_ov", (DL_FUNC) &_broadcast_rcpp_bc_int_ov, 6},
@@ -1217,7 +1218,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bcapply_d", (DL_FUNC) &_broadcast_rcpp_bcapply_d, 10},
     {"_broadcast_rcpp_bindhelper_max_type", (DL_FUNC) &_broadcast_rcpp_bindhelper_max_type, 1},
     {"_broadcast_rcpp_bindhelper_vdims", (DL_FUNC) &_broadcast_rcpp_bindhelper_vdims, 1},
-    {"_broadcast_rcpp_bindhelper_neednorm", (DL_FUNC) &_broadcast_rcpp_bindhelper_neednorm, 2},
     {"_broadcast_rcpp_bindhelper_sum_along", (DL_FUNC) &_broadcast_rcpp_bindhelper_sum_along, 2},
     {"_broadcast_rcpp_bindhelper_conf_dims_2", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_2, 4},
     {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 4},

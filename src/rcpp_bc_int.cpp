@@ -49,8 +49,8 @@ inline double rcpp_int53_guard(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_gcd)]]
-long long rcpp_gcd(
+// [[Rcpp::export(.rcpp_gcd_rec)]]
+long long rcpp_gcd_rec(
   long long x, long long y
 ) {
 
@@ -67,10 +67,32 @@ long long rcpp_gcd(
     return a;
   }
   if (a > b) {
-    return rcpp_gcd(a - b, b);
+    return rcpp_gcd_rec(a - b, b);
   }
-  return rcpp_gcd(a, b - a);
+  return rcpp_gcd_rec(a, b - a);
 }
+
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_gcd)]]
+double rcpp_gcd(
+  double x, double y
+) {
+  
+  if(x == 0 && y == 0) {
+    return NA_REAL;
+  }
+  else if(x == 0) {
+    return y;
+  }
+  else if(y == 0) {
+    return x;
+  }
+  
+  return rcpp_gcd_rec((long long) x, (long long) y);
+}
+
 
 
 

@@ -26,7 +26,7 @@ expect_error(
   bind_mat(list(array(numeric(0L)), array(numeric(0L))), 1L),
   pattern = "`input` must contain at least one non-zero array/vector"
 )
-enumerate <- enumerate + 2L
+enumerate <- enumerate + 3L
 
 
 

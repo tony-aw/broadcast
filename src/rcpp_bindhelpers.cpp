@@ -65,39 +65,6 @@ SEXP rcpp_bindhelper_vdims(
 }
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bindhelper_neednorm)]]
-SEXP rcpp_bindhelper_neednorm(
-    SEXP x, int target_dimlen
-) {
-  int n = Rf_length(x);
-  
-  SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
-  int *pout;
-  pout = LOGICAL(out);
-
-  SEXP tempout;
-  SEXP tempdim;
-  int tempdimlen;
-  
-  for(int i = 0; i < n; ++i) {
-    tempout = VECTOR_ELT(x, i);
-    tempdim = Rf_getAttrib(tempout, R_DimSymbol);
-    tempdimlen = Rf_length(tempdim);
-    if(tempdimlen < target_dimlen) {
-      pout[i] = 1;
-    }
-    else {
-      pout[i] = 0;
-    }
-  }
-  
-  UNPROTECT(1);
-  return out;
-}
-
-
 
 //' @keywords internal
 //' @noRd
