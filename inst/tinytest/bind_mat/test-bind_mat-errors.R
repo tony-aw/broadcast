@@ -23,7 +23,7 @@ expect_error(
   pattern = "`input` must be a list with at least 2 elements"
 )
 expect_error(
-  bind_mat(list(array(numeric(0L))), 1L),
+  bind_mat(list(array(numeric(0L)), array(numeric(0L))), 1L),
   pattern = "`input` must contain at least one non-zero array/vector"
 )
 enumerate <- enumerate + 2L
@@ -117,7 +117,7 @@ expect_error(
 )
 expect_error(
   bind_mat(input, 2L, comnames_from = NA_integer_),
-  pattern = "`comnames_from` cannot be `NA`"
+  pattern = "`comnames_from` must be an integer scalar or `NULL`"
 )
 expect_error(
   bind_mat(input, 2L, comnames_from = 0L),

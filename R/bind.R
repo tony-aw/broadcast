@@ -130,6 +130,14 @@ bind_mat <- function(
     out <- do.call(cbind, c(input2, list(deparse.level = name_deparse)))
     not_along <- 1L
   }
+  
+  # clear dimnames:
+  if(name_deparse == 0L && is.null(comnames_from)) {
+    dimnames(out) <- NULL
+  }
+  
+  
+  # remove alongnames if unneeded:
   if(name_deparse == 0L && !is.null(dimnames(out))) {
     out.dimnames <- dimnames(out)
     out.dimnames[along] <- list(NULL)
@@ -137,7 +145,7 @@ bind_mat <- function(
   }
   
   
-  # remove comnames:
+  # remove comnames to prep for next step:
   if(!is.null(dimnames(out))) {
     out.dimnames <- dimnames(out)
     out.dimnames[not_along] <- list(NULL)

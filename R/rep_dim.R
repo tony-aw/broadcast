@@ -28,14 +28,21 @@
 rep_dim <- function(
     x, tdim
 ) {
+  
+  if(!is.array(x)) {
+    stop("`x` must be an array")
+  }
 
   # Prep:
   tdimlen <- length(tdim)
-  if(tdimlen > length(dim(x))) {
-    dim(x) <- c(dim(x), rep(1, tdimlen - length(dim(x))))
+  if(tdimlen > ndim(x)) {
+    old.ndim <- ndim(x)
+    old.dimnames <- dimnames(x)
+    dim(x) <- c(dim(x), rep(1, tdimlen - ndim(x)))
+    dimnames(x)[1:old.ndim] <- old.dimnames
   }
   x.dim <- dim(x)
-  x.dimlen <- length(dim(x))
+  x.dimlen <- ndim(x)
   
   # Checks:
   if(.array.check_reduce(x, tdim)) {
@@ -49,9 +56,9 @@ rep_dim <- function(
   
   # Core function:
   times <- tdim
-  if(tdimlen < x.dimlen) {
-    times <- c(tdim, rep(1, x.dimlen - tdimlen))
-  }
+  # if(tdimlen < x.dimlen) {
+  #   times <- c(tdim, rep(1, x.dimlen - tdimlen))
+  # }
   
   subs <- .rcpp_recycle_seq_mlen(x.dim, times)
   x <- do.call(function(...)x[..., drop = FALSE], subs)

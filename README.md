@@ -17,9 +17,8 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 ## 🗺️Overview
 
-The ‘broadcast’ ‘R’-package, as the name suggests, performs
-“broadcasting” (similar to broadcasting in the ‘Numpy’ module for
-‘Python’).
+The ‘broadcast’ - package, as the name suggests, performs “broadcasting”
+(similar to broadcasting in the ‘Numpy’ module for ‘Python’).
 
 In the context of operations involving 2 (or more) arrays,
 “broadcasting” refers to recycling array dimensions **without**
@@ -88,7 +87,7 @@ repeating dimensions.
 This is not simply a need for speed.  
 Efficient programs use less energy and resources, and is thus better for
 the environment.  
-As a favoured language for the sciences, ‘R’ should not throw away an
+As a favoured language for the sciences, should not throw away an
 opportunity to become more efficient.
 
 The `Benchmarks` show that ‘broadcast’ has a somewhat similar speed as
@@ -98,16 +97,21 @@ equivalent operations in ‘Numpy’.
 
 **Convenience**
 
-Broadcasting can make many applications much faster to write and easier
-to reason about.  
-For Example: Suppose you want to compute some metric on all possible
-pair-wise combinations of the elements of 2 vectors.  
-You *could* write slow and ugly nested for-loops…  
-But you can instead also make the vectors orthogonal, and perform the
-broadcasting computation on the 2 orthogonal vectors.  
-The broadcasted method runs **much** faster, is faster to type, and
-easier to reason about, than using the clumsy nested for-loops.  
-For more practical examples, see `Examples of Practical Applictaions`.
+Have you ever been bothered by any of the following:
+
+- Receiving the “non-conformable arrays” error message in a simple
+  operation when it intuitively should work?
+- Receiving the “Error: cannot allocate vector of size” error message
+  because unnecessarily allocates too much memory?
+- Trying to perform a simple operation on all possible combinations,
+  only to find out you need nested loops and/or grid expansions to do
+  something that should be *very* simple?
+- `abind()` being too slow, saying arrays are not conformable, and/or
+  coercing recursive arrays to character arrays?
+- having to convert arrays to data.frames just to be able to cast them?
+
+If you answered “yes” to any of the above, ‘broadcast’ may very well be
+the - package for you!
 
  
 
@@ -131,10 +135,10 @@ Not using external libraries brings a number of advantages:
 - **Ensure consistent behaviour**: Using libraries from other languages
   also means one cannot always guarantee consistent behaviour for some
   operations. For example: both ‘Numpy’ and ‘xtensor’ have only limited
-  support for missing values, whereas ‘R’ supports missing values for
-  both atomic and recursive array/vector types (except type of ‘Raw’).
-  Since ‘broadcast’ does not rely on external libraries, it can ensure
-  behaviour that is consistent with the rest of ‘R’.
+  support for missing values, whereas supports missing values for both
+  atomic and recursive array/vector types (except type of ‘Raw’). Since
+  ‘broadcast’ does not rely on external libraries, it can ensure
+  behaviour that is consistent with the rest of .
 
  
 

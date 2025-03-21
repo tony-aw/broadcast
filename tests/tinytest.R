@@ -1,5 +1,5 @@
 
-if ( requireNamespace("tinytest", quietly=TRUE) ){
+if ( requireNamespace("tinytest", quietly = TRUE) ){
   tinytest::test_package(
     "broadcast", testdir = "tinytest"
   )
@@ -41,6 +41,9 @@ if ( requireNamespace("tinytest", quietly=TRUE) ){
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bind_array_post")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "bind_mat")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "othercast")

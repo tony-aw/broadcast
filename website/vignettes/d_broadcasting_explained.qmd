@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```{r setup, eval=TRUE, echo=FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 library(broadcast)
-library(kableExtra) |> suppressWarnings()
+library(tinytable)
 ```
 
 
@@ -146,8 +146,10 @@ foo <- cbind(
   sprintf("x[%d] + y[%d]", 1:5, 4),
   sprintf("x[%d] + y[%d]", 1:5, 5)
 )
+foo <- as.data.frame(foo)
+colnames(foo) <- NULL
+tt(foo, theme = "grid") |> style_tt(line = "tlbr")
 
-knitr::kable(foo) |> kableExtra::column_spec(1:5, border_left = TRUE, border_right = TRUE)
 
 ```
 
@@ -192,7 +194,10 @@ foo <- cbind(
   sprintf("x[%d] + y[%d, %d]", 1:5, 1:5, 4)
 )
 
-knitr::kable(foo) |> kableExtra::column_spec(1:4, border_left = TRUE, border_right = TRUE)
+foo <- as.data.frame(foo)
+colnames(foo) <- NULL
+tt(foo, theme = "grid") |> style_tt(line = "tlbr")
+
 
 ```
 
@@ -241,7 +246,7 @@ foo <- data.frame(
   check.names = FALSE
 )
 
-knitr::kable(foo) |> kableExtra::column_spec(1:4, border_left = TRUE, border_right = TRUE)
+tt(foo)
 
 ```
 
@@ -270,7 +275,7 @@ foo <- data.frame(
   check.names = FALSE
 )
 
-knitr::kable(foo) |> kableExtra::column_spec(1:4, border_left = TRUE, border_right = TRUE)
+tt(foo)
 
 ```
 
@@ -342,7 +347,7 @@ foo <- data.frame(
   check.names = FALSE
 )
 
-knitr::kable(foo) |> kableExtra::column_spec(1:6, border_left = TRUE, border_right = TRUE)
+tt(foo)
 
 ```
 

@@ -21,7 +21,6 @@ test_make_dims <- function(n) {
 }
 .return_missing <- broadcast:::.return_missing
 
-prec <- sqrt(.Machine$double.eps)
 
 
 # basic tests ====
