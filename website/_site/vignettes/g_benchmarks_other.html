@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>R-package: broadcast - Benchmarks with Numpy+reticulate</title>
+<title>R-package: broadcast - Other benchmarks</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../vignettes/f_benchmarks.html">Benchmarks with Numpy+reticulate</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../vignettes/g_benchmarks_other.html">Other benchmarks</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -184,8 +184,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../vignettes/f_benchmarks.html" class="sidebar-item-text sidebar-link active">
+  <a href="../vignettes/f_benchmarks_numpy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Benchmarks with Numpy+reticulate</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../vignettes/g_benchmarks_other.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Other benchmarks</span></a>
   </div>
 </li>
     </ul>
@@ -199,10 +205,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#keeping-comparisons-fair" id="toc-keeping-comparisons-fair" class="nav-link" data-scroll-target="#keeping-comparisons-fair">Keeping comparisons fair</a></li>
-  <li><a href="#the-set-up" id="toc-the-set-up" class="nav-link" data-scroll-target="#the-set-up">The Set-Up</a></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -211,7 +213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Benchmarks with Numpy+reticulate</h1>
+<h1 class="title">Other benchmarks</h1>
 </div>
 
 
@@ -229,95 +231,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>&nbsp;</p>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>In this article, the speed of ‘broadcast’ is compared to the speed of ‘Numpy’ via {reticulate}.</p>
+<p>In this article, the performance of the <a href="../man/bind.html">bind_array()</a> function from ‘broadcast’ is compared to the performance of the <code>abind()</code> function from the ‘abind’ package.</p>
 <p>&nbsp;</p>
-</section>
-<section id="keeping-comparisons-fair" class="level1">
-<h1>Keeping comparisons fair</h1>
-<p>To keep the comparisons between ‘broadcast’ and ‘Numpy’+‘reticulate’ fair, a number of measures have been taken:</p>
-<ul>
-<li>conversion from Numpy to ‘R’ is DISABLED; this allows for comparing the speed more fairly. When conversion would be enabled, precious time would be wasted to convert from Numpy structures to comparable ‘R’ structures.</li>
-<li>garbage collection is disabled in reticulate’s Python. In ‘R’, only benchmarks with no garbage collection, or level 0 garbage collection, is used. I feel this keeps the comparisons relatively fair (but it’s not perfect).</li>
-<li>‘R’ has more support for missing values than ‘Numpy’, which also leads to a difference in speed. But both ‘R’ and ‘Numpy’ handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in ‘R’ ), through the <code>NaN</code> construct. Therefore, only operations on decimal numbers are compared.</li>
-</ul>
-<p>&nbsp;</p>
-</section>
-<section id="the-set-up" class="level1">
-<h1>The Set-Up</h1>
-<p>8 pairs of decimal number arrays are created in both ‘R’ and ‘Numpy’. They all have a length of (approximately) 9*10^6 elements. Each pair will have a different number of dimensions, from 2 to 9 (hence 8 pairs of arrays). I.e. a pair of 2d arrays, a pair of 3d arrays, etc.</p>
-<p>These pairs of arrays are fully orthogonal, thus the maximum amount of broadcasting will be employed.</p>
-<p>For each pair of array the outer sum is computed using ‘broadcast’ and ‘Numpy’. This computation is repeated 100 times, and the median result is taken.</p>
-<p>Thus we get the following code:</p>
+<p>The following code is used:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set-up ====</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broadcast)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"numpy"</span>, <span class="at">convert =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>gc <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"gc"</span>, <span class="at">convert =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>get_times <span class="ot">&lt;-</span> <span class="cf">function</span>(obj, j) {</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  nms <span class="ot">&lt;-</span> <span class="fu">names</span>(res<span class="sc">$</span>expression)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  j <span class="ot">&lt;-</span> <span class="fu">which</span>(nms <span class="sc">==</span> j)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  idx <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(obj<span class="sc">$</span>gc[[j]][, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]) <span class="sc">==</span> <span class="dv">0</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  times <span class="ot">&lt;-</span> obj<span class="sc">$</span>time[[j]][idx]</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(times)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>gc<span class="sc">$</span><span class="fu">disable</span>()</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># loop</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> median_np <span class="ot">&lt;-</span> q1_bc <span class="ot">&lt;-</span> q1_np <span class="ot">&lt;-</span> q3_bc <span class="ot">&lt;-</span> q3_np <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="dv">8</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> 1L</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>target_len <span class="ot">&lt;-</span> <span class="fl">9e6</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>) {</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">round</span>(target_len<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>i)) <span class="sc">|&gt;</span> <span class="fu">as.integer</span>()</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  len <span class="ot">&lt;-</span> n<span class="sc">^</span>i</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"i = "</span>, i, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"n = "</span>, n, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"len = "</span>, len, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, 1L), i <span class="sc">-</span> <span class="dv">1</span>)[<span class="dv">1</span><span class="sc">:</span>i]</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(1L, n), i <span class="sc">-</span> <span class="dv">1</span>)[<span class="dv">1</span><span class="sc">:</span>i]</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  a.dims <span class="ot">&lt;-</span> rt<span class="sc">$</span><span class="fu">r_to_py</span>(<span class="fu">as.list</span>(x.dims))</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  b.dims <span class="ot">&lt;-</span> rt<span class="sc">$</span><span class="fu">r_to_py</span>(<span class="fu">as.list</span>(y.dims))</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  npa <span class="ot">&lt;-</span> np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">random_sample</span>(a.dims)</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  npb <span class="ot">&lt;-</span> np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">random_sample</span>(b.dims)</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), x.dims)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), y.dims)</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">broadcast =</span> <span class="fu">bc.num</span>(a, b, <span class="st">"+"</span>),</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">numpy (NO conversion to R)</span><span class="st">`</span> <span class="ot">=</span> npa <span class="sc">+</span> npb,</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">check =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_iterations =</span> <span class="dv">100</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  bc_all <span class="ot">&lt;-</span> <span class="fu">get_times</span>(res, <span class="st">"broadcast"</span>)</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  np_all <span class="ot">&lt;-</span> <span class="fu">get_times</span>(res, <span class="st">"numpy (NO conversion to R)"</span>)</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  median_bc[counter] <span class="ot">&lt;-</span> <span class="fu">median</span>(bc_all)</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  median_np[counter] <span class="ot">&lt;-</span> <span class="fu">median</span>(np_all)</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  q1_bc[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(bc_all, <span class="fl">0.25</span>)</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  q3_bc[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(bc_all, <span class="fl">0.75</span>)</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  q1_np[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(np_all, <span class="fl">0.25</span>)</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  q3_np[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(np_all, <span class="fl">0.75</span>)</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> 1L</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>along <span class="ot">&lt;-</span> 2L</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> 150L</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>nms <span class="ot">&lt;-</span> <span class="cf">function</span>(n) <span class="fu">sample</span>(letters, n, <span class="cn">TRUE</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">as.double</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>), <span class="fu">c</span>(n, n, n))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">as.double</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">:-</span><span class="dv">25</span>), <span class="fu">c</span>(n, n, n))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">dim</span>(x), nms)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(y) <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">dim</span>(y), nms)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">list</span>(x, y)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>bm_abind <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">abind =</span> abind<span class="sc">::</span><span class="fu">abind</span>(input, <span class="at">along =</span> <span class="dv">2</span>),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">broadcast =</span> <span class="fu">bind_array</span>(input, <span class="dv">2</span>),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">cbind =</span> <span class="fu">do.call</span>(cbind, input),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_iterations =</span> <span class="dv">100</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">check =</span> <span class="cn">FALSE</span> <span class="co"># because abind adds empty dimnames</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bm_abind)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bm_abind)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>&nbsp;</p>
-</section>
-<section id="results" class="level1">
-<h1>Results</h1>
-<p>Using {tinyplot}, the median, first quartile, and third quartile of the bench-marked computation times are presented in the following graph:</p>
+<p>And here are the results:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"bm_abind.RData"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bm_abind)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A data frame: 3 × 6</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   expression      min   median `itr/sec` mem_alloc `gc/sec`</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;bch:expr&gt; &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 abind          69ms   79.5ms      11.0   206.3MB     12.9</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 broadcast    23.5ms   30.9ms      28.0   103.4MB     22.7</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 cbind         9.6ms   10.2ms      76.9    51.5MB     13.8</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bm_abind)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required namespace: tidyr</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="f_benchmarks_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="768"></p>
+<p><img src="g_benchmarks_other_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="768"></p>
 </div>
 </div>
-<p>&nbsp;</p>
-</section>
-<section id="conclusion" class="level1">
-<h1>Conclusion</h1>
-<p>For arrays with a low number of dimensions, ‘Numpy’ is a bit faster than ‘broadcast’. As the number of dimensions increases, however, ‘broadcast’ beats the speed of ‘Numpy’. Either direction the differences are rather small, however, and one can say in general that ‘broadcast’ and ‘Numpy’ have somewhat similar speeds.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 

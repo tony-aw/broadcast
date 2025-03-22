@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```{r setup, eval=TRUE, echo=FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 library(broadcast)
-library(tinytable)
+library(tinytable) |> suppressWarnings()
 ```
 
 
@@ -351,14 +351,6 @@ tt(foo)
 
 ```
 
-
-&nbsp;
-
-# Dimensionless Vectors
-
-The functions in 'broadcast' treat dimensionless vectors are treated as 1-dimensional column-vectors. This is analogous to standard linear algebraic convention, where an vector of unspecified orientation is taken to be a column-vector.
-
-I.e. `1:10` is the same as `array(1:10, dim = c(10))`.
 
 &nbsp;
 

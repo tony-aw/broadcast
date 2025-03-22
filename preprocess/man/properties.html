@@ -23,10 +23,6 @@ function processMathHTML() {
 <p><code>ndim()</code> returns the number of dimensions of an object. <br />
 <code>lst.ndim()</code> returns the number of dimensions of every list-element. <br />
 <code>lst.typeof()</code> returns the (internal) type of every list-element. <br />
-<code>len()</code> is an alias for <code>length</code>. <br />
-<code>lst.len()</code> is an alias for <code>lengths</code>. <br />
-<br />
-These functions were all designed to be efficient. <br />
 <br />
 </p>
 
@@ -54,7 +50,9 @@ For functions starting with <code>lst.</code>, <code>x</code> must be a list (i.
 
 <h3>Value</h3>
 
-<p>An integer scalar
+<p>For <code>ndim()</code>: an integer scalar. <br />
+For <code>lst.ndim()</code>: an integer vector, with the same length, names and dimensions as <code>x</code>. <br />
+For <code>lst.typeof()</code>: a character vector, with the same length, names and dimensions as <code>x</code>. <br />
 </p>
 
 

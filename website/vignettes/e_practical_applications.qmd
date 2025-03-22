@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
 
 ```{r setup, echo=FALSE, eval=TRUE}
 library(broadcast)
+library(fontawesome) |> suppressWarnings()
 ```
 
 
@@ -21,12 +22,131 @@ library(broadcast)
 
 Broadcasting comes up frequent enough in real world problems. This articles gives a few examples of these.
 
+&nbsp;
+
+# Simple outer computarions
+
+Outer computations is a common set of operations used in Linear Algebra, and base `r fa("r-project")` provides the `outer()` function to facilitate such computations. But `outer()` is not at all an efficient function.
+
+'broadcast' provides a set of outer-like functions that are very fast and memory efficient.
+
+
+&nbsp;
+
+# Binding arrays along an arbitrary dimension
+
+The `abind()` function, from the package of the same name, allows one to bind arrays along any arbitrary dimensions (not just along rows or columns).  
+Unfortunately, `abind()` does not support broadcasting, which can lead to frustrations such as the following:
+
+```{r echo=TRUE, eval=FALSE}
+x <- array(1:27, c(3,3,3))
+y <- array(1L, c(3,3,1))
+abind::abind(x, y, along = 2)
+
+#> Error in abind(x, y, along = 2) : 
+#>  arg 'X2' has dims=3, 3, 1; but need dims=3, X, 3
+```
+
+Here, `abind()` is complaining about the dimensions not fitting perfectly.  
+But intuitively, binding `x` and `y` should be possible, with dimension `3` from array `y` being broadcasted to size 3.
+
+The [bind_array()](/man/bind.qmd) function provided by the 'broadcast' package can bind the arrays without problems:
+
+```{r echo=TRUE, eval=TRUE}
+x <- array(1:27, c(3,3,3))
+y <- array(1L, c(3,3,1))
+bind_array(list(x, y), 2)
+```
+
+[bind_array()](/man/bind.qmd) is also considerably faster and more memory efficient than `abind()`.
+
+&nbsp;
+
+# Array casting
+
+## Casting with equal group sizes
+
+Suppose you read the following matrix from a file:
+
+```{r}
+x <- cbind(
+  id = rep(1:3, each = 2),
+  grp = rep(1:2, 3),
+  val = rnorm(6)
+)
+print(x)
+```
+
+For computing purposes, you may need the rows of each group - defined in column "grp" - to be cast to a new dimension.
+
+'broadcast' allows users to cast subsets of an array onto a new dimension, based on some grouping factor.
+In this case, the following will do the job:
+
+```{r}
+margin <- 1L # we cast from the rows, so margin = 1
+grp <- as.factor(x[, 2]) # factor to define which rows belongs to which group
+levels(grp) <- c("a", "b") # names for the new dimension
+out <- acast(x, margin, grp) # casting is performed here
+print(out)
+```
+
+Notice that the dimension-names of the new dimension (dimension 3) are equal to `levels(grp)`.
+
+Perhaps you'd like to get the original array back when you're done computing; one can get the original array back like so:
+
+```{r}
+asplit(out, ndim(out)) |> bind_array(along = margin)
+```
+
+...though the order of, in this case, the rows (because `margin = 1`) will not necessarily be the same as the original array.
+
+
+&nbsp;
+
+
+## Casting with unequal group sizes
+
+The casting arrays also works when the groups have unequal sizes, though there are a few things to keep in mind.
+
+Let's start again with the input array:
+
+```{r}
+x <- cbind(
+  id = c(rep(1:3, each = 2), 1),
+  grp = c(rep(1:2, 3), 2),
+  val = rnorm(7)
+)
+print(x)
+```
+
+Once again, the [acast()](/man/acast.qmd) function can be used to cast the group subsets from the rows over a new dimension. But this time, we need to specify `fill = TRUE` to allow [acast()](/man/acast.qmd) to fill the gaps, otherwise an error is called.
+
+Thus one can cast in this case like so:
+
+```{r}
+grp <- as.factor(x[, 2])
+levels(grp) <- c("a", "b")
+margin <- 1L
+out <- acast(x, margin, grp, fill = TRUE)
+print(out)
+```
+
+Notice that some values are missing ( `NA` ); if some groups have unequal number of elements, [acast()](/man/acast.qmd) needs to fill the gaps with missing values.
+
+Once again, we can get the original array back when we're done like so:
+
+```{r}
+asplit(out, ndim(out)) |> bind_array(along = margin)
+```
+
+... but we do keep the missing values when the groups have an unequal number of elements.
+
 
 &nbsp;
 
 # Vector quantization
 
-This first example is taken from Numpy's own documentation.
+Here is an example taken from Numpy's own online documentation.
 
 The basic operation in Vector Quantization (VQ) finds the closest point in a set of points, called codes in VQ jargon, to a given point, called the observation. In the very simple, two-dimensional case shown below, the values in observation describe the weight and height of an athlete to be classified. The codes represent different classes of athletes. Finding the closest point requires calculating the distance between observation and each of the codes. The shortest distance provides the best match. In this example, `codes[1]` is the closest class indicating that the athlete is likely a basketball player.
 
@@ -41,7 +161,7 @@ codes <- array(
   dim = c(4, 2)
 )
 
-diff <- bc.num(codes, observation, "-")
+diff <- bc.num(codes, observation, "-") # broadcasting happens here
 dist <- matrixStats::colSums2(diff^2) |> sqrt()
 which.min(dist) |> print()
 codes[1] |> print()

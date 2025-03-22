@@ -49,8 +49,8 @@ inline double rcpp_int53_guard(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_gcd_rec)]]
-long long rcpp_gcd_rec(
+// [[Rcpp::export(.rcpp_int53_gcd_rec)]]
+long long rcpp_int53_gcd_rec(
   long long x, long long y
 ) {
 
@@ -67,16 +67,16 @@ long long rcpp_gcd_rec(
     return a;
   }
   if (a > b) {
-    return rcpp_gcd_rec(a - b, b);
+    return rcpp_int53_gcd_rec(a - b, b);
   }
-  return rcpp_gcd_rec(a, b - a);
+  return rcpp_int53_gcd_rec(a, b - a);
 }
 
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_gcd)]]
-double rcpp_gcd(
+// [[Rcpp::export(.rcpp_int53_gcd)]]
+double rcpp_int53_gcd(
   double x, double y
 ) {
   
@@ -90,10 +90,31 @@ double rcpp_gcd(
     return x;
   }
   
-  return rcpp_gcd_rec((long long) x, (long long) y);
+  return rcpp_int53_gcd_rec((long long) x, (long long) y);
 }
 
 
+inline double rcpp_int53_mod(double x, double y, double intmin, double intmax) {
+  if(y == 0) {
+    return R_NaN;
+  }
+  if(MACRO_OVERFLOW(x)) {
+    return R_NaN;
+  }
+  if(MACRO_OVERFLOW(y) && fabs(x) <= fabs(y)) {
+    double out1 = (fabs(x) == fabs(y)) ? 0 :
+	    ((x < 0 && y > 0) ||
+	     (y < 0 && x > 0))
+	     ? x+y  // differing signs
+	     : x;
+	   return out1;
+  }
+  
+  double q = x / y;
+  double tmp = x - floor(q) * y;
+  double out = (double) (tmp - floorl(tmp / y) * y);
+  return out;
+}
 
 
 

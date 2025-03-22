@@ -23,28 +23,28 @@ If <code>input</code> has length <code>1</code>, these functions simply return <
 ### Differences with <code>abind()</code>, <code>rbind()</code>/<code>cbind()</code>
 
 The API of <code>bind_array()</code> is inspired by the fantastic
-<code>abind::</code>abind function
+<code>abind::abind</code> function
 by Tony Plare &amp; Richard Heiberger (2016). <br />
-But <code>bind_array()</code> differs considerably from <code>abind::</code>abind
+But <code>bind_array()</code> differs considerably from <code>abind::abind</code>
 in the following ways:
 
 
 <ul>
-<li> <code>bind_array()</code> differs from <code>abind::</code>abind
+<li> <code>bind_array()</code> differs from <code>abind::abind</code>
 in that it can handle recursive arrays properly <br />
-(the <code>abind::</code>abind function would unlist everything to atomic arrays,
+(the <code>abind::abind</code> function would unlist everything to atomic arrays,
 ruining the structure).
 
 </li>
 <li> <code>bind_array()</code> allows for broadcasting,
-while <code>abind::</code>abind does not support broadcasting.
+while <code>abind::abind</code> does not support broadcasting.
 
 </li>
-<li> <code>bind_array()</code> is generally faster than <code>abind::</code>abind,
+<li> <code>bind_array()</code> is generally faster than <code>abind::abind</code>,
 as <code>bind_array()</code> relies heavily on 'C' and 'C++' code.
 
 </li>
-<li> unlike <code>abind::</code>abind,
+<li> unlike <code>abind::abind</code>,
 <code>bind_array()</code> only binds (atomic/recursive) arrays and matrices. <br />
 <code>bind_array()</code>does not attempt to convert things to arrays when they are not arrays,
 but will give an error instead. <br />
@@ -52,12 +52,12 @@ This saves computation time and prevents unexpected results.
 
 </li>
 <li> <code>bind_array()</code> has more streamlined naming options,
-compared to <code>abind::</code>abind. <br /> <br />
+compared to <code>abind::abind</code>. <br /> <br />
 
 </li></ul>
 
-<code>bind_mat()</code> is a modified version of rbind/cbind. <br />
-<code>bind_mat()</code> differs from rbind/cbind in the following ways:
+<code>bind_mat()</code> is a modified version of base R's <code>rbind()</code>/<code>cbind()</code> functions. <br />
+<code>bind_mat()</code> differs from <code>rbind()</code>/<code>cbind()</code> in the following ways:
 
 
 <ul>
@@ -65,20 +65,8 @@ compared to <code>abind::</code>abind. <br /> <br />
 
 </li>
 <li> <code>bind_mat()</code> gives an error when fractional recycling is attempted
-(like binding  <code>1:3</code> with <code>1:10</code>).
-
-</li>
-<li> <code>bind</code>
-The primary differences is that  <br /> <br />
-<br />
+(like binding  <code>1:3</code> with <code>1:10</code>). <br /> <br />
 
 </li></ul>
-
-
-
-### Naming
-
-... <br />
-<br />
 
 

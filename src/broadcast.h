@@ -87,7 +87,7 @@
 
 
 
-#define MACRO_ACTION_INTEGER_MOD1(NACHECK, NACODE, DOCODE) do {      \
+#define MACRO_ACTION_INTEGER_GCD1(NACHECK, NACODE, DOCODE) do {      \
   if(NACHECK) {                                                   \
     NACODE;                                                     \
   }                                                             \
@@ -99,7 +99,7 @@
 
 
 
-#define MACRO_ACTION_INTEGER_MOD2(NACHECK, RULECHECK, NACODE, RULECODE, DOCODE) do {      \
+#define MACRO_ACTION_INTEGER_GCD2(NACHECK, RULECHECK, NACODE, RULECODE, DOCODE) do {      \
   if(NACHECK) {                                                   \
     NACODE;                                                     \
   }                                                                 \
@@ -564,14 +564,14 @@
 
 
 
-#define MACRO_TYPESWITCH_INTEGER_MOD(DIMCODE, NACODE, RULECODE, DOCODE) do {      \
+#define MACRO_TYPESWITCH_INTEGER_GCD(DIMCODE, NACODE, RULECODE, DOCODE) do {      \
   bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
   bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
   if(xint && yint) {                                        \
     const int *px = INTEGER_RO(x);                                        \
     const int *py = INTEGER_RO(y);                                        \
     DIMCODE(                                                          \
-      MACRO_ACTION_INTEGER_MOD1(                                           \
+      MACRO_ACTION_INTEGER_GCD1(                                           \
         px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
         NACODE,                                               \
         DOCODE                                                \
@@ -582,7 +582,7 @@
     const int *px = INTEGER_RO(x);                                        \
     const double *py = REAL_RO(y);                                           \
     DIMCODE(                                                          \
-      MACRO_ACTION_INTEGER_MOD2(                                           \
+      MACRO_ACTION_INTEGER_GCD2(                                           \
         px[flatind_x] == NA_INTEGER || R_isnancpp(py[flatind_y]),  \
         MACRO_OVERFLOW(py[flatind_y]),           \
         NACODE,                                               \
@@ -595,7 +595,7 @@
     const double *px = REAL_RO(x);                                           \
     const int *py = INTEGER_RO(y);                                        \
     DIMCODE(                                                          \
-      MACRO_ACTION_INTEGER_MOD2(                                           \
+      MACRO_ACTION_INTEGER_GCD2(                                           \
         R_isnancpp(px[flatind_x]) || py[flatind_y] == NA_INTEGER,  \
         MACRO_OVERFLOW(px[flatind_x]),           \
         NACODE,                                               \
@@ -608,7 +608,7 @@
     const double *px = REAL_RO(x);                                           \
     const double *py = REAL_RO(y);                                           \
     DIMCODE(                                                          \
-      MACRO_ACTION_INTEGER_MOD2(                                           \
+      MACRO_ACTION_INTEGER_GCD2(                                           \
         R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
         MACRO_OVERFLOW(px[flatind_x]) || MACRO_OVERFLOW(py[flatind_y]),           \
         NACODE,                                               \
@@ -893,15 +893,24 @@
     }	\
     case 4:	\
     {	\
-      MACRO_TYPESWITCH_INTEGER_MOD(	\
+      MACRO_TYPESWITCH_INTEGER_GCD(	\
         DIMCODE,	\
         MACRO_ASSIGN_C(NA_REAL),	\
         MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C((double)rcpp_gcd(px[flatind_x], py[flatind_y]))	\
+        MACRO_ASSIGN_C((double)rcpp_int53_gcd(px[flatind_x], py[flatind_y]))	\
       );    \
       break;	\
     }	\
     case 5:	\
+    {	\
+      MACRO_TYPESWITCH_INTEGER1(	\
+          DIMCODE,	\
+          MACRO_ASSIGN_C(NA_REAL),	\
+          MACRO_ASSIGN_C(rcpp_int53_mod(e1, e2, intmin, intmax))	\
+        );	\
+      break;	\
+    }	\
+    case 6:	\
     {	\
       MACRO_TYPESWITCH_INTEGER2(	\
         DIMCODE,	\
@@ -912,7 +921,7 @@
       );	\
       break;	\
     }	\
-    case 6:	\
+    case 7:	\
     {	\
       MACRO_TYPESWITCH_INTEGER1(	\
         DIMCODE,	\
@@ -921,7 +930,7 @@
       );	\
       break;	\
     }	\
-    case 7:	\
+    case 8:	\
     {	\
       MACRO_TYPESWITCH_INTEGER1(	\
         DIMCODE,	\

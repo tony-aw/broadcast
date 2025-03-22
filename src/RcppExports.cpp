@@ -733,27 +733,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_gcd_rec
-long long rcpp_gcd_rec(long long x, long long y);
-RcppExport SEXP _broadcast_rcpp_gcd_rec(SEXP xSEXP, SEXP ySEXP) {
+// rcpp_int53_gcd_rec
+long long rcpp_int53_gcd_rec(long long x, long long y);
+RcppExport SEXP _broadcast_rcpp_int53_gcd_rec(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< long long >::type x(xSEXP);
     Rcpp::traits::input_parameter< long long >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_gcd_rec(x, y));
+    rcpp_result_gen = Rcpp::wrap(rcpp_int53_gcd_rec(x, y));
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_gcd
-double rcpp_gcd(double x, double y);
-RcppExport SEXP _broadcast_rcpp_gcd(SEXP xSEXP, SEXP ySEXP) {
+// rcpp_int53_gcd
+double rcpp_int53_gcd(double x, double y);
+RcppExport SEXP _broadcast_rcpp_int53_gcd(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< double >::type x(xSEXP);
     Rcpp::traits::input_parameter< double >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_gcd(x, y));
+    rcpp_result_gen = Rcpp::wrap(rcpp_int53_gcd(x, y));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1197,8 +1197,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bc_ifelse_ov", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_ov, 6},
     {"_broadcast_rcpp_bc_ifelse_bs", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_bs, 10},
     {"_broadcast_rcpp_bc_ifelse_d", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_d, 9},
-    {"_broadcast_rcpp_gcd_rec", (DL_FUNC) &_broadcast_rcpp_gcd_rec, 2},
-    {"_broadcast_rcpp_gcd", (DL_FUNC) &_broadcast_rcpp_gcd, 2},
+    {"_broadcast_rcpp_int53_gcd_rec", (DL_FUNC) &_broadcast_rcpp_int53_gcd_rec, 2},
+    {"_broadcast_rcpp_int53_gcd", (DL_FUNC) &_broadcast_rcpp_int53_gcd, 2},
     {"_broadcast_rcpp_bc_int_v", (DL_FUNC) &_broadcast_rcpp_bc_int_v, 4},
     {"_broadcast_rcpp_bc_int_ov", (DL_FUNC) &_broadcast_rcpp_bc_int_ov, 6},
     {"_broadcast_rcpp_bc_int_bs", (DL_FUNC) &_broadcast_rcpp_bc_int_bs, 10},

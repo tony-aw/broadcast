@@ -200,8 +200,8 @@ expect_equivalent(
 )
 
 foo <- bench::mark(
-  abind = abind::abind(input, along = along),
-  bc = .internal_bind_array(input, along, 1L, TRUE, sys.call()),
+  abind = abind::abind(input, along = 2),
+  bc = bind_array(input, 2),
   cbind = do.call(cbind, input),
   min_iterations = 100,
   check = FALSE # because abind adds empty dimnames

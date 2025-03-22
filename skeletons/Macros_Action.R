@@ -1,5 +1,9 @@
 library(stringi)
 
+################################################################################
+# General ====
+#
+
 macro_action1 <- "
 
 #define MACRO_ACTION1(DOCODE) do {      \\
@@ -8,11 +12,6 @@ macro_action1 <- "
 
 "
 
-macro_overflow <- "
-
-#define MACRO_OVERFLOW(REF) ((REF) < intmin || (REF) > intmax)
-
-"
 
 
 macro_action2 <- "
@@ -61,6 +60,24 @@ macro_action4 <- "
 
 "
 
+macro_doublepass <- "
+#define MACRO_DOUBLEPASS(MACRO1, MACRO2) do{  \\
+  MACRO1;                                     \\
+  MACRO2;                                     \\
+} while(0)
+"
+
+
+################################################################################
+# Integer ====
+#
+
+
+macro_overflow <- "
+
+#define MACRO_OVERFLOW(REF) ((REF) < intmin || (REF) > intmax)
+
+"
 
 macro_action_integer1 <- "
 
@@ -99,9 +116,9 @@ macro_action_integer2 <- "
 
 
 
-macro_action_integer_mod1 <- "
+macro_action_integer_gcd1 <- "
 
-#define MACRO_ACTION_INTEGER_MOD1(NACHECK, NACODE, DOCODE) do {      \\
+#define MACRO_ACTION_INTEGER_GCD1(NACHECK, NACODE, DOCODE) do {      \\
   if(NACHECK) {                                                   \\
     NACODE;                                                     \\
   }                                                             \\
@@ -112,9 +129,9 @@ macro_action_integer_mod1 <- "
 
 "
 
-macro_action_integer_mod2 <- "
+macro_action_integer_gcd2 <- "
 
-#define MACRO_ACTION_INTEGER_MOD2(NACHECK, RULECHECK, NACODE, RULECODE, DOCODE) do {      \\
+#define MACRO_ACTION_INTEGER_GCD2(NACHECK, RULECHECK, NACODE, RULECODE, DOCODE) do {      \\
   if(NACHECK) {                                                   \\
     NACODE;                                                     \\
   }                                                                 \\
@@ -130,12 +147,11 @@ macro_action_integer_mod2 <- "
 
 
 
-macro_doublepass <- "
-#define MACRO_DOUBLEPASS(MACRO1, MACRO2) do{  \\
-  MACRO1;                                     \\
-  MACRO2;                                     \\
-} while(0)
-"
+################################################################################
+# Boolean ====
+#
+
+
 
 macro_action_boolean <- "
 #define MACRO_ACTION_BOOLEAN(XREF, YREF, PRECHECK, PRECODE, NACODE, DOCODE) do { \\
@@ -172,6 +188,11 @@ macro_action_boolean_rel <- "
 "
 
 
+
+################################################################################
+# Generic Method  ====
+#
+
 macro_action_vapply <- "
 #define MACRO_ACTION_VAPPLY(ASSIGNCODE, ERRORCHECK, ERRORCODE, DOCODE) do { \\
   ASSIGNCODE;   \\
@@ -183,6 +204,12 @@ macro_action_vapply <- "
   } \\
 } while(0)
 "
+
+
+
+################################################################################
+# Save ====
+#
 
 macro_action <- stri_c(
   macro_overflow,
@@ -199,9 +226,9 @@ macro_action <- stri_c(
   "\n",
   macro_action_integer2,
   "\n",
-  macro_action_integer_mod1,
+  macro_action_integer_gcd1,
   "\n",
-  macro_action_integer_mod2,
+  macro_action_integer_gcd2,
   "\n",
   macro_action_boolean,
   "\n",

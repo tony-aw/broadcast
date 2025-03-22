@@ -13,26 +13,21 @@ The following implementations are available:
 
 <ul>
 <li> <code>bind_mat()</code> binds dimensionless (atomic/recursive) vectors and (atomic/recursive) matrices row- or column-wise. <br />
-Allows for recycling.
+Returns a matrix. <br />
+Allows for linear/vector recycling.
 
 </li>
 <li> <code>bind_array()</code> binds (atomic/recursive) arrays and (atomic/recursive) matrices. <br />
+Returns an array. <br />
 Allows for broadcasting.
 
 </li>
 <li> <code>bind_dt()</code> binds data.tables and other data.frame-like objects. <br />
-This function is only available if the 'data.table' package is installed. <br />
 Returns a <code>data.table</code>. <br />
-Faster than <code>do.call(cbind, ...)</code> or <code>do.call(rbind, ...)</code> for regular <code>data.frame</code> objects. <br />
+This function is only available if the 'data.table' package is installed. <br />
+The <code>bind_dt()</code> function is faster than <code>do.call(cbind, ...)</code> or <code>do.call(rbind, ...)</code> for regular <code>data.frame</code> objects. <br />
 
 </li></ul>
-
-Note that the naming convention of the binding implementations here is
-&quot;bind_&quot; followed by the <b>resulting class</b> (abbreviated). <br />
-I.e. <code>bind_mat</code> <b>returns</b> a matrix, but can bind both matrices and vectors. <br />
-And <code>bind_array</code> <b>returns</b> an array, but can bind both arrays and matrices. <br />
-And <code>bind_dt</code> <b>returns</b> a data.table, but can bind not only data.tables,
-but also most other data.frame-like objects. <br /> <br />
 
 
 
@@ -120,7 +115,7 @@ Indicates if dimension <code>along</code> should be named.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-arguments to be passed to rbindlist. <br /> <br />
+arguments to be passed to <code>data.table::rbindlist()</code>. <br /> <br />
 </td></tr>
 </table>
 

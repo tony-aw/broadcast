@@ -6,85 +6,25 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 
-# overflow ====
-expect_equal(
-  bc.i(2^54, 1, "+") |> drop(),
-  Inf
-)
 
-expect_equal(
-  bc.i(-2^54, 1, "-") |> drop(),
-  -Inf
-)
-enumerate <- enumerate + 2L
-
-
-# gcd simple ====
-gcd <- function(x,y) { # straight-forward definition of gcd, for testing
-  r <- x %% y
-  return(ifelse(r, gcd(y, r), y))
-}
-
-expect_equal(
-  bc.i(10, 8, "gcd") |> drop(),
-  2
-)
-expect_equal(
-  bc.i(-10, 8, "gcd") |> drop(),
-  2
-)
-expect_equal(
-  bc.i(10, -8, "gcd") |> drop(),
-  2
-)
-
-x <- sample(1:100, 10)
-y <- sample(1:100, 10)
-expect_equal(
-  bc.i(x, y, "gcd"),
-  gcd(x, y) |> as.array()
-)
-enumerate <- enumerate + 4L
-
-
-
-# gcd with zero ====
-expect_equal(
-  bc.i(0, 0, "gcd") |> drop(),
-  NA_real_
-)
-samp <- sample(1:100, 10) * c(-1, 1)
-for(i in samp) {
-  expect_equal(
-    bc.i(i, 0, "gcd") |> drop(),
-    i
-  ) |> errorfun()
-  expect_equal(
-    bc.i(0, i, "gcd") |> drop(),
-    i
-  ) |> errorfun()
-  enumerate <- enumerate + 2L
-}
-
-
-# gcd with NAs and Infs ====
+# mod with datatypes ====
 
 x.data <- list(
-  NA,
-  NA_integer_,
-  c(Inf, -Inf, NA, NaN)
+  sample(c(TRUE, FALSE, NA), 10, TRUE),
+  sample(c(-100:100, NA), 10, TRUE),
+  sample(c(-100:100, -Inf, Inf, NA, NaN), 10, TRUE)
 )
 y.data <- list(
-  NA,
-  NA_integer_,
-  c(Inf, -Inf, NA, NaN)
+  sample(c(TRUE, FALSE, NA), 10, TRUE),
+  sample(c(-100:100, NA), 10, TRUE),
+  sample(c(-100:100, -Inf, Inf, NA, NaN), 10, TRUE)
 )
 for(i in seq_along(x.data)) {
   for(j in seq_along(y.data)) {
     x <- array(x.data[[i]])
     y <- array(y.data[[j]])
-    out <- bc.i(x, y, "gcd")
-    expect <- rep(NA_real_, length(out)) |> array()
+    out <- bc.i(x, y, "%%")
+    expect <- array(trunc(x) %% trunc(y))
     expect_equal(
       expect, out
     ) |> errorfun()
@@ -93,32 +33,7 @@ for(i in seq_along(x.data)) {
 }
 
 
-
-# gcd with datatypes ====
-
-x.data <- list(
-  sample(1:100, 10),
-  sample(1:100, 10) |> as.double()
-)
-y.data <- list(
-  sample(1:100, 10),
-  sample(1:100, 10) |> as.double()
-)
-for(i in seq_along(x.data)) {
-  for(j in seq_along(y.data)) {
-    x <- array(x.data[[i]])
-    y <- array(y.data[[j]])
-    out <- bc.i(x, y, "gcd")
-    expect <- gcd(as.integer(x), as.integer(y)) |> as.array()
-    expect_equal(
-      expect, out
-    ) |> errorfun()
-    enumerate <- enumerate + 1L
-  }
-}
-
-
-# gcd with dimensions ====
+# mod with dimensions ====
 
 test_make_dims <- function(n) {
   
@@ -138,7 +53,11 @@ test_make_dims <- function(n) {
 
 nres <- 5 * 5 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "gcd"
+op <- "%%"
+
+basefun <- function(x, y) {
+  trunc(x) %% trunc(y)
+}
 
 i <- 1L
 
@@ -163,28 +82,28 @@ for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     # DO TESTS BY CASE:
     if(is.null(tdim)) {
       # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-      expected[[i]] <- gcd(as_dbl(drop(x)), as_dbl(drop(y)))
+      expected[[i]] <- basefun(as_dbl(drop(x)), as_dbl(drop(y)))
       attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
       out[[i]] <- bc.i(x, y, op)
     }
     else if(length(y) == 1L && length(x) == 1L) {
       # CASE 2: x and y are both scalar arrays
-      expected[[i]] <- gcd(as.double(x), as.double(y))
+      expected[[i]] <- basefun(as.double(x), as.double(y))
       out[[i]] <- bc.i(x, y, op)
     }
     else if(length(x) == 1L && length(y) > 1L) {
       # CASE 3: x is scalar, y is not
-      expected[[i]] <- gcd(as.double(x), rep_dim(as_dbl(y), tdim))
+      expected[[i]] <- basefun(as.double(x), rep_dim(as_dbl(y), tdim))
       out[[i]] <- bc.i(x, y, op)
     }
     else if(length(y) == 1L && length(x) > 1L) {
       # CASE 4: y is scalar, x is not
-      expected[[i]] <- gcd(rep_dim(as_dbl(x), tdim), as.double(y))
+      expected[[i]] <- basefun(rep_dim(as_dbl(x), tdim), as.double(y))
       out[[i]] <- bc.i(x, y, op)
     }
     else {
       # CASE 5: x and y are both non-reducible arrays
-      expected[[i]] <- gcd(rep_dim(as_dbl(x), tdim), rep_dim(as_dbl(y), tdim))
+      expected[[i]] <- basefun(rep_dim(as_dbl(x), tdim), rep_dim(as_dbl(y), tdim))
       out[[i]] <- bc.i(x, y, op)
     }
     # END CASES

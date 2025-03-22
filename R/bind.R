@@ -52,7 +52,7 @@
 #' When binding columns of matrices, the matrices will share the same rownames. \cr
 #' Using `comnames_from = 10` will then result in `bind_array()` using
 #' `rownames(input[[10]])` for the rownames of the output.
-#' @param ... arguments to be passed to \link[data.table]{rbindlist}. \cr \cr
+#' @param ... arguments to be passed to `data.table::rbindlist()`. \cr \cr
 #' 
 #' @details
 #' For in-depth information about the binding implentations in the 'broadcast' package,
@@ -120,7 +120,7 @@ bind_mat <- function(
     }
   }
   
-  # main function::
+  # main function:
   name_deparse <- as.integer(name_deparse)
   if(along == 1L) {
     out <- do.call(rbind, c(input2, list(deparse.level = name_deparse)))

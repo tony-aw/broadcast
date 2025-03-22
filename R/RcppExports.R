@@ -255,14 +255,14 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
-.rcpp_gcd_rec <- function(x, y) {
-    .Call(`_broadcast_rcpp_gcd_rec`, x, y)
+.rcpp_int53_gcd_rec <- function(x, y) {
+    .Call(`_broadcast_rcpp_int53_gcd_rec`, x, y)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_gcd <- function(x, y) {
-    .Call(`_broadcast_rcpp_gcd`, x, y)
+.rcpp_int53_gcd <- function(x, y) {
+    .Call(`_broadcast_rcpp_int53_gcd`, x, y)
 }
 
 #' @keywords internal

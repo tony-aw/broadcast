@@ -18,16 +18,14 @@ lst.typeof(x)
 For functions starting with \code{lst.}, \code{x} must be a list (i.e. recursive vector or recursive array). \cr}
 }
 \value{
-An integer scalar
+For \code{ndim()}: an integer scalar. \cr
+For \code{lst.ndim()}: an integer vector, with the same length, names and dimensions as \code{x}. \cr
+For \code{lst.typeof()}: a character vector, with the same length, names and dimensions as \code{x}. \cr
 }
 \description{
 \code{ndim()} returns the number of dimensions of an object. \cr
 \code{lst.ndim()} returns the number of dimensions of every list-element. \cr
 \code{lst.typeof()} returns the (internal) type of every list-element. \cr
-\code{len()} is an alias for \code{length}. \cr
-\code{lst.len()} is an alias for \code{lengths}. \cr
-\cr
-These functions were all designed to be efficient. \cr
 \cr
 }
 \examples{

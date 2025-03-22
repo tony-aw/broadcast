@@ -10,7 +10,7 @@ bc.i(x, y, op)
 \item{x, y}{conformable logical or numeric arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported arithmetic operators: +, -, *, gcd, ^, pmin, pmax. \cr
+Supported arithmetic operators: +, -, *, gcd, \%\%, ^, pmin, pmax. \cr
 Supported relational operators: ==, !=, <, >, <=, >=. \cr}
 }
 \value{

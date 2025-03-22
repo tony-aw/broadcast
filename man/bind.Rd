@@ -64,7 +64,7 @@ If \code{ndim2bc = 0L}, \bold{no} broadcasting will be allowed at all.}
 \item{name_along}{Boolean, for \code{bind_array()}. \cr
 Indicates if dimension \code{along} should be named.}
 
-\item{...}{arguments to be passed to \link[data.table]{rbindlist}. \cr \cr}
+\item{...}{arguments to be passed to \code{data.table::rbindlist()}. \cr \cr}
 }
 \value{
 The bound object.

@@ -292,16 +292,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The <code>bind_</code>implementations provide dimensional binding functionalities. <br> <br> The following implementations are available:</p>
 <ul>
 <li>
-<p><code>bind_mat()</code> binds dimensionless (atomic/recursive) vectors and (atomic/recursive) matrices row- or column-wise. <br> Allows for recycling.</p>
+<p><code>bind_mat()</code> binds dimensionless (atomic/recursive) vectors and (atomic/recursive) matrices row- or column-wise. <br> Returns a matrix. <br> Allows for linear/vector recycling.</p>
 </li>
 <li>
-<p><code>bind_array()</code> binds (atomic/recursive) arrays and (atomic/recursive) matrices. <br> Allows for broadcasting.</p>
+<p><code>bind_array()</code> binds (atomic/recursive) arrays and (atomic/recursive) matrices. <br> Returns an array. <br> Allows for broadcasting.</p>
 </li>
 <li>
-<p><code>bind_dt()</code> binds data.tables and other data.frame-like objects. <br> This function is only available if the ‘data.table’ package is installed. <br> Returns a <code>data.table</code>. <br> Faster than <code>do.call(cbind, …)</code> or <code>do.call(rbind, …)</code> for regular <code>data.frame</code> objects. <br></p>
+<p><code>bind_dt()</code> binds data.tables and other data.frame-like objects. <br> Returns a <code>data.table</code>. <br> This function is only available if the ‘data.table’ package is installed. <br> The <code>bind_dt()</code> function is faster than <code>do.call(cbind, …)</code> or <code>do.call(rbind, …)</code> for regular <code>data.frame</code> objects. <br></p>
 </li>
 </ul>
-<p>Note that the naming convention of the binding implementations here is "bind_" followed by the <b>resulting class</b> (abbreviated). <br> I.e. <code>bind_mat</code> <b>returns</b> a matrix, but can bind both matrices and vectors. <br> And <code>bind_array</code> <b>returns</b> an array, but can bind both arrays and matrices. <br> And <code>bind_dt</code> <b>returns</b> a data.table, but can bind not only data.tables, but also most other data.frame-like objects. <br> <br></p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -392,7 +391,7 @@ Boolean, for <code>bind_array()</code>. <br> Indicates if dimension <code>along<
 <code id="...">…</code>
 </td>
 <td>
-arguments to be passed to rbindlist. <br> <br>
+arguments to be passed to <code>data.table::rbindlist()</code>. <br> <br>
 </td>
 </tr>
 
@@ -448,19 +447,19 @@ arguments to be passed to rbindlist. <br> <br>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># binding the arrays</span></span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_array</span>(input, <span class="at">along =</span> 0L) <span class="co"># binds on new dimension before first</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 1</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="do">## , , A</span></span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="do">##   a         b          c          d           </span></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="do">## x logical,3 integer,10 numeric,10 character,26</span></span>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="do">## y 1         2          3          4           </span></span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 2</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="do">## , , B</span></span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="do">##   a         b          c          d           </span></span>
 <span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="do">## x logical,3 integer,10 numeric,10 character,26</span></span>
 <span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="do">## y 5         6          7          8           </span></span>
 <span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 3</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="do">## , , C</span></span>
 <span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="do">##   a         b          c          d           </span></span>
 <span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="do">## x logical,3 integer,10 numeric,10 character,26</span></span>
@@ -531,19 +530,19 @@ arguments to be passed to rbindlist. <br> <br>
 <span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="do">## y.3 3            7            11          </span></span>
 <span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="do">## y.4 4            8            12</span></span>
 <span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_array</span>(input, <span class="at">along =</span> 3L, <span class="cn">TRUE</span>) <span class="co"># bind on new dimension before first</span></span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 1</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="do">## , , A</span></span>
 <span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="do">##   a         b          c          d           </span></span>
 <span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="do">## x logical,3 integer,10 numeric,10 character,26</span></span>
 <span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="do">## y 1         2          3          4           </span></span>
 <span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 2</span></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="do">## , , B</span></span>
 <span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="do">##   a         b          c          d           </span></span>
 <span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="do">## x logical,3 integer,10 numeric,10 character,26</span></span>
 <span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="do">## y 5         6          7          8           </span></span>
 <span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 3</span></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="do">## , , C</span></span>
 <span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="do">##   a         b          c          d           </span></span>
 <span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="do">## x logical,3 integer,10 numeric,10 character,26</span></span>

@@ -11,6 +11,7 @@ knitr::opts_chunk$set(
 )
 library(badger)
 library(knitr)
+library(fontawesome)
 library(broadcast)
 set.seed(1)
 ```
@@ -30,7 +31,7 @@ set.seed(1)
 
 ## 🗺️Overview
 
-The 'broadcast' 'R'-package, as the name suggests, performs "broadcasting" (similar to broadcasting in the 'Numpy' module for 'Python').
+The 'broadcast' `r fa("r-project")` - package, as the name suggests, performs "broadcasting" (similar to broadcasting in the 'Numpy' module for 'Python').
 
 In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory, which is considerably **faster** and **more memory-efficient** than R's regular dimensions replication mechanism.
 
@@ -73,10 +74,9 @@ Additionally, 'broadcast' includes the [acast()](/man/acast.qmd) function, for c
 
 **Efficiency**
 
-Broadcasting dimensions is faster and more memory efficient than repeating dimensions.  
-This is not simply a need for speed.  
+Broadcasting dimensions is faster and more memory efficient than replicating dimensions.  
 Efficient programs use less energy and resources, and is thus better for the environment.  
-As a favoured language for the sciences, 'R' should not throw away an opportunity to become more efficient.
+As a favoured language for the sciences, `r fa("r-project")` should not throw away an opportunity to become more efficient.
 
 The `Benchmarks` show that 'broadcast' has a somewhat similar speed as equivalent operations in 'Numpy'.
 
@@ -84,14 +84,20 @@ The `Benchmarks` show that 'broadcast' has a somewhat similar speed as equivalen
 
 **Convenience**
 
-Broadcasting can make many applications much faster to write and easier to reason about.  
-For Example: Suppose you want to compute some metric on all possible pair-wise combinations of the elements of 2 vectors.  
-You *could* write slow and ugly nested for-loops...  
-But you can instead also make the vectors orthogonal, and perform the broadcasting computation on the 2 orthogonal vectors.  
-The broadcasted method runs **much** faster, is faster to type, and easier to reason about, than using the clumsy nested for-loops.  
-For more practical examples, see `Examples of Practical Applictaions`.
+Have you ever been bothered by any of the following while programming in `r fa("r-project")`:
+
+ - Receiving the "non-conformable arrays" error message in a simple operation when it intuitively should work?
+ - Receiving the "Error: cannot allocate vector of size" error message because `r fa("r-project")` unnecessarily allocates too much memory?
+ - Trying to perform a simple operation on all possible combinations, only to find out you need nested loops and/or grid expansions to do something that should be *very* simple?
+  - having to store and re-assign attributes when type-casting arrays?
+ - `outer()` being slow and consuming way too much memory?
+ - `abind()` being too slow, saying arrays are not conformable, and/or coercing recursive arrays to character arrays?
+ - having to convert arrays to data.frames and then back to arrays (which wastes memory and other resources), *just* to be able to cast arrays?
+
+If you answered "YES" to any of the above, 'broadcast' may very well be the `r fa("r-project")` - package for you.
 
 &nbsp;
+
 
 
 **Minimal Dependencies**
@@ -101,8 +107,8 @@ Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, incl
 Not using external libraries brings a number of advantages:
 
  - **Avoid dependency hell**: Every dependency that is added to a software package increases the likelihood of something breaking (AKA "dependency hell"). 'broadcast' thus avoids this.
- - **Avoid wasting resources for translations**: Using libraries from other languages, such as 'xtensor' ('C++') or 'Numpy' ('Python') means that - at some point - one needs to convert between the structure of R to that of the other language, and vice-versa, which wastes precious time, memory, and power. 'broadcast' requires no such translations of structures, and is therefore much less wasteful.
- - **Ensure consistent behaviour**: Using libraries from other languages also means one cannot always guarantee consistent behaviour for some operations. For example: both 'Numpy' and 'xtensor' have only limited support for missing values, whereas 'R' supports missing values for both atomic and recursive array/vector types (except type of 'Raw'). Since 'broadcast' does not rely on external libraries, it can ensure behaviour that is consistent with the rest of 'R'.
+ - **Avoid wasting resources for translations**: Using libraries from other languages, such as 'xtensor' ('C++') or 'Numpy' ('Python') means that - at some point - one needs to convert between the structure of `r fa("r-project")` to that of the other language, and vice-versa, which wastes precious time, memory, and power. 'broadcast' requires no such translations of structures, and is therefore much less wasteful.
+ - **Ensure consistent behaviour**: Using libraries from other languages also means one cannot always guarantee consistent behaviour for some operations. For example: both 'Numpy' and 'xtensor' have only limited support for missing values, whereas `r fa("r-project")` supports missing values for both atomic and recursive array/vector types (except type of 'Raw'). Since 'broadcast' does not rely on external libraries, it can ensure behaviour that is consistent with the rest of `r fa("r-project")`.
 
 
 &nbsp;

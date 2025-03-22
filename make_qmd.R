@@ -68,8 +68,16 @@ for(i in lst.files) {
 from <- "intro_template.qmd"
 to <- file.path("website", "vignettes", "a_readme.qmd")
 file.copy(from, to, overwrite = TRUE)
-
-quarto::quarto_render(from, "gfm", "README.md")
+to <- "README.qmd"
+file.copy(from, to, overwrite = TRUE)
+gfm <- readLines("README.qmd")
+gfm <- stri_replace_all(
+  gfm,
+  "'R'",
+  fixed = '`r fa("r-project")`'
+)
+writeLines(gfm, to)
+quarto::quarto_render(to, "gfm", "README.md")
 
 
 

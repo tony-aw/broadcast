@@ -1,0 +1,16 @@
+{
+  "hash": "d809f887d1177e87744ed311b54532c6",
+  "result": {
+    "markdown": "---\ntitle: \"Other benchmarks\"\nformat: html\n---\n\n\n\n::: {.cell}\n\n:::\n\n\n\n&nbsp;\n\n# Introduction\n\nIn this article, the performance of the [bind_array()](/man/bind.qmd) function from 'broadcast' is compared to the performance of the `abind()` function from the 'abind' package.\n\n&nbsp;\n\nThe following code is used:\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n\nalong <- 2L\nn <- 150L\nnms <- function(n) sample(letters, n, TRUE)\nx <- array(as.double(1:25), c(n, n, n))\ny <- array(as.double(-1:-25), c(n, n, n))\ndimnames(x) <- lapply(dim(x), nms)\ndimnames(y) <- lapply(dim(y), nms)\ninput <- list(x, y)\n\nbm_abind <- bench::mark(\n  abind = abind::abind(input, along = 2),\n  broadcast = bind_array(input, 2),\n  cbind = do.call(cbind, input),\n  min_iterations = 100,\n  check = FALSE # because abind adds empty dimnames\n)\nsummary(bm_abind)\nplot(bm_abind)\n\n```\n:::\n\n\nAnd here are the results:\n\n\n::: {.cell}\n\n```{.r .cell-code}\nload(\"bm_abind.RData\")\nsummary(bm_abind)\n#> # A data frame: 3 × 6\n#>   expression      min   median `itr/sec` mem_alloc `gc/sec`\n#>   <bch:expr> <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>\n#> 1 abind          69ms   79.5ms      11.0   206.3MB     12.9\n#> 2 broadcast    23.5ms   30.9ms      28.0   103.4MB     22.7\n#> 3 cbind         9.6ms   10.2ms      76.9    51.5MB     13.8\nplot(bm_abind)\n#> Loading required namespace: tidyr\n```\n\n::: {.cell-output-display}\n![](g_benchmarks_other_files/figure-html/unnamed-chunk-3-1.png){width=768}\n:::\n:::\n\n\n\n\n&nbsp;\n\n&nbsp;\n",
+    "supporting": [
+      "g_benchmarks_other_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

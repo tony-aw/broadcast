@@ -17,8 +17,9 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 ## 🗺️Overview
 
-The ‘broadcast’ - package, as the name suggests, performs “broadcasting”
-(similar to broadcasting in the ‘Numpy’ module for ‘Python’).
+The ‘broadcast’ ‘R’ - package, as the name suggests, performs
+“broadcasting” (similar to broadcasting in the ‘Numpy’ module for
+‘Python’).
 
 In the context of operations involving 2 (or more) arrays,
 “broadcasting” refers to recycling array dimensions **without**
@@ -83,11 +84,10 @@ casting/pivoting an array into a new dimension. Roughly analogous to
 **Efficiency**
 
 Broadcasting dimensions is faster and more memory efficient than
-repeating dimensions.  
-This is not simply a need for speed.  
+replicating dimensions.  
 Efficient programs use less energy and resources, and is thus better for
 the environment.  
-As a favoured language for the sciences, should not throw away an
+As a favoured language for the sciences, ‘R’ should not throw away an
 opportunity to become more efficient.
 
 The `Benchmarks` show that ‘broadcast’ has a somewhat similar speed as
@@ -97,21 +97,25 @@ equivalent operations in ‘Numpy’.
 
 **Convenience**
 
-Have you ever been bothered by any of the following:
+Have you ever been bothered by any of the following while programming in
+‘R’:
 
 - Receiving the “non-conformable arrays” error message in a simple
   operation when it intuitively should work?
 - Receiving the “Error: cannot allocate vector of size” error message
-  because unnecessarily allocates too much memory?
+  because ‘R’ unnecessarily allocates too much memory?
 - Trying to perform a simple operation on all possible combinations,
   only to find out you need nested loops and/or grid expansions to do
   something that should be *very* simple?
+- having to store and re-assign attributes when type-casting arrays?
+- `outer()` being slow and consuming way too much memory?
 - `abind()` being too slow, saying arrays are not conformable, and/or
   coercing recursive arrays to character arrays?
-- having to convert arrays to data.frames just to be able to cast them?
+- having to convert arrays to data.frames and then back to arrays (which
+  wastes memory and other resources), *just* to be able to cast arrays?
 
-If you answered “yes” to any of the above, ‘broadcast’ may very well be
-the - package for you!
+If you answered “YES” to any of the above, ‘broadcast’ may very well be
+the ‘R’ - package for you.
 
  
 
@@ -128,17 +132,17 @@ Not using external libraries brings a number of advantages:
   “dependency hell”). ‘broadcast’ thus avoids this.
 - **Avoid wasting resources for translations**: Using libraries from
   other languages, such as ‘xtensor’ (‘C++’) or ‘Numpy’ (‘Python’) means
-  that - at some point - one needs to convert between the structure of R
-  to that of the other language, and vice-versa, which wastes precious
-  time, memory, and power. ‘broadcast’ requires no such translations of
-  structures, and is therefore much less wasteful.
+  that - at some point - one needs to convert between the structure of
+  ‘R’ to that of the other language, and vice-versa, which wastes
+  precious time, memory, and power. ‘broadcast’ requires no such
+  translations of structures, and is therefore much less wasteful.
 - **Ensure consistent behaviour**: Using libraries from other languages
   also means one cannot always guarantee consistent behaviour for some
   operations. For example: both ‘Numpy’ and ‘xtensor’ have only limited
-  support for missing values, whereas supports missing values for both
-  atomic and recursive array/vector types (except type of ‘Raw’). Since
-  ‘broadcast’ does not rely on external libraries, it can ensure
-  behaviour that is consistent with the rest of .
+  support for missing values, whereas ‘R’ supports missing values for
+  both atomic and recursive array/vector types (except type of ‘Raw’).
+  Since ‘broadcast’ does not rely on external libraries, it can ensure
+  behaviour that is consistent with the rest of ‘R’.
 
  
 

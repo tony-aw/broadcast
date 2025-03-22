@@ -310,15 +310,24 @@ macro_op_int_math <- "
     }	\\
     case 4:	\\
     {	\\
-      MACRO_TYPESWITCH_INTEGER_MOD(	\\
+      MACRO_TYPESWITCH_INTEGER_GCD(	\\
         DIMCODE,	\\
         MACRO_ASSIGN_C(NA_REAL),	\\
         MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C((double)rcpp_gcd(px[flatind_x], py[flatind_y]))	\\
+        MACRO_ASSIGN_C((double)rcpp_int53_gcd(px[flatind_x], py[flatind_y]))	\\
       );    \\
       break;	\\
     }	\\
     case 5:	\\
+    {	\\
+      MACRO_TYPESWITCH_INTEGER1(	\\
+          DIMCODE,	\\
+          MACRO_ASSIGN_C(NA_REAL),	\\
+          MACRO_ASSIGN_C(rcpp_int53_mod(e1, e2, intmin, intmax))	\\
+        );	\\
+      break;	\\
+    }	\\
+    case 6:	\\
     {	\\
       MACRO_TYPESWITCH_INTEGER2(	\\
         DIMCODE,	\\
@@ -329,7 +338,7 @@ macro_op_int_math <- "
       );	\\
       break;	\\
     }	\\
-    case 6:	\\
+    case 7:	\\
     {	\\
       MACRO_TYPESWITCH_INTEGER1(	\\
         DIMCODE,	\\
@@ -338,7 +347,7 @@ macro_op_int_math <- "
       );	\\
       break;	\\
     }	\\
-    case 7:	\\
+    case 8:	\\
     {	\\
       MACRO_TYPESWITCH_INTEGER1(	\\
         DIMCODE,	\\
