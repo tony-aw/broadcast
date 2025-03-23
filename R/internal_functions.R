@@ -13,6 +13,12 @@
 #' @keywords internal
 #' @noRd
 .transform_function <- function(f) {
+  
+  # this function is used for `bcapply()`
+  # by this transformation,
+  # I don't have to write C code for every single possible combination of
+  # typeof(x) and typeof(y)
+  
   fnew <- function(x, y, flatind_x, flatind_y) {
     x <- x[[flatind_x]]
     y <- y[[flatind_y]]

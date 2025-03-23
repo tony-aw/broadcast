@@ -23,6 +23,9 @@
 #' \cr
 #'
 #'
+#' @references The 'C++' code for the Levenshtein edit string distance is based on the code found in
+#' \url{https://rosettacode.org/wiki/Levenshtein_distance#C++}
+#'
 #' @example inst/examples/bc_str.R
 #' 
 

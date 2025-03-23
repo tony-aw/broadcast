@@ -72,7 +72,7 @@ Suppose you read the following matrix from a file:
 x <- cbind(
   id = rep(1:3, each = 2),
   grp = rep(1:2, 3),
-  val = rnorm(6)
+  val = 1:6 * 2
 )
 print(x)
 ```
@@ -92,10 +92,29 @@ print(out)
 
 Notice that the dimension-names of the new dimension (dimension 3) are equal to `levels(grp)`.
 
-Perhaps you'd like to get the original array back when you're done computing; one can get the original array back like so:
+With the cast array, one can use broadcasting to easily do things like multiply the values in each group with a different value, like so:
 
 ```{r}
-asplit(out, ndim(out)) |> bind_array(along = margin)
+
+# create the multiplication factor array
+mult <- array(
+  1, c(1, 3, 2),
+  list(NULL, c("mult_id", "mult_grp", "mult_val"), c("a", "b"))
+)
+mult[, "mult_val", c("a", "b")] <- c(2, 10)
+print(mult)
+
+out2 <- bc.num(out, mult, "*")
+dimnames(out2) <- dimnames(out)
+print(out2)
+
+```
+
+
+Perhaps you'd like to reverse-cast the array back when you're done computing; reverse-casting an array can be done be combining `asplit()` with [bind_array()](/man/bind.qmd):
+
+```{r}
+asplit(out2, ndim(out2)) |> bind_array(along = margin)
 ```
 
 ...though the order of, in this case, the rows (because `margin = 1`) will not necessarily be the same as the original array.

@@ -13,7 +13,7 @@
 #' Only relevant for the following operators: \cr
 #' `r paste0(broadcast:::.op_dec_rel()[7:12], collapse = ", ")` \cr
 #' See the
-#' `r paste0(broadcast:::.op_dec_rel()[7:12], collapse = ", ")` operators
+#' `r paste0(paste0("%", broadcast:::.op_dec_rel()[7:12], "%"), collapse = ", ")` operators
 #' from the 'tinycodet' package for details. \cr
 #' 
 #' 

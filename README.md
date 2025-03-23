@@ -100,6 +100,11 @@ equivalent operations in ‘Numpy’.
 Have you ever been bothered by any of the following while programming in
 ‘R’:
 
+- `outer()` being slow, consuming way too much memory, or returning an
+  array with questionable dimensions?
+- `abind::abind()` being too slow, saying arrays are not conformable,
+  and/or coercing recursive arrays to character arrays?
+- that there is no built-in way to cast or pivot arrays?
 - Receiving the “non-conformable arrays” error message in a simple
   operation when it intuitively should work?
 - Receiving the “Error: cannot allocate vector of size” error message
@@ -107,12 +112,6 @@ Have you ever been bothered by any of the following while programming in
 - Trying to perform a simple operation on all possible combinations,
   only to find out you need nested loops and/or grid expansions to do
   something that should be *very* simple?
-- having to store and re-assign attributes when type-casting arrays?
-- `outer()` being slow and consuming way too much memory?
-- `abind()` being too slow, saying arrays are not conformable, and/or
-  coercing recursive arrays to character arrays?
-- having to convert arrays to data.frames and then back to arrays (which
-  wastes memory and other resources), *just* to be able to cast arrays?
 
 If you answered “YES” to any of the above, ‘broadcast’ may very well be
 the ‘R’ - package for you.
@@ -146,15 +145,30 @@ Not using external libraries brings a number of advantages:
 
  
 
+**Tested**
+
+The ‘broadcast’ package is frequently checked using a large (\> 100,000)
+suite of unit tests via the
+[tinytest](https://github.com/markvanderloo/tinytest) package. These
+tests have a coverage of approximately 95%. As such, the chance of a
+function from this package breaking is relatively low.
+
+Since ‘broadcast’ is still relatively new package, bugs are still very
+much possible. I encourage users who find bugs to report them swiftly to
+the GitHub page, and I will fix them as soon as time permits.
+
+ 
+
 ## 📖Documentation
 
 The documentation in the ‘broadcast’ website is divided into 3 main
-navigationable sections:
+parts:
 
 - Guides and Vignettes: Here you’ll find the topic-oriented guides in
   the form of a few Vignettes.
 - Reference Manual: Here you’ll find the function-oriented reference
   manual.
-- About: Here you’ll find mainly the Changelog and License file.
+- About: Here you’ll find mainly the Acknowledgements, Change logs and
+  License file.
 
    

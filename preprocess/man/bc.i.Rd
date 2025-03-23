@@ -11,7 +11,9 @@ bc.i(x, y, op)
 
 \item{op}{a single string, giving the operator. \cr
 Supported arithmetic operators: +, -, *, gcd, \%\%, ^, pmin, pmax. \cr
-Supported relational operators: ==, !=, <, >, <=, >=. \cr}
+Supported relational operators: ==, !=, <, >, <=, >=. \cr
+The "gcd" operator performs the Greatest Common Divisor" operation,
+using the Euclidean algorithm.. \cr}
 }
 \value{
 For arithmetic operators: \cr

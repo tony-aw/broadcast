@@ -7,13 +7,14 @@ title: bcapply
 ### Description
 
 The <code>bcapply()</code> function
-applies a function to 2 arrays with broadcasting. <br />
+applies a function to 2 arrays element-wise with broadcasting,
+similar to the outer function. <br />
 
 
 
 ### Usage
 
-<pre><code class='language-R'>bcapply(x, y, f, v = "list")
+<pre><code class='language-R'>bcapply(x, y, f, v = NULL)
 </code></pre>
 
 
@@ -32,13 +33,14 @@ that can be stored in a single element of a recursive or atomic array.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="v">v</code></td>
 <td>
-a single string, giving the scalar type for a single iteration. <br />
-If <code>NULL</code> or <code>"list"</code> (default), the result will be a recursive array. <br />
+either <code>NULL</code>, or single string, giving the scalar type for a single iteration. <br />
+If <code>NULL</code> (default) or <code>"list"</code>, the result will be a recursive array. <br />
 If it is certain that, for every iteration,
 <code>f()</code> always results in a <b>single atomic scalar</b>,
 the user can specify the type in <code>v</code> to pre-allocate the result. <br />
 Pre-allocating the results leads to slightly faster and more memory efficient code. <br />
-NOTE: Incorrectly specifying <code>v</code> leads to undefined behaviour. <br />
+NOTE: Incorrectly specifying <code>v</code> leads to undefined behaviour; <br />
+when unsure, leave <code>v</code> at its default value. <br />
 </td></tr>
 </table>
 

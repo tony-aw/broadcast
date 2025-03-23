@@ -123,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Reference Manual</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../about/Acknowledgements.html" rel="" target="">
+    <a class="nav-link" href="../about/a_acknowledgements.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -293,11 +293,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="apply-a-function-to-2-broadcasted-arrays">Apply a Function to 2 Broadcasted Arrays</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>The <code>bcapply()</code> function applies a function to 2 arrays with broadcasting. <br></p>
+<p>The <code>bcapply()</code> function applies a function to 2 arrays element-wise with broadcasting, similar to the outer function. <br></p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">bcapply(x, y, f, v = "list")
+<pre><code class="language-R">bcapply(x, y, f, v = NULL)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -325,7 +325,7 @@ a function that takes in exactly <b>2</b> arguments, and <b>returns</b> a result
 <code id="v">v</code>
 </td>
 <td>
-a single string, giving the scalar type for a single iteration. <br> If <code>NULL</code> or <code>“list”</code> (default), the result will be a recursive array. <br> If it is certain that, for every iteration, <code>f()</code> always results in a <b>single atomic scalar</b>, the user can specify the type in <code>v</code> to pre-allocate the result. <br> Pre-allocating the results leads to slightly faster and more memory efficient code. <br> NOTE: Incorrectly specifying <code>v</code> leads to undefined behaviour. <br>
+either <code>NULL</code>, or single string, giving the scalar type for a single iteration. <br> If <code>NULL</code> (default) or <code>“list”</code>, the result will be a recursive array. <br> If it is certain that, for every iteration, <code>f()</code> always results in a <b>single atomic scalar</b>, the user can specify the type in <code>v</code> to pre-allocate the result. <br> Pre-allocating the results leads to slightly faster and more memory efficient code. <br> NOTE: Incorrectly specifying <code>v</code> leads to undefined behaviour; <br> when unsure, leave <code>v</code> at its default value. <br>
 </td>
 </tr>
 

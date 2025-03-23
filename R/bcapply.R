@@ -2,19 +2,21 @@
 #'
 #' @description
 #' The `bcapply()` function
-#' applies a function to 2 arrays with broadcasting. \cr
+#' applies a function to 2 arrays element-wise with broadcasting,
+#' similar to the \link[base]{outer} function. \cr
 #' 
 #' @param x,y conformable atomic or recursive arrays.
 #' @param f a function that takes in exactly \bold{2} arguments,
 #' and \bold{returns} a result
 #' that can be stored in a single element of a recursive or atomic array.
-#' @param v a single string, giving the scalar type for a single iteration. \cr
-#' If `NULL` or \code{"list"} (default), the result will be a recursive array. \cr
+#' @param v either `NULL`, or single string, giving the scalar type for a single iteration. \cr
+#' If `NULL` (default) or \code{"list"}, the result will be a recursive array. \cr
 #' If it is certain that, for every iteration,
 #' `f()` always results in a \bold{single atomic scalar},
 #' the user can specify the type in `v` to pre-allocate the result. \cr
 #' Pre-allocating the results leads to slightly faster and more memory efficient code. \cr
-#' NOTE: Incorrectly specifying `v` leads to undefined behaviour. \cr
+#' NOTE: Incorrectly specifying `v` leads to undefined behaviour; \cr
+#' when unsure, leave `v` at its default value. \cr
 #' 
 #' 
 #'
@@ -28,7 +30,7 @@
 
 #' @rdname bcapply
 #' @export
-bcapply <- function(x, y, f, v = "list") {
+bcapply <- function(x, y, f, v = NULL) {
   
   # checks:
   .binary_stop_general(x, y, "", sys.call())

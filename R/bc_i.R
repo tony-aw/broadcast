@@ -14,6 +14,10 @@
 #' @param op a single string, giving the operator. \cr
 #' Supported arithmetic operators: `r paste0(broadcast:::.op_int_math(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_int_rel(), collapse = ", ")`. \cr
+#' The "gcd" operator performs the Greatest Common Divisor" operation,
+#' using the Euclidean algorithm.. \cr
+#' 
+#' 
 #' 
 #' 
 #'
@@ -29,7 +33,8 @@
 #' For relational operators: \cr
 #' A logical array as a result of the broadcasted integer relational comparison. \cr
 #' \cr
-#'
+#' 
+#' 
 #'
 #' @example inst/examples/bc_i.R
 #' 

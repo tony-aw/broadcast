@@ -20,7 +20,7 @@ Supported relational operators: ==, !=, <, >, <=, >=, d==, d!=, d<, d>, d<=, d>=
 Only relevant for the following operators: \cr
 d==, d!=, d<, d>, d<=, d>= \cr
 See the
-d==, d!=, d<, d>, d<=, d>= operators
+\%d==\%, \%d!=\%, \%d<\%, \%d>\%, \%d<=\%, \%d>=\% operators
 from the 'tinycodet' package for details. \cr}
 }
 \value{

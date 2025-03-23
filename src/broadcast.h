@@ -586,7 +586,7 @@
         px[flatind_x] == NA_INTEGER || R_isnancpp(py[flatind_y]),  \
         MACRO_OVERFLOW(py[flatind_y]),           \
         NACODE,                                               \
-        NACODE,                                               \
+        RULECODE,                                               \
         DOCODE                                                \
       )                                                       \
     );                                                       \
@@ -599,7 +599,7 @@
         R_isnancpp(px[flatind_x]) || py[flatind_y] == NA_INTEGER,  \
         MACRO_OVERFLOW(px[flatind_x]),           \
         NACODE,                                               \
-        NACODE,                                               \
+        RULECODE,                                               \
         DOCODE                                                \
       )                                                       \
     );                                                       \
@@ -612,7 +612,7 @@
         R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
         MACRO_OVERFLOW(px[flatind_x]) || MACRO_OVERFLOW(py[flatind_y]),           \
         NACODE,                                               \
-        NACODE,                                               \
+        RULECODE,                                               \
         DOCODE                                                \
       )                                                       \
     );                                                       \

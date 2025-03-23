@@ -1,0 +1,67 @@
+---
+title: "Other packages"
+format: html
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE
+)
+```
+
+```{r setup, eval=TRUE, echo=FALSE}
+library(broadcast)
+library(fontawesome)
+```
+
+
+
+# Alternatives to 'broadcast'
+
+At the time of writing, the only alternative to the 'broadcast' package with respect to having a large range of support for broadcasting, is using an `r fa("r-project")` package that allows access to an external library from another programming language that **does** support 'broadcasting'.
+
+For example: Using the 'reticulate' package to access 'Python', and via that connection accessing the 'Numpy' module, which supports (and perhaps even had the first implementation) of broadcasting.
+
+Another example is the 'xtensor' package (and extensiosn to that package, like 'rray'), that allows `r fa("r-project")` - users to access the 'C++' module of the same name.
+
+These alternatives all need access to a different programming language, which brings with it a host of problems:
+
+ - **Dependency hell**: Every dependency that is added to a software package increases the likelihood of something breaking (AKA "dependency hell").
+ - **Wasteful translations**: Using libraries from other languages, such as 'xtensor' ('C++') or 'Numpy' ('Python') means that - at some point - one needs to convert between the structure of `r fa("r-project")` to that of the other language, and vice-versa, which wastes precious time, memory, and power.
+ - **Inconsistent behaviour**: Using libraries from other languages also means one cannot always guarantee consistent behaviour for some operations.  
+ For example: both 'Numpy' and 'xtensor' have only limited support for missing values, whereas `r fa("r-project")` supports missing values for both atomic and recursive array/vector types (except type of 'Raw').
+ 
+Since the 'broadcast' package does not rely on any external library, other than linking to 'Rcpp', 'broadcast' avoids all of the above issues.
+
+&nbsp;
+
+
+# Complimentary packages
+
+The 'broadcast' fits well with the [squarebrackets](https://github.com/tony-aw/squarebrackets) package, though that package is currently experimental, at the time of writing.
+
+&nbsp;
+
+# The tinyverse
+
+The 'broadcast' package adheres to the 'tinyverse' philosophy (not to be confused with the 'tidyverse'!), which is the programming philosophy to primarily minimize dependencies, and secondarily to keep code efficient.
+
+Other `r fa("r-project")` packages that share this philosophy include, but are not limited to, the following:
+
+ - the core [fastverse](https://github.com/fastverse/fastverse) packages: 'data.table', 'collapse', and 'kit'.
+ - [stringi](https://github.com/gagolews/stringi/tree/master) *the* primary `r fa("r-project")` package for string processing.
+ - [tinycodet](https://github.com/tony-aw/tinycodet) for functions to help in coding etiquette.
+ - [tinytable](https://github.com/vincentarelbundock/tinytable) for flexible table creation.
+ - [tinyplot](https://github.com/grantmcdermott/tinyplot) for plotting graphs; much faster than, for example, 'ggplot2', and with zero dependencies.
+ - [tinytest](https://github.com/markvanderloo/tinytest) for unit testing. Unlike 'testthat' (which has like a quadrillion dependencies), 'tinytest' has zero dependencies.
+ - [matrixStats](https://github.com/HenrikBengtsson/matrixStats) for computing across rows or columns of matrices.
+ 
+ - and many others.
+
+
+&nbsp;
+
+
+
