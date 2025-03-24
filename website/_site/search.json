@@ -369,5 +369,68 @@
     "title": "Benchmarks with Numpy+reticulate",
     "section": "",
     "text": "Introduction\nIn this article, the speed of ‘broadcast’ is compared to the speed of ‘Numpy’ via {reticulate}.\n \n\n\nKeeping comparisons fair\nTo keep the comparisons between ‘broadcast’ and ‘Numpy’+‘reticulate’ fair, a number of measures have been taken:\n\nconversion from Numpy to ‘R’ is DISABLED; this allows for comparing the speed more fairly. When conversion would be enabled, precious time would be wasted to convert from Numpy structures to comparable ‘R’ structures.\ngarbage collection is disabled in reticulate’s Python. In ‘R’, only benchmarks with no garbage collection, or level 0 garbage collection, is used. I feel this keeps the comparisons relatively fair (but it’s not perfect).\n‘R’ has more support for missing values than ‘Numpy’, which also leads to a difference in speed. But both ‘R’ and ‘Numpy’ handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in ‘R’ ), through the NaN construct. Therefore, only operations on decimal numbers are compared.\n\n \n\n\nThe Set-Up\n8 pairs of decimal number arrays are created in both ‘R’ and ‘Numpy’. They all have a length of (approximately) 9*10^6 elements. Each pair will have a different number of dimensions, from 2 to 9 (hence 8 pairs of arrays). I.e. a pair of 2d arrays, a pair of 3d arrays, etc.\nThese pairs of arrays are fully orthogonal, thus the maximum amount of broadcasting will be employed.\nFor each pair of array the outer sum is computed using ‘broadcast’ and ‘Numpy’. This computation is repeated 100 times, and the median result is taken.\nThus we get the following code:\n\n# set-up ====\nlibrary(broadcast)\nlibrary(reticulate)\nnp &lt;- import(\"numpy\", convert = FALSE)\ngc &lt;- import(\"gc\", convert = FALSE)\nget_times &lt;- function(obj, j) {\n  nms &lt;- names(res$expression)\n  j &lt;- which(nms == j)\n  idx &lt;- rowSums(obj$gc[[j]][, 2:3]) == 0\n  times &lt;- obj$time[[j]][idx]\n  return(times)\n}\ngc$disable()\n\n# loop\nmedian_bc &lt;- median_np &lt;- q1_bc &lt;- q1_np &lt;- q3_bc &lt;- q3_np &lt;- vector(\"numeric\", 8)\ncounter &lt;- 1L\ntarget_len &lt;- 9e6\n\nfor(i in 2:9) {\n  print(i)\n  n &lt;- round(target_len^(1/i)) |&gt; as.integer()\n  len &lt;- n^i\n  cat(\"i = \", i, \"\\n\")\n  cat(\"n = \", n, \"\\n\")\n  cat(\"len = \", len, \"\\n\")\n  x.dims &lt;- rep(c(n, 1L), i - 1)[1:i]\n  y.dims &lt;- rep(c(1L, n), i - 1)[1:i]\n  a.dims &lt;- rt$r_to_py(as.list(x.dims))\n  b.dims &lt;- rt$r_to_py(as.list(y.dims))\n  \n  npa &lt;- np$random$random_sample(a.dims)\n  npb &lt;- np$random$random_sample(b.dims)\n  a &lt;- array(runif(100), x.dims)\n  b &lt;- array(runif(100), y.dims)\n  \n  res &lt;- bench::mark(\n    broadcast = bc.num(a, b, \"+\"),\n    `numpy (NO conversion to R)` = npa + npb,\n    check = FALSE,\n    min_iterations = 100\n  )\n  bc_all &lt;- get_times(res, \"broadcast\")\n  np_all &lt;- get_times(res, \"numpy (NO conversion to R)\")\n  median_bc[counter] &lt;- median(bc_all)\n  median_np[counter] &lt;- median(np_all)\n  q1_bc[counter] &lt;- quantile(bc_all, 0.25)\n  q3_bc[counter] &lt;- quantile(bc_all, 0.75)\n  q1_np[counter] &lt;- quantile(np_all, 0.25)\n  q3_np[counter] &lt;- quantile(np_all, 0.75)\n  \n  counter &lt;- counter + 1L\n}\n\n \n\n\nResults\nUsing {tinyplot}, the median, first quartile, and third quartile of the bench-marked computation times are presented in the following graph:\n\n\n\n\n\n \n\n\nConclusion\nFor arrays with a low number of dimensions, ‘Numpy’ is a bit faster than ‘broadcast’. As the number of dimensions increases, however, ‘broadcast’ beats the speed of ‘Numpy’. Either direction the differences are rather small, however, and one can say in general that ‘broadcast’ and ‘Numpy’ have somewhat similar speeds."
+  },
+  {
+    "objectID": "vignettes/f_benchmarks_numpy.html#d-arrays",
+    "href": "vignettes/f_benchmarks_numpy.html#d-arrays",
+    "title": "Benchmarks with Numpy+reticulate",
+    "section": "2d arrays",
+    "text": "2d arrays\nUsing {tinyplot}, the median, first quartile, and third quartile of the bench-marked computation times are presented in the following graph:"
+  },
+  {
+    "objectID": "vignettes/f_benchmarks_numpy.html#d-arrays-1",
+    "href": "vignettes/f_benchmarks_numpy.html#d-arrays-1",
+    "title": "Benchmarks with Numpy+reticulate",
+    "section": "3d arrays",
+    "text": "3d arrays\nUsing {tinyplot}, the median, first quartile, and third quartile of the bench-marked computation times are presented in the following graph:"
+  },
+  {
+    "objectID": "vignettes/f_benchmarks_numpy.html#the-set-up",
+    "href": "vignettes/f_benchmarks_numpy.html#the-set-up",
+    "title": "Benchmarks with Numpy+reticulate",
+    "section": "The Set-Up",
+    "text": "The Set-Up\nThe benchmarks are run for multiple dimensionalities, and multiple dimension sizes.\nFor each combination of dimensionality and dimension size, pairs of decimal number arrays are created in both ‘R’ and ‘Numpy’. These pairs of arrays are fully orthogonal, thus the maximum amount of broadcasting will be employed.\nFor each pair of array the outer sum is computed using ‘broadcast’ and ‘Numpy’. This computation is repeated 200 times. From these 200 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between ‘broadcast’ and ‘reticulate’ + ‘Numpy’ fair, and these caveats are explained in the next sub-section."
+  },
+  {
+    "objectID": "vignettes/f_benchmarks_numpy.html#keeping-comparisons-fair",
+    "href": "vignettes/f_benchmarks_numpy.html#keeping-comparisons-fair",
+    "title": "Benchmarks with Numpy+reticulate",
+    "section": "Keeping comparisons fair",
+    "text": "Keeping comparisons fair\nTo keep the comparisons between ‘broadcast’ and ‘Numpy’+‘reticulate’ fair, a number of measures have been taken:\n\nDistributions of benchmarks tend to be heavily skewed. Therefore, the median measure (together with the quartiles) are taken.\nconversion from Numpy to ‘R’ is DISABLED; this allows for comparing the speed more fairly. When conversion would be enabled, precious time would be wasted to convert from Numpy structures to comparable ‘R’ structures.\ngarbage collection is disabled in reticulate’s Python. In fa(\"r-project\"), only benchmarks with no garbage collection, or level 0 garbage collection, are used. I feel this keeps the comparisons relatively fair (but it’s not perfect).\nSince only benchmarks with no garbage collection, or level 0 garbage collection, are used for fa(\"r-project\"), a check is made that at least 100 benchmark measurements are kept in (out 200 in total). Note that the median value\n‘R’ has more support for missing values than ‘Numpy’, which also leads to a difference in speed. But both ‘R’ and ‘Numpy’ handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in ‘R’ ), through the NaN construct. Therefore, only operations on decimal numbers are compared.\nOperations like power (^) and division (/) need to handle special cases (like when the right-hand side of the operation is 0). I cannot guarantee that ‘broadcast’ and ‘Numpy’ will handle these special cases in the exact same way. The plus (+) operator, however, has no such special cases. Therefore, the comparisons on this page involve only summation."
+  },
+  {
+    "objectID": "vignettes/f_benchmarks_numpy.html#resources-used",
+    "href": "vignettes/f_benchmarks_numpy.html#resources-used",
+    "title": "Benchmarks with Numpy+reticulate",
+    "section": "Resources used",
+    "text": "Resources used\nThe ‘benchmark’ package was used for measuring speed, as this package can also be used to check and filter for garbage collector calls.\nThe plots are created using the ‘tinyplot’ package, to display the median, first quartile, and third quartile, of the computation times.\nThe code can be found at the end of this guide."
+  },
+  {
+    "objectID": "vignettes/f_benchmarks_numpy.html#d-arrays-2",
+    "href": "vignettes/f_benchmarks_numpy.html#d-arrays-2",
+    "title": "Benchmarks with Numpy+reticulate",
+    "section": "4d arrays",
+    "text": "4d arrays"
+  },
+  {
+    "objectID": "vignettes/f_benchmarks_numpy.html#d-arrays-3",
+    "href": "vignettes/f_benchmarks_numpy.html#d-arrays-3",
+    "title": "Benchmarks with Numpy+reticulate",
+    "section": "5d arrays",
+    "text": "5d arrays"
+  },
+  {
+    "objectID": "vignettes/f_benchmarks_numpy.html#d-arrays-4",
+    "href": "vignettes/f_benchmarks_numpy.html#d-arrays-4",
+    "title": "Benchmarks with Numpy+reticulate",
+    "section": "6d arrays",
+    "text": "6d arrays"
+  },
+  {
+    "objectID": "vignettes/f_benchmarks_numpy.html#d-arrays-5",
+    "href": "vignettes/f_benchmarks_numpy.html#d-arrays-5",
+    "title": "Benchmarks with Numpy+reticulate",
+    "section": "7d arrays",
+    "text": "7d arrays"
   }
 ]
