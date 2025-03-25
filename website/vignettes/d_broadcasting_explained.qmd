@@ -23,7 +23,7 @@ library(tinytable) |> suppressWarnings()
 
 # Introduction
 
-In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory or making needles copies. This is considerably **faster** and **more memory-efficient** than R's regular dimensions repetition (and similar) mechanisms, such as the mechanism utilized inside the `outer()` function.
+In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory or making needles copies. This is considerably **faster** and **more memory-efficient** than R's regular dimensions repetition (and similar) mechanisms.
 
 This article explains the concept of "broadcasting" in more detail.
 A good understanding of atomic and recursive arrays in base 'R' is somewhat essential to follow this article.
@@ -44,7 +44,7 @@ print(x)
 print(y)
 ```
 
-Suppose one wishes to compute the outer sum of these 2 vectors.  
+Suppose one wishes to compute the element-wise sum of these 2 arrays.  
 
 This won't work in base 'R':
 
@@ -54,15 +54,13 @@ Error in x + y : non-conformable arrays
 ```
 
 
-When computing the outer sum of these vectors, both vectors need to be recycled to equal size in order to compute the outer computation.  
+When computing the elemt-wise sum of these vectors, both vectors need to be recycled to equal size in order to compute the element-wise computation.  
 I.e. `x` needs its single column to be recycled (in this case) 5 times, and `y` needs its single row to be recycled 5 times, creating 2 conformable matrices.  
 
-'R' provides linear **vector** recycling, but not recycling of array dimensions. Instead, in base 'R' we need to **replicate** (and thus **copy**) the array dimensions. This can be done manually, or using `outer() |> drop()`:
+'R' provides linear **vector** recycling, but not recycling of array dimensions. Instead, in base 'R' we need to **replicate** (and thus **copy**) the array dimensions. This can be done manually, like so:
 
 ```{r}
 x[, rep(1L, 5L)] + y[rep(1L, 5L),]
-
-outer(x, y, "+") |> drop()
 ```
 
 &nbsp;
@@ -84,23 +82,21 @@ The problem isn't limited to available memory. As the object sizes increase, the
 
 ## Introducing Broadcasting
 
-In an operation like `outer(x, y, "+")`, `x` and `y` are replicated to become the same size. The thing is, physical replication - and thus copying - of the dimensions of `x` and `y` should not be necessary; they only need to be recycled virtually.  
+In an operation like `x[, rep(1L, 5L)] + y[rep(1L, 5L),]`, `x` and `y` are replicated to become the same size. The thing is, physical replication - and thus copying - of the dimensions of `x` and `y` should not be necessary; they only need to be recycled virtually.  
 
 Virtual recycling does not actually physically replicate `x` and `y`. Instead, nested loops in 'C' and 'C++' are used to simulate a recycled array.  
 This is similar to how 'R' recycles regular (i.e. dimensionless) vectors.  
-Virtual recycling requires no additional memory (apart from allocating the final end result); it is much faster and much more memory efficient than using the `outer()` function or something similar.
+Virtual recycling requires no additional memory (apart from allocating the final end result); it is much faster and much more memory efficient than replicating dimensions.
 
-And **that** is what broadcasting does: broadcasting provides **fast** virtual recycling of array dimensions in the context of operations involving 2 (or more) arrays **without** allocating additional memory.
+And **that** is what broadcasting does: broadcasting provides **fast** virtual recycling of array dimensions in the context of element-wise operations involving 2 (or more) arrays **without** allocating additional memory.
 
 In the earlier example, we used:
 
 ```{r}
 x[, rep(1L, 5L)] + y[rep(1L, 5L),]
-
-outer(x, y, "+") |> drop()
 ```
 
-To compute the outer sum using broadcasting through the 'broadcast' package, we can do the following:
+To compute the element-wise addition using broadcasting through the 'broadcast' package, we can do the following:
 
 ```{r}
 library(broadcast)
@@ -125,7 +121,7 @@ print(y)
 ```
 
 
-Computing the broadcasted outer sum of `x` and `y` produced the following:
+Computing the broadcasted element-wise sum of `x` and `y` produced the following:
 
 ```{r}
 bc.num(x, y, "+")
@@ -154,7 +150,7 @@ tt(foo, theme = "grid") |> style_tt(line = "tlbr")
 ```
 
 
-This is an example of a simple outer operation of 2 orthogonal vectors. But broadcasting provided by the 'broadcast' package is not limited to only those kinds of arrays.
+This is an example of a simple element-wise operation of 2 orthogonal vectors. But broadcasting provided by the 'broadcast' package is not limited to only those kinds of arrays.
 
 Any 2 arrays with each no more than 16 dimensions are supported. And any number of dimensions can be broadcasted simultaneously.
 
@@ -206,7 +202,7 @@ tt(foo, theme = "grid") |> style_tt(line = "tlbr")
 
 # Broadcasting limitations and rules
 
-The previous section used the examples of a simple outer operation with 1d arrays and matrices, as they are easier to display on a flat screen then 3d-arrays.   
+The previous section used the examples of a simple element-wise operation with 1d arrays and matrices, as they are easier to display on a flat screen then 3d-arrays.   
 But broadcasting provided by the 'broadcast' package is not limited to only those kinds of arrays.
 
 Any 2 arrays with each no more than 16 dimensions are supported. And any number of dimensions can be broadcasted simultaneously.
@@ -395,4 +391,34 @@ y <- array(1:10, c(10, 9, 1, 9, 10))
 
 
 &nbsp;
+
+
+# Broadcasting vs outer
+
+The base 'R' `outer()` function performs outer computations on vectors and arrays.
+
+At the start of this guide, we used the following computation:
+
+```{r}
+x <- array(1:5, c(5, 1))
+y <- array(1:5*10, c(1, 5))
+
+x[, rep(1L, 5L)] + y[rep(1L, 5L),]
+
+```
+
+
+This is equivalent to using the `outer()` function as follows:
+
+```{r}
+outer(as.vector(x), as.vector(y), "+")
+```
+
+
+As you can see, broadcasting 2 orthogonal vectors is equivalent to using `outer()` on 2 dimensionless vectors.
+
+The `outer()` approach has the same problems as the `x[, rep(1L, 5L)] + y[rep(1L, 5L),]` approach: it consumes a lot of unnecessary memory, and is slow.
+
+Broadcasting can thus be used as a more efficient alternative to `outer()` in case of vector inputs, simply by making the inputs orthogonal. But please don't confuse outer computations with broadcasting: broadcasting is efficient array recycling for element-wise computations.
+
 &nbsp;

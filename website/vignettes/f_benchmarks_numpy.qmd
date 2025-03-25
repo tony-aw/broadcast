@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
 
 ```{r setup, eval=TRUE, echo=FALSE}
 library(broadcast)
+library(fontawesome)
 library(bench)
 library(tinyplot)
 ```
@@ -22,13 +23,22 @@ library(tinyplot)
 
 # Introduction
 
-On this page the speed of computing the outer sum of 2 fully orthogonal arrays is compared across 2 workflows:
+
+Before the emergence of the 'broadcast' package, if `r fa("r-project")` users wished to employ broadcasting, they essentially had to use broadcasting as it existed in a different programming language. For example, they might use the broadcasting as available in the 'Python' module 'Numpy' via the 'reticulate' package. Or perhaps they might use the 'C++' library 'xtensor' via the R-package of the same name (or an extension thereof, like 'rray').
+
+With the emergence of the 'broadcast' `r fa("r-project")`, users can now call broadcasting implementations without using external libraries, which spares users the computing power needed for translating between object structures of different languages.
+
+The "broadcasting" implementation in the 'broadcast' package is conceptually (though not programmatically) inspired by the broadcasting employed by the 'Numpy' module for 'Python', which might be the first implementation of broadcasting. More importantly, 'Numpy' is remarkably fast, and the 'broadcast' `r fa("r-project")` package aims to be somewhat comparably fast.  
+
+This page presents the comparisons in the speed of broadcasted operations, between 'broadcast', and the classical 'Numpy' + 'reticulate' approach.
+
+More accurately, in this page the speed of computing the outer sum of 2 fully orthogonal arrays is compared across 2 workflows:
 
  - The workflow using 'broadcast'
- - The workflow using 'reticulate' + 'Numpy', though without the time- and memory consuming translations between `fa("r-project")` and `Python` objects.
+ - The workflow using 'reticulate' + 'Numpy', though without the time- and memory consuming translations between `r fa("r-project")` and 'Python' objects.
 
 
-Please bear in mind these are rough comparisons of speed. Since the comparisons involve 2 separate programming languages - 'R' and 'Python' (even if the 'Python' part is via 'reticulate'), "proper" speed comparison is rather difficult even on merely a conceptual level.
+Please bear in mind these are rough comparisons of speed. Since the comparisons involve 2 separate programming languages - 'R' and 'Python' (even if the 'Python' part is via 'reticulate'), "proper" speed comparison is rather difficult even on a merely conceptual level.
 
 &nbsp;
 
@@ -40,7 +50,7 @@ Please bear in mind these are rough comparisons of speed. Since the comparisons 
 
 The benchmarks are run for multiple dimensionalities, and multiple dimension sizes.
 
-For each combination of dimensionality and dimension size, pairs of decimal number arrays are created in both 'R' and 'Numpy'.  These pairs of arrays are fully orthogonal, thus the maximum amount of broadcasting will be employed.
+For each combination of dimensionality and dimension size, pairs of decimal number arrays are created in both 'broadcast' and 'reticulate' + 'Numpy'.  These pairs of arrays are fully orthogonal, thus the maximum amount of broadcasting will be employed.
 
 For each pair of array the outer sum is computed using 'broadcast' and 'Numpy'. This computation is repeated 200 times. From these 200 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between 'broadcast' and 'reticulate' + 'Numpy' fair, and these caveats are explained in the next sub-section.
 
@@ -55,8 +65,9 @@ To keep the comparisons between 'broadcast' and 'Numpy'+'reticulate' fair, a num
  
  - Distributions of benchmarks tend to be heavily skewed. Therefore, the median measure (together with the quartiles) are taken.
  - conversion from Numpy to 'R' is DISABLED; this allows for comparing the speed more fairly. When conversion would be enabled, precious time would be wasted to convert from Numpy structures to comparable 'R' structures.
- - garbage collection is disabled in reticulate's Python. In `fa("r-project")`, only benchmarks with no garbage collection, or level 0 garbage collection, are used. I feel this keeps the comparisons relatively fair (but it's not perfect).
- - Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for `fa("r-project")`, a check is made that at least 100 benchmark measurements are kept in (out 200 in total). Note that the median value 
+ - garbage collection is disabled in reticulate's Python. In `r fa("r-project")`, only benchmarks with no garbage collection, or level 0 garbage collection, are used. I feel this keeps the comparisons relatively fair (but it's not perfect).
+ - Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for `r fa("r-project")`, a check is made that at least 100 benchmark measurements are kept in (out 200 in total).
+ - In relation to the previous point, note that the quantiles and the median (the median itself is simply the 50% quantile) are asymptotically independent of sample-size (unlike, for example, the variance, which is affected by sample size).
  - 'R' has more support for missing values than 'Numpy', which also leads to a difference in speed. But both 'R' and 'Numpy' handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in 'R' ), through the `NaN` construct. Therefore, only operations on decimal numbers are compared.
  - Operations like power (`^`) and division (`/`) need to handle special cases (like when the right-hand side of the operation is 0). I cannot guarantee that 'broadcast' and 'Numpy' will handle these special cases in the exact same way. The plus (`+`) operator, however, has no such special cases. Therefore, the comparisons on this page involve only summation.
 
@@ -69,7 +80,7 @@ The 'benchmark' package was used for measuring speed, as this package can also b
 
 The plots are created using the 'tinyplot' package, to display the median, first quartile, and third quartile, of the computation times.
 
-The code can be found at the end of this guide.
+The code used to run the benchmarks can be found at the end of this guide.
 
 &nbsp;
 
@@ -332,7 +343,7 @@ tinyplot_add(
 
 # Conclusion
 
-The differences are rather small, however, and one can say in general that 'broadcast' and 'Numpy' have somewhat similar speeds.
+The differences in the computation times between 'broadcast' and 'reticulate' + 'Numpy' are rather small. It seems reasonable to conclude that, in general, 'broadcast' and 'Numpy' have somewhat similar speeds.
 
 
 &nbsp;
@@ -340,7 +351,6 @@ The differences are rather small, however, and one can say in general that 'broa
 # The code
 
 ```{r, eval=FALSE, echo=TRUE}
-
 
 # set-up ====
 library(broadcast)
@@ -410,7 +420,7 @@ save(
 
 # loop 3d ====
 gc()
-dimsizes <- seq(20L, 150L,  by = 10L)
+dimsizes <- seq(50L, 200L,  by = 10L)
 niter <- length(dimsizes)
 median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
 counter <- 1L
@@ -661,10 +671,7 @@ save(
 )
 
 
-
 ```
 
-
-&nbsp;
 
 &nbsp;

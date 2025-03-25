@@ -37,12 +37,8 @@ related to “broadcasting”:
 
  
 
-First, ‘broadcast’ provides functions for element-wise outer
-computations between any 2 arrays.  
-These are similar to base R’s `outer()` function, but using
-broadcasting, which is faster and more efficient than the mechanism
-employed by `outer()`.  
-The outer-like functions provided by ‘broadcast’ are optimised for a
+First, ‘broadcast’ provides functions for broadcasted element-wise
+binary operations between any 2 arrays. They support are optimised for a
 large set of relational-, arithmetic-, Boolean-, and string
 operations.  
 These functions have clear broadcasting rules, making it easy to
@@ -100,8 +96,6 @@ equivalent operations in ‘Numpy’.
 Have you ever been bothered by any of the following while programming in
 ‘R’:
 
-- `outer()` being slow, consuming way too much memory, or returning an
-  array with questionable dimensions?
 - `abind::abind()` being too slow, saying arrays are not conformable,
   and/or coercing recursive arrays to character arrays?
 - that there is no built-in way to cast or pivot arrays?

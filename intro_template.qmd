@@ -43,9 +43,7 @@ At its core, the 'broadcast' package provides 3 functionalities, all 3 related t
 
 &nbsp;
 
-First, 'broadcast' provides functions for element-wise outer computations between any 2 arrays.  
-These are similar to base R's `outer()` function, but using broadcasting, which is faster and more efficient than the mechanism employed by `outer()`.  
-The outer-like functions provided by 'broadcast' are optimised for a large set of relational-, arithmetic-, Boolean-, and string operations.  
+First, 'broadcast' provides functions for broadcasted element-wise binary operations between any 2 arrays. They support are optimised for a large set of relational-, arithmetic-, Boolean-, and string operations.  
 These functions have clear broadcasting rules, making it easy to accurately predict the dimensions of the result.
 
 &nbsp;
@@ -86,7 +84,6 @@ The `Benchmarks` show that 'broadcast' has a somewhat similar speed as equivalen
 
 Have you ever been bothered by any of the following while programming in `r fa("r-project")`:
 
- - `outer()` being slow, consuming way too much memory, or returning an array with questionable dimensions?
  - `abind::abind()` being too slow, saying arrays are not conformable, and/or coercing recursive arrays to character arrays?
  -  that there is no built-in way to cast or pivot arrays?
  - Receiving the "non-conformable arrays" error message in a simple operation when it intuitively should work?
@@ -114,7 +111,7 @@ Not using external libraries brings a number of advantages:
 
 **Tested**
 
-The 'broadcast' package is frequently checked using a large (> 100,000) suite of unit tests via the [tinytest](https://github.com/markvanderloo/tinytest) package. These tests have a coverage of approximately 95%. As such, the chance of a function from this package breaking is relatively low.
+The 'broadcast' package is frequently checked using a large suite of unit tests via the [tinytest](https://github.com/markvanderloo/tinytest) package. These tests have a coverage of approximately 95%. As such, the chance of a function from this package breaking is relatively low.
 
 Since 'broadcast' is still relatively new package, bugs are still very much possible. I encourage users who find bugs to report them swiftly to the GitHub page, and I will fix them as soon as time permits.
 

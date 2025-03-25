@@ -67,7 +67,7 @@ save(
 
 # loop 3d ====
 gc()
-dimsizes <- seq(20L, 150L,  by = 10L)
+dimsizes <- seq(50L, 200L,  by = 10L)
 niter <- length(dimsizes)
 median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
 counter <- 1L

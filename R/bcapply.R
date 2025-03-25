@@ -2,8 +2,7 @@
 #'
 #' @description
 #' The `bcapply()` function
-#' applies a function to 2 arrays element-wise with broadcasting,
-#' similar to the \link[base]{outer} function. \cr
+#' applies a function to 2 arrays element-wise with broadcasting. \cr
 #' 
 #' @param x,y conformable atomic or recursive arrays.
 #' @param f a function that takes in exactly \bold{2} arguments,

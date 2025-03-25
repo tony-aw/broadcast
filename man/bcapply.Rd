@@ -27,8 +27,7 @@ An atomic or recursive array with dimensions \code{bc_dim(x, y)}. \cr
 }
 \description{
 The \code{bcapply()} function
-applies a function to 2 arrays element-wise with broadcasting,
-similar to the \link[base]{outer} function. \cr
+applies a function to 2 arrays element-wise with broadcasting. \cr
 }
 \examples{
 x.dim <- c(c(10, 2,2))

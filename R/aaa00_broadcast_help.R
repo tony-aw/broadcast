@@ -21,10 +21,10 @@
 #' 
 #' @section Methods and Functions:
 #' 
-#' \bold{Outer-like functions} \cr
-#' 'broadcast' provides a set of functions for binary, element-wise, outer operations
+#' \bold{Functions broadcasted element-wise binary operations} \cr
+#' 'broadcast' provides a set of functions for broadcasted element-wise binary operations
 #' with broadcasting. \cr
-#' These functions use an API similar to the \link[base]{outer} and \link[base]{sweep} functions. \cr
+#' These functions use an API similar to the \link[base]{outer} function. \cr
 #' \cr
 #' The following functions for type-specific binary operations are available:
 #' 

@@ -3,8 +3,6 @@
 # then, set working directory to source file locations
 
 library(quarto)
-library(stringi)
-
 
 quarto_render()
 

@@ -171,12 +171,11 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#outer-like-functions" id="toc-outer-like-functions" class="nav-link" data-scroll-target="#outer-like-functions">Outer-like functions</a></li>
+  <li><a href="#functions-broadcasted-element-wise-binary-operations" id="toc-functions-broadcasted-element-wise-binary-operations" class="nav-link" data-scroll-target="#functions-broadcasted-element-wise-binary-operations">Functions broadcasted element-wise binary operations</a></li>
   <li><a href="#binding-implementations" id="toc-binding-implementations" class="nav-link" data-scroll-target="#binding-implementations">Binding implementations</a></li>
   <li><a href="#acast" id="toc-acast" class="nav-link" data-scroll-target="#acast">Acast</a></li>
   <li><a href="#type-casting" id="toc-type-casting" class="nav-link" data-scroll-target="#type-casting">Type-casting</a></li>
   <li><a href="#supported-structures" id="toc-supported-structures" class="nav-link" data-scroll-target="#supported-structures">Supported Structures</a></li>
-  <li><a href="#naming-convention" id="toc-naming-convention" class="nav-link" data-scroll-target="#naming-convention">Naming convention</a></li>
   </ul>
 </nav>
     </div>
@@ -205,7 +204,7 @@ ul.task-list li input[type="checkbox"] {
 <h1>Introduction</h1>
 <p>The ‘broadcast’ package provides 5 main functionalities:</p>
 <ul>
-<li>outer-like functions to perform broadcasted outer-computations</li>
+<li>functions to perform broadcasted element-wise binary operations</li>
 <li>broadcasted dimensional binding of arrays (and also matrices and data.tables)</li>
 <li>broadcasted generic pair-wise functions</li>
 <li>casting/pivoting an array into a new dimension</li>
@@ -214,11 +213,10 @@ ul.task-list li input[type="checkbox"] {
 <p>This guide gives a brief overview of the functions provided by the ‘broadcast’ ‘R’-package.</p>
 <p>&nbsp;</p>
 </section>
-<section id="outer-like-functions" class="level1">
-<h1>Outer-like functions</h1>
-<p>The ‘broadcast’ package provides functions that perform Broadcasted outer operations, similar to base R’s <code>outer()</code> function.<br>
-While the <code>outer()</code> function from base ‘R’ is only optimised for “*” and type-casts greedily, ‘broadcast’ provides a separate outer-like function for each set of operations associated with a certain type, which are all highly optimised, and only perform type-casting when needed without allocating additional memory.<br>
-The outer-like functions are the following:</p>
+<section id="functions-broadcasted-element-wise-binary-operations" class="level1">
+<h1>Functions broadcasted element-wise binary operations</h1>
+<p>The ‘broadcast’ package provides functions that perform broadcasted element-wise binary operations. These functions use an API similar to the <code>outer()</code> function.</p>
+<p>The functions are the following:</p>
 <ul>
 <li><a href="../man/bc.b.html">bc.b()</a>: Broadcasted Boolean operations.<br>
 Includes the &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;= operations.</li>
@@ -230,10 +228,9 @@ Includes relational operations, relational operations with Machine precision spe
 Includes (in)equality operations, and basic arithmetic operations.</li>
 <li><a href="../man/bc.str.html">bc.str()</a>: Broadcasted String operations.<br>
 Includes operations for (in)equality, concatenation, and string distance (Levenshtein) calculation.</li>
-<li><a href="../man/bc.list.html">bc.list()</a>: Broadcasted operations on Recursive arrays.<br>
-This is outer-like function does not include built-in optimised operations, but does accept almost any binary function.</li>
+<li><a href="../man/bc.list.html">bc.list()</a>: Broadcasted operations on Recursive arrays.</li>
 </ul>
-<p>Much like the <code>outer()</code> function from base ‘R’, the outer-like functions provided by ‘broadcast’, are pair-wise functions; i.e.&nbsp;they operate on 2 arrays at a time.<br>
+<p>These are all pair-wise functions; i.e.&nbsp;they operate on 2 arrays at a time.<br>
 This is intentional, as it is quite difficult to reason about broadcasting when it involves more than a pair of arrays.</p>
 <p>&nbsp;</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -252,8 +249,6 @@ Note
 </ul>
 </div>
 </div>
-<p>&nbsp;</p>
-<p>For details on the operators supported in each of the outer-like functions, please refer to the relevant sections in the Reference Manual.</p>
 <p>&nbsp;</p>
 </section>
 <section id="binding-implementations" class="level1">
@@ -293,19 +288,6 @@ Roughly speaking, it is somewhat analogous to <code>data.table::dcast()</code>, 
 <section id="supported-structures" class="level1">
 <h1>Supported Structures</h1>
 <p>The functions in the ‘broadcast’ package only support S3 structures. S4 structures, Reference Classes, and so on are not supported.</p>
-<p>&nbsp;</p>
-</section>
-<section id="naming-convention" class="level1">
-<h1>Naming convention</h1>
-<p>The naming convention of the outer-like functions is “bc.” followed by some abbreviation of the operation type.<br>
-For example, “b” refers to “Boolean operations”, “i” to “Integer Numeric operations”, and “d” to “Decimal Numeric Operations”.</p>
-<p>&nbsp;</p>
-<p>The naming convention of the binding implementations here is “bind_” followed by the <strong>resulting class</strong> (abbreviated) - i.e.&nbsp;…</p>
-<ul>
-<li><a href="../man/bind.html">bind_mat()</a> <strong>returns</strong> a matrix, but can bind both matrices and vectors.</li>
-<li><a href="../man/bind.html">bind_array()</a> <strong>returns</strong> an array, but can bind both arrays and matrices.</li>
-<li><a href="../man/bind.html">bind_dt()</a> <strong>returns</strong> a data.table, but can bind not only data.tables, but also most other data.frame-like objects.</li>
-</ul>
 <p>&nbsp; &nbsp;</p>
 
 

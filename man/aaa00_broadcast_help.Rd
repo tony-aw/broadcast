@@ -17,7 +17,8 @@ Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, incl
 The implementations available in 'broadcast' include, but are not limited to, the following:
 \enumerate{
 \item A faster, more memory efficient, and broadcasted version of \code{abind()}, for binding arrays along an arbitrary dimension;
-\item A set of broadcasted outer()-like functions, optimised for a large set of relational-, arithmetic-, Boolean-, and string operations.
+\item A set of type-specific functions for broadcasted element-wise binary operations;
+they support a large set of relational-, arithmetic-, Boolean-, and string operations.
 \item A Broadcasted implementation of \code{ifelse()};
 \item A Broadcasted apply-like function;
 \item The \code{acast()} function, for casting/pivoting an array into a new dimension.
@@ -34,10 +35,10 @@ An introduction and overview of the package can be found on the website. \cr
 \section{Methods and Functions}{
 
 
-\bold{Outer-like functions} \cr
-'broadcast' provides a set of functions for binary, element-wise, outer operations
+\bold{Functions broadcasted element-wise binary operations} \cr
+'broadcast' provides a set of functions for broadcasted element-wise binary operations
 with broadcasting. \cr
-These functions use an API similar to the \link[base]{outer} and \link[base]{sweep} functions. \cr
+These functions use an API similar to the \link[base]{outer} function. \cr
 \cr
 The following functions for type-specific binary operations are available:
 \itemize{

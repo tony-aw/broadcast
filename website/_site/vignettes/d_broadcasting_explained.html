@@ -218,6 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#which-dimensions-are-broadcasted" id="toc-which-dimensions-are-broadcasted" class="nav-link" data-scroll-target="#which-dimensions-are-broadcasted"><span class="header-section-number">4.2</span> Which dimensions are broadcasted</a></li>
   </ul></li>
   <li><a href="#orthogonal-arrays" id="toc-orthogonal-arrays" class="nav-link" data-scroll-target="#orthogonal-arrays"><span class="header-section-number">5</span> Orthogonal Arrays</a></li>
+  <li><a href="#broadcasting-vs-outer" id="toc-broadcasting-vs-outer" class="nav-link" data-scroll-target="#broadcasting-vs-outer"><span class="header-section-number">6</span> Broadcasting vs outer</a></li>
   </ul>
 </nav>
     </div>
@@ -244,7 +245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>&nbsp;</p>
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions <strong>without</strong> allocating additional memory or making needles copies. This is considerably <strong>faster</strong> and <strong>more memory-efficient</strong> than R’s regular dimensions repetition (and similar) mechanisms, such as the mechanism utilized inside the <code>outer()</code> function.</p>
+<p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions <strong>without</strong> allocating additional memory or making needles copies. This is considerably <strong>faster</strong> and <strong>more memory-efficient</strong> than R’s regular dimensions repetition (and similar) mechanisms.</p>
 <p>This article explains the concept of “broadcasting” in more detail. A good understanding of atomic and recursive arrays in base ‘R’ is somewhat essential to follow this article.</p>
 <p>&nbsp;</p>
 </section>
@@ -268,15 +269,15 @@ Consider the column vector <code>x</code> and the row vector <code>y</code>:</p>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   10   20   30   40   50</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Suppose one wishes to compute the outer sum of these 2 vectors.</p>
+<p>Suppose one wishes to compute the element-wise sum of these 2 arrays.</p>
 <p>This won’t work in base ‘R’:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">in</span> x <span class="sc">+</span> y <span class="sc">:</span> non<span class="sc">-</span>conformable arrays</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>When computing the outer sum of these vectors, both vectors need to be recycled to equal size in order to compute the outer computation.<br>
+<p>When computing the elemt-wise sum of these vectors, both vectors need to be recycled to equal size in order to compute the element-wise computation.<br>
 I.e. <code>x</code> needs its single column to be recycled (in this case) 5 times, and <code>y</code> needs its single row to be recycled 5 times, creating 2 conformable matrices.</p>
-<p>‘R’ provides linear <strong>vector</strong> recycling, but not recycling of array dimensions. Instead, in base ‘R’ we need to <strong>replicate</strong> (and thus <strong>copy</strong>) the array dimensions. This can be done manually, or using <code>outer() |&gt; drop()</code>:</p>
+<p>‘R’ provides linear <strong>vector</strong> recycling, but not recycling of array dimensions. Instead, in base ‘R’ we need to <strong>replicate</strong> (and thus <strong>copy</strong>) the array dimensions. This can be done manually, like so:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x[, <span class="fu">rep</span>(1L, 5L)] <span class="sc">+</span> y[<span class="fu">rep</span>(1L, 5L),]</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
@@ -284,15 +285,7 @@ I.e. <code>x</code> needs its single column to be recycled (in this case) 5 time
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   12   22   32   42   52</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   13   23   33   43   53</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]   14   24   34   44   54</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]   15   25   35   45   55</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">outer</span>(x, y, <span class="st">"+"</span>) <span class="sc">|&gt;</span> <span class="fu">drop</span>()</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   11   21   31   41   51</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   12   22   32   42   52</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   13   23   33   43   53</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]   14   24   34   44   54</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]   15   25   35   45   55</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]   15   25   35   45   55</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>&nbsp;</p>
 </section>
@@ -308,11 +301,11 @@ I.e. <code>x</code> needs its single column to be recycled (in this case) 5 time
 </section>
 <section id="introducing-broadcasting" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="introducing-broadcasting"><span class="header-section-number">2.3</span> Introducing Broadcasting</h2>
-<p>In an operation like <code>outer(x, y, "+")</code>, <code>x</code> and <code>y</code> are replicated to become the same size. The thing is, physical replication - and thus copying - of the dimensions of <code>x</code> and <code>y</code> should not be necessary; they only need to be recycled virtually.</p>
+<p>In an operation like <code>x[, rep(1L, 5L)] + y[rep(1L, 5L),]</code>, <code>x</code> and <code>y</code> are replicated to become the same size. The thing is, physical replication - and thus copying - of the dimensions of <code>x</code> and <code>y</code> should not be necessary; they only need to be recycled virtually.</p>
 <p>Virtual recycling does not actually physically replicate <code>x</code> and <code>y</code>. Instead, nested loops in ‘C’ and ‘C++’ are used to simulate a recycled array.<br>
 This is similar to how ‘R’ recycles regular (i.e.&nbsp;dimensionless) vectors.<br>
-Virtual recycling requires no additional memory (apart from allocating the final end result); it is much faster and much more memory efficient than using the <code>outer()</code> function or something similar.</p>
-<p>And <strong>that</strong> is what broadcasting does: broadcasting provides <strong>fast</strong> virtual recycling of array dimensions in the context of operations involving 2 (or more) arrays <strong>without</strong> allocating additional memory.</p>
+Virtual recycling requires no additional memory (apart from allocating the final end result); it is much faster and much more memory efficient than replicating dimensions.</p>
+<p>And <strong>that</strong> is what broadcasting does: broadcasting provides <strong>fast</strong> virtual recycling of array dimensions in the context of element-wise operations involving 2 (or more) arrays <strong>without</strong> allocating additional memory.</p>
 <p>In the earlier example, we used:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x[, <span class="fu">rep</span>(1L, 5L)] <span class="sc">+</span> y[<span class="fu">rep</span>(1L, 5L),]</span>
@@ -321,17 +314,9 @@ Virtual recycling requires no additional memory (apart from allocating the final
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   12   22   32   42   52</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   13   23   33   43   53</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]   14   24   34   44   54</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]   15   25   35   45   55</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">outer</span>(x, y, <span class="st">"+"</span>) <span class="sc">|&gt;</span> <span class="fu">drop</span>()</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   11   21   31   41   51</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   12   22   32   42   52</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   13   23   33   43   53</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]   14   24   34   44   54</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]   15   25   35   45   55</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]   15   25   35   45   55</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To compute the outer sum using broadcasting through the ‘broadcast’ package, we can do the following:</p>
+<p>To compute the element-wise addition using broadcasting through the ‘broadcast’ package, we can do the following:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broadcast)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -363,7 +348,7 @@ Virtual recycling requires no additional memory (apart from allocating the final
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   10   20   30   40   50</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Computing the broadcasted outer sum of <code>x</code> and <code>y</code> produced the following:</p>
+<p>Computing the broadcasted element-wise sum of <code>x</code> and <code>y</code> produced the following:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.num</span>(x, y, <span class="st">"+"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
@@ -382,8 +367,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <script>
 
-      function styleCell_4l2yec9k72zg31ovipwu(i, j, css_id) {
-          var table = document.getElementById("tinytable_4l2yec9k72zg31ovipwu");
+      function styleCell_jubebumi2it2mnrd3rpz(i, j, css_id) {
+          var table = document.getElementById("tinytable_jubebumi2it2mnrd3rpz");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -393,7 +378,7 @@ Virtual recycling requires no additional memory (apart from allocating the final
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_4l2yec9k72zg31ovipwu');
+        var table = document.getElementById('tinytable_jubebumi2it2mnrd3rpz');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -401,8 +386,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_4l2yec9k72zg31ovipwu(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_4l2yec9k72zg31ovipwu");
+      function spanCell_jubebumi2it2mnrd3rpz(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_jubebumi2it2mnrd3rpz");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -432,13 +417,13 @@ Virtual recycling requires no additional memory (apart from allocating the final
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 0, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 0, j: 2 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 4, j: 2 }, { i: 0, j: 3 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 4, j: 3 }, { i: 0, j: 4 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 3, j: 4 }, { i: 4, j: 4 },  ], css_id: 'tinytable_css_8gz47a82o5z9q4ppp3hp',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 0, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 0, j: 2 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 4, j: 2 }, { i: 0, j: 3 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 4, j: 3 }, { i: 0, j: 4 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 3, j: 4 }, { i: 4, j: 4 },  ], css_id: 'tinytable_css_7s1wjj0j6uoj5oo2cyl3',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_4l2yec9k72zg31ovipwu(cell.i, cell.j, group.css_id);
+                  styleCell_jubebumi2it2mnrd3rpz(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -446,10 +431,10 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_8gz47a82o5z9q4ppp3hp, .table th.tinytable_css_8gz47a82o5z9q4ppp3hp { border: solid black 0.1em; }
+      .table td.tinytable_css_7s1wjj0j6uoj5oo2cyl3, .table th.tinytable_css_7s1wjj0j6uoj5oo2cyl3 { border: solid black 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-bordered" id="tinytable_4l2yec9k72zg31ovipwu" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-bordered" id="tinytable_jubebumi2it2mnrd3rpz" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
         </thead>
@@ -496,7 +481,7 @@ Virtual recycling requires no additional memory (apart from allocating the final
 <!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
-<p>This is an example of a simple outer operation of 2 orthogonal vectors. But broadcasting provided by the ‘broadcast’ package is not limited to only those kinds of arrays.</p>
+<p>This is an example of a simple element-wise operation of 2 orthogonal vectors. But broadcasting provided by the ‘broadcast’ package is not limited to only those kinds of arrays.</p>
 <p>Any 2 arrays with each no more than 16 dimensions are supported. And any number of dimensions can be broadcasted simultaneously.</p>
 <p>&nbsp;</p>
 <p>Let’s broadcast a vector with a matrix.</p>
@@ -540,8 +525,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <script>
 
-      function styleCell_l0bnurbu1ifzhcar40bn(i, j, css_id) {
-          var table = document.getElementById("tinytable_l0bnurbu1ifzhcar40bn");
+      function styleCell_47rhshcjao4emnhzcz7v(i, j, css_id) {
+          var table = document.getElementById("tinytable_47rhshcjao4emnhzcz7v");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -551,7 +536,7 @@ Virtual recycling requires no additional memory (apart from allocating the final
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_l0bnurbu1ifzhcar40bn');
+        var table = document.getElementById('tinytable_47rhshcjao4emnhzcz7v');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -559,8 +544,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_l0bnurbu1ifzhcar40bn(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_l0bnurbu1ifzhcar40bn");
+      function spanCell_47rhshcjao4emnhzcz7v(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_47rhshcjao4emnhzcz7v");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -590,13 +575,13 @@ Virtual recycling requires no additional memory (apart from allocating the final
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 0, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 0, j: 2 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 4, j: 2 }, { i: 0, j: 3 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 4, j: 3 },  ], css_id: 'tinytable_css_b6ia8dqava8gcfg39z80',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 0, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 0, j: 2 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 4, j: 2 }, { i: 0, j: 3 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 4, j: 3 },  ], css_id: 'tinytable_css_tbnxwsnvpb6leevj8lqm',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_l0bnurbu1ifzhcar40bn(cell.i, cell.j, group.css_id);
+                  styleCell_47rhshcjao4emnhzcz7v(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -604,10 +589,10 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_b6ia8dqava8gcfg39z80, .table th.tinytable_css_b6ia8dqava8gcfg39z80 { border: solid black 0.1em; }
+      .table td.tinytable_css_tbnxwsnvpb6leevj8lqm, .table th.tinytable_css_tbnxwsnvpb6leevj8lqm { border: solid black 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-bordered" id="tinytable_l0bnurbu1ifzhcar40bn" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-bordered" id="tinytable_47rhshcjao4emnhzcz7v" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
         </thead>
@@ -653,7 +638,7 @@ Virtual recycling requires no additional memory (apart from allocating the final
 </section>
 <section id="broadcasting-limitations-and-rules" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Broadcasting limitations and rules</h1>
-<p>The previous section used the examples of a simple outer operation with 1d arrays and matrices, as they are easier to display on a flat screen then 3d-arrays.<br>
+<p>The previous section used the examples of a simple element-wise operation with 1d arrays and matrices, as they are easier to display on a flat screen then 3d-arrays.<br>
 But broadcasting provided by the ‘broadcast’ package is not limited to only those kinds of arrays.</p>
 <p>Any 2 arrays with each no more than 16 dimensions are supported. And any number of dimensions can be broadcasted simultaneously.</p>
 <p>&nbsp;</p>
@@ -680,8 +665,8 @@ But broadcasting provided by the ‘broadcast’ package is not limited to only 
 
     <script>
 
-      function styleCell_15toej8sx2lxpo2l081u(i, j, css_id) {
-          var table = document.getElementById("tinytable_15toej8sx2lxpo2l081u");
+      function styleCell_t30wh7n53rg5y9igt1z4(i, j, css_id) {
+          var table = document.getElementById("tinytable_t30wh7n53rg5y9igt1z4");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -691,7 +676,7 @@ But broadcasting provided by the ‘broadcast’ package is not limited to only 
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_15toej8sx2lxpo2l081u');
+        var table = document.getElementById('tinytable_t30wh7n53rg5y9igt1z4');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -699,8 +684,8 @@ But broadcasting provided by the ‘broadcast’ package is not limited to only 
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_15toej8sx2lxpo2l081u(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_15toej8sx2lxpo2l081u");
+      function spanCell_t30wh7n53rg5y9igt1z4(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_t30wh7n53rg5y9igt1z4");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -730,14 +715,14 @@ But broadcasting provided by the ‘broadcast’ package is not limited to only 
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 }, { i: 4, j: 3 },  ], css_id: 'tinytable_css_nxf0e1u4k7n48mqan66l',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_g94ipaodi10ovi84go5d',}, 
+          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 }, { i: 4, j: 3 },  ], css_id: 'tinytable_css_mw2k9asq56aegvpyf773',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_0uityaptff834rwwaf3y',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_15toej8sx2lxpo2l081u(cell.i, cell.j, group.css_id);
+                  styleCell_t30wh7n53rg5y9igt1z4(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -745,11 +730,11 @@ But broadcasting provided by the ‘broadcast’ package is not limited to only 
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_nxf0e1u4k7n48mqan66l, .table th.tinytable_css_nxf0e1u4k7n48mqan66l { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_g94ipaodi10ovi84go5d, .table th.tinytable_css_g94ipaodi10ovi84go5d { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_mw2k9asq56aegvpyf773, .table th.tinytable_css_mw2k9asq56aegvpyf773 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_0uityaptff834rwwaf3y, .table th.tinytable_css_0uityaptff834rwwaf3y { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_15toej8sx2lxpo2l081u" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_t30wh7n53rg5y9igt1z4" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -806,8 +791,8 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
 
     <script>
 
-      function styleCell_ogglmadjd92yr1o40wj4(i, j, css_id) {
-          var table = document.getElementById("tinytable_ogglmadjd92yr1o40wj4");
+      function styleCell_joweyhz0xt0o808s4xs3(i, j, css_id) {
+          var table = document.getElementById("tinytable_joweyhz0xt0o808s4xs3");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -817,7 +802,7 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_ogglmadjd92yr1o40wj4');
+        var table = document.getElementById('tinytable_joweyhz0xt0o808s4xs3');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -825,8 +810,8 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_ogglmadjd92yr1o40wj4(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_ogglmadjd92yr1o40wj4");
+      function spanCell_joweyhz0xt0o808s4xs3(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_joweyhz0xt0o808s4xs3");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -856,14 +841,14 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_na37yk10krxpxrlw56sg',}, 
-          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 }, { i: 4, j: 3 },  ], css_id: 'tinytable_css_8d74lfulxg2jkg0414n7',}, 
+          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 }, { i: 4, j: 3 },  ], css_id: 'tinytable_css_e71z2fg90o1zu1oined6',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_0vfsttuza7c20ljfpsg5',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_ogglmadjd92yr1o40wj4(cell.i, cell.j, group.css_id);
+                  styleCell_joweyhz0xt0o808s4xs3(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -871,11 +856,11 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_na37yk10krxpxrlw56sg, .table th.tinytable_css_na37yk10krxpxrlw56sg { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_8d74lfulxg2jkg0414n7, .table th.tinytable_css_8d74lfulxg2jkg0414n7 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_e71z2fg90o1zu1oined6, .table th.tinytable_css_e71z2fg90o1zu1oined6 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_0vfsttuza7c20ljfpsg5, .table th.tinytable_css_0vfsttuza7c20ljfpsg5 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_ogglmadjd92yr1o40wj4" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_joweyhz0xt0o808s4xs3" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -954,8 +939,8 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
 
     <script>
 
-      function styleCell_epwnebsv4r13cvdemssb(i, j, css_id) {
-          var table = document.getElementById("tinytable_epwnebsv4r13cvdemssb");
+      function styleCell_m2wv6z974ng7xzq48stk(i, j, css_id) {
+          var table = document.getElementById("tinytable_m2wv6z974ng7xzq48stk");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -965,7 +950,7 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_epwnebsv4r13cvdemssb');
+        var table = document.getElementById('tinytable_m2wv6z974ng7xzq48stk');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -973,8 +958,8 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_epwnebsv4r13cvdemssb(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_epwnebsv4r13cvdemssb");
+      function spanCell_m2wv6z974ng7xzq48stk(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_m2wv6z974ng7xzq48stk");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -1004,14 +989,14 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 5, j: 0 }, { i: 5, j: 1 }, { i: 5, j: 2 }, { i: 5, j: 3 }, { i: 5, j: 4 }, { i: 5, j: 5 },  ], css_id: 'tinytable_css_jejs9pft6qnujwkeuucr',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 }, { i: 0, j: 5 },  ], css_id: 'tinytable_css_i4xxc6l3qvrn4fdj6oi8',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 }, { i: 0, j: 5 },  ], css_id: 'tinytable_css_i8yojzas4i0sqlaij4xw',}, 
+          { positions: [ { i: 5, j: 0 }, { i: 5, j: 1 }, { i: 5, j: 2 }, { i: 5, j: 3 }, { i: 5, j: 4 }, { i: 5, j: 5 },  ], css_id: 'tinytable_css_f18f3o02obbc2wh6ba6x',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_epwnebsv4r13cvdemssb(cell.i, cell.j, group.css_id);
+                  styleCell_m2wv6z974ng7xzq48stk(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1019,11 +1004,11 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_jejs9pft6qnujwkeuucr, .table th.tinytable_css_jejs9pft6qnujwkeuucr { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_i4xxc6l3qvrn4fdj6oi8, .table th.tinytable_css_i4xxc6l3qvrn4fdj6oi8 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_i8yojzas4i0sqlaij4xw, .table th.tinytable_css_i8yojzas4i0sqlaij4xw { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_f18f3o02obbc2wh6ba6x, .table th.tinytable_css_f18f3o02obbc2wh6ba6x { border-bottom: solid #d3d8dc 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_epwnebsv4r13cvdemssb" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_m2wv6z974ng7xzq48stk" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -1122,7 +1107,38 @@ For the purposes of broadcasting, any pair of arrays, <code>x</code> and <code>y
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">1</span>, <span class="dv">10</span>))</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>&nbsp; &nbsp;</p>
+<p>&nbsp;</p>
+</section>
+<section id="broadcasting-vs-outer" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Broadcasting vs outer</h1>
+<p>The base ‘R’ <code>outer()</code> function performs outer computations on vectors and arrays.</p>
+<p>At the start of this guide, we used the following computation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span><span class="sc">*</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>x[, <span class="fu">rep</span>(1L, 5L)] <span class="sc">+</span> y[<span class="fu">rep</span>(1L, 5L),]</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   11   21   31   41   51</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   12   22   32   42   52</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   13   23   33   43   53</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]   14   24   34   44   54</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]   15   25   35   45   55</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is equivalent to using the <code>outer()</code> function as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">outer</span>(<span class="fu">as.vector</span>(x), <span class="fu">as.vector</span>(y), <span class="st">"+"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   11   21   31   41   51</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   12   22   32   42   52</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   13   23   33   43   53</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]   14   24   34   44   54</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]   15   25   35   45   55</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As you can see, broadcasting 2 orthogonal vectors is equivalent to using <code>outer()</code> on 2 dimensionless vectors.</p>
+<p>The <code>outer()</code> approach has the same problems as the <code>x[, rep(1L, 5L)] + y[rep(1L, 5L),]</code> approach: it consumes a lot of unnecessary memory, and is slow.</p>
+<p>Broadcasting can thus be used as a more efficient alternative to <code>outer()</code> in case of vector inputs, simply by making the inputs orthogonal. But please don’t confuse outer computations with broadcasting: broadcasting is efficient array recycling for element-wise computations.</p>
+<p>&nbsp;</p>
 
 
 </section>
