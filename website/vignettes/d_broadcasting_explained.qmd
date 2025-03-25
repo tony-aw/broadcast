@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 ```{r setup, eval=TRUE, echo=FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 library(broadcast)
+library(fontawesome) |> suppressWarnings()
 library(tinytable) |> suppressWarnings()
 ```
 
@@ -26,7 +27,7 @@ library(tinytable) |> suppressWarnings()
 In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory or making needles copies. This is considerably **faster** and **more memory-efficient** than R's regular dimensions repetition (and similar) mechanisms.
 
 This article explains the concept of "broadcasting" in more detail.
-A good understanding of atomic and recursive arrays in base 'R' is somewhat essential to follow this article.
+A good understanding of atomic and recursive arrays in base `r fa("r-project")` is somewhat essential to follow this article.
 
 &nbsp;
 
@@ -35,18 +36,18 @@ A good understanding of atomic and recursive arrays in base 'R' is somewhat esse
 ## Example case
 
 Let's start with a simple example.  
-Consider the column vector `x` and the row vector `y`:
+Consider the matrices `x` and `y`:
 
 ```{r}
-x <- array(1:5, c(5, 1))
+x <- array(1:20, c(4, 5))
 y <- array(1:5*10, c(1, 5))
 print(x)
 print(y)
 ```
 
-Suppose one wishes to compute the element-wise sum of these 2 arrays.  
+Suppose one wishes to compute the element-wise addition of these 2 arrays.  
 
-This won't work in base 'R':
+This won't work in base `r fa("r-project")`:
 
 ```{r eval=FALSE, echo=TRUE}
 x + y
@@ -54,38 +55,42 @@ Error in x + y : non-conformable arrays
 ```
 
 
-When computing the elemt-wise sum of these vectors, both vectors need to be recycled to equal size in order to compute the element-wise computation.  
-I.e. `x` needs its single column to be recycled (in this case) 5 times, and `y` needs its single row to be recycled 5 times, creating 2 conformable matrices.  
+When computing the element-wise sum of these arrays, one or both of them need to be recycled so that they are equal size, in order to compute the element-wise computation.
 
-'R' provides linear **vector** recycling, but not recycling of array dimensions. Instead, in base 'R' we need to **replicate** (and thus **copy**) the array dimensions. This can be done manually, like so:
+In this case, matrix `y` needs its single row to be recycled 4 times, making   `y` the same size as `x`, and thus conformable.  
+
+`r fa("r-project")` provides linear **vector** recycling, but not recycling of array dimensions. Instead, in base `r fa("r-project")` we need to **replicate** (and thus **copy**) the array dimensions. This can be done manually, like so:
 
 ```{r}
-x[, rep(1L, 5L)] + y[rep(1L, 5L),]
+x + y[rep(1L, 4L),]
 ```
+
 
 &nbsp;
 
 ## What is the problem?
 
-When `x` and `y` are small arrays, like in the above example, there is hardly a problem; but when `x` and `y` become larger, the 3 matrices (`x` is replicated to a matrix, `y` is replicated to a matrix, and the result is also matrix) also become larger.
+There are several problems.
 
-If the 3 matrices become too large, you may require more memory than is available in your current system, resulting in a message like the following:
+First and foremost, when the arrays become larger, the replicated arrays become larger, and if the arrays become too large, you may require more memory than is available in your current system, resulting in a message like the following:
 
 ```{r eval=FALSE, echo=TRUE}
 > Error: cannot allocate vector of size
 ```
 
 
-The problem isn't limited to available memory. As the object sizes increase, the speed decreases. And let's not forget that computational inefficiency in general is also bad for the environment.
+The problem isn't limited to available memory. As the required memory to allocate increase, the speed decreases. And let's not forget that computational inefficiency in general is also bad for the environment.
+
+Additionally, a solution like `x + y[rep(1L, 4L),]` is not easily scalable for other arrays when the dimensions are  not known a-priori.
 
 &nbsp;
 
 ## Introducing Broadcasting
 
-In an operation like `x[, rep(1L, 5L)] + y[rep(1L, 5L),]`, `x` and `y` are replicated to become the same size. The thing is, physical replication - and thus copying - of the dimensions of `x` and `y` should not be necessary; they only need to be recycled virtually.  
+In an operation like `x + y[rep(1L, 4L),]`, `y` is replicated to become the same size. The thing is, physical replication - and thus copying - of the dimensions of an array should not be necessary; arrays only need to be recycled virtually.  
 
-Virtual recycling does not actually physically replicate `x` and `y`. Instead, nested loops in 'C' and 'C++' are used to simulate a recycled array.  
-This is similar to how 'R' recycles regular (i.e. dimensionless) vectors.  
+Virtual recycling does not actually physically replicate arrays. Instead, nested loops in 'C' and 'C++' are used to simulate a recycled array.  
+This is similar to how `r fa("r-project")` recycles regular (i.e. dimensionless) vectors.  
 Virtual recycling requires no additional memory (apart from allocating the final end result); it is much faster and much more memory efficient than replicating dimensions.
 
 And **that** is what broadcasting does: broadcasting provides **fast** virtual recycling of array dimensions in the context of element-wise operations involving 2 (or more) arrays **without** allocating additional memory.
@@ -93,7 +98,7 @@ And **that** is what broadcasting does: broadcasting provides **fast** virtual r
 In the earlier example, we used:
 
 ```{r}
-x[, rep(1L, 5L)] + y[rep(1L, 5L),]
+x + y[rep(1L, 4L),]
 ```
 
 To compute the element-wise addition using broadcasting through the 'broadcast' package, we can do the following:
@@ -105,7 +110,9 @@ bc.num(x, y, "+")
 
 ```
 
-The result is the same (as it should). But as the size of the resulting array increases, the broadcasted functions become more and more efficient in terms of both speed and memory, in comparison with base 'R' approaches.  
+The result is the same (as it should). But as the size of the resulting array increases, the broadcasted functions become more and more efficient in terms of both speed and memory, in comparison with base `r fa("r-project")` approaches.  
+
+Technically, one can also use `t(t(x) + drop(y))`, but that has a similar problem: one needs to perform transposition twice, which makes unnecessary copies, is slow, and is - again - not scalable to arrays where the dimensions are not known a-priori.
 
 Benchmarks can be found on the website.
 
@@ -113,15 +120,57 @@ Benchmarks can be found on the website.
 
 # Illustrating Broadcasting
 
-In the previous example 2 orthogonal vectors were created:
+## Retracing the first example
+
+In the previous example the following arrays were used:
 
 ```{r}
+x <- array(1:20, c(4, 5))
+y <- array(1:5*10, c(1, 5))
+```
+
+Let's see what happens if we sum them together using broadcasting:
+
+```{r}
+bc.num(x, y, "+")
+```
+
+What happens here is that `x` remains the same, but row vector `y` is **virtually** recycled 4 times, but without requiring 4 times more memory. This is also illustrated here:
+
+```{r eval=TRUE, echo=FALSE}
+
+
+foo <- rbind(
+  sprintf("x[%d, %d] + y[1, %d]", 1, 1:5, 1:5),
+  sprintf("x[%d, %d] + y[1, %d]", 2, 1:5, 1:5),
+  sprintf("x[%d, %d] + y[1, %d]", 3, 1:5, 1:5),
+  sprintf("x[%d, %d] + y[1, %d]", 4, 1:5, 1:5)
+)
+
+foo <- as.data.frame(foo)
+colnames(foo) <- NULL
+tt(foo, theme = "grid") |> style_tt(line = "tlbr")
+
+
+```
+
+&nbsp;
+
+## Perpendicular vectors
+
+Let's now consider another scenario.
+We not take again 2 matrices `x` and `y`, but `x` is a column vector (i.e. a matrix with 1 column and multiple rows), and `y` is a row vector (i.e. a matrix with 1 row and multiple columns):
+
+
+```{r}
+x <- array(1:5, c(5, 1))
+y <- array(1:5 * 10, c(1, 5))
 print(x)
 print(y)
 ```
 
 
-Computing the broadcasted element-wise sum of `x` and `y` produced the following:
+Computing the broadcasted element-wise sum of `x` and `y` produces the following:
 
 ```{r}
 bc.num(x, y, "+")
@@ -136,11 +185,11 @@ The following table illustrates what broadcasting does, conceptually:
 
 
 foo <- cbind(
-  sprintf("x[%d] + y[%d]", 1:5, 1),
-  sprintf("x[%d] + y[%d]", 1:5, 2),
-  sprintf("x[%d] + y[%d]", 1:5, 3),
-  sprintf("x[%d] + y[%d]", 1:5, 4),
-  sprintf("x[%d] + y[%d]", 1:5, 5)
+  sprintf("x[%d, 1] + y[1, %d]", 1:5, 1),
+  sprintf("x[%d, 1] + y[1, %d]", 1:5, 2),
+  sprintf("x[%d, 1] + y[1, %d]", 1:5, 3),
+  sprintf("x[%d, 1] + y[1, %d]", 1:5, 4),
+  sprintf("x[%d, 1] + y[1, %d]", 1:5, 5)
 )
 foo <- as.data.frame(foo)
 colnames(foo) <- NULL
@@ -149,63 +198,16 @@ tt(foo, theme = "grid") |> style_tt(line = "tlbr")
 
 ```
 
-
-This is an example of a simple element-wise operation of 2 orthogonal vectors. But broadcasting provided by the 'broadcast' package is not limited to only those kinds of arrays.
-
-Any 2 arrays with each no more than 16 dimensions are supported. And any number of dimensions can be broadcasted simultaneously.
-
 &nbsp;
 
-Let's broadcast a vector with a matrix.
-
-Consider the following column vector:
-
-```{r}
-x <- array(1:5 * 10, dim = c(5,1))
-print(x)
-```
-
-And the following matrix:
-
-```{r}
-y <- matrix(1:20, 5, 4)
-print(y)
-```
-
-Let's see what happens if we sum them together using broadcasting:
-
-```{r}
-bc.num(x, y, "+")
-```
-
-What happens here is that `y` remains the same, but column vector `x` is **virtually** recycled 4 times, but without requiring 4 times more memory. This is also be illustrated in the following table:
-
-```{r eval=TRUE, echo=FALSE}
-
-
-foo <- cbind(
-  sprintf("x[%d] + y[%d, %d]", 1:5, 1:5, 1),
-  sprintf("x[%d] + y[%d, %d]", 1:5, 1:5, 2),
-  sprintf("x[%d] + y[%d, %d]", 1:5, 1:5, 3),
-  sprintf("x[%d] + y[%d, %d]", 1:5, 1:5, 4)
-)
-
-foo <- as.data.frame(foo)
-colnames(foo) <- NULL
-tt(foo, theme = "grid") |> style_tt(line = "tlbr")
-
-
-```
-
-
-&nbsp;
 
 # Broadcasting limitations and rules
 
-The previous section used the examples of a simple element-wise operation with 1d arrays and matrices, as they are easier to display on a flat screen then 3d-arrays.   
-But broadcasting provided by the 'broadcast' package is not limited to only those kinds of arrays.
+The examples shown so far used matrices. But 'broadcast' is not restricted to only handling matrices; this package can handle any array, provided it does not have more than 16 dimensions.
+Moreover, any number of dimensions (provided <= 16) can be broadcasted simultaneously.
 
-Any 2 arrays with each no more than 16 dimensions are supported. And any number of dimensions can be broadcasted simultaneously.
+The examples show so far only used addition. But 'broadcast' supports a wide variety of binary operations, inlcuding relational-, arithmetic-, Boolean-, and string operations.
+
 
 &nbsp;
 
@@ -395,15 +397,15 @@ y <- array(1:10, c(10, 9, 1, 9, 10))
 
 # Broadcasting vs outer
 
-The base 'R' `outer()` function performs outer computations on vectors and arrays.
+The base `r fa("r-project")` `outer()` function performs outer computations on vectors and arrays.
 
-At the start of this guide, we used the following computation:
+Earlier in this guide, we used the following computation:
 
 ```{r}
 x <- array(1:5, c(5, 1))
 y <- array(1:5*10, c(1, 5))
 
-x[, rep(1L, 5L)] + y[rep(1L, 5L),]
+bc.num(x, y, "+")
 
 ```
 

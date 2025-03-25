@@ -32,7 +32,7 @@ The "broadcasting" implementation in the 'broadcast' package is conceptually (th
 
 This page presents the comparisons in the speed of broadcasted operations, between 'broadcast', and the classical 'Numpy' + 'reticulate' approach.
 
-More accurately, in this page the speed of computing the outer sum of 2 fully orthogonal arrays is compared across 2 workflows:
+More accurately, in this page the speed of computing the broadcasted element-wise addition of 2 fully orthogonal arrays is compared across 2 workflows:
 
  - The workflow using 'broadcast'
  - The workflow using 'reticulate' + 'Numpy', though without the time- and memory consuming translations between `r fa("r-project")` and 'Python' objects.
@@ -52,7 +52,7 @@ The benchmarks are run for multiple dimensionalities, and multiple dimension siz
 
 For each combination of dimensionality and dimension size, pairs of decimal number arrays are created in both 'broadcast' and 'reticulate' + 'Numpy'.  These pairs of arrays are fully orthogonal, thus the maximum amount of broadcasting will be employed.
 
-For each pair of array the outer sum is computed using 'broadcast' and 'Numpy'. This computation is repeated 200 times. From these 200 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between 'broadcast' and 'reticulate' + 'Numpy' fair, and these caveats are explained in the next sub-section.
+For each pair of array the element-wise addition is computed using 'broadcast' and 'Numpy'. This computation is repeated 200 times. From these 200 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between 'broadcast' and 'reticulate' + 'Numpy' fair, and these caveats are explained in the next sub-section.
 
 
 

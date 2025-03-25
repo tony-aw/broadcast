@@ -1,5 +1,5 @@
 
-<img src="man/figures/broadcast.png" height="300" alt="" />
+<img src="man/figures/broadcast.png" height="300"/>
 
 <!-- badges: start -->
 
@@ -141,15 +141,77 @@ Not using external libraries brings a number of advantages:
 
 **Tested**
 
-The ‘broadcast’ package is frequently checked using a large (\> 100,000)
-suite of unit tests via the
-[tinytest](https://github.com/markvanderloo/tinytest) package. These
-tests have a coverage of approximately 95%. As such, the chance of a
-function from this package breaking is relatively low.
+The ‘broadcast’ package is frequently checked using a large suite of
+unit tests via the [tinytest](https://github.com/markvanderloo/tinytest)
+package. These tests have a coverage of approximately 95%. As such, the
+chance of a function from this package breaking is relatively low.
 
 Since ‘broadcast’ is still relatively new package, bugs are still very
 much possible. I encourage users who find bugs to report them swiftly to
 the GitHub page, and I will fix them as soon as time permits.
+
+ 
+
+## 🚀Quick Example
+
+Consider the matrices `x` and `y`:
+
+``` r
+x <- array(1:20, c(4, 5))
+y <- array(1:5*10, c(1, 5))
+print(x)
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]    1    5    9   13   17
+#> [2,]    2    6   10   14   18
+#> [3,]    3    7   11   15   19
+#> [4,]    4    8   12   16   20
+print(y)
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]   10   20   30   40   50
+```
+
+Suppose one wishes to compute the element-wise addition of these 2
+arrays.
+
+This won’t work in base ‘R’:
+
+``` r
+x + y
+Error in x + y : non-conformable arrays
+```
+
+When computing the element-wise sum of these arrays, they both need to
+be recycled to equal size in order to compute the element-wise
+computation.  
+I.e. `y` needs its single row to be recycled 5 times, creating 2
+conformable matrices.
+
+You *could* do the following….
+
+``` r
+x + y[rep(1L, 4L),]
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]   11   25   39   53   67
+#> [2,]   12   26   40   54   68
+#> [3,]   13   27   41   55   69
+#> [4,]   14   28   42   56   70
+```
+
+… but this involves replicating/copying `y` several times, which costs
+memory, reduces speed, and the code is not easily scalable for arrays
+with different dimensions.
+
+The ‘broadcast’ package performs “broadcasting”, which can do the above,
+but **faster** and **without unnecessary copies**, like so:
+
+``` r
+bc.num(x, y, "+")
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]   11   25   39   53   67
+#> [2,]   12   26   40   54   68
+#> [3,]   13   27   41   55   69
+#> [4,]   14   28   42   56   70
+```
 
  
 

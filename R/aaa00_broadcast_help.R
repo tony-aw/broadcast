@@ -19,9 +19,9 @@
 #' An introduction and overview of the package can be found on the website. \cr
 #' \cr
 #' 
-#' @section Methods and Functions:
+#' @section Functions:
 #' 
-#' \bold{Functions broadcasted element-wise binary operations} \cr
+#' \bold{Functions for broadcasted element-wise binary operations} \cr
 #' 'broadcast' provides a set of functions for broadcasted element-wise binary operations
 #' with broadcasting. \cr
 #' These functions use an API similar to the \link[base]{outer} function. \cr
