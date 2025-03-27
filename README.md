@@ -38,9 +38,8 @@ related to “broadcasting”:
  
 
 First, ‘broadcast’ provides functions for broadcasted element-wise
-binary operations between any 2 arrays. They support are optimised for a
-large set of relational-, arithmetic-, Boolean-, and string
-operations.  
+binary operations between any 2 arrays. They support a large set of
+relational-, arithmetic-, Boolean-, and string operations.  
 These functions have clear broadcasting rules, making it easy to
 accurately predict the dimensions of the result.
 

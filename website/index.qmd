@@ -38,7 +38,7 @@ At its core, the 'broadcast' package provides 3 functionalities, all 3 related t
 
  
 
-First, 'broadcast' provides functions for broadcasted element-wise binary operations between any 2 arrays. They support are optimised for a large set of relational-, arithmetic-, Boolean-, and string operations.\
+First, 'broadcast' provides functions for broadcasted element-wise binary operations between any 2 arrays. They support a large set of relational-, arithmetic-, Boolean-, and string operations.\
 These functions have clear broadcasting rules, making it easy to accurately predict the dimensions of the result.
 
  
@@ -110,10 +110,10 @@ Since 'broadcast' is still relatively new package, bugs are still very much poss
 
 ## 🚀Quick Example
 
-Consider the matrix `x` and the row vector `y`:
+Consider the matrices `x` and `y`:
 
 ```{r}
-x <- array(1:25, c(5, 5))
+x <- array(1:20, c(4, 5))
 y <- array(1:5*10, c(1, 5))
 print(x)
 print(y)
@@ -134,7 +134,7 @@ I.e. `y` needs its single row to be recycled 5 times, creating 2 conformable mat
 You *could* do the following....
 
 ```{r}
-x + y[rep(1L, 5L),]
+x + y[rep(1L, 4L),]
 ```
 
 ... but this involves replicating/copying `y` several times, which costs memory, reduces speed, and the code is not easily scalable for arrays with different dimensions.
