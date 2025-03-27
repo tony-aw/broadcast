@@ -1,0 +1,68 @@
+---
+title: "Other benchmarks"
+format: html
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE
+)
+```
+
+```{r setup, eval=TRUE, echo=FALSE}
+library(broadcast)
+library(bench)
+library(tinyplot)
+library(abind)
+```
+
+
+&nbsp;
+
+# Introduction
+
+In this article, the performance of the [bind_array()](/man/bind.qmd) function from 'broadcast' is compared to the performance of the `abind()` function from the 'abind' package.
+
+&nbsp;
+
+The following code is used:
+
+
+```{r echo = TRUE, eval=FALSE}
+
+along <- 2L
+n <- 150L
+nms <- function(n) sample(letters, n, TRUE)
+x <- array(as.double(1:25), c(n, n, n))
+y <- array(as.double(-1:-25), c(n, n, n))
+dimnames(x) <- lapply(dim(x), nms)
+dimnames(y) <- lapply(dim(y), nms)
+input <- list(x, y)
+
+bm_abind <- bench::mark(
+  abind = abind::abind(input, along = 2),
+  broadcast = bind_array(input, 2),
+  cbind = do.call(cbind, input),
+  min_iterations = 100,
+  check = FALSE # because abind adds empty dimnames
+)
+summary(bm_abind)
+plot(bm_abind)
+
+```
+
+And here are the results:
+
+```{r fig.width=8}
+load("benchmarks/bm_abind.RData")
+summary(bm_abind)
+plot(bm_abind)
+```
+
+
+
+&nbsp;
+
+&nbsp;

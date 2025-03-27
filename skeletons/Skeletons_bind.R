@@ -29,7 +29,7 @@ header_for_sourcing <- stri_c(
 header_for_package <- "
 
 #include <Rcpp.h>
-#include \"Broadcast.h\"
+#include \"broadcast.h\"
 
 using namespace Rcpp;
 

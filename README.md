@@ -182,7 +182,7 @@ Error in x + y : non-conformable arrays
 When computing the element-wise sum of these arrays, they both need to
 be recycled to equal size in order to compute the element-wise
 computation.  
-I.e. `y` needs its single row to be recycled 5 times, creating 2
+I.e. `y` needs its single row to be recycled 4 times, creating 2
 conformable matrices.
 
 You *could* do the following….
@@ -201,7 +201,8 @@ memory, reduces speed, and the code is not easily scalable for arrays
 with different dimensions.
 
 The ‘broadcast’ package performs “broadcasting”, which can do the above,
-but **faster** and **without unnecessary copies**, like so:
+but **faster**, **without unnecessary copies**, and scalable to arrays
+of any size (up to 16 dimensions), like so:
 
 ``` r
 bc.num(x, y, "+")
@@ -219,11 +220,11 @@ bc.num(x, y, "+")
 The documentation in the ‘broadcast’ website is divided into 3 main
 parts:
 
-- Guides and Vignettes: Here you’ll find the topic-oriented guides in
-  the form of a few Vignettes.
-- Reference Manual: Here you’ll find the function-oriented reference
-  manual.
-- About: Here you’ll find mainly the Acknowledgements, Change logs and
-  License file.
+- Guides and Vignettes: contains the topic-oriented guides in the form
+  of a few Vignettes.
+- Reference Manual: contains the function-oriented reference manual.
+- About: Contains the Acknowledgements, Change logs and License file.
+  Here you’ll also find some information regarding the relationship
+  between ‘broadcast’ and other ‘R’ packages
 
    

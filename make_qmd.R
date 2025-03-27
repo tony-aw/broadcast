@@ -61,7 +61,7 @@ for(i in lst.files) {
 
 
 ################################################################################
-# Create Vignettes, Index page, and GitHub Readme ====
+# Process Vignettes, Index page, and GitHub Readme ====
 #
 
 # copy & render intro template ====
@@ -100,6 +100,26 @@ from <- file.path("website", "vignettes", "a_readme.qmd")
 to <- file.path("website", "index.qmd")
 file.copy(from, to, overwrite = TRUE)
 
+
+
+
+################################################################################
+# Process About pages ====
+#
+
+# create links in About pages ====
+funs <- getNamespaceExports("broadcast")
+lst.files <- list.files(file.path("website", "About"), pattern = "qmd")
+for(i in lst.files) {
+  filepath <- file.path("website", "About", i)
+  temp <- readLines(filepath)
+  p <- paste0("`", funs, "()`")
+  rp <- paste0("[", funs, "()]", "(/man/", rd_index(funs), ".qmd)")
+  temp <- stri_replace_all(
+    temp, rp, fixed = p, vectorize_all = FALSE
+  )
+  writeLines(temp, file.path("website", "About", i))
+}
 
 # end of rd2qmd ====
 

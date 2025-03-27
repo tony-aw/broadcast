@@ -19,7 +19,7 @@ SEXP *pout = STRING_PTR(out);
 
 for(int i = 0; i < n; ++i) {
   tempout = VECTOR_ELT(x, i);
-  if(TYPEOF(tempout) == OBJSXP && ! IS_S4_OBJECT(tempout)) {
+  if(TYPEOF(tempout) == OBJSXP && !Rf_isS4(tempout)) {
     tempstr = mkString("object");
   }
   else {

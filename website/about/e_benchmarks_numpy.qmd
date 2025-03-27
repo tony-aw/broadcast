@@ -1,0 +1,915 @@
+---
+title: "Benchmarks with Numpy"
+format: html
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE
+)
+```
+
+```{r setup, eval=TRUE, echo=FALSE}
+library(broadcast)
+library(fontawesome)
+library(bench)
+library(tinyplot)
+```
+
+
+&nbsp;
+
+# Introduction
+
+
+Before the emergence of the 'broadcast' package, if `r fa("r-project")` users wished to employ broadcasting, they essentially had to use broadcasting as it existed in a different programming language. For example, they might use the broadcasting as available in the 'Python' module 'Numpy' (perhaps via the 'reticulate' package). Or perhaps they might use the 'C++' library 'xtensor' via the R-package of the same name (or an extension thereof, like 'rray').
+
+With the emergence of the 'broadcast' `r fa("r-project")`, users can now call broadcasting implementations without using external libraries, which spares users the computing power needed for translating between object structures of different languages.
+
+The "broadcasting" implementation in the 'broadcast' package is conceptually (though not programmatically) inspired by the broadcasting employed by the 'Numpy' module for 'Python', which might be the first implementation of broadcasting. More importantly, 'Numpy' is remarkably fast, and the 'broadcast' `r fa("r-project")` package aims to be somewhat comparably fast.  
+
+This page presents the comparisons in the speed of broadcasted operations, between 'broadcast' and 'Numpy'.
+
+Please bear in mind these are rough comparisons of speed. Since the comparisons involve 2 separate programming languages - `r fa("r-project")` and 'Python', "proper" speed comparison is rather difficult even on a merely conceptual level.
+
+&nbsp;
+
+
+# Methodology
+
+## Difficulties
+
+Benchmarking a 'Python' code snippet in 'Python' using a 'Python' module, and benchmarking an `r fa("r-project")` code snippet in `r fa("r-project")` using an `r fa("r-project")` package, means mechanisms from different modules/packages are used for the benchmarking, and those 2 benchmarks may not (and probably won't) use the same or even comparable timing mechanisms.
+
+'Python' and `r fa("r-project")` are both languages that use garbage collections (GC). But GC really does mess up benchmarking. The way to circumvent this issue differs in 'Python' and `r fa("r-project")`. In 'Python', GC can temporarily be disabled. `r fa("r-project")` does not support this (as disabling GC is dangerous), so instead for `r fa("r-project")` benchmarks with heavy GC just have to be filtered out.
+
+Comparing the speed of 2 languages is inherently deceptively difficult. And due to the considerations given above, any form of benchmarks between `r fa("r-project")` and 'Python' - including the ones given in this page - should be taken with a grain of salt.
+
+
+&nbsp;
+
+## The Set-Up
+
+The benchmarks are run for multiple dimensionalities, and multiple dimension sizes.
+
+For each combination of dimensionality and dimension size, pairs of decimal number arrays are created in both 'broadcast' and 'Numpy'.  These pairs of arrays are fully orthogonal, thus the maximum amount of broadcasting will be employed.
+
+For each pair of array the element-wise addition is computed using 'broadcast' and 'Numpy'. This computation is repeated 200 times. From these 200 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between 'broadcast' and 'Numpy' fair, and these caveats are explained in the next sub-section.
+
+
+
+&nbsp;
+
+
+## Keeping comparisons (somewhat) fair
+
+To keep the comparisons between 'broadcast' and 'Numpy' fair, a number of measures have been taken:
+ 
+ - Distributions of benchmarks tend to be heavily skewed. Therefore, the median measure (together with the quartiles) are taken.
+ - garbage collection is disabled in Python. In `r fa("r-project")`, only benchmarks with no garbage collection, or level 0 garbage collection, are used. I feel this keeps the comparisons relatively fair (but it's not perfect).
+ - Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for `r fa("r-project")`, a check is made that at least 100 benchmark measurements are kept in (out 200 in total).
+ - In relation to the previous point, note that the quantiles and the median (the median itself is simply the 50% quantile) are asymptotically independent of sample-size (unlike, for example, the variance, which is affected by sample size).
+ - `r fa("r-project")` has more support for missing values than 'Numpy', which also leads to a difference in speed. But both `r fa("r-project")` and 'Numpy' handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in `r fa("r-project")` ), through the `NaN` construct. Therefore, only operations on decimal numbers are compared.
+ - Operations like power (`^`) and division (`/`) need to handle special cases (like when the right-hand side of the operation is 0). I cannot guarantee that 'broadcast' and 'Numpy' will handle these special cases in the exact same way. The plus (`+`) operator, however, has no such special cases. Therefore, the comparisons on this page involve only summation.
+
+
+&nbsp;
+
+## Resources used
+
+The 'benchmark' package was used for measuring speed in R, as this package can also be used to check and filter for garbage collector calls.
+
+The plots are created using the 'tinyplot' package, to display the median, first quartile, and third quartile, of the computation times.
+
+The code used to run the benchmarks can be found at the bottom of this page.
+
+
+&nbsp;
+
+# Results
+
+&nbsp;
+
+## 2d arrays
+
+
+```{r echo=FALSE, eval=TRUE, fig.width=8, fig.height=4}
+load("benchmarks/bm_bc_2d.RData")
+
+median_np = scan("benchmarks/bm_py_2d_median.txt")
+q1_np = scan("benchmarks/bm_py_2d_q1.txt")
+q3_np = scan("benchmarks/bm_py_2d_q3.txt")
+
+library(tinyplot) |> suppressWarnings()
+
+df1 <- data.frame(
+  broadcast = median_bc, numpy = median_np, i = dimsizes
+)
+df1 <- tidyr::pivot_longer(df1, 1:2, values_to = "median")
+df2 <- data.frame(
+  q1_bc, q1_np, i = dimsizes
+)
+df2 <- tidyr::pivot_longer(df2, 1:2, values_to = "q1")
+df3 <- data.frame(
+  q3_bc, q3_np, i = dimsizes
+)
+df3 <- tidyr::pivot_longer(df3, 1:2, values_to = "q3")
+
+df <- cbind(df1, df2[, 3], df3[, 3])
+
+module <- df$name
+tinytheme("minimal")
+tinyplot(
+  df$i, df$median, by = module, type = "l",
+  main = "benchmarks",
+  xlab = "size of each dimension",
+  ylab = "median time (ms)",
+  ylim = range(df$q1, df$q3)
+)
+tinyplot_add(
+  ymin = df$q1, ymax = df$q3, by = module,
+  type = type_ribbon(alpha = 0.25)
+)
+
+```
+
+
+&nbsp;
+
+## 3d arrays
+
+```{r echo=FALSE, eval=TRUE, fig.width=8, fig.height=4}
+load("benchmarks/bm_bc_3d.RData")
+median_np = scan("benchmarks/bm_py_3d_median.txt")
+q1_np = scan("benchmarks/bm_py_3d_q1.txt")
+q3_np = scan("benchmarks/bm_py_3d_q3.txt")
+
+
+library(tinyplot) |> suppressWarnings()
+
+df1 <- data.frame(
+  broadcast = median_bc, numpy = median_np, i = dimsizes
+)
+df1 <- tidyr::pivot_longer(df1, 1:2, values_to = "median")
+df2 <- data.frame(
+  q1_bc, q1_np, i = dimsizes
+)
+df2 <- tidyr::pivot_longer(df2, 1:2, values_to = "q1")
+df3 <- data.frame(
+  q3_bc, q3_np, i = dimsizes
+)
+df3 <- tidyr::pivot_longer(df3, 1:2, values_to = "q3")
+
+df <- cbind(df1, df2[, 3], df3[, 3])
+
+module <- df$name
+tinytheme("minimal")
+tinyplot(
+  df$i, df$median, by = module, type = "l",
+  main = "benchmarks",
+  xlab = "size of each dimension",
+  ylab = "median time (ms)",
+  ylim = range(df$q1, df$q3)
+)
+tinyplot_add(
+  ymin = df$q1, ymax = df$q3, by = module,
+  type = type_ribbon(alpha = 0.25)
+)
+
+```
+
+
+&nbsp;
+
+
+
+## 4d arrays
+
+
+```{r echo=FALSE, eval=TRUE, fig.width=8, fig.height=4}
+load("benchmarks/bm_bc_4d.RData")
+
+median_np = scan("benchmarks/bm_py_4d_median.txt")
+q1_np = scan("benchmarks/bm_py_4d_q1.txt")
+q3_np = scan("benchmarks/bm_py_4d_q3.txt")
+
+library(tinyplot) |> suppressWarnings()
+
+df1 <- data.frame(
+  broadcast = median_bc, numpy = median_np, i = dimsizes
+)
+df1 <- tidyr::pivot_longer(df1, 1:2, values_to = "median")
+df2 <- data.frame(
+  q1_bc, q1_np, i = dimsizes
+)
+df2 <- tidyr::pivot_longer(df2, 1:2, values_to = "q1")
+df3 <- data.frame(
+  q3_bc, q3_np, i = dimsizes
+)
+df3 <- tidyr::pivot_longer(df3, 1:2, values_to = "q3")
+
+df <- cbind(df1, df2[, 3], df3[, 3])
+
+module <- df$name
+tinytheme("minimal")
+tinyplot(
+  df$i, df$median, by = module, type = "l",
+  main = "benchmarks",
+  xlab = "size of each dimension",
+  ylab = "median time (ms)",
+  ylim = range(df$q1, df$q3)
+)
+tinyplot_add(
+  ymin = df$q1, ymax = df$q3, by = module,
+  type = type_ribbon(alpha = 0.25)
+)
+
+```
+
+
+&nbsp;
+
+
+
+## 5d arrays
+
+```{r echo=FALSE, eval=TRUE, fig.width=8, fig.height=4}
+load("benchmarks/bm_bc_5d.RData")
+
+median_np = scan("benchmarks/bm_py_5d_median.txt")
+q1_np = scan("benchmarks/bm_py_5d_q1.txt")
+q3_np = scan("benchmarks/bm_py_5d_q3.txt")
+
+library(tinyplot) |> suppressWarnings()
+
+df1 <- data.frame(
+  broadcast = median_bc, numpy = median_np, i = dimsizes
+)
+df1 <- tidyr::pivot_longer(df1, 1:2, values_to = "median")
+df2 <- data.frame(
+  q1_bc, q1_np, i = dimsizes
+)
+df2 <- tidyr::pivot_longer(df2, 1:2, values_to = "q1")
+df3 <- data.frame(
+  q3_bc, q3_np, i = dimsizes
+)
+df3 <- tidyr::pivot_longer(df3, 1:2, values_to = "q3")
+
+df <- cbind(df1, df2[, 3], df3[, 3])
+
+module <- df$name
+tinytheme("minimal")
+tinyplot(
+  df$i, df$median, by = module, type = "l",
+  main = "benchmarks",
+  xlab = "size of each dimension",
+  ylab = "median time (ms)",
+  ylim = range(df$q1, df$q3)
+)
+tinyplot_add(
+  ymin = df$q1, ymax = df$q3, by = module,
+  type = type_ribbon(alpha = 0.25)
+)
+
+```
+
+
+&nbsp;
+
+
+
+
+## 6d arrays
+
+```{r echo=FALSE, eval=TRUE, fig.width=8, fig.height=4}
+load("benchmarks/bm_bc_6d.RData")
+
+median_np = scan("benchmarks/bm_py_6d_median.txt")
+q1_np = scan("benchmarks/bm_py_6d_q1.txt")
+q3_np = scan("benchmarks/bm_py_6d_q3.txt")
+
+library(tinyplot) |> suppressWarnings()
+
+df1 <- data.frame(
+  broadcast = median_bc, numpy = median_np, i = dimsizes
+)
+df1 <- tidyr::pivot_longer(df1, 1:2, values_to = "median")
+df2 <- data.frame(
+  q1_bc, q1_np, i = dimsizes
+)
+df2 <- tidyr::pivot_longer(df2, 1:2, values_to = "q1")
+df3 <- data.frame(
+  q3_bc, q3_np, i = dimsizes
+)
+df3 <- tidyr::pivot_longer(df3, 1:2, values_to = "q3")
+
+df <- cbind(df1, df2[, 3], df3[, 3])
+
+module <- df$name
+tinytheme("minimal")
+tinyplot(
+  df$i, df$median, by = module, type = "l",
+  main = "benchmarks",
+  xlab = "size of each dimension",
+  ylab = "median time (ms)",
+  ylim = range(df$q1, df$q3)
+)
+tinyplot_add(
+  ymin = df$q1, ymax = df$q3, by = module,
+  type = type_ribbon(alpha = 0.25)
+)
+
+```
+
+
+&nbsp;
+
+
+## 7d arrays
+
+```{r echo=FALSE, eval=TRUE, fig.width=8, fig.height=4}
+load("benchmarks/bm_bc_7d.RData")
+
+median_np = scan("benchmarks/bm_py_7d_median.txt")
+q1_np = scan("benchmarks/bm_py_7d_q1.txt")
+q3_np = scan("benchmarks/bm_py_7d_q3.txt")
+
+library(tinyplot) |> suppressWarnings()
+
+df1 <- data.frame(
+  broadcast = median_bc, numpy = median_np, i = dimsizes
+)
+df1 <- tidyr::pivot_longer(df1, 1:2, values_to = "median")
+df2 <- data.frame(
+  q1_bc, q1_np, i = dimsizes
+)
+df2 <- tidyr::pivot_longer(df2, 1:2, values_to = "q1")
+df3 <- data.frame(
+  q3_bc, q3_np, i = dimsizes
+)
+df3 <- tidyr::pivot_longer(df3, 1:2, values_to = "q3")
+
+df <- cbind(df1, df2[, 3], df3[, 3])
+
+module <- df$name
+tinytheme("minimal")
+tinyplot(
+  df$i, df$median, by = module, type = "l",
+  main = "benchmarks",
+  xlab = "size of each dimension",
+  ylab = "median time (ms)",
+  ylim = range(df$q1, df$q3)
+)
+tinyplot_add(
+  ymin = df$q1, ymax = df$q3, by = module,
+  type = type_ribbon(alpha = 0.25)
+)
+
+```
+
+
+&nbsp;
+
+# Conclusion
+
+The differences in the computation times between 'broadcast' and 'Numpy' are rather small. It seems reasonable to conclude that, in general, 'broadcast' and 'Numpy' have somewhat similar speeds.
+
+&nbsp;
+
+
+&nbsp;
+
+# The code
+
+::: {.panel-tabset}
+
+## R code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# set-up ====
+library(broadcast)
+get_times <- function(obj, j) {
+  nms <- names(res$expression)
+  j <- which(nms == j)
+  idx <- rowSums(obj$gc[[j]][, 2:3]) == 0
+  times <- obj$time[[j]][idx]
+  return(times)
+}
+
+
+# loop 2d ====
+gc()
+dimsizes <- seq(1000L, 3000L,  by = 200L)
+niter <- length(dimsizes)
+median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
+counter <- 1L
+
+for(i in seq_along(dimsizes)) {
+  print(i)
+  n <- dimsizes[i]
+  x.dims <- c(n, 1L)
+  y.dims <- c(1L, n)
+  a <- array(runif(100), x.dims)
+  b <- array(runif(100), y.dims)
+  
+  res <- bench::mark(
+    broadcast = bc.num(a, b, "+"),
+    min_iterations = 200
+  )
+  bc_all <- get_times(res, "broadcast")
+  if(length(bc_all) < 100) {
+    stop("too few benchmarks for 'R'")
+  }
+  
+  median_bc[counter] <- median(bc_all)
+  
+  q1_bc[counter] <- quantile(bc_all, 0.25)
+  q3_bc[counter] <- quantile(bc_all, 0.75)
+  
+  counter <- counter + 1L
+}
+
+median_bc <- median_bc * 1000
+q1_bc <- q1_bc * 1000
+q3_bc <- q3_bc * 1000
+
+save(
+  dimsizes, median_bc, q1_bc, q3_bc,
+  file = "benchmarks/bm_bc_2d.RData"
+)
+
+
+
+# loop 3d ====
+gc()
+dimsizes <- seq(50L, 200L,  by = 10L)
+niter <- length(dimsizes)
+median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
+counter <- 1L
+
+for(i in seq_along(dimsizes)) {
+  print(i)
+  n <- dimsizes[i]
+  x.dims <- rep(c(n, 1L), 2)[1:3]
+  y.dims <- rep(c(1L, n), 2)[1:3]
+
+  a <- array(runif(100), x.dims)
+  b <- array(runif(100), y.dims)
+  
+  res <- bench::mark(
+    broadcast = bc.num(a, b, "+"),
+    min_iterations = 200
+  )
+  bc_all <- get_times(res, "broadcast")
+  if(length(bc_all) < 100) {
+    stop("too few benchmarks for 'R'")
+  }
+  
+  median_bc[counter] <- median(bc_all)
+  
+  q1_bc[counter] <- quantile(bc_all, 0.25)
+  q3_bc[counter] <- quantile(bc_all, 0.75)
+  
+  
+  
+  counter <- counter + 1L
+}
+
+median_bc <- median_bc * 1000
+q1_bc <- q1_bc * 1000
+q3_bc <- q3_bc * 1000
+
+save(
+  dimsizes, median_bc, q1_bc, q3_bc,
+  file = "benchmarks/bm_bc_3d.RData"
+)
+
+
+# loop 4d ====
+gc()
+dimsizes <- seq(10L, 55L,  by = 5L)
+niter <- length(dimsizes)
+median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
+counter <- 1L
+
+for(i in seq_along(dimsizes)) {
+  print(i)
+  n <- dimsizes[i]
+  x.dims <- rep(c(n, 1L), 2)[1:4]
+  y.dims <- rep(c(1L, n), 2)[1:4]
+
+  a <- array(runif(100), x.dims)
+  b <- array(runif(100), y.dims)
+  
+  res <- bench::mark(
+    broadcast = bc.num(a, b, "+"),
+    min_iterations = 200
+  )
+  bc_all <- get_times(res, "broadcast")
+  if(length(bc_all) < 100) {
+    stop("too few benchmarks for 'R'")
+  }
+  
+  median_bc[counter] <- median(bc_all)
+  
+  q1_bc[counter] <- quantile(bc_all, 0.25)
+  q3_bc[counter] <- quantile(bc_all, 0.75)
+  
+  
+  
+  counter <- counter + 1L
+}
+
+median_bc <- median_bc * 1000
+q1_bc <- q1_bc * 1000
+q3_bc <- q3_bc * 1000
+
+save(
+  dimsizes, median_bc, q1_bc, q3_bc,
+  file = "benchmarks/bm_bc_4d.RData"
+)
+
+
+
+
+# loop 5d ====
+gc()
+dimsizes <- seq(5L, 25L,  by = 5L)
+niter <- length(dimsizes)
+median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
+counter <- 1L
+
+for(i in seq_along(dimsizes)) {
+  print(i)
+  n <- dimsizes[i]
+  x.dims <- rep(c(n, 1L), 3)[1:5]
+  y.dims <- rep(c(1L, n), 3)[1:5]
+
+  a <- array(runif(100), x.dims)
+  b <- array(runif(100), y.dims)
+  
+  res <- bench::mark(
+    broadcast = bc.num(a, b, "+"),
+    min_iterations = 200
+  )
+  bc_all <- get_times(res, "broadcast")
+  if(length(bc_all) < 100) {
+    stop("too few benchmarks for 'R'")
+  }
+  
+  median_bc[counter] <- median(bc_all)
+  
+  q1_bc[counter] <- quantile(bc_all, 0.25)
+  q3_bc[counter] <- quantile(bc_all, 0.75)
+  
+  
+  
+  counter <- counter + 1L
+}
+
+
+median_bc <- median_bc * 1000
+q1_bc <- q1_bc * 1000
+q3_bc <- q3_bc * 1000
+
+save(
+  dimsizes, median_bc, q1_bc, q3_bc,
+  file = "benchmarks/bm_bc_5d.RData"
+)
+
+
+
+# loop 6d ====
+gc()
+dimsizes <- seq(1L, 15L,  by = 2L)
+niter <- length(dimsizes)
+median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
+counter <- 1L
+
+for(i in seq_along(dimsizes)) {
+  print(i)
+  n <- dimsizes[i]
+  x.dims <- rep(c(n, 1L), 3)[1:6]
+  y.dims <- rep(c(1L, n), 3)[1:6]
+
+  a <- array(runif(100), x.dims)
+  b <- array(runif(100), y.dims)
+  
+  res <- bench::mark(
+    broadcast = bc.num(a, b, "+"),
+    min_iterations = 200
+  )
+  bc_all <- get_times(res, "broadcast")
+  if(length(bc_all) < 100) {
+    stop("too few benchmarks for 'R'")
+  }
+  
+  median_bc[counter] <- median(bc_all)
+  
+  q1_bc[counter] <- quantile(bc_all, 0.25)
+  q3_bc[counter] <- quantile(bc_all, 0.75)
+  
+  
+  
+  counter <- counter + 1L
+}
+
+median_bc <- median_bc * 1000
+q1_bc <- q1_bc * 1000
+q3_bc <- q3_bc * 1000
+
+
+save(
+  dimsizes, median_bc, q1_bc, q3_bc,
+  file = "benchmarks/bm_bc_6d.RData"
+)
+
+
+# loop 7d ====
+gc()
+dimsizes <- seq(1L, 10L,  by = 1L)
+niter <- length(dimsizes)
+median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
+counter <- 1L
+
+for(i in seq_along(dimsizes)) {
+  print(i)
+  n <- dimsizes[i]
+  x.dims <- rep(c(n, 1L), 4)[1:7]
+  y.dims <- rep(c(1L, n), 4)[1:7]
+
+  a <- array(runif(100), x.dims)
+  b <- array(runif(100), y.dims)
+  
+  res <- bench::mark(
+    broadcast = bc.num(a, b, "+"),
+    min_iterations = 200
+  )
+  bc_all <- get_times(res, "broadcast")
+  if(length(bc_all) < 100) {
+    stop("too few benchmarks for 'R'")
+  }
+  
+  median_bc[counter] <- median(bc_all)
+  
+  q1_bc[counter] <- quantile(bc_all, 0.25)
+  q3_bc[counter] <- quantile(bc_all, 0.75)
+  
+  
+  
+  counter <- counter + 1L
+}
+
+
+median_bc <- median_bc * 1000
+q1_bc <- q1_bc * 1000
+q3_bc <- q3_bc * 1000
+
+save(
+  dimsizes, median_bc, q1_bc, q3_bc,
+  file = "benchmarks/bm_bc_7d.RData"
+)
+
+
+```
+
+
+## Python code
+
+
+```{python}
+#| echo: true
+#| eval: false
+
+# set-up #
+import numpy as np
+import gc
+from time import perf_counter
+def myfunc(a, b):
+  a + b
+
+# end set-up #
+
+
+# 2d array #
+gc.disable()
+dimsizes = np.arange(1000, 3001, 200)
+median_np = np.zeros(len(dimsizes))
+q1_np = np.zeros(len(dimsizes))
+q3_np = np.zeros(len(dimsizes))
+durations = np.zeros(200)
+
+for i in range(0, len(dimsizes)):
+  print(i)
+  n = dimsizes[i]
+  adims = (n, 1)
+  bdims = (1, n)
+  x = np.random.random_sample(adims)
+  y = np.random.random_sample(bdims)
+  
+  for j in range(0, len(durations)):
+    t1_start = perf_counter()
+    myfunc(x, y)
+    t1_stop = perf_counter()
+    durations[j] = (t1_stop-t1_start) * 1000
+  
+  median_np[i] = np.median(durations)
+  q1_np[i] = np.quantile(durations, 0.25)
+  q3_np[i] = np.quantile(durations, 0.75)
+
+gc.collect()
+
+np.savetxt("benchmarks/bm_py_2d_median.txt", median_np)
+np.savetxt("benchmarks/bm_py_2d_q1.txt", q1_np)
+np.savetxt("benchmarks/bm_py_2d_q3.txt", q3_np)
+# end 2d array #
+
+
+
+# 3d array #
+gc.disable()
+dimsizes = np.arange(50, 201, 10)
+median_np = np.zeros(len(dimsizes))
+q1_np = np.zeros(len(dimsizes))
+q3_np = np.zeros(len(dimsizes))
+durations = np.zeros(200)
+
+for i in range(0, len(dimsizes)):
+  print(i)
+  n = dimsizes[i]
+  adims = (n, 1, n)
+  bdims = (1, n, 1)
+  x = np.random.random_sample(adims)
+  y = np.random.random_sample(bdims)
+  
+  for j in range(0, len(durations)):
+    t1_start = perf_counter()
+    myfunc(x, y)
+    t1_stop = perf_counter()
+    durations[j] = (t1_stop-t1_start) * 1000
+  
+  median_np[i] = np.median(durations)
+  q1_np[i] = np.quantile(durations, 0.25)
+  q3_np[i] = np.quantile(durations, 0.75)
+
+gc.collect()
+
+np.savetxt("benchmarks/bm_py_3d_median.txt", median_np)
+np.savetxt("benchmarks/bm_py_3d_q1.txt", q1_np)
+np.savetxt("benchmarks/bm_py_3d_q3.txt", q3_np)
+# end 3d array #
+
+
+
+
+# 4d array #
+gc.disable()
+dimsizes = np.arange(10, 56, 5)
+median_np = np.zeros(len(dimsizes))
+q1_np = np.zeros(len(dimsizes))
+q3_np = np.zeros(len(dimsizes))
+durations = np.zeros(200)
+
+for i in range(0, len(dimsizes)):
+  print(i)
+  n = dimsizes[i]
+  adims = (n, 1, n, 1)
+  bdims = (1, n, 1, n)
+  x = np.random.random_sample(adims)
+  y = np.random.random_sample(bdims)
+  
+  for j in range(0, len(durations)):
+    t1_start = perf_counter()
+    myfunc(x, y)
+    t1_stop = perf_counter()
+    durations[j] = (t1_stop-t1_start) * 1000
+  
+  median_np[i] = np.median(durations)
+  q1_np[i] = np.quantile(durations, 0.25)
+  q3_np[i] = np.quantile(durations, 0.75)
+
+gc.collect()
+
+np.savetxt("benchmarks/bm_py_4d_median.txt", median_np)
+np.savetxt("benchmarks/bm_py_4d_q1.txt", q1_np)
+np.savetxt("benchmarks/bm_py_4d_q3.txt", q3_np)
+# end 4d array #
+
+
+# 5d array #
+gc.disable()
+dimsizes = np.arange(5, 26, 5)
+median_np = np.zeros(len(dimsizes))
+q1_np = np.zeros(len(dimsizes))
+q3_np = np.zeros(len(dimsizes))
+durations = np.zeros(200)
+
+for i in range(0, len(dimsizes)):
+  print(i)
+  n = dimsizes[i]
+  adims = (n, 1, n, 1, n)
+  bdims = (1, n, 1, n, 1)
+  x = np.random.random_sample(adims)
+  y = np.random.random_sample(bdims)
+  
+  for j in range(0, len(durations)):
+    t1_start = perf_counter()
+    myfunc(x, y)
+    t1_stop = perf_counter()
+    durations[j] = (t1_stop-t1_start) * 1000
+  
+  median_np[i] = np.median(durations)
+  q1_np[i] = np.quantile(durations, 0.25)
+  q3_np[i] = np.quantile(durations, 0.75)
+
+gc.collect()
+
+np.savetxt("benchmarks/bm_py_5d_median.txt", median_np)
+np.savetxt("benchmarks/bm_py_5d_q1.txt", q1_np)
+np.savetxt("benchmarks/bm_py_5d_q3.txt", q3_np)
+# end 5d array #
+
+
+
+
+# 6d array #
+gc.disable()
+dimsizes = np.arange(1, 16, 2)
+median_np = np.zeros(len(dimsizes))
+q1_np = np.zeros(len(dimsizes))
+q3_np = np.zeros(len(dimsizes))
+durations = np.zeros(200)
+
+for i in range(0, len(dimsizes)):
+  print(i)
+  n = dimsizes[i]
+  adims = (n, 1, n, 1, n, 1)
+  bdims = (1, n, 1, n, 1, n)
+  x = np.random.random_sample(adims)
+  y = np.random.random_sample(bdims)
+  
+  for j in range(0, len(durations)):
+    t1_start = perf_counter()
+    myfunc(x, y)
+    t1_stop = perf_counter()
+    durations[j] = (t1_stop-t1_start) * 1000
+  
+  median_np[i] = np.median(durations)
+  q1_np[i] = np.quantile(durations, 0.25)
+  q3_np[i] = np.quantile(durations, 0.75)
+
+gc.collect()
+
+np.savetxt("benchmarks/bm_py_6d_median.txt", median_np)
+np.savetxt("benchmarks/bm_py_6d_q1.txt", q1_np)
+np.savetxt("benchmarks/bm_py_6d_q3.txt", q3_np)
+# end 5d array #
+
+
+
+# 7d array #
+gc.disable()
+dimsizes = np.arange(1, 11, 1)
+median_np = np.zeros(len(dimsizes))
+q1_np = np.zeros(len(dimsizes))
+q3_np = np.zeros(len(dimsizes))
+durations = np.zeros(200)
+
+for i in range(0, len(dimsizes)):
+  print(i)
+  n = dimsizes[i]
+  adims = (n, 1, n, 1, n, 1, n)
+  bdims = (1, n, 1, n, 1, n, 1)
+  x = np.random.random_sample(adims)
+  y = np.random.random_sample(bdims)
+  
+  for j in range(0, len(durations)):
+    t1_start = perf_counter()
+    myfunc(x, y)
+    t1_stop = perf_counter()
+    durations[j] = (t1_stop-t1_start) * 1000
+  
+  median_np[i] = np.median(durations)
+  q1_np[i] = np.quantile(durations, 0.25)
+  q3_np[i] = np.quantile(durations, 0.75)
+
+gc.collect()
+
+np.savetxt("benchmarks/bm_py_7d_median.txt", median_np)
+np.savetxt("benchmarks/bm_py_7d_q1.txt", q1_np)
+np.savetxt("benchmarks/bm_py_7d_q3.txt", q3_np)
+# end 7d array #
+
+
+
+```
+
+:::
+
+
+&nbsp;
