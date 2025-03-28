@@ -15,7 +15,6 @@ SEXP tempout;
 SEXP tempstr;
 
 SEXP out = PROTECT(Rf_allocVector(STRSXP, n));
-SEXP *pout = STRING_PTR(out);
 
 for(int i = 0; i < n; ++i) {
   tempout = VECTOR_ELT(x, i);
@@ -25,7 +24,7 @@ for(int i = 0; i < n; ++i) {
   else {
     tempstr = type2str(TYPEOF(tempout));
   }
-  pout[i] = tempstr;
+  SET_STRING_ELT(out, i, tempstr);
 }
 
 UNPROTECT(1);

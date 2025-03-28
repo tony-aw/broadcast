@@ -169,9 +169,8 @@ macro_op_acast <- "
     }	\\
     case STRSXP:	\\
     {	\\
-      SEXP *py = STRING_PTR(y);                                 \\
-      SEXP *pout = STRING_PTR(out);                             \\
-      MACRO_OP_ACAST_LOOP(MACRO_DIM_ACAST(pout[flatind_out] = py[flatind_y]));   \\
+      const SEXP *py = STRING_PTR_RO(y);                                 \\
+      MACRO_OP_ACAST_LOOP(MACRO_DIM_ACAST(SET_STRING_ELT(out, flatind_out, py[flatind_y])));   \\
       break;                                                \\
     }	\\
     case RAWSXP:	\\

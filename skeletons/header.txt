@@ -1357,14 +1357,12 @@
       const SEXP *py = STRING_PTR_RO(y);	\
       	\
       SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\
-      SEXP *pout;	\
-      pout = STRING_PTR(out);	\
       	\
       DIMCODE(	\
         MACRO_ACTION2(	\
           pcond[flatind_out] == NA_LOGICAL,	\
-          pout[flatind_out] = NA_STRING,	\
-          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
+          SET_STRING_ELT(out, flatind_out, NA_STRING),	\
+          SET_STRING_ELT(out, flatind_out, pcond[flatind_out] ? px[flatind_x] : py[flatind_y])	\
         )	\
       );	\
       	\
@@ -1438,11 +1436,9 @@
     }	\
     case STRSXP:	\
     {	\
-      SEXP *pout;	\
-      pout = STRING_PTR(out);	\
       	\
       DIMCODE(	\
-        pout[flatind_out] = STRING_PTR(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
+        SET_STRING_ELT(out, flatind_out, STRING_ELT(f(x, y, flatind_x + 1, flatind_y + 1), 0)) \
       );	\
       break; \
     }	\
@@ -3709,9 +3705,8 @@ i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
     }	\
     case STRSXP:	\
     {	\
-      SEXP *py = STRING_PTR(y);                                 \
-      SEXP *pout = STRING_PTR(out);                             \
-      MACRO_OP_ACAST_LOOP(MACRO_DIM_ACAST(pout[flatind_out] = py[flatind_y]));   \
+      const SEXP *py = STRING_PTR_RO(y);                                 \
+      MACRO_OP_ACAST_LOOP(MACRO_DIM_ACAST(SET_STRING_ELT(out, flatind_out, py[flatind_y])));   \
       break;                                                \
     }	\
     case RAWSXP:	\

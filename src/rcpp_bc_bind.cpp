@@ -1,4 +1,6 @@
-#include <Rcpp/Lightest>
+
+
+#include <Rcpp.h>
 #include "broadcast.h"
 
 using namespace Rcpp;
@@ -54,9 +56,8 @@ void rcpp_bc_bind(
     }
     case STRSXP:
     {
-      SEXP *pout = STRING_PTR(out);
-      SEXP *px = STRING_PTR(x);
-      MACRO_DIM_BIND_DOCALL(pout[flatind_out] = px[flatind_x]);
+      const SEXP *px = STRING_PTR_RO(x);
+      MACRO_DIM_BIND_DOCALL(SET_STRING_ELT(out, flatind_out, px[flatind_x]));
       break;
     }
     case VECSXP:
@@ -67,3 +68,5 @@ void rcpp_bc_bind(
   }
 
 }
+
+
