@@ -43,7 +43,8 @@
 #' Indicates if dimension `along` should be named. \cr
 #' Uses the naming method from \link[base]{rbind}/\link[base]{cbind} itself.
 #' @param name_along Boolean, for `bind_array()`. \cr
-#' Indicates if dimension `along` should be named.
+#' Indicates if dimension `along` should be named. \cr
+#' The examples section illustrates the naming behaviour.
 #' @param comnames_from either integer scalar or `NULL`,
 #' for `bind_mat()` and  `bind_array()`. \cr
 #' Indicates which object in `input` should be used for naming the shared dimension. \cr

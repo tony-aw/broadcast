@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
 ```{r setup, eval=TRUE, echo=FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 library(broadcast)
+library(fontawesome) |> suppressWarnings()
 library(kableExtra) |> suppressWarnings()
 ```
 
@@ -29,7 +30,7 @@ The 'broadcast' package provides 5 main functionalities:
  - casting/pivoting an array into a new dimension
  - array typecasting with dimensions and names preserved
  
-This guide gives a brief overview of the functions provided by the 'broadcast' 'R'-package.
+This guide gives a brief overview of the functions provided by the 'broadcast' `r fa("r-project")` - package.
 
 
 &nbsp;
@@ -90,6 +91,22 @@ The [bind_dt()](/man/bind.qmd) function is only callable if the 'data.table' pac
 
 &nbsp;
 
+
+## Why another array binding function
+
+There is already a famous, battle-tested function for binding arrays, namely the `abind()` function from the fantastic `r fa("r-project")` package of the same name. So why does 'broadcast' provide another array binding function?
+
+Well, as great as `abind::abind()` is, there are some issues with it, and the [bind_array()](/man/bind.qmd) function from 'broadcast` attempts (and in my humble opinion succeeds) to provide a better alternative:
+
+ - `abind()` is a bit slow. [bind_array()](/man/bind.qmd) is significantly faster.
+ - `abind()` does not support broadcasting. [bind_array()](/man/bind.qmd) does support broadcasting.
+ - `abind()` does not support recursive arrays (i.e. arrays of type `list`). When binding recursive arrays, `abind()` will attempt to unlist it, even when it does not make sense, ruining the structure of the array. [bind_array()](/man/bind.qmd) fully supports recursive arrays, as well as arrays of all atomic types.
+ - `abind()` has somewhat confusing mechanisms for giving dimension names to the output. [bind_array()](/man/bind.qmd) has more streamlined naming arguments.
+
+
+`bind_array()` uses a similar API to that of `abind::abind()`, and provides similar features like binding arrays before the first dimension (using `along = 0`) or after the last dimension.
+
+&nbsp;
 
 # Acast
 

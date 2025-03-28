@@ -39,6 +39,21 @@ input <- list(x = x, y = emptyarray)
 bind_array(input, along = 1L, comnames_from = 2L) # row-bind
 
 
+# Illustrating `name_along`
+
+x <- array(1:20, c(5, 3), list(NULL, LETTERS[1:3]))
+y <- array(-1:-20, c(5, 3))
+z <- array(-1:-20, c(5, 3))
+
+bind_array(list(a = x, b = y, z), 2L)
+
+bind_array(list(x, y, z), 2L)
+
+bind_array(list(a = unname(x), b = y, c = z), 2L)
+
+bind_array(list(x, a = y, b = z), 2L)
+
+
 
 ################################################################################
 

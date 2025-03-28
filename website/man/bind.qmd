@@ -111,7 +111,8 @@ If <code>ndim2bc = 0L</code>, <b>no</b> broadcasting will be allowed at all.
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="name_along">name_along</code></td>
 <td>
 Boolean, for <code>bind_array()</code>. <br />
-Indicates if dimension <code>along</code> should be named.
+Indicates if dimension <code>along</code> should be named. <br />
+The examples section illustrates the naming behaviour.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
@@ -183,6 +184,21 @@ dimnames(emptyarray) <- list(NULL, paste("empty", 1:3))
 print(emptyarray)
 input <- list(x = x, y = emptyarray)
 bind_array(input, along = 1L, comnames_from = 2L) # row-bind
+
+
+# Illustrating `name_along`
+
+x <- array(1:20, c(5, 3), list(NULL, LETTERS[1:3]))
+y <- array(-1:-20, c(5, 3))
+z <- array(-1:-20, c(5, 3))
+
+bind_array(list(a = x, b = y, z), 2L)
+
+bind_array(list(x, y, z), 2L)
+
+bind_array(list(a = unname(x), b = y, c = z), 2L)
+
+bind_array(list(x, a = y, b = z), 2L)
 
 
 

@@ -226,9 +226,16 @@
   
   # check if input is conformable:
   # NOTE: only 1 dimension may be broadcasted per array, for the user's safety
-  is_conf <- .rcpp_bindhelper_conf_dims_all(input.dims, out.dim, along - 1L, ndim2bc)
-  if(!is_conf) {
+  conf <- .rcpp_bindhelper_conf_dims_all(input.dims, out.dim, along - 1L, ndim2bc)
+  if(conf < 0) {
     stop(simpleError("arrays are not conformable for binding", call = abortcall))
+  }
+  if(conf > ndim2bc) {
+    txt <- sprintf(
+      "maximum number of dimensions to be broadcasted (%d) exceeds `ndim2bc` (%d)",
+      conf, ndim2bc
+    )
+    stop(simpleError(txt, call = abortcall))
   }
   
   # determine "highest" type:

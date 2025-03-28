@@ -1080,7 +1080,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_bindhelper_conf_dims_2
-bool rcpp_bindhelper_conf_dims_2(SEXP x, SEXP y, int along, int max_bc);
+int rcpp_bindhelper_conf_dims_2(SEXP x, SEXP y, int along, int max_bc);
 RcppExport SEXP _broadcast_rcpp_bindhelper_conf_dims_2(SEXP xSEXP, SEXP ySEXP, SEXP alongSEXP, SEXP max_bcSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -1094,7 +1094,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_bindhelper_conf_dims_all
-bool rcpp_bindhelper_conf_dims_all(SEXP lst_dims, SEXP target, int along, int max_bc);
+int rcpp_bindhelper_conf_dims_all(SEXP lst_dims, SEXP target, int along, int max_bc);
 RcppExport SEXP _broadcast_rcpp_bindhelper_conf_dims_all(SEXP lst_dimsSEXP, SEXP targetSEXP, SEXP alongSEXP, SEXP max_bcSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

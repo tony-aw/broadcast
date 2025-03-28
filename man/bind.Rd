@@ -62,7 +62,8 @@ Specify here the maximum number of dimensions that are allowed to be broadcasted
 If \code{ndim2bc = 0L}, \bold{no} broadcasting will be allowed at all.}
 
 \item{name_along}{Boolean, for \code{bind_array()}. \cr
-Indicates if dimension \code{along} should be named.}
+Indicates if dimension \code{along} should be named. \cr
+The examples section illustrates the naming behaviour.}
 
 \item{...}{arguments to be passed to \code{data.table::rbindlist()}. \cr \cr}
 }
@@ -131,6 +132,21 @@ dimnames(emptyarray) <- list(NULL, paste("empty", 1:3))
 print(emptyarray)
 input <- list(x = x, y = emptyarray)
 bind_array(input, along = 1L, comnames_from = 2L) # row-bind
+
+
+# Illustrating `name_along`
+
+x <- array(1:20, c(5, 3), list(NULL, LETTERS[1:3]))
+y <- array(-1:-20, c(5, 3))
+z <- array(-1:-20, c(5, 3))
+
+bind_array(list(a = x, b = y, z), 2L)
+
+bind_array(list(x, y, z), 2L)
+
+bind_array(list(a = unname(x), b = y, c = z), 2L)
+
+bind_array(list(x, a = y, b = z), 2L)
 
 
 

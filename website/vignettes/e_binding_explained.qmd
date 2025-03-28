@@ -1,0 +1,109 @@
+---
+title: "Broadcasted Dimensional Binding Explained"
+format:
+  html:
+    number-sections: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval=TRUE, echo=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(broadcast)
+library(fontawesome) |> suppressWarnings()
+library(tinytable) |> suppressWarnings()
+```
+
+
+&nbsp;
+
+
+'broadcast' provides 3 dimensional binding implementations: [bind_mat()](/man/bind.qmd), [bind_array()](/man/bind.qmd), and [bind_dt()](/man/bind.qmd). The [bind_mat()](/man/bind.qmd) function supports vector recycling, but only [bind_array()](/man/bind.qmd) supports full broadcasting. This page explains some details on broadcasting that are specific to [bind_array()](/man/bind.qmd).
+
+
+&nbsp;
+
+
+[bind_array()](/man/bind.qmd) fully supports broadcasting. And the `ndim2bc` argument (an abbreviation of " maximum number of dimensions to broadcast") allows the users to specify how many dimensions are allowed to be broadcasting while binding arrays. This way, users won't get unpleasant surprises.
+
+This should be fairly obvious, but the dimension specified in `along` is never broadcasted.
+
+&nbsp;
+
+
+
+By default, `ndim2bc` is set to `1`. This means that, by default, [bind_array()](/man/bind.qmd) will broadcast no more than 1 dimension per array in the input list, when necessary.
+
+Consider the following arrays:
+
+```{r}
+
+x <- array(1:20, c(4, 5))
+y <- array(1:5*10, c(1, 5))
+print(x)
+print(y)
+
+```
+
+Binding them together with `abind()` won't work:
+
+```{r eval=FALSE, echo=TRUE}
+abind::abind(x, y, along = 2)
+Error in abind::abind(x, y, along = 2) : 
+  arg 'X2' has dims=1, 5; but need dims=4, X
+```
+
+To bind `x` and `y` together along columns, `y` needs its single row to be recycled (broadcasted) 4 times.
+
+This can be done in a highly efficient way using [bind_array()](/man/bind.qmd), like so:
+
+```{r}
+bind_array(list(x, y), 2L)
+```
+
+&nbsp;
+
+
+
+But what if broadcasting is explicitly **not** desired? What if one actually wants this to produce an error, like `abind()`? Fret not, for that's what the `ndim2bc` argument is for. Setting it to `0` will disable broadcasting altogether:
+
+```{r eval=FALSE, echo=TRUE}
+bind_array(list(x, y), 2L, ndim2bc = 0)
+Error in bind_array(list(x, y), 2L, ndim2bc = 0) : 
+  maximum number of dimensions to be broadcasted (1) exceeds `ndim2bc` (0)
+```
+
+
+&nbsp;
+
+
+Let's replace `x` with a 3 dimensional array:
+
+```{r}
+x <- array(1:20, c(4, 5, 3))
+print(x)
+```
+
+Trying to bind `x` with `y` now will produce an error even with [bind_array()](/man/bind.qmd), to protect the user from unintended broadcasting:
+
+```{r eval=FALSE, echo=TRUE}
+bind_array(list(x, y), 2L)
+Error in bind_array(list(x, y), 2L) : 
+  maximum number of dimensions to be broadcasted (2) exceeds `ndim2bc` (1)
+```
+
+If you know you actually do want to broadcast multiple dimensions, simply increase `ndim2bc`:
+
+```{r}
+bind_array(list(x, y), 2L, ndim2bc = 3L)
+```
+
+
+
+&nbsp;
+

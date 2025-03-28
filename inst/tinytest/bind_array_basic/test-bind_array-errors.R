@@ -87,7 +87,7 @@ expect_error(
 enumerate <- enumerate + 10L
 
 
-# arg along errors ====
+# ndim2bc basic errors ====
 input <- list(
   array(1:10), array(1:10)
 )
@@ -112,7 +112,6 @@ expect_error(
   fixed = TRUE
 )
 enumerate <- enumerate + 4L
-
 
 
 # non-conformable arrays ====
@@ -142,6 +141,26 @@ expect_error(
 expect_error(
   bind_array(input, 2L, ndim2bc = 2L),
   pattern = "output will exceed maximum vector size"
+)
+enumerate <- enumerate + 2L
+
+
+
+# maximum number of dimensions to broadcast exceeds ndim2bc errors ====
+
+x <- array(1:20, c(4, 5))
+y <- array(1:5*10, c(1, 5))
+expect_error(
+  bind_array(list(x, y), 2L, ndim2bc = 0),
+  pattern = "maximum number of dimensions to be broadcasted (1) exceeds `ndim2bc` (0)",
+  fixed = TRUE
+)
+
+x <- array(1:20, c(4, 5, 3))
+expect_error(
+  bind_array(list(x, y), 2L),
+  pattern = "maximum number of dimensions to be broadcasted (2) exceeds `ndim2bc` (1)",
+  fixed = TRUE
 )
 enumerate <- enumerate + 2L
 

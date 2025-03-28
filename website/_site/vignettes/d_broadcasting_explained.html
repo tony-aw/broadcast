@@ -178,7 +178,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../vignettes/e_practical_applications.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/e_binding_explained.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Broadcasted Dimensional Binding Explained</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../vignettes/f_practical_applications.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Practical Applications</span></a>
   </div>
 </li>
@@ -206,8 +212,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#broadcasting-limitations-and-rules" id="toc-broadcasting-limitations-and-rules" class="nav-link" data-scroll-target="#broadcasting-limitations-and-rules"><span class="header-section-number">4</span> Broadcasting limitations and rules</a>
   <ul class="collapse">
-  <li><a href="#conformability" id="toc-conformability" class="nav-link" data-scroll-target="#conformability"><span class="header-section-number">4.1</span> Conformability</a></li>
-  <li><a href="#which-dimensions-are-broadcasted" id="toc-which-dimensions-are-broadcasted" class="nav-link" data-scroll-target="#which-dimensions-are-broadcasted"><span class="header-section-number">4.2</span> Which dimensions are broadcasted</a></li>
+  <li><a href="#normalization" id="toc-normalization" class="nav-link" data-scroll-target="#normalization"><span class="header-section-number">4.1</span> Normalization</a></li>
+  <li><a href="#conformability" id="toc-conformability" class="nav-link" data-scroll-target="#conformability"><span class="header-section-number">4.2</span> Conformability</a></li>
+  <li><a href="#which-dimensions-are-broadcasted" id="toc-which-dimensions-are-broadcasted" class="nav-link" data-scroll-target="#which-dimensions-are-broadcasted"><span class="header-section-number">4.3</span> Which dimensions are broadcasted</a></li>
   </ul></li>
   <li><a href="#orthogonal-arrays" id="toc-orthogonal-arrays" class="nav-link" data-scroll-target="#orthogonal-arrays"><span class="header-section-number">5</span> Orthogonal Arrays</a></li>
   <li><a href="#broadcasting-vs-outer" id="toc-broadcasting-vs-outer" class="nav-link" data-scroll-target="#broadcasting-vs-outer"><span class="header-section-number">6</span> Broadcasting vs outer</a></li>
@@ -237,8 +244,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>&nbsp;</p>
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions <strong>without</strong> allocating additional memory or making needles copies. This is considerably <strong>faster</strong> and <strong>more memory-efficient</strong> than R’s regular dimensions repetition (and similar) mechanisms.</p>
-<p>This article explains the concept of “broadcasting” in more detail. A good understanding of atomic and recursive arrays in base <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> is somewhat essential to follow this article.</p>
+<p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions <strong>without</strong> allocating additional memory or making needles copies. This is considerably <strong>faster</strong> and <strong>more memory-efficient</strong> than <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg>’s regular dimensions repetition (and similar) mechanisms.</p>
+<p>This page explains the concept of “broadcasting” in more detail. A good understanding of atomic and recursive arrays in base <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> is somewhat essential to follow this page.</p>
 <p>&nbsp;</p>
 </section>
 <section id="what-is-broadcasting-and-why-is-it-needed" class="level1" data-number="2">
@@ -287,16 +294,16 @@ Consider the matrices <code>x</code> and <code>y</code>:</p>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Error<span class="sc">:</span> cannot allocate vector of size</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The problem isn’t limited to available memory. As the required memory to allocate increase, the speed decreases. And let’s not forget that computational inefficiency in general is also bad for the environment.</p>
-<p>Additionally, a solution like <code>x + y[rep(1L, 4L),]</code> is not easily scalable for other arrays when the dimensions are not known a-priori.</p>
+<p>Additionally, a solution like <code>x + y[rep(1L, 4L),]</code> is not easily scalable for other arrays when the dimensions of <code>x</code> and <code>y</code> are not known a-priori.</p>
 <p>&nbsp;</p>
 </section>
 <section id="introducing-broadcasting" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="introducing-broadcasting"><span class="header-section-number">2.3</span> Introducing Broadcasting</h2>
-<p>In an operation like <code>x + y[rep(1L, 4L),]</code>, <code>y</code> is replicated to become the same size. The thing is, physical replication - and thus copying - of the dimensions of an array should not be necessary; arrays only need to be recycled virtually.</p>
+<p>In an operation like <code>x + y[rep(1L, 4L),]</code>, <code>y</code> is replicated to become the same size as <code>x</code>. The thing is, physical replication - and thus copying - of the dimensions of an array should not be necessary; arrays only need to be recycled virtually.</p>
 <p>Virtual recycling does not actually physically replicate arrays. Instead, nested loops in ‘C’ and ‘C++’ are used to simulate a recycled array.<br>
 This is similar to how <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> recycles regular (i.e.&nbsp;dimensionless) vectors.<br>
 Virtual recycling requires no additional memory (apart from allocating the final end result); it is much faster and much more memory efficient than replicating dimensions.</p>
-<p>And <strong>that</strong> is what broadcasting does: broadcasting provides <strong>fast</strong> virtual recycling of array dimensions in the context of element-wise operations involving 2 (or more) arrays <strong>without</strong> allocating additional memory.</p>
+<p>And <strong>that</strong> is what broadcasting does: broadcasting provides <strong>fast</strong> virtual recycling of array dimensions in the context of element-wise operations involving 2 (or more) arrays <strong>without</strong> allocating additional memory. Broadcasting in this package is also scalable to arrays of any dimensions (up to 16 dimensions).</p>
 <p>In the earlier example, we used:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y[<span class="fu">rep</span>(1L, 4L),]</span>
@@ -349,8 +356,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <script>
 
-      function styleCell_81ktktw4g70a78uma6kk(i, j, css_id) {
-          var table = document.getElementById("tinytable_81ktktw4g70a78uma6kk");
+      function styleCell_z93kvd9y20fuvqyc5r0k(i, j, css_id) {
+          var table = document.getElementById("tinytable_z93kvd9y20fuvqyc5r0k");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -360,7 +367,7 @@ Virtual recycling requires no additional memory (apart from allocating the final
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_81ktktw4g70a78uma6kk');
+        var table = document.getElementById('tinytable_z93kvd9y20fuvqyc5r0k');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -368,8 +375,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_81ktktw4g70a78uma6kk(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_81ktktw4g70a78uma6kk");
+      function spanCell_z93kvd9y20fuvqyc5r0k(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_z93kvd9y20fuvqyc5r0k");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -399,13 +406,13 @@ Virtual recycling requires no additional memory (apart from allocating the final
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 0, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 0, j: 2 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 0, j: 3 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 0, j: 4 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 3, j: 4 },  ], css_id: 'tinytable_css_1816xvblqs7gypldaql5',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 0, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 0, j: 2 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 0, j: 3 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 0, j: 4 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 3, j: 4 },  ], css_id: 'tinytable_css_eruo7w8f7jbswp79msgu',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_81ktktw4g70a78uma6kk(cell.i, cell.j, group.css_id);
+                  styleCell_z93kvd9y20fuvqyc5r0k(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -413,10 +420,10 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_1816xvblqs7gypldaql5, .table th.tinytable_css_1816xvblqs7gypldaql5 { border: solid black 0.1em; }
+      .table td.tinytable_css_eruo7w8f7jbswp79msgu, .table th.tinytable_css_eruo7w8f7jbswp79msgu { border: solid black 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-bordered" id="tinytable_81ktktw4g70a78uma6kk" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-bordered" id="tinytable_z93kvd9y20fuvqyc5r0k" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
         </thead>
@@ -494,8 +501,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <script>
 
-      function styleCell_imzf95ffh0nq8oms1yc4(i, j, css_id) {
-          var table = document.getElementById("tinytable_imzf95ffh0nq8oms1yc4");
+      function styleCell_wd40nogzb2xuijgonc11(i, j, css_id) {
+          var table = document.getElementById("tinytable_wd40nogzb2xuijgonc11");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -505,7 +512,7 @@ Virtual recycling requires no additional memory (apart from allocating the final
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_imzf95ffh0nq8oms1yc4');
+        var table = document.getElementById('tinytable_wd40nogzb2xuijgonc11');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -513,8 +520,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_imzf95ffh0nq8oms1yc4(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_imzf95ffh0nq8oms1yc4");
+      function spanCell_wd40nogzb2xuijgonc11(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_wd40nogzb2xuijgonc11");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -544,13 +551,13 @@ Virtual recycling requires no additional memory (apart from allocating the final
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 0, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 0, j: 2 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 4, j: 2 }, { i: 0, j: 3 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 4, j: 3 }, { i: 0, j: 4 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 3, j: 4 }, { i: 4, j: 4 },  ], css_id: 'tinytable_css_ijddgc0e52lnl5ss9izi',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 0, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 0, j: 2 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 4, j: 2 }, { i: 0, j: 3 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 4, j: 3 }, { i: 0, j: 4 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 3, j: 4 }, { i: 4, j: 4 },  ], css_id: 'tinytable_css_366n0uewt5boyibxhbs6',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_imzf95ffh0nq8oms1yc4(cell.i, cell.j, group.css_id);
+                  styleCell_wd40nogzb2xuijgonc11(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -558,10 +565,10 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_ijddgc0e52lnl5ss9izi, .table th.tinytable_css_ijddgc0e52lnl5ss9izi { border: solid black 0.1em; }
+      .table td.tinytable_css_366n0uewt5boyibxhbs6, .table th.tinytable_css_366n0uewt5boyibxhbs6 { border: solid black 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-bordered" id="tinytable_imzf95ffh0nq8oms1yc4" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-bordered" id="tinytable_wd40nogzb2xuijgonc11" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
         </thead>
@@ -616,15 +623,22 @@ Virtual recycling requires no additional memory (apart from allocating the final
 <p>The examples shown so far used matrices. But ‘broadcast’ is not restricted to only handling matrices; this package can handle any array, provided it does not have more than 16 dimensions. Moreover, any number of dimensions (provided &lt;= 16) can be broadcasted simultaneously.</p>
 <p>The examples show so far only used addition. But ‘broadcast’ supports a wide variety of binary operations, inlcuding relational-, arithmetic-, Boolean-, and string operations.</p>
 <p>&nbsp;</p>
-<section id="conformability" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="conformability"><span class="header-section-number">4.1</span> Conformability</h2>
+<section id="normalization" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="normalization"><span class="header-section-number">4.1</span> Normalization</h2>
+<p>Before broadcasting occurs, the number of dimensions of <code>x</code> and <code>y</code> are normalized, such that <code>ndim(x)</code> and <code>ndim(y)</code> are the same ( the <code>ndim(x)</code> function is the same as <code>length(dim(x))</code>).</p>
+<p>This normalization achieved by appending dimensions of size 1 to the array with the smaller number of dimensions until both array have the same number of dimensions.</p>
+<p>For example, if <code>dim(x) = c(3, 4, 3)</code> and <code>dim(y) = c(3, 4)</code>, then internally <code>dim(y)</code> is changed to <code>c(3, 4, 1)</code>.</p>
+<p>&nbsp;</p>
+</section>
+<section id="conformability" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="conformability"><span class="header-section-number">4.2</span> Conformability</h2>
 <p>Broadcasted operations only work when 2 arrays are conformable for broadcasting.</p>
 <p>Consider again 2 arrays <code>x</code> and <code>y</code>, and their dimensions given by <code>dim(x)</code> and <code>dim(y)</code>, respectively.<br>
 ‘broadcast’ goes through <code>dim(x)</code> and <code>dim(y)</code>, from left (i.e.&nbsp;first dimension / rows) to right (i.e.&nbsp;the last dimension), and checks for each axis <code>i</code> if <strong>at least one</strong> of the following conditions is TRUE:</p>
 <ul>
 <li><code>dim(x)[i]</code> and <code>dim(y)[i]</code> are equal;</li>
 <li>either <code>dim(x)[i]</code> or <code>dim(y)[i]</code> is <code>1</code>;</li>
-<li>either <code>dim(x)[i]</code> or <code>dim(y)[i]</code> is non-existing.</li>
+<li>either <code>dim(x)[i]</code> or <code>dim(y)[i]</code> is non-existing (see also the “Normalization” sub-section above)</li>
 </ul>
 <p>if at least one of the above conditions is true for each and every one of the dimensions of <code>x</code> and <code>y</code>, the 2 arrays are compatible for broadcasted operations. If not, they are not compatible, and attempting to perform a broadcasted operations results in an error.</p>
 <p>To illustrate, let’s check 2 arrays to see if they are compatible:</p>
@@ -639,8 +653,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <script>
 
-      function styleCell_mh43xrqaex3nz5wl9xar(i, j, css_id) {
-          var table = document.getElementById("tinytable_mh43xrqaex3nz5wl9xar");
+      function styleCell_v673m57lekomif1ljx5j(i, j, css_id) {
+          var table = document.getElementById("tinytable_v673m57lekomif1ljx5j");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -650,7 +664,7 @@ Virtual recycling requires no additional memory (apart from allocating the final
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_mh43xrqaex3nz5wl9xar');
+        var table = document.getElementById('tinytable_v673m57lekomif1ljx5j');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -658,8 +672,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_mh43xrqaex3nz5wl9xar(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_mh43xrqaex3nz5wl9xar");
+      function spanCell_v673m57lekomif1ljx5j(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_v673m57lekomif1ljx5j");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -689,14 +703,14 @@ Virtual recycling requires no additional memory (apart from allocating the final
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 }, { i: 4, j: 3 },  ], css_id: 'tinytable_css_id56iaypulvim0sl8a3y',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_38nbq0uomz45j8p35434',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_l8zra1im6zy5sjl6bj0q',}, 
+          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 }, { i: 4, j: 3 },  ], css_id: 'tinytable_css_hay4d0ca9gu6lthtipo0',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_mh43xrqaex3nz5wl9xar(cell.i, cell.j, group.css_id);
+                  styleCell_v673m57lekomif1ljx5j(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -704,11 +718,11 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_id56iaypulvim0sl8a3y, .table th.tinytable_css_id56iaypulvim0sl8a3y { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_38nbq0uomz45j8p35434, .table th.tinytable_css_38nbq0uomz45j8p35434 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_l8zra1im6zy5sjl6bj0q, .table th.tinytable_css_l8zra1im6zy5sjl6bj0q { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_hay4d0ca9gu6lthtipo0, .table th.tinytable_css_hay4d0ca9gu6lthtipo0 { border-bottom: solid #d3d8dc 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_mh43xrqaex3nz5wl9xar" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_v673m57lekomif1ljx5j" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -765,8 +779,8 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
 
     <script>
 
-      function styleCell_x0zhyo3uh1lzudh55ktu(i, j, css_id) {
-          var table = document.getElementById("tinytable_x0zhyo3uh1lzudh55ktu");
+      function styleCell_ao9lbtf4yq3rk39u734q(i, j, css_id) {
+          var table = document.getElementById("tinytable_ao9lbtf4yq3rk39u734q");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -776,7 +790,7 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_x0zhyo3uh1lzudh55ktu');
+        var table = document.getElementById('tinytable_ao9lbtf4yq3rk39u734q');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -784,8 +798,8 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_x0zhyo3uh1lzudh55ktu(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_x0zhyo3uh1lzudh55ktu");
+      function spanCell_ao9lbtf4yq3rk39u734q(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_ao9lbtf4yq3rk39u734q");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -815,14 +829,14 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 }, { i: 4, j: 3 },  ], css_id: 'tinytable_css_dtnar5p955eachyd85uf',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_06cp7250odgd4xcf7byz',}, 
+          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 }, { i: 4, j: 3 },  ], css_id: 'tinytable_css_lljtf9mvoza2rg2kwo1r',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_2obcwgyw9zew0ro5mzbw',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_x0zhyo3uh1lzudh55ktu(cell.i, cell.j, group.css_id);
+                  styleCell_ao9lbtf4yq3rk39u734q(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -830,11 +844,11 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_dtnar5p955eachyd85uf, .table th.tinytable_css_dtnar5p955eachyd85uf { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_06cp7250odgd4xcf7byz, .table th.tinytable_css_06cp7250odgd4xcf7byz { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_lljtf9mvoza2rg2kwo1r, .table th.tinytable_css_lljtf9mvoza2rg2kwo1r { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_2obcwgyw9zew0ro5mzbw, .table th.tinytable_css_2obcwgyw9zew0ro5mzbw { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_x0zhyo3uh1lzudh55ktu" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_ao9lbtf4yq3rk39u734q" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -879,8 +893,8 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
 <p>One of the dimensions, namely the third dimension, is not compatible. Therefore, these 2 arrays are <strong>not</strong> conformable for broadcasted operations.</p>
 <p>&nbsp;</p>
 </section>
-<section id="which-dimensions-are-broadcasted" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="which-dimensions-are-broadcasted"><span class="header-section-number">4.2</span> Which dimensions are broadcasted</h2>
+<section id="which-dimensions-are-broadcasted" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="which-dimensions-are-broadcasted"><span class="header-section-number">4.3</span> Which dimensions are broadcasted</h2>
 <p>In the context of an operation involving exactly 2 arrays, this sub-section explains which dimensions of which array is broadcasted, and which dimension of which array is left as-is.<br>
 There are 3 scenarios relevant for this explanation.</p>
 <p>&nbsp;</p>
@@ -913,8 +927,8 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
 
     <script>
 
-      function styleCell_h6wtdob92cj35fnrr2im(i, j, css_id) {
-          var table = document.getElementById("tinytable_h6wtdob92cj35fnrr2im");
+      function styleCell_k01xgykrib5t9xbjr65o(i, j, css_id) {
+          var table = document.getElementById("tinytable_k01xgykrib5t9xbjr65o");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -924,7 +938,7 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_h6wtdob92cj35fnrr2im');
+        var table = document.getElementById('tinytable_k01xgykrib5t9xbjr65o');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -932,8 +946,8 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_h6wtdob92cj35fnrr2im(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_h6wtdob92cj35fnrr2im");
+      function spanCell_k01xgykrib5t9xbjr65o(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_k01xgykrib5t9xbjr65o");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -963,14 +977,14 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 }, { i: 0, j: 5 },  ], css_id: 'tinytable_css_zxyi242k8n7usn5zfv3o',}, 
-          { positions: [ { i: 5, j: 0 }, { i: 5, j: 1 }, { i: 5, j: 2 }, { i: 5, j: 3 }, { i: 5, j: 4 }, { i: 5, j: 5 },  ], css_id: 'tinytable_css_lkv0pumdfs8eu6d6osuf',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 }, { i: 0, j: 5 },  ], css_id: 'tinytable_css_4i71wfguuuw6acrxtf8h',}, 
+          { positions: [ { i: 5, j: 0 }, { i: 5, j: 1 }, { i: 5, j: 2 }, { i: 5, j: 3 }, { i: 5, j: 4 }, { i: 5, j: 5 },  ], css_id: 'tinytable_css_22692ikyyf7p570gbw8u',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_h6wtdob92cj35fnrr2im(cell.i, cell.j, group.css_id);
+                  styleCell_k01xgykrib5t9xbjr65o(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -978,11 +992,11 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_zxyi242k8n7usn5zfv3o, .table th.tinytable_css_zxyi242k8n7usn5zfv3o { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_lkv0pumdfs8eu6d6osuf, .table th.tinytable_css_lkv0pumdfs8eu6d6osuf { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_4i71wfguuuw6acrxtf8h, .table th.tinytable_css_4i71wfguuuw6acrxtf8h { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_22692ikyyf7p570gbw8u, .table th.tinytable_css_22692ikyyf7p570gbw8u { border-bottom: solid #d3d8dc 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_h6wtdob92cj35fnrr2im" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_k01xgykrib5t9xbjr65o" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>

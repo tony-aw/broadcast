@@ -32,16 +32,16 @@ The "broadcasting" implementation in the 'broadcast' package is conceptually (th
 
 This page presents the comparisons in the speed of broadcasted operations, between 'broadcast' and 'Numpy'.
 
-Please bear in mind these are rough comparisons of speed. Since the comparisons involve 2 separate programming languages - `r fa("r-project")` and 'Python', "proper" speed comparison is rather difficult even on a merely conceptual level.
+Please bear in mind these are rough comparisons of speed. Since the comparisons involve 2 separate programming languages, `r fa("r-project")` and 'Python', "proper" speed comparison is rather difficult even on a merely conceptual level.
 
 &nbsp;
 
 
 # Methodology
 
-## Difficulties
+## Difficulties in comparing `r fa("r-project")` with 'Python'
 
-Benchmarking a 'Python' code snippet in 'Python' using a 'Python' module, and benchmarking an `r fa("r-project")` code snippet in `r fa("r-project")` using an `r fa("r-project")` package, means mechanisms from different modules/packages are used for the benchmarking, and those 2 benchmarks may not (and probably won't) use the same or even comparable timing mechanisms.
+Benchmarking a 'Python' code snippet in 'Python' using a 'Python' module, and benchmarking an `r fa("r-project")` code snippet in `r fa("r-project")` using an `r fa("r-project")` package, means mechanisms from different modules/packages are used for the benchmarking, and those 2 benchmarks may not (and probably won't) use the same timing mechanisms.
 
 'Python' and `r fa("r-project")` are both languages that use garbage collections (GC). But GC really does mess up benchmarking. The way to circumvent this issue differs in 'Python' and `r fa("r-project")`. In 'Python', GC can temporarily be disabled. `r fa("r-project")` does not support this (as disabling GC is dangerous), so instead for `r fa("r-project")` benchmarks with heavy GC just have to be filtered out.
 
@@ -54,26 +54,22 @@ Comparing the speed of 2 languages is inherently deceptively difficult. And due 
 
 The benchmarks are run for multiple dimensionalities, and multiple dimension sizes.
 
-For each combination of dimensionality and dimension size, pairs of decimal number arrays are created in both 'broadcast' and 'Numpy'.  These pairs of arrays are fully orthogonal, thus the maximum amount of broadcasting will be employed.
+For each combination of dimensionality and dimension size, pairs of decimal number arrays are created in both 'broadcast' and 'Numpy'.  These pairs of arrays are fully orthogonal ("orthogonal" in the sense as explained [here](/vignettes/d_broadcasting_explained.qmd)), thus the maximum amount of broadcasting will be employed.
 
-For each pair of array the element-wise addition is computed using 'broadcast' and 'Numpy'. This computation is repeated 200 times. From these 200 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between 'broadcast' and 'Numpy' fair, and these caveats are explained in the next sub-section.
-
-
+For each pair of array, the element-wise addition is computed using 'broadcast' and 'Numpy'. This computation is repeated 200 times. From these 200 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between 'broadcast' and 'Numpy' fair, and these caveats are explained in the next sub-section.
 
 &nbsp;
-
 
 ## Keeping comparisons (somewhat) fair
 
 To keep the comparisons between 'broadcast' and 'Numpy' fair, a number of measures have been taken:
  
- - Distributions of benchmarks tend to be heavily skewed. Therefore, the median measure (together with the quartiles) are taken.
+ - Distributions of benchmarks tend to be heavily skewed. Therefore, the median measure (together with the quartiles) are taken. The median is also more stable than the mean in the face of outliers.
  - garbage collection is disabled in Python. In `r fa("r-project")`, only benchmarks with no garbage collection, or level 0 garbage collection, are used. I feel this keeps the comparisons relatively fair (but it's not perfect).
- - Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for `r fa("r-project")`, a check is made that at least 100 benchmark measurements are kept in (out 200 in total).
- - In relation to the previous point, note that the quantiles and the median (the median itself is simply the 50% quantile) are asymptotically independent of sample-size (unlike, for example, the variance, which is affected by sample size).
+ - Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for `r fa("r-project")`, a check is made that at least 100 benchmark measurements are kept in (out 200 in total). If there are less than 100 benchmarks for a particular computation, the benchmarks are thrown away, and another attempt is made at benchmarking (but this never happened).
+ - In relation to the previous point, note that the quantiles and the median (the median itself is simply the 50% quantile) are asymptotically independent of sample-size (unlike, for example, the variance, which is directly affected by sample size).
  - `r fa("r-project")` has more support for missing values than 'Numpy', which also leads to a difference in speed. But both `r fa("r-project")` and 'Numpy' handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in `r fa("r-project")` ), through the `NaN` construct. Therefore, only operations on decimal numbers are compared.
  - Operations like power (`^`) and division (`/`) need to handle special cases (like when the right-hand side of the operation is 0). I cannot guarantee that 'broadcast' and 'Numpy' will handle these special cases in the exact same way. The plus (`+`) operator, however, has no such special cases. Therefore, the comparisons on this page involve only summation.
-
 
 &nbsp;
 
@@ -91,6 +87,8 @@ The code used to run the benchmarks can be found at the bottom of this page.
 # Results
 
 &nbsp;
+
+::: {.panel-tabset}
 
 ## 2d arrays
 
@@ -369,6 +367,9 @@ tinyplot_add(
 
 ```
 
+&nbsp;
+
+:::
 
 &nbsp;
 

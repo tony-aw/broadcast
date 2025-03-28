@@ -17,9 +17,9 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 ## 🗺️Overview
 
-The ‘broadcast’ ‘R’ - package, as the name suggests, performs
-“broadcasting” (similar to broadcasting in the ‘Numpy’ module for
-‘Python’).
+‘broadcast’ is a relatively small ‘R’ package that, as the name
+suggests, performs “broadcasting” (similar to broadcasting in the
+‘Numpy’ module for ‘Python’).
 
 In the context of operations involving 2 (or more) arrays,
 “broadcasting” refers to recycling array dimensions **without**

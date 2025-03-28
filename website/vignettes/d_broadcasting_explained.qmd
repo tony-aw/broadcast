@@ -24,10 +24,10 @@ library(tinytable) |> suppressWarnings()
 
 # Introduction
 
-In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory or making needles copies. This is considerably **faster** and **more memory-efficient** than R's regular dimensions repetition (and similar) mechanisms.
+In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory or making needles copies. This is considerably **faster** and **more memory-efficient** than `r fa("r-project")`'s regular dimensions repetition (and similar) mechanisms.
 
-This article explains the concept of "broadcasting" in more detail.
-A good understanding of atomic and recursive arrays in base `r fa("r-project")` is somewhat essential to follow this article.
+This page explains the concept of "broadcasting" in more detail.
+A good understanding of atomic and recursive arrays in base `r fa("r-project")` is somewhat essential to follow this page.
 
 &nbsp;
 
@@ -81,19 +81,19 @@ First and foremost, when the arrays become larger, the replicated arrays become 
 
 The problem isn't limited to available memory. As the required memory to allocate increase, the speed decreases. And let's not forget that computational inefficiency in general is also bad for the environment.
 
-Additionally, a solution like `x + y[rep(1L, 4L),]` is not easily scalable for other arrays when the dimensions are  not known a-priori.
+Additionally, a solution like `x + y[rep(1L, 4L),]` is not easily scalable for other arrays when the dimensions of `x` and `y` are not known a-priori.
 
 &nbsp;
 
 ## Introducing Broadcasting
 
-In an operation like `x + y[rep(1L, 4L),]`, `y` is replicated to become the same size. The thing is, physical replication - and thus copying - of the dimensions of an array should not be necessary; arrays only need to be recycled virtually.  
+In an operation like `x + y[rep(1L, 4L),]`, `y` is replicated to become the same size as `x`. The thing is, physical replication - and thus copying - of the dimensions of an array should not be necessary; arrays only need to be recycled virtually.  
 
 Virtual recycling does not actually physically replicate arrays. Instead, nested loops in 'C' and 'C++' are used to simulate a recycled array.  
 This is similar to how `r fa("r-project")` recycles regular (i.e. dimensionless) vectors.  
 Virtual recycling requires no additional memory (apart from allocating the final end result); it is much faster and much more memory efficient than replicating dimensions.
 
-And **that** is what broadcasting does: broadcasting provides **fast** virtual recycling of array dimensions in the context of element-wise operations involving 2 (or more) arrays **without** allocating additional memory.
+And **that** is what broadcasting does: broadcasting provides **fast** virtual recycling of array dimensions in the context of element-wise operations involving 2 (or more) arrays **without** allocating additional memory. Broadcasting in this package is also scalable to arrays of any dimensions (up to 16 dimensions).
 
 In the earlier example, we used:
 
@@ -211,6 +211,17 @@ The examples show so far only used addition. But 'broadcast' supports a wide var
 
 &nbsp;
 
+## Normalization
+
+Before broadcasting occurs, the number of dimensions of `x` and `y` are normalized, such that `ndim(x)` and `ndim(y)` are the same ( the `ndim(x)` function is the same as `length(dim(x))`).
+
+This normalization achieved by appending dimensions of size 1 to the array with the smaller number of dimensions until both array have the same number of dimensions.
+
+For example, if `dim(x) = c(3, 4, 3)` and `dim(y) = c(3, 4)`, then internally `dim(y)` is changed to `c(3, 4, 1)`.
+
+&nbsp;
+
+
 ## Conformability
 
 Broadcasted operations only work when 2 arrays are conformable for broadcasting.  
@@ -220,7 +231,7 @@ Consider again 2 arrays `x` and `y`, and their dimensions given by `dim(x)` and 
 
  - `dim(x)[i]` and `dim(y)[i]` are equal;
  - either `dim(x)[i]` or `dim(y)[i]` is `1`;
- - either `dim(x)[i]` or `dim(y)[i]` is non-existing.
+ - either `dim(x)[i]` or `dim(y)[i]` is non-existing (see also the "Normalization" sub-section above)
  
 if at least one of the above conditions is true for each and every one of the dimensions of `x` and `y`, the 2 arrays are compatible for broadcasted operations. If not, they are not compatible, and attempting to perform a broadcasted operations results in an error.
 

@@ -88,11 +88,11 @@ R_xlen_t rcpp_bindhelper_sum_along(
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_bindhelper_conf_dims_2)]]
-bool rcpp_bindhelper_conf_dims_2(
+int rcpp_bindhelper_conf_dims_2(
   SEXP x, SEXP y, int along, int max_bc
 ) {
   if(Rf_length(x) != Rf_length(y)) {
-    return false;
+    return -1;
   }
   int n = Rf_length(x);
   int count_bc = 0;
@@ -102,7 +102,7 @@ bool rcpp_bindhelper_conf_dims_2(
     if(i != along) {
       if(px[i] != py[i]) {
         if(px[i] != 1 && py[i] != 1) {
-          return false;
+          return -1;
         }
         if(px[i] == 1 || py[i] == 1) {
           count_bc++;
@@ -110,29 +110,30 @@ bool rcpp_bindhelper_conf_dims_2(
       }
     }
   }
-  if(count_bc > max_bc) {
-    return false;
-  }
-  return true;
+  return count_bc;
 }
 
 
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_bindhelper_conf_dims_all)]]
-bool rcpp_bindhelper_conf_dims_all(
+int rcpp_bindhelper_conf_dims_all(
   SEXP lst_dims, SEXP target, int along, int max_bc
 ) {
 
   int n = Rf_length(lst_dims);
-  bool is_conf;
+  int conf;
+  int out = 0;
   SEXP tempout;
   for(int i = 0; i< n; ++i) {
     tempout = VECTOR_ELT(lst_dims, i);
-    is_conf = rcpp_bindhelper_conf_dims_2(target, tempout, along, max_bc);
-    if(!is_conf) {
-      return false;
+    conf = rcpp_bindhelper_conf_dims_2(target, tempout, along, max_bc);
+    if(conf < 0 ) {
+      return -1;
+    }
+    if(conf > out) {
+      out = conf;
     }
   }
-  return true;
+  return out;
 }
