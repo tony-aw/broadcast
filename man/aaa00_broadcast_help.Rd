@@ -29,6 +29,8 @@ The functions in the 'broadcast' package strive to minimize computation time and
 \section{Getting Started}{
 
 An introduction and overview of the package can be found on the website. \cr
+Note that 'broadcast' is still somewhat experimental;
+if you find bugs or other issues, please report them promptly on the 'broadcast' GitHub page. \cr
 \cr
 }
 
@@ -68,9 +70,6 @@ The following functions for type-specific binary operations are available:
 which preserve names and dimensions - convenient for arrays. \cr \cr
 }
 
-\references{
-The badges shown in the documentation of this R-package were made using the services of: \url{https://shields.io/}
-}
 \author{
 \strong{Author, Maintainer}: Tony Wilkes \email{tony_a_wilkes@outlook.com} (\href{https://orcid.org/0000-0001-9498-8379}{ORCID})
 }

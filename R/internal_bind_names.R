@@ -56,7 +56,7 @@
   for(i in seq_along(input)) {
     marginlen <- arg.marginlen[i]
     indx <- seq_len(marginlen) + start.pos
-    temp.dimnames <- .bind_getnames(arg.dimnames[[i]], arg.names[i], marginlen)
+    temp.dimnames <- .bind_getnames(arg.dimnames[[i]], arg.names[i], marginlen) # NOTE: arg.names[i] works, even if arg.names is NULL...
     .rcpp_set_vind_32_atomic(name_along, indx - 1L, temp.dimnames)
     start.pos <- start.pos + marginlen
   }
@@ -125,7 +125,12 @@
   }
   else if(!is.null(arg.name)) {
     if(size > 1L) {
-      temp.names <- paste0(arg.name, ".", seq_len(size))
+      if(is.na(arg.name) || !nzchar(arg.name)) { # arg.name is singular
+        temp.names <- rep("", size)
+      }
+      else {
+        temp.names <- paste0(arg.name, ".", seq_len(size))
+      }
     }
     else {
       temp.names <- arg.name
@@ -135,4 +140,73 @@
     temp.names <- ""
   }
   return(temp.names)
+}
+
+
+
+#' @keywords internal
+#' @noRd
+.bind_mat_dimnames <- function(out, input, along, name_deparse, comnames_from) {
+  
+  out.dimnames <- dimnames(out)
+  
+  # make along variables:
+  along <- as.integer(along)
+  if(along == 1L) not_along <- 2L
+  if(along == 2L) not_along <- 1L
+  
+  
+  # clear dimnames if there should be no names, and return:
+  if(name_deparse == 0L && is.null(comnames_from)) {
+    return(NULL)
+  }
+  
+  # stop the rest of the function if `out` is not a matrix:
+  if(ndim(out) < 2 || !is.matrix(out)) {
+    return(dimnames(out))
+  }
+  
+  # remove alongnames if unneeded:
+  if(!name_deparse && !is.null(out.dimnames)) {
+    out.dimnames[along] <- list(NULL)
+  }
+  
+  # early return if no comnames needed:
+  if(is.null(comnames_from)) {
+    return(out.dimnames)
+  }
+  
+  # recreate comnames:
+  comarg <- input[[comnames_from]]
+  check1 <- c(
+    is.array(comarg),
+    !is.null(dimnames(comarg)),
+    length(dimnames(comarg)) >= not_along,
+    !is.null(dimnames(comarg)[[not_along]])
+  )
+  if(all(check1)) {
+    if(!is.null(out.dimnames)) {
+      out.dimnames[not_along] <- list(NULL)
+    }
+    if(is.null(out.dimnames) && !is.null(comnames_from)) {
+      out.dimnames <- rep(list(NULL), ndim(out))
+    }
+    out.dimnames[not_along] <- dimnames(comarg)[not_along]
+  }
+  check2 <- !is.array(comarg) && !is.null(names(comarg))
+  if(check2) {
+    if(!is.null(out.dimnames)) {
+      out.dimnames[not_along] <- list(NULL)
+    }
+    if(is.null(out.dimnames) && !is.null(comnames_from)) {
+      out.dimnames <- rep(list(NULL), ndim(out))
+    }
+    out.dimnames[[not_along]] <- names(comarg)
+  }
+  if(!all(check1) && !check2) {
+    out.dimnames
+  }
+  
+  return(out.dimnames)
+  
 }

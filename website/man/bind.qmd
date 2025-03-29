@@ -193,13 +193,12 @@ y <- array(-1:-20, c(5, 3))
 z <- array(-1:-20, c(5, 3))
 
 bind_array(list(a = x, b = y, z), 2L)
-
 bind_array(list(x, y, z), 2L)
-
 bind_array(list(a = unname(x), b = y, c = z), 2L)
-
 bind_array(list(x, a = y, b = z), 2L)
-
+input <- list(x, y, z)
+names(input) <- c("", NA, "")
+bind_array(input, 2L)
 
 
 ################################################################################

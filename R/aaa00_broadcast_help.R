@@ -17,6 +17,8 @@
 #' 
 #' @section Getting Started:
 #' An introduction and overview of the package can be found on the website. \cr
+#' Note that 'broadcast' is still somewhat experimental;
+#' if you find bugs or other issues, please report them promptly on the 'broadcast' GitHub page. \cr
 #' \cr
 #' 
 #' @section Functions:

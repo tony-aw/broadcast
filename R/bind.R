@@ -91,7 +91,7 @@ bind_mat <- function(
   if(any(lst.ndim(input) > 2L)) {
     stop("use `bind_array()` to bind arrays with more than 2 dimensions")
   }
-  if(!.is.integer_scalar(along) || along < 0 || along > 2) {
+  if(!.is.integer_scalar(along) || along < 1 || along > 2) {
     stop("`along` must be the integer scalar 1 or 2")
   }
   
@@ -125,47 +125,12 @@ bind_mat <- function(
   name_deparse <- as.integer(name_deparse)
   if(along == 1L) {
     out <- do.call(rbind, c(input2, list(deparse.level = name_deparse)))
-    not_along <- 2L
   }
   if(along == 2L) {
     out <- do.call(cbind, c(input2, list(deparse.level = name_deparse)))
-    not_along <- 1L
   }
   
-  # clear dimnames:
-  if(name_deparse == 0L && is.null(comnames_from)) {
-    dimnames(out) <- NULL
-  }
-  
-  
-  # remove alongnames if unneeded:
-  if(name_deparse == 0L && !is.null(dimnames(out))) {
-    out.dimnames <- dimnames(out)
-    out.dimnames[along] <- list(NULL)
-    dimnames(out) <- out.dimnames
-  }
-  
-  
-  # remove comnames to prep for next step:
-  if(!is.null(dimnames(out))) {
-    out.dimnames <- dimnames(out)
-    out.dimnames[not_along] <- list(NULL)
-    dimnames(out) <- out.dimnames
-  }
-  
-  
-  # recreate comnames:
-  if(!is.null(comnames_from)) {
-    comarg <- input[[comnames_from]]
-    if(is.array(comarg) && !is.null(dimnames(comarg))) {
-      dimnames(out)[[not_along]] <- dimnames(comarg)[[not_along]]
-    }
-    else {
-      if(!is.null(names(comarg))) {
-        dimnames(out)[[not_along]] <- names(comarg)
-      }
-    }
-  }
+  dimnames(out) <- .bind_mat_dimnames(out, input, along, name_deparse, comnames_from)
   
   # return:
   return(out)

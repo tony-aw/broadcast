@@ -50,6 +50,11 @@ expect_error(
   fixed = TRUE
 )
 expect_error(
+  bind_mat(input, 0),
+  pattern = "`along` must be the integer scalar 1 or 2",
+  fixed = TRUE
+)
+expect_error(
   bind_mat(input, 3, TRUE),
   pattern = "`along` must be the integer scalar 1 or 2",
   fixed = TRUE
