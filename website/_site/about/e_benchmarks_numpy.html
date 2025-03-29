@@ -207,7 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#resources-used" id="toc-resources-used" class="nav-link" data-scroll-target="#resources-used">Resources used</a></li>
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#conclusion-discussion" id="toc-conclusion-discussion" class="nav-link" data-scroll-target="#conclusion-discussion">Conclusion &amp; Discussion</a></li>
   <li><a href="#the-code" id="toc-the-code" class="nav-link" data-scroll-target="#the-code">The code</a></li>
   </ul>
 </nav>
@@ -235,10 +235,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>&nbsp;</p>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
+<p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions without allocating additional memory, which is considerably faster and more memory-efficient than R’s regular dimensions replication mechanism.</p>
 <p>Before the emergence of the ‘broadcast’ package, if <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> users wished to employ broadcasting, they essentially had to use broadcasting as it existed in a different programming language. For example, they might use the broadcasting as available in the ‘Python’ module ‘Numpy’ (perhaps via the ‘reticulate’ package). Or perhaps they might use the ‘C++’ library ‘xtensor’ via the R-package of the same name (or an extension thereof, like ‘rray’).</p>
-<p>With the emergence of the ‘broadcast’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg>, users can now call broadcasting implementations without using external libraries, which spares users the computing power needed for translating between object structures of different languages.</p>
+<p>With the emergence of the ‘broadcast’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package, users can now call broadcasted implementations without using external libraries, which spares the computing power needed for translating between object structures of different languages.</p>
 <p>The “broadcasting” implementation in the ‘broadcast’ package is conceptually (though not programmatically) inspired by the broadcasting employed by the ‘Numpy’ module for ‘Python’, which might be the first implementation of broadcasting. More importantly, ‘Numpy’ is remarkably fast, and the ‘broadcast’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package aims to be somewhat comparably fast.</p>
-<p>This page presents the comparisons in the speed of broadcasted operations, between ‘broadcast’ and ‘Numpy’.</p>
+<p>This page presents the comparisons in the speed of broadcasted operations, between ‘broadcast’ and ‘Numpy’. The operation that is compared is a simple, element-wise, broadcasted addition, given by the code <code>x + y</code> in the ‘Numpy’ module for ‘Python’, and <code>bc.num(x, y, "+")</code> in the ‘broadcast’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package.</p>
 <p>Please bear in mind these are rough comparisons of speed. Since the comparisons involve 2 separate programming languages, <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> and ‘Python’, “proper” speed comparison is rather difficult even on a merely conceptual level.</p>
 <p>&nbsp;</p>
 </section>
@@ -253,27 +254,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-set-up" class="level2">
 <h2 class="anchored" data-anchor-id="the-set-up">The Set-Up</h2>
-<p>The benchmarks are run for multiple dimensionalities, and multiple dimension sizes.</p>
-<p>For each combination of dimensionality and dimension size, pairs of decimal number arrays are created in both ‘broadcast’ and ‘Numpy’. These pairs of arrays are fully orthogonal (“orthogonal” in the sense as explained <a href="../vignettes/d_broadcasting_explained.html">here</a>), thus the maximum amount of broadcasting will be employed.</p>
-<p>For each pair of array, the element-wise addition is computed using ‘broadcast’ and ‘Numpy’. This computation is repeated 200 times. From these 200 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between ‘broadcast’ and ‘Numpy’ fair, and these caveats are explained in the next sub-section.</p>
+<p>The operation that is bench-marked in this study is the operation <code>x + y</code> in ‘Numpy’ and the equivalent <code>bc. num(x, y, "+")</code> in ‘broadcast’.<br>
+Here <code>x</code> and <code>y</code> are both decimal numeric arrays (type of 64 bit <code>double</code> in <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> and 64 bit <code>float</code> in ‘Python’), and have the same number of dimensions.<br>
+This operation is run for pairs of arrays with different number of dimensions, going from 2 dimensional to 7 dimensional.<br>
+So we have <code>x + y</code> where both arrays are 2-dimensional (i.e.&nbsp;matrices), and <code>x + y</code> where both arrays are 3-dimensional, and so on until we have <code>x + y</code> where both arrays are 7-dimensional.</p>
+<p>The pairs of arrays are fully orthogonal (“orthogonal” in the sense as explained <a href="../vignettes/d_broadcasting_explained.html">here</a>), thus the maximum amount of broadcasting will be employed.<br>
+Given, for example, 4-dimensional arrays, the dimensions of <code>x</code> are <code>(n, 1, n, 1)</code> and the dimensions of <code>y</code> are <code>(1, n, 1, n)</code>.<br>
+The value of <code>n</code>, so the size of each dimension, varies as follows:</p>
+<ul>
+<li>For 2-dimensional arrays, <code>n</code> goes from 1000 to 3000, with steps of 200.</li>
+<li>For 3-dimensional arrays, <code>n</code> goes from 50 to 200, with steps of 10.</li>
+<li>For 4-dimensional arrays, <code>n</code> goes from 10 to 55, with steps of 5.</li>
+<li>For 5-dimensional arrays, <code>n</code> goes from 5 to 25, with steps of 5.</li>
+<li>For 6-dimensional arrays, <code>n</code> goes from 1 to 15, with steps of 2.</li>
+<li>For 7-dimensional arrays, <code>n</code> goes from 1 to 10, with steps of 1.</li>
+</ul>
+<p>For each pair of arrays, the element-wise addition is computed using ‘broadcast’ and ‘Numpy’. This computation is repeated 200 times. From these 200 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between ‘broadcast’ and ‘Numpy’ fair, and these caveats are explained in the next sub-section.</p>
 <p>&nbsp;</p>
 </section>
 <section id="keeping-comparisons-somewhat-fair" class="level2">
 <h2 class="anchored" data-anchor-id="keeping-comparisons-somewhat-fair">Keeping comparisons (somewhat) fair</h2>
-<p>To keep the comparisons between ‘broadcast’ and ‘Numpy’ fair, a number of measures have been taken:</p>
-<ul>
-<li>Distributions of benchmarks tend to be heavily skewed. Therefore, the median measure (together with the quartiles) are taken. The median is also more stable than the mean in the face of outliers.</li>
-<li>garbage collection is disabled in Python. In <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg>, only benchmarks with no garbage collection, or level 0 garbage collection, are used. I feel this keeps the comparisons relatively fair (but it’s not perfect).</li>
-<li>Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg>, a check is made that at least 100 benchmark measurements are kept in (out 200 in total). If there are less than 100 benchmarks for a particular computation, the benchmarks are thrown away, and another attempt is made at benchmarking (but this never happened).</li>
-<li>In relation to the previous point, note that the quantiles and the median (the median itself is simply the 50% quantile) are asymptotically independent of sample-size (unlike, for example, the variance, which is directly affected by sample size).</li>
-<li><svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> has more support for missing values than ‘Numpy’, which also leads to a difference in speed. But both <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> and ‘Numpy’ handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> ), through the <code>NaN</code> construct. Therefore, only operations on decimal numbers are compared.</li>
-<li>Operations like power (<code>^</code>) and division (<code>/</code>) need to handle special cases (like when the right-hand side of the operation is 0). I cannot guarantee that ‘broadcast’ and ‘Numpy’ will handle these special cases in the exact same way. The plus (<code>+</code>) operator, however, has no such special cases. Therefore, the comparisons on this page involve only summation.</li>
-</ul>
+<p>To keep the comparisons between ‘broadcast’ and ‘Numpy’ fair, a number of measures have been taken.</p>
+<p>Distributions of benchmarks tend to be heavily skewed. Therefore, the median measure (together with the quartiles) are taken. The median is also more stable than the mean in the face of outliers.</p>
+<p>Garbage collection is disabled in Python. In <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg>, only benchmarks with no garbage collection, or level 0 garbage collection, are used. I feel this keeps the comparisons relatively fair (but it’s not perfect).</p>
+<p>Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg>, a check is made that at least 100 benchmark measurements are kept in (out 200 in total). If there are less than 100 benchmarks for a particular computation, the benchmarks are thrown away, and another attempt is made at benchmarking (but this never happened).</p>
+<p>In relation to the previous point, note that the quantiles and the median (the median itself is simply the 50% quantile) are asymptotically independent of sample-size (unlike, for example, the variance, which is directly affected by sample size).</p>
+<p><svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> has more support for missing values than ‘Numpy’, which also leads to a difference in speed. But both <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> and ‘Numpy’ handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> ), through the <code>NaN</code> construct. Therefore, only operations on decimal numbers are compared.</p>
+<p>Operations like power (<code>^</code>) and division (<code>/</code>) need to handle special cases (like when the right-hand side of the operation is 0). I cannot guarantee that ‘broadcast’ and ‘Numpy’ will handle these special cases in the exact same way. The plus (<code>+</code>) operator, however, has no such special cases. Therefore, the comparisons on this page only involve summation.</p>
 <p>&nbsp;</p>
 </section>
 <section id="resources-used" class="level2">
 <h2 class="anchored" data-anchor-id="resources-used">Resources used</h2>
-<p>The ‘benchmark’ package was used for measuring speed in R, as this package can also be used to check and filter for garbage collector calls.</p>
+<p>The ‘benchmark’ package was used for measuring speed in R, as this package can also be used to check and filter for garbage collector calls</p>
+<p>In ‘Python’, the <code>time.perf_counter()</code> function is used to accurately measure the time an operation takes. To ensure no time is spent on printing the result in ‘Python’, the operation <code>a + b</code> is wrapped inside a function without a return statement.</p>
 <p>The plots are created using the ‘tinyplot’ package, to display the median, first quartile, and third quartile, of the computation times.</p>
 <p>The code used to run the benchmarks can be found at the bottom of this page.</p>
 <p>&nbsp;</p>
@@ -288,7 +301,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="768"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption class="figure-caption">Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>bc.num(x, y,"+")</code> in the ‘broadcast’ ‘R’-package. <br> Both arrays are 2 -dimensional arrays. <br> The dimensions of <code>x</code> are { n, 1 }; <br> the dimensions of <code>y</code> are { 1, n }. <br> Here, <code>n</code> is shown on the x-axis. <br> The y-axis shows the time (in ms) it took to execute the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to execute the code, the slower the code.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>&nbsp;</p>
@@ -296,7 +314,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="768"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption class="figure-caption">Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>bc.num(x, y,"+")</code> in the ‘broadcast’ ‘R’-package. <br> Both arrays are 3 -dimensional arrays. <br> The dimensions of <code>x</code> are { n, 1, n }; <br> the dimensions of <code>y</code> are { 1, n, 1 }. <br> Here, <code>n</code> is shown on the x-axis. <br> The y-axis shows the time (in ms) it took to execute the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to execute the code, the slower the code.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>&nbsp;</p>
@@ -304,7 +327,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="768"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption class="figure-caption">Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>bc.num(x, y,"+")</code> in the ‘broadcast’ ‘R’-package. <br> Both arrays are 4 -dimensional arrays. <br> The dimensions of <code>x</code> are { n, 1, n, 1 }; <br> the dimensions of <code>y</code> are { 1, n, 1, n }. <br> Here, <code>n</code> is shown on the x-axis. <br> The y-axis shows the time (in ms) it took to execute the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to execute the code, the slower the code.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>&nbsp;</p>
@@ -312,7 +340,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="768"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption class="figure-caption">Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>bc.num(x, y,"+")</code> in the ‘broadcast’ ‘R’-package. <br> Both arrays are 5 -dimensional arrays. <br> The dimensions of <code>x</code> are { n, 1, n, 1, n }; <br> the dimensions of <code>y</code> are { 1, n, 1, n, 1 }. <br> Here, <code>n</code> is shown on the x-axis. <br> The y-axis shows the time (in ms) it took to execute the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to execute the code, the slower the code.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>&nbsp;</p>
@@ -320,7 +353,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="768"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption class="figure-caption">Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>bc.num(x, y,"+")</code> in the ‘broadcast’ ‘R’-package. <br> Both arrays are 6 -dimensional arrays. <br> The dimensions of <code>x</code> are { n, 1, n, 1, n, 1 }; <br> the dimensions of <code>y</code> are { 1, n, 1, n, 1, n }. <br> Here, <code>n</code> is shown on the x-axis. <br> The y-axis shows the time (in ms) it took to execute the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to execute the code, the slower the code.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>&nbsp;</p>
@@ -328,7 +366,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="768"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption class="figure-caption">Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>bc.num(x, y,"+")</code> in the ‘broadcast’ ‘R’-package. <br> Both arrays are 7 -dimensional arrays. <br> The dimensions of <code>x</code> are { n, 1, n, 1, n, 1, n }; <br> the dimensions of <code>y</code> are { 1, n, 1, n, 1, n, 1 }. <br> Here, <code>n</code> is shown on the x-axis. <br> The y-axis shows the time (in ms) it took to execute the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to execute the code, the slower the code.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>&nbsp;</p>
@@ -337,10 +380,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>&nbsp;</p>
 </section>
-<section id="conclusion" class="level1">
-<h1>Conclusion</h1>
+<section id="conclusion-discussion" class="level1">
+<h1>Conclusion &amp; Discussion</h1>
 <p>The differences in the computation times between ‘broadcast’ and ‘Numpy’ are rather small. It seems reasonable to conclude that, in general, ‘broadcast’ and ‘Numpy’ have somewhat similar speeds.</p>
 <p>&nbsp;</p>
+<p>As stated at the start of this page, comparing benchmarks between ‘R’ and ‘Python’ is deceptively challenging. I am open for suggestions on how to improve the speed comparisons between ‘broadcast’ and ‘Numpy’, and make them more fair.</p>
 <p>&nbsp;</p>
 </section>
 <section id="the-code" class="level1">
