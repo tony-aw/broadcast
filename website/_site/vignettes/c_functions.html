@@ -202,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
 <p>The ‘broadcast’ package provides 5 main functionalities:</p>
 <ul>
 <li>functions to perform broadcasted element-wise binary operations</li>
-<li>broadcasted dimensional binding of arrays (and also matrices and data.tables)</li>
+<li>broadcasted dimensional binding of arrays</li>
 <li>broadcasted generic pair-wise functions</li>
 <li>casting/pivoting an array into a new dimension</li>
 <li>array typecasting with dimensions and names preserved</li>
@@ -250,37 +250,19 @@ Note
 </section>
 <section id="binding-implementations" class="level1">
 <h1>Binding implementations</h1>
-<p>‘broadcast’ provides 3 functions for dimensional binding:</p>
-<ul>
-<li><a href="../man/bind.html">bind_mat()</a>: binds vectors and matrices row-wise or column-wise; allows for vector (i.e.&nbsp;linear) recycling. Returns a matrix.</li>
-<li><a href="../man/bind.html">bind_array()</a>: binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting. Returns an array.</li>
-<li><a href="../man/bind.html">bind_dt()</a>: binds data.frames and data.tables; allows for matching unmatched columns. Returns a data.table.</li>
-</ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <a href="../man/bind.html">bind_dt()</a> function is only callable if the ‘data.table’ package is also installed.</p>
-</div>
-</div>
+<p>‘broadcast’ provides the <a href="../man/bind_array.html">bind_array()</a> function. This binds arrays (including matrices) along any arbitrary dimension. It allows for dimensional broadcasting, and returns an array.</p>
 <p>&nbsp;</p>
 <section id="why-another-array-binding-function" class="level2">
 <h2 class="anchored" data-anchor-id="why-another-array-binding-function">Why another array binding function</h2>
 <p>There is already a famous, battle-tested function for binding arrays, namely the <code>abind()</code> function from the fantastic <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package of the same name. So why does ‘broadcast’ provide another array binding function?</p>
-<p>Well, as great as <code>abind::abind()</code> is, there are some issues with it, and the <a href="../man/bind.html">bind_array()</a> function from ’broadcast` attempts (and in my humble opinion succeeds) to provide a better alternative:</p>
+<p>Well, as great as <code>abind::abind()</code> is, there are some issues with it, and the <a href="../man/bind_array.html">bind_array()</a> function from ’broadcast` attempts (and in my humble opinion succeeds) to provide a better alternative:</p>
 <ul>
-<li><code>abind()</code> is a bit slow. <a href="../man/bind.html">bind_array()</a> is significantly faster.</li>
-<li><code>abind()</code> does not support broadcasting. <a href="../man/bind.html">bind_array()</a> does support broadcasting.</li>
-<li><code>abind()</code> does not support recursive arrays (i.e.&nbsp;arrays of type <code>list</code>). When binding recursive arrays, <code>abind()</code> will attempt to unlist it, even when it does not make sense, ruining the structure of the array. <a href="../man/bind.html">bind_array()</a> fully supports recursive arrays, as well as arrays of all atomic types.</li>
-<li><code>abind()</code> has somewhat confusing mechanisms for giving dimension names to the output. <a href="../man/bind.html">bind_array()</a> has more streamlined naming arguments.</li>
+<li><code>abind()</code> is a bit slow. <a href="../man/bind_array.html">bind_array()</a> is significantly faster.</li>
+<li><code>abind()</code> does not support broadcasting. <a href="../man/bind_array.html">bind_array()</a> does support broadcasting.</li>
+<li><code>abind()</code> does not support recursive arrays (i.e.&nbsp;arrays of type <code>list</code>). When binding recursive arrays, <code>abind()</code> will attempt to unlist it, even when it does not make sense, ruining the structure of the array. <a href="../man/bind_array.html">bind_array()</a> fully supports recursive arrays, as well as arrays of all atomic types.</li>
+<li><code>abind()</code> has somewhat confusing mechanisms for giving dimension names to the output. <a href="../man/bind_array.html">bind_array()</a> has more streamlined naming arguments.</li>
 </ul>
-<p><a href="../man/bind.html">bind_array()</a> uses a similar API to that of <code>abind::abind()</code>, and provides similar features like binding arrays before the first dimension (using <code>along = 0</code>) or after the last dimension.</p>
+<p><a href="../man/bind_array.html">bind_array()</a> uses a similar API to that of <code>abind::abind()</code>, and provides similar features like binding arrays before the first dimension (using <code>along = 0</code>) or after the last dimension.</p>
 <p>&nbsp;</p>
 </section>
 </section>
@@ -298,7 +280,7 @@ Roughly speaking, it is somewhat analogous to <code>data.table::dcast()</code>, 
 <section id="supported-structures" class="level1">
 <h1>Supported Structures</h1>
 <p>The functions in the ‘broadcast’ package only support S3 structures. S4 structures, Reference Classes, and so on are not supported.</p>
-<p>&nbsp; &nbsp;</p>
+<p>&nbsp;</p>
 
 
 </section>

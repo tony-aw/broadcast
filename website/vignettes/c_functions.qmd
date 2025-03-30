@@ -25,7 +25,7 @@ library(kableExtra) |> suppressWarnings()
 The 'broadcast' package provides 5 main functionalities:
 
  - functions to perform broadcasted element-wise binary operations
- - broadcasted dimensional binding of arrays (and also matrices and data.tables)
+ - broadcasted dimensional binding of arrays
  - broadcasted generic pair-wise functions
  - casting/pivoting an array into a new dimension
  - array typecasting with dimensions and names preserved
@@ -75,19 +75,8 @@ This is intentional, as it is quite difficult to reason about broadcasting when 
 
 # Binding implementations
 
-'broadcast' provides 3 functions for dimensional binding:
+'broadcast' provides the [bind_array()](/man/bind_array.qmd) function. This binds arrays (including matrices) along any arbitrary dimension. It allows for dimensional broadcasting, and returns an array.
 
- - [bind_mat()](/man/bind.qmd): binds vectors and matrices row-wise or column-wise; allows for vector (i.e. linear) recycling. Returns a matrix.
- - [bind_array()](/man/bind.qmd): binds arrays (including matrices) along any arbitrary dimension; allows dimensional broadcasting. Returns an array.
- - [bind_dt()](/man/bind.qmd): binds data.frames and data.tables; allows for matching unmatched columns. Returns a data.table.
- 
-
-
-::: {.callout-note}
-
-The [bind_dt()](/man/bind.qmd) function is only callable if the 'data.table' package is also installed.
-
-:::
 
 &nbsp;
 
@@ -96,15 +85,15 @@ The [bind_dt()](/man/bind.qmd) function is only callable if the 'data.table' pac
 
 There is already a famous, battle-tested function for binding arrays, namely the `abind()` function from the fantastic `r fa("r-project")` package of the same name. So why does 'broadcast' provide another array binding function?
 
-Well, as great as `abind::abind()` is, there are some issues with it, and the [bind_array()](/man/bind.qmd) function from 'broadcast` attempts (and in my humble opinion succeeds) to provide a better alternative:
+Well, as great as `abind::abind()` is, there are some issues with it, and the [bind_array()](/man/bind_array.qmd) function from 'broadcast` attempts (and in my humble opinion succeeds) to provide a better alternative:
 
- - `abind()` is a bit slow. [bind_array()](/man/bind.qmd) is significantly faster.
- - `abind()` does not support broadcasting. [bind_array()](/man/bind.qmd) does support broadcasting.
- - `abind()` does not support recursive arrays (i.e. arrays of type `list`). When binding recursive arrays, `abind()` will attempt to unlist it, even when it does not make sense, ruining the structure of the array. [bind_array()](/man/bind.qmd) fully supports recursive arrays, as well as arrays of all atomic types.
- - `abind()` has somewhat confusing mechanisms for giving dimension names to the output. [bind_array()](/man/bind.qmd) has more streamlined naming arguments.
+ - `abind()` is a bit slow. [bind_array()](/man/bind_array.qmd) is significantly faster.
+ - `abind()` does not support broadcasting. [bind_array()](/man/bind_array.qmd) does support broadcasting.
+ - `abind()` does not support recursive arrays (i.e. arrays of type `list`). When binding recursive arrays, `abind()` will attempt to unlist it, even when it does not make sense, ruining the structure of the array. [bind_array()](/man/bind_array.qmd) fully supports recursive arrays, as well as arrays of all atomic types.
+ - `abind()` has somewhat confusing mechanisms for giving dimension names to the output. [bind_array()](/man/bind_array.qmd) has more streamlined naming arguments.
 
 
-[bind_array()](/man/bind.qmd) uses a similar API to that of `abind::abind()`, and provides similar features like binding arrays before the first dimension (using `along = 0`) or after the last dimension.
+[bind_array()](/man/bind_array.qmd) uses a similar API to that of `abind::abind()`, and provides similar features like binding arrays before the first dimension (using `along = 0`) or after the last dimension.
 
 &nbsp;
 
@@ -125,5 +114,5 @@ Roughly speaking, it is somewhat analogous to `data.table::dcast()`, except that
 
 The functions in the 'broadcast' package only support S3 structures. S4 structures, Reference Classes, and so on are not supported.
 
-&nbsp;
+
 &nbsp;

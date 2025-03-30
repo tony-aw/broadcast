@@ -46,9 +46,4 @@ expect_equal(
   bind_array(input, 2L),
   expected
 )
-expect_equal(
-  bind_mat(input, 2L),
-  expected
-)
-
 enumerate <- enumerate + 1L

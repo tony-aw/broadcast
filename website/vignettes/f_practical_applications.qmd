@@ -41,7 +41,7 @@ abind::abind(x, y, along = 2)
 Here, `abind()` is complaining about the dimensions not fitting perfectly.  
 But intuitively, binding `x` and `y` should be possible, with dimension `3` from array `y` being broadcasted to size 3.
 
-The [bind_array()](/man/bind.qmd) function provided by the 'broadcast' package can bind the arrays without problems:
+The [bind_array()](/man/bind_array.qmd) function provided by the 'broadcast' package can bind the arrays without problems:
 
 ```{r echo=TRUE, eval=TRUE}
 x <- array(1:27, c(3,3,3))
@@ -49,7 +49,7 @@ y <- array(1L, c(3,3,1))
 bind_array(list(x, y), 2)
 ```
 
-[bind_array()](/man/bind.qmd) is also considerably faster and more memory efficient than `abind()`.
+[bind_array()](/man/bind_array.qmd) is also considerably faster and more memory efficient than `abind()`.
 
 &nbsp;
 
@@ -102,7 +102,7 @@ print(out2)
 ```
 
 
-Perhaps you'd like to reverse-cast the array back when you're done computing; reverse-casting an array can be done be combining `asplit()` with [bind_array()](/man/bind.qmd):
+Perhaps you'd like to reverse-cast the array back when you're done computing; reverse-casting an array can be done be combining `asplit()` with [bind_array()](/man/bind_array.qmd):
 
 ```{r}
 asplit(out2, ndim(out2)) |> bind_array(along = margin)

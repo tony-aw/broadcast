@@ -4,7 +4,7 @@
 #' The `bc_ifelse()` function
 #' performs a broadcasted form of \link[base]{ifelse}. \cr
 #' 
-#' @param cond `logical` vector or array with the length equal to `prod(bc_dim(yes, no))`.
+#' @param cond `logical` vector or array with the length equal to `prod(`\link{bc_dim}`(yes, no))`.
 #' @param yes,no conformable arrays of the same type. \cr
 #' All \link[base]{atomic} types are supported except for the type of raw. \cr
 #' Recursive arrays of type \link[base]{list} are also supported. \cr \cr

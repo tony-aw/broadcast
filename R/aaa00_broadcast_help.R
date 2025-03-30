@@ -39,8 +39,9 @@
 #' 
 #' 
 #' \bold{Binding Implementations} \cr
-#' 'broadcast' provides 3 binding implementations: \cr
-#' \link[=bind_array]{bind_mat, bind_array, and bind_dt}. \cr
+#' 'broadcast' provides the \link{bind_array} function,
+#' to bind arrays along an arbitrary dimension,
+#' with support for broadcasting. \cr
 #' \cr
 #' 
 #' \bold{General functions} \cr

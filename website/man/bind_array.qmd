@@ -1,0 +1,194 @@
+---
+title: bind_array
+---
+## Dimensional Binding of Arrays with Broadcasting {.unnumbered}
+
+
+### Description
+
+<code>bind_array()</code> binds (atomic/recursive) arrays and (atomic/recursive) matrices. <br />
+Returns an array. <br />
+Allows for broadcasting.
+
+
+
+### Usage
+
+<pre><code class='language-R'>bind_array(
+  input,
+  along,
+  rev = FALSE,
+  ndim2bc = 1L,
+  name_along = TRUE,
+  comnames_from = 1L
+)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="input">input</code></td>
+<td>
+a list of arrays; both atomic and recursive arrays are supported, and can be mixed. <br />
+If <code>input</code> is named,
+its names will be used for the names of dimension <code>along</code> of the output, when necessary. <br />
+If argument <code>input</code> has length <code>0</code>,
+or it contains exclusively objects where one or more dimensions are <code>0</code>,
+an error is returned. <br />
+If <code>input</code> has length <code>1</code>, this function simply return <code>input[[1L]]</code>.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="along">along</code></td>
+<td>
+a single integer,
+indicating the dimension along which to bind the dimensions. <br />
+I.e. use <code>along = 1</code> for row-binding, <code>along = 2</code> for column-binding, etc. <br />
+Specifying <code>along = 0</code> will bind the arrays on a new dimension before the first,
+making <code>along</code> the new first dimension. <br />
+Specifying <code>along = N + 1</code>, with <code style="white-space: pre;">N = max(</code>[lst.ndim](properties.qmd)<code style="white-space: pre;">(input))</code>,
+will create an additional dimension (<code>N + 1</code>) and bind the arrays along that new dimension.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="rev">rev</code></td>
+<td>
+Boolean, indicating if <code>along</code> should be reversed, counting backwards. <br />
+If <code>FALSE</code> (default), <code>along</code> works like normally; if <code>TRUE</code>, <code>along</code> is reversed. <br />
+I.e. <code style="white-space: pre;">along = 0, rev = TRUE</code> is equivalent to <code style="white-space: pre;">along = N+1, rev = FALSE</code>; <br />
+and <code style="white-space: pre;">along = N+1, rev = TRUE</code> is equivalent to <code style="white-space: pre;">along = 0, rev = FALSE</code>; <br />
+with <code style="white-space: pre;">N = max(</code>[lst.ndim](properties.qmd)<code style="white-space: pre;">(input))</code>.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="ndim2bc">ndim2bc</code></td>
+<td>
+a single non-negative integer; <br />
+specify here the maximum number of dimensions that are allowed to be broadcasted when binding arrays. <br />
+If <code>ndim2bc = 0L</code>, <b>no</b> broadcasting will be allowed at all.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="name_along">name_along</code></td>
+<td>
+Boolean, ndicating if dimension <code>along</code> should be named. <br />
+The examples section illustrates the naming behaviour.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="comnames_from">comnames_from</code></td>
+<td>
+either integer scalar or <code>NULL</code>. <br />
+Indicates which object in <code>input</code> should be used for naming the shared dimension. <br />
+If <code>NULL</code>, no communal names will be given. <br />
+For example: <br />
+When binding columns of matrices, the matrices will share the same rownames. <br />
+Using <code>comnames_from = 10</code> will then result in <code>bind_array()</code> using
+<code>rownames(input[[10]])</code> for the rownames of the output. <br /> <br />
+</td></tr>
+</table>
+
+
+### Details
+
+The API of <code>bind_array()</code> is inspired by the fantastic
+<code>abind::abind</code> function
+by Tony Plare &amp; Richard Heiberger (2016). <br />
+But <code>bind_array()</code> differs considerably from <code>abind::abind</code>
+in the following ways:
+
+
+<ul>
+<li> <code>bind_array()</code> differs from <code>abind::abind</code>
+in that it can handle recursive arrays properly <br />
+(the <code>abind::abind</code> function would unlist everything to atomic arrays,
+ruining the structure).
+
+</li>
+<li> <code>bind_array()</code> allows for broadcasting,
+while <code>abind::abind</code> does not support broadcasting.
+
+</li>
+<li> <code>bind_array()</code> is generally faster than <code>abind::abind</code>,
+as <code>bind_array()</code> relies heavily on 'C' and 'C++' code.
+
+</li>
+<li> unlike <code>abind::abind</code>,
+<code>bind_array()</code> only binds (atomic/recursive) arrays and matrices. <br />
+<code>bind_array()</code>does not attempt to convert things to arrays when they are not arrays,
+but will give an error instead. <br />
+This saves computation time and prevents unexpected results.
+
+</li>
+<li> <code>bind_array()</code> has more streamlined naming options,
+compared to <code>abind::abind</code>. <br /> <br />
+
+</li></ul>
+
+
+
+### Value
+
+An array.
+
+
+
+### References
+
+Plate T, Heiberger R (2016). <em>abind: Combine Multidimensional Arrays</em>. R package version 1.4-5, <a href="https://CRAN.R-project.org/package=abind">https://CRAN.R-project.org/package=abind</a>.
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+
+
+# here, atomic and recursive arrays are mixed,
+# resulting in recursive arrays
+
+# creating the arrays
+x <- c(
+  lapply(1:3, \(x)sample(c(TRUE, FALSE, NA))),
+  lapply(1:3, \(x)sample(1:10)),
+  lapply(1:3, \(x)rnorm(10)),
+  lapply(1:3, \(x)sample(letters))
+)
+x <- matrix(x, 4, 3, byrow = TRUE)
+dimnames(x) <- list(letters[1:4], LETTERS[1:3])
+print(x)
+
+y <- matrix(1:12, 4, 3)
+print(y)
+
+# binding the arrays
+input <- list(x = x, y = y)
+bind_array(input, along = 0L) # binds on new dimension before first
+bind_array(input, along = 1L) # binds on first dimension (i.e. rows)
+bind_array(input, along = 2L)
+bind_array(input, along = 3L) # bind on new dimension after last
+
+bind_array(input, along = 0L, TRUE) # binds on new dimension after last
+bind_array(input, along = 1L, TRUE) # binds on last dimension (i.e. columns)
+bind_array(input, along = 2L, TRUE)
+bind_array(input, along = 3L, TRUE) # bind on new dimension before first
+
+
+# binding, with empty arrays
+emptyarray <- array(numeric(0L), c(0L, 3L))
+dimnames(emptyarray) <- list(NULL, paste("empty", 1:3))
+print(emptyarray)
+input <- list(x = x, y = emptyarray)
+bind_array(input, along = 1L, comnames_from = 2L) # row-bind
+
+
+# Illustrating `name_along`
+
+x <- array(1:20, c(5, 3), list(NULL, LETTERS[1:3]))
+y <- array(-1:-20, c(5, 3))
+z <- array(-1:-20, c(5, 3))
+
+bind_array(list(a = x, b = y, z), 2L)
+bind_array(list(x, y, z), 2L)
+bind_array(list(a = unname(x), b = y, c = z), 2L)
+bind_array(list(x, a = y, b = z), 2L)
+input <- list(x, y, z)
+names(input) <- c("", NA, "")
+bind_array(input, 2L)
+
+
+
+
+```

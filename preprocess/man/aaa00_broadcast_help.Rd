@@ -53,8 +53,9 @@ The following functions for type-specific binary operations are available:
 }
 
 \bold{Binding Implementations} \cr
-'broadcast' provides 3 binding implementations: \cr
-\code{[bind_mat, bind_array, and bind_dt](bind.qmd)}. \cr
+'broadcast' provides the \code{[bind_array](bind_array.qmd)} function,
+to bind arrays along an arbitrary dimension,
+with support for broadcasting. \cr
 \cr
 
 \bold{General functions} \cr
