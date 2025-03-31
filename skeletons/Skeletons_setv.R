@@ -2,8 +2,12 @@
 
 library(stringi)
 
-SXPTYPES <- c("LGLSXP", "INTSXP", "REALSXP", "CPLXSXP", "STRSXP", "RAWSXP")
-RCPPTYPES <- c("Logical", "Integer", "Numeric", "Complex", "Character", "Raw")
+SXPTYPES <- c("RAWSXP", "LGLSXP", "INTSXP", "REALSXP", "CPLXSXP", "STRSXP", "VECSXP")
+RCPPTYPES <- c(
+  "RawVector", "LogicalVector", "IntegerVector", "NumericVector", "ComplexVector",
+  "CharacterVector", "List"
+)
+n <- length(SXPTYPES)
 
 header <- "
 
@@ -47,14 +51,15 @@ template<int RTYPE> void rcpp_set_vind_32_template(
 switchpiece <- "
   case TYPESXP:
   {
-    rcpp_set_vind_32_template<TYPESXP>(as<RCPPTYPEVector>(x), ind, as<RCPPTYPEVector>(rp));
+    rcpp_set_vind_32_template<TYPESXP>(as<RCPPTYPE>(x), ind, as<RCPPTYPE>(rp));
     break;
   }
 "
 
-switches <- character(6L)
 
-for(i in 1:6) {
+switches <- character(n)
+
+for(i in 1:n) {
   switches[i] <- stringi::stri_replace_all_fixed(
     switchpiece, c("TYPESXP", "RCPPTYPE"),  c(SXPTYPES[i], RCPPTYPES[i]),
     vectorize_all = FALSE
@@ -74,7 +79,7 @@ code32 <- stri_c(
   "
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_set_vind_32_atomic)]]
+// [[Rcpp::export(.rcpp_set_vind_32)]]
 void rcpp_set_vind_32_atomic(
   SEXP x, const SEXP ind, const SEXP rp
 ) {
@@ -131,14 +136,14 @@ template<int RTYPE> void rcpp_set_vind_64_template(
 switchpiece <- "
   case TYPESXP:
   {
-    rcpp_set_vind_64_template<TYPESXP>(as<RCPPTYPEVector>(x), ind, as<RCPPTYPEVector>(rp));
+    rcpp_set_vind_64_template<TYPESXP>(as<RCPPTYPE>(x), ind, as<RCPPTYPE>(rp));
     break;
   }
 "
 
-switches <- character(6L)
+switches <- character(n)
 
-for(i in 1:6) {
+for(i in 1:n) {
   switches[i] <- stringi::stri_replace_all_fixed(
     switchpiece, c("TYPESXP", "RCPPTYPE"),  c(SXPTYPES[i], RCPPTYPES[i]),
     vectorize_all = FALSE
@@ -158,7 +163,7 @@ code64 <- stri_c(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_set_vind_64_atomic)]]
+// [[Rcpp::export(.rcpp_set_vind_64)]]
 void rcpp_set_vind_64_atomic(
   SEXP x, const SEXP ind, const SEXP rp
 ) {
@@ -196,6 +201,7 @@ cat(code)
 
 Rcpp::sourceCpp(code = code)
 
+setwd("..")
 fileConn <- file("src/rcpp_set_vind.cpp")
 writeLines(code, fileConn)
 close(fileConn)

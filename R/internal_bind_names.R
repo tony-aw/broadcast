@@ -46,10 +46,35 @@
 
 #' @keywords internal
 #' @noRd
+.bind_comnames_reasonable <- function(input_original, along, comnames_from, ndim_max) {
+  comnames <- dimnames(input_original[[comnames_from]])
+  return(.C_any_nonNULL(comnames)) # detailed checks come later
+}
+
+
+#' @keywords internal
+#' @noRd
+.bind_prep_dimnames <- function(out) {
+  if(is.null(dimnames(out))) {
+    out.dimnames <- rep(list(NULL), ndim(out))
+    return(out.dimnames)
+  }
+  else{
+    return(dimnames(out))
+  }
+}
+
+# have to split these functions into "get * names" and "set * names"...
+
+#' @keywords internal
+#' @noRd
 .bind_get_alongnames <- function(
     out, along, input, arg.dimnames, arg.marginlen
 ) {
-  # this function is only run when along != 0 and along != (N+1)
+  
+  # this function is only run when:
+  # along != 0 && along != (N+1) && .bind_name_along_reasonable(...) == TRUE
+  
   name_along <- vector(mode = "character", length = dim(out)[along])
   arg.names <- names(input)
   start.pos <- 0L
@@ -57,25 +82,17 @@
     marginlen <- arg.marginlen[i]
     indx <- seq_len(marginlen) + start.pos
     temp.dimnames <- .bind_getnames(arg.dimnames[[i]], arg.names[i], marginlen) # NOTE: arg.names[i] works, even if arg.names is NULL...
-    .rcpp_set_vind_32_atomic(name_along, indx - 1L, temp.dimnames)
+    .rcpp_set_vind_32(name_along, as.integer(indx - 1L), temp.dimnames)
     start.pos <- start.pos + marginlen
   }
-  out.dimnames <- rep(list(NULL), length(dim(out)))
-  out.dimnames[[along]] <- name_along
-  return(out.dimnames)
+  
+  return(name_along)
 }
 
 
 #' @keywords internal
 #' @noRd
-.bind_inplace_comnames <- function(out, sel, input, along) {
-  
-  # general prep:
-  out.dimnames <- dimnames(out)
-  if(is.null(out.dimnames)) {
-    out.dimnames <- rep(list(NULL), length(dim(out)))
-  }
-  obj <- input[[sel]]
+.bind_which_comnames <- function(out, along, obj, ndim_max) {
   obj.dimnames <- dimnames(obj)
   n <- ndim(obj)
   
@@ -83,37 +100,32 @@
     if(!is.null(obj.dimnames)) {
       ind <- which(dim(out)[seq(2, n + 1L)] == dim(obj)) # replaced dim(out)[2:n] with dim(out)[seq(2, n + 1L)]
       if(length(ind) > 0L) {
-        out.dimnames[ind + 1L] <- obj.dimnames[ind]
-        dimnames(out) <- out.dimnames # this is a shallow copy
+        return(list(out.ind = ind + 1L, obj.ind = ind))
       }
     }
-    return(out)
+    return(list(NULL, NULL))
   }
   
-  input.dims <- .rcpp_bindhelper_vdims(input)
-  max_ndims <- max(lengths(input.dims))
-  if(along > max_ndims) {
+  if(along > ndim_max) {
     if(!is.null(obj.dimnames)) {
       ind <- which(dim(out)[1:n] == dim(obj))
       if(length(ind) > 0L) {
-        out.dimnames[ind] <- obj.dimnames[ind]
-        dimnames(out) <- out.dimnames
+        return(list(out.ind = ind, obj.ind = ind))
       }
     }
-    return(out)
+    return(list(NULL, NULL))
   }
-  
   
   if(!is.null(obj.dimnames)) {
     ind <- which(dim(out)[1:n] == dim(obj))
     ind <- ind[ind != along]
     if(length(ind) > 0L) {
-      out.dimnames[ind] <- obj.dimnames[ind]
-      dimnames(out) <- out.dimnames
+      return(list(out.ind = ind, obj.ind = ind))
     }
+    return(list(NULL, NULL))
   }
-  return(out)
   
+  return(list(NULL, NULL))
 }
 
 

@@ -10,30 +10,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// rcpp_abind_get_dimnames
-List rcpp_abind_get_dimnames(List x, int along);
-RcppExport SEXP _broadcast_rcpp_abind_get_dimnames(SEXP xSEXP, SEXP alongSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type along(alongSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_abind_get_dimnames(x, along));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_rcbind_get_sizes
-IntegerVector rcpp_rcbind_get_sizes(List lst, int imargin);
-RcppExport SEXP _broadcast_rcpp_rcbind_get_sizes(SEXP lstSEXP, SEXP imarginSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type lst(lstSEXP);
-    Rcpp::traits::input_parameter< int >::type imargin(imarginSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_rcbind_get_sizes(lst, imargin));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_factor_count
 int rcpp_factor_count(SEXP grp, int j);
 RcppExport SEXP _broadcast_rcpp_factor_count(SEXP grpSEXP, SEXP jSEXP) {
@@ -1107,6 +1083,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_bindhelper_get_dimnames
+List rcpp_bindhelper_get_dimnames(List x, int along);
+RcppExport SEXP _broadcast_rcpp_bindhelper_get_dimnames(SEXP xSEXP, SEXP alongSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type along(alongSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_get_dimnames(x, along));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_recycle_seq_mlen
 List rcpp_recycle_seq_mlen(IntegerVector x, IntegerVector y);
 RcppExport SEXP _broadcast_rcpp_recycle_seq_mlen(SEXP xSEXP, SEXP ySEXP) {
@@ -1154,8 +1142,6 @@ RcppExport SEXP C_make_by(SEXP);
 RcppExport SEXP C_pmax(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_broadcast_rcpp_abind_get_dimnames", (DL_FUNC) &_broadcast_rcpp_abind_get_dimnames, 2},
-    {"_broadcast_rcpp_rcbind_get_sizes", (DL_FUNC) &_broadcast_rcpp_rcbind_get_sizes, 2},
     {"_broadcast_rcpp_factor_count", (DL_FUNC) &_broadcast_rcpp_factor_count, 2},
     {"_broadcast_rcpp_factor_which", (DL_FUNC) &_broadcast_rcpp_factor_which, 3},
     {"_broadcast_rcpp_acast", (DL_FUNC) &_broadcast_rcpp_acast, 11},
@@ -1221,6 +1207,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bindhelper_sum_along", (DL_FUNC) &_broadcast_rcpp_bindhelper_sum_along, 2},
     {"_broadcast_rcpp_bindhelper_conf_dims_2", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_2, 4},
     {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 4},
+    {"_broadcast_rcpp_bindhelper_get_dimnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_get_dimnames, 2},
     {"_broadcast_rcpp_recycle_seq_mlen", (DL_FUNC) &_broadcast_rcpp_recycle_seq_mlen, 2},
     {"_broadcast_rcpp_set_vind_32_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_32_atomic, 3},
     {"_broadcast_rcpp_set_vind_64_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_64_atomic, 3},

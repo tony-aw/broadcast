@@ -24,7 +24,7 @@ indices <- list(
 
 
 # 32 bit ====
-myset <- broadcast:::.rcpp_set_vind_32_atomic
+myset <- broadcast:::.rcpp_set_vind_32
 
 
 for(iD in 1:length(x.data)) {
@@ -49,7 +49,7 @@ for(iD in 1:length(x.data)) {
 
 
 # 64 bit ====
-myset <- broadcast:::.rcpp_set_vind_64_atomic
+myset <- broadcast:::.rcpp_set_vind_64
 
 
 for(iD in 1:length(x.data)) {

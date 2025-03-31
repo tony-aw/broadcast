@@ -7,7 +7,7 @@
 bc_ifelse(cond, yes, no)
 }
 \arguments{
-\item{cond}{\code{logical} vector or array with the length equal to \code{prod(bc_dim(yes, no))}.}
+\item{cond}{\code{logical} vector or array with the length equal to \verb{prod(}\link{bc_dim}\verb{(yes, no))}.}
 
 \item{yes, no}{conformable arrays of the same type. \cr
 All \link[base]{atomic} types are supported except for the type of raw. \cr

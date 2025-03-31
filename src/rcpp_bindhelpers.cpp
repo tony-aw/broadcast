@@ -137,3 +137,25 @@ int rcpp_bindhelper_conf_dims_all(
   }
   return out;
 }
+
+
+
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bindhelper_get_dimnames)]]
+List rcpp_bindhelper_get_dimnames(
+  List x, int along
+) {
+  int n = x.length();
+  List out(n);
+  for(int i = 0; i < n; ++i) {
+    RObject temp = x[i];
+    if(temp.hasAttribute("dimnames")) {
+      List temp2 = temp.attr("dimnames");
+      out[i] = temp2[along - 1];
+    }
+  }
+  return out;
+}
+

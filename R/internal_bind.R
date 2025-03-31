@@ -186,7 +186,7 @@
   # get naming params - must do this AFTER normalizing dims!
   if(name_along && !extra_dimensional) {
     # note: dimension `along` never gets broadcasted, so no need to worry about that
-    arg.dimnames <- .rcpp_abind_get_dimnames(input, along)
+    arg.dimnames <- .rcpp_bindhelper_get_dimnames(input, along)
     arg.marginlen <- vapply(input.dims, \(x)(x)[along], integer(1L))
     name_along <- .bind_name_along_reasonable(input, arg.dimnames)
   }
@@ -292,10 +292,13 @@
   
   # name_along:
   if(name_along) {
+    
+    dimnames(out) <- .bind_prep_dimnames(out)
+    
     if(!extra_dimensional) {
-      dimnames(out) <- .bind_get_alongnames(out, along, input, arg.dimnames, arg.marginlen)
+      dimnames(out)[[along]] <- .bind_get_alongnames(out, along, input, arg.dimnames, arg.marginlen)
     }
-    if(extra_dimensional) {
+    else if(extra_dimensional) {
       if(!is.null(names(input))) {
         dimnames(out)[[along]] <- names(input)
       } else {

@@ -89,11 +89,11 @@ bind_array <- function(
   
   # input fix:
   input2 <- .bind_input_fix(input, FALSE, sys.call())
-  
+  ndim_max <- max(lst.ndim(input2))
   
   # along fix:
   # check (rev)along:
-  along <- .bind_arg_along(along, rev, max(lst.ndim(input2)), sys.call())
+  along <- .bind_arg_along(along, rev, ndim_max, sys.call())
   
   
   # naming argument checks:
@@ -109,9 +109,29 @@ bind_array <- function(
   # main function:
   out <- .internal_bind_array(input2, along, ndim2bc, name_along, sys.call())
   
+  
   # add comnames:
   if(!is.null(comnames_from)) {
-    out <- .bind_inplace_comnames(out, comnames_from, input, along) # using original input
+    if(.bind_comnames_reasonable(input, along, comnames_from, ndim_max)) {
+      
+      obj <- input[[comnames_from]]
+      out.ind <- .bind_which_comnames(out, along, obj, ndim_max)[[1L]]
+      obj.ind <- .bind_which_comnames(out, along, obj, ndim_max)[[2L]]
+      
+      if(!is.null(out.ind) && !is.null(obj.ind)) {
+        dimnames(out) <- .bind_prep_dimnames(out)
+        dimnames(out)[out.ind] <- dimnames(obj)[obj.ind]
+      }
+    }
+    
+  }
+  
+  
+  # remove dimnames if not necessary (probably not needed, but just in case)
+  if(!is.null(dimnames(out))) {
+    if(!.C_any_nonNULL(dimnames(out))) {
+      dimnames(out) <- NULL
+    }
   }
   
   # return output:

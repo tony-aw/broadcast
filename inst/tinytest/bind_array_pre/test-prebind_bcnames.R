@@ -63,6 +63,11 @@ expect_equal(
   bind_array(input, 0L, name_along = TRUE, comnames_from = NULL),
   expected
 )
-enumerate <- enumerate + 1L
+dimnames(expected) <- list(paste0("X", 1:3), NULL, NULL)
+expect_equal(
+  bind_array(unname(input), 0L, name_along = TRUE, comnames_from = NULL),
+  expected
+)
+enumerate <- enumerate + 2L
 
 

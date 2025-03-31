@@ -30,13 +30,20 @@ template<int RTYPE> void rcpp_set_vind_32_template(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_set_vind_32_atomic)]]
+// [[Rcpp::export(.rcpp_set_vind_32)]]
 void rcpp_set_vind_32_atomic(
   SEXP x, const SEXP ind, const SEXP rp
 ) {
 
 
 switch(TYPEOF(x)){
+
+  case RAWSXP:
+  {
+    rcpp_set_vind_32_template<RAWSXP>(as<RawVector>(x), ind, as<RawVector>(rp));
+    break;
+  }
+
 
   case LGLSXP:
   {
@@ -73,9 +80,9 @@ switch(TYPEOF(x)){
   }
 
 
-  case RAWSXP:
+  case VECSXP:
   {
-    rcpp_set_vind_32_template<RAWSXP>(as<RawVector>(x), ind, as<RawVector>(rp));
+    rcpp_set_vind_32_template<VECSXP>(as<List>(x), ind, as<List>(rp));
     break;
   }
 
@@ -109,13 +116,20 @@ template<int RTYPE> void rcpp_set_vind_64_template(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_set_vind_64_atomic)]]
+// [[Rcpp::export(.rcpp_set_vind_64)]]
 void rcpp_set_vind_64_atomic(
   SEXP x, const SEXP ind, const SEXP rp
 ) {
 
 
 switch(TYPEOF(x)){
+
+  case RAWSXP:
+  {
+    rcpp_set_vind_64_template<RAWSXP>(as<RawVector>(x), ind, as<RawVector>(rp));
+    break;
+  }
+
 
   case LGLSXP:
   {
@@ -152,9 +166,9 @@ switch(TYPEOF(x)){
   }
 
 
-  case RAWSXP:
+  case VECSXP:
   {
-    rcpp_set_vind_64_template<RAWSXP>(as<RawVector>(x), ind, as<RawVector>(rp));
+    rcpp_set_vind_64_template<VECSXP>(as<List>(x), ind, as<List>(rp));
     break;
   }
 
