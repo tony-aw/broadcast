@@ -1,6 +1,6 @@
 
 
-#include <Rcpp/lightest>
+#include <Rcpp/Lightest>
 
 using namespace Rcpp;
 
