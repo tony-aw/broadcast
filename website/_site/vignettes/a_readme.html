@@ -313,7 +313,7 @@ I.e. <code>y</code> needs its single row to be recycled 4 times, creating 2 conf
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   13   27   41   55   69</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]   14   28   42   56   70</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>… but this involves replicating/copying <code>y</code> several times, which costs memory, reduces speed, and the code is not easily scalable for arrays with different dimensions.</p>
+<p>… but this becomes an issue when <code>x</code> and/or <code>y</code> become very large, as the above operation involves replicating/copying <code>y</code> several times - which costs memory, reduces speed, and the code is not easily scalable for arrays with different dimensions.</p>
 <p>The ‘broadcast’ package performs “broadcasting”, which can do the above, but <strong>faster</strong>, <strong>without unnecessary copies</strong>, and scalable to arrays of any size (up to 16 dimensions), like so:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.num</span>(x, y, <span class="st">"+"</span>)</span>

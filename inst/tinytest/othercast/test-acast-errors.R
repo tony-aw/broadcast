@@ -7,7 +7,7 @@ errorfun <- function(tt) {
 }
 
 x <- array(1:64, c(4,4,4))
-grp <- as.factor(sample(1:3, 4, TRUE))
+grp <- as.factor(rep_len(1:3, 4))
 
 
 # margin errors ====

@@ -1,0 +1,70 @@
+<!DOCTYPE html><html><head><title>R: Get number of dimensions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>ndim</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get number of dimensions</h2>
+
+<h3>Description</h3>
+
+<p><code>ndim()</code> returns the number of dimensions of an object. <br />
+<code>lst.ndim()</code> returns the number of dimensions of every list-element. <br />
+<br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>ndim(x)
+
+lst.ndim(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="x">x</code></td>
+<td>
+<p>an object.<br />
+For functions starting with <code>lst.</code>, <code>x</code> must be a list (i.e. recursive vector or recursive array). <br /></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>For <code>ndim()</code>: an integer scalar. <br />
+For <code>lst.ndim()</code>: an integer vector, with the same length, names and dimensions as <code>x</code>. <br />
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+# matrix example ====
+x &lt;- list(
+  array(1:10, 10),
+  array(1:10, c(2, 5)),
+  array(c(letters, NA), c(3,3,3))
+)
+lst.ndim(x)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

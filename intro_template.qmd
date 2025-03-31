@@ -137,7 +137,7 @@ You *could* do the following....
 x + y[rep(1L, 4L),]
 ```
 
-... but this involves replicating/copying `y` several times, which costs memory, reduces speed, and the code is not easily scalable for arrays with different dimensions.
+... but this becomes an issue when `x` and/or `y` become very large, as the above operation involves replicating/copying `y` several times - which costs memory, reduces speed, and the code is not easily scalable for arrays with different dimensions.
 
 The 'broadcast' package performs "broadcasting", which can do the above, but **faster**, **without unnecessary copies**, and scalable to arrays of any size (up to 16 dimensions), like so:
 

@@ -27,14 +27,14 @@ indicating the dimension along which to bind the dimensions. \cr
 I.e. use \code{along = 1} for row-binding, \code{along = 2} for column-binding, etc. \cr
 Specifying \code{along = 0} will bind the arrays on a new dimension before the first,
 making \code{along} the new first dimension. \cr
-Specifying \code{along = N + 1}, with \verb{N = max(}\code{[lst.ndim](properties.qmd)}\verb{(input))},
+Specifying \code{along = N + 1}, with \verb{N = max(}\code{[lst.ndim](ndim.qmd)}\verb{(input))},
 will create an additional dimension (\code{N + 1}) and bind the arrays along that new dimension.}
 
 \item{rev}{Boolean, indicating if \code{along} should be reversed, counting backwards. \cr
 If \code{FALSE} (default), \code{along} works like normally; if \code{TRUE}, \code{along} is reversed. \cr
 I.e. \verb{along = 0, rev = TRUE} is equivalent to \verb{along = N+1, rev = FALSE}; \cr
 and \verb{along = N+1, rev = TRUE} is equivalent to \verb{along = 0, rev = FALSE}; \cr
-with \verb{N = max(}\code{[lst.ndim](properties.qmd)}\verb{(input))}.}
+with \verb{N = max(}\code{[lst.ndim](ndim.qmd)}\verb{(input))}.}
 
 \item{ndim2bc}{a single non-negative integer; \cr
 specify here the maximum number of dimensions that are allowed to be broadcasted when binding arrays. \cr

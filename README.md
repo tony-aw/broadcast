@@ -196,9 +196,10 @@ x + y[rep(1L, 4L),]
 #> [4,]   14   28   42   56   70
 ```
 
-… but this involves replicating/copying `y` several times, which costs
-memory, reduces speed, and the code is not easily scalable for arrays
-with different dimensions.
+… but this becomes an issue when `x` and/or `y` become very large, as
+the above operation involves replicating/copying `y` several times -
+which costs memory, reduces speed, and the code is not easily scalable
+for arrays with different dimensions.
 
 The ‘broadcast’ package performs “broadcasting”, which can do the above,
 but **faster**, **without unnecessary copies**, and scalable to arrays

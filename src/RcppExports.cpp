@@ -1137,7 +1137,6 @@ RcppExport SEXP C_check_conf_dim(SEXP, SEXP);
 RcppExport SEXP C_dims_all_orthogonal(SEXP, SEXP);
 RcppExport SEXP C_findfirst_mergable_dims(SEXP, SEXP);
 RcppExport SEXP C_lst_ndims(SEXP);
-RcppExport SEXP C_lst_typeof(SEXP);
 RcppExport SEXP C_make_by(SEXP);
 RcppExport SEXP C_pmax(SEXP, SEXP);
 
@@ -1216,7 +1215,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"C_dims_all_orthogonal",     (DL_FUNC) &C_dims_all_orthogonal,     2},
     {"C_findfirst_mergable_dims", (DL_FUNC) &C_findfirst_mergable_dims, 2},
     {"C_lst_ndims",               (DL_FUNC) &C_lst_ndims,               1},
-    {"C_lst_typeof",              (DL_FUNC) &C_lst_typeof,              1},
     {"C_make_by",                 (DL_FUNC) &C_make_by,                 1},
     {"C_pmax",                    (DL_FUNC) &C_pmax,                    2},
     {NULL, NULL, 0}

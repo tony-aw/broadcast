@@ -29,7 +29,7 @@ This page explains some details on broadcasting that are specific to the [bind_a
 &nbsp;
 
 
-[bind_array()](/man/bind_array.qmd) fully supports broadcasting. It's easy to reason about broadcasting when it involves only 2 arrays. But any more and it becomes more difficult. [bind_array()](/man/bind_array.qmd) supports binding any number of arrays simultaneously. Therefore, [bind_array()](/man/bind_array.qmd) comes with the `ndim2bc` argument (an abbreviation of " maximum number of dimensions to broadcast"), which allows users to specify the maximum number of dimensions that are allowed to be broadcasted while binding arrays. This way, users won't get unpleasant surprises.
+The [bind_array()](/man/bind_array.qmd) function binds 2 or more arrays together along a dimension, and fully supports broadcasting. While it's relatively easy to reason about broadcasting when it involves only 2 arrays, reasoning about broadcasting when it involves more than 2 arrays becomes a bit more difficult. Therefore, [bind_array()](/man/bind_array.qmd) comes with the `ndim2bc` argument (an abbreviation of " maximum number of dimensions to broadcast"), which allows users to specify the maximum number of dimensions that are allowed to be broadcasted while binding arrays. This way, users won't get unpleasant surprises.
 
 This should be fairly obvious, but the dimension specified in `along` is never broadcasted.
 
