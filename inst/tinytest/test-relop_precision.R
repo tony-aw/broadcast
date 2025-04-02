@@ -6,7 +6,7 @@ enumerate <- 0 # to count number of tests performed using iterations in loops
 loops <- 0 # to count number of loops
 
 testfun <- function(x, y, op) {
-  out <- bc.d(x, y, op, prec = sqrt(.Machine$double.eps))
+  out <- bc.d(x, y, op, prec = tol/10)
   out[is.na(out)] <- NA # because Ubuntu doesn't handle NaN and NA properly
   return(out)
 }
