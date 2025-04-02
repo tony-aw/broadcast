@@ -1,7 +1,7 @@
 
 # set-up ====
 tol <- sqrt(.Machine$double.eps)
-eps <- tol
+eps <- tol * 100
 enumerate <- 0 # to count number of tests performed using iterations in loops
 loops <- 0 # to count number of loops
 
