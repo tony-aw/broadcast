@@ -174,7 +174,7 @@ macro_op_dec_rel <- "
     MACRO_TYPESWITCH_DECIMAL_REL(	\\
       DIMCODE,	\\
       tempcalc = NA_REAL,	\\
-      tempcalc = abs((double)px[flatind_x] - (double)py[flatind_y]), \\
+      tempcalc = fabs((double)px[flatind_x] - (double)py[flatind_y]), \\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
       MACRO_ASSIGN_C(tempcalc < prec)  \\
     );	\\
@@ -185,7 +185,7 @@ macro_op_dec_rel <- "
     MACRO_TYPESWITCH_DECIMAL_REL(	\\
       DIMCODE,	\\
       tempcalc = NA_REAL,	\\
-      tempcalc = abs((double)px[flatind_x] - (double)py[flatind_y]),	\\
+      tempcalc = fabs((double)px[flatind_x] - (double)py[flatind_y]),	\\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
       MACRO_ASSIGN_C(tempcalc >= prec)  \\
     );	\\
