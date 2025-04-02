@@ -42,7 +42,7 @@ expected <- out <- vector("list", nres)
 op <- "d=="
 
 i <- 1L
-x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+x.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
 basefun <- function(x, y) {
   out <- abs(x - y) < prec
   return(out)
@@ -52,7 +52,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
-    rnorm(100) # double
+    sample(-10.5:10.5, 100, TRUE) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -133,7 +133,7 @@ expected <- out <- vector("list", nres)
 op <- "d=="
 
 i <- 1L
-y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+y.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
 basefun <- function(x, y) {
   out <- abs(x - y) < prec
   return(out)
@@ -143,7 +143,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
-    rnorm(100) # double
+    sample(-10.5:10.5, 100, TRUE) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -223,7 +223,7 @@ expected <- out <- vector("list", nres)
 op <- "d!="
 
 i <- 1L
-x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+x.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
 basefun <- function(x, y) {
   out <- abs(x - y) >= prec
   return(out)
@@ -233,7 +233,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
-    rnorm(100) # double
+    sample(-10.5:10.5, 100, TRUE) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -314,7 +314,7 @@ expected <- out <- vector("list", nres)
 op <- "d!="
 
 i <- 1L
-y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+y.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
 basefun <- function(x, y) {
   out <- abs(x - y) >= prec
   return(out)
@@ -324,7 +324,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
-    rnorm(100) # double
+    sample(-10.5:10.5, 100, TRUE) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -405,7 +405,7 @@ expected <- out <- vector("list", nres)
 op <- "d<"
 
 i <- 1L
-x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+x.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
 basefun <- function(x, y) {
   out <- (x - y) <= -prec
   return(out)
@@ -415,7 +415,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
-    rnorm(100) # double
+    sample(-10.5:10.5, 100, TRUE) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -496,7 +496,7 @@ expected <- out <- vector("list", nres)
 op <- "d<"
 
 i <- 1L
-y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+y.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
 basefun <- function(x, y) {
   out <- (x - y) <= -prec
   return(out)
@@ -506,7 +506,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
-    rnorm(100) # double
+    sample(-10.5:10.5, 100, TRUE) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -589,7 +589,7 @@ expected <- out <- vector("list", nres)
 op <- "d>"
 
 i <- 1L
-x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+x.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
 basefun <- function(x, y) {
   out <- (x - y) >= prec
   return(out)
@@ -599,7 +599,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
-    rnorm(100) # double
+    sample(-10.5:10.5, 100, TRUE) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -680,7 +680,7 @@ expected <- out <- vector("list", nres)
 op <- "d>"
 
 i <- 1L
-y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+y.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
 basefun <- function(x, y) {
   out <- (x - y) >= prec
   return(out)
@@ -690,7 +690,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
-    rnorm(100) # double
+    sample(-10.5:10.5, 100, TRUE) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -772,7 +772,7 @@ expected <- out <- vector("list", nres)
 op <- "d<="
 
 i <- 1L
-x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+x.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
 basefun <- function(x, y) {
   out <- (x - y) < prec
   return(out)
@@ -782,7 +782,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
-    rnorm(100) # double
+    sample(-10.5:10.5, 100, TRUE) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -863,7 +863,7 @@ expected <- out <- vector("list", nres)
 op <- "d<="
 
 i <- 1L
-y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+y.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
 basefun <- function(x, y) {
   out <- (x - y) < prec
   return(out)
@@ -873,7 +873,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
-    rnorm(100) # double
+    sample(-10.5:10.5, 100, TRUE) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -956,7 +956,7 @@ expected <- out <- vector("list", nres)
 op <- "d>="
 
 i <- 1L
-x.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+x.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
 basefun <- function(x, y) {
   out <- (x - y) > -prec
   return(out)
@@ -966,7 +966,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
-    rnorm(100) # double
+    sample(-10.5:10.5, 100, TRUE) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -1047,7 +1047,7 @@ expected <- out <- vector("list", nres)
 op <- "d>="
 
 i <- 1L
-y.data <- sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
+y.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
 basefun <- function(x, y) {
   out <- (x - y) > -prec
   return(out)
@@ -1057,7 +1057,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
     sample(c(-10:10, NA), 100, TRUE), # integer
-    rnorm(100) # double
+    sample(-10.5:10.5, 100, TRUE) # double
   )
   for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)

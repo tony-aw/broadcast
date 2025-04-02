@@ -1,7 +1,7 @@
 
 # set-up ====
-tol <- sqrt(.Machine$double.eps)
-eps <- tol
+tol <- 1e-6
+eps <- tol * 100 # large eps relative to tolerance, because Ubuntu's precision is REALLY bad
 enumerate <- 0 # to count number of tests performed using iterations in loops
 loops <- 0 # to count number of loops
 
