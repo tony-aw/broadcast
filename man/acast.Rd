@@ -37,7 +37,7 @@ The \code{acast()} function spreads subsets of an array margin over a new dimens
 Written in 'C' and 'C++' for high speed and memory efficiency. \cr
 \cr
 Roughly speaking, \code{acast()} can be thought of as the "array" analogy to
-\code{data.table::}\link[data.table]{dcast}. \cr
+\code{data.table::dcast()}. \cr
 But note 2 important differences:
 \itemize{
 \item \code{acast()} works on arrays instead of data.tables.

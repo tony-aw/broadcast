@@ -41,7 +41,7 @@
 #' 
 #' @details
 #' The API of `bind_array()` is inspired by the fantastic
-#' \code{abind::abind} function
+#' \code{abind::abind()} function
 #' by Tony Plare & Richard Heiberger (2016). \cr
 #' But `bind_array()` differs considerably from \code{abind::abind}
 #' in the following ways:

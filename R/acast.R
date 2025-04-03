@@ -5,7 +5,7 @@
 #' Written in 'C' and 'C++' for high speed and memory efficiency. \cr
 #' \cr
 #' Roughly speaking, `acast()` can be thought of as the "array" analogy to
-#' \code{data.table::}\link[data.table]{dcast}. \cr
+#' \code{data.table::dcast()}. \cr
 #' But note 2 important differences:
 #' 
 #'  - `acast()` works on arrays instead of data.tables.
