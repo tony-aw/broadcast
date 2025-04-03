@@ -115,8 +115,9 @@ bind_array <- function(
     if(.bind_comnames_reasonable(input, along, comnames_from, ndim_max)) {
       
       obj <- input[[comnames_from]]
-      out.ind <- .bind_which_comnames(out, along, obj, ndim_max)[[1L]]
-      obj.ind <- .bind_which_comnames(out, along, obj, ndim_max)[[2L]]
+      bindwhich <- .bind_which_comnames(out, along, obj, ndim_max)
+      out.ind <- bindwhich[[1L]]
+      obj.ind <- bindwhich[[2L]]
       
       if(!is.null(out.ind) && !is.null(obj.ind)) {
         dimnames(out) <- .bind_prep_dimnames(out)

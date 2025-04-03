@@ -1,4 +1,30 @@
+
 library(stringi)
+
+
+################################################################################
+# Introduction ====
+#
+
+introcomments <- "
+
+
+********************************************************************************
+MACROs for numeric type-switching
+
+There are several numeric-like types (exclusing complex type):
+logical, integer, and double.
+The following MACROs define various if-else constructs,
+used to decide what specific code should run for which numeric-like type.
+
+********************************************************************************
+
+"
+
+introcomments <- stri_split(introcomments, fixed = "\n")[[1]]
+introcomments <- stri_c("// ", introcomments) |> paste0(collapse = "\n")
+cat(introcomments)
+
 
 ################################################################################
 # Decimal ====
@@ -498,6 +524,9 @@ macro_typeswitch_integer_gcd <- "
 
 
 macro_typeswitch_numeric <- stri_c(
+  "\n",
+  introcomments,
+  "\n",
   macro_typeswitch_decimal_common,
   "\n",
   macro_typeswitch_decimal_careful,

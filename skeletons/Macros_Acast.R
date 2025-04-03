@@ -1,6 +1,32 @@
 library(stringi)
 
+
+
+################################################################################
+# Introduction ====
+#
+
+introcomments <- "
+
+
+********************************************************************************
+MACROs for acast
+
+The following MACROs are all specific to the `acast()` function
+
+
+********************************************************************************
+
+"
+
+introcomments <- stri_split(introcomments, fixed = "\n")[[1]]
+introcomments <- stri_c("// ", introcomments) |> paste0(collapse = "\n")
+cat(introcomments)
+
+
+################################################################################
 # MACRO ====
+#
 
 all_N_decl <- sprintf("const int N%d = INTEGER(lens)[%d];\t\\", 1:16, 0:15)
 all_ind_decl <- sprintf("const SEXP ind%d = VECTOR_ELT(subs, %d);\t\\", 1:16, 0:15)
@@ -196,8 +222,13 @@ macro_op_acast <- "
 "
 
 macro_acast <- stri_c(
+  "\n",
+  introcomments,
+  "\n",
   macro_dim_acast,
+  "\n",
   macro_op_acast_loop,
+  "\n",
   macro_op_acast,
   collapse = "\n\n"
 )

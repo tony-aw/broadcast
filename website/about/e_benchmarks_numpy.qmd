@@ -69,8 +69,9 @@ The value of `n`, so the size of each dimension, varies as follows:
  - For 6-dimensional arrays, `n` goes from 1 to 15, with steps of 2.
  - For 7-dimensional arrays, `n` goes from 1 to 10, with steps of 1.
 
+These values `n` have been chosen such that, when `n` is at its highest value, the broadcasted element-wise addition of `x` and `y` results in an array with approximately `9e7` elements (a little shy of 100 million elements).
 
-For each pair of arrays, the element-wise addition is computed using 'broadcast' and 'Numpy'. This computation is repeated 200 times. From these 200 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between 'broadcast' and 'Numpy' fair, and these caveats are explained in the next sub-section.
+For each pair of arrays, the element-wise addition is computed using 'broadcast' and 'Numpy'. This computation is repeated 100 times. From these 100 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between 'broadcast' and 'Numpy' fair, and these caveats are explained in the next sub-section.
 
 &nbsp;
 
@@ -85,7 +86,7 @@ Distributions of benchmarks tend to be heavily skewed. Therefore, the median mea
 Garbage collection is disabled in Python. In `r fa("r-project")`, only benchmarks with no garbage collection, or level 0 garbage collection, are used. I feel this keeps the comparisons relatively fair (but it's not perfect).
 
 
-Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for `r fa("r-project")`, a check is made that at least 100 benchmark measurements are kept in (out 200 in total). If there are less than 100 benchmarks for a particular computation, the benchmarks are thrown away, and another attempt is made at benchmarking (but this never happened).
+Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for `r fa("r-project")`, the benchmarks are run 200 times, and a check is performed that at least 100 benchmark measurements are kept in. If there are less than 100 benchmarks for a particular computation, the benchmarks are thrown away, and another attempt is made at benchmarking (but this never happened).
 
 
 In relation to the previous point, note that the quantiles and the median (the median itself is simply the 50% quantile) are asymptotically independent of sample-size (unlike, for example, the variance, which is directly affected by sample size).
@@ -456,9 +457,9 @@ get_times <- function(obj, j) {
 
 # loop 2d ====
 gc()
-dimsizes <- seq(1000L, 3000L,  by = 200L)
+dimsizes <- seq(1500L, 9500L,  by = 750L)
 niter <- length(dimsizes)
-median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
+median_bc <- q1_bc <- q3_bc <- vector("numeric", niter)
 counter <- 1L
 
 for(i in seq_along(dimsizes)) {
@@ -499,9 +500,9 @@ save(
 
 # loop 3d ====
 gc()
-dimsizes <- seq(50L, 200L,  by = 10L)
+dimsizes <- seq(150L, 450L,  by = 25L)
 niter <- length(dimsizes)
-median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
+median_bc <- q1_bc <- q3_bc <- vector("numeric", niter)
 counter <- 1L
 
 for(i in seq_along(dimsizes)) {
@@ -544,9 +545,9 @@ save(
 
 # loop 4d ====
 gc()
-dimsizes <- seq(10L, 55L,  by = 5L)
+dimsizes <- seq(34L, 99L,  by = 5L)
 niter <- length(dimsizes)
-median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
+median_bc <- q1_bc <- q3_bc <- vector("numeric", niter)
 counter <- 1L
 
 for(i in seq_along(dimsizes)) {
@@ -591,9 +592,9 @@ save(
 
 # loop 5d ====
 gc()
-dimsizes <- seq(5L, 25L,  by = 5L)
+dimsizes <- seq(14L, 39L,  by = 2L)
 niter <- length(dimsizes)
-median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
+median_bc <- q1_bc <- q3_bc <- vector("numeric", niter)
 counter <- 1L
 
 for(i in seq_along(dimsizes)) {
@@ -638,9 +639,9 @@ save(
 
 # loop 6d ====
 gc()
-dimsizes <- seq(1L, 15L,  by = 2L)
+dimsizes <- seq(3L, 21L,  by = 3L)
 niter <- length(dimsizes)
-median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
+median_bc <- q1_bc <- q3_bc <- vector("numeric", niter)
 counter <- 1L
 
 for(i in seq_along(dimsizes)) {
@@ -684,9 +685,9 @@ save(
 
 # loop 7d ====
 gc()
-dimsizes <- seq(1L, 10L,  by = 1L)
+dimsizes <- seq(2L, 14L,  by = 1L)
 niter <- length(dimsizes)
-median_bc <- median_np <- q1_bc <- q1_np <- q3_bc <- q3_np <- vector("numeric", niter)
+median_bc <- q1_bc <- q3_bc <- vector("numeric", niter)
 counter <- 1L
 
 for(i in seq_along(dimsizes)) {
@@ -726,6 +727,7 @@ save(
   dimsizes, median_bc, q1_bc, q3_bc,
   file = "benchmarks/bm_bc_7d.RData"
 )
+gc()
 
 
 ```
@@ -750,11 +752,11 @@ def myfunc(a, b):
 
 # 2d array #
 gc.disable()
-dimsizes = np.arange(1000, 3001, 200)
+dimsizes = np.arange(1500, 9501, 750)
 median_np = np.zeros(len(dimsizes))
 q1_np = np.zeros(len(dimsizes))
 q3_np = np.zeros(len(dimsizes))
-durations = np.zeros(200)
+durations = np.zeros(100)
 
 for i in range(0, len(dimsizes)):
   print(i)
@@ -785,11 +787,11 @@ np.savetxt("benchmarks/bm_py_2d_q3.txt", q3_np)
 
 # 3d array #
 gc.disable()
-dimsizes = np.arange(50, 201, 10)
+dimsizes = np.arange(150, 451, 25)
 median_np = np.zeros(len(dimsizes))
 q1_np = np.zeros(len(dimsizes))
 q3_np = np.zeros(len(dimsizes))
-durations = np.zeros(200)
+durations = np.zeros(100)
 
 for i in range(0, len(dimsizes)):
   print(i)
@@ -821,11 +823,11 @@ np.savetxt("benchmarks/bm_py_3d_q3.txt", q3_np)
 
 # 4d array #
 gc.disable()
-dimsizes = np.arange(10, 56, 5)
+dimsizes = np.arange(34, 100, 5)
 median_np = np.zeros(len(dimsizes))
 q1_np = np.zeros(len(dimsizes))
 q3_np = np.zeros(len(dimsizes))
-durations = np.zeros(200)
+durations = np.zeros(100)
 
 for i in range(0, len(dimsizes)):
   print(i)
@@ -855,11 +857,11 @@ np.savetxt("benchmarks/bm_py_4d_q3.txt", q3_np)
 
 # 5d array #
 gc.disable()
-dimsizes = np.arange(5, 26, 5)
+dimsizes = np.arange(14, 40, 2)
 median_np = np.zeros(len(dimsizes))
 q1_np = np.zeros(len(dimsizes))
 q3_np = np.zeros(len(dimsizes))
-durations = np.zeros(200)
+durations = np.zeros(100)
 
 for i in range(0, len(dimsizes)):
   print(i)
@@ -891,11 +893,11 @@ np.savetxt("benchmarks/bm_py_5d_q3.txt", q3_np)
 
 # 6d array #
 gc.disable()
-dimsizes = np.arange(1, 16, 2)
+dimsizes = np.arange(3, 22, 3)
 median_np = np.zeros(len(dimsizes))
 q1_np = np.zeros(len(dimsizes))
 q3_np = np.zeros(len(dimsizes))
-durations = np.zeros(200)
+durations = np.zeros(100)
 
 for i in range(0, len(dimsizes)):
   print(i)
@@ -926,11 +928,11 @@ np.savetxt("benchmarks/bm_py_6d_q3.txt", q3_np)
 
 # 7d array #
 gc.disable()
-dimsizes = np.arange(1, 11, 1)
+dimsizes = np.arange(2, 15, 1)
 median_np = np.zeros(len(dimsizes))
 q1_np = np.zeros(len(dimsizes))
 q3_np = np.zeros(len(dimsizes))
-durations = np.zeros(200)
+durations = np.zeros(100)
 
 for i in range(0, len(dimsizes)):
   print(i)

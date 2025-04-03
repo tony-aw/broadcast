@@ -4,6 +4,17 @@
 #define BROADCAST_H
 
 
+// 
+// 
+// ********************************************************************************
+// MACROs for "actions"
+// 
+// The following MACROs define small pieces of code that are used at various places in other MACROs.
+// 
+// ********************************************************************************
+// 
+// 
+
 
 #define MACRO_OVERFLOW(REF) ((REF) < intmin || (REF) > intmax)
 
@@ -162,6 +173,21 @@
 } while(0)
 
 
+
+// 
+// 
+// 
+// ********************************************************************************
+// MACROs for numeric type-switching
+// 
+// There are several numeric-like types (exclusing complex type):
+// logical, integer, and double.
+// The following MACROs define various if-else constructs,
+// used to decide what specific code should run for which numeric-like type.
+// 
+// ********************************************************************************
+// 
+// 
 
 
 #define MACRO_TYPESWITCH_DECIMAL_COMMON(DIMCODE, NACODE, DOCODE) do {      \
@@ -621,6 +647,18 @@
 
 
 
+
+// 
+// 
+// 
+// ********************************************************************************
+// MACROs for operations
+// 
+// The following MACROs define the various operations, like relational and arithmetic operations.
+// 
+// ********************************************************************************
+// 
+// 
 
 #define MACRO_ASSIGN_C(INPUTCODE) do {  \
   tempout = INPUTCODE;              \
@@ -1468,6 +1506,43 @@
 
 
 
+// 
+// 
+// 
+// ********************************************************************************
+// MACROs for broadcasted element-wise binary operations
+// 
+// The following MACROs define the loops used for broadcasted element-wise binary operations.
+// 
+// In the context of a broadcasted operation involving exactly 2 arrays,
+// 'broadcast' uses different techniques for looping through the elements for broadcasting.
+// The techniques are the following, ordered from high to low priority:
+//  1) vector broadcasting
+//  2) ortho-vector broadcasting
+//  3) big/small broadcasting
+//  4) regular broadcasting
+// 
+// 'vector broadcasting' occurs when at least one of the following is true:
+//  - x and/or y is a scalar (i.e. length of 1)
+//  - x and/or y is a vector and/or 1d array (i.e. ndims() <= 1L)
+//  - x and y have the exact same dimensions
+// 
+// when vector broadcasting does not hold,
+// ortho-vector broadcasting occurs when the following is true:
+//  - x is a row-vector and y is a column-vector, or vice-versa
+// 
+// when neither the vector nor the ortho-vector broadcasting technique (1) or (2) occurs,
+// 'big/small' broadcasting occurs when at least one of the following is true:
+//  - either x or y has the same dimensions as that the output would, and thus obviously does not need to be broadcasted.
+// 
+// when none of the above techniques hold, The regular broadcasting technique is used.
+// 
+// The MACROs were written for every 2 dimensions, from 2 to 16.
+// i.e. 2, 4, 6, ..., 16
+// 
+// ********************************************************************************
+// 
+// 
 
 
 #define MACRO_DIM_VECTOR(DOCODE) do {                               \
@@ -3022,6 +3097,19 @@ case 16:                                       \
        \
   }       \
 } while(0)
+// 
+// 
+// ********************************************************************************
+// MACROs for the binding implementation
+// 
+// The following MACROs define the loops used for broadcasted binding.
+// 
+// The MACROs were written for every 2 dimensions, from 2 to 16.
+// i.e. 2, 4, 6, ..., 16
+// 
+// ********************************************************************************
+// 
+// 
 
 #define MACRO_DIM_BIND_2(DOCODE) do {  \
   double *pdcp_out = REAL(dcp_out);  \
@@ -3505,6 +3593,19 @@ case 16:                                       \
 } while(0)
 
 
+// 
+// 
+// 
+// ********************************************************************************
+// MACROs for acast
+// 
+// The following MACROs are all specific to the `acast()` function
+// 
+// 
+// ********************************************************************************
+// 
+// 
+
 
 #define MACRO_DIM_ACAST(DOCODE) do {              \
   if(Rf_length(subs) < 16) {                     \
@@ -3658,6 +3759,7 @@ i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
 
 
 
+
 #define MACRO_OP_ACAST_LOOP(DOCODE) do {                  \
                                                             \
   for(int i = 0; i < grp_n; ++i) {                          \
@@ -3671,6 +3773,7 @@ i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
     }                                                         \
   }                                                         \
 } while(0)
+
 
 
 #define MACRO_OP_ACAST do {       \

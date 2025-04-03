@@ -1,4 +1,19 @@
 
+// 
+// 
+// 
+// ********************************************************************************
+// MACROs for numeric type-switching
+// 
+// There are several numeric-like types (exclusing complex type):
+// logical, integer, and double.
+// The following MACROs define various if-else constructs,
+// used to decide what specific code should run for which numeric-like type.
+// 
+// ********************************************************************************
+// 
+// 
+
 
 #define MACRO_TYPESWITCH_DECIMAL_COMMON(DIMCODE, NACODE, DOCODE) do {      \
   bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \

@@ -12,6 +12,28 @@ cat(txt)
 
 
 ################################################################################
+# Introduction ====
+#
+
+introcomments <- "
+
+
+********************************************************************************
+MACROs for operations
+
+The following MACROs define the various operations, like relational and arithmetic operations.
+
+********************************************************************************
+
+"
+
+introcomments <- stri_split(introcomments, fixed = "\n")[[1]]
+introcomments <- stri_c("// ", introcomments) |> paste0(collapse = "\n")
+cat(introcomments)
+
+
+
+################################################################################
 # Assignment ====
 #
 
@@ -938,6 +960,9 @@ macro_op_bcapply <- "
 #
 
 macro_op <- stri_c(
+  "\n",
+  introcomments,
+  "\n",
   macro_assign_C,
   "\n",
   macro_op_dec_math,

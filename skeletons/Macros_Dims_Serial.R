@@ -5,6 +5,54 @@ library(stringi)
 DTYPES <- seq(2, 16, 2)
 
 
+
+################################################################################
+# Introduction ====
+#
+
+introcomments <- "
+
+
+********************************************************************************
+MACROs for broadcasted element-wise binary operations
+
+The following MACROs define the loops used for broadcasted element-wise binary operations.
+
+In the context of a broadcasted operation involving exactly 2 arrays,
+'broadcast' uses different techniques for looping through the elements for broadcasting.
+The techniques are the following, ordered from high to low priority:
+ 1) vector broadcasting
+ 2) ortho-vector broadcasting
+ 3) big/small broadcasting
+ 4) regular broadcasting
+
+'vector broadcasting' occurs when at least one of the following is true:
+ - x and/or y is a scalar (i.e. length of 1)
+ - x and/or y is a vector and/or 1d array (i.e. ndims() <= 1L)
+ - x and y have the exact same dimensions
+
+when vector broadcasting does not hold,
+ortho-vector broadcasting occurs when the following is true:
+ - x is a row-vector and y is a column-vector, or vice-versa
+
+when neither the vector nor the ortho-vector broadcasting technique (1) or (2) occurs,
+'big/small' broadcasting occurs when at least one of the following is true:
+ - either x or y has the same dimensions as that the output would, and thus obviously does not need to be broadcasted.
+
+when none of the above techniques hold, The regular broadcasting technique is used.
+
+The MACROs were written for every 2 dimensions, from 2 to 16.
+i.e. 2, 4, 6, ..., 16
+
+********************************************************************************
+
+"
+
+introcomments <- stri_split(introcomments, fixed = "\n")[[1]]
+introcomments <- stri_c("// ", introcomments) |> paste0(collapse = "\n")
+cat(introcomments)
+
+
 ################################################################################
 # Vector ====
 #
@@ -480,6 +528,31 @@ cat(templatecode_docall2)
 macro_dim_docall <- templatecode_docall2
 
 
+
+################################################################################
+# Intro 2 ====
+#
+
+introcomments2 <- "
+
+********************************************************************************
+MACROs for the binding implementation
+
+The following MACROs define the loops used for broadcasted binding.
+
+The MACROs were written for every 2 dimensions, from 2 to 16.
+i.e. 2, 4, 6, ..., 16
+
+********************************************************************************
+
+"
+
+introcomments2 <- stri_split(introcomments2, fixed = "\n")[[1]]
+introcomments2 <- stri_c("// ", introcomments2) |> paste0(collapse = "\n")
+cat(introcomments2)
+
+
+
 ################################################################################
 # Macro Bind ====
 #
@@ -634,6 +707,8 @@ macro_dim_bind_docall <- templatecode_docall2
 
 macro_dim <- stri_c(
   "\n",
+  introcomments,
+  "\n",
   macro_dim_vector,
   "\n",
   macro_dim_orthovector,
@@ -647,6 +722,8 @@ macro_dim <- stri_c(
   macro_dim_d,
   "\n",
   macro_dim_docall,
+  "\n",
+  introcomments2,
   "\n",
   macro_dim_bind,
   "\n",

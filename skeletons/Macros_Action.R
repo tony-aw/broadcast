@@ -1,5 +1,27 @@
 library(stringi)
 
+
+################################################################################
+# Introduction ====
+#
+
+introcomments <- "
+
+********************************************************************************
+MACROs for \"actions\"
+
+The following MACROs define small pieces of code that are used at various places in other MACROs.
+
+********************************************************************************
+
+"
+
+introcomments <- stri_split(introcomments, fixed = "\n")[[1]]
+introcomments <- stri_c("// ", introcomments) |> paste0(collapse = "\n")
+cat(introcomments)
+
+
+
 ################################################################################
 # General ====
 #
@@ -212,6 +234,9 @@ macro_action_vapply <- "
 #
 
 macro_action <- stri_c(
+  "\n",
+  introcomments, 
+  "\n",
   macro_overflow,
   "\n",
   macro_action1,
