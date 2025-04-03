@@ -14,7 +14,6 @@ on:
 
 jobs:
   job1:
-    R-CMD-check:
       runs-on: ${{ matrix.config.os }}
   
       name: ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -50,146 +49,142 @@ jobs:
             upload-snapshots: true
   job2:
     needs: job1
-    R-CMD-check:
-      runs-on: ${{ matrix.config.os }}
-  
-      name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-  
-      strategy:
-        fail-fast: false
-        matrix:
-          config:
-            - {os: macos-latest,   r: 'release'}
-            
-      env:
-        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-        R_KEEP_PKG_SOURCE: yes
-  
-      steps:
-        - uses: actions/checkout@v3
-  
-        - uses: r-lib/actions/setup-pandoc@v2
-  
-        - uses: r-lib/actions/setup-r@v2
-          with:
-            r-version: ${{ matrix.config.r }}
-            http-user-agent: ${{ matrix.config.http-user-agent }}
-            use-public-rspm: true
-  
-        - uses: r-lib/actions/setup-r-dependencies@v2
-          with:
-            extra-packages: any::rcmdcheck
-            needs: check
-  
-        - uses: r-lib/actions/check-r-package@v2
-          with:
-            upload-snapshots: true
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: macos-latest,   r: 'release'}
+          
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
             
   job3:
     needs: [job1, job2]
-    R-CMD-check:
-      runs-on: ${{ matrix.config.os }}
-  
-      name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-  
-      strategy:
-        fail-fast: false
-        matrix:
-          config:
-            - {os: macOS-latest,   r: 'oldrel' }
-  
-      env:
-        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-        R_KEEP_PKG_SOURCE: yes
-  
-      steps:
-        - uses: actions/checkout@v3
-  
-        - uses: r-lib/actions/setup-pandoc@v2
-  
-        - uses: r-lib/actions/setup-r@v2
-          with:
-            r-version: ${{ matrix.config.r }}
-            http-user-agent: ${{ matrix.config.http-user-agent }}
-            use-public-rspm: true
-  
-        - uses: r-lib/actions/setup-r-dependencies@v2
-          with:
-            extra-packages: any::rcmdcheck
-            needs: check
-  
-        - uses: r-lib/actions/check-r-package@v2
-          with:
-            upload-snapshots: true
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: macOS-latest,   r: 'oldrel' }
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
   job4:
     needs: [job1, job2, job3]
-    R-CMD-check:
-      runs-on: ${{ matrix.config.os }}
-  
-      name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-  
-      strategy:
-        fail-fast: false
-        matrix:
-          config:
-            - {os: windows-latest, r: 'release'}
-  
-      env:
-        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-        R_KEEP_PKG_SOURCE: yes
-  
-      steps:
-        - uses: actions/checkout@v3
-  
-        - uses: r-lib/actions/setup-pandoc@v2
-  
-        - uses: r-lib/actions/setup-r@v2
-          with:
-            r-version: ${{ matrix.config.r }}
-            http-user-agent: ${{ matrix.config.http-user-agent }}
-            use-public-rspm: true
-  
-        - uses: r-lib/actions/setup-r-dependencies@v2
-          with:
-            extra-packages: any::rcmdcheck
-            needs: check
-  
-        - uses: r-lib/actions/check-r-package@v2
-          with:
-            upload-snapshots: true
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: windows-latest, r: 'release'}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
   job5:
     needs: [job1, job2, job3, job4]
-    R-CMD-check:
-      runs-on: ${{ matrix.config.os }}
-  
-      name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-  
-      strategy:
-        fail-fast: false
-        matrix:
-          config:
-            - {os: ubuntu-latest,   r: 'release'}
-  
-      env:
-        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-        R_KEEP_PKG_SOURCE: yes
-  
-      steps:
-        - uses: actions/checkout@v3
-  
-        - uses: r-lib/actions/setup-pandoc@v2
-  
-        - uses: r-lib/actions/setup-r@v2
-          with:
-            r-version: ${{ matrix.config.r }}
-            http-user-agent: ${{ matrix.config.http-user-agent }}
-            use-public-rspm: true
-  
-        - uses: r-lib/actions/setup-r-dependencies@v2
-          with:
-            extra-packages: any::rcmdcheck
-            needs: check
-  
-        - uses: r-lib/actions/check-r-package@v2
-          with:
-            upload-snapshots: true
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: ubuntu-latest,   r: 'release'}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
