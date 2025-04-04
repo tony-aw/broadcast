@@ -61,34 +61,6 @@ return out;
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bcRel_dec_bs)]]
-SEXP rcpp_bcRel_dec_bs(
-  SEXP x, SEXP y,
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx,
-  int op, double prec
-) {
-
-double tempcalc;
-int tempout;
-
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
-
-MACRO_OP_DEC_REL(MACRO_DIM_BIGSMALL_DOCALL);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
 // [[Rcpp::export(.rcpp_bcRel_dec_d)]]
 SEXP rcpp_bcRel_dec_d(
   SEXP x, SEXP y,

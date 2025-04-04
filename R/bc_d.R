@@ -9,7 +9,7 @@
 #' @param op a single string, giving the operator. \cr
 #' Supported arithmetic operators: `r paste0(broadcast:::.op_dec_math(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_dec_rel(), collapse = ", ")`. \cr
-#' @param prec a single number between 0 and 0.1, giving the machine precision to use. \cr
+#' @param tol a single number between 0 and 0.1, giving the machine tolerance to use. \cr
 #' Only relevant for the following operators: \cr
 #' `r paste0(broadcast:::.op_dec_rel()[7:12], collapse = ", ")` \cr
 #' See the
@@ -33,7 +33,7 @@
 
 #' @rdname bc.d
 #' @export
-bc.d <- function(x, y, op, prec = sqrt(.Machine$double.eps)) {
+bc.d <- function(x, y, op, tol = sqrt(.Machine$double.eps)) {
   
   # checks:
   .binary_stop_general(x, y, op, sys.call())
@@ -49,7 +49,7 @@ bc.d <- function(x, y, op, prec = sqrt(.Machine$double.eps)) {
     return(.bc_dec_math(x, y, op_math, sys.call()))
   }
   else if(length(op_rel)) {
-    return(.bc_dec_rel(x, y, op_rel, prec, sys.call()))
+    return(.bc_dec_rel(x, y, op_rel, tol, sys.call()))
   }
   else {
     stop("given operator not supported in the given context")
@@ -86,22 +86,7 @@ bc.num <- bc.d
     RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
     out <- .rcpp_bc_dec_ov(x, y, RxC, out.dimsimp, out.len, op)
   }
-  else if(dimmode == 3L){ # big-small mode
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
-    if(all(x.dim == out.dimsimp)) {
-      bigx <- TRUE
-    }
-    else {
-      bigx <- FALSE
-    }
-    out <- .rcpp_bc_dec_bs(
-      x, y, by_x, by_y, dcp_x, dcp_y, as.integer(out.dimsimp), out.len, bigx, op
-    )
-  }
-  else if(dimmode == 4L) { # general mode
+  else if(dimmode == 3L) { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
@@ -127,11 +112,11 @@ bc.num <- bc.d
   
   # precision checks:
   if(!is.numeric(prec) || length(prec) != 1L) {
-    stop("`prec` must be a single decimal number", call = abortcall)
+    stop(simpleError("`tol` must be a single decimal number", call = abortcall))
   }
   check <- prec >= 0 && prec <= 0.1
   if(!check) {
-    stop("invalid number given for `prec`", call = abortcall)
+    stop(simpleError("`tol` must be >= 0 and <= 0.1", call = abortcall))
   }
   
   
@@ -153,22 +138,7 @@ bc.num <- bc.d
     RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
     out <- .rcpp_bcRel_dec_ov(x, y, RxC, out.dimsimp, out.len, op, prec)
   }
-  else if(dimmode == 3L){ # big-small mode
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
-    if(all(x.dim == out.dimsimp)) {
-      bigx <- TRUE
-    }
-    else {
-      bigx <- FALSE
-    }
-    out <- .rcpp_bcRel_dec_bs(
-      x, y, by_x, by_y, dcp_x, dcp_y, as.integer(out.dimsimp), out.len, bigx, op, prec
-    )
-  }
-  else if(dimmode == 4L) { # general mode
+  else if(dimmode == 3L) { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

@@ -96,31 +96,8 @@ MACRO_OP_IFELSE(
 
 "
 
+
 txt3 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_ifelse_bs)]]
-SEXP rcpp_bc_ifelse_bs(
-  SEXP cond, SEXP x, SEXP y,
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx
-) {
-
-const int *pcond = INTEGER(cond);
-
-MACRO_OP_IFELSE(
-  MACRO_DIM_BIGSMALL_DOCALL
-);
-
-}
-
-
-"
-
-
-txt4 <- "
 
 //' @keywords internal
 //' @noRd
@@ -147,23 +124,19 @@ MACRO_OP_IFELSE(
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2, txt3,
   collapse = "\n\n"
 )
 
 Rcpp::sourceCpp(code = txt)
 
 
-cond <- c(TRUE, FALSE, NA)
-yes <- as.double(1:3)
-no <- as.double(4:6)
-.rcpp_bc_ifelse_v(cond, yes, no, 3L)
 
 setwd("..")
 
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2, txt3,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bc_ifelse.cpp")

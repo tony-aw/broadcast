@@ -148,37 +148,6 @@ return out;
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_cplx_bs)]]
-SEXP rcpp_bc_cplx_bs(
-  SEXP x, SEXP y,
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx,
-  int op
-) {
-
-SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));
-Rcomplex *pout;
-pout = COMPLEX(out);
-
-const Rcomplex *px = COMPLEX(x);
-const Rcomplex *py = COMPLEX(y);
-
-
-MACRO_OP_CPLX_MATH(
-  MACRO_DIM_BIGSMALL_DOCALL
-);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
 // [[Rcpp::export(.rcpp_bc_cplx_d)]]
 SEXP rcpp_bc_cplx_d(
   SEXP x, SEXP y,

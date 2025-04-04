@@ -52,22 +52,7 @@ bc.list <- function(x, y, f) {
     RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
     out <- .rcpp_bc_list_ov(x, y, RxC, out.dimsimp, out.len, f)
   }
-  else if(dimmode == 3L){ # big-small mode
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
-    if(all(x.dim == out.dimsimp)) {
-      bigx <- TRUE
-    }
-    else {
-      bigx <- FALSE
-    }
-    out <- .rcpp_bc_list_bs(
-      x, y, by_x, by_y, dcp_x, dcp_y, as.integer(out.dimsimp), out.len, bigx, f
-    )
-  }
-  else if(dimmode == 4L) { # general mode
+  else if(dimmode == 3L) { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

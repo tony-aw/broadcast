@@ -125,43 +125,8 @@ return out;
 
 "
 
+
 txt3 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_b_bs)]]
-SEXP rcpp_bc_b_bs(
-  SEXP x, SEXP y,
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx,
-  int op
-) {
-
-
-int tempout;
-
-int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-
-const int *px = INTEGER(x);
-const int *py = INTEGER(y);
-
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
-
-MACRO_OP_B_ANDOR(MACRO_DIM_BIGSMALL_DOCALL);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-"
-
-
-txt4 <- "
 
 //' @keywords internal
 //' @noRd
@@ -199,7 +164,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2, txt3,
   collapse = "\n\n"
 )
 
@@ -208,7 +173,7 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2, txt3,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bc_b.cpp")

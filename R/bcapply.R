@@ -75,22 +75,7 @@ bcapply <- function(x, y, f, v = NULL) {
     RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
     .rcpp_bcapply_ov(out, x, y, RxC, out.dimsimp, out.len, fnew)
   }
-  else if(dimmode == 3L){ # big-small mode
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
-    if(all(x.dim == out.dimsimp)) {
-      bigx <- TRUE
-    }
-    else {
-      bigx <- FALSE
-    }
-    .rcpp_bcapply_bs(
-      out, x, y, by_x, by_y, dcp_x, dcp_y, as.integer(out.dimsimp), out.len, bigx, fnew
-    )
-  }
-  else if(dimmode == 4L) { # general mode
+  else if(dimmode == 3L) { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

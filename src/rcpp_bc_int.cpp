@@ -168,34 +168,6 @@ return out;
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_int_bs)]]
-SEXP rcpp_bc_int_bs(
-  SEXP x, SEXP y,
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx,
-  int op
-) {
-
-
-double tempout;
-
-SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
-double *pout;
-pout = REAL(out);
-
-MACRO_OP_INT_MATH(MACRO_DIM_BIGSMALL_DOCALL);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
 // [[Rcpp::export(.rcpp_bc_int_d)]]
 SEXP rcpp_bc_int_d(
   SEXP x, SEXP y,

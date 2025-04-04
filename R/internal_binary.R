@@ -107,13 +107,8 @@
     return(2L)
   }
   
-  # use big-small mode:
-  if(all(x.dim == out.dim) || all(y.dim == out.dim)) {
-    return(3L)
-  }
-  
   # use general mode:
-  return(4L)
+  return(3L)
   
 }
 

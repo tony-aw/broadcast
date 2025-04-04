@@ -80,30 +80,9 @@ MACRO_OP_BCAPPLY(MACRO_DIM_ORTHOVECTOR);
 
 "
 
+
+
 txt3 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcapply_bs)]]
-void rcpp_bcapply_bs(
-  SEXP out, SEXP x, SEXP y, 
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx,
-  Function f
-) {
-
-
-MACRO_OP_BCAPPLY(MACRO_DIM_BIGSMALL_DOCALL);
-
-
-}
-
-
-"
-
-
-txt4 <- "
 
 //' @keywords internal
 //' @noRd
@@ -128,20 +107,22 @@ MACRO_OP_BCAPPLY(MACRO_DIM_DOCALL);
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt1, txt2, txt3, txt4,
+  txt1, txt2, txt3,
   collapse = "\n\n"
 )
 
 Rcpp::sourceCpp(code = txt)
 
+setwd("..")
+
 txt <- stringi::stri_c(
   header_for_package,
-  txt1, txt2, txt3, txt4,
+  txt1, txt2, txt3,
   collapse = "\n\n"
 )
 
-setwd("..")
 readr::write_file(txt, "src/rcpp_bcapply.cpp")
+
 
 ################################################################################
 # small test ====

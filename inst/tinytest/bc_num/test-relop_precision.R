@@ -1,12 +1,15 @@
 
 # set-up ====
-tol <- 1e-6
-eps <- tol * 100 # large eps relative to tolerance, because Ubuntu's precision is REALLY bad
 enumerate <- 0 # to count number of tests performed using iterations in loops
-loops <- 0 # to count number of loops
+errorfun <- function(tt) {
+  if(isTRUE(tt)) print(tt)
+  if(isFALSE(tt)) stop(print(tt))
+}
+tol <- sqrt(.Machine$double.eps)
+eps <- tol * 10 # large eps relative to tolerance, because Ubuntu's precision is bad
 
-testfun <- function(x, y, op) {
-  out <- bc.d(x, y, op, prec = tol/10)
+testfun <- function(x, y, op, tol = sqrt(.Machine$double.eps)) {
+  out <- bc.d(x, y, op, tol = tol)
   out[is.na(out)] <- NA # because Ubuntu doesn't handle NaN and NA properly
   return(out)
 }
@@ -32,7 +35,7 @@ equal <- c(rep(TRUE, 3), rep(FALSE, 6), rep(NA, 6))
 smaller <- c(rep(FALSE, 6), rep(TRUE, 3), rep(NA, 6))
 bigger <- c(rep(FALSE, 3), rep(TRUE, 3), rep(FALSE, 3), rep(NA, 6))
 
-out <- testfun(x, y, "d==")
+out <- testfun(x, y, "d==", tol = tol)
 print(out)
 print(equal)
 expect_equal(out |> as.vector(), equal)
@@ -137,4 +140,84 @@ expect_equal(
 )
 
 enumerate <- enumerate + 6L
+
+
+
+# varying tolerance checks ====
+b <- sample(1:6)
+p <- sample(-5:-10)
+tol <- b*10^p
+
+for(i in tol) {
+  eps <- i * 10
+  
+  x <- c(
+    c(0.3, 0.6, 0.7),
+    c(0.3, 0.6, 0.7) + eps,
+    c(0.3, 0.6, 0.7) - eps,
+    NA, NaN, NA,
+    c(0.3, 0.6, 0.7)
+  ) |> as.array()
+  y <- c(
+    c(0.1*3, 0.1*6, 0.1*7),
+    c(0.1*3, 0.1*6, 0.1*7) - eps,
+    c(0.1*3, 0.1*6, 0.1*7) + eps,
+    c(0.1*3, 0.1*6, 0.1*7),
+    NA, NaN, NA
+  ) |> as.array()
+  
+  equal <- c(rep(TRUE, 3), rep(FALSE, 6), rep(NA, 6))
+  smaller <- c(rep(FALSE, 6), rep(TRUE, 3), rep(NA, 6))
+  bigger <- c(rep(FALSE, 3), rep(TRUE, 3), rep(FALSE, 3), rep(NA, 6))
+  
+  out <- testfun(x, y, "d==", tol = i)
+  print(out)
+  print(equal)
+  expect_equal(out |> as.vector(), equal) |> errorfun()
+  expect_equal(testfun(x, y, "d<=", tol = i) |> as.vector(), equal | smaller) |> errorfun()
+  expect_equal(testfun(x, y, "d>=", tol = i) |> as.vector(), equal | bigger) |> errorfun()
+  expect_equal(testfun(x, y, "d!=", tol = i) |> as.vector(), !equal) |> errorfun()
+  expect_equal(testfun(x, y, "d<", tol = i) |> as.vector(), !equal & smaller) |> errorfun()
+  expect_equal(testfun(x, y, "d>", tol = i) |> as.vector(), !equal & bigger) |> errorfun()
+  
+  enumerate <- enumerate + 6L
+  
+}
+
+
+
+# error checks ====
+x <- c(
+  c(0.3, 0.6, 0.7),
+  c(0.3, 0.6, 0.7) + eps,
+  c(0.3, 0.6, 0.7) - eps,
+  NA, NaN, NA,
+  c(0.3, 0.6, 0.7)
+) |> as.array()
+y <- c(
+  c(0.1*3, 0.1*6, 0.1*7),
+  c(0.1*3, 0.1*6, 0.1*7) - eps,
+  c(0.1*3, 0.1*6, 0.1*7) + eps,
+  c(0.1*3, 0.1*6, 0.1*7),
+  NA, NaN, NA
+) |> as.array()
+
+expect_error(
+  bc.d(x, y, "==", tol = 1),
+  pattern = "`tol` must be >= 0 and <= 0.1",
+  fixed = TRUE
+)
+
+expect_error(
+  bc.d(x, y, "==", tol = rep(1e-5, 10)),
+  pattern = "`tol` must be a single decimal number",
+  fixed = TRUE
+)
+
+expect_error(
+  bc.d(x, y, "==", tol = "0.01"),
+  pattern = "`tol` must be a single decimal number",
+  fixed = TRUE
+)
+enumerate <- enumerate + 3L
 

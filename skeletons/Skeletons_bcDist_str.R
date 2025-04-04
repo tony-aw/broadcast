@@ -170,37 +170,9 @@ return out;
 
 "
 
+
+
 txt3 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcDist_str_bs)]]
-SEXP rcpp_bcDist_str_bs(
-  CharacterVector x, CharacterVector y, 
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx,
-  int op
-) {
-
-
-
-SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
-int *pout;
-pout = INTEGER(out);
-
-MACRO_OP_STR_DIST(MACRO_DIM_BIGSMALL_DOCALL);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-"
-
-
-txt4 <- "
 
 //' @keywords internal
 //' @noRd
@@ -232,15 +204,17 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2, txt3,
   collapse = "\n\n"
 )
 
 Rcpp::sourceCpp(code = txt)
 
+setwd("..")
+
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2, txt3,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bcDist_str.cpp")

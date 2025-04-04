@@ -5,9 +5,9 @@
 \alias{bc.num}
 \title{Broadcasted Decimal Numeric Operations}
 \usage{
-bc.d(x, y, op, prec = sqrt(.Machine$double.eps))
+bc.d(x, y, op, tol = sqrt(.Machine$double.eps))
 
-bc.num(x, y, op, prec = sqrt(.Machine$double.eps))
+bc.num(x, y, op, tol = sqrt(.Machine$double.eps))
 }
 \arguments{
 \item{x, y}{conformable logical or numeric arrays.}
@@ -16,7 +16,7 @@ bc.num(x, y, op, prec = sqrt(.Machine$double.eps))
 Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. \cr
 Supported relational operators: ==, !=, <, >, <=, >=, d==, d!=, d<, d>, d<=, d>=. \cr}
 
-\item{prec}{a single number between 0 and 0.1, giving the machine precision to use. \cr
+\item{tol}{a single number between 0 and 0.1, giving the machine tolerance to use. \cr
 Only relevant for the following operators: \cr
 d==, d!=, d<, d>, d<=, d>= \cr
 See the

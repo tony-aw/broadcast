@@ -127,33 +127,6 @@ return out;
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bcDist_str_bs)]]
-SEXP rcpp_bcDist_str_bs(
-  CharacterVector x, CharacterVector y, 
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, bool bigx,
-  int op
-) {
-
-
-
-SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
-int *pout;
-pout = INTEGER(out);
-
-MACRO_OP_STR_DIST(MACRO_DIM_BIGSMALL_DOCALL);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
 // [[Rcpp::export(.rcpp_bcDist_str_d)]]
 SEXP rcpp_bcDist_str_d(
   CharacterVector x, CharacterVector y, 

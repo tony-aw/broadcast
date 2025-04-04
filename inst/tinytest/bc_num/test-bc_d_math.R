@@ -39,10 +39,10 @@ for(iSample in 1:5) { # re-do tests with different random configurations
     sample(c(-10:10, NA), 100, TRUE), # integer
     sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
   )
-  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
     x.len <- prod(x.dim)
-    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
 
@@ -134,10 +134,10 @@ for(iSample in 1:5) { # re-do tests with different random configurations
     sample(c(-10:10, NA), 100, TRUE), # integer
     sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
   )
-  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
     x.len <- prod(x.dim)
-    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
       
@@ -226,10 +226,10 @@ for(iSample in 1:5) { # re-do tests with different random configurations
     sample(c(-10:10, NA), 100, TRUE), # integer
     sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
   )
-  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
     x.len <- prod(x.dim)
-    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
       
@@ -318,10 +318,10 @@ for(iSample in 1:5) { # re-do tests with different random configurations
     sample(c(-10:10, NA), 100, TRUE), # integer
     sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
   )
-  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
     x.len <- prod(x.dim)
-    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
       
@@ -411,10 +411,10 @@ for(iSample in 1:5) { # re-do tests with different random configurations
     sample(c(-10:10, NA), 100, TRUE), # integer
     sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
   )
-  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
     x.len <- prod(x.dim)
-    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
       
@@ -503,10 +503,10 @@ for(iSample in 1:5) { # re-do tests with different random configurations
     sample(c(-10:10, NA), 100, TRUE), # integer
     sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
   )
-  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
     x.len <- prod(x.dim)
-    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
       
@@ -596,10 +596,10 @@ for(iSample in 1:5) { # re-do tests with different random configurations
     sample(c(-10:10, NA), 100, TRUE), # integer
     sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE) # double
   )
-  for(iDimX in c(1, 2, 5, 8, 9)) { # different dimensions for x
+  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
     x.len <- prod(x.dim)
-    for(iDimY in c(1, 2, 5, 8, 9)) { # different dimensions for y
+    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
       
