@@ -24,7 +24,7 @@ function processMathHTML() {
 Written in 'C' and 'C++' for high speed and memory efficiency. <br />
 <br />
 Roughly speaking, <code>acast()</code> can be thought of as the &quot;array&quot; analogy to
-<code>data.table::</code>dcast. <br />
+<code>data.table::dcast()</code>. <br />
 But note 2 important differences:
 </p>
 
@@ -42,7 +42,13 @@ instead of casting into new columns.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>acast(x, margin, grp, fill = FALSE)
+<pre><code class='language-R'>acast(
+  x,
+  margin,
+  grp,
+  fill = FALSE,
+  fill_val = if (is.atomic(x)) NA else list(NULL)
+)
 </code></pre>
 
 
@@ -67,12 +73,20 @@ Any <code>NA</code> values or levels found in <code>grp</code> will result in an
 </td></tr>
 <tr><td><code id="fill">fill</code></td>
 <td>
-<p>Boolean, indicating if missing values should be filled. <br />
-This is used in case the levels of <code>grp</code> do not have equal frequencies,
-and thus additional values must be filled. <br />
-If <code>x</code> is atomic but not <code>raw</code>, missing values are filled with <code>NA</code>. <br />
-If <code>x</code> is recursive, missing values are filled with <code>list(NULL)</code>. <br />
-If <code>x</code> is of type <code>raw</code>, uneven groupings are not supported.</p>
+<p>Boolean. <br />
+When factor <code>grp</code> is unbalanced (i.e. has unequally sized groups)
+the result will be an array where some slices have missing values, which need to be filled.
+If <code>fill = TRUE</code>, an unbalanced <code>grp</code> factor is allowed,
+and missing values will be filled with <code>fill_val</code>. <br />
+If <code>fill = FALSE</code> (default), an unbalanced <code>grp</code> factor is not allowed,
+and providing an unbalanced factor for <code>grp</code> produces an error. <br />
+When <code>x</code> has type of <code>raw</code>, unbalanced <code>grp</code> is never allowed.</p>
+</td></tr>
+<tr><td><code id="fill_val">fill_val</code></td>
+<td>
+<p>scalar of the same type of <code>x</code>,
+giving value to use to fill in the gaps when <code>fill = TRUE</code>. <br />
+The <code>fill_val</code> argument is ignored when <code>fill = FALSE</code> or when <code>x</code> has type of <code>raw</code>.</p>
 </td></tr>
 </table>
 

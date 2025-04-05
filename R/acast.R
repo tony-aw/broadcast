@@ -21,12 +21,17 @@
 #' Each group will be cast onto a separate index of dimension `ndim(x) + 1`. \cr
 #' Unused levels of `grp` will be dropped. \cr
 #' Any `NA` values or levels found in `grp` will result in an error.
-#' @param fill Boolean, indicating if missing values should be filled. \cr
-#' This is used in case the levels of `grp` do not have equal frequencies,
-#' and thus additional values must be filled. \cr
-#' If `x` is atomic but not `raw`, missing values are filled with `NA`. \cr
-#' If `x` is recursive, missing values are filled with `list(NULL)`. \cr
-#' If `x` is of type `raw`, uneven groupings are not supported.
+#' @param fill Boolean. \cr
+#' When factor `grp` is unbalanced (i.e. has unequally sized groups)
+#' the result will be an array where some slices have missing values, which need to be filled.
+#' If `fill = TRUE`, an unbalanced `grp` factor is allowed,
+#' and missing values will be filled with `fill_val`. \cr
+#' If `fill = FALSE` (default), an unbalanced `grp` factor is not allowed,
+#' and providing an unbalanced factor for `grp` produces an error. \cr
+#' When `x` has type of `raw`, unbalanced `grp` is never allowed.
+#' @param fill_val scalar of the same type of `x`,
+#' giving value to use to fill in the gaps when `fill = TRUE`. \cr
+#' The `fill_val` argument is ignored when `fill = FALSE` or when `x` has type of `raw`.
 #' 
 #' 
 #' @details
@@ -76,14 +81,16 @@
 
 #' @rdname acast
 #' @export
-acast <- function(x, margin, grp, fill = FALSE) {
+acast <- function(
+    x, margin, grp, fill = FALSE, fill_val = if(is.atomic(x)) NA else list(NULL)
+) {
   
   # first checks:
   .acast_stop_margin(margin, x, sys.call())
   margin <- as.integer(margin)
   .acast_stop_x(x, margin, sys.call())
   .acast_stop_grp(grp, x, margin, sys.call())
-  .acast_stop_fill(fill, sys.call())
+  .acast_stop_fill(fill, fill_val, x, sys.call())
   grp <- droplevels(grp, exclude = NA) # drop unused or missing levels
   if(max(unclass(grp)) != nlevels(grp)) {
     stop("`grp` malformed")
@@ -115,12 +122,8 @@ acast <- function(x, margin, grp, fill = FALSE) {
   out.ndim <- ndim(x) + 1L
   out.dimchunk <- c(out.dim, rep(1L, 16L - out.ndim))
   
-  if(!is.raw(x)) {
-    fillvalue <- .return_missing(x[1L])
-  }
-  else {
-    fillvalue <- as.raw(0L)
-  }
+  coerce <- .type_alias_coerce(typeof(x), sys.call())
+  fillvalue <- coerce(fill_val)
   
   .acast_stop_out(out.dim, sys.call())
   

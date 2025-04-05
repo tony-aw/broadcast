@@ -291,7 +291,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="simple-and-fast-castingpivoting-of-an-array">Simple and Fast Casting/Pivoting of an Array</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>The <code>acast()</code> function spreads subsets of an array margin over a new dimension. <br> Written in ‘C’ and ‘C++’ for high speed and memory efficiency. <br> <br> Roughly speaking, <code>acast()</code> can be thought of as the "array" analogy to <code>data.table::</code>dcast. <br> But note 2 important differences:</p>
+<p>The <code>acast()</code> function spreads subsets of an array margin over a new dimension. <br> Written in ‘C’ and ‘C++’ for high speed and memory efficiency. <br> <br> Roughly speaking, <code>acast()</code> can be thought of as the "array" analogy to <code>data.table::dcast()</code>. <br> But note 2 important differences:</p>
 <ul>
 <li>
 <p><code>acast()</code> works on arrays instead of data.tables.</p>
@@ -303,7 +303,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">acast(x, margin, grp, fill = FALSE)
+<pre><code class="language-R">acast(
+  x,
+  margin,
+  grp,
+  fill = FALSE,
+  fill_val = if (is.atomic(x)) NA else list(NULL)
+)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -339,7 +345,15 @@ a factor, where <code>length(grp) == dim(x)[margin]</code>, with at least <code>
 <code id="fill">fill</code>
 </td>
 <td>
-Boolean, indicating if missing values should be filled. <br> This is used in case the levels of <code>grp</code> do not have equal frequencies, and thus additional values must be filled. <br> If <code>x</code> is atomic but not <code>raw</code>, missing values are filled with <code>NA</code>. <br> If <code>x</code> is recursive, missing values are filled with <code>list(NULL)</code>. <br> If <code>x</code> is of type <code>raw</code>, uneven groupings are not supported.
+Boolean. <br> When factor <code>grp</code> is unbalanced (i.e.&nbsp;has unequally sized groups) the result will be an array where some slices have missing values, which need to be filled. If <code>fill = TRUE</code>, an unbalanced <code>grp</code> factor is allowed, and missing values will be filled with <code>fill_val</code>. <br> If <code>fill = FALSE</code> (default), an unbalanced <code>grp</code> factor is not allowed, and providing an unbalanced factor for <code>grp</code> produces an error. <br> When <code>x</code> has type of <code>raw</code>, unbalanced <code>grp</code> is never allowed.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="fill_val">fill_val</code>
+</td>
+<td>
+scalar of the same type of <code>x</code>, giving value to use to fill in the gaps when <code>fill = TRUE</code>. <br> The <code>fill_val</code> argument is ignored when <code>fill = FALSE</code> or when <code>x</code> has type of <code>raw</code>.
 </td>
 </tr>
 
@@ -390,14 +404,14 @@ Boolean, indicating if missing values should be filled. <br> This is used in cas
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">each =</span> <span class="dv">2</span>), <span class="dv">1</span>), <span class="at">grp =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">2</span>), <span class="at">val =</span> <span class="fu">rnorm</span>(<span class="dv">7</span>))</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">##      id grp         val</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  1   1 -0.71537932</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  1   2  0.06921424</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]  2   1 -0.70922200</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,]  2   2  1.32624824</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,]  3   1  0.23267997</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="do">## [6,]  3   2 -1.20309487</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## [7,]  1   2 -0.77557202</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">##      id grp        val</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  1   1 -0.3522636</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  1   2 -1.0548565</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]  2   1  1.2500079</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,]  2   2  0.9756140</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,]  3   1  0.9914535</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="do">## [6,]  3   2  1.7870643</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## [7,]  1   2  1.7280354</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>grp <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(x[, <span class="dv">2</span>])</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(grp) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>)</span>
@@ -407,18 +421,18 @@ Boolean, indicating if missing values should be filled. <br> This is used in cas
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="do">## , , a</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="do">##      id grp        val</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  1   1 -0.7153793</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  2   1 -0.7092220</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]  3   1  0.2326800</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  1   1 -0.3522636</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  2   1  1.2500079</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]  3   1  0.9914535</span></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] NA  NA         NA</span></span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">## , , b</span></span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="do">##      id grp         val</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  1   2  0.06921424</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  2   2  1.32624824</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]  3   2 -1.20309487</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,]  1   2 -0.77557202</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="do">##      id grp       val</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  1   2 -1.054857</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  2   2  0.975614</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]  3   2  1.787064</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,]  1   2  1.728035</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

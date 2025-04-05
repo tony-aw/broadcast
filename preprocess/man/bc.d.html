@@ -28,9 +28,9 @@ performs broadcasted decimal numeric operations on 2 numeric or logical arrays. 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>bc.d(x, y, op, prec = sqrt(.Machine$double.eps))
+<pre><code class='language-R'>bc.d(x, y, op, tol = sqrt(.Machine$double.eps))
 
-bc.num(x, y, op, prec = sqrt(.Machine$double.eps))
+bc.num(x, y, op, tol = sqrt(.Machine$double.eps))
 </code></pre>
 
 
@@ -47,9 +47,9 @@ bc.num(x, y, op, prec = sqrt(.Machine$double.eps))
 Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. <br />
 Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;=. <br /></p>
 </td></tr>
-<tr><td><code id="prec">prec</code></td>
+<tr><td><code id="tol">tol</code></td>
 <td>
-<p>a single number between 0 and 0.1, giving the machine precision to use. <br />
+<p>a single number between 0 and 0.1, giving the machine tolerance to use. <br />
 Only relevant for the following operators: <br />
 d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;= <br />
 See the

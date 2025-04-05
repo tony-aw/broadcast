@@ -38,3 +38,34 @@
   }
   return(x)
 }
+
+
+#' @keywords internal
+#' @noRd
+.type_alias_coerce <- function(out.type, abortcall) {
+  if(out.type == "list") {
+    coerce <- as.list
+  }
+  else if(out.type == "character") {
+    coerce <- as.character
+  }
+  else if(out.type == "complex") {
+    coerce <- as.complex
+  }
+  else if(out.type == "double") {
+    coerce <- as.double
+  }
+  else if(out.type == "integer") {
+    coerce <- as.integer
+  }
+  else if(out.type == "logical") {
+    coerce <- as.logical
+  }
+  else if(out.type == "raw") {
+    coerce <- as.raw
+  }
+  else {
+    stop(simpleError("unknown type", call = abortcall))
+  }
+  return(coerce)
+}

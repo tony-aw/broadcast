@@ -141,7 +141,7 @@ out <- acast(x, margin, grp, fill = TRUE)
 print(out)
 ```
 
-Notice that some values are missing ( `NA` ); if some groups have unequal number of elements, [acast()](/man/acast.qmd) needs to fill the gaps with missing values.
+Notice that some values are missing ( `NA` ); if some groups have unequal number of elements, [acast()](/man/acast.qmd) needs to fill the gaps with missing values. By default, gaps are filled with `NA` if `x` is atomic, and with `list(NULL)` if `x` is recursive. The user can change the filling value through the `fill_value` argument.
 
 Once again, we can get the original array back when we're done like so:
 

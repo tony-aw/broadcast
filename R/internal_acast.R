@@ -51,11 +51,16 @@
 
 #' @keywords internal
 #' @noRd
-.acast_stop_fill <- function(fill, abortcall) {
+.acast_stop_fill <- function(fill, fill_val, x, abortcall) {
   if(!isTRUE(fill) && !isFALSE(fill)) {
     stop(simpleError("`fill` must be `TRUE` or `FALSE`", call = abortcall))
   }
-  
+  if(length(fill_val) != 1L) {
+    stop(simpleError("`fill_val` must be a single scalar", call = abortcall))
+  }
+  if(is.atomic(fill_val) != is.atomic(x)) {
+    stop(simpleError("`is.atomic(fill_val)` must match `is.atomic(x)`", call = abortcall))
+  }
 }
 
 

@@ -62,14 +62,14 @@ The pairs of arrays are fully orthogonal ("orthogonal" in the sense as explained
 Given, for example, 4-dimensional arrays, the dimensions of `x` are `(n, 1, n, 1)` and the dimensions of `y` are `(1, n, 1, n)`.  
 The value of `n`, so the size of each dimension, varies as follows: 
 
- - For 2-dimensional arrays, `n` goes from 1000 to 3000, with steps of 200.
- - For 3-dimensional arrays, `n` goes from 50 to 200, with steps of 10.
- - For 4-dimensional arrays, `n` goes from 10 to 55, with steps of 5.
- - For 5-dimensional arrays, `n` goes from 5 to 25, with steps of 5.
- - For 6-dimensional arrays, `n` goes from 1 to 15, with steps of 2.
- - For 7-dimensional arrays, `n` goes from 1 to 10, with steps of 1.
+ - For 2-dimensional arrays, `n` goes from 1250 to 9500, with step size 750.
+ - For 3-dimensional arrays, `n` goes from 65 to 450, with step size 35.
+ - For 4-dimensional arrays, `n` goes from 9 to 99, with step size 10.
+ - For 5-dimensional arrays, `n` goes from 6 to 39, with step size 3.
+ - For 6-dimensional arrays, `n` goes from 3 to 21, with step size 2.
+ - For 7-dimensional arrays, `n` goes from 2 to 14, with step size 1.
 
-These values `n` have been chosen such that, when `n` is at its highest value, the broadcasted element-wise addition of `x` and `y` results in an array with approximately `9e7` elements (a little shy of 100 million elements).
+These values `n` have been chosen as follows. The maximum `n` is chosen such that the broadcasted element-wise addition of `x` and `y` results in an array with approximately `9e7` elements (a little shy of 100 million elements). The minimum `n` is one-seventh of that value. And the step size is chosen such that the sequence has a length between 10 and 15
 
 For each pair of arrays, the element-wise addition is computed using 'broadcast' and 'Numpy'. This computation is repeated 100 times. From these 100 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between 'broadcast' and 'Numpy' fair, and these caveats are explained in the next sub-section.
 
@@ -101,13 +101,15 @@ Operations like power (`^`) and division (`/`) need to handle special cases (lik
 
 ## Resources used
 
-The 'benchmark' package was used for measuring speed in R, as this package can also be used to check and filter for garbage collector calls
+The 'benchmark' package was used for measuring speed in `r fa("r-project")`, as this package can also be used to check and filter for garbage collector calls.
 
-In 'Python', the `time.perf_counter()` function is used to accurately measure the time an operation takes. To ensure no time is spent on printing the result in 'Python', the operation `a + b` is wrapped inside a function without a return statement.
+In 'Python', the `time.perf_counter()` function is used to accurately measure the time an operation takes. To ensure no time is wasted on printing the result in 'Python', the operation `a + b` is wrapped inside a function without a return statement.
 
 The plots are created using the 'tinyplot' package, to display the median, first quartile, and third quartile, of the computation times.
 
-The code used to run the benchmarks can be found at the bottom of this page.
+The benchmarks were run on a laptop  (processor: 12th Gen Intel(R) Core(TM) i5-12500H 2.50 GHz) with 32GB of Ram and running Windows 11 (64 bit).
+
+The code used to run the benchmarks can be found at the bottom of this page. `r fa("r-project")` version 4.4.0 was used to run the `r fa("r-project")` code, and 'Python' version 3.12.0 with 'Numpy' version 2.2.1 was used to run the 'Python' code
 
 
 &nbsp;
@@ -457,7 +459,8 @@ get_times <- function(obj, j) {
 
 # loop 2d ====
 gc()
-dimsizes <- seq(1500L, 9500L,  by = 750L)
+dimsizes <- seq(1250L, 9500L,  by = 750L)
+print(dimsizes)
 niter <- length(dimsizes)
 median_bc <- q1_bc <- q3_bc <- vector("numeric", niter)
 counter <- 1L
@@ -500,7 +503,8 @@ save(
 
 # loop 3d ====
 gc()
-dimsizes <- seq(150L, 450L,  by = 25L)
+dimsizes <- seq(65L, 450L,  by = 35L)
+print(dimsizes)
 niter <- length(dimsizes)
 median_bc <- q1_bc <- q3_bc <- vector("numeric", niter)
 counter <- 1L
@@ -545,7 +549,8 @@ save(
 
 # loop 4d ====
 gc()
-dimsizes <- seq(34L, 99L,  by = 5L)
+dimsizes <- seq(9L, 99L,  by = 10L)
+print(dimsizes)
 niter <- length(dimsizes)
 median_bc <- q1_bc <- q3_bc <- vector("numeric", niter)
 counter <- 1L
@@ -592,7 +597,8 @@ save(
 
 # loop 5d ====
 gc()
-dimsizes <- seq(14L, 39L,  by = 2L)
+dimsizes <- seq(6L, 39L,  by = 3L)
+print(dimsizes)
 niter <- length(dimsizes)
 median_bc <- q1_bc <- q3_bc <- vector("numeric", niter)
 counter <- 1L
@@ -639,7 +645,8 @@ save(
 
 # loop 6d ====
 gc()
-dimsizes <- seq(3L, 21L,  by = 3L)
+dimsizes <- seq(3L, 21L,  by = 2L)
+print(dimsizes)
 niter <- length(dimsizes)
 median_bc <- q1_bc <- q3_bc <- vector("numeric", niter)
 counter <- 1L
@@ -686,6 +693,7 @@ save(
 # loop 7d ====
 gc()
 dimsizes <- seq(2L, 14L,  by = 1L)
+print(dimsizes)
 niter <- length(dimsizes)
 median_bc <- q1_bc <- q3_bc <- vector("numeric", niter)
 counter <- 1L
@@ -752,7 +760,7 @@ def myfunc(a, b):
 
 # 2d array #
 gc.disable()
-dimsizes = np.arange(1500, 9501, 750)
+dimsizes = np.arange(1250, 9501, 750)
 median_np = np.zeros(len(dimsizes))
 q1_np = np.zeros(len(dimsizes))
 q3_np = np.zeros(len(dimsizes))
@@ -787,7 +795,7 @@ np.savetxt("benchmarks/bm_py_2d_q3.txt", q3_np)
 
 # 3d array #
 gc.disable()
-dimsizes = np.arange(150, 451, 25)
+dimsizes = np.arange(65, 451, 35)
 median_np = np.zeros(len(dimsizes))
 q1_np = np.zeros(len(dimsizes))
 q3_np = np.zeros(len(dimsizes))
@@ -823,7 +831,7 @@ np.savetxt("benchmarks/bm_py_3d_q3.txt", q3_np)
 
 # 4d array #
 gc.disable()
-dimsizes = np.arange(34, 100, 5)
+dimsizes = np.arange(9, 100, 10)
 median_np = np.zeros(len(dimsizes))
 q1_np = np.zeros(len(dimsizes))
 q3_np = np.zeros(len(dimsizes))
@@ -857,7 +865,7 @@ np.savetxt("benchmarks/bm_py_4d_q3.txt", q3_np)
 
 # 5d array #
 gc.disable()
-dimsizes = np.arange(14, 40, 2)
+dimsizes = np.arange(6, 40, 3)
 median_np = np.zeros(len(dimsizes))
 q1_np = np.zeros(len(dimsizes))
 q3_np = np.zeros(len(dimsizes))
@@ -893,7 +901,7 @@ np.savetxt("benchmarks/bm_py_5d_q3.txt", q3_np)
 
 # 6d array #
 gc.disable()
-dimsizes = np.arange(3, 22, 3)
+dimsizes = np.arange(3, 22, 2)
 median_np = np.zeros(len(dimsizes))
 q1_np = np.zeros(len(dimsizes))
 q3_np = np.zeros(len(dimsizes))

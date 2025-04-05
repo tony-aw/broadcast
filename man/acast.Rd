@@ -4,7 +4,13 @@
 \alias{acast}
 \title{Simple and Fast Casting/Pivoting of an Array}
 \usage{
-acast(x, margin, grp, fill = FALSE)
+acast(
+  x,
+  margin,
+  grp,
+  fill = FALSE,
+  fill_val = if (is.atomic(x)) NA else list(NULL)
+)
 }
 \arguments{
 \item{x}{an atomic or recursive array.}
@@ -17,12 +23,18 @@ Each group will be cast onto a separate index of dimension \code{ndim(x) + 1}. \
 Unused levels of \code{grp} will be dropped. \cr
 Any \code{NA} values or levels found in \code{grp} will result in an error.}
 
-\item{fill}{Boolean, indicating if missing values should be filled. \cr
-This is used in case the levels of \code{grp} do not have equal frequencies,
-and thus additional values must be filled. \cr
-If \code{x} is atomic but not \code{raw}, missing values are filled with \code{NA}. \cr
-If \code{x} is recursive, missing values are filled with \code{list(NULL)}. \cr
-If \code{x} is of type \code{raw}, uneven groupings are not supported.}
+\item{fill}{Boolean. \cr
+When factor \code{grp} is unbalanced (i.e. has unequally sized groups)
+the result will be an array where some slices have missing values, which need to be filled.
+If \code{fill = TRUE}, an unbalanced \code{grp} factor is allowed,
+and missing values will be filled with \code{fill_val}. \cr
+If \code{fill = FALSE} (default), an unbalanced \code{grp} factor is not allowed,
+and providing an unbalanced factor for \code{grp} produces an error. \cr
+When \code{x} has type of \code{raw}, unbalanced \code{grp} is never allowed.}
+
+\item{fill_val}{scalar of the same type of \code{x},
+giving value to use to fill in the gaps when \code{fill = TRUE}. \cr
+The \code{fill_val} argument is ignored when \code{fill = FALSE} or when \code{x} has type of \code{raw}.}
 }
 \value{
 An array with the following properties:
