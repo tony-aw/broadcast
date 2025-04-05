@@ -101,6 +101,8 @@ enumerate <- enumerate + 7L
 
 
 # fill errors ====
+x <- array(1:64, c(4,4,4))
+grp <- as.factor(rep_len(1:3, 4))
 expect_error(
   acast(x, 1L, grp, NA),
   pattern = "`fill` must be `TRUE` or `FALSE`"
@@ -109,7 +111,16 @@ expect_error(
   acast(x, 1L, grp, c(TRUE, FALSE)),
   pattern = "`fill` must be `TRUE` or `FALSE`"
 )
-enumerate <- enumerate + 2L
+expect_error(
+  acast(x, 1L, grp, TRUE, 1:10),
+  pattern = "`fill_val` must be a single scalar"
+)
+expect_error(
+  acast(x, 1L, grp, TRUE, list(NULL)),
+  pattern = "`is.atomic(fill_val)` must match `is.atomic(x)`",
+  fixed = TRUE
+)
+enumerate <- enumerate + 4L
 
 
 

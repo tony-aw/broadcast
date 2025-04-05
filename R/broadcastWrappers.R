@@ -44,4 +44,3 @@
 .C_make_by <- function(x) {
   .Call("C_make_by", target_dim = as.integer(x))
 }
-

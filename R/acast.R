@@ -86,6 +86,7 @@ acast <- function(
 ) {
   
   # first checks:
+  if(is.null(fill_val)) fill_val <- list(NULL)
   .acast_stop_margin(margin, x, sys.call())
   margin <- as.integer(margin)
   .acast_stop_x(x, margin, sys.call())
@@ -139,7 +140,7 @@ acast <- function(
   
   
   # CORE function:
-  rcpp_acast(out, x, starts, lens, subs, dcp_out, dcp_x, grp, grp_n, margin, newdim)
+  .rcpp_acast(out, x, starts, lens, subs, dcp_out, dcp_x, grp, grp_n, margin, newdim)
   
   
   # make dimnames:

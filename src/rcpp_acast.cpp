@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 
 
-// [[Rcpp::export(rcpp_factor_count)]]
+// [[Rcpp::export(.rcpp_factor_count)]]
 int rcpp_factor_count(
   SEXP grp, int j
 ) {
@@ -23,7 +23,7 @@ int rcpp_factor_count(
   return count;
 }
 
-// [[Rcpp::export(rcpp_factor_which)]]
+// [[Rcpp::export(.rcpp_factor_which)]]
 SEXP rcpp_factor_which(
   SEXP grp, int j, int size
 ) {
@@ -46,7 +46,7 @@ SEXP rcpp_factor_which(
 }
 
 
-// [[Rcpp::export(rcpp_acast)]]
+// [[Rcpp::export(.rcpp_acast)]]
 void rcpp_acast(
   SEXP out, SEXP y, const SEXP starts, const SEXP lens, const SEXP subs,
   const SEXP dcp_out, const SEXP dcp_y, SEXP grp, int grp_n, int margin, int newdim
