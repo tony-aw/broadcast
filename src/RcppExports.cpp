@@ -36,8 +36,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_acast
-void rcpp_acast(SEXP out, SEXP y, const SEXP starts, const SEXP lens, const SEXP subs, const SEXP dcp_out, const SEXP dcp_y, SEXP grp, int grp_n, int margin, int newdim);
-RcppExport SEXP _broadcast_rcpp_acast(SEXP outSEXP, SEXP ySEXP, SEXP startsSEXP, SEXP lensSEXP, SEXP subsSEXP, SEXP dcp_outSEXP, SEXP dcp_ySEXP, SEXP grpSEXP, SEXP grp_nSEXP, SEXP marginSEXP, SEXP newdimSEXP) {
+void rcpp_acast(SEXP out, SEXP y, const SEXP starts, const SEXP lens, const SEXP subs, const SEXP out_dim, const SEXP dcp_out, const SEXP dcp_y, SEXP grp, int grp_n, int margin, int newdim);
+RcppExport SEXP _broadcast_rcpp_acast(SEXP outSEXP, SEXP ySEXP, SEXP startsSEXP, SEXP lensSEXP, SEXP subsSEXP, SEXP out_dimSEXP, SEXP dcp_outSEXP, SEXP dcp_ySEXP, SEXP grpSEXP, SEXP grp_nSEXP, SEXP marginSEXP, SEXP newdimSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type out(outSEXP);
@@ -45,13 +45,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const SEXP >::type starts(startsSEXP);
     Rcpp::traits::input_parameter< const SEXP >::type lens(lensSEXP);
     Rcpp::traits::input_parameter< const SEXP >::type subs(subsSEXP);
+    Rcpp::traits::input_parameter< const SEXP >::type out_dim(out_dimSEXP);
     Rcpp::traits::input_parameter< const SEXP >::type dcp_out(dcp_outSEXP);
     Rcpp::traits::input_parameter< const SEXP >::type dcp_y(dcp_ySEXP);
     Rcpp::traits::input_parameter< SEXP >::type grp(grpSEXP);
     Rcpp::traits::input_parameter< int >::type grp_n(grp_nSEXP);
     Rcpp::traits::input_parameter< int >::type margin(marginSEXP);
     Rcpp::traits::input_parameter< int >::type newdim(newdimSEXP);
-    rcpp_acast(out, y, starts, lens, subs, dcp_out, dcp_y, grp, grp_n, margin, newdim);
+    rcpp_acast(out, y, starts, lens, subs, out_dim, dcp_out, dcp_y, grp, grp_n, margin, newdim);
     return R_NilValue;
 END_RCPP
 }
@@ -882,7 +883,7 @@ RcppExport SEXP C_pmax(SEXP, SEXP);
 static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_factor_count", (DL_FUNC) &_broadcast_rcpp_factor_count, 2},
     {"_broadcast_rcpp_factor_which", (DL_FUNC) &_broadcast_rcpp_factor_which, 3},
-    {"_broadcast_rcpp_acast", (DL_FUNC) &_broadcast_rcpp_acast, 11},
+    {"_broadcast_rcpp_acast", (DL_FUNC) &_broadcast_rcpp_acast, 12},
     {"_broadcast_rcpp_str_dist_led", (DL_FUNC) &_broadcast_rcpp_str_dist_led, 2},
     {"_broadcast_rcpp_bcDist_str_v", (DL_FUNC) &_broadcast_rcpp_bcDist_str_v, 4},
     {"_broadcast_rcpp_bcDist_str_ov", (DL_FUNC) &_broadcast_rcpp_bcDist_str_ov, 6},

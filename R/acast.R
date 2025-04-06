@@ -109,19 +109,22 @@ acast <- function(
   # check special properties:
   .acast_stop_properties(x, margin, grp, fill, grp_uneven, sys.call())
   
-  
   # get x properties:
   x.dim <- dim(x)
   x.ndim <- ndim(x)
-  x.dimchunk <- c(x.dim, rep(1L, 16L - x.ndim))
   newdim <- x.ndim + 1L
+  
+  # determine dimchunksize:
+  dimchunksize <- .acast_get_dimchunksize(x.ndim + 1L)
+  x.dimchunk <- c(x.dim, rep(1L, dimchunksize - x.ndim))
+  
   
   
   # create output:
   out.dim <- c(dim(x), grp_n)
   out.dim[margin] <- grp_mode
   out.ndim <- ndim(x) + 1L
-  out.dimchunk <- c(out.dim, rep(1L, 16L - out.ndim))
+  out.dimchunk <- c(out.dim, rep(1L, dimchunksize - out.ndim))
   
   coerce <- .type_alias_coerce(typeof(x), sys.call())
   fillvalue <- coerce(fill_val)
@@ -132,15 +135,15 @@ acast <- function(
   
   
   # pre params:
-  subs <- lapply(1:16L, \(i)1:x.dimchunk[i])
-  starts <- rep(0L, 16L)
+  subs <- lapply(1:dimchunksize, \(i)1:x.dimchunk[i])
+  starts <- rep(0L, dimchunksize)
   lens <- lengths(subs)
-  dcp_out <- cumprod(c(1, out.dimchunk))[1:16]
-  dcp_x <- cumprod(c(1, x.dimchunk))[1:16]
+  dcp_out <- cumprod(c(1, out.dimchunk))[1:dimchunksize]
+  dcp_x <- cumprod(c(1, x.dimchunk))[1:dimchunksize]
   
   
   # CORE function:
-  .rcpp_acast(out, x, starts, lens, subs, dcp_out, dcp_x, grp, grp_n, margin, newdim)
+  .rcpp_acast(out, x, starts, lens, subs, out.dimchunk, dcp_out, dcp_x, grp, grp_n, margin, newdim)
   
   
   # make dimnames:

@@ -13,22 +13,183 @@
 // 
 
 
-#define MACRO_DIM_ACAST(DOCODE) do {              \
-  if(Rf_length(subs) < 16) {                     \
-    stop("subs not of length 16");              \
-  }                                               \
-  if(Rf_length(starts) < 16) {                   \
-    stop("starts not of length 16");            \
-  }                                               \
-  if(Rf_length(lens) < 16) {                     \
-    stop("lens not of length 16");              \
-  }                                               \
-  if(Rf_length(dcp_y) < 16) {                    \
-    stop("dcp_y not of length 16");             \
-  }                                               \
-  if(Rf_length(dcp_out) < 16) {                  \
-    stop("dcp_out not of length 16");           \
-  }                                               \
+#define MACRO_ACAST_DIM_2(DOCODE) do {              \
+                                                  \
+  const double *pdcp_out = REAL_RO(dcp_out);      \
+  const double *pdcp_y = REAL_RO(dcp_y);          \
+                                                  \
+  const int *pstarts = INTEGER_RO(starts);        \
+                                                  \
+                                                  \
+  const int N1 = INTEGER(lens)[0];	\
+const int N2 = INTEGER(lens)[1];	\
+                                                  \
+  const SEXP ind1 = VECTOR_ELT(subs2, 0);	\
+const SEXP ind2 = VECTOR_ELT(subs2, 1);	\
+                                                  \
+  const int *pind1 = INTEGER_RO(ind1);	\
+const int *pind2 = INTEGER_RO(ind2);	\
+                                                  \
+  R_xlen_t flatind_out;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_out1, i_out2; \
+  R_xlen_t i_y1, i_y2; \
+  	 for(int iter2 = 0; iter2 < N2; ++iter2) {	\
+i_out2 = (pstarts[1] + iter2) * pdcp_out[1];	\
+i_y2 = (pind2[iter2] - 1) * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < N1; ++iter1) {	\
+i_out1 = (pstarts[0] + iter1) * pdcp_out[0];	\
+i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
+        flatind_out = i_out1 + i_out2;       \
+        flatind_y = i_y1 + i_y2;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        flatind_out++;                      \
+  	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_ACAST_DIM_4(DOCODE) do {              \
+                                                  \
+  const double *pdcp_out = REAL_RO(dcp_out);      \
+  const double *pdcp_y = REAL_RO(dcp_y);          \
+                                                  \
+  const int *pstarts = INTEGER_RO(starts);        \
+                                                  \
+                                                  \
+  const int N1 = INTEGER(lens)[0];	\
+const int N2 = INTEGER(lens)[1];	\
+const int N3 = INTEGER(lens)[2];	\
+const int N4 = INTEGER(lens)[3];	\
+                                                  \
+  const SEXP ind1 = VECTOR_ELT(subs2, 0);	\
+const SEXP ind2 = VECTOR_ELT(subs2, 1);	\
+const SEXP ind3 = VECTOR_ELT(subs2, 2);	\
+const SEXP ind4 = VECTOR_ELT(subs2, 3);	\
+                                                  \
+  const int *pind1 = INTEGER_RO(ind1);	\
+const int *pind2 = INTEGER_RO(ind2);	\
+const int *pind3 = INTEGER_RO(ind3);	\
+const int *pind4 = INTEGER_RO(ind4);	\
+                                                  \
+  R_xlen_t flatind_out;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_out1, i_out2, i_out3, i_out4; \
+  R_xlen_t i_y1, i_y2, i_y3, i_y4; \
+  	 for(int iter4 = 0; iter4 < N4; ++iter4) {	\
+i_out4 = (pstarts[3] + iter4) * pdcp_out[3];	\
+i_y4 = (pind4[iter4] - 1) * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < N3; ++iter3) {	\
+i_out3 = (pstarts[2] + iter3) * pdcp_out[2];	\
+i_y3 = (pind3[iter3] - 1) * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < N2; ++iter2) {	\
+i_out2 = (pstarts[1] + iter2) * pdcp_out[1];	\
+i_y2 = (pind2[iter2] - 1) * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < N1; ++iter1) {	\
+i_out1 = (pstarts[0] + iter1) * pdcp_out[0];	\
+i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
+        flatind_out = i_out1 + i_out2 + i_out3 + i_out4;       \
+        flatind_y = i_y1 + i_y2 + i_y3 + i_y4;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        flatind_out++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_ACAST_DIM_8(DOCODE) do {              \
+                                                  \
+  const double *pdcp_out = REAL_RO(dcp_out);      \
+  const double *pdcp_y = REAL_RO(dcp_y);          \
+                                                  \
+  const int *pstarts = INTEGER_RO(starts);        \
+                                                  \
+                                                  \
+  const int N1 = INTEGER(lens)[0];	\
+const int N2 = INTEGER(lens)[1];	\
+const int N3 = INTEGER(lens)[2];	\
+const int N4 = INTEGER(lens)[3];	\
+const int N5 = INTEGER(lens)[4];	\
+const int N6 = INTEGER(lens)[5];	\
+const int N7 = INTEGER(lens)[6];	\
+const int N8 = INTEGER(lens)[7];	\
+                                                  \
+  const SEXP ind1 = VECTOR_ELT(subs2, 0);	\
+const SEXP ind2 = VECTOR_ELT(subs2, 1);	\
+const SEXP ind3 = VECTOR_ELT(subs2, 2);	\
+const SEXP ind4 = VECTOR_ELT(subs2, 3);	\
+const SEXP ind5 = VECTOR_ELT(subs2, 4);	\
+const SEXP ind6 = VECTOR_ELT(subs2, 5);	\
+const SEXP ind7 = VECTOR_ELT(subs2, 6);	\
+const SEXP ind8 = VECTOR_ELT(subs2, 7);	\
+                                                  \
+  const int *pind1 = INTEGER_RO(ind1);	\
+const int *pind2 = INTEGER_RO(ind2);	\
+const int *pind3 = INTEGER_RO(ind3);	\
+const int *pind4 = INTEGER_RO(ind4);	\
+const int *pind5 = INTEGER_RO(ind5);	\
+const int *pind6 = INTEGER_RO(ind6);	\
+const int *pind7 = INTEGER_RO(ind7);	\
+const int *pind8 = INTEGER_RO(ind8);	\
+                                                  \
+  R_xlen_t flatind_out;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_out1, i_out2, i_out3, i_out4, i_out5, i_out6, i_out7, i_out8; \
+  R_xlen_t i_y1, i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8; \
+  	 for(int iter8 = 0; iter8 < N8; ++iter8) {	\
+i_out8 = (pstarts[7] + iter8) * pdcp_out[7];	\
+i_y8 = (pind8[iter8] - 1) * pdcp_y[7];	\
+	 for(int iter7 = 0; iter7 < N7; ++iter7) {	\
+i_out7 = (pstarts[6] + iter7) * pdcp_out[6];	\
+i_y7 = (pind7[iter7] - 1) * pdcp_y[6];	\
+	 for(int iter6 = 0; iter6 < N6; ++iter6) {	\
+i_out6 = (pstarts[5] + iter6) * pdcp_out[5];	\
+i_y6 = (pind6[iter6] - 1) * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < N5; ++iter5) {	\
+i_out5 = (pstarts[4] + iter5) * pdcp_out[4];	\
+i_y5 = (pind5[iter5] - 1) * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < N4; ++iter4) {	\
+i_out4 = (pstarts[3] + iter4) * pdcp_out[3];	\
+i_y4 = (pind4[iter4] - 1) * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < N3; ++iter3) {	\
+i_out3 = (pstarts[2] + iter3) * pdcp_out[2];	\
+i_y3 = (pind3[iter3] - 1) * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < N2; ++iter2) {	\
+i_out2 = (pstarts[1] + iter2) * pdcp_out[1];	\
+i_y2 = (pind2[iter2] - 1) * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < N1; ++iter1) {	\
+i_out1 = (pstarts[0] + iter1) * pdcp_out[0];	\
+i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
+        flatind_out = i_out1 + i_out2 + i_out3 + i_out4 + i_out5 + i_out6 + i_out7 + i_out8;       \
+        flatind_y = i_y1 + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        flatind_out++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_ACAST_DIM_16(DOCODE) do {              \
                                                   \
   const double *pdcp_out = REAL_RO(dcp_out);      \
   const double *pdcp_y = REAL_RO(dcp_y);          \
@@ -53,22 +214,22 @@ const int N14 = INTEGER(lens)[13];	\
 const int N15 = INTEGER(lens)[14];	\
 const int N16 = INTEGER(lens)[15];	\
                                                   \
-  const SEXP ind1 = VECTOR_ELT(subs, 0);	\
-const SEXP ind2 = VECTOR_ELT(subs, 1);	\
-const SEXP ind3 = VECTOR_ELT(subs, 2);	\
-const SEXP ind4 = VECTOR_ELT(subs, 3);	\
-const SEXP ind5 = VECTOR_ELT(subs, 4);	\
-const SEXP ind6 = VECTOR_ELT(subs, 5);	\
-const SEXP ind7 = VECTOR_ELT(subs, 6);	\
-const SEXP ind8 = VECTOR_ELT(subs, 7);	\
-const SEXP ind9 = VECTOR_ELT(subs, 8);	\
-const SEXP ind10 = VECTOR_ELT(subs, 9);	\
-const SEXP ind11 = VECTOR_ELT(subs, 10);	\
-const SEXP ind12 = VECTOR_ELT(subs, 11);	\
-const SEXP ind13 = VECTOR_ELT(subs, 12);	\
-const SEXP ind14 = VECTOR_ELT(subs, 13);	\
-const SEXP ind15 = VECTOR_ELT(subs, 14);	\
-const SEXP ind16 = VECTOR_ELT(subs, 15);	\
+  const SEXP ind1 = VECTOR_ELT(subs2, 0);	\
+const SEXP ind2 = VECTOR_ELT(subs2, 1);	\
+const SEXP ind3 = VECTOR_ELT(subs2, 2);	\
+const SEXP ind4 = VECTOR_ELT(subs2, 3);	\
+const SEXP ind5 = VECTOR_ELT(subs2, 4);	\
+const SEXP ind6 = VECTOR_ELT(subs2, 5);	\
+const SEXP ind7 = VECTOR_ELT(subs2, 6);	\
+const SEXP ind8 = VECTOR_ELT(subs2, 7);	\
+const SEXP ind9 = VECTOR_ELT(subs2, 8);	\
+const SEXP ind10 = VECTOR_ELT(subs2, 9);	\
+const SEXP ind11 = VECTOR_ELT(subs2, 10);	\
+const SEXP ind12 = VECTOR_ELT(subs2, 11);	\
+const SEXP ind13 = VECTOR_ELT(subs2, 12);	\
+const SEXP ind14 = VECTOR_ELT(subs2, 13);	\
+const SEXP ind15 = VECTOR_ELT(subs2, 14);	\
+const SEXP ind16 = VECTOR_ELT(subs2, 15);	\
                                                   \
   const int *pind1 = INTEGER_RO(ind1);	\
 const int *pind2 = INTEGER_RO(ind2);	\
@@ -166,6 +327,26 @@ i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
 
 
 
+#define MACRO_ACAST_DOCALL(DOCODE) do {     \
+  int ndims = Rf_length(out_dim);         \
+                                          \
+  switch(ndims) {       \
+    case 2:                                       \
+  MACRO_ACAST_DIM_2(DOCODE);    \
+  break;                                        \
+case 4:                                       \
+  MACRO_ACAST_DIM_4(DOCODE);    \
+  break;                                        \
+case 8:                                       \
+  MACRO_ACAST_DIM_8(DOCODE);    \
+  break;                                        \
+case 16:                                       \
+  MACRO_ACAST_DIM_16(DOCODE);    \
+  break;                                        \
+       \
+  }       \
+} while(0)
+
 #define MACRO_OP_ACAST_LOOP(DOCODE) do {                  \
                                                             \
   for(int i = 0; i < grp_n; ++i) {                          \
@@ -173,7 +354,7 @@ i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
     if(grp_count > 0) {                                       \
       grp_which = rcpp_factor_which(grp, i + 1, grp_count);   \
       plens[margin] = grp_count;                              \
-      SET_VECTOR_ELT(subs, margin, grp_which);                \
+      SET_VECTOR_ELT(subs2, margin, grp_which);                \
       DOCODE;                                                 \
       pstarts[newdim] = pstarts[newdim] + 1;                  \
     }                                                         \
@@ -188,46 +369,46 @@ i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
     {	\
       int *py = LOGICAL(y);                                 \
       int *pout = LOGICAL(out);                             \
-      MACRO_OP_ACAST_LOOP(MACRO_DIM_ACAST(pout[flatind_out] = py[flatind_y]));   \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));   \
       break;                                                \
     }	\
     case INTSXP:	\
     {	\
       int *py = INTEGER(y);                                 \
       int *pout = INTEGER(out);                             \
-      MACRO_OP_ACAST_LOOP(MACRO_DIM_ACAST(pout[flatind_out] = py[flatind_y]));   \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));   \
       break;                                                \
     }	\
     case REALSXP:	\
     {	\
       double *py = REAL(y);                                     \
       double *pout = REAL(out);                                 \
-      MACRO_OP_ACAST_LOOP(MACRO_DIM_ACAST(pout[flatind_out] = py[flatind_y]));       \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));       \
       break;                                                \
     }	\
     case CPLXSXP:	\
     {	\
       Rcomplex *py = COMPLEX(y);                                 \
       Rcomplex *pout = COMPLEX(out);                             \
-      MACRO_OP_ACAST_LOOP(MACRO_DIM_ACAST(pout[flatind_out] = py[flatind_y]));   \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));   \
       break;                                                \
     }	\
     case STRSXP:	\
     {	\
       const SEXP *py = STRING_PTR_RO(y);                                 \
-      MACRO_OP_ACAST_LOOP(MACRO_DIM_ACAST(SET_STRING_ELT(out, flatind_out, py[flatind_y])));   \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(SET_STRING_ELT(out, flatind_out, py[flatind_y])));   \
       break;                                                \
     }	\
     case RAWSXP:	\
     {	\
       Rbyte *py = RAW(y);	                                  \
       Rbyte *pout = RAW(out);	                              \
-      MACRO_OP_ACAST_LOOP(MACRO_DIM_ACAST(pout[flatind_out] = py[flatind_y]));   \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));   \
       break;                                                \
     }	\
     case VECSXP:	\
     {	\
-      MACRO_OP_ACAST_LOOP(MACRO_DIM_ACAST(                                                \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(                                                \
         SET_VECTOR_ELT(out, flatind_out, VECTOR_ELT(y, flatind_y))  \
       ));                                                              \
       break;                                                \

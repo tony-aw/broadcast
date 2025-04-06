@@ -25,6 +25,8 @@ using namespace Rcpp;
 
 txt1 <- "
 
+//' @keywords internal
+//' @noRd
 // [[Rcpp::export(.rcpp_factor_count)]]
 int rcpp_factor_count(
   SEXP grp, int j
@@ -40,6 +42,9 @@ int rcpp_factor_count(
   return count;
 }
 
+
+//' @keywords internal
+//' @noRd
 // [[Rcpp::export(.rcpp_factor_which)]]
 SEXP rcpp_factor_which(
   SEXP grp, int j, int size
@@ -63,12 +68,15 @@ SEXP rcpp_factor_which(
 }
 
 
+//' @keywords internal
+//' @noRd
 // [[Rcpp::export(.rcpp_acast)]]
 void rcpp_acast(
   SEXP out, SEXP y, const SEXP starts, const SEXP lens, const SEXP subs,
-  const SEXP dcp_out, const SEXP dcp_y, SEXP grp, int grp_n, int margin, int newdim
+  const SEXP out_dim, const SEXP dcp_out, const SEXP dcp_y, SEXP grp, int grp_n, int margin, int newdim
 ) {
   
+  List subs2 = clone(subs);
   int grp_count = 0;
   SEXP grp_which;
   int *plens = INTEGER(lens);

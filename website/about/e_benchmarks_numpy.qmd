@@ -33,7 +33,7 @@ The "broadcasting" implementation in the 'broadcast' package is conceptually (th
 
 This page presents the comparisons in the speed of broadcasted operations, between 'broadcast' and 'Numpy'. The operation that is compared is a simple, element-wise, broadcasted addition, given by the code `x + y` in the 'Numpy' module for 'Python', and `bc.num(x, y, "+")` in the 'broadcast' `r fa("r-project")` package.
 
-Please bear in mind these are rough comparisons of speed. Since the comparisons involve 2 separate programming languages, `r fa("r-project")` and 'Python', "proper" speed comparison is rather difficult even on a merely conceptual level.
+Please bear in mind these are rough comparisons of speed. Since the comparisons involve 2 separate programming languages, `r fa("r-project")` and 'Python', "proper" speed comparison is rather difficult to do fairly.
 
 &nbsp;
 
@@ -44,23 +44,23 @@ Please bear in mind these are rough comparisons of speed. Since the comparisons 
 
 Benchmarking a 'Python' code snippet in 'Python' using a 'Python' module, and benchmarking an `r fa("r-project")` code snippet in `r fa("r-project")` using an `r fa("r-project")` package, means mechanisms from different modules/packages are used for the benchmarking, and those 2 benchmarks may not (and probably won't) use the same timing mechanisms.
 
-'Python' and `r fa("r-project")` are both languages that use garbage collections (GC). But GC really does mess up benchmarking. The way to circumvent this issue differs in 'Python' and `r fa("r-project")`. In 'Python', GC can temporarily be disabled. `r fa("r-project")` does not support this (as disabling GC is dangerous), so instead for `r fa("r-project")` benchmarks with heavy GC just have to be filtered out.
+'Python' and `r fa("r-project")` are both languages that use garbage collections (GC). But GC really does mess up benchmarking. The way to circumvent this issue differs in 'Python' and `r fa("r-project")`. In 'Python', GC can temporarily be disabled. `r fa("r-project")` does not support this, so instead for `r fa("r-project")` benchmarks with heavy GC calls just had to be filtered out.
 
-Comparing the speed of 2 languages is inherently deceptively difficult. And due to the considerations given above, any form of benchmarks between `r fa("r-project")` and 'Python' - including the ones given in this page - should be taken with a grain of salt.
+Due to the above (and other) considerations, any form of benchmarks between `r fa("r-project")` and 'Python' - including the ones given in this page - should be taken with a grain of salt.
 
 
 &nbsp;
 
 ## The Set-Up
 
-The operation that is bench-marked in this study is the operation `x + y` in 'Numpy' and the equivalent `bc. num(x, y, "+")` in 'broadcast'.  
-Here `x` and `y` are both decimal numeric arrays (type of 64 bit `double` in `r fa("r-project")` and 64 bit `float` in 'Python'), and have the same number of dimensions.  
-This operation is run for pairs of arrays with different number of dimensions, going from 2 dimensional to 7 dimensional.  
-So we have `x + y` where both arrays are 2-dimensional (i.e. matrices), and `x + y` where both arrays are 3-dimensional, and so on until we have `x + y` where both arrays are 7-dimensional.  
+The operation that was bench-marked in this study, is the operation `x + y` in 'Numpy' and the equivalent `bc. num(x, y, "+")` in 'broadcast'.  
+Here `x` and `y` were both decimal numeric arrays (type of 64 bit `double` in `r fa("r-project")` and 64 bit `float` in 'Python'), and had the same number of dimensions.  
+This operation was run for pairs of arrays with different number of dimensions, going from 2 dimensional to 7 dimensional.  
+So we have `x + y` where both arrays were 2-dimensional (i.e. matrices), and `x + y` where both arrays were 3-dimensional, and so on up to 7-dimensional arrays.  
 
 The pairs of arrays are fully orthogonal ("orthogonal" in the sense as explained [here](/vignettes/d_broadcasting_explained.qmd)), thus the maximum amount of broadcasting will be employed.  
 Given, for example, 4-dimensional arrays, the dimensions of `x` are `(n, 1, n, 1)` and the dimensions of `y` are `(1, n, 1, n)`.  
-The value of `n`, so the size of each dimension, varies as follows: 
+The value of `n`, so the size of each dimension, varied as follows: 
 
  - For 2-dimensional arrays, `n` goes from 1250 to 9500, with step size 750.
  - For 3-dimensional arrays, `n` goes from 65 to 450, with step size 35.
@@ -69,9 +69,9 @@ The value of `n`, so the size of each dimension, varies as follows:
  - For 6-dimensional arrays, `n` goes from 3 to 21, with step size 2.
  - For 7-dimensional arrays, `n` goes from 2 to 14, with step size 1.
 
-These values `n` have been chosen as follows. The maximum `n` is chosen such that the broadcasted element-wise addition of `x` and `y` results in an array with approximately `9e7` elements (a little shy of 100 million elements). The minimum `n` is one-seventh of that value. And the step size is chosen such that the sequence has a length between 10 and 15
+These values `n` were chosen as follows. The maximum `n` was specified such that the broadcasted element-wise addition of `x` and `y` resulted in an array with between 90 to 100 million elements. The minimum `n` was chosen to be (approximately) one-seventh of the maximum `n` value. And the step size was set to a value such that the sequence had a length between 10 and 15
 
-For each pair of arrays, the element-wise addition is computed using 'broadcast' and 'Numpy'. This computation is repeated 100 times. From these 100 benchmarks, the median, first quartile, and third quartiles are taken. There are some caveats here, in order to keep the comparisons between 'broadcast' and 'Numpy' fair, and these caveats are explained in the next sub-section.
+For each pair of arrays, the element-wise addition was computed using 'broadcast' and 'Numpy'. This computation was repeated 100 times (though see some technical details about this in the next sub-section). From these 100 benchmarks, the median, first quartile, and third quartiles were computed. There are some caveats here, in order to keep the comparisons between 'broadcast' and 'Numpy' fair, and these caveats are explained in the next sub-section.
 
 &nbsp;
 
@@ -80,16 +80,13 @@ For each pair of arrays, the element-wise addition is computed using 'broadcast'
 To keep the comparisons between 'broadcast' and 'Numpy' fair, a number of measures have been taken.
 
 
-Distributions of benchmarks tend to be heavily skewed. Therefore, the median measure (together with the quartiles) are taken. The median is also more stable than the mean in the face of outliers.
+Distributions of benchmarks tend to be heavily skewed. Therefore, the median measure (together with the quartiles) were taken. The median is also more stable than the mean in the face of outliers.
 
 
-Garbage collection is disabled in Python. In `r fa("r-project")`, only benchmarks with no garbage collection, or level 0 garbage collection, are used. I feel this keeps the comparisons relatively fair (but it's not perfect).
+Garbage collection was disabled in Python. In `r fa("r-project")`, only benchmarks with no garbage collection, or level 0 garbage collection, were used. I feel this keeps the comparisons relatively fair (but it's not perfect).
 
 
-Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for `r fa("r-project")`, the benchmarks are run 200 times, and a check is performed that at least 100 benchmark measurements are kept in. If there are less than 100 benchmarks for a particular computation, the benchmarks are thrown away, and another attempt is made at benchmarking (but this never happened).
-
-
-In relation to the previous point, note that the quantiles and the median (the median itself is simply the 50% quantile) are asymptotically independent of sample-size (unlike, for example, the variance, which is directly affected by sample size).
+Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for `r fa("r-project")`, the benchmarks were run 200 times, and a check was performed that at least 100 benchmark measurements were kept in. If there were less than 100 benchmarks for a particular computation, the benchmarks would be thrown away, and another attempt would be made at benchmarking (but this never happened).
 
 
 `r fa("r-project")` has more support for missing values than 'Numpy', which also leads to a difference in speed. But both `r fa("r-project")` and 'Numpy' handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in `r fa("r-project")` ), through the `NaN` construct. Therefore, only operations on decimal numbers are compared.
@@ -103,16 +100,15 @@ Operations like power (`^`) and division (`/`) need to handle special cases (lik
 
 The 'benchmark' package was used for measuring speed in `r fa("r-project")`, as this package can also be used to check and filter for garbage collector calls.
 
-In 'Python', the `time.perf_counter()` function is used to accurately measure the time an operation takes. To ensure no time is wasted on printing the result in 'Python', the operation `a + b` is wrapped inside a function without a return statement.
+In 'Python', the `time.perf_counter()` function was used to accurately measure the time an operation takes. To ensure no time was wasted on printing the result in 'Python', the operation `a + b` was wrapped inside a function without a return statement.
 
-The plots are created using the 'tinyplot' package, to display the median, first quartile, and third quartile, of the computation times.
+The figures in the Results section were created using the 'tinyplot' package, to display the median, first quartile, and third quartile, of the computation times.
 
-The benchmarks were run on a laptop  (processor: 12th Gen Intel(R) Core(TM) i5-12500H 2.50 GHz) with 32GB of Ram and running Windows 11 (64 bit).
+The benchmarks were all run on the same computer (processor: 12th Gen Intel(R) Core(TM) i5-12500H @ 2.50 GHz) with 32GB of Ram and running the Windows 11 OS (64 bit).
 
 The code used to run the benchmarks can be found at the bottom of this page. `r fa("r-project")` version 4.4.0 was used to run the `r fa("r-project")` code, and 'Python' version 3.12.0 with 'Numpy' version 2.2.1 was used to run the 'Python' code.
 
-The `r fa("r-project")` code was run as a whole in a single command from a freshly started computer; the same goes for the 'Python' code, thus ensuring that neither code was slowed down due to prior RAM usage or background processes.
-
+The `r fa("r-project")` code was sourced from the 'RGui', from a freshly started computer. The 'Python' code was run via 'Jupyter', also from a freshly started computer. This is to ensure that neither code was slowed down due to prior RAM usage or background processes.
 
 &nbsp;
 
@@ -127,16 +123,18 @@ fig.cap.fun <- function(i) {
   x.dim <- paste0(rep(c("n", 1), 10)[1:i], collapse = ", ")
   y.dim <- paste0(rep(c(1, "n"), 10)[1:i], collapse = ", ")
   txt <- paste(
+    "Figure ", i - 1, ": ",
     "Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays,
     comparing the code `x + y` in the 'Numpy' 'Python'-module,
     against the code `bc.num(x, y,\"+\")` in the 'broadcast' 'R'-package. <br>",
-    "Both arrays are", i, "-dimensional arrays. <br>",
+    "Both arrays are ", i, " - dimensional arrays. <br>",
     "The dimensions of `x` are {", x.dim, "}; <br>",
     "the dimensions of `y` are {", y.dim, "}. <br>", 
     "Here, `n` is shown on the x-axis. <br>",
-    "The y-axis shows the time (in ms) it took to execute the code.",
-    "The solid line gives the median time, and the shaded ribbon gives the first and third quartiles.",
-    "The higher a value is on the y-axis, the more time it takes to execute the code, the slower the code."
+    "The y-axis shows the time (in ms) it took to run the code. ",
+    "The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. ",
+    "The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.",
+    collapse = "", sep = ""
   )
   return(txt)
 }
@@ -177,7 +175,7 @@ tinyplot(
   df$i, df$median, by = module, type = "l",
   
   xlab = "size of each dimension",
-  ylab = "median time (ms)",
+  ylab = "runtime (ms)",
   ylim = range(df$q1, df$q3)
 )
 tinyplot_add(
@@ -222,7 +220,7 @@ tinyplot(
   df$i, df$median, by = module, type = "l",
   
   xlab = "size of each dimension",
-  ylab = "median time (ms)",
+  ylab = "runtime (ms)",
   ylim = range(df$q1, df$q3)
 )
 tinyplot_add(
@@ -270,7 +268,7 @@ tinyplot(
   df$i, df$median, by = module, type = "l",
   
   xlab = "size of each dimension",
-  ylab = "median time (ms)",
+  ylab = "runtime (ms)",
   ylim = range(df$q1, df$q3)
 )
 tinyplot_add(
@@ -317,7 +315,7 @@ tinyplot(
   df$i, df$median, by = module, type = "l",
   
   xlab = "size of each dimension",
-  ylab = "median time (ms)",
+  ylab = "runtime (ms)",
   ylim = range(df$q1, df$q3)
 )
 tinyplot_add(
@@ -365,7 +363,7 @@ tinyplot(
   df$i, df$median, by = module, type = "l",
   
   xlab = "size of each dimension",
-  ylab = "median time (ms)",
+  ylab = "runtime (ms)",
   ylim = range(df$q1, df$q3)
 )
 tinyplot_add(
@@ -411,7 +409,7 @@ tinyplot(
   df$i, df$median, by = module, type = "l",
   
   xlab = "size of each dimension",
-  ylab = "median time (ms)",
+  ylab = "runtime (ms)",
   ylim = range(df$q1, df$q3)
 )
 tinyplot_add(
@@ -429,11 +427,11 @@ tinyplot_add(
 
 # Conclusion & Discussion
 
-The differences in the computation times between 'broadcast' and 'Numpy' are rather small. It seems reasonable to conclude that, in general, 'broadcast' and 'Numpy' have somewhat similar speeds.
+It appears that 'broadcast' is slightly faster than 'Numpy', though the differences in the computation times between 'broadcast' and 'Numpy' are rather small. It seems reasonable to conclude that, in general, 'broadcast' and 'Numpy' have somewhat similar speeds. It can also be observed that 'broadcast' has a bit more spread in its computation time than 'Numpy'.
 
 &nbsp;
 
-As stated at the start of this page, comparing benchmarks between 'R' and 'Python' is deceptively challenging. I am open for suggestions on how to improve the speed comparisons between 'broadcast' and 'Numpy', and make them more fair.
+As stated earlier, comparing benchmarks between 'R' and 'Python' should be taken with a grain of salt. I am open for suggestions on how to improve the computation time comparisons between 'broadcast' and 'Numpy', and make them more fair (so feel free to post suggestions on the GitHub Discussions page).
 
 
 &nbsp;
