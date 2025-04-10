@@ -12,9 +12,6 @@ Arrays with Minimal Dependencies in ‘R’
 
 [![](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 
-Project Status: WIP - Initial development is in progress, but there has
-not yet been a stable, usable release suitable for the public.
-
 </div>
 
 <div>
