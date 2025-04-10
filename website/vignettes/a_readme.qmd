@@ -1,4 +1,8 @@
-<p align="center"><img src="man/figures/broadcast.png" height="300"/></p>
+<p align="center">
+
+<img src="man/figures/broadcast.png" height="300"/>
+
+</p>
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -14,15 +18,21 @@ library(broadcast)
 set.seed(1)
 ```
 
-<p align="center"> Simple 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies in 'R' </p>
+<p align="center">
+
+Simple 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies in 'R'
+
+</p>
 
 <!-- badges: start -->
 
-<p align="center"> `r badge_repostatus("WIP")` `r badge_lifecycle("experimental")` `r badge_custom("ORCID", "0000-0001-9498-8379", "green", "https://orcid.org/0000-0001-9498-8379")` </p>
+<center>
+
+`r badge_repostatus("WIP")` `r badge_lifecycle("experimental")` `r badge_custom("ORCID", "0000-0001-9498-8379", "green", "https://orcid.org/0000-0001-9498-8379")`
+
+</center>
 
 <!-- badges: end -->
-
-
 
 # Introduction
 
@@ -40,14 +50,12 @@ Please read the article "Broadcasting explained" for a more complete explanation
 
 At its core, the 'broadcast' package provides 3 functionalities, all 3 related to "broadcasting":
 
- 1. Functions for broadcasted element-wise operations between any 2 arrays. They support a large set of relational-, arithmetic-, Boolean-, and string operations.
- 2. The [bind_array()](/man/bind_array.qmd) function for binding arrays along any arbitrary dimension. Similar to the fantastic `abind::abind()` function, but with a few key differences:
-    - [bind_array()](/man/bind_array.qmd) is significantly **faster** than `abind()`;
-    - [bind_array()](/man/bind_array.qmd) supports broadcasting;
-    - [bind_array()](/man/bind_array.qmd) supports both atomic and recursive arrays (`abind()` only supports atomic arrays).
- 3. 'broadcast' provides several generic functions for broadcasting, namely [bcapply()](/man/bcapply.qmd) (broadcasted apply-like function) and [bc_ifelse()](/man/bc_ifelse.qmd) (broadcasted version of `ifelse()`).
-
-
+1.  Functions for broadcasted element-wise operations between any 2 arrays. They support a large set of relational-, arithmetic-, Boolean-, and string operations.
+2.  The [bind_array()](/man/bind_array.qmd) function for binding arrays along any arbitrary dimension. Similar to the fantastic `abind::abind()` function, but with a few key differences:
+    -   [bind_array()](/man/bind_array.qmd) is significantly **faster** than `abind()`;
+    -   [bind_array()](/man/bind_array.qmd) supports broadcasting;
+    -   [bind_array()](/man/bind_array.qmd) supports both atomic and recursive arrays (`abind()` only supports atomic arrays).
+3.  'broadcast' provides several generic functions for broadcasting, namely [bcapply()](/man/bcapply.qmd) (broadcasted apply-like function) and [bc_ifelse()](/man/bc_ifelse.qmd) (broadcasted version of `ifelse()`).
 
 Additionally, 'broadcast' includes the [acast()](/man/acast.qmd) function, for casting/pivoting an array into a new dimension. Roughly analogous to `data.table::dcast()`, but for arrays.
 

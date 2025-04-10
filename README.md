@@ -1,19 +1,25 @@
 
 <p align="center">
+
 <img src="man/figures/broadcast.png" height="300"/>
+
 </p>
 <p align="center">
+
 Simple ‘Numpy’-like Broadcasted Operations for Atomic and Recursive
 Arrays with Minimal Dependencies in ‘R’
+
 </p>
 <!-- badges: start -->
-<p align="center">
+<center>
+
 [![Project Status: WIP - Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
-</p>
+
+</center>
 <!-- badges: end -->
 
 # Introduction
