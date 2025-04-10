@@ -1,14 +1,19 @@
 
+<p align="center">
 <img src="man/figures/broadcast.png" height="300"/>
-
+</p>
+<p align="center">
+Simple ‘Numpy’-like Broadcasted Operations for Atomic and Recursive
+Arrays with Minimal Dependencies in ‘R’
+</p>
 <!-- badges: start -->
-
+<p align="center">
 [![Project Status: WIP - Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
-
+</p>
 <!-- badges: end -->
 
 # Introduction
@@ -35,38 +40,19 @@ explanation of what “broadcasting” is.
 At its core, the ‘broadcast’ package provides 3 functionalities, all 3
 related to “broadcasting”:
 
- 
-
-First, ‘broadcast’ provides functions for broadcasted element-wise
-binary operations between any 2 arrays. They support a large set of
-relational-, arithmetic-, Boolean-, and string operations.  
-These functions have clear broadcasting rules, making it easy to
-accurately predict the dimensions of the result.
-
- 
-
-Second, ‘broadcast’ provides the `bind_array()` function, which is a
-broadcasted and enhanced form of the fantastic `abind::abind()`
-function:
-
-- `bind_array()` allows for broadcasting (obviously), whereas
-  `abind::abind()` does not.
-- `bind_array()` is significantly **faster** and uses **less memory**
-  than `abind::abind()`.
-- `bind_array()` also differs from `abind::abind()` in that it can
-  handle recursive arrays properly; `abind::abind()` unlists everything
-  to atomic arrays, ruining the structure.
-
- 
-
-Third, ‘broadcast’ provides several generic functions for broadcasting:
-
-- `bcapply()`: a broadcasted apply-like function that works on pairs of
-  arrays.
-- `bc_ifelse()`: a broadcasted `ifelse()` function. Broadcasts between
-  the `yes` and `no` arguments.
-
- 
+1.  Functions for broadcasted element-wise operations between any 2
+    arrays. They support a large set of relational-, arithmetic-,
+    Boolean-, and string operations.
+2.  The `bind_array()` function for binding arrays along any arbitrary
+    dimension. Similar to the fantastic `abind::abind()` function, but
+    with a few key differences:
+    - `bind_array()` is significantly **faster** than `abind()`;
+    - `bind_array()` supports broadcasting;
+    - `bind_array()` supports both atomic and recursive arrays
+      (`abind()` only supports atomic arrays).
+3.  ‘broadcast’ provides several generic functions for broadcasting,
+    namely `bcapply()` (broadcasted apply-like function) and
+    `bc_ifelse()` (broadcasted version of `ifelse()`).
 
 Additionally, ‘broadcast’ includes the `acast()` function, for
 casting/pivoting an array into a new dimension. Roughly analogous to
@@ -82,8 +68,6 @@ Broadcasting dimensions is faster and more memory efficient than
 replicating dimensions.  
 Efficient programs use less energy and resources, and is thus better for
 the environment.  
-As a favoured language for the sciences, ‘R’ should not throw away an
-opportunity to become more efficient.
 
 The `Benchmarks` show that ‘broadcast’ has a somewhat similar speed as
 equivalent operations in ‘Numpy’.
@@ -95,19 +79,17 @@ equivalent operations in ‘Numpy’.
 Have you ever been bothered by any of the following while programming in
 ‘R’:
 
-- `abind::abind()` being too slow, saying arrays are not conformable,
-  and/or coercing recursive arrays to character arrays?
+- Receiving the “non-conformable arrays” error message in a simple array
+  operation, when it intuitively should work?
+- Receiving the “cannot allocate vector of size…” error message because
+  ‘R’ unnecessarily allocated too much memory in array operations?
+- `abind::abind()` being too slow, or ruining the structure of recursive
+  arrays?
 - that there is no built-in way to cast or pivot arrays?
-- Receiving the “non-conformable arrays” error message in a simple
-  operation when it intuitively should work?
-- Receiving the “Error: cannot allocate vector of size” error message
-  because ‘R’ unnecessarily allocates too much memory?
-- Trying to perform a simple operation on all possible combinations,
-  only to find out you need nested loops and/or grid expansions to do
-  something that should be *very* simple?
+- that certain ‘Numpy’ operations have no equivalent operation in ‘R’?
 
-If you answered “YES” to any of the above, ‘broadcast’ may very well be
-the ‘R’ - package for you.
+If you answered “YES” to any of the above, ‘broadcast’ may be the ‘R’ -
+package for you.
 
  
 
@@ -145,9 +127,10 @@ unit tests via the [tinytest](https://github.com/markvanderloo/tinytest)
 package. These tests have a coverage of approximately 95%. As such, the
 chance of a function from this package breaking is relatively low.
 
-Since ‘broadcast’ is still relatively new package, bugs are still very
-much possible. I encourage users who find bugs to report them swiftly to
-the GitHub page, and I will fix them as soon as time permits.
+However, ‘broadcast’ is still relatively new package, so bugs are still
+very much possible. I encourage users who find bugs to report them
+promptly to the GitHub page, and I will fix them as soon as time
+permits.
 
  
 
@@ -157,7 +140,7 @@ Consider the matrices `x` and `y`:
 
 ``` r
 x <- array(1:20, c(4, 5))
-y <- array(1:5*10, c(1, 5))
+y <- array(1:5 * 100, c(1, 5))
 print(x)
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]    1    5    9   13   17
@@ -166,7 +149,7 @@ print(x)
 #> [4,]    4    8   12   16   20
 print(y)
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]   10   20   30   40   50
+#> [1,]  100  200  300  400  500
 ```
 
 Suppose one wishes to compute the element-wise addition of these 2
@@ -190,10 +173,10 @@ You *could* do the following….
 ``` r
 x + y[rep(1L, 4L),]
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]   11   25   39   53   67
-#> [2,]   12   26   40   54   68
-#> [3,]   13   27   41   55   69
-#> [4,]   14   28   42   56   70
+#> [1,]  101  205  309  413  517
+#> [2,]  102  206  310  414  518
+#> [3,]  103  207  311  415  519
+#> [4,]  104  208  312  416  520
 ```
 
 … but this becomes an issue when `x` and/or `y` become very large, as
@@ -208,10 +191,10 @@ of any size (up to 16 dimensions), like so:
 ``` r
 bc.num(x, y, "+")
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]   11   25   39   53   67
-#> [2,]   12   26   40   54   68
-#> [3,]   13   27   41   55   69
-#> [4,]   14   28   42   56   70
+#> [1,]  101  205  309  413  517
+#> [2,]  102  206  310  414  518
+#> [3,]  103  207  311  415  519
+#> [4,]  104  208  312  416  520
 ```
 
  
@@ -226,6 +209,6 @@ parts:
 - Reference Manual: contains the function-oriented reference manual.
 - About: Contains the Acknowledgements, Change logs and License file.
   Here you’ll also find some information regarding the relationship
-  between ‘broadcast’ and other ‘R’ packages
+  between ‘broadcast’ and other ‘R’ packages.
 
    

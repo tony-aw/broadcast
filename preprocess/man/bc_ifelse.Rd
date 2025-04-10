@@ -4,10 +4,10 @@
 \alias{bc_ifelse}
 \title{Broadcasted Ifelse}
 \usage{
-bc_ifelse(cond, yes, no)
+bc_ifelse(test, yes, no)
 }
 \arguments{
-\item{cond}{\code{logical} vector or array with the length equal to \verb{prod(}\code{[bc_dim](bc_dim.qmd)}\verb{(yes, no))}.}
+\item{test}{\code{logical} vector or array with the length equal to \code{prod(bc_dim(yes, no))}.}
 
 \item{yes, no}{conformable arrays of the same type. \cr
 All \link[base]{atomic} types are supported except for the type of raw. \cr
@@ -20,9 +20,9 @@ After broadcasting \code{yes} against \code{no},
 given any element index \code{i},
 the following will hold for the output:
 \itemize{
-\item when \code{cond[i] == TRUE}, \code{out[i]} is \code{yes[i]};
-\item when \code{cond[i] == FALSE}, \code{out[i]} is \code{no[i]};
-\item when \code{cond[i]} is \code{NA},
+\item when \code{test[i] == TRUE}, \code{out[i]} is \code{yes[i]};
+\item when \code{test[i] == FALSE}, \code{out[i]} is \code{no[i]};
+\item when \code{test[i]} is \code{NA},
 \code{out[i]} is \code{NA} when \code{yes} and \code{no} are atomic,
 and \code{out[i]} is \code{list(NULL)} when \code{yes} and \code{no} are recursive. \cr \cr
 }

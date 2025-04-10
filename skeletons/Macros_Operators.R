@@ -273,7 +273,7 @@ macro_op_dec_rel <- "
 
 macro_op_int_math <- "
 #define MACRO_OP_INT_MATH(DIMCODE) do {	\\
-  double intmax = pow(2, 53);           \\
+  double intmax = pow(2, 53) - 1;           \\
   double intmin = -1 * intmax;          \\
   switch(op) {	\\
     case 1:	\\

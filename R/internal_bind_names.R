@@ -12,17 +12,6 @@
 
 #' @keywords internal
 #' @noRd
-.bind_stop_name_deparse <- function(
-    name_deparse, abortcall
-) {
-  
-  if(!isTRUE(name_deparse) && !isFALSE(name_deparse)) {
-    stop(simpleError("`name_deparse` must be `TRUE` or `FALSE`", call = abortcall))
-  }
-}
-
-#' @keywords internal
-#' @noRd
 .bind_stop_comnames_from <- function(
     comnames_from, input, abortcall
 ) {

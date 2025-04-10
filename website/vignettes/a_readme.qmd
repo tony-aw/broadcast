@@ -1,4 +1,4 @@
-<img src="man/figures/broadcast.png" height="300"/>
+<p align="center"><img src="man/figures/broadcast.png" height="300"/></p>
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -14,11 +14,15 @@ library(broadcast)
 set.seed(1)
 ```
 
+<p align="center"> Simple 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies in 'R' </p>
+
 <!-- badges: start -->
 
-`r badge_repostatus("WIP")` `r badge_lifecycle("experimental")` `r badge_custom("ORCID", "0000-0001-9498-8379", "green", "https://orcid.org/0000-0001-9498-8379")`
+<p align="center"> `r badge_repostatus("WIP")` `r badge_lifecycle("experimental")` `r badge_custom("ORCID", "0000-0001-9498-8379", "green", "https://orcid.org/0000-0001-9498-8379")` </p>
 
 <!-- badges: end -->
+
+
 
 # Introduction
 
@@ -36,27 +40,14 @@ Please read the article "Broadcasting explained" for a more complete explanation
 
 At its core, the 'broadcast' package provides 3 functionalities, all 3 related to "broadcasting":
 
- 
+ 1. Functions for broadcasted element-wise operations between any 2 arrays. They support a large set of relational-, arithmetic-, Boolean-, and string operations.
+ 2. The [bind_array()](/man/bind_array.qmd) function for binding arrays along any arbitrary dimension. Similar to the fantastic `abind::abind()` function, but with a few key differences:
+    - [bind_array()](/man/bind_array.qmd) is significantly **faster** than `abind()`;
+    - [bind_array()](/man/bind_array.qmd) supports broadcasting;
+    - [bind_array()](/man/bind_array.qmd) supports both atomic and recursive arrays (`abind()` only supports atomic arrays).
+ 3. 'broadcast' provides several generic functions for broadcasting, namely [bcapply()](/man/bcapply.qmd) (broadcasted apply-like function) and [bc_ifelse()](/man/bc_ifelse.qmd) (broadcasted version of `ifelse()`).
 
-First, 'broadcast' provides functions for broadcasted element-wise binary operations between any 2 arrays. They support a large set of relational-, arithmetic-, Boolean-, and string operations.\
-These functions have clear broadcasting rules, making it easy to accurately predict the dimensions of the result.
 
- 
-
-Second, 'broadcast' provides the [bind_array()](/man/bind_array.qmd) function, which is a broadcasted and enhanced form of the fantastic `abind::abind()` function:
-
--   [bind_array()](/man/bind_array.qmd) allows for broadcasting (obviously), whereas `abind::abind()` does not.
--   [bind_array()](/man/bind_array.qmd) is significantly **faster** and uses **less memory** than `abind::abind()`.
--   [bind_array()](/man/bind_array.qmd) also differs from `abind::abind()` in that it can handle recursive arrays properly; `abind::abind()` unlists everything to atomic arrays, ruining the structure.
-
- 
-
-Third, 'broadcast' provides several generic functions for broadcasting:
-
--   [bcapply()](/man/bcapply.qmd): a broadcasted apply-like function that works on pairs of arrays.
--   [bc_ifelse()](/man/bc_ifelse.qmd): a broadcasted `ifelse()` function. Broadcasts between the `yes` and `no` arguments.
-
- 
 
 Additionally, 'broadcast' includes the [acast()](/man/acast.qmd) function, for casting/pivoting an array into a new dimension. Roughly analogous to `data.table::dcast()`, but for arrays.
 
@@ -68,7 +59,6 @@ Additionally, 'broadcast' includes the [acast()](/man/acast.qmd) function, for c
 
 Broadcasting dimensions is faster and more memory efficient than replicating dimensions.\
 Efficient programs use less energy and resources, and is thus better for the environment.\
-As a favoured language for the sciences, `r fa("r-project")` should not throw away an opportunity to become more efficient.
 
 The `Benchmarks` show that 'broadcast' has a somewhat similar speed as equivalent operations in 'Numpy'.
 
@@ -78,13 +68,13 @@ The `Benchmarks` show that 'broadcast' has a somewhat similar speed as equivalen
 
 Have you ever been bothered by any of the following while programming in `r fa("r-project")`:
 
--   `abind::abind()` being too slow, saying arrays are not conformable, and/or coercing recursive arrays to character arrays?
+-   Receiving the "non-conformable arrays" error message in a simple array operation, when it intuitively should work?
+-   Receiving the "cannot allocate vector of size..." error message because `r fa("r-project")` unnecessarily allocated too much memory in array operations?
+-   `abind::abind()` being too slow, or ruining the structure of recursive arrays?
 -   that there is no built-in way to cast or pivot arrays?
--   Receiving the "non-conformable arrays" error message in a simple operation when it intuitively should work?
--   Receiving the "Error: cannot allocate vector of size" error message because `r fa("r-project")` unnecessarily allocates too much memory?
--   Trying to perform a simple operation on all possible combinations, only to find out you need nested loops and/or grid expansions to do something that should be *very* simple?
+-   that certain 'Numpy' operations have no equivalent operation in `r fa("r-project")`?
 
-If you answered "YES" to any of the above, 'broadcast' may very well be the `r fa("r-project")` - package for you.
+If you answered "YES" to any of the above, 'broadcast' may be the `r fa("r-project")` - package for you.
 
  
 
@@ -104,7 +94,7 @@ Not using external libraries brings a number of advantages:
 
 The 'broadcast' package is frequently checked using a large suite of unit tests via the [tinytest](https://github.com/markvanderloo/tinytest) package. These tests have a coverage of approximately 95%. As such, the chance of a function from this package breaking is relatively low.
 
-Since 'broadcast' is still relatively new package, bugs are still very much possible. I encourage users who find bugs to report them swiftly to the GitHub page, and I will fix them as soon as time permits.
+However, 'broadcast' is still relatively new package, so bugs are still very much possible. I encourage users who find bugs to report them promptly to the GitHub page, and I will fix them as soon as time permits.
 
  
 
@@ -114,7 +104,7 @@ Consider the matrices `x` and `y`:
 
 ```{r}
 x <- array(1:20, c(4, 5))
-y <- array(1:5*10, c(1, 5))
+y <- array(1:5 * 100, c(1, 5))
 print(x)
 print(y)
 ```
@@ -153,6 +143,6 @@ The documentation in the 'broadcast' website is divided into 3 main parts:
 
 -   Guides and Vignettes: contains the topic-oriented guides in the form of a few Vignettes.
 -   Reference Manual: contains the function-oriented reference manual.
--   About: Contains the Acknowledgements, Change logs and License file. Here you'll also find some information regarding the relationship between 'broadcast' and other `r fa("r-project")` packages
+-   About: Contains the Acknowledgements, Change logs and License file. Here you'll also find some information regarding the relationship between 'broadcast' and other `r fa("r-project")` packages.
 
    

@@ -312,7 +312,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <code id="input">input</code>
 </td>
 <td>
-a list of arrays; both atomic and recursive arrays are supported, and can be mixed. <br> If <code>input</code> is named, its names will be used for the names of dimension <code>along</code> of the output, when necessary. <br> If argument <code>input</code> has length <code>0</code>, or it contains exclusively objects where one or more dimensions are <code>0</code>, an error is returned. <br> If <code>input</code> has length <code>1</code>, this function simply return <code>input[[1L]]</code>.
+a list of arrays; both atomic and recursive arrays are supported, and can be mixed. <br> If argument <code>input</code> has length <code>0</code>, or it contains exclusively objects where one or more dimensions are <code>0</code>, an error is returned. <br> If <code>input</code> has length <code>1</code>, <code>bind_array()</code> simply returns <code>input[[1L]]</code>.
 </td>
 </tr>
 <tr>
@@ -320,7 +320,7 @@ a list of arrays; both atomic and recursive arrays are supported, and can be mix
 <code id="along">along</code>
 </td>
 <td>
-a single integer, indicating the dimension along which to bind the dimensions. <br> I.e. use <code>along = 1</code> for row-binding, <code>along = 2</code> for column-binding, etc. <br> Specifying <code>along = 0</code> will bind the arrays on a new dimension before the first, making <code>along</code> the new first dimension. <br> Specifying <code>along = N + 1</code>, with <code style="white-space: pre;">N = max(</code><a href="../man/ndim.html">lst.ndim</a><code style="white-space: pre;">(input))</code>, will create an additional dimension (<code>N + 1</code>) and bind the arrays along that new dimension.
+a single integer, indicating the dimension along which to bind the dimensions. <br> I.e. use <code>along = 1</code> for row-binding, <code>along = 2</code> for column-binding, etc. <br> Specifying <code>along = 0</code> will bind the arrays on a new dimension before the first, making <code>along</code> the new first dimension. <br> Specifying <code>along = N + 1</code>, with <code>N = max(lst.ndim(input))</code>, will create an additional dimension (<code>N + 1</code>) and bind the arrays along that new dimension.
 </td>
 </tr>
 <tr>
@@ -328,7 +328,7 @@ a single integer, indicating the dimension along which to bind the dimensions. <
 <code id="rev">rev</code>
 </td>
 <td>
-Boolean, indicating if <code>along</code> should be reversed, counting backwards. <br> If <code>FALSE</code> (default), <code>along</code> works like normally; if <code>TRUE</code>, <code>along</code> is reversed. <br> I.e. <code style="white-space: pre;">along = 0, rev = TRUE</code> is equivalent to <code style="white-space: pre;">along = N+1, rev = FALSE</code>; <br> and <code style="white-space: pre;">along = N+1, rev = TRUE</code> is equivalent to <code style="white-space: pre;">along = 0, rev = FALSE</code>; <br> with <code style="white-space: pre;">N = max(</code><a href="../man/ndim.html">lst.ndim</a><code style="white-space: pre;">(input))</code>.
+Boolean, indicating if <code>along</code> should be reversed, counting backwards. <br> If <code>FALSE</code> (default), <code>along</code> works like normally; if <code>TRUE</code>, <code>along</code> is reversed. <br> I.e. <code style="white-space: pre;">along = 0, rev = TRUE</code> is equivalent to <code style="white-space: pre;">along = N+1, rev = FALSE</code>; <br> and <code style="white-space: pre;">along = N+1, rev = TRUE</code> is equivalent to <code style="white-space: pre;">along = 0, rev = FALSE</code>; <br> with <code>N = max(lst.ndim(input))</code>.
 </td>
 </tr>
 <tr>
@@ -344,7 +344,7 @@ a single non-negative integer; <br> specify here the maximum number of dimension
 <code id="name_along">name_along</code>
 </td>
 <td>
-Boolean, ndicating if dimension <code>along</code> should be named. <br> The examples section illustrates the naming behaviour.
+Boolean, indicating if dimension <code>along</code> should be named. <br> Please run the code in the examples section to get a demonstration of the naming behaviour.
 </td>
 </tr>
 <tr>
@@ -352,7 +352,7 @@ Boolean, ndicating if dimension <code>along</code> should be named. <br> The exa
 <code id="comnames_from">comnames_from</code>
 </td>
 <td>
-either integer scalar or <code>NULL</code>. <br> Indicates which object in <code>input</code> should be used for naming the shared dimension. <br> If <code>NULL</code>, no communal names will be given. <br> For example: <br> When binding columns of matrices, the matrices will share the same rownames. <br> Using <code>comnames_from = 10</code> will then result in <code>bind_array()</code> using <code>rownames(input[[10]])</code> for the rownames of the output. <br> <br>
+either an integer scalar or <code>NULL</code>. <br> Indicates which object in <code>input</code> should be used for naming the shared dimension. <br> If <code>NULL</code>, no communal names will be given. <br> For example: <br> When binding columns of matrices, the matrices will share the same rownames. <br> Using <code>comnames_from = 10</code> will then result in <code>bind_array()</code> using <code>rownames(input[[10]])</code> for the rownames of the output. <br> <br>
 </td>
 </tr>
 

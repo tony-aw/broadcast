@@ -27,16 +27,16 @@ performs a broadcasted form of ifelse. <br />
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>bc_ifelse(cond, yes, no)
+<pre><code class='language-R'>bc_ifelse(test, yes, no)
 </code></pre>
 
 
 <h3>Arguments</h3>
 
 <table>
-<tr><td><code id="cond">cond</code></td>
+<tr><td><code id="test">test</code></td>
 <td>
-<p><code>logical</code> vector or array with the length equal to <code style="white-space: pre;">&#8288;prod(&#8288;</code><code>[bc_dim](bc_dim.qmd)</code><code style="white-space: pre;">&#8288;(yes, no))&#8288;</code>.</p>
+<p><code>logical</code> vector or array with the length equal to <code>prod(bc_dim(yes, no))</code>.</p>
 </td></tr>
 <tr><td><code id="yes">yes</code>, <code id="no">no</code></td>
 <td>
@@ -57,13 +57,13 @@ the following will hold for the output:
 </p>
 
 <ul>
-<li><p> when <code>cond[i] == TRUE</code>, <code>out[i]</code> is <code>yes[i]</code>;
+<li><p> when <code>test[i] == TRUE</code>, <code>out[i]</code> is <code>yes[i]</code>;
 </p>
 </li>
-<li><p> when <code>cond[i] == FALSE</code>, <code>out[i]</code> is <code>no[i]</code>;
+<li><p> when <code>test[i] == FALSE</code>, <code>out[i]</code> is <code>no[i]</code>;
 </p>
 </li>
-<li><p> when <code>cond[i]</code> is <code>NA</code>,
+<li><p> when <code>test[i]</code> is <code>NA</code>,
 <code>out[i]</code> is <code>NA</code> when <code>yes</code> and <code>no</code> are atomic,
 and <code>out[i]</code> is <code>list(NULL)</code> when <code>yes</code> and <code>no</code> are recursive. <br /> <br />
 </p>

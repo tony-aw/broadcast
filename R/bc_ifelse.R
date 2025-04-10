@@ -4,7 +4,7 @@
 #' The `bc_ifelse()` function
 #' performs a broadcasted form of \link[base]{ifelse}. \cr
 #' 
-#' @param cond `logical` vector or array with the length equal to `prod(`\link{bc_dim}`(yes, no))`.
+#' @param test `logical` vector or array with the length equal to `prod(bc_dim(yes, no))`.
 #' @param yes,no conformable arrays of the same type. \cr
 #' All \link[base]{atomic} types are supported except for the type of raw. \cr
 #' Recursive arrays of type \link[base]{list} are also supported. \cr \cr
@@ -18,9 +18,9 @@
 #' given any element index `i`,
 #' the following will hold for the output:
 #' 
-#'  - when `cond[i] == TRUE`, `out[i]` is `yes[i]`;
-#'  - when `cond[i] == FALSE`, `out[i]` is `no[i]`;
-#'  - when `cond[i]` is `NA`,
+#'  - when `test[i] == TRUE`, `out[i]` is `yes[i]`;
+#'  - when `test[i] == FALSE`, `out[i]` is `no[i]`;
+#'  - when `test[i]` is `NA`,
 #'  `out[i]` is `NA` when `yes` and `no` are atomic,
 #'  and `out[i]` is `list(NULL)` when `yes` and `no` are recursive. \cr \cr
 #'
@@ -31,7 +31,7 @@
 
 #' @rdname bc_ifelse
 #' @export
-bc_ifelse <- function(cond, yes, no) {
+bc_ifelse <- function(test, yes, no) {
   
   # checks:
   .binary_stop_general(yes, no, "", sys.call())
@@ -41,11 +41,11 @@ bc_ifelse <- function(cond, yes, no) {
   if(is.raw(yes) || is.raw(no)) {
     stop("`yes` and `no` cannot be type of raw")
   }
-  if(!is.logical(cond)) {
-    stop("`cond` must be a logical array")
+  if(!is.logical(test)) {
+    stop("`test` must be a logical array")
   }
-  if(length(cond) != prod(bc_dim(yes, no))) {
-    stop("`cond` of incorrect length")
+  if(length(test) != prod(bc_dim(yes, no))) {
+    stop("`test` of incorrect length")
   }
   
   # re-assign
@@ -66,11 +66,11 @@ bc_ifelse <- function(cond, yes, no) {
   # Broadcast:
   
   if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bc_ifelse_v(cond, x, y, out.len)
+    out <- .rcpp_bc_ifelse_v(test, x, y, out.len)
   }
   else if(dimmode == 2L) { # orthogonal vector mode
     RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bc_ifelse_ov(cond, x, y, RxC, out.dimsimp, out.len)
+    out <- .rcpp_bc_ifelse_ov(test, x, y, RxC, out.dimsimp, out.len)
   }
   else if(dimmode == 3L) { # general mode
     
@@ -80,7 +80,7 @@ bc_ifelse <- function(cond, yes, no) {
     dcp_y <- .make_dcp(y.dim)
     
     out <- .rcpp_bc_ifelse_d(
-      cond, x, y, by_x, by_y,
+      test, x, y, by_x, by_y,
       dcp_x, dcp_y, as.integer(out.dimsimp), out.len
     )
   }

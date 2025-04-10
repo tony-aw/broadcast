@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 ```{r setup, eval=TRUE, echo=FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
-library(broadcast)
+library(broadcast) |> suppressMessages()
 library(fontawesome) |> suppressWarnings()
 library(tinytable) |> suppressWarnings()
 ```
@@ -248,8 +248,9 @@ y <- array(rnorm(10), c(10, 5, 1))
 dimx <- dim(x)
 dimy <- dim(y)
 foo <- data.frame(
-  `dim(x)` = dimx,
-  `dim(y)` = c(dimy, NA),
+  i = 1:4,
+  `dim(x)[i]` = dimx,
+  `dim(y)[i]` = c(dimy, NA),
   compatible = rep(TRUE, 4),
   reason = c("equal", "either is 1", "either is 1", "either is missing"),
   check.names = FALSE
@@ -277,8 +278,9 @@ y <- array(rnorm(10), c(10, 5, 2))
 dimx <- dim(x)
 dimy <- dim(y)
 foo <- data.frame(
-  `dim(x)` = dimx,
-  `dim(y)` = c(dimy, NA),
+  i = 1:4,
+  `dim(x)[i]` = dimx,
+  `dim(y)[i]` = c(dimy, NA),
   compatible = c(TRUE, TRUE, FALSE, TRUE),
   reason = c("equal", "either is 1", "not equal & neither is 1/missing", "either is missing"),
   check.names = FALSE
@@ -339,8 +341,8 @@ dimx <- dim(x)
 dimy <- dim(y)
 foo <- data.frame(
   i = 1:length(dimx),
-  `dim(x)` = dimx,
-  `dim(y)` = c(dimy, NA),
+  `dim(x)[i]` = dimx,
+  `dim(y)[i]` = c(dimy, NA),
   broadcasted = c("neither", "neither", "x", "y", "y"),
   reason = c(
     "dims equal", "dims equal",

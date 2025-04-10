@@ -15,35 +15,33 @@ bind_array(
 }
 \arguments{
 \item{input}{a list of arrays; both atomic and recursive arrays are supported, and can be mixed. \cr
-If \code{input} is named,
-its names will be used for the names of dimension \code{along} of the output, when necessary. \cr
 If argument \code{input} has length \code{0},
 or it contains exclusively objects where one or more dimensions are \code{0},
 an error is returned. \cr
-If \code{input} has length \code{1}, this function simply return \code{input[[1L]]}.}
+If \code{input} has length \code{1}, \code{bind_array()} simply returns \code{input[[1L]]}.}
 
 \item{along}{a single integer,
 indicating the dimension along which to bind the dimensions. \cr
 I.e. use \code{along = 1} for row-binding, \code{along = 2} for column-binding, etc. \cr
 Specifying \code{along = 0} will bind the arrays on a new dimension before the first,
 making \code{along} the new first dimension. \cr
-Specifying \code{along = N + 1}, with \verb{N = max(}\code{[lst.ndim](ndim.qmd)}\verb{(input))},
+Specifying \code{along = N + 1}, with \code{N = max(lst.ndim(input))},
 will create an additional dimension (\code{N + 1}) and bind the arrays along that new dimension.}
 
 \item{rev}{Boolean, indicating if \code{along} should be reversed, counting backwards. \cr
 If \code{FALSE} (default), \code{along} works like normally; if \code{TRUE}, \code{along} is reversed. \cr
 I.e. \verb{along = 0, rev = TRUE} is equivalent to \verb{along = N+1, rev = FALSE}; \cr
 and \verb{along = N+1, rev = TRUE} is equivalent to \verb{along = 0, rev = FALSE}; \cr
-with \verb{N = max(}\code{[lst.ndim](ndim.qmd)}\verb{(input))}.}
+with \code{N = max(lst.ndim(input))}.}
 
 \item{ndim2bc}{a single non-negative integer; \cr
 specify here the maximum number of dimensions that are allowed to be broadcasted when binding arrays. \cr
 If \code{ndim2bc = 0L}, \bold{no} broadcasting will be allowed at all.}
 
-\item{name_along}{Boolean, ndicating if dimension \code{along} should be named. \cr
-The examples section illustrates the naming behaviour.}
+\item{name_along}{Boolean, indicating if dimension \code{along} should be named. \cr
+Please run the code in the examples section to get a demonstration of the naming behaviour.}
 
-\item{comnames_from}{either integer scalar or \code{NULL}. \cr
+\item{comnames_from}{either an integer scalar or \code{NULL}. \cr
 Indicates which object in \code{input} should be used for naming the shared dimension. \cr
 If \code{NULL}, no communal names will be given. \cr
 For example: \cr

@@ -52,6 +52,9 @@
 #' 
 #' 
 #' \bold{Other functions} \cr
+#' 'broadcast' provides the \link{acast} function,
+#' for casting (i.e. pivoting) an array into a new dimension. \cr
+#' \cr
 #' 'broadcast' also provides
 #' \link[=as_bool]{type-casting} functions,
 #' which preserve names and dimensions - convenient for arrays. \cr \cr

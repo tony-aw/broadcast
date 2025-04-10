@@ -16,11 +16,10 @@ Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, incl
 
 The implementations available in 'broadcast' include, but are not limited to, the following:
 \enumerate{
-\item A faster, more memory efficient, and broadcasted version of \code{abind()}, for binding arrays along an arbitrary dimension;
 \item A set of type-specific functions for broadcasted element-wise binary operations;
 they support a large set of relational-, arithmetic-, Boolean-, and string operations.
-\item A Broadcasted implementation of \code{ifelse()};
-\item A Broadcasted apply-like function;
+\item A faster, more memory efficient, and broadcasted version of \code{abind()}, for binding arrays along an arbitrary dimension;
+\item Broadcasted ifelse- and apply-like functions;
 \item The \code{acast()} function, for casting/pivoting an array into a new dimension.
 }
 
@@ -66,6 +65,9 @@ with support for broadcasting. \cr
 }
 
 \bold{Other functions} \cr
+'broadcast' provides the \link{acast} function,
+for casting (i.e. pivoting) an array into a new dimension. \cr
+\cr
 'broadcast' also provides
 \link[=as_bool]{type-casting} functions,
 which preserve names and dimensions - convenient for arrays. \cr \cr

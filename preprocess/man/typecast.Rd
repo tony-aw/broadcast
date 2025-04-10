@@ -49,8 +49,8 @@ The functions are as follows: \cr
 \item \code{as_bool()}: converts object to atomic type \code{logical} (\code{TRUE, FALSE, NA}).
 \item \code{as_int()}: converts object to atomic type \code{integer}.
 \item \code{as_dbl()}: converts object to atomic type \code{double} (AKA numeric).
-\item \code{as_chr()}: converts object to atomic type \code{character}.
 \item \code{as_cplx()}: converts object to atomic type \code{complex}.
+\item \code{as_chr()}: converts object to atomic type \code{character}.
 \item \code{as_raw()}: converts object to atomic type \code{raw}.
 \item \code{as_list()}: converts object to recursive type \code{list}. \cr
 }

@@ -166,10 +166,11 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#functions-for-broadcasted-element-wise-binary-operations" id="toc-functions-for-broadcasted-element-wise-binary-operations" class="nav-link" data-scroll-target="#functions-for-broadcasted-element-wise-binary-operations">Functions for broadcasted element-wise binary operations</a></li>
-  <li><a href="#binding-implementations" id="toc-binding-implementations" class="nav-link" data-scroll-target="#binding-implementations">Binding implementations</a>
+  <li><a href="#binding-arrays" id="toc-binding-arrays" class="nav-link" data-scroll-target="#binding-arrays">Binding arrays</a>
   <ul class="collapse">
   <li><a href="#why-another-array-binding-function" id="toc-why-another-array-binding-function" class="nav-link" data-scroll-target="#why-another-array-binding-function">Why another array binding function</a></li>
   </ul></li>
+  <li><a href="#generic-broadcasted-functions" id="toc-generic-broadcasted-functions" class="nav-link" data-scroll-target="#generic-broadcasted-functions">Generic Broadcasted functions</a></li>
   <li><a href="#acast" id="toc-acast" class="nav-link" data-scroll-target="#acast">Acast</a></li>
   <li><a href="#type-casting" id="toc-type-casting" class="nav-link" data-scroll-target="#type-casting">Type-casting</a></li>
   <li><a href="#supported-structures" id="toc-supported-structures" class="nav-link" data-scroll-target="#supported-structures">Supported Structures</a></li>
@@ -248,8 +249,8 @@ Note
 </div>
 <p>&nbsp;</p>
 </section>
-<section id="binding-implementations" class="level1">
-<h1>Binding implementations</h1>
+<section id="binding-arrays" class="level1">
+<h1>Binding arrays</h1>
 <p>‘broadcast’ provides the <a href="../man/bind_array.html">bind_array()</a> function. This binds arrays (including matrices) along any arbitrary dimension. It allows for dimensional broadcasting, and returns an array.</p>
 <p>&nbsp;</p>
 <section id="why-another-array-binding-function" class="level2">
@@ -265,6 +266,11 @@ Note
 <p><a href="../man/bind_array.html">bind_array()</a> uses a similar API to that of <code>abind::abind()</code>, and provides similar features like binding arrays before the first dimension (using <code>along = 0</code>) or after the last dimension.</p>
 <p>&nbsp;</p>
 </section>
+</section>
+<section id="generic-broadcasted-functions" class="level1">
+<h1>Generic Broadcasted functions</h1>
+<p>‘broadcast’ provides <a href="../man/bcapply.html">bcapply()</a>, which is a broadcasted apply-like function, and <a href="../man/bc_ifelse.html">bc_ifelse()</a>, which is a broadcasted version of <code>ifelse()</code>.</p>
+<p>&amp;nsbp;</p>
 </section>
 <section id="acast" class="level1">
 <h1>Acast</h1>

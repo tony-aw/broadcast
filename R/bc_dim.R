@@ -8,7 +8,7 @@
 #' @param x,y an atomic or recursive array.
 #' 
 #' @returns
-#' Returns the recycled array.
+#' Returns an integer vector giving the broadcasted dimension sizes.
 #'
 #'
 #' @example inst/examples/bc_dim.R

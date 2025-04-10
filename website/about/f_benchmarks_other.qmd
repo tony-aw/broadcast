@@ -12,10 +12,15 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, eval=TRUE, echo=FALSE}
-library(broadcast)
-library(bench)
-library(tinyplot)
-library(abind)
+suppressMessages(
+  {
+    library(broadcast)
+    library(bench)
+    library(tinyplot)
+    library(abind)
+  }
+)
+
 ```
 
 
@@ -23,28 +28,32 @@ library(abind)
 
 # Introduction
 
-On this page, the performance of the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is compared to the performance of the `abind()` function from the 'abind' package.
+This page benchmarks some of the functions from 'broadcast' with some near-equivalent functions from other packages. The code is given here also.
 
 &nbsp;
 
-The following code is used:
+# `abind::abind()`
+
+In this section, te performance of the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is compared to the performance of the `abind()` function from the 'abind' package.
+
+&nbsp;
+
+The following code was used:
 
 
 ```{r echo = TRUE, eval=FALSE}
-
-along <- 2L
-n <- 150L
+n <- 110L
 nms <- function(n) sample(letters, n, TRUE)
 x <- array(as.double(1:25), c(n, n, n))
 y <- array(as.double(-1:-25), c(n, n, n))
 dimnames(x) <- lapply(dim(x), nms)
 dimnames(y) <- lapply(dim(y), nms)
-input <- list(x, y)
+input <- list(x, y, x)
 
+gc()
 bm_abind <- bench::mark(
   abind = abind::abind(input, along = 2),
   broadcast = bind_array(input, 2),
-  cbind = do.call(cbind, input),
   min_iterations = 100,
   check = FALSE # because abind adds empty dimnames
 )
@@ -55,14 +64,55 @@ plot(bm_abind)
 
 And here are the results:
 
-```{r fig.width=8}
+```{r fig.width=8, echo=FALSE}
 load("benchmarks/bm_abind.RData")
 summary(bm_abind)
 plot(bm_abind)
 ```
 
 
+Clearly, the [bind_array()](/man/bind_array.qmd) implementation from 'broadcast' is about 2 times faster than the implementation from the 'abind' package. It is also about 1.5 times more memory efficient.
 
 &nbsp;
 
+# `Rfast::Outer()`
+
+An outer computation is a special case of broadcasting, namely broadcasting between a row vector and a column vector (or vice-versa). The `outer()` function from base 'R' is too slow and consumes too much memory to provide any meaningful benchmark. But the 'Rfast' package provides a very fast implementation of the `outer()` function. It may be interesting how broadcasted operations hold up to the famously fast 'Rfast' package.
+
+Here the outer-sum between a column-vector `x` and row-vector `y` is computed using `Rfast::outer()` and `broadcast::bc.num()`, and their speeds and memory consumption are compared.
+
+The following code was used:
+
+```{r echo = TRUE, eval=FALSE}
+
+n <- 1e4
+x <- array(rnorm(10), c(n, 1))
+y <- array(rnorm(10), c(1, n))
+gc()
+bm_outer <- bench::mark(
+  Rfast = Rfast::Outer(x, y, "+"),
+  broadcast = bc.num(x, y, "+"),
+  min_iterations = 100,
+  check = FALSE # because Rfast flips the dimensions of the results
+)
+summary(bm_outer)
+plot(bm_outer)
+
+```
+
+And here are the results:
+
+```{r fig.width=8, echo=FALSE}
+load("benchmarks/bm_outer.RData")
+summary(bm_outer)
+plot(bm_outer)
+```
+
+
+It seems that the implementations of 'broadcast' and the blazingly fast 'Rfast' package reach similar speeds and use the same amount of memory.
+
+Note, however, that `Rfast::Outer()` unfortunately only supports numeric vectors, and does not provide higher-dimensional broadcasting. 'broadcast', on the other hand, supports all atomic types as well as the `list` recursive type, and supports arrays of any dimensions up to 16 dimensions.
+
 &nbsp;
+
+

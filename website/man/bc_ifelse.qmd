@@ -13,16 +13,16 @@ performs a broadcasted form of ifelse. <br />
 
 ### Usage
 
-<pre><code class='language-R'>bc_ifelse(cond, yes, no)
+<pre><code class='language-R'>bc_ifelse(test, yes, no)
 </code></pre>
 
 
 ### Arguments
 
 <table>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="cond">cond</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="test">test</code></td>
 <td>
-<code>logical</code> vector or array with the length equal to <code style="white-space: pre;">prod(</code>[bc_dim](bc_dim.qmd)<code style="white-space: pre;">(yes, no))</code>.
+<code>logical</code> vector or array with the length equal to <code>prod(bc_dim(yes, no))</code>.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="yes">yes</code>, <code id="no">no</code></td>
 <td>
@@ -43,13 +43,13 @@ the following will hold for the output:
 
 
 <ul>
-<li> when <code>cond[i] == TRUE</code>, <code>out[i]</code> is <code>yes[i]</code>;
+<li> when <code>test[i] == TRUE</code>, <code>out[i]</code> is <code>yes[i]</code>;
 
 </li>
-<li> when <code>cond[i] == FALSE</code>, <code>out[i]</code> is <code>no[i]</code>;
+<li> when <code>test[i] == FALSE</code>, <code>out[i]</code> is <code>no[i]</code>;
 
 </li>
-<li> when <code>cond[i]</code> is <code>NA</code>,
+<li> when <code>test[i]</code> is <code>NA</code>,
 <code>out[i]</code> is <code>NA</code> when <code>yes</code> and <code>no</code> are atomic,
 and <code>out[i]</code> is <code>list(NULL)</code> when <code>yes</code> and <code>no</code> are recursive. <br /> <br />
 

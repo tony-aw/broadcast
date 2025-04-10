@@ -10,8 +10,8 @@
 #'  * \code{as_bool()}: converts object to atomic type \code{logical} (\code{TRUE, FALSE, NA}).
 #'  * \code{as_int()}: converts object to atomic type \code{integer}.
 #'  * \code{as_dbl()}: converts object to atomic type \code{double} (AKA numeric).
-#'  * \code{as_chr()}: converts object to atomic type \code{character}.
 #'  * \code{as_cplx()}: converts object to atomic type \code{complex}.
+#'  * \code{as_chr()}: converts object to atomic type \code{character}.
 #'  * \code{as_raw()}: converts object to atomic type \code{raw}.
 #'  * \code{as_list()}: converts object to recursive type \code{list}. \cr
 #' 

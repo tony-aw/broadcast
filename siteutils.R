@@ -115,7 +115,7 @@ rd2qmd <- function(source_file, temp_html, target_dir, path) {
   
   # escape the $ in man pages otherwise it thinks it is a latex equation and
   # doesn't escape symbols between two $.
-  tmp <- gsub("\\$", "\\\\$", tmp)
+  # tmp <- gsub("\\$", "\\\\$", tmp)
   
   # process \doi{...} tags that were expanded to \Sexpr[results=rd]{tools:::Rd_expr_doi("...")}
   tmp <- gsub(
