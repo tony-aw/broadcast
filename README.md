@@ -1,15 +1,15 @@
 
-<p align="center">
+<center>
 
 <img src="man/figures/broadcast.png" height="300"/>
 
-</p>
-<p align="center">
+</center>
+<center>
 
 Simple ‘Numpy’-like Broadcasted Operations for Atomic and Recursive
 Arrays with Minimal Dependencies in ‘R’
 
-</p>
+</center>
 <!-- badges: start -->
 <center>
 
