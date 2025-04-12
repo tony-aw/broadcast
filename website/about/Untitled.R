@@ -1,11 +1,15 @@
 
 # set-up ====
 library(broadcast)
-get_times <- function(obj, j) {
-  nms <- names(res$expression)
-  j <- which(nms == j)
-  idx <- rowSums(obj$gc[[j]][, 2:3]) == 0
-  times <- obj$time[[j]][idx]
+get_times <- function(obj) {
+  
+  # remove calls with > 0 GC:
+  idx <- rowSums(obj$gc[[1L]][, 2:3]) == 0
+  times <- obj$time[[1L]][idx]
+  
+  # exclude first 10 for warm up:
+  times <- times[-1:-10]
+  
   return(times)
 }
 
@@ -30,8 +34,8 @@ for(i in seq_along(dimsizes)) {
     broadcast = bc.num(a, b, "+"),
     min_iterations = 200
   )
-  bc_all <- get_times(res, "broadcast")
-  if(length(bc_all) < 100) {
+  bc_all <- get_times(res)
+  if(length(bc_all) < 90) {
     stop("too few benchmarks for 'R'")
   }
   
@@ -75,8 +79,8 @@ for(i in seq_along(dimsizes)) {
     broadcast = bc.num(a, b, "+"),
     min_iterations = 200
   )
-  bc_all <- get_times(res, "broadcast")
-  if(length(bc_all) < 100) {
+  bc_all <- get_times(res)
+  if(length(bc_all) < 90) {
     stop("too few benchmarks for 'R'")
   }
   
@@ -121,8 +125,8 @@ for(i in seq_along(dimsizes)) {
     broadcast = bc.num(a, b, "+"),
     min_iterations = 200
   )
-  bc_all <- get_times(res, "broadcast")
-  if(length(bc_all) < 100) {
+  bc_all <- get_times(res)
+  if(length(bc_all) < 90) {
     stop("too few benchmarks for 'R'")
   }
   
@@ -169,8 +173,8 @@ for(i in seq_along(dimsizes)) {
     broadcast = bc.num(a, b, "+"),
     min_iterations = 200
   )
-  bc_all <- get_times(res, "broadcast")
-  if(length(bc_all) < 100) {
+  bc_all <- get_times(res)
+  if(length(bc_all) < 90) {
     stop("too few benchmarks for 'R'")
   }
   
@@ -217,8 +221,8 @@ for(i in seq_along(dimsizes)) {
     broadcast = bc.num(a, b, "+"),
     min_iterations = 200
   )
-  bc_all <- get_times(res, "broadcast")
-  if(length(bc_all) < 100) {
+  bc_all <- get_times(res)
+  if(length(bc_all) < 90) {
     stop("too few benchmarks for 'R'")
   }
   
@@ -264,8 +268,8 @@ for(i in seq_along(dimsizes)) {
     broadcast = bc.num(a, b, "+"),
     min_iterations = 200
   )
-  bc_all <- get_times(res, "broadcast")
-  if(length(bc_all) < 100) {
+  bc_all <- get_times(res)
+  if(length(bc_all) < 90) {
     stop("too few benchmarks for 'R'")
   }
   

@@ -229,6 +229,7 @@
     
     for(i in 1:length(x.dim)) { # start loop
       
+      
       irle <- .C_findfirst_mergable_dims(x.dim == 1L, y.dim == 1L)
       if(irle[1] != 0L && irle[2] != 0L) { # start if statements
         
@@ -239,7 +240,10 @@
         checkprod <- x.prod < maxint && y.prod < maxint
         if(checkprod) {
           
-          if(irle[1] == 1) { # merge at start
+          x.prod <- as.integer(x.prod)
+          y.prod <- as.integer(y.prod)
+          
+          if(irle[1] == 1L) { # merge at start
             x.dim <- c(x.prod, x.dim[-rng])
             y.dim <- c(y.prod, y.dim[-rng])
           }
@@ -249,7 +253,7 @@
           }
           else { # merge in between
             first <- 1L:(irle[1] - 1L)
-            last <- (irle[2] + 1):length(x.dim)
+            last <- (irle[2] + 1L):length(x.dim)
             x.dim <- c(x.dim[first], x.prod, x.dim[last])
             y.dim <- c(y.dim[first], y.prod, y.dim[last])
           }

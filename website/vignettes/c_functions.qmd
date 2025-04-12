@@ -84,7 +84,7 @@ There is already a famous, battle-tested function for binding arrays, namely the
 
 Well, as great as `abind::abind()` is, there are some issues with it, and the [bind_array()](/man/bind_array.qmd) function from 'broadcast` attempts (and in my humble opinion succeeds) to provide a better alternative:
 
- - `abind()` is a bit slow. [bind_array()](/man/bind_array.qmd) is significantly faster.
+ - [bind_array()](/man/bind_array.qmd) is faster and more memory efficient.
  - `abind()` does not support broadcasting. [bind_array()](/man/bind_array.qmd) does support broadcasting.
  - `abind()` does not support recursive arrays (i.e. arrays of type `list`). When binding recursive arrays, `abind()` will attempt to unlist it, even when it does not make sense, ruining the structure of the array. [bind_array()](/man/bind_array.qmd) fully supports recursive arrays, as well as arrays of all atomic types.
  - `abind()` has somewhat confusing mechanisms for giving dimension names to the output. [bind_array()](/man/bind_array.qmd) has more streamlined naming arguments.

@@ -1,4 +1,4 @@
-#' broadcast: Simple Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies
+#' broadcast: Simple 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies
 #' 
 #' @description
 #' broadcast: \cr
@@ -16,9 +16,12 @@
 #' ```
 #' 
 #' @section Getting Started:
-#' An introduction and overview of the package can be found on the website. \cr
+#' An introduction and overview of the package can be found
+#' \href{https://tony-aw.github.io/broadcast/vignettes/a_readme.html}{HERE}. \cr
 #' Note that 'broadcast' is still somewhat experimental;
-#' if you find bugs or other issues, please report them promptly on the 'broadcast' GitHub page. \cr
+#' if you find bugs or other issues,
+#' please report them promptly on the 'broadcast' GitHub
+#' \href{https://github.com/tony-aw/broadcast/issues}{issues tab}. \cr
 #' \cr
 #' 
 #' @section Functions:

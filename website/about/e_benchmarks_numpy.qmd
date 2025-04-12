@@ -12,7 +12,6 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, eval=TRUE, echo=FALSE}
-library(broadcast)
 library(fontawesome)
 library(bench)
 library(tinyplot)
@@ -42,7 +41,7 @@ Please bear in mind these are rough comparisons of speed. Since the comparisons 
 
 ## Difficulties in comparing `r fa("r-project")` with 'Python'
 
-Benchmarking a 'Python' code snippet in 'Python' using a 'Python' module, and benchmarking an `r fa("r-project")` code snippet in `r fa("r-project")` using an `r fa("r-project")` package, means mechanisms from different modules/packages are used for the benchmarking, and those 2 benchmarks may not (and probably won't) use the same timing mechanisms.
+Benchmarking a 'Python' code snippet in 'Python' using a 'Python' module, and benchmarking an `r fa("r-project")` code snippet in `r fa("r-project")` using an `r fa("r-project")` package, means mechanisms from different modules/packages are used for the benchmarking, and those 2 benchmarks might not use the exact same approach to measuring the execution time.
 
 'Python' and `r fa("r-project")` are both languages that use garbage collections (GC). But GC really does mess up benchmarking. The way to circumvent this issue differs in 'Python' and `r fa("r-project")`. In 'Python', GC can temporarily be disabled. `r fa("r-project")` does not support this, so instead for `r fa("r-project")` benchmarks with heavy GC calls just had to be filtered out.
 
@@ -71,7 +70,9 @@ The value of `n`, so the size of each dimension, varied as follows:
 
 These values `n` were chosen as follows. The maximum `n` was specified such that the broadcasted element-wise addition of `x` and `y` resulted in an array with between 90 to 100 million elements. The minimum `n` was chosen to be (approximately) one-seventh of the maximum `n` value. And the step size was set to a value such that the sequence had a length between 10 and 15
 
-For each pair of arrays, the element-wise addition was computed using 'broadcast' and 'Numpy'. This computation was repeated 100 times (though see some technical details about this in the next sub-section). From these 100 benchmarks, the median, first quartile, and third quartiles were computed. There are some caveats here, in order to keep the comparisons between 'broadcast' and 'Numpy' fair, and these caveats are explained in the next sub-section.
+For each pair of arrays, the element-wise addition was computed using 'broadcast' and 'Numpy'. This computation was repeated 100 times (though see some technical details about this in the next sub-section). The first 10 were then treated as warm-up iterations, and thus discarded, leaving 90 benchmarks.  From these 90 benchmarks, the median, first quartile, and third quartiles were computed. After the benchmarks for a particular dimension, the garbage collector was called manually to clean up any lingering memory.
+
+There are some caveats here, in order to keep the comparisons between 'broadcast' and 'Numpy' fair, and these caveats are explained in the next sub-section.
 
 &nbsp;
 
@@ -86,7 +87,7 @@ Distributions of benchmarks tend to be heavily skewed. Therefore, the median mea
 Garbage collection was disabled in Python. In `r fa("r-project")`, only benchmarks with no garbage collection, or level 0 garbage collection, were used. I feel this keeps the comparisons relatively fair (but it's not perfect).
 
 
-Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for `r fa("r-project")`, the benchmarks were run 200 times, and a check was performed that at least 100 benchmark measurements were kept in. If there were less than 100 benchmarks for a particular computation, the benchmarks would be thrown away, and another attempt would be made at benchmarking (but this never happened).
+Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for `r fa("r-project")`, the benchmarks were run 200 times, and a check was performed that at least 100 benchmark measurements were kept in. If there were less than 90 (100 - 10) benchmarks for a particular computation, the benchmarks would be thrown away, and another attempt would be made at benchmarking (but this never happened).
 
 
 `r fa("r-project")` has more support for missing values than 'Numpy', which also leads to a difference in speed. But both `r fa("r-project")` and 'Numpy' handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in `r fa("r-project")` ), through the `NaN` construct. Therefore, only operations on decimal numbers are compared.
@@ -108,7 +109,7 @@ The benchmarks were all run on the same computer (processor: 12th Gen Intel(R) C
 
 The code used to run the benchmarks can be found at the bottom of this page. `r fa("r-project")` version 4.4.0 was used to run the `r fa("r-project")` code, and 'Python' version 3.12.0 with 'Numpy' version 2.2.1 was used to run the 'Python' code.
 
-The `r fa("r-project")` code was sourced from the 'RGui', from a freshly started computer. The 'Python' code was run via 'Jupyter', also from a freshly started computer. This is to ensure that neither code was slowed down due to prior RAM usage or background processes.
+The `r fa("r-project")` code was sourced using `source()` from 'RStudio', from a freshly started computer. The 'Python' code was run via 'Jupyter', also from a freshly started computer.
 
 &nbsp;
 
@@ -748,17 +749,21 @@ gc()
 #| echo: true
 #| eval: false
 
+# import sys
+# !{sys.executable} -m pip install numpy
+
 # set-up #
 import numpy as np
 import gc
 from time import perf_counter
 def myfunc(a, b):
-  a + b
+    a + b
 
 # end set-up #
 
 
 # 2d array #
+print("2d")
 gc.disable()
 dimsizes = np.arange(1250, 9501, 750)
 median_np = np.zeros(len(dimsizes))
@@ -767,22 +772,23 @@ q3_np = np.zeros(len(dimsizes))
 durations = np.zeros(100)
 
 for i in range(0, len(dimsizes)):
-  print(i)
-  n = dimsizes[i]
-  adims = (n, 1)
-  bdims = (1, n)
-  x = np.random.random_sample(adims)
-  y = np.random.random_sample(bdims)
-  
-  for j in range(0, len(durations)):
-    t1_start = perf_counter()
-    myfunc(x, y)
-    t1_stop = perf_counter()
-    durations[j] = (t1_stop-t1_start) * 1000
-  
-  median_np[i] = np.median(durations)
-  q1_np[i] = np.quantile(durations, 0.25)
-  q3_np[i] = np.quantile(durations, 0.75)
+    print(i)
+    n = dimsizes[i]
+    adims = (n, 1)
+    bdims = (1, n)
+    x = np.random.random_sample(adims)
+    y = np.random.random_sample(bdims)
+    
+    for j in range(0, len(durations)):
+        t1_start = perf_counter()
+        myfunc(x, y)
+        t1_stop = perf_counter()
+        durations[j] = (t1_stop-t1_start) * 1000
+    
+    durations2 = durations[10:]
+    median_np[i] = np.median(durations2)
+    q1_np[i] = np.quantile(durations2, 0.25)
+    q3_np[i] = np.quantile(durations2, 0.75)
 
 gc.collect()
 
@@ -794,6 +800,7 @@ np.savetxt("benchmarks/bm_py_2d_q3.txt", q3_np)
 
 
 # 3d array #
+print("3d")
 gc.disable()
 dimsizes = np.arange(65, 451, 35)
 median_np = np.zeros(len(dimsizes))
@@ -802,22 +809,23 @@ q3_np = np.zeros(len(dimsizes))
 durations = np.zeros(100)
 
 for i in range(0, len(dimsizes)):
-  print(i)
-  n = dimsizes[i]
-  adims = (n, 1, n)
-  bdims = (1, n, 1)
-  x = np.random.random_sample(adims)
-  y = np.random.random_sample(bdims)
-  
-  for j in range(0, len(durations)):
-    t1_start = perf_counter()
-    myfunc(x, y)
-    t1_stop = perf_counter()
-    durations[j] = (t1_stop-t1_start) * 1000
-  
-  median_np[i] = np.median(durations)
-  q1_np[i] = np.quantile(durations, 0.25)
-  q3_np[i] = np.quantile(durations, 0.75)
+    print(i)
+    n = dimsizes[i]
+    adims = (n, 1, n)
+    bdims = (1, n, 1)
+    x = np.random.random_sample(adims)
+    y = np.random.random_sample(bdims)
+    
+    for j in range(0, len(durations)):
+        t1_start = perf_counter()
+        myfunc(x, y)
+        t1_stop = perf_counter()
+        durations[j] = (t1_stop-t1_start) * 1000
+        
+        durations2 = durations[10:]
+        median_np[i] = np.median(durations2)
+        q1_np[i] = np.quantile(durations2, 0.25)
+        q3_np[i] = np.quantile(durations2, 0.75)
 
 gc.collect()
 
@@ -830,6 +838,7 @@ np.savetxt("benchmarks/bm_py_3d_q3.txt", q3_np)
 
 
 # 4d array #
+print("4d")
 gc.disable()
 dimsizes = np.arange(9, 100, 10)
 median_np = np.zeros(len(dimsizes))
@@ -838,22 +847,23 @@ q3_np = np.zeros(len(dimsizes))
 durations = np.zeros(100)
 
 for i in range(0, len(dimsizes)):
-  print(i)
-  n = dimsizes[i]
-  adims = (n, 1, n, 1)
-  bdims = (1, n, 1, n)
-  x = np.random.random_sample(adims)
-  y = np.random.random_sample(bdims)
-  
-  for j in range(0, len(durations)):
-    t1_start = perf_counter()
-    myfunc(x, y)
-    t1_stop = perf_counter()
-    durations[j] = (t1_stop-t1_start) * 1000
-  
-  median_np[i] = np.median(durations)
-  q1_np[i] = np.quantile(durations, 0.25)
-  q3_np[i] = np.quantile(durations, 0.75)
+    print(i)
+    n = dimsizes[i]
+    adims = (n, 1, n, 1)
+    bdims = (1, n, 1, n)
+    x = np.random.random_sample(adims)
+    y = np.random.random_sample(bdims)
+    
+    for j in range(0, len(durations)):
+        t1_start = perf_counter()
+        myfunc(x, y)
+        t1_stop = perf_counter()
+        durations[j] = (t1_stop-t1_start) * 1000
+        
+    durations2 = durations[10:]
+    median_np[i] = np.median(durations2)
+    q1_np[i] = np.quantile(durations2, 0.25)
+    q3_np[i] = np.quantile(durations2, 0.75)
 
 gc.collect()
 
@@ -864,6 +874,7 @@ np.savetxt("benchmarks/bm_py_4d_q3.txt", q3_np)
 
 
 # 5d array #
+print("5d")
 gc.disable()
 dimsizes = np.arange(6, 40, 3)
 median_np = np.zeros(len(dimsizes))
@@ -872,22 +883,23 @@ q3_np = np.zeros(len(dimsizes))
 durations = np.zeros(100)
 
 for i in range(0, len(dimsizes)):
-  print(i)
-  n = dimsizes[i]
-  adims = (n, 1, n, 1, n)
-  bdims = (1, n, 1, n, 1)
-  x = np.random.random_sample(adims)
-  y = np.random.random_sample(bdims)
-  
-  for j in range(0, len(durations)):
-    t1_start = perf_counter()
-    myfunc(x, y)
-    t1_stop = perf_counter()
-    durations[j] = (t1_stop-t1_start) * 1000
-  
-  median_np[i] = np.median(durations)
-  q1_np[i] = np.quantile(durations, 0.25)
-  q3_np[i] = np.quantile(durations, 0.75)
+    print(i)
+    n = dimsizes[i]
+    adims = (n, 1, n, 1, n)
+    bdims = (1, n, 1, n, 1)
+    x = np.random.random_sample(adims)
+    y = np.random.random_sample(bdims)
+    
+    for j in range(0, len(durations)):
+        t1_start = perf_counter()
+        myfunc(x, y)
+        t1_stop = perf_counter()
+        durations[j] = (t1_stop-t1_start) * 1000
+
+    durations2 = durations[10:]
+    median_np[i] = np.median(durations2)
+    q1_np[i] = np.quantile(durations2, 0.25)
+    q3_np[i] = np.quantile(durations2, 0.75)
 
 gc.collect()
 
@@ -900,6 +912,7 @@ np.savetxt("benchmarks/bm_py_5d_q3.txt", q3_np)
 
 
 # 6d array #
+print("6d")
 gc.disable()
 dimsizes = np.arange(3, 22, 2)
 median_np = np.zeros(len(dimsizes))
@@ -908,22 +921,23 @@ q3_np = np.zeros(len(dimsizes))
 durations = np.zeros(100)
 
 for i in range(0, len(dimsizes)):
-  print(i)
-  n = dimsizes[i]
-  adims = (n, 1, n, 1, n, 1)
-  bdims = (1, n, 1, n, 1, n)
-  x = np.random.random_sample(adims)
-  y = np.random.random_sample(bdims)
-  
-  for j in range(0, len(durations)):
-    t1_start = perf_counter()
-    myfunc(x, y)
-    t1_stop = perf_counter()
-    durations[j] = (t1_stop-t1_start) * 1000
-  
-  median_np[i] = np.median(durations)
-  q1_np[i] = np.quantile(durations, 0.25)
-  q3_np[i] = np.quantile(durations, 0.75)
+    print(i)
+    n = dimsizes[i]
+    adims = (n, 1, n, 1, n, 1)
+    bdims = (1, n, 1, n, 1, n)
+    x = np.random.random_sample(adims)
+    y = np.random.random_sample(bdims)
+
+    for j in range(0, len(durations)):
+        t1_start = perf_counter()
+        myfunc(x, y)
+        t1_stop = perf_counter()
+        durations[j] = (t1_stop-t1_start) * 1000
+
+    durations2 = durations[10:]
+    median_np[i] = np.median(durations2)
+    q1_np[i] = np.quantile(durations2, 0.25)
+    q3_np[i] = np.quantile(durations2, 0.75)
 
 gc.collect()
 
@@ -935,6 +949,7 @@ np.savetxt("benchmarks/bm_py_6d_q3.txt", q3_np)
 
 
 # 7d array #
+print("7d")
 gc.disable()
 dimsizes = np.arange(2, 15, 1)
 median_np = np.zeros(len(dimsizes))
@@ -943,22 +958,23 @@ q3_np = np.zeros(len(dimsizes))
 durations = np.zeros(100)
 
 for i in range(0, len(dimsizes)):
-  print(i)
-  n = dimsizes[i]
-  adims = (n, 1, n, 1, n, 1, n)
-  bdims = (1, n, 1, n, 1, n, 1)
-  x = np.random.random_sample(adims)
-  y = np.random.random_sample(bdims)
-  
-  for j in range(0, len(durations)):
-    t1_start = perf_counter()
-    myfunc(x, y)
-    t1_stop = perf_counter()
-    durations[j] = (t1_stop-t1_start) * 1000
-  
-  median_np[i] = np.median(durations)
-  q1_np[i] = np.quantile(durations, 0.25)
-  q3_np[i] = np.quantile(durations, 0.75)
+    print(i)
+    n = dimsizes[i]
+    adims = (n, 1, n, 1, n, 1, n)
+    bdims = (1, n, 1, n, 1, n, 1)
+    x = np.random.random_sample(adims)
+    y = np.random.random_sample(bdims)
+    
+    for j in range(0, len(durations)):
+        t1_start = perf_counter()
+        myfunc(x, y)
+        t1_stop = perf_counter()
+        durations[j] = (t1_stop-t1_start) * 1000
+
+    durations2 = durations[10:]
+    median_np[i] = np.median(durations2)
+    q1_np[i] = np.quantile(durations2, 0.25)
+    q3_np[i] = np.quantile(durations2, 0.75)
 
 gc.collect()
 
@@ -966,7 +982,6 @@ np.savetxt("benchmarks/bm_py_7d_median.txt", median_np)
 np.savetxt("benchmarks/bm_py_7d_q1.txt", q1_np)
 np.savetxt("benchmarks/bm_py_7d_q3.txt", q3_np)
 # end 7d array #
-
 
 
 ```

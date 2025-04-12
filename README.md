@@ -8,23 +8,11 @@ Arrays with Minimal Dependencies in ‘R’
 </p>
 <!-- badges: start -->
 
-<div>
-
-[![](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-
-</div>
-
-<div>
-
-[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-
-</div>
-
-<div>
-
+[![Project Status: WIP - Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)  
+[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)  
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
-
-</div>
 
 <!-- badges: end -->
 
@@ -44,8 +32,9 @@ allocating additional memory, which is considerably **faster** and
 **more memory-efficient** than R’s regular dimensions replication
 mechanism.
 
-Please read the article “Broadcasting explained” for a more complete
-explanation of what “broadcasting” is.
+Please read the article [Broadcasting
+explained](https://tony-aw.github.io/broadcast/vignettes/d_broadcasting_explained.html)
+for a more complete explanation of what “broadcasting” is.
 
  
 
@@ -58,7 +47,7 @@ related to “broadcasting”:
 2.  The `bind_array()` function for binding arrays along any arbitrary
     dimension. Similar to the fantastic `abind::abind()` function, but
     with a few key differences:
-    - `bind_array()` is significantly **faster** than `abind()`;
+    - `bind_array()` is faster and more memory efficient;
     - `bind_array()` supports broadcasting;
     - `bind_array()` supports both atomic and recursive arrays
       (`abind()` only supports atomic arrays).
@@ -80,9 +69,6 @@ Broadcasting dimensions is faster and more memory efficient than
 replicating dimensions.  
 Efficient programs use less energy and resources, and is thus better for
 the environment.  
-
-The `Benchmarks` show that ‘broadcast’ has a somewhat similar speed as
-equivalent operations in ‘Numpy’.
 
  
 
@@ -136,13 +122,14 @@ Not using external libraries brings a number of advantages:
 
 The ‘broadcast’ package is frequently checked using a large suite of
 unit tests via the [tinytest](https://github.com/markvanderloo/tinytest)
-package. These tests have a coverage of approximately 95%. As such, the
-chance of a function from this package breaking is relatively low.
+package. These tests have a coverage of approximately 95%. So the chance
+of a function from this package breaking completely is relatively low.
 
-However, ‘broadcast’ is still relatively new package, so bugs are still
-very much possible. I encourage users who find bugs to report them
-promptly to the GitHub page, and I will fix them as soon as time
-permits.
+‘broadcast’ is still relatively new package, however, so (small) bugs
+are still very much possible. I encourage users who find bugs to report
+them promptly to the
+[issues](https://github.com/tony-aw/broadcast/issues) tab on the GitHub
+page, and I will fix them as soon as time permits.
 
  
 
@@ -216,11 +203,15 @@ bc.num(x, y, "+")
 The documentation in the ‘broadcast’ website is divided into 3 main
 parts:
 
-- Guides and Vignettes: contains the topic-oriented guides in the form
-  of a few Vignettes.
-- Reference Manual: contains the function-oriented reference manual.
-- About: Contains the Acknowledgements, Change logs and License file.
-  Here you’ll also find some information regarding the relationship
-  between ‘broadcast’ and other ‘R’ packages.
+- [Guides and
+  Vignettes](https://tony-aw.github.io/broadcast/vignettes/a_readme.html):
+  contains the topic-oriented guides in the form of a few Vignettes.
+- [Reference
+  Manual](https://tony-aw.github.io/broadcast/man/aaa00_broadcast_help.html):
+  contains the function-oriented reference manual.
+- [About](https://tony-aw.github.io/broadcast/about/a_acknowledgements.html):
+  Contains the Acknowledgements, Change logs and License file. Here
+  you’ll also find some information regarding the relationship between
+  ‘broadcast’ and other ‘R’ packages.
 
    

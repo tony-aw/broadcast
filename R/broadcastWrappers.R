@@ -18,7 +18,6 @@
   .Call("C_findfirst_mergable_dims", xdim = Xbroadcastable, ydim = Ybroadcastable)
 }
 
-
 #' @keywords Internal
 #' @noRd
 .C_dims_all_orthogonal <- function(xdim, ydim) {

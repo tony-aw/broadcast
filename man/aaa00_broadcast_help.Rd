@@ -5,7 +5,7 @@
 \alias{broadcast-package}
 \alias{broadcast}
 \alias{broadcast_help}
-\title{broadcast: Simple Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies}
+\title{broadcast: Simple 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies}
 \description{
 broadcast: \cr
 Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
@@ -16,7 +16,7 @@ Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, incl
 
 The implementations available in 'broadcast' include, but are not limited to, the following:
 \enumerate{
-\item A set of type-specific functions for broadcasted element-wise binary operations;
+\item A set of type-specific functions for broadcasted element-wise operations on any 2 arrays;
 they support a large set of relational-, arithmetic-, Boolean-, and string operations.
 \item A faster, more memory efficient, and broadcasted version of \code{abind()}, for binding arrays along an arbitrary dimension;
 \item Broadcasted ifelse- and apply-like functions;
@@ -27,9 +27,12 @@ The functions in the 'broadcast' package strive to minimize computation time and
 }
 \section{Getting Started}{
 
-An introduction and overview of the package can be found on the website. \cr
+An introduction and overview of the package can be found
+\href{https://tony-aw.github.io/broadcast/vignettes/a_readme.html}{HERE}. \cr
 Note that 'broadcast' is still somewhat experimental;
-if you find bugs or other issues, please report them promptly on the 'broadcast' GitHub page. \cr
+if you find bugs or other issues,
+please report them promptly on the 'broadcast' GitHub
+\href{https://github.com/tony-aw/broadcast/issues}{issues tab}. \cr
 \cr
 }
 
