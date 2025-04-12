@@ -873,11 +873,13 @@ END_RCPP
 }
 
 RcppExport SEXP C_any_nonNULL(SEXP);
+RcppExport SEXP C_bind_which_comnames(SEXP, SEXP, SEXP);
 RcppExport SEXP C_check_conf_dim(SEXP, SEXP);
 RcppExport SEXP C_dims_all_orthogonal(SEXP, SEXP);
 RcppExport SEXP C_lst_ndims(SEXP);
 RcppExport SEXP C_make_by(SEXP);
 RcppExport SEXP C_pmax(SEXP, SEXP);
+RcppExport SEXP C_seq_Clen(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_factor_count", (DL_FUNC) &_broadcast_rcpp_factor_count, 2},
@@ -937,11 +939,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_set_vind_32_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_32_atomic, 3},
     {"_broadcast_rcpp_set_vind_64_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_64_atomic, 3},
     {"C_any_nonNULL",         (DL_FUNC) &C_any_nonNULL,         1},
+    {"C_bind_which_comnames", (DL_FUNC) &C_bind_which_comnames, 3},
     {"C_check_conf_dim",      (DL_FUNC) &C_check_conf_dim,      2},
     {"C_dims_all_orthogonal", (DL_FUNC) &C_dims_all_orthogonal, 2},
     {"C_lst_ndims",           (DL_FUNC) &C_lst_ndims,           1},
     {"C_make_by",             (DL_FUNC) &C_make_by,             1},
     {"C_pmax",                (DL_FUNC) &C_pmax,                2},
+    {"C_seq_Clen",            (DL_FUNC) &C_seq_Clen,            2},
     {NULL, NULL, 0}
 };
 

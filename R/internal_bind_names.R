@@ -66,10 +66,10 @@
   
   name_along <- vector(mode = "character", length = dim(out)[along])
   arg.names <- names(input)
-  start.pos <- 0L
+  start.pos <- 1L
   for(i in seq_along(input)) {
     marginlen <- arg.marginlen[i]
-    indx <- seq_len(marginlen) + start.pos
+    indx <- .C_seq_Clen(start.pos, marginlen)
     temp.dimnames <- .bind_getnames(arg.dimnames[[i]], arg.names[i], marginlen) # NOTE: arg.names[i] works, even if arg.names is NULL...
     .rcpp_set_vind_32(name_along, as.integer(indx - 1L), temp.dimnames)
     start.pos <- start.pos + marginlen
@@ -83,11 +83,10 @@
 #' @noRd
 .bind_which_comnames <- function(out, along, obj, ndim_max) {
   obj.dimnames <- dimnames(obj)
-  n <- ndim(obj)
   
   if(along == 0) {
     if(!is.null(obj.dimnames)) {
-      ind <- which(dim(out)[seq(2, n + 1L)] == dim(obj)) # replaced dim(out)[2:n] with dim(out)[seq(2, n + 1L)]
+      ind <- .C_bind_which_comnames(dim(out), 2L, dim(obj))
       if(length(ind) > 0L) {
         return(list(out.ind = ind + 1L, obj.ind = ind))
       }
@@ -97,7 +96,7 @@
   
   if(along > ndim_max) {
     if(!is.null(obj.dimnames)) {
-      ind <- which(dim(out)[1:n] == dim(obj))
+      ind <- .C_bind_which_comnames(dim(out), 1L, dim(obj))
       if(length(ind) > 0L) {
         return(list(out.ind = ind, obj.ind = ind))
       }
@@ -106,7 +105,7 @@
   }
   
   if(!is.null(obj.dimnames)) {
-    ind <- which(dim(out)[1:n] == dim(obj))
+    ind <- .C_bind_which_comnames(dim(out), 1L, dim(obj))
     ind <- ind[ind != along]
     if(length(ind) > 0L) {
       return(list(out.ind = ind, obj.ind = ind))

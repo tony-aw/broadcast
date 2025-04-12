@@ -248,8 +248,10 @@
     by_x[along] <- 1L
     dcp_x <- c(1, cumprod(x.dim))
     
-    # coerce input:
-    x <- mycoerce(x)
+    # coerce input if necessary:
+    if(typeof(x) != typeof(out)) {
+      x <- mycoerce(x)
+    }
     
     # pass-by-reference modification:
     .rcpp_bc_bind(out, x, starts - 1L, ends -1L, by_x, dcp_out, dcp_x, out.dim)
