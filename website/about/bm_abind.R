@@ -10,11 +10,14 @@ dimnames(x) <- lapply(dim(x), nms)
 dimnames(y) <- lapply(dim(y), nms)
 input <- list(x, y, x)
 
+
 gc()
+
 bm_abind <- bench::mark(
   abind = abind::abind(input, along = 2),
   broadcast = bind_array(input, 2),
-  min_iterations = 100,
+  gc = gc(), # to clean up memory after large allocation
+  min_iterations = 50,
   check = FALSE # because abind adds empty dimnames
 )
 summary(bm_abind)
@@ -23,14 +26,13 @@ save(bm_abind, file = "benchmarks/bm_abind.RData")
 
 
 n <- 1e4
-x <- array(rnorm(10), c(n, 1))
-y <- array(rnorm(10), c(1, n))
+x <- array(rnorm(10), c(1, n))
+y <- array(rnorm(10), c(n, 1))
 gc()
 bm_outer <- bench::mark(
   Rfast = Rfast::Outer(x, y, "+"),
   broadcast = bc.num(x, y, "+"),
-  min_iterations = 100,
-  check = FALSE # because Rfast flips the dimensions of the results
+  min_iterations = 100
 )
 summary(bm_outer)
 plot(bm_outer)

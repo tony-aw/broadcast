@@ -93,7 +93,7 @@ Since only benchmarks with no garbage collection, or level 0 garbage collection,
 `r fa("r-project")` has more support for missing values than 'Numpy', which also leads to a difference in speed. But both `r fa("r-project")` and 'Numpy' handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in `r fa("r-project")` ), through the `NaN` construct. Therefore, only operations on decimal numbers are compared.
 
 
-Operations like power (`^`) and division (`/`) need to handle special cases (like when the right-hand side of the operation is 0). I cannot guarantee that 'broadcast' and 'Numpy' will handle these special cases in the exact same way. The plus (`+`) operator, however, has no such special cases. Therefore, the comparisons on this page only involve summation.
+Operations like power (`^`) and division (`/`) need to handle special cases (like when the right-hand side of the operation is 0). The plus (`+`) operator, however, has no such special cases. Therefore, to keep things fair, the comparisons on this page only involve summation.
 
 &nbsp;
 

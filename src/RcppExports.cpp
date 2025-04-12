@@ -835,6 +835,31 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_rep_new_int
+SEXP rcpp_rep_new_int(int n, int val);
+RcppExport SEXP _broadcast_rcpp_rep_new_int(SEXP nSEXP, SEXP valSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< int >::type val(valSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_rep_new_int(n, val));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_normalize_dims_regular
+SEXP rcpp_normalize_dims_regular(SEXP dims_old, int start, int max_ndim);
+RcppExport SEXP _broadcast_rcpp_normalize_dims_regular(SEXP dims_oldSEXP, SEXP startSEXP, SEXP max_ndimSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type dims_old(dims_oldSEXP);
+    Rcpp::traits::input_parameter< int >::type start(startSEXP);
+    Rcpp::traits::input_parameter< int >::type max_ndim(max_ndimSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_normalize_dims_regular(dims_old, start, max_ndim));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_recycle_seq_mlen
 List rcpp_recycle_seq_mlen(IntegerVector x, IntegerVector y);
 RcppExport SEXP _broadcast_rcpp_recycle_seq_mlen(SEXP xSEXP, SEXP ySEXP) {
@@ -935,6 +960,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bindhelper_conf_dims_2", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_2, 4},
     {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 4},
     {"_broadcast_rcpp_bindhelper_get_dimnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_get_dimnames, 2},
+    {"_broadcast_rcpp_rep_new_int", (DL_FUNC) &_broadcast_rcpp_rep_new_int, 2},
+    {"_broadcast_rcpp_normalize_dims_regular", (DL_FUNC) &_broadcast_rcpp_normalize_dims_regular, 3},
     {"_broadcast_rcpp_recycle_seq_mlen", (DL_FUNC) &_broadcast_rcpp_recycle_seq_mlen, 2},
     {"_broadcast_rcpp_set_vind_32_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_32_atomic, 3},
     {"_broadcast_rcpp_set_vind_64_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_64_atomic, 3},

@@ -321,6 +321,18 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
+.rcpp_rep_new_int <- function(n, val) {
+    .Call(`_broadcast_rcpp_rep_new_int`, n, val)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_normalize_dims <- function(dims_old, start, max_ndim) {
+    .Call(`_broadcast_rcpp_normalize_dims_regular`, dims_old, start, max_ndim)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_recycle_seq_mlen <- function(x, y) {
     .Call(`_broadcast_rcpp_recycle_seq_mlen`, x, y)
 }

@@ -31,8 +31,8 @@
   if(is.na(x) || is.infinite(x)) {
     return(x)
   }
-  intmax <- 2^53
-  intmin <- -1*intmax
+  intmax <- 2^53 - 1
+  intmin <- -1 * intmax
   if(x >= intmin && x <= intmax) {
     return(as_int(x))
   }

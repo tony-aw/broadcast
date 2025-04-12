@@ -53,7 +53,6 @@
   }
 }
 
-# have to split these functions into "get * names" and "set * names"...
 
 #' @keywords internal
 #' @noRd

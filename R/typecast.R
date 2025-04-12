@@ -113,7 +113,7 @@ as_raw <- function(x, ...) {
 
 #' @rdname typecast
 #' @export
-as_list<- function(x, ...) {
+as_list <- function(x, ...) {
   temp.attr <- .attr_typecast(x)
   out <- as.list(x, ...)
   attributes(out) <- temp.attr

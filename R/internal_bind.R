@@ -81,30 +81,16 @@
 
 #' @keywords internal
 #' @noRd
-.bind_normalize_dims <- function(input.dims, along, max_ndims) {
+.bind_normalize_dims <- function(input.dims, dimlens, along, max_ndims) {
   if(along > 0L && along <= max_ndims) {
-    which_neednorm <- which(lengths(input.dims) < max_ndims)
-    if(length(which_neednorm) > 0L) {
-      for(i in which_neednorm) {
-        temp <- input.dims[[i]]
-        input.dims[[i]] <- c(temp, rep_len(1L, max_ndims - length(temp)))
-      }
-    }
+    return(.rcpp_normalize_dims(input.dims, 0L, max_ndims))
   }
   else if(along == 0L) {
-    for(i in 1:length(input.dims)) {
-      temp <- input.dims[[i]]
-      input.dims[[i]] <- c(1L, temp, rep_len(1L, max_ndims - length(temp)))
-    }
+    return(.rcpp_normalize_dims(input.dims, 1L, max_ndims + 1L))
   }
   else if(along == (max_ndims + 1L)) {
-    for(i in 1:length(input.dims)) {
-      temp <- input.dims[[i]]
-      input.dims[[i]] <- c(temp, rep_len(1L, max_ndims - length(temp) + 1L))
-    }
+    return(.rcpp_normalize_dims(input.dims, 0L, max_ndims + 1L))
   }
-  
-  return(input.dims)
 }
 
 
@@ -132,12 +118,12 @@
   
   # make input.dims:
   input.dims <- .rcpp_bindhelper_vdims(input)
+  dimlens <- lengths(input.dims)
   
   
-  # check max dims:
-  max_ndims <- max(lengths(input.dims))
+  # check max ndims:
+  max_ndims <- max(dimlens)
   .bind_check_max_ndims(max_ndims, along, abortcall)
-  
   
   
   # check if extradimensional - MUST do this BEFORE normalizing dims!
@@ -148,9 +134,10 @@
   
   
   # normalize input.dims:
-  input.dims <- .bind_normalize_dims(input.dims, along, max_ndims)
+  input.dims <- .bind_normalize_dims(input.dims, dimlens, along, max_ndims)
+  dimlens <- lengths(input.dims)
   if(along == 0L) along <- 1L
-  max_ndims <- max(lengths(input.dims))
+  max_ndims <- max(dimlens)
   
   
   # get naming params - must do this AFTER normalizing dims!
@@ -163,7 +150,6 @@
   
   
   # check dimlens:
-  dimlens <- lengths(input.dims)
   if(length(unique(dimlens)) > 1L) {
     stop("input malformed")
   }
@@ -179,8 +165,9 @@
   need_pad <- round(max_ndims/2L) != (max_ndims /2L)
   if(need_pad) {
     input.dims <- lapply(input.dims, \(x)c(x, 1L))
+    dimlens <- lengths(input.dims)
   }
-  max_ndims <- max(lengths(input.dims))
+  max_ndims <- max(dimlens)
   
   
   # determine out.dim (padded):
