@@ -8,12 +8,13 @@ Arrays with Minimal Dependencies in ‘R’
 </p>
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/tony-aw/broadcast/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/broadcast/actions)
 [![Project Status: WIP - Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)  
-[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)  
-[![R build
-status](https://github.com/tony-aw/broadcast/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/broadcast/actions)  
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+![](https://img.shields.io/badge/Author-Tony%20Wilkes-red.svg)
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
 
 <!-- badges: end -->
@@ -69,6 +70,7 @@ Broadcasting dimensions is faster and more memory efficient than
 replicating dimensions.  
 Efficient programs use less energy and resources, and is thus better for
 the environment.  
+Benchmarks can be found on the website.
 
  
 
@@ -212,6 +214,6 @@ parts:
 - [About](https://tony-aw.github.io/broadcast/about/a_acknowledgements.html):
   Contains the Acknowledgements, Change logs and License file. Here
   you’ll also find some information regarding the relationship between
-  ‘broadcast’ and other ‘R’ packages.
+  ‘broadcast’ and other packages/modules.
 
    
