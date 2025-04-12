@@ -213,62 +213,9 @@
   } # end dropping dimensions
   
   
-  # merge mergeable dimensions:
-  
-  # 2 ADJACENT dimensions of x and y can be merged if they are BOTH NOT auto-orthogonal.
-  # i.e. if x.dim[1:2] = c(1, 1) and y.dim[1:2] = c(2, 3),
-  # x.dim[1:2] can be merged to become 1 and y.dim[1:2] to become 6 (= prod(c(2, 3))).
-  # But if x.dim[1:3] = c(1, 9, 1) and y.dim = c(8, 1, 8),
-  # x.dim[1:3] is auto-orthogonal, and so is y.dim[1:3], and thus they CANNOT be merged.
-  # Merging prevents unnecessary broadcasting,
-  # and I have found it to be a simple but effective optimization method for broadcasting.
-  
-  if(length(x.dim) > 2L && length(y.dim) > 2L) {
-    
-    maxint <- 2L^31L - 1L
-    
-    for(i in 1:length(x.dim)) { # start loop
-      
-      
-      irle <- .C_findfirst_mergable_dims(x.dim == 1L, y.dim == 1L)
-      if(irle[1] != 0L && irle[2] != 0L) { # start if statements
-        
-        # only merge if the products are less than the integer limit
-        rng <- irle[1]:irle[2]
-        x.prod <- prod(x.dim[rng])
-        y.prod <- prod(y.dim[rng])
-        checkprod <- x.prod < maxint && y.prod < maxint
-        if(checkprod) {
-          
-          x.prod <- as.integer(x.prod)
-          y.prod <- as.integer(y.prod)
-          
-          if(irle[1] == 1L) { # merge at start
-            x.dim <- c(x.prod, x.dim[-rng])
-            y.dim <- c(y.prod, y.dim[-rng])
-          }
-          else if(irle[2] == length(x.dim)) { # merge at end
-            x.dim <- c(x.dim[-rng], x.prod)
-            y.dim <- c(y.dim[-rng], y.prod)
-          }
-          else { # merge in between
-            first <- 1L:(irle[1] - 1L)
-            last <- (irle[2] + 1L):length(x.dim)
-            x.dim <- c(x.dim[first], x.prod, x.dim[last])
-            y.dim <- c(y.dim[first], y.prod, y.dim[last])
-          }
-          
-        }
-      } # end if statements
-      
-    } # end loop
-    
-  } # end merging
-  
-  
   # chunkify dimensions of arrays:
   # chunkification allows reduction of the amount of required compiled code,
-  # thus reducing compilaion & installation time of the package
+  # thus reducing compilation & installation time of the package
   if(length(x.dim) > 2L && length(y.dim) > 2L) {
     xndim <- length(x.dim)
     yndim <- length(y.dim)

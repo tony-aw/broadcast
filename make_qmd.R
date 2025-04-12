@@ -61,23 +61,23 @@ for(i in lst.files) {
 
 
 ################################################################################
-# Process Vignettes, Index page, and GitHub Readme ====
+# Process Vignettes, Index page ====
 #
 
 # copy & render intro template ====
 from <- "intro_template.qmd"
 to <- file.path("website", "vignettes", "a_readme.qmd")
 file.copy(from, to, overwrite = TRUE)
-to <- "README.qmd"
-file.copy(from, to, overwrite = TRUE)
-gfm <- readLines("README.qmd")
-gfm <- stri_replace_all(
-  gfm,
-  "'R'",
-  fixed = '`r fa("r-project")`'
-)
-writeLines(gfm, to)
-quarto::quarto_render(to, "gfm", "README.md")
+# to <- "README.qmd"
+# file.copy(from, to, overwrite = TRUE)
+# gfm <- readLines("README.qmd")
+# gfm <- stri_replace_all(
+#   gfm,
+#   "'R'",
+#   fixed = '`r fa("r-project")`'
+# )
+# writeLines(gfm, to)
+# quarto::quarto_render(to, "gfm", "README.md")
 
 
 
