@@ -208,7 +208,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#abindabind" id="toc-abindabind" class="nav-link" data-scroll-target="#abindabind"><code>abind::abind()</code></a></li>
   <li><a href="#rfastouter" id="toc-rfastouter" class="nav-link" data-scroll-target="#rfastouter"><code>Rfast::Outer()</code></a></li>
-  <li><a href="#operators-from-collapse" id="toc-operators-from-collapse" class="nav-link" data-scroll-target="#operators-from-collapse">Operators from ‘collapse’</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -279,7 +278,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="rfastouter" class="level1">
 <h1><code>Rfast::Outer()</code></h1>
-<p>An outer computation is a special case of broadcasting, namely broadcasting between a row vector and a column vector (or vice-versa). The <code>outer()</code> function from base ‘R’ is too slow and consumes too much memory to provide any meaningful benchmark. But the ‘Rfast’ package provides a very fast implementation of the <code>outer()</code> function. It may be interesting how broadcasted operations hold up to the famously fast ‘Rfast’ package.</p>
+<p>An outer computation is a special case of broadcasting, namely a broadcasting computation between a row-vector and a column-vector. The <code>outer()</code> function from base ‘R’ is too slow and consumes too much memory to provide any meaningful benchmark. But the ‘Rfast’ package provides a very fast implementation of the <code>outer()</code> function. It may be interesting how broadcasted operations hold up to the famously fast ‘Rfast’ package.</p>
 <p>Here the outer-sum between a row-vector <code>x</code> and column-vector <code>y</code> (both have 9000 elements) is computed using <code>Rfast::outer()</code> and <code>broadcast::bc.num()</code>, and their speeds and memory consumption are compared.</p>
 <p>The following code was used:</p>
 <div class="cell">
@@ -309,62 +308,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>It seems that the implementations of ‘broadcast’ and the blazingly fast ‘Rfast’ package reach similar speeds and use the same amount of memory.</p>
 <p>Note, however, that <code>Rfast::Outer()</code> unfortunately only supports numeric vectors, and does not provide higher-dimensional broadcasting. ‘broadcast’, on the other hand, supports all atomic types as well as the <code>list</code> recursive type, and supports arrays of any dimensions up to 16 dimensions.</p>
-<p>&nbsp;</p>
-</section>
-<section id="operators-from-collapse" class="level1">
-<h1>Operators from ‘collapse’</h1>
-<p>The blazingly fast ‘collapse’ package provides some limited, matrix-oriented broadcast-like operators. These include, among others, the <code>x %r+% v</code> and <code>x %c+% v</code> operators, for row- and column-wise addition, respectively, where <code>x</code> is a matrix and <code>v</code> is a vector.</p>
-<p>These operators are compared to equivalent operations using <code>bc.num()</code> from broadcast, using a 8000 by 8000 matrix for <code>x</code>.</p>
-<p>The following code is used:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">8e3</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>), n, n)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>), <span class="fu">c</span>(<span class="dv">1</span>, n))</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>bm_collapse_row <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">collapse =</span> x <span class="sc">%r+%</span> v,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">broadcast =</span> <span class="fu">bc.num</span>(x, v, <span class="st">"+"</span>),</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_iterations =</span> <span class="dv">100</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bm_collapse_row)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bm_collapse_row)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">8e3</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>), n, n)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>), <span class="fu">c</span>(n, <span class="dv">1</span>))</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="fu">drop</span>(v) <span class="co"># need to make `v` a regular vector for collapse %c+%</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>bm_collapse_col <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">collapse =</span> x <span class="sc">%c+%</span> V,</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">broadcast =</span> <span class="fu">bc.num</span>(x, v, <span class="st">"+"</span>),</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_iterations =</span> <span class="dv">100</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bm_collapse_col)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bm_collapse_col)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>And here are the results for the row-wise operations:</p>
-<div class="cell">
-<pre><code>#&gt; # A tibble: 2 × 6
-#&gt;   expression      min   median `itr/sec` mem_alloc `gc/sec`
-#&gt;   &lt;bch:expr&gt; &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
-#&gt; 1 collapse       93ms   98.5ms      9.85     488MB     2.02
-#&gt; 2 broadcast    98.3ms    106ms      9.20     488MB     1.88</code></pre>
-<div class="cell-output-display">
-<p><img src="f_benchmarks_other_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="768"></p>
-</div>
-</div>
-<p>And here for the column-wise operations:</p>
-<div class="cell">
-<pre><code>#&gt; # A tibble: 2 × 6
-#&gt;   expression      min   median `itr/sec` mem_alloc `gc/sec`
-#&gt;   &lt;bch:expr&gt; &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
-#&gt; 1 collapse    101.4ms    108ms      8.88     488MB     1.69
-#&gt; 2 broadcast    98.9ms    105ms      8.97     488MB     1.84</code></pre>
-<div class="cell-output-display">
-<p><img src="f_benchmarks_other_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="768"></p>
-</div>
-</div>
-<p>‘broadcast’ has a consistent speed regardless if the operation is row-wise or column-wise. Interestingly, ‘collapse’ is slightly faster than ‘broadcast’ for the row-wise addition, but slightly slower than ‘broadcast’ for the column-wise addition. Both ‘collapse’ and ‘broadcast’ use the same amount of memory.</p>
 <p>&nbsp;</p>
 
 
