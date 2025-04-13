@@ -33,9 +33,9 @@ allocating additional memory, which is considerably **faster** and
 **more memory-efficient** than R’s regular dimensions replication
 mechanism.
 
-Please read the article [Broadcasting
+Please read the [Broadcasting
 explained](https://tony-aw.github.io/broadcast/vignettes/d_broadcasting_explained.html)
-for a more complete explanation of what “broadcasting” is.
+page for a more complete explanation of what “broadcasting” is.
 
  
 

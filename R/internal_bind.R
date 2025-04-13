@@ -1,24 +1,23 @@
-#
 
 #' @keywords internal
 #' @noRd
-.bind_input_fix <- function(input, is_dt, abortcall) {
+.bind_input_fix <- function(input, abortcall) {
+  if(!is.list(input)) {
+    stop(simpleError("`input` must be a list", call = abortcall))
+  }
+  all_arrays <- vapply(input, is.array, logical(1L)) |> all()
+  if(!all_arrays) {
+    stop(simpleError("can only bind arrays", call = abortcall))
+  }
   if(length(input) < 2L) {
     stop(simpleError("`input` must be a list with at least 2 elements", call = abortcall))
   }
-  if(!is_dt) {
-    input <- input[lengths(input) > 0L]
-    if(length(input) == 0L) {
-      stop(simpleError("`input` must contain at least one non-zero array/vector", call = abortcall))
-    }
+  if(length(input) > (2L^16L)) {
+    stop(simpleError("too many objects given in `input`", call = abortcall))
   }
-  if(is_dt) {
-    vnrows <- vapply(input, nrow, integer(1L))
-    vncols <- vapply(input, ncol, integer(1L))
-    input <- input[vnrows > 0L & vncols > 0L]
-    if(length(input) == 0L) {
-      stop(simpleError("`input` must contain at least one non-empty data.frame-like object", call = abortcall))
-    }
+  input <- input[lengths(input) > 0L]
+  if(length(input) == 0L) {
+    stop(simpleError("`input` must contain at least one non-zero array/vector", call = abortcall))
   }
   
   return(input)

@@ -108,7 +108,7 @@ test_abind <- function(..., along=N, rev.along=NULL, new.names=NULL,
       arg.alt.names <- arg.names
       for (i in seq(along.with=arg.names)) {
         if (arg.alt.names[i]=="") {
-          if (object.size(dot.args[[i]])<1000) {
+          if (utils::object.size(dot.args[[i]]) < 1000L) {
             arg.alt.names[i] <- paste(deparse(dot.args[[i]], 40), collapse=";")
           } else {
             arg.alt.names[i] <- paste("X", i, sep="")

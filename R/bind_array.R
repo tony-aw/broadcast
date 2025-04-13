@@ -10,7 +10,8 @@
 #' If argument `input` has length `0`,
 #' or it contains exclusively objects where one or more dimensions are `0`,
 #' an error is returned. \cr
-#' If `input` has length `1`, `bind_array()` simply returns `input[[1L]]`.
+#' If `input` has length `1`, `bind_array()` simply returns `input[[1L]]`. \cr
+#' `input` may not contain more than `2^16` objects.
 #' @param along a single integer,
 #' indicating the dimension along which to bind the dimensions. \cr
 #' I.e. use `along = 1` for row-binding, `along = 2` for column-binding, etc. \cr
@@ -37,36 +38,10 @@
 #' `rownames(input[[10]])` for the rownames of the output. \cr \cr
 #' 
 #' 
-#' @details
-#' The API of `bind_array()` is inspired by the fantastic
-#' \code{abind::abind()} function
-#' by Tony Plare & Richard Heiberger (2016). \cr
-#' But `bind_array()` differs considerably from \code{abind::abind}
-#' in the following ways:
-#'  
-#'  - `bind_array()` differs from \code{abind::abind}
-#'  in that it can handle recursive arrays properly \cr
-#'  (the \code{abind::abind} function would unlist everything to atomic arrays,
-#'  ruining the structure).
-#'  - `bind_array()` allows for broadcasting,
-#'  while \code{abind::abind} does not support broadcasting.
-#'  - `bind_array()` is generally faster than \code{abind::abind},
-#'  as `bind_array()` relies heavily on 'C' and 'C++' code.
-#'  - unlike \code{abind::abind},
-#'  `bind_array()` only binds (atomic/recursive) arrays and matrices. \cr
-#'  `bind_array()`does not attempt to convert things to arrays when they are not arrays,
-#'  but will give an error instead. \cr
-#'  This saves computation time and prevents unexpected results.
-#'  - `bind_array()` has more streamlined naming options,
-#'  compared to \code{abind::abind}. \cr \cr
-#'  
-#' 
-#' 
 #' 
 #' @returns
-#' An array.
+#' An array. \cr  \cr
 #'
-#' @references Plate T, Heiberger R (2016). \emph{abind: Combine Multidimensional Arrays}. R package version 1.4-5, \url{https://CRAN.R-project.org/package=abind}.
 #'
 #' @example inst/examples/bind_array.R
 #' 
@@ -79,14 +54,12 @@ bind_array <- function(
     input, along, rev = FALSE, ndim2bc = 1L, name_along = TRUE, comnames_from = 1L
 ) {
   
-  # error checks:
-  all_arrays <- vapply(input, is.array, logical(1L)) |> all()
-  if(!all_arrays) {
-    stop(simpleError("can only bind arrays", call = sys.call()))
+  if(!is.list(input) && is.array(along)) {
+    stop("did you forget to put all input arrays into a single list for `input`?")
   }
   
   # input fix:
-  input2 <- .bind_input_fix(input, FALSE, sys.call())
+  input2 <- .bind_input_fix(input, sys.call())
   ndim_max <- max(lst.ndim(input2))
   
   # along fix:

@@ -18,7 +18,8 @@ bind_array(
 If argument \code{input} has length \code{0},
 or it contains exclusively objects where one or more dimensions are \code{0},
 an error is returned. \cr
-If \code{input} has length \code{1}, \code{bind_array()} simply returns \code{input[[1L]]}.}
+If \code{input} has length \code{1}, \code{bind_array()} simply returns \code{input[[1L]]}. \cr
+\code{input} may not contain more than \code{2^16} objects.}
 
 \item{along}{a single integer,
 indicating the dimension along which to bind the dimensions. \cr
@@ -50,36 +51,12 @@ Using \code{comnames_from = 10} will then result in \code{bind_array()} using
 \code{rownames(input[[10]])} for the rownames of the output. \cr \cr}
 }
 \value{
-An array.
+An array. \cr  \cr
 }
 \description{
 \code{bind_array()} binds (atomic/recursive) arrays and (atomic/recursive) matrices. \cr
 Returns an array. \cr
 Allows for broadcasting.
-}
-\details{
-The API of \code{bind_array()} is inspired by the fantastic
-\code{abind::abind()} function
-by Tony Plare & Richard Heiberger (2016). \cr
-But \code{bind_array()} differs considerably from \code{abind::abind}
-in the following ways:
-\itemize{
-\item \code{bind_array()} differs from \code{abind::abind}
-in that it can handle recursive arrays properly \cr
-(the \code{abind::abind} function would unlist everything to atomic arrays,
-ruining the structure).
-\item \code{bind_array()} allows for broadcasting,
-while \code{abind::abind} does not support broadcasting.
-\item \code{bind_array()} is generally faster than \code{abind::abind},
-as \code{bind_array()} relies heavily on 'C' and 'C++' code.
-\item unlike \code{abind::abind},
-\code{bind_array()} only binds (atomic/recursive) arrays and matrices. \cr
-\code{bind_array()}does not attempt to convert things to arrays when they are not arrays,
-but will give an error instead. \cr
-This saves computation time and prevents unexpected results.
-\item \code{bind_array()} has more streamlined naming options,
-compared to \code{abind::abind}. \cr \cr
-}
 }
 \examples{
 
@@ -156,7 +133,4 @@ names(input) <- c("", NA, "")
 bind_array(input, 2L)
 
 
-}
-\references{
-Plate T, Heiberger R (2016). \emph{abind: Combine Multidimensional Arrays}. R package version 1.4-5, \url{https://CRAN.R-project.org/package=abind}.
 }

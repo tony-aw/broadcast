@@ -75,11 +75,44 @@ The following functions for type-specific binary operations are available:
 
 </li></ul>
 
-<b>Binding Implementations</b> <br />
+<b><code>bind_array</code></b> <br />
 'broadcast' provides the [bind_array](bind_array.qmd) function,
 to bind arrays along an arbitrary dimension,
 with support for broadcasting. <br />
 <br />
+The API of <code>bind_array()</code> is inspired by the fantastic
+<code>abind::abind()</code> function
+by Tony Plare &amp; Richard Heiberger (2016). <br />
+But <code>bind_array()</code> differs considerably from <code>abind::abind</code>
+in the following ways:
+
+
+<ul>
+<li> <code>bind_array()</code> differs from <code>abind::abind</code>
+in that it can handle recursive arrays properly <br />
+(the <code>abind::abind</code> function would unlist everything to atomic arrays,
+ruining the structure).
+
+</li>
+<li> <code>bind_array()</code> allows for broadcasting,
+while <code>abind::abind</code> does not support broadcasting.
+
+</li>
+<li> <code>bind_array()</code> is generally faster than <code>abind::abind</code>,
+as <code>bind_array()</code> relies heavily on 'C' and 'C++' code.
+
+</li>
+<li> unlike <code>abind::abind</code>,
+<code>bind_array()</code> only binds (atomic/recursive) arrays and matrices. <br />
+<code>bind_array()</code>does not attempt to convert things to arrays when they are not arrays,
+but will give an error instead. <br />
+This saves computation time and prevents unexpected results.
+
+</li>
+<li> <code>bind_array()</code> has more streamlined naming options,
+compared to <code>abind::abind</code>. <br /> <br />
+
+</li></ul>
 
 <b>General functions</b> <br />
 'broadcast' also comes with 2 general broadcasted functions:
@@ -106,5 +139,11 @@ which preserve names and dimensions - convenient for arrays. <br /> <br />
 ### Author(s)
 
 <strong>Author, Maintainer</strong>: Tony Wilkes <a href="mailto:tony_a_wilkes@outlook.com">tony_a_wilkes@outlook.com</a> (<a href="https://orcid.org/0000-0001-9498-8379">ORCID</a>)
+
+
+
+### References
+
+Plate T, Heiberger R (2016). <em>abind: Combine Multidimensional Arrays</em>. R package version 1.4-5, <a href="https://CRAN.R-project.org/package=abind">https://CRAN.R-project.org/package=abind</a>.
 
 

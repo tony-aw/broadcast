@@ -13,7 +13,27 @@ test_make_dimnames <- function(x.dim) {
 }
 
 
-# empty input errors ====
+# starting errors ====
+expect_error(
+  bind_array(
+    array(1:10), array(1:10),
+  ),
+  pattern = "did you forget to put all input arrays into a single list for `input`?",
+  fixed = TRUE
+)
+enumerate <- enumerate + 1L
+
+
+# input errors ====
+expect_error(
+  bind_array("a", 1L),
+  pattern = "`input` must be a list"
+)
+input <- list(array(1:10), 1:10)
+expect_error(
+  bind_array(input, 1L),
+  pattern = "can only bind arrays"
+)
 expect_error(
   bind_array(list(), 1L),
   pattern = "`input` must be a list with at least 2 elements"
@@ -26,7 +46,12 @@ expect_error(
   bind_array(list(array(numeric(0L)), array(numeric(0L))), 1L),
   pattern = "`input` must contain at least one non-zero array/vector"
 )
-enumerate <- enumerate + 3L
+input <- rep(list(array(1L)), 2^17)
+expect_error(
+  bind_array(input, 1L),
+  pattern = "too many objects given in `input`"
+)
+enumerate <- enumerate + 6L
 
 
 

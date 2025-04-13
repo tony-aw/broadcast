@@ -84,10 +84,10 @@ To keep the comparisons between 'broadcast' and 'Numpy' fair, a number of measur
 Distributions of benchmarks tend to be heavily skewed. Therefore, the median measure (together with the quartiles) were taken. The median is also more stable than the mean in the face of outliers.
 
 
-Garbage collection was disabled in Python. In `r fa("r-project")`, only benchmarks with no garbage collection, or level 0 garbage collection, were used. I feel this keeps the comparisons relatively fair (but it's not perfect).
+Garbage collection was disabled in Python. In `r fa("r-project")`, only benchmarks with no garbage collection calls and benchmarks with level 0 garbage collection calls were used. I feel this keeps the comparisons relatively fair (but it's not perfect).
 
 
-Since only benchmarks with no garbage collection, or level 0 garbage collection, are used for `r fa("r-project")`, the benchmarks were run 200 times, and a check was performed that at least 100 benchmark measurements were kept in. If there were less than 90 (100 - 10) benchmarks for a particular computation, the benchmarks would be thrown away, and another attempt would be made at benchmarking (but this never happened).
+Since only benchmarks with no and level 0 garbage collection calls were used for `r fa("r-project")`, the benchmarks were run 200 times, and a check was performed that at least 100 benchmark measurements were kept before discarding the warm-up; 90 benchmarks after discarding the warm-up. If there were less than 90 (= 100 - 10) benchmarks for a particular computation, the benchmarks would be thrown away, and another attempt would be made at benchmarking (but this never happened).
 
 
 `r fa("r-project")` has more support for missing values than 'Numpy', which also leads to a difference in speed. But both `r fa("r-project")` and 'Numpy' handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in `r fa("r-project")` ), through the `NaN` construct. Therefore, only operations on decimal numbers are compared.

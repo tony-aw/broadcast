@@ -17,6 +17,7 @@ suppressMessages(
     library(broadcast)
     library(bench)
     library(tinyplot)
+    library(ggplot2)
     library(abind)
   }
 )
@@ -71,7 +72,7 @@ plot(bm_abind)
 ```
 
 
-Clearly, the [bind_array()](/man/bind_array.qmd) implementation from 'broadcast' is about 2 times faster than the implementation from the 'abind' package. It is also about 1.5 times more memory efficient.
+Clearly, the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is about 2 to 3 times faster than the `abind()` function from the 'abind' package. It is also about 2 times more memory efficient.
 
 &nbsp;
 
@@ -79,21 +80,20 @@ Clearly, the [bind_array()](/man/bind_array.qmd) implementation from 'broadcast'
 
 An outer computation is a special case of broadcasting, namely broadcasting between a row vector and a column vector (or vice-versa). The `outer()` function from base 'R' is too slow and consumes too much memory to provide any meaningful benchmark. But the 'Rfast' package provides a very fast implementation of the `outer()` function. It may be interesting how broadcasted operations hold up to the famously fast 'Rfast' package.
 
-Here the outer-sum between a column-vector `x` and row-vector `y` is computed using `Rfast::outer()` and `broadcast::bc.num()`, and their speeds and memory consumption are compared.
+Here the outer-sum between a row-vector `x` and column-vector `y` (both have 9000 elements) is computed using `Rfast::outer()` and `broadcast::bc.num()`, and their speeds and memory consumption are compared.
 
 The following code was used:
 
 ```{r echo = TRUE, eval=FALSE}
 
-n <- 1e4
-x <- array(rnorm(10), c(n, 1))
-y <- array(rnorm(10), c(1, n))
+n <- 9e3
+x <- array(rnorm(10), c(1, n))
+y <- array(rnorm(10), c(n, 1))
 gc()
 bm_outer <- bench::mark(
   Rfast = Rfast::Outer(x, y, "+"),
   broadcast = bc.num(x, y, "+"),
-  min_iterations = 100,
-  check = FALSE # because Rfast flips the dimensions of the results
+  min_iterations = 100
 )
 summary(bm_outer)
 plot(bm_outer)
@@ -115,4 +115,63 @@ Note, however, that `Rfast::Outer()` unfortunately only supports numeric vectors
 
 &nbsp;
 
+
+# Operators from 'collapse'
+
+The blazingly fast 'collapse' package provides some limited, matrix-oriented broadcast-like operators. These include, among others, the `x %r+% v` and `x %c+% v` operators, for row- and column-wise addition, respectively, where `x` is a matrix and `v` is a vector.
+
+These operators are compared to equivalent operations using `bc.num()` from broadcast, using a 8000 by 8000 matrix for `x`.
+
+The following code is used:
+
+
+```{r echo = TRUE, eval=FALSE}
+
+n <- 8e3
+x <- matrix(rnorm(10), n, n)
+v <- array(rnorm(10), c(1, n))
+bm_collapse_row <- bench::mark(
+  collapse = x %r+% v,
+  broadcast = bc.num(x, v, "+"),
+  min_iterations = 100
+)
+summary(bm_collapse_row)
+plot(bm_collapse_row)
+
+
+n <- 8e3
+x <- matrix(rnorm(10), n, n)
+v <- array(rnorm(10), c(n, 1))
+V <- drop(v) # need to make `v` a regular vector for collapse %c+%
+bm_collapse_col <- bench::mark(
+  collapse = x %c+% V,
+  broadcast = bc.num(x, v, "+"),
+  min_iterations = 100
+)
+summary(bm_collapse_col)
+plot(bm_collapse_col)
+
+```
+
+
+And here are the results for the row-wise operations:
+
+```{r fig.width=8, echo=FALSE}
+load("benchmarks/bm_collapse_row.RData")
+summary(bm_collapse_row)
+plot(bm_collapse_row)
+```
+
+
+And here for the column-wise operations:
+
+```{r fig.width=8, echo=FALSE}
+load("benchmarks/bm_collapse_col.RData")
+summary(bm_collapse_col)
+plot(bm_collapse_col)
+```
+
+'broadcast' has a consistent speed regardless if the operation is row-wise or column-wise. Interestingly, 'collapse' is slightly faster than 'broadcast' for the row-wise addition, but slightly slower than 'broadcast' for the column-wise addition. Both 'collapse' and 'broadcast' use the same amount of memory.
+
+&nbsp;
 

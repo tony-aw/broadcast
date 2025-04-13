@@ -34,7 +34,8 @@ a list of arrays; both atomic and recursive arrays are supported, and can be mix
 If argument <code>input</code> has length <code>0</code>,
 or it contains exclusively objects where one or more dimensions are <code>0</code>,
 an error is returned. <br />
-If <code>input</code> has length <code>1</code>, <code>bind_array()</code> simply returns <code>input[[1L]]</code>.
+If <code>input</code> has length <code>1</code>, <code>bind_array()</code> simply returns <code>input[[1L]]</code>. <br />
+<code>input</code> may not contain more than <code>2^16</code> objects.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="along">along</code></td>
 <td>
@@ -78,53 +79,9 @@ Using <code>comnames_from = 10</code> will then result in <code>bind_array()</co
 </table>
 
 
-### Details
-
-The API of <code>bind_array()</code> is inspired by the fantastic
-<code>abind::abind()</code> function
-by Tony Plare &amp; Richard Heiberger (2016). <br />
-But <code>bind_array()</code> differs considerably from <code>abind::abind</code>
-in the following ways:
-
-
-<ul>
-<li> <code>bind_array()</code> differs from <code>abind::abind</code>
-in that it can handle recursive arrays properly <br />
-(the <code>abind::abind</code> function would unlist everything to atomic arrays,
-ruining the structure).
-
-</li>
-<li> <code>bind_array()</code> allows for broadcasting,
-while <code>abind::abind</code> does not support broadcasting.
-
-</li>
-<li> <code>bind_array()</code> is generally faster than <code>abind::abind</code>,
-as <code>bind_array()</code> relies heavily on 'C' and 'C++' code.
-
-</li>
-<li> unlike <code>abind::abind</code>,
-<code>bind_array()</code> only binds (atomic/recursive) arrays and matrices. <br />
-<code>bind_array()</code>does not attempt to convert things to arrays when they are not arrays,
-but will give an error instead. <br />
-This saves computation time and prevents unexpected results.
-
-</li>
-<li> <code>bind_array()</code> has more streamlined naming options,
-compared to <code>abind::abind</code>. <br /> <br />
-
-</li></ul>
-
-
-
 ### Value
 
-An array.
-
-
-
-### References
-
-Plate T, Heiberger R (2016). <em>abind: Combine Multidimensional Arrays</em>. R package version 1.4-5, <a href="https://CRAN.R-project.org/package=abind">https://CRAN.R-project.org/package=abind</a>.
+An array. <br />  <br />
 
 
 

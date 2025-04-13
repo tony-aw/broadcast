@@ -29,12 +29,9 @@ SEXP rcpp_normalize_dims_regular(
   
   SEXP out = PROTECT(Rf_allocVector(VECSXP, n));
   
-  SEXP temp_new;
-  SEXP temp_old;
-  
   for(int i = 0; i < n; ++i) {
-    temp_new = rcpp_rep_new_int(max_ndim, 1);
-    temp_old = VECTOR_ELT(dims_old, i);
+    SEXP temp_new = rcpp_rep_new_int(max_ndim, 1);
+    SEXP temp_old = VECTOR_ELT(dims_old, i);
     
     int m = Rf_length(temp_old);
     
