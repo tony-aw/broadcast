@@ -120,9 +120,6 @@ x + y
 Error in x + y : non-conformable arrays
 ```
 
-When computing the element-wise sum of these arrays, they both need to be recycled to equal size in order to compute the element-wise computation.\
-I.e. `y` needs its single row to be recycled 4 times, creating 2 conformable matrices.
-
 You *could* do the following....
 
 ```{r}
@@ -136,6 +133,14 @@ The 'broadcast' package performs "broadcasting", which can do the above, but **f
 ```{r}
 bc.num(x, y, "+")
 ```
+
+&nbsp;
+
+## 🫵What can you do
+
+'broadcast' is fully functional, but still experimental.  
+If you have any suggestions or feedback on the package, its documentation, or even the benchmarks, I encourage you to let me know (either as an [Issue](https://github.com/tony-aw/broadcast/issues) or a [Discussion](https://github.com/tony-aw/broadcast/discussions)).  
+I'm eager to read your input!
 
  
 

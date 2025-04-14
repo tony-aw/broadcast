@@ -835,6 +835,57 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_mergedims_output
+SEXP rcpp_mergedims_output(SEXP x, SEXP y, int len);
+RcppExport SEXP _broadcast_rcpp_mergedims_output(SEXP xSEXP, SEXP ySEXP, SEXP lenSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type len(lenSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_mergedims_output(x, y, len));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_mergedims_prod
+double rcpp_mergedims_prod(SEXP x, SEXP mergeable, int pos);
+RcppExport SEXP _broadcast_rcpp_mergedims_prod(SEXP xSEXP, SEXP mergeableSEXP, SEXP posSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type mergeable(mergeableSEXP);
+    Rcpp::traits::input_parameter< int >::type pos(posSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_mergedims_prod(x, mergeable, pos));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_is_mergeable_with_prev
+SEXP rcpp_is_mergeable_with_prev(SEXP xB, SEXP yB);
+RcppExport SEXP _broadcast_rcpp_is_mergeable_with_prev(SEXP xBSEXP, SEXP yBSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type xB(xBSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type yB(yBSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_is_mergeable_with_prev(xB, yB));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_mergedims
+SEXP rcpp_mergedims(SEXP xD, SEXP yD, SEXP mergeable);
+RcppExport SEXP _broadcast_rcpp_mergedims(SEXP xDSEXP, SEXP yDSEXP, SEXP mergeableSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type xD(xDSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type yD(yDSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type mergeable(mergeableSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_mergedims(xD, yD, mergeable));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_rep_new_int
 SEXP rcpp_rep_new_int(int n, int val);
 RcppExport SEXP _broadcast_rcpp_rep_new_int(SEXP nSEXP, SEXP valSEXP) {
@@ -960,6 +1011,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bindhelper_conf_dims_2", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_2, 4},
     {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 4},
     {"_broadcast_rcpp_bindhelper_get_dimnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_get_dimnames, 2},
+    {"_broadcast_rcpp_mergedims_output", (DL_FUNC) &_broadcast_rcpp_mergedims_output, 3},
+    {"_broadcast_rcpp_mergedims_prod", (DL_FUNC) &_broadcast_rcpp_mergedims_prod, 3},
+    {"_broadcast_rcpp_is_mergeable_with_prev", (DL_FUNC) &_broadcast_rcpp_is_mergeable_with_prev, 2},
+    {"_broadcast_rcpp_mergedims", (DL_FUNC) &_broadcast_rcpp_mergedims, 3},
     {"_broadcast_rcpp_rep_new_int", (DL_FUNC) &_broadcast_rcpp_rep_new_int, 2},
     {"_broadcast_rcpp_normalize_dims_regular", (DL_FUNC) &_broadcast_rcpp_normalize_dims_regular, 3},
     {"_broadcast_rcpp_recycle_seq_mlen", (DL_FUNC) &_broadcast_rcpp_recycle_seq_mlen, 2},

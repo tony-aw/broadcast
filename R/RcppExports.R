@@ -321,6 +321,30 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
+.rcpp_mergedims_output <- function(x, y, len) {
+    .Call(`_broadcast_rcpp_mergedims_output`, x, y, len)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_mergedims_prod <- function(x, mergeable, pos) {
+    .Call(`_broadcast_rcpp_mergedims_prod`, x, mergeable, pos)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_is_mergeable_with_prev <- function(xB, yB) {
+    .Call(`_broadcast_rcpp_is_mergeable_with_prev`, xB, yB)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_mergedims <- function(xD, yD, mergeable) {
+    .Call(`_broadcast_rcpp_mergedims`, xD, yD, mergeable)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_rep_new_int <- function(n, val) {
     .Call(`_broadcast_rcpp_rep_new_int`, n, val)
 }
