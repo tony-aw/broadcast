@@ -98,7 +98,7 @@
   else if(is.null(x.dim) || is.null(y.dim)) { # x and/or y are/is vector(s)
     return(1L)
   }
-  else if(all(x.dim == y.dim)) { # x & y have same dimensions, thus same ordering as output
+  else if(.C_dims_all_equal(x.dim, y.dim)) { # x & y have same dimensions, thus same ordering as output
     return(1L)
   }
   
@@ -203,10 +203,11 @@
   
   # drop common 1L dimensions:
   if(length(x.dim) > 1L && length(y.dim) > 1L) {
-    ind.drop <- which((x.dim == 1L) & (y.dim == 1L))
-    if(length(ind.drop) > 0L) {
-      x.dim <- x.dim[-ind.drop]
-      y.dim <- y.dim[-ind.drop]
+    drop.count <- .C_dropdims_count(x.dim, y.dim)
+    if(drop.count > 0L) {
+      drop.ind <- .C_dropdims_which(x.dim, y.dim, drop.count)
+      x.dim <- x.dim[-drop.ind]
+      y.dim <- y.dim[-drop.ind]
     }
     if(length(x.dim) == 0L) x.dim <- NULL
     if(length(y.dim) == 0L) y.dim <- NULL

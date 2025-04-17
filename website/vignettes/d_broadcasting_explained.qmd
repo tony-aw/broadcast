@@ -387,22 +387,63 @@ For the purposes of broadcasting, any pair of arrays, `x` and `y`, can be referr
  - For **every** dimensions index `i`,`dim(x)[i]` is `1` or missing, **OR** `dim(y)[i]` is `1` or missing.
 
 
-For example, the following 2 arrays are orthogonal:
+&nbsp;
 
-```{r echo=TRUE, eval=FALSE}
+## Illustration
+
+
+To illustrate, here are 2 arrays that are fully orthogonal:
+
+```{r echo = TRUE, eval = TRUE}
 x <- array(1:10, c(10, 1, 8, 1, 10))
 y <- array(1:10, c(1, 9, 1, 9, 1, 11))
+```
+
+
+```{r echo=FALSE, eval=TRUE}
+dimx <- dim(x)
+dimy <- dim(y)
+foo <- data.frame(
+  i = 1:6,
+  `dim(x)[i]` = c(dimx, NA),
+  `dim(y)[i]` = dimy,
+  orthogonal = rep(TRUE, 6L),
+  reason = c(rep("dim(x)[i] != dim(y)[i]", 5), "one of them missing"),
+  check.names = FALSE
+)
+
+tt(foo)
 
 ```
 
-And the following 2 arrays are not orthogonal:
+&nbsp;
+
+And the following 2 arrays are **not** orthogonal:
 
 
-```{r echo=TRUE, eval=FALSE}
+```{r echo=TRUE, eval=TRUE}
 x <- array(1:10, c(10, 1, 8, 1, 10))
 y <- array(1:10, c(10, 9, 1, 9, 10))
 
 ```
+
+```{r echo=FALSE, eval=TRUE}
+dimx <- dim(x)
+dimy <- dim(y)
+foo <- data.frame(
+  i = 1:5,
+  `dim(x)[i]` = dimx,
+  `dim(y)[i]` = dimy,
+  orthogonal = c(FALSE, rep(TRUE, 3L), FALSE),
+  reason = c("dim(x)[i] == dim(y)[i]", rep("dim(x)[i] != dim(y)[i]", 3), "dim(x)[i] == dim(y)[i]"),
+  check.names = FALSE
+)
+
+tt(foo)
+
+```
+
+The above arrays are **not** orthogonal, due to dimensions 1 and 5.
 
 
 &nbsp;
@@ -430,7 +471,7 @@ outer(as.vector(x), as.vector(y), "+")
 ```
 
 
-As you can see, broadcasting 2 orthogonal vectors is equivalent to using `outer()` on 2 dimensionless vectors.
+As you can see, performing a broadcasted operation with a row-vector and a column-vector (in that order) is equivalent to using `outer()` on 2 dimensionless vectors.
 
 The `outer()` approach has the same problems as the `x[, rep(1L, 5L)] + y[rep(1L, 5L),]` approach: it consumes a lot of unnecessary memory, and is slow.
 

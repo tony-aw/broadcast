@@ -116,3 +116,39 @@ Note, however, that `Rfast::Outer()` unfortunately only supports numeric vectors
 
 &nbsp;
 
+# `%r+%` operator from 'collapse'
+
+
+The impressive 'collapse' package supports a large set of blazingly fast functions for a large variety of tasks. One of these is the `x %r% v` operator. Given a matrix `x` and a vector `v`, `x %r+% v` will add `v` to every row of `x`. Using this function in this way is equivalent to the [bc.num()](/man/bc.d.qmd) function, using a column-vector for `v`.
+
+Here these 2 approaches are benchmarked.
+
+The code used was as follows:
+
+```{r echo=TRUE, eval=FALSE}
+
+n <- 8e3
+x <- matrix(rnorm(10), n, n)
+v <- array(rnorm(10), c(1, n))
+bm_collapse_row <- bench::mark(
+  collapse = x %r+% v,
+  broadcast = bc.num(x, v, "+"),
+  min_iterations = 100
+)
+summary(bm_collapse_row)
+plot(bm_collapse_row)
+```
+
+
+
+And here are the results:
+
+```{r fig.width=8, echo=FALSE}
+load("benchmarks/bm_collapse_row.RData")
+summary(bm_collapse_row)
+plot(bm_collapse_row)
+```
+
+The 'collapse' package is slightly faster than 'broadcast' in this case. This does show how super fast 'collapse' tru;ly is.
+
+

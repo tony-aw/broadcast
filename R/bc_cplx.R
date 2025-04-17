@@ -1,7 +1,7 @@
 #' Broadcasted Complex Numeric Operations
 #'
 #' @description
-#' The `bc.cplx()` function performs broadcasted complex numeric operations pairs of arrays. \cr
+#' The `bc.cplx()` function performs broadcasted complex numeric operations on pairs of arrays. \cr
 #' \cr
 #' Note that `bc.cplx()` uses more strict `NA` checks than base 'R': \cr
 #' If for an element of either `x` or `y`, either the real or imaginary part is `NA` or `NaN`,

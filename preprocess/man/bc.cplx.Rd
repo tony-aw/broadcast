@@ -22,7 +22,7 @@ A logical array as a result of the broadcasted relational comparison. \cr
 \cr
 }
 \description{
-The \code{bc.cplx()} function performs broadcasted complex numeric operations pairs of arrays. \cr
+The \code{bc.cplx()} function performs broadcasted complex numeric operations on pairs of arrays. \cr
 \cr
 Note that \code{bc.cplx()} uses more strict \code{NA} checks than base 'R': \cr
 If for an element of either \code{x} or \code{y}, either the real or imaginary part is \code{NA} or \code{NaN},

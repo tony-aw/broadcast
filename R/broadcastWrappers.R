@@ -58,3 +58,22 @@
   .Call("C_bind_which_comnames", out_dim, start, obj_dim)
 }
 
+
+#' @keywords Internal
+#' @noRd
+.C_dropdims_count <- function(xdim, ydim) {
+  .Call("C_dropdims_count", xdim, ydim)
+}
+
+#' @keywords Internal
+#' @noRd
+.C_dropdims_which <- function(xdim, ydim, size) {
+  .Call("C_dropdims_which", xdim, ydim, size)
+}
+
+#' @keywords Internal
+#' @noRd
+.C_dims_all_equal <- function(xdim, ydim) {
+  .Call("C_dims_all_equal", xdim, ydim)
+}
+

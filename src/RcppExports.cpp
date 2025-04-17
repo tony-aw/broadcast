@@ -951,7 +951,10 @@ END_RCPP
 RcppExport SEXP C_any_nonNULL(SEXP);
 RcppExport SEXP C_bind_which_comnames(SEXP, SEXP, SEXP);
 RcppExport SEXP C_check_conf_dim(SEXP, SEXP);
+RcppExport SEXP C_dims_all_equal(SEXP, SEXP);
 RcppExport SEXP C_dims_all_orthogonal(SEXP, SEXP);
+RcppExport SEXP C_dropdims_count(SEXP, SEXP);
+RcppExport SEXP C_dropdims_which(SEXP, SEXP, SEXP);
 RcppExport SEXP C_lst_ndims(SEXP);
 RcppExport SEXP C_make_by(SEXP);
 RcppExport SEXP C_pmax(SEXP, SEXP);
@@ -1023,7 +1026,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"C_any_nonNULL",         (DL_FUNC) &C_any_nonNULL,         1},
     {"C_bind_which_comnames", (DL_FUNC) &C_bind_which_comnames, 3},
     {"C_check_conf_dim",      (DL_FUNC) &C_check_conf_dim,      2},
+    {"C_dims_all_equal",      (DL_FUNC) &C_dims_all_equal,      2},
     {"C_dims_all_orthogonal", (DL_FUNC) &C_dims_all_orthogonal, 2},
+    {"C_dropdims_count",      (DL_FUNC) &C_dropdims_count,      2},
+    {"C_dropdims_which",      (DL_FUNC) &C_dropdims_which,      3},
     {"C_lst_ndims",           (DL_FUNC) &C_lst_ndims,           1},
     {"C_make_by",             (DL_FUNC) &C_make_by,             1},
     {"C_pmax",                (DL_FUNC) &C_pmax,                2},

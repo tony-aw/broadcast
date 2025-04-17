@@ -194,7 +194,7 @@ bc.num(x, y, "+")
 
  
 
-## 🫵What can you do
+## 🫵What you can do
 
 ‘broadcast’ is fully functional, but still experimental.  
 If you have any suggestions or feedback on the package, its
