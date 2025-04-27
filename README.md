@@ -194,9 +194,14 @@ bc.num(x, y, "+")
 
  
 
-## 🫵What you can do
+## 📊Status
 
 ‘broadcast’ is fully functional, but still experimental.  
+I’m currently working on allowing the user to overload the base
+operators (+, -, \*, /, ^, %%, &, \|).  
+This can be useful for if you need to do a lot of broadcasted arithmetic
+at once with the usual math precedence rules.
+
 If you have any suggestions or feedback on the package, its
 documentation, or even the benchmarks, I encourage you to let me know
 (either as an [Issue](https://github.com/tony-aw/broadcast/issues) or a
