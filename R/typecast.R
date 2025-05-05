@@ -44,9 +44,11 @@ NULL
 #' @rdname typecast
 #' @export
 as_bool <- function(x, ...) {
-  temp.attr <- .attr_typecast(x)
+  
   out <- as.logical(x, ...)
-  attributes(out) <- temp.attr
+  dim(out) <- dim(x)
+  dimnames(out) <- dimnames(x)
+  names(out) <- names(x)
   return(out)
 }
 
@@ -54,9 +56,11 @@ as_bool <- function(x, ...) {
 #' @rdname typecast
 #' @export
 as_int <- function(x, ...) {
-  temp.attr <- .attr_typecast(x)
+  
   out <- as.integer(x, ...)
-  attributes(out) <- temp.attr
+  dim(out) <- dim(x)
+  dimnames(out) <- dimnames(x)
+  names(out) <- names(x)
   return(out)
 }
 
@@ -64,9 +68,11 @@ as_int <- function(x, ...) {
 #' @rdname typecast
 #' @export
 as_dbl <- function(x, ...) {
-  temp.attr <- .attr_typecast(x)
+  
   out <- as.double(x, ...)
-  attributes(out) <- temp.attr
+  dim(out) <- dim(x)
+  dimnames(out) <- dimnames(x)
+  names(out) <- names(x)
   return(out)
 }
 
@@ -78,9 +84,11 @@ as_num <- as_dbl
 #' @rdname typecast
 #' @export
 as_chr <- function(x, ...) {
-  temp.attr <- .attr_typecast(x)
+  
   out <- as.character(x, ...)
-  attributes(out) <- temp.attr
+  dim(out) <- dim(x)
+  dimnames(out) <- dimnames(x)
+  names(out) <- names(x)
   return(out)
 }
 
@@ -94,9 +102,11 @@ as_str <- as_chr
 #' @rdname typecast
 #' @export
 as_cplx <- function(x, ...) {
-  temp.attr <- .attr_typecast(x)
+  
   out <- as.complex(x, ...)
-  attributes(out) <- temp.attr
+  dim(out) <- dim(x)
+  dimnames(out) <- dimnames(x)
+  names(out) <- names(x)
   return(out)
 }
 
@@ -104,9 +114,10 @@ as_cplx <- function(x, ...) {
 #' @rdname typecast
 #' @export
 as_raw <- function(x, ...) {
-  temp.attr <- .attr_typecast(x)
   out <- as.raw(x, ...)
-  attributes(out) <- temp.attr
+  dim(out) <- dim(x)
+  dimnames(out) <- dimnames(x)
+  names(out) <- names(x)
   return(out)
 }
 
@@ -114,9 +125,10 @@ as_raw <- function(x, ...) {
 #' @rdname typecast
 #' @export
 as_list <- function(x, ...) {
-  temp.attr <- .attr_typecast(x)
   out <- as.list(x, ...)
-  attributes(out) <- temp.attr
+  dim(out) <- dim(x)
+  dimnames(out) <- dimnames(x)
+  names(out) <- names(x)
   return(out)
 }
 

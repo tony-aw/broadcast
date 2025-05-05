@@ -30,7 +30,7 @@ x <- sample(1:100, 10)
 y <- sample(1:100, 10)
 expect_equal(
   bc.i(x, y, "gcd"),
-  gcd(x, y) |> as.array()
+  gcd(x, y)
 )
 enumerate <- enumerate + 4L
 

@@ -1,4 +1,4 @@
-#' broadcast: Simple 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies
+#' broadcast: 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies
 #' 
 #' @description
 #' broadcast: \cr
@@ -41,7 +41,7 @@
 #'  * \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 #' 
 #' 
-#' \bold{\code{bind_array}} \cr
+#' \bold{\code{bind_array()}} \cr
 #' 'broadcast' provides the \link{bind_array} function,
 #' to bind arrays along an arbitrary dimension,
 #' with support for broadcasting. \cr
@@ -85,6 +85,30 @@
 #' \link[=as_bool]{type-casting} functions,
 #' which preserve names and dimensions - convenient for arrays. \cr \cr
 #' 
+#' 
+#' @section Overloading:
+#' Sometimes broadcasting is needed in large mathematical expression,
+#' involving multiple variables,
+#' where precedence is of importance. \cr
+#' For example in an expression like `(x + y) / z^y`. \cr
+#' For such cases, you may want to overload the base operators. \cr
+#' \cr
+#' The 'broadcast' package
+#' provides 2 ways to overload base operators to support broadcasting:
+#' 
+#'  1) Via the \link{bc} function,
+#'  to evaluate a mathematical expression using overloaded operators for broadcast support.
+#'  2) Via the \link{broadcaster} class,
+#'  which comes with its own method dispatch for the base operators. \cr
+#'
+#' The following base operators can be overloaded via either method:
+#' 
+#'  - From \link{bc.num} and \link{bc.cplx}: +, -, *, /, ^
+#'  - From \link{bc.i}: %%
+#'  - From \link{bc.b}: &, |
+#'
+#' Overloads for the relational operators (==, !=, etc.) have not yet been implemented; \cr
+#' this will be done soon. \cr \cr
 #' 
 #' @references Plate T, Heiberger R (2016). \emph{abind: Combine Multidimensional Arrays}. R package version 1.4-5, \url{https://CRAN.R-project.org/package=abind}.
 #' 

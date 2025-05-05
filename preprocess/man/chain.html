@@ -1,0 +1,89 @@
+<!DOCTYPE html><html><head><title>R: Evaluate a Chain of Mathematical Operations with Broadcasting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>bc</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate a Chain of Mathematical Operations with Broadcasting</h2>
+
+<h3>Description</h3>
+
+<p>The user can supply a formula giving a mathematical (-like) expression in the <code>bc()</code> function. <br />
+Inside <code>bc()</code>, the expression is evaluated,
+where the base operators
+(+, -, *, /, etc.)
+have been <b>overloaded</b> to use <b>broadcasting</b>. <br />
+I.e. <code>bc(~ x + y)</code> is equivalent to <code>bc.num(x, y, "+")</code>. <br />
+What sets <code>bc()</code> apart from the other <code>bc.</code>-functions,
+other than the different syntax,
+is that the user can chain together multiple arithmetic operators,
+<b>with the usual mathematical precedence and backeting rules</b>. <br />
+For example: <br />
+<code>bc(~ (x + y) / z)</code> <br />
+<br />
+Currently, all mathematical operators and all Boolean operators are supported,
+but relational operators have not yet been implemented. <br />
+<br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>bc(f)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="f">f</code></td>
+<td>
+<p>a formula giving the expression to evaluate. <br />
+The environment of <code>f</code> is used to find the variables. <br />
+If <code>environment(f)</code> is <code>NULL</code>,
+the environment from which <code>bc()</code> was called
+is used to find the variables. <br /> <br /></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The result from the broadcasted operation. <br />
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+x &lt;- 1:10
+y &lt;- 1:10
+bc(~ x + y / x)
+x + 1 # mathematically equivalent to the above, since x == y
+bc(~ (x + y) / x)
+2 * x/x # mathematically equivalent to the above, since x == y
+
+dim(x) &lt;- c(10, 1)
+dim(y) &lt;- c(1, 10)
+
+bc(~ x + y / x)
+bc(~ (x + y) / x)
+bc(~ ifelse(x &gt; 1, y, x)) # ifelse and apply are not overloaded
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

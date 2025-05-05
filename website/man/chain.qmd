@@ -1,0 +1,74 @@
+---
+title: chain
+---
+## Evaluate a Chain of Mathematical Operations with Broadcasting {.unnumbered}
+
+
+### Description
+
+The user can supply a formula giving a mathematical (-like) expression in the <code>bc()</code> function. <br />
+Inside <code>bc()</code>, the expression is evaluated,
+where the base operators
+(+, -, *, /, etc.)
+have been <b>overloaded</b> to use <b>broadcasting</b>. <br />
+I.e. <code>bc(~ x + y)</code> is equivalent to <code>bc.num(x, y, "+")</code>. <br />
+What sets <code>bc()</code> apart from the other <code>bc.</code>-functions,
+other than the different syntax,
+is that the user can chain together multiple arithmetic operators,
+<b>with the usual mathematical precedence and backeting rules</b>. <br />
+For example: <br />
+<code>bc(~ (x + y) / z)</code> <br />
+<br />
+Currently, all mathematical operators and all Boolean operators are supported,
+but relational operators have not yet been implemented. <br />
+<br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>bc(f)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="f">f</code></td>
+<td>
+a formula giving the expression to evaluate. <br />
+The environment of <code>f</code> is used to find the variables. <br />
+If <code>environment(f)</code> is <code>NULL</code>,
+the environment from which <code>bc()</code> was called
+is used to find the variables. <br /> <br />
+</td></tr>
+</table>
+
+
+### Value
+
+The result from the broadcasted operation. <br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+
+x <- 1:10
+y <- 1:10
+bc(~ x + y / x)
+x + 1 # mathematically equivalent to the above, since x == y
+bc(~ (x + y) / x)
+2 * x/x # mathematically equivalent to the above, since x == y
+
+dim(x) <- c(10, 1)
+dim(y) <- c(1, 10)
+
+bc(~ x + y / x)
+bc(~ (x + y) / x)
+bc(~ ifelse(x > 1, y, x)) # ifelse and apply are not overloaded
+
+
+```

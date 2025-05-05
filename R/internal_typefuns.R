@@ -14,9 +14,14 @@
 }
 
 
+#' @keywords internal
+#' @noRd
 .is_array_like <- function(x) {
-  return(is.array(x) || is.vector(x))
+  good_type <- is.logical(x) || is.integer(x) || is.double(x) || is.complex(x) || is.character(x) || is.raw(x) || is.list(x)
+  good_form <- is.array(x) || is.null(dim(x))
+  return(good_type && good_form)
 }
+
 
 #' @keywords internal
 #' @noRd
@@ -68,4 +73,11 @@
     stop(simpleError("unknown type", call = abortcall))
   }
   return(coerce)
+}
+
+#' @keywords internal
+#' @noRd
+.is_formula <- function(form) {
+  check <- inherits(form, "formula") && is.call(form) && isTRUE(form[[1]] == "~")
+  return(check)
 }

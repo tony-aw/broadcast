@@ -1,2 +1,7 @@
-# broadcast 0.0.0.9
+# broadcast 0.0.0.9000
 * Initial GitHub Publication
+
+# broadcast 0.0.0.9001
+* Provided 2 ways to overload the base math (+, -, *, et.c) and logical (&, |) operators.
+One is the `bc()` function to evaluate a math expression.
+The other is the `broadcaster` class which comes with method dispatch for said operators.

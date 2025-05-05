@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><title>R: broadcast: Simple 'Numpy'-like Broadcasted Operations for...</title>
+<!DOCTYPE html><html><head><title>R: broadcast: 'Numpy'-like Broadcasted Operations for Atomic and...</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -16,7 +16,7 @@ function processMathHTML() {
 
 <table style="width: 100%;"><tr><td>aaa00_broadcast_help</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>broadcast: Simple 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies</h2>
+<h2>broadcast: 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies</h2>
 
 <h3>Description</h3>
 
@@ -91,7 +91,7 @@ The following functions for type-specific binary operations are available:
 </p>
 </li></ul>
 
-<p><b><code>bind_array</code></b> <br />
+<p><b><code>bind_array()</code></b> <br />
 'broadcast' provides the <code>[bind_array](bind_array.qmd)</code> function,
 to bind arrays along an arbitrary dimension,
 with support for broadcasting. <br />
@@ -149,6 +149,47 @@ for casting (i.e. pivoting) an array into a new dimension. <br />
 'broadcast' also provides
 <code>[type-casting](typecast.qmd)</code> functions,
 which preserve names and dimensions - convenient for arrays. <br /> <br />
+</p>
+
+
+<h3>Overloading</h3>
+
+<p>Sometimes broadcasting is needed in large mathematical expression,
+involving multiple variables,
+where precedence is of importance. <br />
+For example in an expression like <code>(x + y) / z^y</code>. <br />
+For such cases, you may want to overload the base operators. <br />
+<br />
+The 'broadcast' package
+provides 2 ways to overload base operators to support broadcasting:
+</p>
+
+<ol>
+<li><p> Via the <code>[bc](chain.qmd)</code> function,
+to evaluate a mathematical expression using overloaded operators for broadcast support.
+</p>
+</li>
+<li><p> Via the <code>[broadcaster](broadcaster.qmd)</code> class,
+which comes with its own method dispatch for the base operators. <br />
+</p>
+</li></ol>
+
+<p>The following base operators can be overloaded via either method:
+</p>
+
+<ul>
+<li><p> From <code>[bc.num](bc.d.qmd)</code> and <code>[bc.cplx](bc.cplx.qmd)</code>: +, -, *, /, ^
+</p>
+</li>
+<li><p> From <code>[bc.i](bc.i.qmd)</code>: %%
+</p>
+</li>
+<li><p> From <code>[bc.b](bc.b.qmd)</code>: &amp;, |
+</p>
+</li></ul>
+
+<p>Overloads for the relational operators (==, !=, etc.) have not yet been implemented; <br />
+this will be done soon. <br /> <br />
 </p>
 
 

@@ -1,5 +1,5 @@
 
-## broadcast: Simple 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies {.unnumbered}
+## broadcast: 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies {.unnumbered}
 
 
 ### Description
@@ -75,7 +75,7 @@ The following functions for type-specific binary operations are available:
 
 </li></ul>
 
-<b><code>bind_array</code></b> <br />
+<b><code>bind_array()</code></b> <br />
 'broadcast' provides the [bind_array](bind_array.qmd) function,
 to bind arrays along an arbitrary dimension,
 with support for broadcasting. <br />
@@ -133,6 +133,47 @@ for casting (i.e. pivoting) an array into a new dimension. <br />
 'broadcast' also provides
 [type-casting](typecast.qmd) functions,
 which preserve names and dimensions - convenient for arrays. <br /> <br />
+
+
+
+### Overloading
+
+Sometimes broadcasting is needed in large mathematical expression,
+involving multiple variables,
+where precedence is of importance. <br />
+For example in an expression like <code>(x + y) / z^y</code>. <br />
+For such cases, you may want to overload the base operators. <br />
+<br />
+The 'broadcast' package
+provides 2 ways to overload base operators to support broadcasting:
+
+
+<ol>
+<li> Via the [bc](chain.qmd) function,
+to evaluate a mathematical expression using overloaded operators for broadcast support.
+
+</li>
+<li> Via the [broadcaster](broadcaster.qmd) class,
+which comes with its own method dispatch for the base operators. <br />
+
+</li></ol>
+
+The following base operators can be overloaded via either method:
+
+
+<ul>
+<li> From [bc.num](bc.d.qmd) and [bc.cplx](bc.cplx.qmd): +, -, *, /, ^
+
+</li>
+<li> From [bc.i](bc.i.qmd): %%
+
+</li>
+<li> From [bc.b](bc.b.qmd): &amp;, |
+
+</li></ul>
+
+Overloads for the relational operators (==, !=, etc.) have not yet been implemented; <br />
+this will be done soon. <br /> <br />
 
 
 

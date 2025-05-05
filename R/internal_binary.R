@@ -27,8 +27,11 @@
   y.dim <- dim(y)
   x.len <- length(x)
   y.len <- length(y)
-  if(is.null(x.dim)) x.dim <- x.len
-  if(is.null(y.dim)) y.dim <- y.len
+  if(!is.null(x.dim) || !is.null(y.dim)) {
+    if(is.null(x.dim)) x.dim <- x.len
+    if(is.null(y.dim)) y.dim <- y.len
+  }
+  
   
   # normalize dimensions:
   prep <- .binary_normalize_dims(x.dim, y.dim)
@@ -253,3 +256,48 @@
 }
 
 
+
+#' @keywords internal
+#' @noRd
+.binary_attr <- function(e1, e2) {
+  n1 <- length(e1)
+  n2 <- length(e2)
+  bad_attr <- c("names", "dim", "dimnames")
+  ae1 <- attributes(e1)
+  ae1 <- ae1[!names(ae1) %in% bad_attr]
+  ae2 <- attributes(e2)
+  ae2 <- ae2[!names(ae2) %in% bad_attr]
+  
+  if (n1 == n2) {
+    ## if same size take attribute from e1 if it exists, else from e2
+    if (n1 == 0L) {
+      ae2 <- ae1
+    }
+    nae1 <- names(ae1)
+    nae2 <- names(ae2)
+    iters <- union(nae1, nae2)
+    if(length(iters) > 0L) {
+      allattr <- vector("list", length(iters))
+      names(allattr) <- iters
+      for (a in iters) {
+        if (a %in% nae1) {
+          allattr[[a]] <- ae1[[a]]
+        }
+        else {
+          allattr[[a]] <- ae2[[a]]
+        }
+      }
+      return(allattr)
+    }
+    else {
+      return(NULL)
+    }
+    
+  }
+  else if (n1 == 0L || n1 > n2) {
+    return(ae1)
+  }
+  else {
+    return(ae2)
+  }
+}

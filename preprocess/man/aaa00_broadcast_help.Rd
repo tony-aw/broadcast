@@ -5,7 +5,7 @@
 \alias{broadcast-package}
 \alias{broadcast}
 \alias{broadcast_help}
-\title{broadcast: Simple 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies}
+\title{broadcast: 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies}
 \description{
 broadcast: \cr
 Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
@@ -54,7 +54,7 @@ The following functions for type-specific binary operations are available:
 \item \code{[bc.list](bc.list.qmd)}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 }
 
-\bold{\code{bind_array}} \cr
+\bold{\code{bind_array()}} \cr
 'broadcast' provides the \code{[bind_array](bind_array.qmd)} function,
 to bind arrays along an arbitrary dimension,
 with support for broadcasting. \cr
@@ -96,6 +96,34 @@ for casting (i.e. pivoting) an array into a new dimension. \cr
 'broadcast' also provides
 \code{[type-casting](typecast.qmd)} functions,
 which preserve names and dimensions - convenient for arrays. \cr \cr
+}
+
+\section{Overloading}{
+
+Sometimes broadcasting is needed in large mathematical expression,
+involving multiple variables,
+where precedence is of importance. \cr
+For example in an expression like \code{(x + y) / z^y}. \cr
+For such cases, you may want to overload the base operators. \cr
+\cr
+The 'broadcast' package
+provides 2 ways to overload base operators to support broadcasting:
+\enumerate{
+\item Via the \code{[bc](chain.qmd)} function,
+to evaluate a mathematical expression using overloaded operators for broadcast support.
+\item Via the \code{[broadcaster](broadcaster.qmd)} class,
+which comes with its own method dispatch for the base operators. \cr
+}
+
+The following base operators can be overloaded via either method:
+\itemize{
+\item From \code{[bc.num](bc.d.qmd)} and \code{[bc.cplx](bc.cplx.qmd)}: +, -, *, /, ^
+\item From \code{[bc.i](bc.i.qmd)}: \%\%
+\item From \code{[bc.b](bc.b.qmd)}: &, |
+}
+
+Overloads for the relational operators (==, !=, etc.) have not yet been implemented; \cr
+this will be done soon. \cr \cr
 }
 
 \references{
