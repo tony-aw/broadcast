@@ -163,20 +163,26 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/bc.raw.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.raw</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/bc.list.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.list</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/chain.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">chain</span></a>
+  <a href="../man/broadcaster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">broadcaster</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/broadcaster.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">broadcaster</span></a>
+  <a href="../man/bc_chain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc_chain</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -301,6 +307,9 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../man/bc.str.html">bc.str</a>: string (in)equality, concatenation, and distance operations;</p>
 </li>
 <li>
+<p><a href="../man/bc.raw.html">bc.raw</a>: for raw arrays; bit-wise operations and (in)equality operations;</p>
+</li>
+<li>
 <p><a href="../man/bc.list.html">bc.list</a>: apply any ‘R’ function to 2 recursive arrays with broadcasting. <br> <br></p>
 </li>
 </ul>
@@ -338,7 +347,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Sometimes broadcasting is needed in large mathematical expression, involving multiple variables, where precedence is of importance. <br> For example in an expression like <code>(x + y) / z^y</code>. <br> For such cases, you may want to overload the base operators. <br> <br> The ‘broadcast’ package provides 2 ways to overload base operators to support broadcasting:</p>
 <ol>
 <li>
-<p>Via the <a href="../man/chain.html">bc</a> function, to evaluate a mathematical expression using overloaded operators for broadcast support.</p>
+<p>Via the <a href="../man/bc_chain.html">bc_chain</a> function, to evaluate a mathematical expression using overloaded operators for broadcast support.</p>
 </li>
 <li>
 <p>Via the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators. <br></p>
@@ -350,10 +359,10 @@ ul.task-list li input[type="checkbox"] {
 <p>From <a href="../man/bc.d.html">bc.num</a> and <a href="../man/bc.cplx.html">bc.cplx</a>: +, -, *, /, ^</p>
 </li>
 <li>
-<p>From <a href="../man/bc.i.html">bc.i</a>: %%</p>
+<p>From <a href="../man/bc.i.html">bc.i</a>: %%, %/%</p>
 </li>
 <li>
-<p>From <a href="../man/bc.b.html">bc.b</a>: &amp;, |</p>
+<p>From <a href="../man/bc.b.html">bc.b</a> and <a href="../man/bc.raw.html">bc.raw</a>: &amp;, |</p>
 </li>
 </ul>
 <p>Overloads for the relational operators (==, !=, etc.) have not yet been implemented; <br> this will be done soon. <br> <br></p>

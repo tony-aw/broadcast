@@ -65,30 +65,6 @@ enumerate <- enumerate + 4L
 
 
 
-# zero-length object error ====
-message <- "zero-length objects not supported"
-x <- array(1:27, c(3,3,3))
-y <- vector(typeof(x), 0L)
-expect_error(
-  bc_ifelse(x == x, x, y),
-  pattern = message
-)
-expect_error(
-  bc_ifelse(x == x, y, x),
-  pattern = message
-)
-expect_error(
-  bcapply(x, y, f),
-  pattern = message
-)
-expect_error(
-  bcapply(y, x, f),
-  pattern = message
-)
-enumerate <- enumerate + 4L
-
-
-
 # non-conformable vectors ====
 message <- "`x` and `y` are not conformable"
 x <- 1:10

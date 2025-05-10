@@ -113,6 +113,31 @@ enumerate <- enumerate + i # count number of tests
 # test results:
 
 
+# dimnames ====
+# don't take dimnames:
+x <- array(1:10)
+y <- array(1:10, c(1, 10))
+test <- bc.d(x, y, ">")
+dimnames(test) <- list(letters[1:10], LETTERS[1:10])
+
+expect_equal(
+  bc_ifelse(test, x, y) |> dimnames(),
+  dimnames(test)
+)
+
+
+dim(test) <- length(test)
+dimnames(test) <- list(sample(letters, length(test), TRUE))
+
+expect_equal(
+  bc_ifelse(test, x, y) |> dimnames(),
+  NULL
+)
+
+enumerate <- enumerate + 1L
+
+
+
 # errors ====
 expect_error(
   bc_ifelse(letters, LETTERS, letters),

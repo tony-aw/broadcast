@@ -39,6 +39,7 @@ bc.str <- function(x, y, op) {
   if(!is.character(x) || !is.character(y)) {
     stop("`x` and `y` must be character/string arrays")
   }
+  
   encodings <- c(
     Encoding(x[1]),
     Encoding(y[1]),
@@ -75,6 +76,10 @@ bc.str <- function(x, y, op) {
 #' @keywords internal
 #' @noRd
 .bc_str_conc <- function(x, y, op, abortcall) {
+  
+  if(length(x) == 0L || length(y) == 0L) {
+    return(character(0L))
+  }
   
   prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
@@ -116,6 +121,10 @@ bc.str <- function(x, y, op) {
 #' @keywords internal
 #' @noRd
 .bc_str_rel <- function(x, y, op, abortcall) {
+  
+  if(length(x) == 0L || length(y) == 0L) {
+    return(logical(0L))
+  }
   
   prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
@@ -159,6 +168,10 @@ bc.str <- function(x, y, op) {
 #' @keywords internal
 #' @noRd
 .bc_str_dist <- function(x, y, op, abortcall) {
+  
+  if(length(x) == 0L || length(y) == 0L) {
+    return(integer(0L))
+  }
   
   prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]

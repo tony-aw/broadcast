@@ -1,0 +1,14 @@
+{
+  "hash": "373ff4773407e6be55787a650c2347b6",
+  "result": {
+    "markdown": "---\ntitle: bc.raw\n---\n\n## Broadcasted Operations on Raw Arrays {.unnumbered}\n\n\n### Description\n\nThe <code>bc.raw()</code> function\nperforms broadcasted (in)equality operations and bit-wise operations\non arrays of type <code>raw</code>. <br />\n<br />\n\n\n\n### Usage\n\n<pre><code class='language-R'>bc.raw(x, y, op)\n</code></pre>\n\n\n### Arguments\n\n<table>\n<tr><td style = \"white-space: collapse; font-family: monospace; vertical-align: top\"><code id=\"x\">x</code>, <code id=\"y\">y</code></td>\n<td>\nconformable raw vectors or arrays.\n</td></tr>\n<tr><td style = \"white-space: collapse; font-family: monospace; vertical-align: top\"><code id=\"op\">op</code></td>\n<td>\na single string, giving the operator. <br />\nSupported bit-wise operators: &amp;, |. <br />\nSupported relational operators: ==, !=. <br />\n<br />\n</td></tr>\n</table>\n\n\n### Value\n\nFor bit-wisec operators: <br />\nA array of type <code>raw</code>,\nas a result of the broadcasted bit-wise operation. <br />\n<br />\nFor relational operators: <br />\nA logical array as a result of the broadcasted integer relational comparison. <br />\n<br />\n\n\n\n### Examples\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(\"broadcast\")\n\nx.dim <- c(4:2)\nx.len <- prod(x.dim)\nx.data <- as.raw(0:10)\ny.data <- as.raw(10:0)\nx <- array(x.data, x.dim)\ny <- array(y.data, c(4,1,1))\n\nbc.raw(x, y, \"==\")\n## , , 1\n## \n##       [,1]  [,2]  [,3]\n## [1,] FALSE FALSE FALSE\n## [2,] FALSE FALSE  TRUE\n## [3,] FALSE FALSE FALSE\n## [4,] FALSE  TRUE FALSE\n## \n## , , 2\n## \n##       [,1]  [,2]  [,3]\n## [1,] FALSE FALSE FALSE\n## [2,] FALSE FALSE FALSE\n## [3,] FALSE FALSE FALSE\n## [4,] FALSE FALSE FALSE\nbc.raw(x, y, \"!=\")\n## , , 1\n## \n##      [,1]  [,2]  [,3]\n## [1,] TRUE  TRUE  TRUE\n## [2,] TRUE  TRUE FALSE\n## [3,] TRUE  TRUE  TRUE\n## [4,] TRUE FALSE  TRUE\n## \n## , , 2\n## \n##      [,1] [,2] [,3]\n## [1,] TRUE TRUE TRUE\n## [2,] TRUE TRUE TRUE\n## [3,] TRUE TRUE TRUE\n## [4,] TRUE TRUE TRUE\n\nbc.raw(x, y, \"&\")\n## , , 1\n## \n##      [,1] [,2] [,3]\n## [1,]   00   00   08\n## [2,]   01   01   09\n## [3,]   00   00   08\n## [4,]   03   07   00\n## \n## , , 2\n## \n##      [,1] [,2] [,3]\n## [1,]   00   00   08\n## [2,]   00   00   08\n## [3,]   00   00   00\n## [4,]   04   00   01\nbc.raw(x, y, \"|\")\n## , , 1\n## \n##      [,1] [,2] [,3]\n## [1,]   0a   0e   0a\n## [2,]   09   0d   09\n## [3,]   0a   0e   0a\n## [4,]   07   07   07\n## \n## , , 2\n## \n##      [,1] [,2] [,3]\n## [1,]   0b   0f   0b\n## [2,]   0b   0f   0b\n## [3,]   0b   0f   08\n## [4,]   07   0f   07\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

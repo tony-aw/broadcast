@@ -71,6 +71,9 @@ The following functions for type-specific binary operations are available:
 <li> [bc.str](bc.str.qmd): string (in)equality, concatenation, and distance operations;
 
 </li>
+<li> [bc.raw](bc.raw.qmd): for raw arrays; bit-wise operations and (in)equality operations;
+
+</li>
 <li> [bc.list](bc.list.qmd): apply any 'R' function to 2 recursive arrays with broadcasting. <br /> <br />
 
 </li></ul>
@@ -149,7 +152,7 @@ provides 2 ways to overload base operators to support broadcasting:
 
 
 <ol>
-<li> Via the [bc](chain.qmd) function,
+<li> Via the [bc_chain](bc_chain.qmd) function,
 to evaluate a mathematical expression using overloaded operators for broadcast support.
 
 </li>
@@ -165,10 +168,10 @@ The following base operators can be overloaded via either method:
 <li> From [bc.num](bc.d.qmd) and [bc.cplx](bc.cplx.qmd): +, -, *, /, ^
 
 </li>
-<li> From [bc.i](bc.i.qmd): %%
+<li> From [bc.i](bc.i.qmd): %%, %/%
 
 </li>
-<li> From [bc.b](bc.b.qmd): &amp;, |
+<li> From [bc.b](bc.b.qmd) and [bc.raw](bc.raw.qmd): &amp;, |
 
 </li></ul>
 

@@ -38,7 +38,7 @@ bc.d <- function(x, y, op, tol = sqrt(.Machine$double.eps)) {
   # checks:
   .binary_stop_general(x, y, op, sys.call())
   if(!.is_numeric_like(x) || !.is_numeric_like(y)) {
-    stop("`x` and `y` must be numeric or logical arrays")
+    stop("`x` and `y` must be numeric or logical arrays or vectors")
   }
   
   # get operator:
@@ -68,6 +68,10 @@ bc.num <- bc.d
 #' @keywords internal
 #' @noRd
 .bc_dec_math <- function(x, y, op, abortcall) {
+  
+  if(length(x) == 0L || length(y) == 0L) {
+    return(numeric(0L))
+  }
   
   prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
@@ -119,6 +123,10 @@ bc.num <- bc.d
     stop(simpleError("`tol` must be >= 0 and <= 0.1", call = abortcall))
   }
   
+  # MAIN:
+  if(length(x) == 0L || length(y) == 0L) {
+    return(logical(0L))
+  }
   
   prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]

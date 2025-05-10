@@ -19,28 +19,31 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
     "broadcast", testdir = file.path("tinytest", "bc_str")
   )
   tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "bc_raw")
+  )
+  tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bc_list")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bc_generic")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "bind_array_basic")
+    "broadcast", testdir = file.path("tinytest", "bind_array_1_basic")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "bind_array_pre")
+    "broadcast", testdir = file.path("tinytest", "bind_array_2_pre")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "bind_array_row")
+    "broadcast", testdir = file.path("tinytest", "bind_array_3_row")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "bind_array_col")
+    "broadcast", testdir = file.path("tinytest", "bind_array_4_col")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "bind_array_lyr")
+    "broadcast", testdir = file.path("tinytest", "bind_array_5_lyr")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "bind_array_post")
+    "broadcast", testdir = file.path("tinytest", "bind_array_6_post")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "othercast")

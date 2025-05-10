@@ -173,6 +173,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#broadcast-0.0.0.9000" id="toc-broadcast-0.0.0.9000" class="nav-link active" data-scroll-target="#broadcast-0.0.0.9000">broadcast 0.0.0.9000</a></li>
   <li><a href="#broadcast-0.0.0.9001" id="toc-broadcast-0.0.0.9001" class="nav-link" data-scroll-target="#broadcast-0.0.0.9001">broadcast 0.0.0.9001</a></li>
+  <li><a href="#broadcast-0.0.0.9002" id="toc-broadcast-0.0.0.9002" class="nav-link" data-scroll-target="#broadcast-0.0.0.9002">broadcast 0.0.0.9002</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -205,7 +206,17 @@ ul.task-list li input[type="checkbox"] {
 <section id="broadcast-0.0.0.9001" class="level1">
 <h1>broadcast 0.0.0.9001</h1>
 <ul>
-<li>Provided 2 ways to overload the base math (+, -, *, et.c) and logical (&amp;, |) operators. One is the <code>bc()</code> function to evaluate a math expression. The other is the <code>broadcaster</code> class which comes with method dispatch for said operators.</li>
+<li>Provided 2 ways to overload the base maths (+, -, *, et.c) and logical (&amp;, |) operators. One is the <code>bc()</code> function to evaluate a maths expression. The other is the <code>broadcaster</code> class which comes with method dispatch for said operators.</li>
+</ul>
+</section>
+<section id="broadcast-0.0.0.9002" class="level1">
+<h1>broadcast 0.0.0.9002</h1>
+<ul>
+<li>Most broadcast functions and their overloaded counterparts now support zero-length input, and added tests for this.</li>
+<li>Added the <code>%/%</code> operator to <a href="../man/bc.i.html">bc.i()</a>, added overload support for <code>%/%</code>, and added tests for these also.</li>
+<li>Added <a href="../man/bc.raw.html">bc.raw()</a>, added overload support for bit-wise operators (<code>&amp;</code> <code>|</code>), and added tests for these also.</li>
+<li><a href="../man/bc_ifelse.html">bc_ifelse()</a> now takes the dimnames from the <code>test</code> argument if <code>dim(test)</code> is equal to <code>bc_dim(yes, no)</code>.</li>
+<li>Renamed <code>bc()</code> to <a href="../man/bc_chain.html">bc_chain()</a>.</li>
 </ul>
 
 

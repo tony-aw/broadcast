@@ -351,6 +351,15 @@ macro_op_int_math <- "
     }	\\
     case 6:	\\
     {	\\
+      MACRO_TYPESWITCH_INTEGER1(	\\
+          DIMCODE,	\\
+          MACRO_ASSIGN_C(NA_REAL),	\\
+          MACRO_ASSIGN_C(rcpp_int53_idiv(e1, e2, intmin, intmax))	\\
+        );	\\
+      break;	\\
+    }	\\
+    case 7:	\\
+    {	\\
       MACRO_TYPESWITCH_INTEGER2(	\\
         DIMCODE,	\\
         trunc(px[flatind_x]) == 1 || trunc(py[flatind_y]) == 0,	\\
@@ -360,7 +369,7 @@ macro_op_int_math <- "
       );	\\
       break;	\\
     }	\\
-    case 7:	\\
+    case 8:	\\
     {	\\
       MACRO_TYPESWITCH_INTEGER1(	\\
         DIMCODE,	\\
@@ -369,7 +378,7 @@ macro_op_int_math <- "
       );	\\
       break;	\\
     }	\\
-    case 8:	\\
+    case 9:	\\
     {	\\
       MACRO_TYPESWITCH_INTEGER1(	\\
         DIMCODE,	\\
@@ -669,8 +678,6 @@ macro_op_cplx_math <- "
 # String ====
 #
 
-
-
 macro_op_str_rel <- "
 #define MACRO_OP_STR_REL(DIMCODE) do {	\\
   switch(op) {	\\
@@ -703,6 +710,7 @@ macro_op_str_rel <- "
 }	\\
 } while(0)
 "
+
 
 macro_op_str_dist <- "
 #define MACRO_OP_STR_DIST(DIMCODE) do {	\\
@@ -741,6 +749,65 @@ macro_op_str_conc <- "
 }	\\
 } while(0)
 "
+
+
+################################################################################
+# Raw ====
+#
+
+
+macro_op_raw_rel <- "
+#define MACRO_OP_RAW_REL(DIMCODE) do {	\\
+  switch(op) {	\\
+  case 1:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = px[flatind_x] == py[flatind_y]                \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 2:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = px[flatind_x] != py[flatind_y]                \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  default:	\\
+  {	\\
+    stop(\"given operator not supported in the given context\");	\\
+  }	\\
+}	\\
+} while(0)
+"
+
+
+
+macro_op_raw_bit <- "
+#define MACRO_OP_RAW_BIT(DIMCODE) do {	\\
+  switch(op) {	\\
+  case 1:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = px[flatind_x] & py[flatind_y]                \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 2:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = px[flatind_x] | py[flatind_y]                \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  default:	\\
+  {	\\
+    stop(\"given operator not supported in the given context\");	\\
+  }	\\
+}	\\
+} while(0)
+"
+
 
 
 ################################################################################
@@ -984,6 +1051,10 @@ macro_op <- stri_c(
   macro_op_str_rel,
   "\n",
   macro_op_str_dist,
+  "\n",
+  macro_op_raw_rel,
+  "\n",
+  macro_op_raw_bit,
   "\n",
   macro_op_ifelse,
   "\n",

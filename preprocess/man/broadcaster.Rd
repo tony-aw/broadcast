@@ -22,7 +22,7 @@ For \code{broadcaster()}: \cr
 For \verb{broadcaster()<-}: \cr
 Returns nothing,
 but sets (if right hand side is \code{TRUE})
-or removes (if right hand side is \code{TRUE})
+or removes (if right hand side is \code{FALSE})
 the "broadcaster" class attribute. \cr \cr
 }
 \description{

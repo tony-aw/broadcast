@@ -39,6 +39,22 @@ bcapply <- function(x, y, f, v = NULL) {
   if(.n_args(f) != 2L) {
     stop("`f` must be a function that takes in exactly 2 arguments")
   }
+  if(!.is_supported_type(x) || !.is_supported_type(y)) {
+    stop("input must be arrays or simple vecors")
+  }
+  if(is.null(v)) {
+    v <- "list"
+  }
+  if(!v %in% c("raw", "logical", "integer", "double", "complex", "character", "list")) {
+    stop("unsupported type specified for `v`")
+  }
+  
+  
+  # early zero-len return:
+  if(length(x) == 0L || length(y) == 0L) {
+    return(vector(v, 0L))
+  }
+  
   
   # General prep:
   prep <- .binary_prep(x, y, sys.call())
@@ -53,12 +69,6 @@ bcapply <- function(x, y, f, v = NULL) {
   
   
   # Allocate output:
-  if(is.null(v)) {
-    v <- "list"
-  }
-  if(!v %in% c("raw", "logical", "integer", "double", "complex", "character", "list")) {
-    stop("unsupported type specified for `v`")
-  }
   out <- vector(v, out.len)
   
   

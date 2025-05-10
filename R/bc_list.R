@@ -26,6 +26,9 @@ bc.list <- function(x, y, f) {
   if(!is.list(x) || !is.list(y)) {
     stop("`x` and `y` must be recursive arrays")
   }
+  if(length(x) == 0L || length(y) == 0L) {
+    return(vector("list", 0L))
+  }
   if(!is.function(f)) {
     stop("`f` must be a function")
   }

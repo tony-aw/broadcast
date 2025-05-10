@@ -32,7 +32,7 @@
 #' For `broadcaster()<-`: \cr
 #' Returns nothing,
 #' but sets (if right hand side is `TRUE`)
-#' or removes (if right hand side is `TRUE`)
+#' or removes (if right hand side is `FALSE`)
 #' the "broadcaster" class attribute. \cr \cr
 #'
 #'
@@ -114,6 +114,6 @@ broadcaster <- function(x) {
 #' @keywords internal
 #' @noRd
 .couldb.broadcaster <- function(x) {
-  return(.is_array_like(x))
+  return(.is_array_like(x) && .is_supported_type(x))
 }
 

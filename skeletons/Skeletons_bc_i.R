@@ -154,6 +154,28 @@ inline double rcpp_int53_mod(double x, double y, double intmin, double intmax) {
   return out;
 }
 
+
+double rcpp_int53_idiv(double x, double y, double intmin, double intmax) {
+    
+    double q = x / y;
+    
+    if (y == 0.0 || MACRO_OVERFLOW(q) || !R_FINITE(q)) {
+      return q;
+    }
+    
+    if(fabs(q) < 1) {
+      double z = (q < 0) ? -1
+	    : ((x < 0 && y > 0) ||
+	       (x > 0 && y < 0) // differing signs
+	       ? -1 : 0);
+	    return z;
+    }
+    
+    double tmp = (double)(x - floor(q) * (double)y);
+    return (double) (floor(q) + floorl(tmp/y));
+  }
+
+
 "
 
 txt1 <- "

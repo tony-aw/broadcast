@@ -38,6 +38,7 @@
 #'  * \link{bc.d}: decimal (64bit) arithmetic and relational operations;
 #'  * \link{bc.cplx}: complex arithmetic and (in)equality operations;
 #'  * \link{bc.str}: string (in)equality, concatenation, and distance operations;
+#'  * \link{bc.raw}: for raw arrays; bit-wise operations and (in)equality operations;
 #'  * \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 #' 
 #' 
@@ -96,7 +97,7 @@
 #' The 'broadcast' package
 #' provides 2 ways to overload base operators to support broadcasting:
 #' 
-#'  1) Via the \link{bc} function,
+#'  1) Via the \link{bc_chain} function,
 #'  to evaluate a mathematical expression using overloaded operators for broadcast support.
 #'  2) Via the \link{broadcaster} class,
 #'  which comes with its own method dispatch for the base operators. \cr
@@ -104,8 +105,8 @@
 #' The following base operators can be overloaded via either method:
 #' 
 #'  - From \link{bc.num} and \link{bc.cplx}: +, -, *, /, ^
-#'  - From \link{bc.i}: %%
-#'  - From \link{bc.b}: &, |
+#'  - From \link{bc.i}: %%, %/%
+#'  - From \link{bc.b} and \link{bc.raw}: &, |
 #'
 #' Overloads for the relational operators (==, !=, etc.) have not yet been implemented; \cr
 #' this will be done soon. \cr \cr

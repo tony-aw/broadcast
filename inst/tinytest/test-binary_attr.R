@@ -56,7 +56,7 @@ for(iSample in 1:5) {
               
               expect_equal(
                 x + y,
-                bc(~ x + y)
+                bc_chain(~ x + y)
               ) |> errorfun()
               
               enumerate <- enumerate + 1L

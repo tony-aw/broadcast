@@ -7,6 +7,7 @@ errorfun <- function(tt) {
 }
 
 .is_array_like <- broadcast:::.is_array_like
+.is_supported_type <- broadcast:::.is_supported_type
 
 x <- array(1:10)
 expect_equal(
@@ -18,7 +19,7 @@ expect_equal(
   TRUE
 )
 expect_equal(
-  .is_array_like(as.factor(x)),
+  .is_supported_type(as.factor(x)),
   FALSE
 )
 enumerate <- enumerate + 3L

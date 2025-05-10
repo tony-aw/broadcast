@@ -14,7 +14,7 @@
 #' @keywords internal
 #' @noRd
 .op_int_math <- function() {
-  return(c("+", "-", "*", "gcd", "%%", "^", "pmin", "pmax"))
+  return(c("+", "-", "*", "gcd", "%%", "%/%", "^", "pmin", "pmax"))
 }
 
 #' @keywords internal
@@ -59,4 +59,16 @@
 #' @noRd
 .op_cplx_math <- function() {
   return(c("+", "-", "*", "/"))
+}
+
+#' @keywords internal
+#' @noRd
+.op_raw_rel <- function() {
+  return(c("==", "!="))
+}
+
+#' @keywords internal
+#' @noRd
+.op_raw_bit <- function() {
+  return(c("&", "|"))
 }

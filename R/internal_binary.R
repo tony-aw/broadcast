@@ -10,12 +10,10 @@
   if(ndim(x) > 16L || ndim(y) > 16L) {
     stop(simpleError("arrays with more than 16 dimensions are not supported", call = abortcall))
   }
-  if(length(x) == 0L || length(y) == 0L) {
-    stop(simpleError("zero-length objects not supported", call = abortcall))
-  }
   if(!is.character(op) || length(op) != 1L) {
     stop(simpleError("`op` must be single string", call = abortcall))
   }
+  
 }
 
 

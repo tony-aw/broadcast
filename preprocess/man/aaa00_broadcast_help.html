@@ -87,6 +87,9 @@ The following functions for type-specific binary operations are available:
 <li> <p><code>[bc.str](bc.str.qmd)</code>: string (in)equality, concatenation, and distance operations;
 </p>
 </li>
+<li> <p><code>[bc.raw](bc.raw.qmd)</code>: for raw arrays; bit-wise operations and (in)equality operations;
+</p>
+</li>
 <li> <p><code>[bc.list](bc.list.qmd)</code>: apply any 'R' function to 2 recursive arrays with broadcasting. <br /> <br />
 </p>
 </li></ul>
@@ -165,7 +168,7 @@ provides 2 ways to overload base operators to support broadcasting:
 </p>
 
 <ol>
-<li><p> Via the <code>[bc](chain.qmd)</code> function,
+<li><p> Via the <code>[bc_chain](bc_chain.qmd)</code> function,
 to evaluate a mathematical expression using overloaded operators for broadcast support.
 </p>
 </li>
@@ -181,10 +184,10 @@ which comes with its own method dispatch for the base operators. <br />
 <li><p> From <code>[bc.num](bc.d.qmd)</code> and <code>[bc.cplx](bc.cplx.qmd)</code>: +, -, *, /, ^
 </p>
 </li>
-<li><p> From <code>[bc.i](bc.i.qmd)</code>: %%
+<li><p> From <code>[bc.i](bc.i.qmd)</code>: %%, %/%
 </p>
 </li>
-<li><p> From <code>[bc.b](bc.b.qmd)</code>: &amp;, |
+<li><p> From <code>[bc.b](bc.b.qmd)</code> and <code>[bc.raw](bc.raw.qmd)</code>: &amp;, |
 </p>
 </li></ul>
 

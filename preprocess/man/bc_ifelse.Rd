@@ -16,6 +16,9 @@ Recursive arrays of type \link[base]{list} are also supported. \cr \cr}
 \value{
 The ouput, here referred to as \code{out},
 will be an array of the same type as \code{yes} and \code{no}. \cr
+If \code{test} has the same dimensions as \code{bc_dim(yes, no)},
+then \code{out} will also have the same dimnames as \code{test}. \cr
+\cr
 After broadcasting \code{yes} against \code{no},
 given any element index \code{i},
 the following will hold for the output:

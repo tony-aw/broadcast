@@ -69,27 +69,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- as_dbl(drop(x)) + as_dbl(drop(y))
 
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc(~ x + y)
+            out[[i]] <- bc_chain(~ x + y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- as.double(x) + as.double(y)
-            out[[i]] <- bc(~ x + y)
+            out[[i]] <- bc_chain(~ x + y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- as.double(x) + rep_dim(as_dbl(y), tdim)
-            out[[i]] <- bc(~ x + y)
+            out[[i]] <- bc_chain(~ x + y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- rep_dim(as_dbl(x), tdim) + as.double(y)
-            out[[i]] <- bc(~ x + y)
+            out[[i]] <- bc_chain(~ x + y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- rep_dim(as_dbl(x), tdim) + rep_dim(as_dbl(y), tdim)
-            out[[i]] <- bc(~ x + y)
+            out[[i]] <- bc_chain(~ x + y)
           }
           # END CASES
           
@@ -166,27 +166,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- as_dbl(drop(x)) - as_dbl(drop(y))
 
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc(~ x - y)
+            out[[i]] <- bc_chain(~ x - y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- as.double(x) - as.double(y)
-            out[[i]] <- bc(~ x - y)
+            out[[i]] <- bc_chain(~ x - y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- as.double(x) - rep_dim(as_dbl(y), tdim)
-            out[[i]] <- bc(~ x - y)
+            out[[i]] <- bc_chain(~ x - y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- rep_dim(as_dbl(x), tdim) - as.double(y)
-            out[[i]] <- bc(~ x - y)
+            out[[i]] <- bc_chain(~ x - y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- rep_dim(as_dbl(x), tdim) - rep_dim(as_dbl(y), tdim)
-            out[[i]] <- bc(~ x - y)
+            out[[i]] <- bc_chain(~ x - y)
           }
           # END CASES
           
@@ -261,27 +261,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- as_dbl(drop(x)) * as_dbl(drop(y))
             
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc(~ x * y)
+            out[[i]] <- bc_chain(~ x * y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- as.double(x) * as.double(y)
-            out[[i]] <- bc(~ x * y)
+            out[[i]] <- bc_chain(~ x * y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- as.double(x) * rep_dim(as_dbl(y), tdim)
-            out[[i]] <- bc(~ x * y)
+            out[[i]] <- bc_chain(~ x * y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- rep_dim(as_dbl(x), tdim) * as.double(y)
-            out[[i]] <- bc(~ x * y)
+            out[[i]] <- bc_chain(~ x * y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- rep_dim(as_dbl(x), tdim) * rep_dim(as_dbl(y), tdim)
-            out[[i]] <- bc(~ x * y)
+            out[[i]] <- bc_chain(~ x * y)
           }
           # END CASES
           
@@ -356,27 +356,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- as_dbl(drop(x)) / as_dbl(drop(y))
             
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc(~ x / y)
+            out[[i]] <- bc_chain(~ x / y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- as.double(x) / as.double(y)
-            out[[i]] <- bc(~ x / y)
+            out[[i]] <- bc_chain(~ x / y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- as.double(x) / rep_dim(as_dbl(y), tdim)
-            out[[i]] <- bc(~ x / y)
+            out[[i]] <- bc_chain(~ x / y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- rep_dim(as_dbl(x), tdim) / as.double(y)
-            out[[i]] <- bc(~ x / y)
+            out[[i]] <- bc_chain(~ x / y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- rep_dim(as_dbl(x), tdim) / rep_dim(as_dbl(y), tdim)
-            out[[i]] <- bc(~ x / y)
+            out[[i]] <- bc_chain(~ x / y)
           }
           # END CASES
           
@@ -451,27 +451,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- as_dbl(drop(x)) ^ as_dbl(drop(y))
             
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc(~ x ^ y)
+            out[[i]] <- bc_chain(~ x ^ y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- as.double(x) ^ as.double(y)
-            out[[i]] <- bc(~ x ^ y)
+            out[[i]] <- bc_chain(~ x ^ y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- as.double(x) ^ rep_dim(as_dbl(y), tdim)
-            out[[i]] <- bc(~ x ^ y)
+            out[[i]] <- bc_chain(~ x ^ y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- rep_dim(as_dbl(x), tdim) ^ as.double(y)
-            out[[i]] <- bc(~ x ^ y)
+            out[[i]] <- bc_chain(~ x ^ y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- rep_dim(as_dbl(x), tdim) ^ rep_dim(as_dbl(y), tdim)
-            out[[i]] <- bc(~ x ^ y)
+            out[[i]] <- bc_chain(~ x ^ y)
           }
           # END CASES
           

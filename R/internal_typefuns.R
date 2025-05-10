@@ -13,13 +13,20 @@
   return(is.integer(x) || is.logical(x))
 }
 
+#' @keywords internal
+#' @noRd
+.is_supported_type <- function(x) {
+  return(
+    is.logical(x) || is.integer(x) || is.double(x) || is.complex(x) || is.character(x) || is.raw(x) || is.list(x)
+  )
+}
 
 #' @keywords internal
 #' @noRd
 .is_array_like <- function(x) {
-  good_type <- is.logical(x) || is.integer(x) || is.double(x) || is.complex(x) || is.character(x) || is.raw(x) || is.list(x)
   good_form <- is.array(x) || is.null(dim(x))
-  return(good_type && good_form)
+  good_S3 <- !isS4(x)
+  return(good_form && good_S3)
 }
 
 

@@ -14,10 +14,11 @@ funs <- list(
   bc.d,
   bc.cplx,
   bc.str,
+  bc.raw,
   bc.list
 )
 ops <- c(
-  rep(list("=="), 5L),
+  rep(list("=="), 6L),
   \(x, y) length(x)==length(y)
 )
 
@@ -27,6 +28,7 @@ datagens <- list(
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)),
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)) + sample(c(rnorm(10), NA, NaN, Inf, -Inf)) * -1i,
   \() sample(c(letters, NA)),
+  \() as.raw(sample(0:255, 10)),
   \() sample(list(letters, month.abb, 1:10))
 )
 

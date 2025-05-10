@@ -14,6 +14,9 @@
 #' @returns
 #' The ouput, here referred to as `out`,
 #' will be an array of the same type as `yes` and `no`. \cr
+#' If `test` has the same dimensions as `bc_dim(yes, no)`,
+#' then `out` will also have the same dimnames as `test`. \cr
+#' \cr
 #' After broadcasting `yes` against `no`,
 #' given any element index `i`,
 #' the following will hold for the output:
@@ -44,9 +47,16 @@ bc_ifelse <- function(test, yes, no) {
   if(!is.logical(test)) {
     stop("`test` must be a logical array")
   }
+  if(!.is_supported_type(yes) || !.is_supported_type(no)) {
+    stop("input must be arrays or simple vecors")
+  }
+  if(length(test) == 0L) {
+    return(vector(typeof(yes), 0L))
+  }
   if(length(test) != prod(bc_dim(yes, no))) {
     stop("`test` of incorrect length")
   }
+  
   
   # re-assign
   x <- yes
@@ -86,6 +96,12 @@ bc_ifelse <- function(test, yes, no) {
   }
   
   dim(out) <- out.dimorig
+  if(is.array(test)) {
+    if(ndim(out) > 1L && all(dim(test) == out.dimorig)) {
+      dimnames(out) <- dimnames(test)
+    }
+  }
+  
   
   return(out)
   

@@ -51,6 +51,7 @@ The following functions for type-specific binary operations are available:
 \item \link{bc.d}: decimal (64bit) arithmetic and relational operations;
 \item \link{bc.cplx}: complex arithmetic and (in)equality operations;
 \item \link{bc.str}: string (in)equality, concatenation, and distance operations;
+\item \link{bc.raw}: for raw arrays; bit-wise operations and (in)equality operations;
 \item \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 }
 
@@ -109,7 +110,7 @@ For such cases, you may want to overload the base operators. \cr
 The 'broadcast' package
 provides 2 ways to overload base operators to support broadcasting:
 \enumerate{
-\item Via the \link{bc} function,
+\item Via the \link{bc_chain} function,
 to evaluate a mathematical expression using overloaded operators for broadcast support.
 \item Via the \link{broadcaster} class,
 which comes with its own method dispatch for the base operators. \cr
@@ -118,8 +119,8 @@ which comes with its own method dispatch for the base operators. \cr
 The following base operators can be overloaded via either method:
 \itemize{
 \item From \link{bc.num} and \link{bc.cplx}: +, -, *, /, ^
-\item From \link{bc.i}: \%\%
-\item From \link{bc.b}: &, |
+\item From \link{bc.i}: \%\%, \%/\%
+\item From \link{bc.b} and \link{bc.raw}: &, |
 }
 
 Overloads for the relational operators (==, !=, etc.) have not yet been implemented; \cr

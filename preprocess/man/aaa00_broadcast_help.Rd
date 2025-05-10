@@ -51,6 +51,7 @@ The following functions for type-specific binary operations are available:
 \item \code{[bc.d](bc.d.qmd)}: decimal (64bit) arithmetic and relational operations;
 \item \code{[bc.cplx](bc.cplx.qmd)}: complex arithmetic and (in)equality operations;
 \item \code{[bc.str](bc.str.qmd)}: string (in)equality, concatenation, and distance operations;
+\item \code{[bc.raw](bc.raw.qmd)}: for raw arrays; bit-wise operations and (in)equality operations;
 \item \code{[bc.list](bc.list.qmd)}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 }
 
@@ -109,7 +110,7 @@ For such cases, you may want to overload the base operators. \cr
 The 'broadcast' package
 provides 2 ways to overload base operators to support broadcasting:
 \enumerate{
-\item Via the \code{[bc](chain.qmd)} function,
+\item Via the \code{[bc_chain](bc_chain.qmd)} function,
 to evaluate a mathematical expression using overloaded operators for broadcast support.
 \item Via the \code{[broadcaster](broadcaster.qmd)} class,
 which comes with its own method dispatch for the base operators. \cr
@@ -118,8 +119,8 @@ which comes with its own method dispatch for the base operators. \cr
 The following base operators can be overloaded via either method:
 \itemize{
 \item From \code{[bc.num](bc.d.qmd)} and \code{[bc.cplx](bc.cplx.qmd)}: +, -, *, /, ^
-\item From \code{[bc.i](bc.i.qmd)}: \%\%
-\item From \code{[bc.b](bc.b.qmd)}: &, |
+\item From \code{[bc.i](bc.i.qmd)}: \%\%, \%/\%
+\item From \code{[bc.b](bc.b.qmd)} and \code{[bc.raw](bc.raw.qmd)}: &, |
 }
 
 Overloads for the relational operators (==, !=, etc.) have not yet been implemented; \cr

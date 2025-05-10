@@ -1,0 +1,69 @@
+---
+title: bc.raw
+---
+## Broadcasted Operations on Raw Arrays {.unnumbered}
+
+
+### Description
+
+The <code>bc.raw()</code> function
+performs broadcasted (in)equality operations and bit-wise operations
+on arrays of type <code>raw</code>. <br />
+<br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>bc.raw(x, y, op)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code>, <code id="y">y</code></td>
+<td>
+conformable raw vectors or arrays.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
+<td>
+a single string, giving the operator. <br />
+Supported bit-wise operators: &amp;, |. <br />
+Supported relational operators: ==, !=. <br />
+<br />
+</td></tr>
+</table>
+
+
+### Value
+
+For bit-wisec operators: <br />
+A array of type <code>raw</code>,
+as a result of the broadcasted bit-wise operation. <br />
+<br />
+For relational operators: <br />
+A logical array as a result of the broadcasted integer relational comparison. <br />
+<br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+x.dim <- c(4:2)
+x.len <- prod(x.dim)
+x.data <- as.raw(0:10)
+y.data <- as.raw(10:0)
+x <- array(x.data, x.dim)
+y <- array(y.data, c(4,1,1))
+
+bc.raw(x, y, "==")
+bc.raw(x, y, "!=")
+
+bc.raw(x, y, "&")
+bc.raw(x, y, "|")
+
+
+```
