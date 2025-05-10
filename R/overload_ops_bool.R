@@ -15,6 +15,10 @@
   if(.is_logical_like(e1) && .is_logical_like(e2)) {
     out <- .bc_b(e1, e2, 1L, sys.call())
   }
+  else if(is.raw(e1) && is.raw(e2)) {
+    out <- .bc_raw_bit(e1, e2, 1L, sys.call())
+  }
+  
   else {
     stop("operations are possible only for numeric, logical or complex types")
   }
@@ -37,6 +41,9 @@
   
   if(.is_logical_like(e1) && .is_logical_like(e2)) {
     out <- .bc_b(e1, e2, 2L, sys.call())
+  }
+  else if(is.raw(e1) && is.raw(e2)) {
+    out <- .bc_raw_bit(e1, e2, 2L, sys.call())
   }
   else {
     stop("operations are possible only for numeric, logical or complex types")
