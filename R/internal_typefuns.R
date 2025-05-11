@@ -21,12 +21,23 @@
   )
 }
 
+
 #' @keywords internal
 #' @noRd
 .is_array_like <- function(x) {
   good_form <- is.array(x) || is.null(dim(x))
   good_S3 <- !isS4(x)
   return(good_form && good_S3)
+}
+
+
+#' @keywords internal
+#' @noRd
+.is_mutatomic <- function(x) {
+  good_type <- is.logical(x) || is.integer(x) || is.double(x) || is.complex(x) || is.character(x) || is.raw(x)
+  good_form <- !is.null(x) && !is.factor(x)
+  good_class <- inherits(x, "mutatomic")
+  return(good_type && good_form && good_class)
 }
 
 

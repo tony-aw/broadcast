@@ -68,6 +68,22 @@ This is intentional, as it is quite difficult to reason about broadcasting when 
 :::
 
 
+&nbsp;
+
+## Overloaded operators
+
+Sometimes broadcasting is needed in a large mathematical expression, involving multiple variables, where precedence is of importance.
+For example in an expression like this:  
+
+`x / (y + z) + a`
+
+Using the `bc.*` functions for that, while possible, may be inconvenient. It may be more convenient to use the base operators directly, whilst still keeping the broadcasting property.  
+
+To this end, the 'broadcast' package allows the user to overload the base operators. This includes mathematical operators (+, -., *, /, etc.), Boolean operators (&, |), bit-wise operators (&, |), and relational operators (==, !=, etc.).  
+'broadcast' provides 2 ways to overload operators:
+
+ - Via the [bc_chain()](/man/bc_chain.qmd) function, to evaluate a mathematical expression using overloaded operators for broadcast support.
+ - Via the [broadcaster](/man/broadcaster.qmd) class, which comes with its own method dispatch for the base operators.
   
  
 &nbsp;

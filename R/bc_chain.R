@@ -15,9 +15,6 @@
 #' For example: \cr
 #' `bc_chain(~ (x + y) / z)` \cr
 #' \cr
-#' Currently, all mathematical operators and all Boolean operators are supported,
-#' but relational operators have not yet been implemented. \cr
-#' \cr
 #' 
 #'
 #' @param f a formula giving the expression to evaluate. \cr
@@ -44,7 +41,11 @@ bc_chain <- function(f) {
   
   out <- eval(
     parse(text = deparse(f[[2]], backtick = TRUE)),
-    envir = c(bc_overloaded_mathops, bc_overloaded_boolops),
+    envir = c(
+      bc_overloaded_mathops,
+      bc_overloaded_boolops,
+      bc_overloaded_relops
+    ),
     enclos = .overload_get_env4form(f, parent.frame())
   )
   return(out)

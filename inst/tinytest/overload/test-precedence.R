@@ -23,14 +23,93 @@ test_make_dims <- function(n) {
 
 gen <- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
 
+
+
+# math ====
 ops <- c("+", "-", "*", "/", "^")
-
-
 
 for(iSample in 1:5) {
   x <- sample(c(rnorm(10), NA, NaN, -Inf, Inf), 100, TRUE)
   y <- sample(c(rnorm(10), NA, NaN, -Inf, Inf), 100, TRUE)
   z <- sample(c(rnorm(10), NA, NaN, -Inf, Inf), 100, TRUE)
+  for(iOp1 in ops) {
+    for(iOp2 in ops) {
+      
+      txt1 <- sprintf("~ x %s y %s z", iOp1, iOp2)
+      txt2 <- sprintf("~ (x %s y) %s z", iOp1, iOp2)
+      txt3 <- sprintf("~ x %s (y %s z)", iOp1, iOp2)
+      
+      out <- bc_chain(as.formula(txt1)) |> as.vector()
+      expect <- eval(as.formula(txt1)[[2]])
+      expect_equivalent(
+        out, expect
+      ) |> errorfun()
+      
+      out <- bc_chain(as.formula(txt2)) |> as.vector()
+      expect <- eval(as.formula(txt2)[[2]])
+      expect_equivalent(
+        out, expect
+      ) |> errorfun()
+      
+      out <- bc_chain(as.formula(txt3)) |> as.vector()
+      expect <- eval(as.formula(txt3)[[2]])
+      expect_equivalent(
+        out, expect
+      ) |> errorfun()
+      
+      enumerate <- enumerate + 3L
+      
+    }
+  }
+}
+
+
+# Boolean ====
+ops <- c("&", "|")
+
+for(iSample in 1:5) {
+  x <- sample(c(rnorm(10), NA, NaN, -Inf, Inf), 100, TRUE)
+  y <- sample(c(rnorm(10), NA, NaN, -Inf, Inf), 100, TRUE)
+  z <- sample(c(rnorm(10), NA, NaN, -Inf, Inf), 100, TRUE)
+  for(iOp1 in ops) {
+    for(iOp2 in ops) {
+      
+      txt1 <- sprintf("~ x %s y %s z", iOp1, iOp2)
+      txt2 <- sprintf("~ (x %s y) %s z", iOp1, iOp2)
+      txt3 <- sprintf("~ x %s (y %s z)", iOp1, iOp2)
+      
+      out <- bc_chain(as.formula(txt1)) |> as.vector()
+      expect <- eval(as.formula(txt1)[[2]])
+      expect_equivalent(
+        out, expect
+      ) |> errorfun()
+      
+      out <- bc_chain(as.formula(txt2)) |> as.vector()
+      expect <- eval(as.formula(txt2)[[2]])
+      expect_equivalent(
+        out, expect
+      ) |> errorfun()
+      
+      out <- bc_chain(as.formula(txt3)) |> as.vector()
+      expect <- eval(as.formula(txt3)[[2]])
+      expect_equivalent(
+        out, expect
+      ) |> errorfun()
+      
+      enumerate <- enumerate + 3L
+      
+    }
+  }
+}
+
+
+# bit-wise ====
+ops <- c("&", "|")
+
+for(iSample in 1:5) {
+  x <- sample(as.raw(0:255))
+  y <- sample(as.raw(0:255))
+  z <- sample(as.raw(0:255))
   for(iOp1 in ops) {
     for(iOp2 in ops) {
       

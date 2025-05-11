@@ -152,7 +152,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../vignettes/e_binding_explained.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Broadcasted Dimensional Binding Explained</span></a>
+ <span class="menu-text">Binding Explained</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -172,7 +172,10 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#functions-for-broadcasted-element-wise-binary-operations" id="toc-functions-for-broadcasted-element-wise-binary-operations" class="nav-link" data-scroll-target="#functions-for-broadcasted-element-wise-binary-operations">Functions for broadcasted element-wise binary operations</a></li>
+  <li><a href="#functions-for-broadcasted-element-wise-binary-operations" id="toc-functions-for-broadcasted-element-wise-binary-operations" class="nav-link" data-scroll-target="#functions-for-broadcasted-element-wise-binary-operations">Functions for broadcasted element-wise binary operations</a>
+  <ul class="collapse">
+  <li><a href="#overloaded-operators" id="toc-overloaded-operators" class="nav-link" data-scroll-target="#overloaded-operators">Overloaded operators</a></li>
+  </ul></li>
   <li><a href="#binding-arrays" id="toc-binding-arrays" class="nav-link" data-scroll-target="#binding-arrays">Binding arrays</a>
   <ul class="collapse">
   <li><a href="#why-another-array-binding-function" id="toc-why-another-array-binding-function" class="nav-link" data-scroll-target="#why-another-array-binding-function">Why another array binding function</a></li>
@@ -257,6 +260,19 @@ Note
 </div>
 </div>
 <p>&nbsp;</p>
+<section id="overloaded-operators" class="level2">
+<h2 class="anchored" data-anchor-id="overloaded-operators">Overloaded operators</h2>
+<p>Sometimes broadcasting is needed in a large mathematical expression, involving multiple variables, where precedence is of importance. For example in an expression like this:</p>
+<p><code>x / (y + z) + a</code></p>
+<p>Using the <code>bc.*</code> functions for that, while possible, may be inconvenient. It may be more convenient to use the base operators directly, whilst still keeping the broadcasting property.</p>
+<p>To this end, the ‘broadcast’ package allows the user to overload the base operators. This includes mathematical operators (+, -., *, /, etc.), Boolean operators (&amp;, |), bit-wise operators (&amp;, |), and relational operators (==, !=, etc.).<br>
+‘broadcast’ provides 2 ways to overload operators:</p>
+<ul>
+<li>Via the <a href="../man/bc_chain.html">bc_chain()</a> function, to evaluate a mathematical expression using overloaded operators for broadcast support.</li>
+<li>Via the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators.</li>
+</ul>
+<p>&nbsp;</p>
+</section>
 </section>
 <section id="binding-arrays" class="level1">
 <h1>Binding arrays</h1>

@@ -260,7 +260,7 @@
 .binary_attr <- function(e1, e2) {
   n1 <- length(e1)
   n2 <- length(e2)
-  bad_attr <- c("names", "dim", "dimnames")
+  bad_attr <- c("names", "dim", "dimnames", "serial")
   ae1 <- attributes(e1)
   ae1 <- ae1[!names(ae1) %in% bad_attr]
   ae2 <- attributes(e2)

@@ -1057,6 +1057,7 @@ RcppExport SEXP C_lst_ndims(SEXP);
 RcppExport SEXP C_make_by(SEXP);
 RcppExport SEXP C_pmax(SEXP, SEXP);
 RcppExport SEXP C_seq_Clen(SEXP, SEXP);
+RcppExport SEXP C_serial(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_factor_count", (DL_FUNC) &_broadcast_rcpp_factor_count, 2},
@@ -1138,6 +1139,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"C_make_by",             (DL_FUNC) &C_make_by,             1},
     {"C_pmax",                (DL_FUNC) &C_pmax,                2},
     {"C_seq_Clen",            (DL_FUNC) &C_seq_Clen,            2},
+    {"C_serial",              (DL_FUNC) &C_serial,              1},
     {NULL, NULL, 0}
 };
 

@@ -80,6 +80,7 @@ the &quot;broadcaster&quot; class attribute. <br /> <br />
 <h3>Examples</h3>
 
 <pre><code class='language-R'>
+# maths ====
 
 x &lt;- 1:10
 broadcaster(x) &lt;- TRUE
@@ -100,6 +101,19 @@ x + y / x
 
 (x + y) * x
 
+
+# relational operators ====
+x &lt;- 1:10
+y &lt;- array(1:10, c(1, 10))
+broadcaster(x) &lt;- TRUE
+broadcaster(y) &lt;- TRUE
+
+x == y
+x != y
+x &lt; y
+x &gt; y
+x &lt;= y
+x &gt;= y
 
 </code></pre>
 

@@ -1,4 +1,5 @@
 
+# maths ====
 
 x <- 1:10
 broadcaster(x) <- TRUE
@@ -19,4 +20,17 @@ x + y / x
 
 (x + y) * x
 
+
+# relational operators ====
+x <- 1:10
+y <- array(1:10, c(1, 10))
+broadcaster(x) <- TRUE
+broadcaster(y) <- TRUE
+
+x == y
+x != y
+x < y
+x > y
+x <= y
+x >= y
 

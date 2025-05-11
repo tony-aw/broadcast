@@ -77,3 +77,10 @@
   .Call("C_dims_all_equal", xdim, ydim)
 }
 
+
+#' @keywords Internal
+#' @noRd
+.C_serial <- function(x) {
+  .Call("C_serial", x)
+}
+

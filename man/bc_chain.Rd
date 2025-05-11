@@ -30,11 +30,10 @@ is that the user can chain together multiple arithmetic operators,
 For example: \cr
 \code{bc_chain(~ (x + y) / z)} \cr
 \cr
-Currently, all mathematical operators and all Boolean operators are supported,
-but relational operators have not yet been implemented. \cr
-\cr
 }
 \examples{
+
+# maths ====
 
 x <- 1:10
 y <- 1:10
@@ -49,4 +48,18 @@ dim(y) <- c(1, 10)
 bc_chain(~ x + y / x)
 bc_chain(~ (x + y) / x)
 bc_chain(~ ifelse(x > 1, y, x)) # ifelse and apply are not overloaded
+
+
+
+# relational operators ====
+x <- 1:10
+y <- array(1:10, c(1, 10))
+
+bc_chain(~ x == y)
+bc_chain(~ x != y)
+bc_chain(~ x < y)
+bc_chain(~ x > y)
+bc_chain(~ x <= y)
+bc_chain(~ x >= y)
+
 }

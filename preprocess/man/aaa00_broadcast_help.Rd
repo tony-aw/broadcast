@@ -123,8 +123,7 @@ The following base operators can be overloaded via either method:
 \item From \code{[bc.b](bc.b.qmd)} and \code{[bc.raw](bc.raw.qmd)}: &, |
 }
 
-Overloads for the relational operators (==, !=, etc.) have not yet been implemented; \cr
-this will be done soon. \cr \cr
+Overloads for the relational operators (==, !=, etc.) have also been implemented. \cr
 }
 
 \references{
