@@ -156,7 +156,7 @@ print(y)
 Suppose one wishes to compute the element-wise addition of these 2
 arrays.
 
-This won’t work in base ‘R’:
+This won’t work in base :
 
 ``` r
 x + y
@@ -181,7 +181,8 @@ for arrays with different dimensions.
 
 The ‘broadcast’ package performs “broadcasting”, which can do the above,
 but **faster**, **without unnecessary copies**, and scalable to arrays
-of any size (up to 16 dimensions), like so:
+of any size (up to 16 dimensions).  
+Like so:
 
 ``` r
 bc.num(x, y, "+")
@@ -196,9 +197,7 @@ bc.num(x, y, "+")
 
 ## 📊Status
 
-‘broadcast’ is fully functional, but still experimental.  
-I’m currently working on allowing the user to overload the base
-relational operators.
+‘broadcast’ is fully functional, but still experimental.
 
 If you have any suggestions or feedback on the package, its
 documentation, or even the benchmarks, I encourage you to let me know
