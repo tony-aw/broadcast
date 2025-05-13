@@ -113,7 +113,7 @@ print(y)
 
 Suppose one wishes to compute the element-wise addition of these 2 arrays.
 
-This won't work in base 'R':
+This won't work in base `r fa("r-project")`:
 
 ```{r eval=FALSE, echo=TRUE}
 x + y
@@ -128,7 +128,8 @@ x + y[rep(1L, 4L),]
 
 ... but this becomes an issue when `x` and/or `y` become very large, as the above operation involves replicating/copying `y` several times - which costs memory, reduces speed, and the code is not easily scalable for arrays with different dimensions.
 
-The 'broadcast' package performs "broadcasting", which can do the above, but **faster**, **without unnecessary copies**, and scalable to arrays of any size (up to 16 dimensions), like so:
+The 'broadcast' package performs "broadcasting", which can do the above, but **faster**, **without unnecessary copies**, and scalable to arrays of any size (up to 16 dimensions).  
+Like so:
 
 ```{r}
 bc.num(x, y, "+")
@@ -139,10 +140,10 @@ bc.num(x, y, "+")
 ## 📊Status
 
 'broadcast' is fully functional, but still experimental.  
-I'm currently working on allowing the user to overload the base relational operators.  
 
 If you have any suggestions or feedback on the package, its documentation, or even the benchmarks, I encourage you to let me know (either as an [Issue](https://github.com/tony-aw/broadcast/issues) or a [Discussion](https://github.com/tony-aw/broadcast/discussions)).  
 I'm eager to read your input!
+
 
  
 

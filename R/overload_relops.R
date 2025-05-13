@@ -60,6 +60,9 @@
   if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
     return(.bc_dec_rel(e1, e2, 3L, 0, sys.call()))
   }
+  else if(is.raw(e1) && is.raw(e2)) {
+    return(.bc_raw_rel(e1, e2, 3L, sys.call()))
+  }
   else {
     stop("unsupported combination of types given")
   }
@@ -73,6 +76,9 @@
   
   if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
     return(.bc_dec_rel(e1, e2, 4L, 0, sys.call()))
+  }
+  else if(is.raw(e1) && is.raw(e2)) {
+    return(.bc_raw_rel(e1, e2, 4L, sys.call()))
   }
   else {
     stop("unsupported combination of types given")
@@ -89,6 +95,9 @@
   if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
     return(.bc_dec_rel(e1, e2, 5L, 0, sys.call()))
   }
+  else if(is.raw(e1) && is.raw(e2)) {
+    return(.bc_raw_rel(e1, e2, 5L, sys.call()))
+  }
   else {
     stop("unsupported combination of types given")
   }
@@ -102,6 +111,9 @@
   
   if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
     return(.bc_dec_rel(e1, e2, 6L, 0, sys.call()))
+  }
+  else if(is.raw(e1) && is.raw(e2)) {
+    return(.bc_raw_rel(e1, e2, 6L, sys.call()))
   }
   else {
     stop("unsupported combination of types given")

@@ -30,7 +30,7 @@ the "broadcaster" class attribute. \cr \cr
 \verb{broadcaster()<-} sets or un-sets the class attribute "broadcaster" on an array. \cr
 \cr
 The \code{broadcaster} class is a simple (or "lazy") class,
-and exists purely to overload the math, Boolean, and relational infix operators
+and exists purely to overload the arithmetic, Boolean, bit-wise, and relational infix operators
 to support broadcasting. \cr
 This makes mathematical expressions with multiple variables,
 where precedence may be important,

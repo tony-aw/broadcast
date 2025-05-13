@@ -1328,6 +1328,34 @@
     );                                                                \
     break;	\
   }	\
+  case 3:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = px[flatind_x] < py[flatind_y]                \
+    );                                                                \
+    break;	\
+  }	\
+  case 4:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = px[flatind_x] > py[flatind_y]                \
+    );                                                                \
+    break;	\
+  }	\
+  case 5:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = px[flatind_x] <= py[flatind_y]                \
+    );                                                                \
+    break;	\
+  }	\
+  case 6:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = px[flatind_x] >= py[flatind_y]                \
+    );                                                                \
+    break;	\
+  }	\
   default:	\
   {	\
     stop("given operator not supported in the given context");	\
@@ -1349,6 +1377,27 @@
   {	\
     DIMCODE(                                                          \
       pout[flatind_out] = px[flatind_x] | py[flatind_y]                \
+    );                                                                \
+    break;	\
+  }	\
+  case 3:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = px[flatind_x] + py[flatind_y]                \
+    );                                                                \
+    break;	\
+  }	\
+  case 4:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = px[flatind_x] - py[flatind_y]                \
+    );                                                                \
+    break;	\
+  }	\
+  case 5:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = px[flatind_x] * py[flatind_y]                \
     );                                                                \
     break;	\
   }	\

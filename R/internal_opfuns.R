@@ -63,12 +63,16 @@
 
 #' @keywords internal
 #' @noRd
-.op_raw_rel <- function() {
-  return(c("==", "!="))
-}
+.op_raw_rel <- .op_int_rel
 
 #' @keywords internal
 #' @noRd
 .op_raw_bit <- function() {
   return(c("&", "|"))
+}
+
+#' @keywords internal
+#' @noRd
+.op_raw_math <- function() {
+  return(c("+", "-", "*", "pmin", "pmax"))
 }

@@ -7,14 +7,17 @@
   }
   .binary_stop_general(e1, e2, "+", sys.call())
   a <- .binary_attr(e1, e2)
-  
+  op <- 1L
   if(is.complex(e1) || is.complex(e2)) {
     if(!is.complex(e1)) e1 <- as_cplx(e1)
     if(!is.complex(e2)) e2 <- as_cplx(e2)
-    out <- .bc_cplx_math(e1, e2, 1L, sys.call())
+    out <- .bc_cplx_math(e1, e2, op, sys.call())
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
-    out <- .bc_dec_math(e1, e2, 1L, sys.call())
+    out <- .bc_dec_math(e1, e2, op, sys.call())
+  }
+  else if(is.raw(e1) && is.raw(e2)) {
+    return(.bc_raw_bit(e1, e2, op+2L, sys.call()))
   }
   else {
     stop("non-numeric argument to binary operator")
@@ -35,13 +38,17 @@
   .binary_stop_general(e1, e2, "-", sys.call())
   a <- .binary_attr(e1, e2)
   
+  op <- 2L
   if(is.complex(e1) || is.complex(e2)) {
     if(!is.complex(e1)) e1 <- as_cplx(e1)
     if(!is.complex(e2)) e2 <- as_cplx(e2)
-    out <- .bc_cplx_math(e1, e2, 2L, sys.call())
+    out <- .bc_cplx_math(e1, e2, op, sys.call())
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
-    out <- .bc_dec_math(e1, e2, 2L, sys.call())
+    out <- .bc_dec_math(e1, e2, op, sys.call())
+  }
+  else if(is.raw(e1) && is.raw(e2)) {
+    return(.bc_raw_bit(e1, e2, op+2L, sys.call()))
   }
   else {
     stop("non-numeric argument to binary operator")
@@ -58,13 +65,17 @@
   .binary_stop_general(e1, e2, "*", sys.call())
   a <- .binary_attr(e1, e2)
   
+  op <- 3L
   if(is.complex(e1) || is.complex(e2)) {
     if(!is.complex(e1)) e1 <- as_cplx(e1)
     if(!is.complex(e2)) e2 <- as_cplx(e2)
-    out <- .bc_cplx_math(e1, e2, 3L, sys.call())
+    out <- .bc_cplx_math(e1, e2, op, sys.call())
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
-    out <- .bc_dec_math(e1, e2, 3L, sys.call())
+    out <- .bc_dec_math(e1, e2, op, sys.call())
+  }
+  else if(is.raw(e1) && is.raw(e2)) {
+    return(.bc_raw_bit(e1, e2, op+2L, sys.call()))
   }
   else {
     stop("non-numeric argument to binary operator")

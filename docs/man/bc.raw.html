@@ -282,6 +282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description">Description</a></li>
   <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
+  <li><a href="#details" id="toc-details" class="nav-link" data-scroll-target="#details">Details</a></li>
   <li><a href="#value" id="toc-value" class="nav-link" data-scroll-target="#value">Value</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul></li>
@@ -336,15 +337,19 @@ conformable raw vectors or arrays.
 <code id="op">op</code>
 </td>
 <td>
-a single string, giving the operator. <br> Supported bit-wise operators: &amp;, |. <br> Supported relational operators: ==, !=. <br> <br>
+a single string, giving the operator. <br> Supported bit-wise operators: &amp;, |. <br> Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br> Supported basic arithmetic operators (see details section for more info): +, -, *, pmin, pmax. <br> <br>
 </td>
 </tr>
 
 </tbody></table>
 </section>
+<section id="details" class="level3">
+<h3 class="anchored" data-anchor-id="details">Details</h3>
+<p>The basic arithmetic operators treat the <code>raw</code> type as unsigned 8-bit integers without missing value support. <br> The unsigned 8-bit integer supports values from 0 to 255. <br> Using the raw type as 8-bit integers may be useful when dealing with <b>very</b> large arrays filled with small non-negative integers: <br> The <code>raw</code> type takes in 4 times less memory than 32-bit integers, and 8 times less memory than 53-bit integers and doubles. <br> <br> Overflow is handled in the same way as it is handled in pure ‘C’ code. <br> For example, <code>as.raw(255) + as.raw(2)</code> equals <code>as.raw(1)</code>. <br> <br></p>
+</section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>For bit-wisec operators: <br> A array of type <code>raw</code>, as a result of the broadcasted bit-wise operation. <br> <br> For relational operators: <br> A logical array as a result of the broadcasted integer relational comparison. <br> <br></p>
+<p>For bit-wise operators: <br> A array of type <code>raw</code>, as a result of the broadcasted bit-wise operation. <br> <br> For relational operators: <br> A logical array as a result of the broadcasted integer relational comparison. <br> <br> For the basic arithmetic operators: <br> A array of type <code>raw</code>, as a result of the broadcasted basic arithmetic operation. <br> <br></p>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>

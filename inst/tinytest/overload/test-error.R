@@ -24,8 +24,8 @@ test_make_dims <- function(n) {
 gen <- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
 
 accept_test <- function(x, y) {
-  checkx <- broadcast:::.is_numeric_like(x) || is.complex(x) 
-  checky <- broadcast:::.is_numeric_like(y) || is.complex(y) 
+  checkx <- broadcast:::.is_numeric_like(x) || is.complex(x) || is.raw(x)
+  checky <- broadcast:::.is_numeric_like(y) || is.complex(y) || is.raw(y)
   return(!checkx && !checky)
 }
 
