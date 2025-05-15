@@ -1,4 +1,4 @@
-#' broadcast: 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies
+#' broadcast Package Overview
 #' 
 #' @description
 #' broadcast: \cr
@@ -106,7 +106,8 @@
 #' 
 #'  - From \link{bc.num} and \link{bc.cplx}: +, -, *, /, ^
 #'  - From \link{bc.i}: %%, %/%
-#'  - From \link{bc.b} and \link{bc.raw}: &, |
+#'  - From \link{bc.b}: &, |
+#'  - From \link{bc.raw}: &, |, ^ \cr
 #'
 #' Overloads for the relational operators (==, !=, etc.) have also been implemented. \cr
 #' 

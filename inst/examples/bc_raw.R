@@ -10,3 +10,5 @@ bc.raw(x, y, "!=")
 
 bc.raw(x, y, "&")
 bc.raw(x, y, "|")
+bc.raw(x, y, "^")
+bc.raw(x, y, "diff") |> as_int()

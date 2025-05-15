@@ -29,27 +29,12 @@ conformable raw vectors or arrays.
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
 a single string, giving the operator. <br />
-Supported bit-wise operators: &amp;, |. <br />
+Supported bit-wise operators: &amp;, |, ^, diff, pmin, pmax. <br />
+Note that &quot;^&quot;  refers to bit-wise XOR, and &quot;diff&quot; refers to the absolute numerical difference. <br />
 Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br />
-Supported basic arithmetic operators (see details section for more info): +, -, *, pmin, pmax. <br />
 <br />
 </td></tr>
 </table>
-
-
-### Details
-
-The basic arithmetic operators treat the <code>raw</code> type as unsigned 8-bit integers without missing value support. <br />
-The unsigned 8-bit integer supports values from 0 to 255. <br />
-Using the raw type as 8-bit integers may be useful when
-dealing with <b>very</b> large arrays filled with small non-negative integers: <br />
-The <code>raw</code> type takes in 4 times less memory than 32-bit integers,
-and 8 times less memory than 53-bit integers and doubles. <br />
-<br />
-Overflow is handled in the same way as it is handled in pure 'C' code. <br />
-For example, <code>as.raw(255) + as.raw(2)</code> equals <code>as.raw(1)</code>. <br />
-<br />
-
 
 
 ### Value
@@ -60,10 +45,6 @@ as a result of the broadcasted bit-wise operation. <br />
 <br />
 For relational operators: <br />
 A logical array as a result of the broadcasted integer relational comparison. <br />
-<br />
-For the basic arithmetic operators: <br />
-A array of type <code>raw</code>,
-as a result of the broadcasted basic arithmetic operation. <br />
 <br />
 
 
@@ -84,6 +65,8 @@ bc.raw(x, y, "!=")
 
 bc.raw(x, y, "&")
 bc.raw(x, y, "|")
+bc.raw(x, y, "^")
+bc.raw(x, y, "diff") |> as_int()
 
 
 ```

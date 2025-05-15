@@ -43,6 +43,15 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 #
 
 
+txt0 <- "
+
+inline Rbyte rcpp_raw_diff(Rbyte x, Rbyte y) {
+  Rbyte out = (x > y)? (x - y) : (y - x);
+  return out;
+}
+
+"
+
 txt1 <- "
 
 //' @keywords internal
@@ -131,7 +140,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt1, txt2, txt3,
+  txt0, txt1, txt2, txt3,
   collapse = "\n\n"
 )
 
@@ -140,7 +149,7 @@ Rcpp::sourceCpp(code = txt)
 
 txt <- stringi::stri_c(
   header_for_package,
-  txt1, txt2, txt3,
+  txt0, txt1, txt2, txt3,
   collapse = "\n\n"
 )
 

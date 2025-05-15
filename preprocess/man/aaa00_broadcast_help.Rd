@@ -5,7 +5,7 @@
 \alias{broadcast-package}
 \alias{broadcast}
 \alias{broadcast_help}
-\title{broadcast: 'Numpy'-like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies}
+\title{broadcast Package Overview}
 \description{
 broadcast: \cr
 Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
@@ -120,7 +120,8 @@ The following base operators can be overloaded via either method:
 \itemize{
 \item From \code{[bc.num](bc.d.qmd)} and \code{[bc.cplx](bc.cplx.qmd)}: +, -, *, /, ^
 \item From \code{[bc.i](bc.i.qmd)}: \%\%, \%/\%
-\item From \code{[bc.b](bc.b.qmd)} and \code{[bc.raw](bc.raw.qmd)}: &, |
+\item From \code{[bc.b](bc.b.qmd)}: &, |
+\item From \code{[bc.raw](bc.raw.qmd)}: &, |, ^ \cr
 }
 
 Overloads for the relational operators (==, !=, etc.) have also been implemented. \cr

@@ -9,21 +9,8 @@
 #' @param x,y conformable raw vectors or arrays.
 #' @param op a single string, giving the operator. \cr
 #' Supported bit-wise operators: `r paste0(broadcast:::.op_raw_bit(), collapse = ", ")`. \cr
+#' Note that "^"  refers to bit-wise XOR, and "diff" refers to the absolute numerical difference. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_raw_rel(), collapse = ", ")`. \cr
-#' Supported basic arithmetic operators (see details section for more info): `r paste0(broadcast:::.op_raw_math(), collapse = ", ")`. \cr
-#' \cr
-#' 
-#' 
-#' @details
-#' The basic arithmetic operators treat the `raw` type as unsigned 8-bit integers without missing value support. \cr
-#' The unsigned 8-bit integer supports values from 0 to 255. \cr
-#' Using the raw type as 8-bit integers may be useful when
-#' dealing with \bold{very} large arrays filled with small non-negative integers: \cr
-#' The `raw` type takes in 4 times less memory than 32-bit integers,
-#' and 8 times less memory than 53-bit integers and doubles. \cr
-#' \cr
-#' Overflow is handled in the same way as it is handled in pure 'C' code. \cr
-#' For example, `as.raw(255) + as.raw(2)` equals `as.raw(1)`. \cr
 #' \cr
 #' 
 #' 
@@ -35,10 +22,6 @@
 #' \cr
 #' For relational operators: \cr
 #' A logical array as a result of the broadcasted integer relational comparison. \cr
-#' \cr
-#' For the basic arithmetic operators: \cr
-#' A array of type `raw`,
-#' as a result of the broadcasted basic arithmetic operation. \cr
 #' \cr
 #' 
 #' 
@@ -59,7 +42,7 @@ bc.raw <- function(x, y, op) {
   
   
   # get operator:
-  op_bit <- which(c(.op_raw_bit(), .op_raw_math()) == op)
+  op_bit <- which(.op_raw_bit() == op)
   op_rel <- which(.op_raw_rel() == op)
   
   if(length(op_bit)) {

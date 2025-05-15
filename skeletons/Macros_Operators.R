@@ -814,64 +814,115 @@ macro_op_raw_rel <- "
 macro_op_raw_bit <- "
 #define MACRO_OP_RAW_BIT(DIMCODE) do {	\\
   switch(op) {	\\
-  case 1:	\\
-  {	\\
-    DIMCODE(                                                          \\
-      pout[flatind_out] = px[flatind_x] & py[flatind_y]                \\
-    );                                                                \\
-    break;	\\
-  }	\\
-  case 2:	\\
-  {	\\
-    DIMCODE(                                                          \\
-      pout[flatind_out] = px[flatind_x] | py[flatind_y]                \\
-    );                                                                \\
-    break;	\\
-  }	\\
-  case 3:	\\
-  {	\\
-    DIMCODE(                                                          \\
-      pout[flatind_out] = px[flatind_x] + py[flatind_y]                \\
-    );                                                                \\
-    break;	\\
-  }	\\
-  case 4:	\\
-  {	\\
-    DIMCODE(                                                          \\
-      pout[flatind_out] = px[flatind_x] - py[flatind_y]                \\
-    );                                                                \\
-    break;	\\
-  }	\\
-  case 5:	\\
-  {	\\
-    DIMCODE(                                                          \\
-      pout[flatind_out] = px[flatind_x] * py[flatind_y]                \\
-    );                                                                \\
-    break;	\\
-  }	\\
-  case 6:	\\
-  {	\\
-    DIMCODE(                                                          \\
-      pout[flatind_out] = (px[flatind_x] < py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \\
-    );                                                                \\
-    break;	\\
-  }	\\
-  case 7:	\\
-  {	\\
-    DIMCODE(                                                          \\
-      pout[flatind_out] = (px[flatind_x] > py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \\
-    );                                                                \\
-    break;	\\
-  }	\\
-  default:	\\
-  {	\\
-    stop(\"given operator not supported in the given context\");	\\
-  }	\\
-}	\\
+    case 1:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        pout[flatind_out] = px[flatind_x] & py[flatind_y]                \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 2:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        pout[flatind_out] = px[flatind_x] | py[flatind_y]                \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 3:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        pout[flatind_out] = px[flatind_x] ^ py[flatind_y]                \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 4:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        pout[flatind_out] = rcpp_raw_diff(px[flatind_x], py[flatind_y]) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 5:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        pout[flatind_out] = (px[flatind_x] < py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 6:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        pout[flatind_out] = (px[flatind_x] > py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    default:	\\
+    {	\\
+      stop(\"given operator not supported in the given context\");	\\
+    }	\\
+  } \\
 } while(0)
 "
 
-(e1 > e2) ? e1 : e2
+
+macro_op_raw_arith <- "
+#define MACRO_OP_RAW_ARITH(DIMCODE) do {  \\
+  switch(op) {	\\
+    case 1:	\\
+    {	\\
+      if(overflow == 1) { \\
+        DIMCODE(  \\
+          pout[flatind_out] = MACRO_ACTION_RAW_CIRC(px[flatind_x] + py[flatind_y])  \\
+        );  \\
+      } \\
+      else {  \\
+        DIMCODE(  \\
+          pout[flatind_out] = MACRO_ACTION_RAW_BOUND(px[flatind_x] + py[flatind_y])  \\
+        );  \\
+      } \\
+      break;	\\
+    }	\\
+    case 2:	\\
+    {	\\
+      if(overflow == 1) { \\
+        DIMCODE(  \\
+          pout[flatind_out] = MACRO_ACTION_RAW_CIRC(px[flatind_x] - py[flatind_y])  \\
+        );  \\
+      } \\
+      else {  \\
+        DIMCODE(  \\
+          pout[flatind_out] = MACRO_ACTION_RAW_BOUND(px[flatind_x] - py[flatind_y])  \\
+        );  \\
+      } \\
+      break;	\\
+    }	\\
+    case 3:	\\
+    {	\\
+      if(overflow == 1) { \\
+        DIMCODE(  \\
+          pout[flatind_out] = MACRO_ACTION_RAW_CIRC(px[flatind_x] * py[flatind_y])  \\
+        );    \\
+      } \\
+      else {  \\
+        DIMCODE(                                                          \\
+          pout[flatind_out] = MACRO_ACTION_RAW_BOUND(px[flatind_x] * py[flatind_y])  \\
+        );  \\
+      } \\
+      break;	\\
+    }	\\
+    case 4:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        pout[flatind_out] = px[flatind_x] / py[flatind_y]  \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    
+  } \\
+} while(0)
+
+"
+
 
 ################################################################################
 # Ifelse ====

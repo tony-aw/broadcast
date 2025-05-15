@@ -16,9 +16,6 @@
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
     out <- .bc_dec_math(e1, e2, op, sys.call())
   }
-  else if(is.raw(e1) && is.raw(e2)) {
-    return(.bc_raw_bit(e1, e2, op+2L, sys.call()))
-  }
   else {
     stop("non-numeric argument to binary operator")
   }
@@ -47,9 +44,6 @@
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
     out <- .bc_dec_math(e1, e2, op, sys.call())
   }
-  else if(is.raw(e1) && is.raw(e2)) {
-    return(.bc_raw_bit(e1, e2, op+2L, sys.call()))
-  }
   else {
     stop("non-numeric argument to binary operator")
   }
@@ -73,9 +67,6 @@
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
     out <- .bc_dec_math(e1, e2, op, sys.call())
-  }
-  else if(is.raw(e1) && is.raw(e2)) {
-    return(.bc_raw_bit(e1, e2, op+2L, sys.call()))
   }
   else {
     stop("non-numeric argument to binary operator")
@@ -119,6 +110,9 @@
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
     out <- .bc_dec_math(e1, e2, 5L, sys.call())
+  }
+  else if(is.raw(e1) && is.raw(e2)) {
+    out <- .bc_raw_bit(e1, e2, 3L, sys.call())
   }
   else {
     stop("non-numeric argument to binary operator")

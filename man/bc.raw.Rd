@@ -10,9 +10,9 @@ bc.raw(x, y, op)
 \item{x, y}{conformable raw vectors or arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported bit-wise operators: &, |. \cr
+Supported bit-wise operators: &, |, ^, diff, pmin, pmax. \cr
+Note that "^"  refers to bit-wise XOR, and "diff" refers to the absolute numerical difference. \cr
 Supported relational operators: ==, !=, <, >, <=, >=. \cr
-Supported basic arithmetic operators (see details section for more info): +, -, *, pmin, pmax. \cr
 \cr}
 }
 \value{
@@ -23,27 +23,11 @@ as a result of the broadcasted bit-wise operation. \cr
 For relational operators: \cr
 A logical array as a result of the broadcasted integer relational comparison. \cr
 \cr
-For the basic arithmetic operators: \cr
-A array of type \code{raw},
-as a result of the broadcasted basic arithmetic operation. \cr
-\cr
 }
 \description{
 The \code{bc.raw()} function
 performs broadcasted (in)equality operations and bit-wise operations
 on arrays of type \code{raw}. \cr
-\cr
-}
-\details{
-The basic arithmetic operators treat the \code{raw} type as unsigned 8-bit integers without missing value support. \cr
-The unsigned 8-bit integer supports values from 0 to 255. \cr
-Using the raw type as 8-bit integers may be useful when
-dealing with \bold{very} large arrays filled with small non-negative integers: \cr
-The \code{raw} type takes in 4 times less memory than 32-bit integers,
-and 8 times less memory than 53-bit integers and doubles. \cr
-\cr
-Overflow is handled in the same way as it is handled in pure 'C' code. \cr
-For example, \code{as.raw(255) + as.raw(2)} equals \code{as.raw(1)}. \cr
 \cr
 }
 \examples{
@@ -59,4 +43,6 @@ bc.raw(x, y, "!=")
 
 bc.raw(x, y, "&")
 bc.raw(x, y, "|")
+bc.raw(x, y, "^")
+bc.raw(x, y, "diff") |> as_int()
 }

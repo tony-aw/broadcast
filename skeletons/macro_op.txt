@@ -717,46 +717,53 @@
 
 #define MACRO_OP_RAW_BIT(DIMCODE) do {	\
   switch(op) {	\
-  case 1:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = px[flatind_x] & py[flatind_y]                \
-    );                                                                \
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = px[flatind_x] | py[flatind_y]                \
-    );                                                                \
-    break;	\
-  }	\
-  case 3:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = px[flatind_x] + py[flatind_y]                \
-    );                                                                \
-    break;	\
-  }	\
-  case 4:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = px[flatind_x] - py[flatind_y]                \
-    );                                                                \
-    break;	\
-  }	\
-  case 5:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = px[flatind_x] * py[flatind_y]                \
-    );                                                                \
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
+    case 1:	\
+    {	\
+      DIMCODE(                                                          \
+        pout[flatind_out] = px[flatind_x] & py[flatind_y]                \
+      );                                                                \
+      break;	\
+    }	\
+    case 2:	\
+    {	\
+      DIMCODE(                                                          \
+        pout[flatind_out] = px[flatind_x] | py[flatind_y]                \
+      );                                                                \
+      break;	\
+    }	\
+    case 3:	\
+    {	\
+      DIMCODE(                                                          \
+        pout[flatind_out] = px[flatind_x] ^ py[flatind_y]                \
+      );                                                                \
+      break;	\
+    }	\
+    case 4:	\
+    {	\
+      DIMCODE(                                                          \
+        pout[flatind_out] = rcpp_raw_diff(px[flatind_x], py[flatind_y]) \
+      );                                                                \
+      break;	\
+    }	\
+    case 5:	\
+    {	\
+      DIMCODE(                                                          \
+        pout[flatind_out] = (px[flatind_x] < py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \
+      );                                                                \
+      break;	\
+    }	\
+    case 6:	\
+    {	\
+      DIMCODE(                                                          \
+        pout[flatind_out] = (px[flatind_x] > py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \
+      );                                                                \
+      break;	\
+    }	\
+    default:	\
+    {	\
+      stop("given operator not supported in the given context");	\
+    }	\
+  } \
 } while(0)
 
 

@@ -68,11 +68,6 @@
 #' @keywords internal
 #' @noRd
 .op_raw_bit <- function() {
-  return(c("&", "|"))
+  return(c("&", "|", "^", "diff", "pmin", "pmax"))
 }
 
-#' @keywords internal
-#' @noRd
-.op_raw_math <- function() {
-  return(c("+", "-", "*", "pmin", "pmax"))
-}

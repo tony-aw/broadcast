@@ -212,6 +212,40 @@ macro_action_boolean_rel <- "
 
 
 ################################################################################
+# Raw ====
+#
+
+
+macro_action_raw_circular <- "
+  #define MACRO_ACTION_RAW_CIRCULAR(DOCODE) do {  \\
+    temp = DOCODE;                                \\
+    if(temp < 0 || temp > 255) {                  \\
+      count_overflow++;                           \\
+    }                                             \\
+    out[flatind_out] = (Rbyte)temp;               \\
+  } while(0)
+
+"
+
+macro_action_raw_bound <- "
+  #define MACRO_ACTION_RAW_BOUND(DOCODE) do {  \\
+    temp = DOCODE;                                \\
+    if(temp < 0) {                                \\
+      temp = 0;                                   \\
+      count_overflow++;                           \\
+    }                                             \\
+    else if(temp > 255) {                         \\
+      temp = 255;                                 \\
+      count_overflow++;                           \\
+    }                                             \\
+    out[flatind_out] = (Rbyte)temp;               \\
+  } while(0)
+
+"
+
+
+
+################################################################################
 # Generic Method  ====
 #
 

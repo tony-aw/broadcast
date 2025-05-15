@@ -8,6 +8,13 @@ using namespace Rcpp;
 
 
 
+inline Rbyte rcpp_raw_diff(Rbyte x, Rbyte y) {
+  Rbyte out = (x > y)? (x - y) : (y - x);
+  return out;
+}
+
+
+
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_raw_v)]]
