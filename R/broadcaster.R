@@ -70,8 +70,7 @@ broadcaster <- function(x) {
     if(!.couldb.broadcaster(x)) {
       stop("cannot make this object broadcaster")
     }
-    oc <- .internal_sane_class(x)
-    class(x) <- c("broadcaster", oc)
+    class(x) <- c(oldClass(x), "broadcaster")
     x
   }
   else {
@@ -101,7 +100,7 @@ broadcaster <- function(x) {
   if(is.null(oldClass(x)) && is.null(dim(x))) {
     return(NULL)
   }
-  oc <- setdiff(class(x), "broadcaster")
+  oc <- oldClass(x)
   if(length(oc) == 0L) {
     return(NULL)
   }

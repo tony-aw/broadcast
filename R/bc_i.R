@@ -4,7 +4,7 @@
 #' The `bc.i()` function
 #' performs broadcasted integer numeric operations on 2 numeric or logical arrays. \cr
 #' \cr
-#' Please note that these operations will treat the input as 53bit integers,
+#' Please note that these operations will treat the input as (`double` typed) integers,
 #' and will efficiently truncate when necessary. \cr
 #' Therefore, something like `bc.i(1, 1.5, "==")` returns `TRUE`,
 #' because `trunc(1.5)` equals `1`. \cr
@@ -15,7 +15,7 @@
 #' Supported arithmetic operators: `r paste0(broadcast:::.op_int_math(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_int_rel(), collapse = ", ")`. \cr
 #' The "gcd" operator performs the Greatest Common Divisor" operation,
-#' using the Euclidean algorithm.. \cr
+#' using the Euclidean algorithm. \cr
 #' 
 #' 
 #' 
@@ -25,7 +25,7 @@
 #' For arithmetic operators: \cr
 #' A numeric array of whole numbers,
 #' as a result of the broadcasted arithmetic operation. \cr
-#' Base 'R' supports 53 bit integers,
+#' Base 'R' supports integers from `-2^53` to `2^53`,
 #' which thus range from approximately `-9` quadrillion to `+9` quadrillion. \cr
 #' Values outside of this range will be returned as `-Inf` or `Inf`,
 #' as an extra protection against integer overflow. \cr
@@ -107,8 +107,8 @@ bc.i <- function(x, y, op) {
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
     
     out <- .rcpp_bc_int_d(
       x, y, by_x, by_y,
@@ -117,6 +117,12 @@ bc.i <- function(x, y, op) {
   }
   
   dim(out) <- out.dimorig
+  
+  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
+    broadcaster(out) <- TRUE
+  }
+  
+  .binary_set_ma(out, x, y)
   
   return(out)
   
@@ -153,8 +159,8 @@ bc.i <- function(x, y, op) {
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
     
     out <- .rcpp_bcRel_int_d(
       x, y, by_x, by_y,

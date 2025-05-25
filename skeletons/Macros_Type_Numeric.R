@@ -517,6 +517,42 @@ macro_typeswitch_integer_gcd <- "
 
 
 
+################################################################################
+# Boolean ====
+#
+
+
+macro_typeswitch_boolean <- "
+#define MACRO_TYPESWITCH_BOOL(DIMCODE)  do {        \\
+  if(rcpp_is_lgl(x) && rcpp_is_lgl(y)) {            \\
+    const int *px = INTEGER_RO(x);                  \\
+    const int *py = INTEGER_RO(y);                  \\
+    MACRO_OP_B_MATH(DIMCODE);              \\
+  }                                                 \\
+  else if(rcpp_is_lgl(x) && TYPEOF(y) == RAWSXP) {  \\
+    const int *px = INTEGER_RO(x);                  \\
+    const Rbyte *py = RAW_RO(y);                    \\
+    MACRO_OP_B_MATH(DIMCODE);              \\
+  }                                                 \\
+  else if(TYPEOF(x) == RAWSXP && rcpp_is_lgl(y)) {  \\
+    const Rbyte *px = RAW_RO(x);                    \\
+    const int *py = INTEGER_RO(y);                  \\
+    MACRO_OP_B_MATH(DIMCODE);              \\
+  }                                                 \\
+  else if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) { \\
+    const Rbyte *px = RAW_RO(x);                    \\
+    const Rbyte *py = RAW_RO(y);                    \\
+    MACRO_OP_B_MATH(DIMCODE);              \\
+  }                                                 \\
+  else {                                              \\
+    stop(\"unsupported combination of types given\");	\\
+  }                                                   \\
+} while(0)
+
+
+"
+
+
 
 ################################################################################
 # Save ====
@@ -542,6 +578,8 @@ macro_typeswitch_numeric <- stri_c(
   macro_typeswitch_integer2,
   "\n",
   macro_typeswitch_integer_gcd,
+  "\n",
+  macro_typeswitch_boolean,
   "\n"
 )
 

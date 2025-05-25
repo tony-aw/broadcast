@@ -33,7 +33,6 @@ using namespace Rcpp;
 
 "
 
-readr::write_file(header_for_sourcing, "header.txt")
 
 Rcpp::sourceCpp(code = header_for_sourcing)
 
@@ -62,11 +61,25 @@ SEXP rcpp_bc_ifelse_v(
   R_xlen_t nout
 ) {
 
-const int *pcond = INTEGER(cond);
 
-MACRO_OP_IFELSE(
-  MACRO_DIM_VECTOR
-);
+  if(TYPEOF(cond) == LGLSXP || TYPEOF(cond) == INTSXP) {
+    const int *pcond = INTEGER_RO(cond);
+    
+    MACRO_OP_IFELSE_INT(
+      MACRO_DIM_VECTOR
+    );
+  }
+  else if(TYPEOF(cond) == RAWSXP) {
+    const Rbyte *pcond = RAW_RO(cond);
+    
+    MACRO_OP_IFELSE_RAW(
+      MACRO_DIM_VECTOR
+    );
+  }
+  else {
+    stop(\"unsupported type given\");
+  }
+
 
 }
 
@@ -85,11 +98,24 @@ SEXP rcpp_bc_ifelse_ov(
   R_xlen_t nout
 ) {
 
-const int *pcond = INTEGER(cond);
 
-MACRO_OP_IFELSE(
-  MACRO_DIM_ORTHOVECTOR
-);
+  if(TYPEOF(cond) == LGLSXP || TYPEOF(cond) == INTSXP) {
+    const int *pcond = INTEGER_RO(cond);
+    
+    MACRO_OP_IFELSE_INT(
+      MACRO_DIM_ORTHOVECTOR
+    );
+  }
+  else if(TYPEOF(cond) == RAWSXP) {
+    const Rbyte *pcond = RAW_RO(cond);
+    
+    MACRO_OP_IFELSE_RAW(
+      MACRO_DIM_ORTHOVECTOR
+    );
+  }
+  else {
+    stop(\"unsupported type given\");
+  }
 
 }
 
@@ -109,11 +135,24 @@ SEXP rcpp_bc_ifelse_d(
   SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout
 ) {
 
-const int *pcond = INTEGER(cond);
 
-MACRO_OP_IFELSE(
-  MACRO_DIM_DOCALL
-);
+  if(TYPEOF(cond) == LGLSXP || TYPEOF(cond) == INTSXP) {
+    const int *pcond = INTEGER_RO(cond);
+    
+    MACRO_OP_IFELSE_INT(
+      MACRO_DIM_DOCALL
+    );
+  }
+  else if(TYPEOF(cond) == RAWSXP) {
+    const Rbyte *pcond = RAW_RO(cond);
+    
+    MACRO_OP_IFELSE_RAW(
+      MACRO_DIM_DOCALL
+    );
+  }
+  else {
+    stop(\"unsupported type given\");
+  }
 
 }
 

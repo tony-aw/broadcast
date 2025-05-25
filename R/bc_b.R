@@ -4,15 +4,27 @@
 #' The `bc.b()` function
 #' performs broadcasted Boolean operations on 2 logical (or 32bit integer) arrays. \cr
 #' \cr
-#' Please note that these operations will treat the input as Boolean. \cr
+#' Please note that these operations will treat the input as `logical`. \cr
 #' Therefore, something like `bc.b(1, 2, "==")` returns `TRUE`,
-#' because both `1` and `2` are `TRUE` when cast as Boolean. \cr
+#' because both `1` and `2` are `TRUE` when treated as `logical`. \cr
 #' \cr
 #' 
-#' @param x,y conformable logical (or 32bit integer) arrays.
+#' @param x,y conformable arrays of type `logical`, `integer`(32 bit), or `raw`.
 #' @param op a single string, giving the operator. \cr
 #' Supported Boolean  operators: `r paste0(broadcast:::.op_b(), collapse = ", ")`. \cr
 #' 
+#'
+#' @details
+#' `bc.b()` efficiently casts the input to logical without making copies of the entire vectors/arrays. \cr
+#' Since the input is treated as logical, the following equalities hold for `bc.b()`:
+#' 
+#'  - "==" is equivalent to `(x & y) | (!x & !y)`, but faster;
+#'  - "!=" is equivalent to `xor(x, y)`;
+#'  - "<" is equivalent to `(!x & y)`, but faster;
+#'  - ">" is equivalent to `(x & !y)`, but faster;
+#'  - "<=" is equivalent to `(!x & y) | (y == x)`, but faster;
+#'  - ">=" is equivalent to `(x & !y) | (y == x)`, but faster. \cr \cr
+#'
 #'
 #' @returns
 #' A logical array as a result of the broadcasted Boolean operation. \cr \cr
@@ -28,8 +40,8 @@ bc.b <- function(x, y, op) {
   
   # checks:
   .binary_stop_general(x, y, op, sys.call())
-  if(!.is_logical_like(x) || !.is_logical_like(y)) {
-    stop("`x` and `y` must be logical (or integer) arrays or vectors")
+  if(!.is_boolable(x) || !.is_boolable(y)) {
+    stop("unsupported types given")
   }
   
   # get operator:
@@ -76,8 +88,8 @@ bc.b <- function(x, y, op) {
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
     
     out <- .rcpp_bc_b_d(
       x, y, by_x, by_y,

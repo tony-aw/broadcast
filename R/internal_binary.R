@@ -227,9 +227,12 @@
   
   if(length(x.dim) > 2L && length(y.dim) > 2L) {
     mergeable <- .rcpp_is_mergeable_with_prev(x.dim == 1L, y.dim == 1L)
-    mergedims <- .rcpp_mergedims(x.dim, y.dim, mergeable)
-    x.dim <- mergedims[[1L]]
-    y.dim <- mergedims[[2L]]
+    if(any(mergeable)) {
+      mergedims <- .rcpp_mergedims(x.dim, y.dim, mergeable)
+      x.dim <- mergedims[[1L]]
+      y.dim <- mergedims[[2L]]
+    }
+    
   }
   
   
@@ -254,48 +257,12 @@
 }
 
 
-
 #' @keywords internal
 #' @noRd
-.binary_attr <- function(e1, e2) {
-  n1 <- length(e1)
-  n2 <- length(e2)
-  bad_attr <- c("names", "dim", "dimnames", "serial")
-  ae1 <- attributes(e1)
-  ae1 <- ae1[!names(ae1) %in% bad_attr]
-  ae2 <- attributes(e2)
-  ae2 <- ae2[!names(ae2) %in% bad_attr]
+.binary_set_ma <- function(out, x, y) {
+  if(inherits(x, "mutatomic") || inherits(y, "mutatomic")) {
+    .rcpp_set_ma(out, c("mutatomic", .internal_sane_class(out)))
+  }
   
-  if (n1 == n2) {
-    ## if same size take attribute from e1 if it exists, else from e2
-    if (n1 == 0L) {
-      ae2 <- ae1
-    }
-    nae1 <- names(ae1)
-    nae2 <- names(ae2)
-    iters <- union(nae1, nae2)
-    if(length(iters) > 0L) {
-      allattr <- vector("list", length(iters))
-      names(allattr) <- iters
-      for (a in iters) {
-        if (a %in% nae1) {
-          allattr[[a]] <- ae1[[a]]
-        }
-        else {
-          allattr[[a]] <- ae2[[a]]
-        }
-      }
-      return(allattr)
-    }
-    else {
-      return(NULL)
-    }
-    
-  }
-  else if (n1 == 0L || n1 > n2) {
-    return(ae1)
-  }
-  else {
-    return(ae2)
-  }
 }
+

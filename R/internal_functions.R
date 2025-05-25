@@ -30,13 +30,6 @@
 
 #' @keywords internal
 #' @noRd
-.make_dcp <- function(dims) {
-  return(c(1, cumprod(dims)))
-}
-
-
-#' @keywords internal
-#' @noRd
 .return_missing <- function(x) {
   if(is.logical(x)) {
     return(rep(NA, length(x)))

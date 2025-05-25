@@ -1,0 +1,201 @@
+---
+title: "Quickstart Guide"
+format:
+  html:
+    number-sections: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(fontawesome)
+library(broadcast)
+library(abind)
+```
+
+# Prerequisites
+
+First, a basic understanding of `r fa("r-project")` is important.  
+A very, very basic refresher for `r fa("r-project")` can be found in the [Getting Started in R: Tinyverse Edition](https://eddelbuettel.github.io/gsir-te/Getting-Started-in-R.pdf) document.
+
+&nbsp;
+
+# Installation
+
+To install 'broadcast' from GitHub, one may run the following code in `r fa("r-project")`:
+
+```{r echo=TRUE, eval=FALSE}
+
+remotes::install_github("https://github.com/tony-aw/broadcast")
+
+```
+
+
+&nbsp;
+
+# Broadcasting
+
+## Introduction
+
+In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory, which is considerably **faster** and **more memory-efficient** than R's regular dimensions replication mechanism.
+
+&nbsp;
+
+## Rules
+
+To paraphrase Numpy's own documentation, one can summarise how broadcasting behaves using 2 rules.
+
+ 1) if the input arrays for an operation do not have the same number of dimensions, a `1` will be repeatedly appended to the end of the dimension of the smaller array, until the arrays have the same number of dimensions.
+
+2) arrays with a size of 1 for a particular dimension act as if they had the size of the array with the largest size for that dimension. This is done by vritually recycling said dimension without making copies.
+
+After application of these 2 broadcasting rules, the sizes of the input arrays must match.
+
+Please read the [Broadcasting explained](https://tony-aw.github.io/broadcast/vignettes/d_broadcasting_explained.html) page for a more complete explanation of what "broadcasting" is and how it works.
+
+&nbsp;
+
+## Example
+
+Consider the matrices `x` and `y`:
+
+```{r}
+x <- array(1:20, c(4, 5))
+y <- array(1:5 * 100, c(1, 5))
+print(x)
+print(y)
+```
+
+Suppose one wishes to compute the element-wise addition of these 2 arrays.
+
+This won't work in base `r fa("r-project")`:
+
+```{r eval=FALSE, echo=TRUE}
+x + y
+Error in x + y : non-conformable arrays
+```
+
+You *could* do the following....
+
+```{r}
+x + y[rep(1L, 4L),]
+```
+
+... but this becomes an issue when `x` and/or `y` become very large, as the above operation involves replicating/copying `y` several times - which costs memory, reduces speed, and the code is not easily scalable for arrays with different dimensions.
+
+The 'broadcast' package performs "broadcasting", which can do the above, but **faster**, **without unnecessary copies**, and scalable to arrays of any size (up to 16 dimensions).  
+Like so:
+
+```{r}
+bc.num(x, y, "+")
+```
+
+
+&nbsp;
+
+# Binary operations
+
+'broadcast' supports a wide range of binary element-wise broadcasted operations.   
+This includes arithmetic, relational, logical, string, and bit-wise operations.
+
+The `bc.*` functions, like [bc.num()](/man/bc.d.qmd) and [bc.b()](/man/bc.b.qmd), provide great control over these operations.
+
+For example:
+
+```{r}
+x <- array(1:20, c(4, 5))
+y <- array(1:5 * 100, c(1, 5))
+print(x)
+print(y)
+
+bc.num(x, y, "+")
+
+```
+
+
+When operator precedence is important (i.e. power comes before multiply/divide, which comes before add/subtract), the base 'R' operators can be overloaded to use broadcasting.  
+For example in an mathematical expression like  `x + y / z`.
+
+The [bc_chain()](/man/bc_chain.qmd) function can be used to evaluate the above expression using broadcasting like so:
+
+```{r}
+x <- array(1:20, c(4, 5))
+y <- array(1:5 * 100, c(1, 5))
+z <- array(20:1, c(4, 5))
+
+
+bc_chain(~ x + y / z)
+
+```
+
+Or the the arrays in question can be turned into "broadcaster" arrays, which will overload the operators these arrays are involved in, like so:
+
+```{r}
+
+broadcaster(x) <- TRUE
+broadcaster(y) <- TRUE
+broadcaster(z) <- TRUE
+
+x + y / z
+
+```
+
+&nbsp;
+
+# Array binding
+
+The battle-tested `abind()` function is often used to bind arrays along any arbitrary dimension.
+
+'broadcast' provides an alternative to this, namely the [bind_array()](/man/bind_array.qmd) function, which allows for broadcasting (obviously), and is also notably faster and more memory efficient than `abind()`.
+
+
+Consider the following arrays:
+
+```{r}
+
+x <- array(1:20, c(4, 5))
+y <- array(1:5*10, c(1, 5))
+print(x)
+print(y)
+
+```
+
+Binding them together with `abind()` won't work:
+
+```{r eval=FALSE, echo=TRUE}
+abind::abind(x, y, along = 2)
+Error in abind::abind(x, y, along = 2) : 
+  arg 'X2' has dims=1, 5; but need dims=4, X
+```
+
+To bind `x` and `y` together along columns, `y` needs its single row to be recycled (broadcasted) 4 times.
+
+This can be done in a highly efficient way using [bind_array()](/man/bind_array.qmd), like so:
+
+```{r}
+bind_array(list(x, y), 2L)
+```
+
+
+&nbsp;
+
+# Broadcasted General functions
+
+'broadcast' provides the [bcapply()](/man/bcapply.qmd) function, which is a broadcasted apply-like function that applies a function between 2 arrays with broadcasting.
+
+'broadcast' also provides the [bc_ifelse()](/man/bc_ifelse.qmd) function, which is a broadcasted version of `ifelse()`.
+
+&nbsp;
+
+# Other notable functions
+
+The [acast()](/man/acast.qmd) function casts an array into a new dimension.  
+Roughly speaking, it is somewhat analogous to `data.table::dcast()`, except that [acast()](/man/acast.qmd) works on arrays (instead of data.tables) and casts into a entirely new dimension (instead of into more columns).
+
+
+'broadcast' offers type-casting functions. Unlike base R's type-casting functions (`as.logical()`, `as.integer()`, etc.), the type-casting functions from 'broadcast' preserve names and dimensions.
+
+&nbsp;
+

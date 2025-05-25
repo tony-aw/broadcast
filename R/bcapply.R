@@ -89,8 +89,8 @@ bcapply <- function(x, y, f, v = NULL) {
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
     
     .rcpp_bcapply_d(
       out, x, y, by_x, by_y,

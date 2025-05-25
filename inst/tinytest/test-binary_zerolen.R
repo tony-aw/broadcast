@@ -12,7 +12,8 @@ funs <- list(
   bc.d,
   bc.cplx,
   bc.str,
-  bc.raw
+  bc.raw,
+  bc.bit
 )
 
 datagens <- list(
@@ -21,6 +22,7 @@ datagens <- list(
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)),
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)) + sample(c(rnorm(10), NA, NaN, Inf, -Inf)) * -1i,
   \() sample(c(letters, NA)),
+  \() as.raw(sample(0:255, 10)),
   \() as.raw(sample(0:255, 10))
 )
 
@@ -29,7 +31,7 @@ datagens <- list(
 
 expected <- logical(0L)
 counter <- 1L
-for(i in seq_along(funs)) {
+for(i in 1:6) {
   for(xLen in c(10, 0)) {
     for(yLen in c(0, 10)) {
       
@@ -62,7 +64,7 @@ for(i in seq_along(funs)) {
 # main operators ====
 
 ops <- c(
-  "&", rep("+", 4), "&"
+  "&", rep("+", 4), "diff", "&"
 )
 
 for(i in seq_along(funs)) {

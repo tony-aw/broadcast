@@ -7,14 +7,17 @@
 bc_ifelse(test, yes, no)
 }
 \arguments{
-\item{test}{\code{logical} vector or array with the length equal to \code{prod(bc_dim(yes, no))}.}
+\item{test}{a vector or array,
+with the type \code{logical}, \code{integer}, or \code{raw},
+and a length equal to \code{prod(bc_dim(yes, no))}. \cr
+If \code{yes} / \code{no} are of type \code{raw}, \code{test} is not allowed to contain any \code{NA}s.}
 
 \item{yes, no}{conformable arrays of the same type. \cr
-All \link[base]{atomic} types are supported except for the type of raw. \cr
+All \link[base]{atomic} types are supported. \cr
 Recursive arrays of type \link[base]{list} are also supported. \cr \cr}
 }
 \value{
-The ouput, here referred to as \code{out},
+The output, here referred to as \code{out},
 will be an array of the same type as \code{yes} and \code{no}. \cr
 If \code{test} has the same dimensions as \code{bc_dim(yes, no)},
 then \code{out} will also have the same dimnames as \code{test}. \cr
@@ -32,7 +35,7 @@ and \code{out[i]} is \code{list(NULL)} when \code{yes} and \code{no} are recursi
 }
 \description{
 The \code{bc_ifelse()} function
-performs a broadcasted form of \link[base]{ifelse}. \cr
+performs a broadcasted form of \code{ifelse()}. \cr
 }
 \examples{
 x.dim <- c(c(10, 2,2))

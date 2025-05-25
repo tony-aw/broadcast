@@ -23,19 +23,24 @@ test_make_dims <- function(n) {
 
 
 # and ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+nres <- 10 * 3 * 3 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 op <- "&"
+basefun <- function(x, y) {
+  as.logical(x) & as.logical(y)
+}
 
 i <- 1L
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(as.raw(0:255))
   )
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(as.raw(0:255))
     
   )
   for(iDimX in sample(1:8, 3L)) { # different dimensions for x
@@ -61,28 +66,28 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # DO TESTS BY CASE:
           if(is.null(tdim)) {
             # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-            expected[[i]] <- as_bool(drop(x)) & as_bool(drop(y))
+            expected[[i]] <- basefun(x, y)
             attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
-            expected[[i]] <- as.logical(x) & as.logical(y)
+            expected[[i]] <- basefun(x, y)
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- as.logical(x) & rep_dim(as_bool(y), tdim)
+            expected[[i]] <- basefun(x, rep_dim(y, tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- rep_dim(as_bool(x), tdim) & as.logical(y)
+            expected[[i]] <- basefun(rep_dim(x, tdim), y)
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- rep_dim(as_bool(x), tdim) & rep_dim(as_bool(y), tdim)
+            expected[[i]] <- basefun(rep_dim(x, tdim), rep_dim(y, tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -113,21 +118,26 @@ expect_equal(
 
 
 
+
 # or ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+nres <- 10 * 3 * 3 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 op <- "|"
+basefun <- function(x, y) {
+  as.logical(x) | as.logical(y)
+}
 
 i <- 1L
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(as.raw(0:255))
   )
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(as.raw(0:255))
     
   )
   for(iDimX in sample(1:8, 3L)) { # different dimensions for x
@@ -153,28 +163,28 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # DO TESTS BY CASE:
           if(is.null(tdim)) {
             # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-            expected[[i]] <- as_bool(drop(x)) | as_bool(drop(y))
+            expected[[i]] <- basefun(x, y)
             attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
-            expected[[i]] <- as.logical(x) | as.logical(y)
+            expected[[i]] <- basefun(x, y)
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- as.logical(x) | rep_dim(as_bool(y), tdim)
+            expected[[i]] <- basefun(x, rep_dim(y, tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- rep_dim(as_bool(x), tdim) | as.logical(y)
+            expected[[i]] <- basefun(rep_dim(x, tdim), y)
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- rep_dim(as_bool(x), tdim) | rep_dim(as_bool(y), tdim)
+            expected[[i]] <- basefun(rep_dim(x, tdim), rep_dim(y, tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -206,20 +216,24 @@ expect_equal(
 
 
 # xor ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+nres <- 10 * 3 * 3 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 op <- "xor"
+basefun <- function(x, y) {
+  xor(as.logical(x), as.logical(y))
+}
 
 i <- 1L
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(as.raw(0:255))
   )
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(as.raw(0:255))
     
   )
   for(iDimX in sample(1:8, 3L)) { # different dimensions for x
@@ -245,28 +259,28 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # DO TESTS BY CASE:
           if(is.null(tdim)) {
             # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-            expected[[i]] <- xor(as_bool(drop(x)), as_bool(drop(y)))
+            expected[[i]] <- basefun(x, y)
             attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
-            expected[[i]] <- xor(as.logical(x), as.logical(y))
+            expected[[i]] <- basefun(x, y)
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- xor(as.logical(x), rep_dim(as_bool(y), tdim))
+            expected[[i]] <- basefun(x, rep_dim(y, tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- xor(rep_dim(as_bool(x), tdim), as.logical(y))
+            expected[[i]] <- basefun(rep_dim(x, tdim), y)
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- xor(rep_dim(as_bool(x), tdim), rep_dim(as_bool(y), tdim))
+            expected[[i]] <- basefun(rep_dim(x, tdim), rep_dim(y, tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -296,22 +310,26 @@ expect_equal(
 )
 
 
+
 # nand ====
-nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
+nres <- 10 * 3 * 3 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 op <- "nand"
-nand <- function(x, y) {return(!x & !y)}
+basefun <- function(x, y) {
+  !as.logical(x) & !as.logical(y)
+}
 
 i <- 1L
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(as.raw(0:255))
   )
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(as.raw(0:255))
     
   )
   for(iDimX in sample(1:8, 3L)) { # different dimensions for x
@@ -337,28 +355,28 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # DO TESTS BY CASE:
           if(is.null(tdim)) {
             # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-            expected[[i]] <- nand(as_bool(drop(x)), as_bool(drop(y)))
+            expected[[i]] <- basefun(x, y)
             attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
-            expected[[i]] <- nand(as.logical(x), as.logical(y))
+            expected[[i]] <- basefun(x, y)
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
-            expected[[i]] <- nand(as.logical(x), rep_dim(as_bool(y), tdim))
+            expected[[i]] <- basefun(x, rep_dim(y, tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
-            expected[[i]] <- nand(rep_dim(as_bool(x), tdim), as.logical(y))
+            expected[[i]] <- basefun(rep_dim(x, tdim), y)
             out[[i]] <- bc.b(x, y, op)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
-            expected[[i]] <- nand(rep_dim(as_bool(x), tdim), rep_dim(as_bool(y), tdim))
+            expected[[i]] <- basefun(rep_dim(x, tdim), rep_dim(y, tdim))
             out[[i]] <- bc.b(x, y, op)
           }
           # END CASES
@@ -400,13 +418,14 @@ i <- 1L
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(0:255) |> as.raw()
     
   )
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(0:255) |> as.raw()
   )
   for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -492,13 +511,13 @@ i <- 1L
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(0:255) |> as.raw()
   )
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(0:255) |> as.raw()
   )
   for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -585,13 +604,13 @@ i <- 1L
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(0:255) |> as.raw()
   )
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(0:255) |> as.raw()
   )
   for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -678,13 +697,13 @@ i <- 1L
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(0:255) |> as.raw()
   )
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(0:255) |> as.raw()
   )
   for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -770,13 +789,13 @@ i <- 1L
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(0:255) |> as.raw()
   )
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(0:255) |> as.raw()
   )
   for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)
@@ -862,13 +881,13 @@ i <- 1L
 for(iSample in 1:10) { # re-do tests with different random configurations
   x.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(0:255) |> as.raw()
   )
   y.data <- list(
     sample(c(TRUE, FALSE, NA), 100, TRUE), # logical
-    sample(c(-10:10, NA), 100, TRUE) # integer
-    
+    sample(c(-10:10, NA), 100, TRUE), # integer
+    sample(0:255) |> as.raw()
   )
   for(iDimX in sample(1:8, 3L)) { # different dimensions for x
     x.dim <- test_make_dims(iDimX)

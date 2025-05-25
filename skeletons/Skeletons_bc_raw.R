@@ -46,9 +46,10 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 txt0 <- "
 
 inline Rbyte rcpp_raw_diff(Rbyte x, Rbyte y) {
-  Rbyte out = (x > y)? (x - y) : (y - x);
+  Rbyte out = (x > y) ? (x - y) : (y - x);
   return out;
 }
+
 
 "
 
@@ -68,7 +69,7 @@ Rbyte *pout = RAW(out);
 Rbyte *px = RAW(x);
 Rbyte *py = RAW(y);
 
-MACRO_OP_RAW_BIT(MACRO_DIM_VECTOR);
+MACRO_OP_RAW_BYTE(MACRO_DIM_VECTOR);
 
 UNPROTECT(1);
 return out;
@@ -96,7 +97,7 @@ Rbyte *pout = RAW(out);
 Rbyte *px = RAW(x);
 Rbyte *py = RAW(y);
 
-MACRO_OP_RAW_BIT(MACRO_DIM_ORTHOVECTOR);
+MACRO_OP_RAW_BYTE(MACRO_DIM_ORTHOVECTOR);
 
 UNPROTECT(1);
 return out;
@@ -126,7 +127,7 @@ Rbyte *pout = RAW(out);
 Rbyte *px = RAW(x);
 Rbyte *py = RAW(y);
 
-MACRO_OP_RAW_BIT(MACRO_DIM_DOCALL);
+MACRO_OP_RAW_BYTE(MACRO_DIM_DOCALL);
 
 UNPROTECT(1);
 return out;

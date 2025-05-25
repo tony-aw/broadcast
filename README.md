@@ -124,8 +124,8 @@ Not using external libraries brings a number of advantages:
 
 The ‘broadcast’ package is frequently checked using a large suite of
 unit tests via the [tinytest](https://github.com/markvanderloo/tinytest)
-package. These tests have a coverage of approximately 95%. So the chance
-of a function from this package breaking completely is relatively low.
+package. These tests have a coverage of over 90%. So the chance of a
+function from this package breaking completely is relatively low.
 
 ‘broadcast’ is still relatively new package, however, so (small) bugs
 are still very much possible. I encourage users who find bugs to report
@@ -156,7 +156,7 @@ print(y)
 Suppose one wishes to compute the element-wise addition of these 2
 arrays.
 
-This won’t work in base :
+This won’t work in base ‘R’:
 
 ``` r
 x + y

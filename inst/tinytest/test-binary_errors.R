@@ -9,16 +9,17 @@ errorfun <- function(tt) {
 
 
 funs <- list(
-  bc.b,
-  bc.i,
-  bc.d,
-  bc.cplx,
-  bc.str,
-  bc.raw,
-  bc.list
+  bc.b = bc.b,
+  bc.i = bc.i,
+  bc.d = bc.d,
+  bc.cplx = bc.cplx,
+  bc.str = bc.str,
+  bc.raw = bc.raw,
+  bc.bit = bc.bit,
+  bc.list = bc.list
 )
 ops <- c(
-  rep(list("=="), 6L),
+  rep(list("=="), 7L),
   \(x, y) x == y
 )
 
@@ -29,32 +30,9 @@ datagens <- list(
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)) + sample(c(rnorm(10), NA, NaN, Inf, -Inf)) * -1i,
   \() sample(c(letters, NA)),
   \() as.raw(sample(1:10)),
+  \() as.raw(sample(1:10)),
   \() sample(list(letters, month.abb, 1:10))
 )
-
-# 
-# # not array like error ====
-# message <- "input must be arrays or simple vecors"
-# for(i in seq_along(funs)) {
-#   x <- datagens[[i]]()
-#   expect_error(
-#     funs[[i]](x, as.factor(as.character(x)), ops[[i]]),
-#     pattern = message
-#   ) |> errorfun()
-#   
-#   expect_error(
-#     funs[[i]](as.factor(as.character(x)), x, ops[[i]]),
-#     pattern = message
-#   ) |> errorfun()
-#   
-#   expect_error(
-#     funs[[i]](as.factor(as.character(x)), as.factor(as.character(x)), ops[[i]]),
-#     pattern = message
-#   ) |> errorfun()
-#   
-#   enumerate <- enumerate + 3L
-# }
-
 
 # too many dimensions error ====
 message <- "arrays with more than 16 dimensions are not supported"
@@ -83,7 +61,7 @@ for(i in seq_along(funs)) {
 # op must be a single string ====
 message <- "`op` must be single string"
 op <- rep("==", 2L)
-for(i in 1:5) {
+for(i in 1:7) {
   x <- datagens[[i]]()
   expect_error(
     funs[[i]](x, x, op),
@@ -137,7 +115,7 @@ n <- ceiling(sqrt(maxint))
 x <- array(as.raw(0:255), c(n, 1))
 y <- array(as.raw(0:255), c(1, n))
 expect_error(
-  bc.raw(x, y, "&"),
+  bc.raw(x, y, "diff"),
   pattern = "broadcasting will exceed maximum vector size"
 )
 enumerate <- enumerate + 1L
@@ -147,9 +125,9 @@ enumerate <- enumerate + 1L
 # operator errors ====
 message <- "given operator not supported in the given context"
 ops <- c(
-  "+", "&", "&", "<", "<"
+  "+", "&", "&", "<", "<", "+", "*"
 )
-for(i in 1:5) {
+for(i in 1:7) {
   x <- datagens[[i]]()
   expect_error(
     funs[[i]](x, x, ops[i]),
@@ -200,8 +178,8 @@ for(typeX in seq_along(datagens)) {
 }
 
 # type errors - Boolean ====
-pattern <- "`x` and `y` must be "
-good_type <- broadcast:::.is_logical_like
+pattern <- "unsupported types given"
+good_type <- broadcast:::.is_boolable
 # bx.i & bc.d
 for(typeX in seq_along(datagens)) {
   for(typeY in seq_along(datagens)) {
@@ -287,7 +265,7 @@ for(typeX in seq_along(datagens)) {
 }
 
 
-# type errors - raw/bits ====
+# type errors - raw ====
 pattern <- "`x` and `y` must be "
 good_type <- is.raw
 # bx.i & bc.d
@@ -314,6 +292,38 @@ for(typeX in seq_along(datagens)) {
     }
   }
 }
+
+
+
+
+# type errors - bits ====
+pattern <- "`x` and `y` must be "
+good_type <- \(x) is.raw(x) || is.integer(x)
+# bx.i & bc.d
+for(typeX in seq_along(datagens)) {
+  for(typeY in seq_along(datagens)) {
+    
+    x <- array(datagens[[typeX]]())
+    y <- array(datagens[[typeY]]())
+    
+    if(!good_type(x) || !good_type(y)) {
+      expect_error(
+        bc.raw(x, y, "&"),
+        pattern = pattern,
+        fixed = TRUE
+      ) |> errorfun()
+      expect_error(
+        bc.raw(x, y, "=="),
+        pattern = pattern,
+        fixed = TRUE
+      ) |> errorfun()
+      
+      enumerate <- enumerate + 2L
+      
+    }
+  }
+}
+
 
 
 # type errors - list ====

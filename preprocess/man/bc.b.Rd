@@ -7,7 +7,7 @@
 bc.b(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable logical (or 32bit integer) arrays.}
+\item{x, y}{conformable arrays of type \code{logical}, \code{integer}(32 bit), or \code{raw}.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported Boolean  operators: &, |, xor, nand, ==, !=, <, >, <=, >=. \cr}
@@ -19,10 +19,22 @@ A logical array as a result of the broadcasted Boolean operation. \cr \cr
 The \code{bc.b()} function
 performs broadcasted Boolean operations on 2 logical (or 32bit integer) arrays. \cr
 \cr
-Please note that these operations will treat the input as Boolean. \cr
+Please note that these operations will treat the input as \code{logical}. \cr
 Therefore, something like \code{bc.b(1, 2, "==")} returns \code{TRUE},
-because both \code{1} and \code{2} are \code{TRUE} when cast as Boolean. \cr
+because both \code{1} and \code{2} are \code{TRUE} when treated as \code{logical}. \cr
 \cr
+}
+\details{
+\code{bc.b()} efficiently casts the input to logical without making copies of the entire vectors/arrays. \cr
+Since the input is treated as logical, the following equalities hold for \code{bc.b()}:
+\itemize{
+\item "==" is equivalent to \code{(x & y) | (!x & !y)}, but faster;
+\item "!=" is equivalent to \code{xor(x, y)};
+\item "<" is equivalent to \code{(!x & y)}, but faster;
+\item ">" is equivalent to \code{(x & !y)}, but faster;
+\item "<=" is equivalent to \code{(!x & y) | (y == x)}, but faster;
+\item ">=" is equivalent to \code{(x & !y) | (y == x)}, but faster. \cr \cr
+}
 }
 \examples{
 x.dim <- c(4:2)

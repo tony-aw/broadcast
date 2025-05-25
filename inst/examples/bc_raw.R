@@ -7,8 +7,8 @@ y <- array(y.data, c(4,1,1))
 
 bc.raw(x, y, "==")
 bc.raw(x, y, "!=")
+bc.raw(x, y, "<")
+bc.raw(x, y, ">")
+bc.raw(x, y, "<=")
+bc.raw(x, y, ">=")
 
-bc.raw(x, y, "&")
-bc.raw(x, y, "|")
-bc.raw(x, y, "^")
-bc.raw(x, y, "diff") |> as_int()

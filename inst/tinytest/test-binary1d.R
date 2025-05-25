@@ -15,10 +15,11 @@ funs <- list(
   bc.cplx,
   bc.str,
   bc.raw,
+  bc.bit,
   bc.list
 )
 ops <- c(
-  rep(list("=="), 6L),
+  rep(list("=="), 7L),
   \(x, y) length(x)==length(y)
 )
 
@@ -28,6 +29,7 @@ datagens <- list(
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)),
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)) + sample(c(rnorm(10), NA, NaN, Inf, -Inf)) * -1i,
   \() sample(c(letters, NA)),
+  \() as.raw(sample(0:255, 10)),
   \() as.raw(sample(0:255, 10)),
   \() sample(list(letters, month.abb, 1:10))
 )
@@ -47,4 +49,5 @@ for(i in seq_along(funs)) {
   
   enumerate <- enumerate + 3L
 }
+
 

@@ -65,9 +65,16 @@
 #' @noRd
 .op_raw_rel <- .op_int_rel
 
+
 #' @keywords internal
 #' @noRd
-.op_raw_bit <- function() {
-  return(c("&", "|", "^", "diff", "pmin", "pmax"))
+.op_bit <- function() {
+  return(c("&", "|", "xor", "nand", "==", "!=", "<", ">", "<=", ">=", "<<", ">>"))
 }
 
+
+#' @keywords internal
+#' @noRd
+.op_raw_byte <- function() {
+  return(c("pmin", "pmax", "diff"))
+}

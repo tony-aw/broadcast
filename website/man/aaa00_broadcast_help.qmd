@@ -56,13 +56,13 @@ The following functions for type-specific binary operations are available:
 
 
 <ul>
-<li> [bc.b](bc.b.qmd): Boolean operations;
+<li> [bc.b](bc.b.qmd): Boolean (i.e. logical) operations;
 
 </li>
-<li> [bc.i](bc.i.qmd): integer (53bit) arithmetic and relational operations;
+<li> [bc.i](bc.i.qmd): integer arithmetic and relational operations;
 
 </li>
-<li> [bc.d](bc.d.qmd): decimal (64bit) arithmetic and relational operations;
+<li> [bc.d](bc.d.qmd): decimal arithmetic and relational operations;
 
 </li>
 <li> [bc.cplx](bc.cplx.qmd): complex arithmetic and (in)equality operations;
@@ -71,7 +71,10 @@ The following functions for type-specific binary operations are available:
 <li> [bc.str](bc.str.qmd): string (in)equality, concatenation, and distance operations;
 
 </li>
-<li> [bc.raw](bc.raw.qmd): for raw arrays; bit-wise operations and (in)equality operations;
+<li> [bc.raw](bc.raw.qmd): byte- and relational operations for vectors/arrays of type <code>raw</code>;
+
+</li>
+<li> [bc.bit](bc.bit.qmd): BIT-WISE operations, supporting the <code>raw</code> and <code>integer</code> types;
 
 </li>
 <li> [bc.list](bc.list.qmd): apply any 'R' function to 2 recursive arrays with broadcasting. <br /> <br />
@@ -161,24 +164,8 @@ which comes with its own method dispatch for the base operators. <br />
 
 </li></ol>
 
-The following base operators can be overloaded via either method:
-
-
-<ul>
-<li> From [bc.num](bc.d.qmd) and [bc.cplx](bc.cplx.qmd): +, -, *, /, ^
-
-</li>
-<li> From [bc.i](bc.i.qmd): %%, %/%
-
-</li>
-<li> From [bc.b](bc.b.qmd): &amp;, |
-
-</li>
-<li> From [bc.raw](bc.raw.qmd): &amp;, |, ^ <br />
-
-</li></ul>
-
 Overloads for the relational operators (==, !=, etc.) have also been implemented. <br />
+Please refer to the website for additional details. <br /> <br />
 
 
 

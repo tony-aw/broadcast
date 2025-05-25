@@ -31,6 +31,19 @@ enumerate <- enumerate + 3L
 
 
 
+# sub-setting2 ====
+x <- matrix(1:20, ncol = 4)
+y <- broadcast:::.as.broadcaster(x)
+expect_equal(
+  broadcast:::.as.broadcaster(x[[1, 1]]),
+  y[[1, 1]]
+  
+)
+enumerate <- enumerate + 1L
+
+
+
+
 #  replacement ====
 x <- matrix(1:20, ncol = 4)
 y <- broadcast:::.as.broadcaster(x)
@@ -42,3 +55,27 @@ expect_equal(
 )
 enumerate <- enumerate + 3L
 
+
+
+#  replacement2 ====
+x <- matrix(1:20, ncol = 4)
+y <- broadcast:::.as.broadcaster(x)
+x[[1]] <- -1
+y[[1]] <- -1
+expect_equal(
+  broadcast:::.as.broadcaster(x),
+  y
+)
+enumerate <- enumerate + 3L
+
+
+# errors ====
+x <- 1:10
+expect_error(
+  broadcast:::`[.broadcaster`(x, 1),
+  pattern = "malformed broadcaster"
+)
+expect_error(
+  broadcast:::`[[.broadcaster`(x, 1),
+  pattern = "malformed broadcaster"
+)

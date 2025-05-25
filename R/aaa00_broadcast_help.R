@@ -33,12 +33,13 @@
 #' \cr
 #' The following functions for type-specific binary operations are available:
 #' 
-#'  * \link{bc.b}: Boolean operations;
-#'  * \link{bc.i}: integer (53bit) arithmetic and relational operations;
-#'  * \link{bc.d}: decimal (64bit) arithmetic and relational operations;
+#'  * \link{bc.b}: Boolean (i.e. logical) operations;
+#'  * \link{bc.i}: integer arithmetic and relational operations;
+#'  * \link{bc.d}: decimal arithmetic and relational operations;
 #'  * \link{bc.cplx}: complex arithmetic and (in)equality operations;
 #'  * \link{bc.str}: string (in)equality, concatenation, and distance operations;
-#'  * \link{bc.raw}: for raw arrays; bit-wise operations and (in)equality operations;
+#'  * \link{bc.raw}: byte- and relational operations for vectors/arrays of type `raw`;
+#'  * \link{bc.bit}: BIT-WISE operations, supporting the `raw` and `integer` types;
 #'  * \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 #' 
 #' 
@@ -102,14 +103,9 @@
 #'  2) Via the \link{broadcaster} class,
 #'  which comes with its own method dispatch for the base operators. \cr
 #'
-#' The following base operators can be overloaded via either method:
-#' 
-#'  - From \link{bc.num} and \link{bc.cplx}: +, -, *, /, ^
-#'  - From \link{bc.i}: %%, %/%
-#'  - From \link{bc.b}: &, |
-#'  - From \link{bc.raw}: &, |, ^ \cr
-#'
 #' Overloads for the relational operators (==, !=, etc.) have also been implemented. \cr
+#' Please refer to the website for additional details. \cr \cr
+#' 
 #' 
 #' @references Plate T, Heiberger R (2016). \emph{abind: Combine Multidimensional Arrays}. R package version 1.4-5, \url{https://CRAN.R-project.org/package=abind}.
 #' 

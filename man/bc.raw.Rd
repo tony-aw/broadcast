@@ -2,7 +2,7 @@
 % Please edit documentation in R/bc_raw.R
 \name{bc.raw}
 \alias{bc.raw}
-\title{Broadcasted Operations on Raw Arrays}
+\title{Broadcasted Byte and Relational Operations on Raw Arrays}
 \usage{
 bc.raw(x, y, op)
 }
@@ -10,24 +10,27 @@ bc.raw(x, y, op)
 \item{x, y}{conformable raw vectors or arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported bit-wise operators: &, |, ^, diff, pmin, pmax. \cr
-Note that "^"  refers to bit-wise XOR, and "diff" refers to the absolute numerical difference. \cr
+Supported byte operators: pmin, pmax, diff. \cr
+The "diff" operator performs the byte equivalent of \code{abs(x - y)}. \cr
 Supported relational operators: ==, !=, <, >, <=, >=. \cr
 \cr}
 }
 \value{
-For bit-wise operators: \cr
+For the byte operators: \cr
 A array of type \code{raw},
-as a result of the broadcasted bit-wise operation. \cr
+as a result of the broadcasted byte operation. \cr
 \cr
 For relational operators: \cr
-A logical array as a result of the broadcasted integer relational comparison. \cr
+A logical array as a result of the broadcasted relational comparison. \cr
 \cr
 }
 \description{
 The \code{bc.raw()} function
-performs broadcasted (in)equality operations and bit-wise operations
+performs broadcasted byte- and relational operations
 on arrays of type \code{raw}. \cr
+\cr
+For bit-wise operations, use \link{bc.bit}. \cr
+For logical operations, use \link{bc.b} \cr
 \cr
 }
 \examples{
@@ -40,9 +43,9 @@ y <- array(y.data, c(4,1,1))
 
 bc.raw(x, y, "==")
 bc.raw(x, y, "!=")
+bc.raw(x, y, "<")
+bc.raw(x, y, ">")
+bc.raw(x, y, "<=")
+bc.raw(x, y, ">=")
 
-bc.raw(x, y, "&")
-bc.raw(x, y, "|")
-bc.raw(x, y, "^")
-bc.raw(x, y, "diff") |> as_int()
 }

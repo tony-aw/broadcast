@@ -1,0 +1,38 @@
+<!DOCTYPE html><html><head><title>R: Attribute handling</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>aaa01_broadcast_attributes</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Attribute handling</h2>
+
+<h3>Description</h3>
+
+<p>The <code style="white-space: pre;">&#8288;bc.*&#8288;</code> functions and the overloaded operators generally do <b>not</b>
+preserve attributes, unlike the base 'R' operators. <br />
+<br />
+Broadcasting often results in an object with more dimensions, larger dimensions,
+and/or larger length than the original objects. <br />
+Therefore, the <code>names</code>, <code>dimnames</code>, and <code>dim</code> attributes often no longer fit the new object. <br />
+Moreover, class attributes such as <code>matrix</code> presume the object to have 2 dimensions,
+so even class attributes cannot be guaranteed to hold for the resulting objects. <br />
+Only some class attributes, like the 'broadcaster' class (and related) attributes,
+will be preserved, if present.
+</p>
+
+</main>
+
+</div>
+</body></html>

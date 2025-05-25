@@ -1,27 +1,29 @@
-#' Broadcasted Operations on Raw Arrays
+#' Broadcasted Byte and Relational Operations on Raw Arrays
 #'
 #' @description
 #' The `bc.raw()` function
-#' performs broadcasted (in)equality operations and bit-wise operations
+#' performs broadcasted byte- and relational operations
 #' on arrays of type `raw`. \cr
+#' \cr
+#' For bit-wise operations, use \link{bc.bit}. \cr
+#' For logical operations, use \link{bc.b} \cr
 #' \cr
 #' 
 #' @param x,y conformable raw vectors or arrays.
 #' @param op a single string, giving the operator. \cr
-#' Supported bit-wise operators: `r paste0(broadcast:::.op_raw_bit(), collapse = ", ")`. \cr
-#' Note that "^"  refers to bit-wise XOR, and "diff" refers to the absolute numerical difference. \cr
+#' Supported byte operators: `r paste0(broadcast:::.op_raw_byte(), collapse = ", ")`. \cr
+#' The "diff" operator performs the byte equivalent of `abs(x - y)`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_raw_rel(), collapse = ", ")`. \cr
 #' \cr
 #' 
-#' 
 #'
 #' @returns
-#' For bit-wise operators: \cr
+#' For the byte operators: \cr
 #' A array of type `raw`,
-#' as a result of the broadcasted bit-wise operation. \cr
+#' as a result of the broadcasted byte operation. \cr
 #' \cr
 #' For relational operators: \cr
-#' A logical array as a result of the broadcasted integer relational comparison. \cr
+#' A logical array as a result of the broadcasted relational comparison. \cr
 #' \cr
 #' 
 #' 
@@ -42,11 +44,11 @@ bc.raw <- function(x, y, op) {
   
   
   # get operator:
-  op_bit <- which(.op_raw_bit() == op)
+  op_bit <- which(.op_raw_byte() == op)
   op_rel <- which(.op_raw_rel() == op)
   
   if(length(op_bit)) {
-    return(.bc_raw_bit(x, y, op_bit, sys.call()))
+    return(.bc_raw_byte(x, y, op_bit, sys.call()))
   }
   else if(length(op_rel)) {
     return(.bc_raw_rel(x, y, op_rel, sys.call()))
@@ -54,15 +56,12 @@ bc.raw <- function(x, y, op) {
   else {
     stop("given operator not supported in the given context")
   }
-  
-  
 }
-
 
 
 #' @keywords internal
 #' @noRd
-.bc_raw_bit <- function(x, y, op, abortcall) {
+.bc_raw_byte <- function(x, y, op, abortcall) {
   
   if(length(x) == 0L || length(y) == 0L) {
     return(raw(0L))
@@ -89,8 +88,8 @@ bc.raw <- function(x, y, op) {
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
     
     out <- .rcpp_bc_raw_d(
       x, y, by_x, by_y,
@@ -99,6 +98,12 @@ bc.raw <- function(x, y, op) {
   }
   
   dim(out) <- out.dimorig
+  
+  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
+    broadcaster(out) <- TRUE
+  }
+  
+  .binary_set_ma(out, x, y)
   
   return(out)
   
@@ -135,8 +140,8 @@ bc.raw <- function(x, y, op) {
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
     
     out <- .rcpp_bcRel_raw_d(
       x, y, by_x, by_y,
@@ -149,3 +154,4 @@ bc.raw <- function(x, y, op) {
   return(out)
   
 }
+

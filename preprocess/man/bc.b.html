@@ -23,9 +23,9 @@ function processMathHTML() {
 <p>The <code>bc.b()</code> function
 performs broadcasted Boolean operations on 2 logical (or 32bit integer) arrays. <br />
 <br />
-Please note that these operations will treat the input as Boolean. <br />
+Please note that these operations will treat the input as <code>logical</code>. <br />
 Therefore, something like <code>bc.b(1, 2, "==")</code> returns <code>TRUE</code>,
-because both <code>1</code> and <code>2</code> are <code>TRUE</code> when cast as Boolean. <br />
+because both <code>1</code> and <code>2</code> are <code>TRUE</code> when treated as <code>logical</code>. <br />
 <br />
 </p>
 
@@ -41,7 +41,7 @@ because both <code>1</code> and <code>2</code> are <code>TRUE</code> when cast a
 <table>
 <tr><td><code id="x">x</code>, <code id="y">y</code></td>
 <td>
-<p>conformable logical (or 32bit integer) arrays.</p>
+<p>conformable arrays of type <code>logical</code>, <code>integer</code>(32 bit), or <code>raw</code>.</p>
 </td></tr>
 <tr><td><code id="op">op</code></td>
 <td>
@@ -49,6 +49,34 @@ because both <code>1</code> and <code>2</code> are <code>TRUE</code> when cast a
 Supported Boolean  operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br /></p>
 </td></tr>
 </table>
+
+
+<h3>Details</h3>
+
+<p><code>bc.b()</code> efficiently casts the input to logical without making copies of the entire vectors/arrays. <br />
+Since the input is treated as logical, the following equalities hold for <code>bc.b()</code>:
+</p>
+
+<ul>
+<li><p> &quot;==&quot; is equivalent to <code>(x &amp; y) | (!x &amp; !y)</code>, but faster;
+</p>
+</li>
+<li><p> &quot;!=&quot; is equivalent to <code>xor(x, y)</code>;
+</p>
+</li>
+<li><p> &quot;&lt;&quot; is equivalent to <code>(!x &amp; y)</code>, but faster;
+</p>
+</li>
+<li><p> &quot;&gt;&quot; is equivalent to <code>(x &amp; !y)</code>, but faster;
+</p>
+</li>
+<li><p> &quot;&lt;=&quot; is equivalent to <code>(!x &amp; y) | (y == x)</code>, but faster;
+</p>
+</li>
+<li><p> &quot;&gt;=&quot; is equivalent to <code>(x &amp; !y) | (y == x)</code>, but faster. <br /> <br />
+</p>
+</li></ul>
+
 
 
 <h3>Value</h3>

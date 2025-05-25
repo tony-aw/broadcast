@@ -59,8 +59,8 @@ bc.list <- function(x, y, f) {
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
     
     out <- .rcpp_bc_list_d(
       x, y, by_x, by_y,

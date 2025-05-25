@@ -1,0 +1,18 @@
+
+## Attribute handling {.unnumbered}
+
+
+### Description
+
+The <code style="white-space: pre;">bc.*</code> functions and the overloaded operators generally do <b>not</b>
+preserve attributes, unlike the base 'R' operators. <br />
+<br />
+Broadcasting often results in an object with more dimensions, larger dimensions,
+and/or larger length than the original objects. <br />
+Therefore, the <code>names</code>, <code>dimnames</code>, and <code>dim</code> attributes often no longer fit the new object. <br />
+Moreover, class attributes such as <code>matrix</code> presume the object to have 2 dimensions,
+so even class attributes cannot be guaranteed to hold for the resulting objects. <br />
+Only some class attributes, like the 'broadcaster' class (and related) attributes,
+will be preserved, if present.
+
+

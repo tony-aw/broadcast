@@ -19,3 +19,12 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 
 # broadcast 0.0.0.9003
 * Added overload support for the relational (==, !=, etc.) operators, and added tests for these also.
+
+
+# broadcast 0.0.0.9004
+* Overhauled the operators for `bc.raw()`.
+* Added `bc.bit()`, for bit-wise operations.
+* Small speed improvement for `acast()`.
+* Re-written some internal code in 'C'.
+* `bc_ifelse()` and `bc.b()` can now also handle type of `raw` in its arguments.
+

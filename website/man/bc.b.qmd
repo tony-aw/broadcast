@@ -9,9 +9,9 @@ title: bc.b
 The <code>bc.b()</code> function
 performs broadcasted Boolean operations on 2 logical (or 32bit integer) arrays. <br />
 <br />
-Please note that these operations will treat the input as Boolean. <br />
+Please note that these operations will treat the input as <code>logical</code>. <br />
 Therefore, something like <code>bc.b(1, 2, "==")</code> returns <code>TRUE</code>,
-because both <code>1</code> and <code>2</code> are <code>TRUE</code> when cast as Boolean. <br />
+because both <code>1</code> and <code>2</code> are <code>TRUE</code> when treated as <code>logical</code>. <br />
 <br />
 
 
@@ -27,7 +27,7 @@ because both <code>1</code> and <code>2</code> are <code>TRUE</code> when cast a
 <table>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code>, <code id="y">y</code></td>
 <td>
-conformable logical (or 32bit integer) arrays.
+conformable arrays of type <code>logical</code>, <code>integer</code>(32 bit), or <code>raw</code>.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
@@ -35,6 +35,34 @@ a single string, giving the operator. <br />
 Supported Boolean  operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br />
 </td></tr>
 </table>
+
+
+### Details
+
+<code>bc.b()</code> efficiently casts the input to logical without making copies of the entire vectors/arrays. <br />
+Since the input is treated as logical, the following equalities hold for <code>bc.b()</code>:
+
+
+<ul>
+<li> &quot;==&quot; is equivalent to <code>(x &amp; y) | (!x &amp; !y)</code>, but faster;
+
+</li>
+<li> &quot;!=&quot; is equivalent to <code>xor(x, y)</code>;
+
+</li>
+<li> &quot;&lt;&quot; is equivalent to <code>(!x &amp; y)</code>, but faster;
+
+</li>
+<li> &quot;&gt;&quot; is equivalent to <code>(x &amp; !y)</code>, but faster;
+
+</li>
+<li> &quot;&lt;=&quot; is equivalent to <code>(!x &amp; y) | (y == x)</code>, but faster;
+
+</li>
+<li> &quot;&gt;=&quot; is equivalent to <code>(x &amp; !y) | (y == x)</code>, but faster. <br /> <br />
+
+</li></ul>
+
 
 
 ### Value

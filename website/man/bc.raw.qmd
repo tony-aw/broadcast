@@ -1,14 +1,17 @@
 ---
 title: bc.raw
 ---
-## Broadcasted Operations on Raw Arrays {.unnumbered}
+## Broadcasted Byte and Relational Operations on Raw Arrays {.unnumbered}
 
 
 ### Description
 
 The <code>bc.raw()</code> function
-performs broadcasted (in)equality operations and bit-wise operations
+performs broadcasted byte- and relational operations
 on arrays of type <code>raw</code>. <br />
+<br />
+For bit-wise operations, use [bc.bit](bc.bit.qmd). <br />
+For logical operations, use [bc.b](bc.b.qmd) <br />
 <br />
 
 
@@ -29,8 +32,8 @@ conformable raw vectors or arrays.
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
 a single string, giving the operator. <br />
-Supported bit-wise operators: &amp;, |, ^, diff, pmin, pmax. <br />
-Note that &quot;^&quot;  refers to bit-wise XOR, and &quot;diff&quot; refers to the absolute numerical difference. <br />
+Supported byte operators: pmin, pmax, diff. <br />
+The &quot;diff&quot; operator performs the byte equivalent of <code>abs(x - y)</code>. <br />
 Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br />
 <br />
 </td></tr>
@@ -39,12 +42,12 @@ Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br />
 
 ### Value
 
-For bit-wise operators: <br />
+For the byte operators: <br />
 A array of type <code>raw</code>,
-as a result of the broadcasted bit-wise operation. <br />
+as a result of the broadcasted byte operation. <br />
 <br />
 For relational operators: <br />
-A logical array as a result of the broadcasted integer relational comparison. <br />
+A logical array as a result of the broadcasted relational comparison. <br />
 <br />
 
 
@@ -62,11 +65,11 @@ y <- array(y.data, c(4,1,1))
 
 bc.raw(x, y, "==")
 bc.raw(x, y, "!=")
+bc.raw(x, y, "<")
+bc.raw(x, y, ">")
+bc.raw(x, y, "<=")
+bc.raw(x, y, ">=")
 
-bc.raw(x, y, "&")
-bc.raw(x, y, "|")
-bc.raw(x, y, "^")
-bc.raw(x, y, "diff") |> as_int()
 
 
 ```

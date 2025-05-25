@@ -159,6 +159,24 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
+.rcpp_bc_bit_v <- function(x, y, nout, op) {
+    .Call(`_broadcast_rcpp_bc_bit_v`, x, y, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bc_bit_ov <- function(x, y, RxC, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bc_bit_ov`, x, y, RxC, out_dim, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bc_bit_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bc_bit_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_bc_cplx_v <- function(x, y, nout, op) {
     .Call(`_broadcast_rcpp_bc_cplx_v`, x, y, nout, op)
 }
@@ -353,6 +371,30 @@ rcpp_str_dist_led <- function(x, y) {
 #' @noRd
 .rcpp_bindhelper_get_dimnames <- function(x, along) {
     .Call(`_broadcast_rcpp_bindhelper_get_dimnames`, x, along)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_serial <- function(x) {
+    .Call(`_broadcast_rcpp_serial`, x)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_is_ma <- function(x) {
+    .Call(`_broadcast_rcpp_is_ma`, x)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_set_ma <- function(x, newclass) {
+    invisible(.Call(`_broadcast_rcpp_set_ma`, x, newclass))
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_set_class <- function(x, newclass) {
+    invisible(.Call(`_broadcast_rcpp_set_class`, x, newclass))
 }
 
 #' @keywords internal

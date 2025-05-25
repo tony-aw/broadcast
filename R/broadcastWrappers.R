@@ -41,6 +41,14 @@
 
 #' @keywords Internal
 #' @noRd
+.C_make_dcp <- function(x) {
+  .Call("C_make_dcp", target_dim = as.integer(x))
+}
+
+
+
+#' @keywords Internal
+#' @noRd
 .C_seq_Clen <- function(start, len) {
   if(typeof(start) != typeof(len)) {
     start <- as.numeric(start)
@@ -75,12 +83,5 @@
 #' @noRd
 .C_dims_all_equal <- function(xdim, ydim) {
   .Call("C_dims_all_equal", xdim, ydim)
-}
-
-
-#' @keywords Internal
-#' @noRd
-.C_serial <- function(x) {
-  .Call("C_serial", x)
 }
 

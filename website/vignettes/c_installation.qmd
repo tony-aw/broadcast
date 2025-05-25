@@ -1,0 +1,82 @@
+---
+title: "Prerequisites & Installation"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(fontawesome)
+```
+
+# Prerequisites
+
+First, a basic understanding of `r fa("r-project")` is important.  
+A very, very basic refresher for `r fa("r-project")` can be found in the [Getting Started in R: Tinyverse Edition](https://eddelbuettel.github.io/gsir-te/Getting-Started-in-R.pdf) document.
+
+&nbsp;
+
+Make sure you at least have basic knowledge of the following subjects in `r fa("r-project")`:
+
+ - Atomic types (logical, integer, double, complex, character, raw).
+ - The recursive type "list".
+ - dimensional structures: vectors, matrices, arrays.
+ - common arithmetic operators (+, -, *, /, etc.), relational operators (==, !=, etc.), logical operators (&, |), and common bit-wise operations.
+ - vector recycling
+
+
+
+&nbsp;
+
+# Installation
+
+To install 'broadcast' from GitHub, one may run the following code in `r fa("r-project")`:
+
+```{r echo=TRUE, eval=FALSE}
+
+remotes::install_github("https://github.com/tony-aw/broadcast")
+
+```
+
+
+'broadcast' is not a large package per-sé, but it does contain a large amount of compiled code ('C' and 'C++'). Compilation of the package may therefore be slow on some operating systems, especially Linux systems; please be patient. On an average PC running Windows 11, installation of the 'broadcast' package shouldn't take more than just a few minutes.
+
+If installation is too slow, one may try to speed up the installation using multi-threading, for example like so:
+
+```{r echo=TRUE, eval=FALSE}
+
+nthreads <- 8L # specify number of threads
+Sys.setenv(MAKEFLAGS = paste0("-j", nthreads)) # may speed up installation
+
+remotes::install_github("https://github.com/tony-aw/broadcast")
+
+```
+
+
+&nbsp;
+
+To attach the package - thus expose its functions to the namespace - please use the following:
+
+```{r echo=TRUE, eval=FALSE}
+
+library(broadcast)
+
+```
+
+
+&nbsp;
+
+To open the introduction help page of the ‘broadcast’ package, please use any of the following:
+
+```{r echo=TRUE, eval=FALSE}
+
+?broadcast::broadcast
+?broadcast::broadcast_help
+?broadcast::`broadcast-package`
+
+```
+
+
+&nbsp;
+&nbsp;

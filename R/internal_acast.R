@@ -97,8 +97,10 @@
 #' @keywords internal
 #' @noRd
 .acast_get_dimchunksize <- function(x.ndim) {
-  chunksizes <- c(2L, 4L, 8L, 16L)
-  i <- sum(x.ndim > chunksizes) + 1L
-  dimchunksize <- chunksizes[i]
-  return(dimchunksize)
+  if(!.is.even(x.ndim)) {
+    return(x.ndim + 1L)
+  }
+  else {
+    return(x.ndim)
+  }
 }

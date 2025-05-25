@@ -6,7 +6,7 @@
     return(e1) 
   }
   .binary_stop_general(e1, e2, "+", sys.call())
-  a <- .binary_attr(e1, e2)
+  
   op <- 1L
   if(is.complex(e1) || is.complex(e2)) {
     if(!is.complex(e1)) e1 <- as_cplx(e1)
@@ -20,7 +20,7 @@
     stop("non-numeric argument to binary operator")
   }
   
-  attributes(out) <- c(attributes(out), a)
+ 
   return(out)
   
 }
@@ -33,7 +33,7 @@
     e1 <- 0L
   }
   .binary_stop_general(e1, e2, "-", sys.call())
-  a <- .binary_attr(e1, e2)
+  
   
   op <- 2L
   if(is.complex(e1) || is.complex(e2)) {
@@ -48,7 +48,7 @@
     stop("non-numeric argument to binary operator")
   }
   
-  attributes(out) <- c(attributes(out), a)
+ 
   return(out)
 }
 
@@ -57,7 +57,7 @@
 #' @export
 `*.broadcaster` <- function(e1, e2) {
   .binary_stop_general(e1, e2, "*", sys.call())
-  a <- .binary_attr(e1, e2)
+  
   
   op <- 3L
   if(is.complex(e1) || is.complex(e2)) {
@@ -72,7 +72,7 @@
     stop("non-numeric argument to binary operator")
   }
   
-  attributes(out) <- c(attributes(out), a)
+ 
   return(out)
 }
 
@@ -81,7 +81,7 @@
 #' @export
 `/.broadcaster` <- function(e1, e2) {
   .binary_stop_general(e1, e2, "/", sys.call())
-  a <- .binary_attr(e1, e2)
+  
   
   if(is.complex(e1) || is.complex(e2)) {
     if(!is.complex(e1)) e1 <- as_cplx(e1)
@@ -95,7 +95,7 @@
     stop("non-numeric argument to binary operator")
   }
   
-  attributes(out) <- c(attributes(out), a)
+ 
   return(out)
 }
 
@@ -103,7 +103,7 @@
 #' @export
 `^.broadcaster` <- function(e1, e2) {
   .binary_stop_general(e1, e2, "^", sys.call())
-  a <- .binary_attr(e1, e2)
+  
   
   if(is.complex(e1) || is.complex(e2)) {
     stop("`^` operator not (yet) supported for type `complex`")
@@ -111,14 +111,11 @@
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
     out <- .bc_dec_math(e1, e2, 5L, sys.call())
   }
-  else if(is.raw(e1) && is.raw(e2)) {
-    out <- .bc_raw_bit(e1, e2, 3L, sys.call())
-  }
   else {
     stop("non-numeric argument to binary operator")
   }
   
-  attributes(out) <- c(attributes(out), a)
+ 
   return(out)
 }
 
@@ -126,7 +123,7 @@
 #' @export
 `%%.broadcaster` <- function(e1, e2) {
   .binary_stop_general(e1, e2, "%%", sys.call())
-  a <- .binary_attr(e1, e2)
+  
   
   if(is.complex(e1) || is.complex(e2)) {
     stop("`%%` operator not supported for type `complex`")
@@ -138,14 +135,14 @@
     stop("non-numeric argument to binary operator")
   }
   
-  attributes(out) <- c(attributes(out), a)
+ 
   return(out)
 }
 
 #' @export
 `%/%.broadcaster` <- function(e1, e2) {
   .binary_stop_general(e1, e2, "%/%", sys.call())
-  a <- .binary_attr(e1, e2)
+  
   
   if(is.complex(e1) || is.complex(e2)) {
     stop("`%/%` operator not supported for type `complex`")
@@ -157,7 +154,7 @@
     stop("non-numeric argument to binary operator")
   }
   
-  attributes(out) <- c(attributes(out), a)
+ 
   return(out)
 }
 

@@ -1,0 +1,288 @@
+---
+title: "Operator Overloading"
+format:
+  html:
+    number-sections: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE, eval=TRUE}
+library(broadcast) |> suppressMessages()
+library(fontawesome) |> suppressWarnings()
+```
+
+
+&nbsp;
+
+# Introduction
+
+Sometimes broadcasting is needed in a large mathematical expression, involving multiple variables, where precedence is of importance.
+For example in an expression like this:  
+
+`x / (y + z) + a`
+
+Using the `bc.*` functions for that, while possible, may be inconvenient. It may be more convenient to use the base operators directly, whilst still keeping the broadcasting property.  
+
+To this end, the 'broadcast' package allows the user to overload the base operators. This includes mathematical operators (+, -., *, /, etc.), Boolean operators (&, |), bit-wise operators (&, |), and relational operators (==, !=, etc.).  
+'broadcast' provides 2 ways to overload operators:
+
+ - Via the [bc_chain()](/man/bc_chain.qmd) function, to evaluate a mathematical expression using overloaded operators for broadcast support.
+ - Via the [broadcaster](/man/broadcaster.qmd) class, which comes with its own method dispatch for the base operators.
+
+&nbsp;
+
+# Example
+
+Consider the matrices `x`, `y` and `z`:
+
+```{r}
+x <- array(1:20, c(4, 5))
+y <- array(1:5 * 100, c(1, 5))
+z <- array(20:1, c(4, 5))
+print(x)
+print(y)
+print(z)
+```
+
+Suppose we wish to compute `x + y / z`;
+
+The following is **wrong**:
+
+```{r}
+bc.num(x, y, "+") |> bc.num(y, "/")
+```
+
+...because division must come **before** addition, according to standard math precedence rules.
+
+We *could* do the following:
+
+```{r}
+bc.num(y, z, "/") |> bc.num(x, "+")
+```
+
+...but as the mathematical expression involves more and more variables with a greater variety of operators, it comes more and more taxing to keep track of the operator precedence.
+
+Luckily, 'broadcast' provides 2 alternative ways.
+
+One is to evaluate the expression using a formula:
+
+```{r}
+bc_chain(~ x + y / z)
+```
+
+The other, perhaps more natural way, is to designate all arrays  as a "broadcaster"; all base operators that involve a broadcaster will use the overloaded variant provided by the 'broadcast' package - like so:
+
+```{r}
+broadcaster(x) <- TRUE
+broadcaster(y) <- TRUE
+broadcaster(z) <- TRUE
+x + y / z
+
+```
+
+
+Actually, not *all* arrays necessarily need to be a broadcaster.  
+Overloaded operations that involve a broadcaster, will result in a broadcaster.  
+So technically, one could just make the array that is used first - according to the mathematical rules of precedence - as a broadcaster, and broadcasting will continue to be used.  
+In this case, the mathematically first preceding array is `y`.  
+To demonstrate, we'll un-set `x` and `z` as broadcaster, and you'll see broadcasting still occurs:
+
+```{r}
+
+broadcaster(x) <- FALSE
+broadcaster(z) <- FALSE
+
+x + y / z
+```
+
+&nbsp;
+
+# Overload method tables
+
+The overloaded operators from the 'broadcast' package attempts to mimic the base `r fa("r-project")` operators accurately, except that broadcasting is used (obviously).
+
+The following tables overview the behaviour of the operators.
+
+&nbsp;
+
+## Regular Arithmetic operators
+
+If both sides of the operators given here are numeric or logical, the following holds:
+
+```{r echo=FALSE, eval=TRUE}
+
+ops <- c("+", "-", "*", "/", "^", "%/%", "%%")
+action <- c("add", "substract", "multiply", "divide", "raise to power", "floored integer divide", "modulo")
+bc <- c(rep("bc.d", 5), "bc.i", "bc.i")
+
+df <- data.frame(
+  operator = ops,
+  action = action,
+  `function call` = bc,
+  check.names = FALSE
+)
+
+tinytable::tt(df)
+
+```
+
+&nbsp;
+
+## Complex Arithmetic operators
+
+If at least one of the arguments of the operators given here are complex, the following holds:
+
+
+```{r echo=FALSE, eval=TRUE}
+
+ops <- c("+", "-", "*", "/")
+action <- c("add", "substract", "multiply", "divide")
+bc <- c(rep("bc.cplx", 4))
+
+df <- data.frame(
+  operator = ops,
+  action = action,
+  `function call` = bc,
+  check.names = FALSE
+)
+
+tinytable::tt(df)
+
+```
+
+&nbsp;
+
+## Logical Operators
+
+If both sides of the operators given here are complex, numeric or logical, the following holds:
+
+```{r echo=FALSE, eval=TRUE}
+
+ops <- c("&", "|")
+action <- c("and", "or")
+bc <- c(rep("bc.b", 2))
+
+df <- data.frame(
+  operator = ops,
+  action = action,
+  `function call` = bc,
+  check.names = FALSE
+)
+
+tinytable::tt(df)
+```
+
+&nbsp;
+
+## Bit-wise operators
+
+
+If both sides of the operators given here are type of raw, the following holds:
+
+
+```{r echo=FALSE, eval=TRUE}
+
+ops <- c("&", "|")
+action <- c("bit-wise and", "bit-wise or")
+bc <- c(rep("bc.bit", 2))
+
+df <- data.frame(
+  operator = ops,
+  action = action,
+  `function call` = bc,
+  check.names = FALSE
+)
+
+tinytable::tt(df)
+```
+
+&nbsp;
+
+## Relational operators
+
+For relational operators, 'broadcast' first finds the "highest" (or most complex) atomic type of both sides, coerces both sides to said type, and then performs the broadcasted relational operation. Recursive types are not supported.
+
+The types, from complex to simple, are: `character`, `complex`, `numeric` (also known as `double`), `integer`, `logical`, and `raw`.
+
+
+&nbsp;
+
+# Derived operators
+
+There is no overload for `xor()`, as `xor()` is defined using the existing base relational and logical (or bit-wise, for type of `raw`) operators.  
+
+There is also no overload for the %d==%, %d!=%, etc. operators, as they too are defined using the existing base relational and logical operators.
+
+&nbsp;
+
+# Base operators vs Overloaded operators
+
+Although the operators overloaded by 'broadcast' attempt to mimic the base `r fa("r-project")` operators accurately, the are a few differences.
+
+Most notably, the broadcasted operators do not preserve attributes.  
+Broadcasting often results in an object with more dimensions, larger dimensions, and/or larger length than the original objects.  
+Therefore, the `names`, `dimnames`, and `dim` attributes often no longer fit the new object.  
+Moreover, class attributes are related to dimensions or length.  
+For example, the `matrix` class presumes the object to have 2 dimensions, and the various classes from the 'bit' package use length-related attributes for their functionality.  
+So even class attributes cannot be guaranteed to hold for the resulting objects.  
+Only some class attributes, like the 'broadcaster' class (and related) attributes, will be preserved, if present.
+
+&nbsp;
+
+# Overloaded operators vs `bc.*` functions
+
+Overloading the operators is primarily useful for encuring correct mathematical precedence, and to reduce the amount of typing.  
+However, the many `bc.*` functions provide much greater control than the simple operators can provide.  
+
+For example:  
+The `&` and `|` operators provide logical AND and OR, respectively for all atomic types except type `raw`; for type `raw`, the `&` and `|` operators provide BIT-WISE AND and OR, respectively.  
+But what if you want to use logical AND/OR for `raw` arrays, or bit-wise AND/OR for `integer` arrays?  
+When using the overloaded operators, using logical AND/OR for type `raw` necessitates converting the vector/array to type `logical`, thus making a copy.  
+With the `bc.*()` functions, this is not necessary.  
+Want to use logical AND/OR? Use [bc.b()](/man/bc.b.qmd), it supports several types including `raw`.  
+Want to use bit-wise AND/OR? Use [bc.bit()](/man/bc.bit.qmd), it supports not only `raw`, but `integer` as well.
+
+
+&nbsp;
+
+
+# [bc_chain()](/man/bc_chain.qmd) function vs `broadcaster` class
+
+As stated in the introduction, the 'broadcast' package provides 2 ways to overload the base `r fa("r-project")` operator to use broadcasting.
+
+One way is to use the [bc_chain()](/man/bc_chain.qmd) function. The user can supply a formula with a mathematical expression in [bc_chain()](/man/bc_chain.qmd) - like so: `bc_chain(~ x + y / z)`, and the base `r fa("r-project")` operators in the expression will use the overloaded broadcasted operators.
+
+The other way is to designate a vector or array as "broadcaster".  
+Like so: `broadcaster(x) <- TRUE`.  
+The "broadcast" class has its own method dispatches for the base `r fa("r-project")` operators.  
+So if either side of the base `r fa("r-project")` operators is of class "broadcaster", the broadcasted overloaded operator is used.  
+
+
+&nbsp;
+
+Both ways have their own advantages and disadvantages.  
+
+The primary disadvantage of [bc_chain()](/man/bc_chain.qmd) is that it has rather large overhead, because a formula needs to be translated to an expression that can evaluated, AND the operators need to be overloaded 'on-the-fly'. The broadcaster class has no such problem.  
+
+The primary disadvantage of the broadcaster class, is that it may have to compete with other classed. For example, if `x` is a "broadcaster", and `y` is a "bit64" class, they will compete for the method dispatch. The [bc_chain()](/man/bc_chain.qmd) method has no such problem.
+
+
+&nbsp;
+
+# Compatibility between 'broadcaster' and other classes
+
+When an object is set to be a "broadcaster" using the `broadcaster()<-` operation, the 'broadcaster' class is **before** custom classes such as "bit64" (ignoring internal classes like "array", "matrix", "numeric", etc.), to ensure compatibility.
+
+Thus if a custom class provide method dispatches for base operators, like the "bit64" class, the method dispatch for said will (or at least should) win over the "broadcaster" class.  
+It is up to the authors of such classes to decide whether to incorporate broadcasting in their method dispatches.
+
+
+&nbsp;
+
+

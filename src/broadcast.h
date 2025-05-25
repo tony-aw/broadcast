@@ -647,6 +647,35 @@
 
 
 
+#define MACRO_TYPESWITCH_BOOL(DIMCODE)  do {        \
+  if(rcpp_is_lgl(x) && rcpp_is_lgl(y)) {            \
+    const int *px = INTEGER_RO(x);                  \
+    const int *py = INTEGER_RO(y);                  \
+    MACRO_OP_B_MATH(DIMCODE);              \
+  }                                                 \
+  else if(rcpp_is_lgl(x) && TYPEOF(y) == RAWSXP) {  \
+    const int *px = INTEGER_RO(x);                  \
+    const Rbyte *py = RAW_RO(y);                    \
+    MACRO_OP_B_MATH(DIMCODE);              \
+  }                                                 \
+  else if(TYPEOF(x) == RAWSXP && rcpp_is_lgl(y)) {  \
+    const Rbyte *px = RAW_RO(x);                    \
+    const int *py = INTEGER_RO(y);                  \
+    MACRO_OP_B_MATH(DIMCODE);              \
+  }                                                 \
+  else if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) { \
+    const Rbyte *px = RAW_RO(x);                    \
+    const Rbyte *py = RAW_RO(y);                    \
+    MACRO_OP_B_MATH(DIMCODE);              \
+  }                                                 \
+  else {                                              \
+    stop("unsupported combination of types given");	\
+  }                                                   \
+} while(0)
+
+
+
+
 
 // 
 // 
@@ -1058,7 +1087,7 @@
 } while(0)
 
 
-#define MACRO_OP_B_ANDOR(DIMCODE) do {	\
+#define MACRO_OP_B_MATH(DIMCODE) do {	\
   switch(op) {	\
     case 1:	\
     {	\
@@ -1364,47 +1393,26 @@
 } while(0)
 
 
-#define MACRO_OP_RAW_BIT(DIMCODE) do {	\
+#define MACRO_OP_RAW_BYTE(DIMCODE) do {	\
   switch(op) {	\
     case 1:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = px[flatind_x] & py[flatind_y]                \
-      );                                                                \
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = px[flatind_x] | py[flatind_y]                \
-      );                                                                \
-      break;	\
-    }	\
-    case 3:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = px[flatind_x] ^ py[flatind_y]                \
-      );                                                                \
-      break;	\
-    }	\
-    case 4:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = rcpp_raw_diff(px[flatind_x], py[flatind_y]) \
-      );                                                                \
-      break;	\
-    }	\
-    case 5:	\
     {	\
       DIMCODE(                                                          \
         pout[flatind_out] = (px[flatind_x] < py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \
       );                                                                \
       break;	\
     }	\
-    case 6:	\
+    case 2:	\
     {	\
       DIMCODE(                                                          \
         pout[flatind_out] = (px[flatind_x] > py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \
+      );                                                                \
+      break;	\
+    }	\
+    case 3:	\
+    {	\
+      DIMCODE(                                                          \
+        pout[flatind_out] = rcpp_raw_diff(px[flatind_x], py[flatind_y]) \
       );                                                                \
       break;	\
     }	\
@@ -1416,7 +1424,221 @@
 } while(0)
 
 
-#define MACRO_OP_IFELSE(DIMCODE) do {       \
+#define MACRO_OP_BIT_RAW(DIMCODE) do {	\
+  switch(op) {	\
+    case 1:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = px[flatind_x] & py[flatind_y] \
+      );                                                                \
+      break;	\
+    }	\
+    case 2:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = px[flatind_x] | py[flatind_y] \
+      );                                                                \
+      break;	\
+    }	\
+    case 3:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = px[flatind_x] ^ py[flatind_y] \
+      );                                                                \
+      break;	\
+    }	\
+    case 4:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = (~px[flatind_x] & ~py[flatind_y]) \
+      );                                                                \
+      break;	\
+    }	\
+    case 5:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = (px[flatind_x] & py[flatind_y]) | (~px[flatind_x] & ~py[flatind_y]) \
+      );                                                                \
+      break;	\
+    }	\
+    case 6:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = px[flatind_x] ^ py[flatind_y] \
+      );                                                                \
+      break;	\
+    }	\
+    case 7:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = (~px[flatind_x] & py[flatind_y]) \
+      );                                                                \
+      break;	\
+    }	\
+    case 8:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = (px[flatind_x] & ~py[flatind_y]) \
+      );                                                                \
+      break;	\
+    }	\
+    case 9:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = rcpp_bit_se_raw(px[flatind_x], py[flatind_y]) \
+      );                                                                \
+      break;	\
+    }	\
+    case 10:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = rcpp_bit_ge_raw(px[flatind_x], py[flatind_y]) \
+      );                                                                \
+      break;	\
+    }	\
+    case 11:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = rcpp_bit_ls(px[flatind_x], py[flatind_y]) \
+      );                                                                \
+      break;	\
+    }	\
+    case 12:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = rcpp_bit_rs(px[flatind_x], py[flatind_y]) \
+      );                                                                \
+      break;	\
+    }	\
+    default:	\
+    {	\
+      stop("given operator not supported in the given context");	\
+    }	\
+  } \
+} while(0)
+
+
+#define MACRO_OP_BIT_INT(DIMCODE) do {	\
+  switch(op) {	\
+    case 1:	\
+    {	\
+      DIMCODE(  \
+        MACRO_ACTION2(                                                    \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
+          pout[flatind_out] = NA_INTEGER,                                                     \
+          pout[flatind_out] = px[flatind_x] & py[flatind_y]                \
+        ) \
+      );                                                                \
+      break;	\
+    }	\
+    case 2:	\
+    {	\
+      DIMCODE(  \
+        MACRO_ACTION2(                                                    \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
+          pout[flatind_out] = NA_INTEGER,                                                     \
+          pout[flatind_out] = px[flatind_x] | py[flatind_y]                \
+        ) \
+      );                                                                \
+      break;	\
+    }	\
+    case 3:	\
+    {	\
+      DIMCODE(  \
+        MACRO_ACTION2(                                                    \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
+          pout[flatind_out] = NA_INTEGER,                                                     \
+          pout[flatind_out] = px[flatind_x] ^ py[flatind_y]                \
+        ) \
+      );                                                                \
+      break;	\
+    }	\
+    case 4:	\
+    {	\
+      DIMCODE(  \
+        MACRO_ACTION2(                                                    \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
+          pout[flatind_out] = NA_INTEGER,                                                     \
+          pout[flatind_out] = (~px[flatind_x]) & (~py[flatind_y])         \
+        ) \
+      );                                                                \
+      break;	\
+    }	\
+    case 5:	\
+    {	\
+      DIMCODE(  \
+        MACRO_ACTION2(                                                    \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
+          pout[flatind_out] = NA_INTEGER,                                                     \
+          pout[flatind_out] = (px[flatind_x] & py[flatind_y]) | (~px[flatind_x] & ~py[flatind_y]) \
+        ) \
+      );                                                                \
+      break;  \
+    } \
+    case 6:	\
+    {	\
+      DIMCODE(  \
+        MACRO_ACTION2(                                                    \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
+          pout[flatind_out] = NA_INTEGER,                                                     \
+          pout[flatind_out] = px[flatind_x] ^ py[flatind_y] \
+        ) \
+      );                                                                \
+      break;  \
+    } \
+    case 7:	\
+    {	\
+      DIMCODE(  \
+        MACRO_ACTION2(                                                    \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
+          pout[flatind_out] = NA_INTEGER,                                                     \
+          pout[flatind_out] = (~px[flatind_x] & py[flatind_y]) \
+        ) \
+      );                                                                \
+      break;  \
+    } \
+    case 8:	\
+    {	\
+      DIMCODE(  \
+        MACRO_ACTION2(                                                    \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
+          pout[flatind_out] = NA_INTEGER,                                                     \
+          pout[flatind_out] = (px[flatind_x] & ~py[flatind_y]) \
+        ) \
+      );                                                                \
+      break;  \
+    } \
+    case 9:	\
+    {	\
+      DIMCODE(  \
+        MACRO_ACTION2(                                                    \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
+          pout[flatind_out] = NA_INTEGER,                                                     \
+          pout[flatind_out] = rcpp_bit_se_int(px[flatind_x], py[flatind_y]) \
+        ) \
+      );                                                                \
+      break;  \
+    } \
+    case 10:	\
+    {	\
+      DIMCODE(  \
+        MACRO_ACTION2(                                                    \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
+          pout[flatind_out] = NA_INTEGER,                                                     \
+          pout[flatind_out] = rcpp_bit_ge_int(px[flatind_x], py[flatind_y]) \
+        ) \
+      );                                                                \
+      break;  \
+    } \
+    default:	\
+    {	\
+      stop("given operator not supported in the given context");	\
+    }	\
+  } \
+} while(0)
+
+
+#define MACRO_OP_IFELSE_INT(DIMCODE) do {       \
   switch(TYPEOF(x)) {	\
     case LGLSXP:	\
     {	\
@@ -1429,7 +1651,7 @@
       	\
       DIMCODE(	\
         MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_LOGICAL,	\
+          pcond[flatind_out] == NA_INTEGER,	\
           pout[flatind_out] = NA_LOGICAL,	\
           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
         )	\
@@ -1450,7 +1672,7 @@
       	\
       DIMCODE(	\
         MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_LOGICAL,	\
+          pcond[flatind_out] == NA_INTEGER,	\
           pout[flatind_out] = NA_INTEGER,	\
           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
         )	\
@@ -1471,7 +1693,7 @@
       	\
       DIMCODE(	\
         MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_LOGICAL,	\
+          pcond[flatind_out] == NA_INTEGER,	\
           pout[flatind_out] = NA_REAL,	\
           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
         )	\
@@ -1492,7 +1714,7 @@
       	\
       DIMCODE(	\
         MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_LOGICAL,	\
+          pcond[flatind_out] == NA_INTEGER,	\
           pout[flatind_out] = rcpp_cplx_returnNA(),	\
           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
         )	\
@@ -1511,9 +1733,29 @@
       	\
       DIMCODE(	\
         MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_LOGICAL,	\
+          pcond[flatind_out] == NA_INTEGER,	\
           SET_STRING_ELT(out, flatind_out, NA_STRING),	\
           SET_STRING_ELT(out, flatind_out, pcond[flatind_out] ? px[flatind_x] : py[flatind_y])	\
+        )	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case RAWSXP:	\
+    {	\
+      const Rbyte *px = RAW_RO(x);	\
+      const Rbyte *py = RAW_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\
+      Rbyte *pout = RAW(out); \
+      	\
+      DIMCODE(	\
+        MACRO_ACTION2(	\
+          pcond[flatind_out] == NA_INTEGER,	\
+          stop("NA condition not supported for type of `raw`"),	\
+          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
         )	\
       );	\
       	\
@@ -1527,10 +1769,131 @@
       	\
       DIMCODE(	\
         MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_LOGICAL,	\
+          pcond[flatind_out] == NA_INTEGER,	\
           SET_VECTOR_ELT(out, flatind_out, R_NilValue),	\
           SET_VECTOR_ELT(out, flatind_out, pcond[flatind_out] ? VECTOR_ELT(x, flatind_x) : VECTOR_ELT(y, flatind_y))	\
         )	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    default:	\
+    {	\
+      stop("unsupported type");	\
+    }	\
+  }	\
+} while(0)
+
+
+#define MACRO_OP_IFELSE_RAW(DIMCODE) do {       \
+  switch(TYPEOF(x)) {	\
+    case LGLSXP:	\
+    {	\
+      const int *px = LOGICAL_RO(x);	\
+      const int *py = LOGICAL_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));	\
+      int *pout;	\
+      pout = LOGICAL(out);	\
+      	\
+      DIMCODE(	\
+        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case INTSXP:	\
+    {	\
+      const int *px = INTEGER_RO(x);	\
+      const int *py = INTEGER_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));	\
+      int *pout;	\
+      pout = INTEGER(out);	\
+      	\
+      DIMCODE(	\
+        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case REALSXP:	\
+    {	\
+      const double *px = REAL_RO(x);	\
+      const double *py = REAL_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\
+      double *pout;	\
+      pout = REAL(out);	\
+      	\
+      DIMCODE(	\
+        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case CPLXSXP:	\
+    {	\
+      const Rcomplex *px = COMPLEX_RO(x);	\
+      const Rcomplex *py = COMPLEX_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\
+      Rcomplex *pout;	\
+      pout = COMPLEX(out);	\
+      	\
+      DIMCODE(	\
+        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case STRSXP:	\
+    {	\
+      const SEXP *px = STRING_PTR_RO(x);	\
+      const SEXP *py = STRING_PTR_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\
+      	\
+      DIMCODE(	\
+        SET_STRING_ELT(out, flatind_out, (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y])	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case RAWSXP:	\
+    {	\
+      const Rbyte *px = RAW_RO(x);	\
+      const Rbyte *py = RAW_RO(y);	\
+      	\
+      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\
+      Rbyte *pout = RAW(out); \
+      	\
+      DIMCODE(	\
+        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
+      );	\
+      	\
+      UNPROTECT(1);	\
+      return out;	\
+      	\
+    }	\
+    case VECSXP:	\
+    {	\
+      SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\
+      	\
+      DIMCODE(	\
+        SET_VECTOR_ELT(out, flatind_out, (bool)pcond[flatind_out] ? VECTOR_ELT(x, flatind_x) : VECTOR_ELT(y, flatind_y))	\
       );	\
       	\
       UNPROTECT(1);	\
@@ -2881,6 +3244,74 @@ i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
 
 
 
+#define MACRO_ACAST_DIM_6(DOCODE) do {              \
+                                                  \
+  const double *pdcp_out = REAL_RO(dcp_out);      \
+  const double *pdcp_y = REAL_RO(dcp_y);          \
+                                                  \
+  const int *pstarts = INTEGER_RO(starts);        \
+                                                  \
+                                                  \
+  const int N1 = INTEGER(lens)[0];	\
+const int N2 = INTEGER(lens)[1];	\
+const int N3 = INTEGER(lens)[2];	\
+const int N4 = INTEGER(lens)[3];	\
+const int N5 = INTEGER(lens)[4];	\
+const int N6 = INTEGER(lens)[5];	\
+                                                  \
+  const SEXP ind1 = VECTOR_ELT(subs2, 0);	\
+const SEXP ind2 = VECTOR_ELT(subs2, 1);	\
+const SEXP ind3 = VECTOR_ELT(subs2, 2);	\
+const SEXP ind4 = VECTOR_ELT(subs2, 3);	\
+const SEXP ind5 = VECTOR_ELT(subs2, 4);	\
+const SEXP ind6 = VECTOR_ELT(subs2, 5);	\
+                                                  \
+  const int *pind1 = INTEGER_RO(ind1);	\
+const int *pind2 = INTEGER_RO(ind2);	\
+const int *pind3 = INTEGER_RO(ind3);	\
+const int *pind4 = INTEGER_RO(ind4);	\
+const int *pind5 = INTEGER_RO(ind5);	\
+const int *pind6 = INTEGER_RO(ind6);	\
+                                                  \
+  R_xlen_t flatind_out;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_out1, i_out2, i_out3, i_out4, i_out5, i_out6; \
+  R_xlen_t i_y1, i_y2, i_y3, i_y4, i_y5, i_y6; \
+  	 for(int iter6 = 0; iter6 < N6; ++iter6) {	\
+i_out6 = (pstarts[5] + iter6) * pdcp_out[5];	\
+i_y6 = (pind6[iter6] - 1) * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < N5; ++iter5) {	\
+i_out5 = (pstarts[4] + iter5) * pdcp_out[4];	\
+i_y5 = (pind5[iter5] - 1) * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < N4; ++iter4) {	\
+i_out4 = (pstarts[3] + iter4) * pdcp_out[3];	\
+i_y4 = (pind4[iter4] - 1) * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < N3; ++iter3) {	\
+i_out3 = (pstarts[2] + iter3) * pdcp_out[2];	\
+i_y3 = (pind3[iter3] - 1) * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < N2; ++iter2) {	\
+i_out2 = (pstarts[1] + iter2) * pdcp_out[1];	\
+i_y2 = (pind2[iter2] - 1) * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < N1; ++iter1) {	\
+i_out1 = (pstarts[0] + iter1) * pdcp_out[0];	\
+i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
+        flatind_out = i_out1 + i_out2 + i_out3 + i_out4 + i_out5 + i_out6;       \
+        flatind_y = i_y1 + i_y2 + i_y3 + i_y4 + i_y5 + i_y6;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        flatind_out++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
 #define MACRO_ACAST_DIM_8(DOCODE) do {              \
                                                   \
   const double *pdcp_out = REAL_RO(dcp_out);      \
@@ -2951,6 +3382,336 @@ i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
   	                                                                \
         flatind_out++;                      \
   	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_ACAST_DIM_10(DOCODE) do {              \
+                                                  \
+  const double *pdcp_out = REAL_RO(dcp_out);      \
+  const double *pdcp_y = REAL_RO(dcp_y);          \
+                                                  \
+  const int *pstarts = INTEGER_RO(starts);        \
+                                                  \
+                                                  \
+  const int N1 = INTEGER(lens)[0];	\
+const int N2 = INTEGER(lens)[1];	\
+const int N3 = INTEGER(lens)[2];	\
+const int N4 = INTEGER(lens)[3];	\
+const int N5 = INTEGER(lens)[4];	\
+const int N6 = INTEGER(lens)[5];	\
+const int N7 = INTEGER(lens)[6];	\
+const int N8 = INTEGER(lens)[7];	\
+const int N9 = INTEGER(lens)[8];	\
+const int N10 = INTEGER(lens)[9];	\
+                                                  \
+  const SEXP ind1 = VECTOR_ELT(subs2, 0);	\
+const SEXP ind2 = VECTOR_ELT(subs2, 1);	\
+const SEXP ind3 = VECTOR_ELT(subs2, 2);	\
+const SEXP ind4 = VECTOR_ELT(subs2, 3);	\
+const SEXP ind5 = VECTOR_ELT(subs2, 4);	\
+const SEXP ind6 = VECTOR_ELT(subs2, 5);	\
+const SEXP ind7 = VECTOR_ELT(subs2, 6);	\
+const SEXP ind8 = VECTOR_ELT(subs2, 7);	\
+const SEXP ind9 = VECTOR_ELT(subs2, 8);	\
+const SEXP ind10 = VECTOR_ELT(subs2, 9);	\
+                                                  \
+  const int *pind1 = INTEGER_RO(ind1);	\
+const int *pind2 = INTEGER_RO(ind2);	\
+const int *pind3 = INTEGER_RO(ind3);	\
+const int *pind4 = INTEGER_RO(ind4);	\
+const int *pind5 = INTEGER_RO(ind5);	\
+const int *pind6 = INTEGER_RO(ind6);	\
+const int *pind7 = INTEGER_RO(ind7);	\
+const int *pind8 = INTEGER_RO(ind8);	\
+const int *pind9 = INTEGER_RO(ind9);	\
+const int *pind10 = INTEGER_RO(ind10);	\
+                                                  \
+  R_xlen_t flatind_out;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_out1, i_out2, i_out3, i_out4, i_out5, i_out6, i_out7, i_out8, i_out9, i_out10; \
+  R_xlen_t i_y1, i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10; \
+  	 for(int iter10 = 0; iter10 < N10; ++iter10) {	\
+i_out10 = (pstarts[9] + iter10) * pdcp_out[9];	\
+i_y10 = (pind10[iter10] - 1) * pdcp_y[9];	\
+	 for(int iter9 = 0; iter9 < N9; ++iter9) {	\
+i_out9 = (pstarts[8] + iter9) * pdcp_out[8];	\
+i_y9 = (pind9[iter9] - 1) * pdcp_y[8];	\
+	 for(int iter8 = 0; iter8 < N8; ++iter8) {	\
+i_out8 = (pstarts[7] + iter8) * pdcp_out[7];	\
+i_y8 = (pind8[iter8] - 1) * pdcp_y[7];	\
+	 for(int iter7 = 0; iter7 < N7; ++iter7) {	\
+i_out7 = (pstarts[6] + iter7) * pdcp_out[6];	\
+i_y7 = (pind7[iter7] - 1) * pdcp_y[6];	\
+	 for(int iter6 = 0; iter6 < N6; ++iter6) {	\
+i_out6 = (pstarts[5] + iter6) * pdcp_out[5];	\
+i_y6 = (pind6[iter6] - 1) * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < N5; ++iter5) {	\
+i_out5 = (pstarts[4] + iter5) * pdcp_out[4];	\
+i_y5 = (pind5[iter5] - 1) * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < N4; ++iter4) {	\
+i_out4 = (pstarts[3] + iter4) * pdcp_out[3];	\
+i_y4 = (pind4[iter4] - 1) * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < N3; ++iter3) {	\
+i_out3 = (pstarts[2] + iter3) * pdcp_out[2];	\
+i_y3 = (pind3[iter3] - 1) * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < N2; ++iter2) {	\
+i_out2 = (pstarts[1] + iter2) * pdcp_out[1];	\
+i_y2 = (pind2[iter2] - 1) * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < N1; ++iter1) {	\
+i_out1 = (pstarts[0] + iter1) * pdcp_out[0];	\
+i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
+        flatind_out = i_out1 + i_out2 + i_out3 + i_out4 + i_out5 + i_out6 + i_out7 + i_out8 + i_out9 + i_out10;       \
+        flatind_y = i_y1 + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        flatind_out++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_ACAST_DIM_12(DOCODE) do {              \
+                                                  \
+  const double *pdcp_out = REAL_RO(dcp_out);      \
+  const double *pdcp_y = REAL_RO(dcp_y);          \
+                                                  \
+  const int *pstarts = INTEGER_RO(starts);        \
+                                                  \
+                                                  \
+  const int N1 = INTEGER(lens)[0];	\
+const int N2 = INTEGER(lens)[1];	\
+const int N3 = INTEGER(lens)[2];	\
+const int N4 = INTEGER(lens)[3];	\
+const int N5 = INTEGER(lens)[4];	\
+const int N6 = INTEGER(lens)[5];	\
+const int N7 = INTEGER(lens)[6];	\
+const int N8 = INTEGER(lens)[7];	\
+const int N9 = INTEGER(lens)[8];	\
+const int N10 = INTEGER(lens)[9];	\
+const int N11 = INTEGER(lens)[10];	\
+const int N12 = INTEGER(lens)[11];	\
+                                                  \
+  const SEXP ind1 = VECTOR_ELT(subs2, 0);	\
+const SEXP ind2 = VECTOR_ELT(subs2, 1);	\
+const SEXP ind3 = VECTOR_ELT(subs2, 2);	\
+const SEXP ind4 = VECTOR_ELT(subs2, 3);	\
+const SEXP ind5 = VECTOR_ELT(subs2, 4);	\
+const SEXP ind6 = VECTOR_ELT(subs2, 5);	\
+const SEXP ind7 = VECTOR_ELT(subs2, 6);	\
+const SEXP ind8 = VECTOR_ELT(subs2, 7);	\
+const SEXP ind9 = VECTOR_ELT(subs2, 8);	\
+const SEXP ind10 = VECTOR_ELT(subs2, 9);	\
+const SEXP ind11 = VECTOR_ELT(subs2, 10);	\
+const SEXP ind12 = VECTOR_ELT(subs2, 11);	\
+                                                  \
+  const int *pind1 = INTEGER_RO(ind1);	\
+const int *pind2 = INTEGER_RO(ind2);	\
+const int *pind3 = INTEGER_RO(ind3);	\
+const int *pind4 = INTEGER_RO(ind4);	\
+const int *pind5 = INTEGER_RO(ind5);	\
+const int *pind6 = INTEGER_RO(ind6);	\
+const int *pind7 = INTEGER_RO(ind7);	\
+const int *pind8 = INTEGER_RO(ind8);	\
+const int *pind9 = INTEGER_RO(ind9);	\
+const int *pind10 = INTEGER_RO(ind10);	\
+const int *pind11 = INTEGER_RO(ind11);	\
+const int *pind12 = INTEGER_RO(ind12);	\
+                                                  \
+  R_xlen_t flatind_out;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_out1, i_out2, i_out3, i_out4, i_out5, i_out6, i_out7, i_out8, i_out9, i_out10, i_out11, i_out12; \
+  R_xlen_t i_y1, i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12; \
+  	 for(int iter12 = 0; iter12 < N12; ++iter12) {	\
+i_out12 = (pstarts[11] + iter12) * pdcp_out[11];	\
+i_y12 = (pind12[iter12] - 1) * pdcp_y[11];	\
+	 for(int iter11 = 0; iter11 < N11; ++iter11) {	\
+i_out11 = (pstarts[10] + iter11) * pdcp_out[10];	\
+i_y11 = (pind11[iter11] - 1) * pdcp_y[10];	\
+	 for(int iter10 = 0; iter10 < N10; ++iter10) {	\
+i_out10 = (pstarts[9] + iter10) * pdcp_out[9];	\
+i_y10 = (pind10[iter10] - 1) * pdcp_y[9];	\
+	 for(int iter9 = 0; iter9 < N9; ++iter9) {	\
+i_out9 = (pstarts[8] + iter9) * pdcp_out[8];	\
+i_y9 = (pind9[iter9] - 1) * pdcp_y[8];	\
+	 for(int iter8 = 0; iter8 < N8; ++iter8) {	\
+i_out8 = (pstarts[7] + iter8) * pdcp_out[7];	\
+i_y8 = (pind8[iter8] - 1) * pdcp_y[7];	\
+	 for(int iter7 = 0; iter7 < N7; ++iter7) {	\
+i_out7 = (pstarts[6] + iter7) * pdcp_out[6];	\
+i_y7 = (pind7[iter7] - 1) * pdcp_y[6];	\
+	 for(int iter6 = 0; iter6 < N6; ++iter6) {	\
+i_out6 = (pstarts[5] + iter6) * pdcp_out[5];	\
+i_y6 = (pind6[iter6] - 1) * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < N5; ++iter5) {	\
+i_out5 = (pstarts[4] + iter5) * pdcp_out[4];	\
+i_y5 = (pind5[iter5] - 1) * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < N4; ++iter4) {	\
+i_out4 = (pstarts[3] + iter4) * pdcp_out[3];	\
+i_y4 = (pind4[iter4] - 1) * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < N3; ++iter3) {	\
+i_out3 = (pstarts[2] + iter3) * pdcp_out[2];	\
+i_y3 = (pind3[iter3] - 1) * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < N2; ++iter2) {	\
+i_out2 = (pstarts[1] + iter2) * pdcp_out[1];	\
+i_y2 = (pind2[iter2] - 1) * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < N1; ++iter1) {	\
+i_out1 = (pstarts[0] + iter1) * pdcp_out[0];	\
+i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
+        flatind_out = i_out1 + i_out2 + i_out3 + i_out4 + i_out5 + i_out6 + i_out7 + i_out8 + i_out9 + i_out10 + i_out11 + i_out12;       \
+        flatind_y = i_y1 + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11 + i_y12;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        flatind_out++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_ACAST_DIM_14(DOCODE) do {              \
+                                                  \
+  const double *pdcp_out = REAL_RO(dcp_out);      \
+  const double *pdcp_y = REAL_RO(dcp_y);          \
+                                                  \
+  const int *pstarts = INTEGER_RO(starts);        \
+                                                  \
+                                                  \
+  const int N1 = INTEGER(lens)[0];	\
+const int N2 = INTEGER(lens)[1];	\
+const int N3 = INTEGER(lens)[2];	\
+const int N4 = INTEGER(lens)[3];	\
+const int N5 = INTEGER(lens)[4];	\
+const int N6 = INTEGER(lens)[5];	\
+const int N7 = INTEGER(lens)[6];	\
+const int N8 = INTEGER(lens)[7];	\
+const int N9 = INTEGER(lens)[8];	\
+const int N10 = INTEGER(lens)[9];	\
+const int N11 = INTEGER(lens)[10];	\
+const int N12 = INTEGER(lens)[11];	\
+const int N13 = INTEGER(lens)[12];	\
+const int N14 = INTEGER(lens)[13];	\
+                                                  \
+  const SEXP ind1 = VECTOR_ELT(subs2, 0);	\
+const SEXP ind2 = VECTOR_ELT(subs2, 1);	\
+const SEXP ind3 = VECTOR_ELT(subs2, 2);	\
+const SEXP ind4 = VECTOR_ELT(subs2, 3);	\
+const SEXP ind5 = VECTOR_ELT(subs2, 4);	\
+const SEXP ind6 = VECTOR_ELT(subs2, 5);	\
+const SEXP ind7 = VECTOR_ELT(subs2, 6);	\
+const SEXP ind8 = VECTOR_ELT(subs2, 7);	\
+const SEXP ind9 = VECTOR_ELT(subs2, 8);	\
+const SEXP ind10 = VECTOR_ELT(subs2, 9);	\
+const SEXP ind11 = VECTOR_ELT(subs2, 10);	\
+const SEXP ind12 = VECTOR_ELT(subs2, 11);	\
+const SEXP ind13 = VECTOR_ELT(subs2, 12);	\
+const SEXP ind14 = VECTOR_ELT(subs2, 13);	\
+                                                  \
+  const int *pind1 = INTEGER_RO(ind1);	\
+const int *pind2 = INTEGER_RO(ind2);	\
+const int *pind3 = INTEGER_RO(ind3);	\
+const int *pind4 = INTEGER_RO(ind4);	\
+const int *pind5 = INTEGER_RO(ind5);	\
+const int *pind6 = INTEGER_RO(ind6);	\
+const int *pind7 = INTEGER_RO(ind7);	\
+const int *pind8 = INTEGER_RO(ind8);	\
+const int *pind9 = INTEGER_RO(ind9);	\
+const int *pind10 = INTEGER_RO(ind10);	\
+const int *pind11 = INTEGER_RO(ind11);	\
+const int *pind12 = INTEGER_RO(ind12);	\
+const int *pind13 = INTEGER_RO(ind13);	\
+const int *pind14 = INTEGER_RO(ind14);	\
+                                                  \
+  R_xlen_t flatind_out;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_out1, i_out2, i_out3, i_out4, i_out5, i_out6, i_out7, i_out8, i_out9, i_out10, i_out11, i_out12, i_out13, i_out14; \
+  R_xlen_t i_y1, i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12, i_y13, i_y14; \
+  	 for(int iter14 = 0; iter14 < N14; ++iter14) {	\
+i_out14 = (pstarts[13] + iter14) * pdcp_out[13];	\
+i_y14 = (pind14[iter14] - 1) * pdcp_y[13];	\
+	 for(int iter13 = 0; iter13 < N13; ++iter13) {	\
+i_out13 = (pstarts[12] + iter13) * pdcp_out[12];	\
+i_y13 = (pind13[iter13] - 1) * pdcp_y[12];	\
+	 for(int iter12 = 0; iter12 < N12; ++iter12) {	\
+i_out12 = (pstarts[11] + iter12) * pdcp_out[11];	\
+i_y12 = (pind12[iter12] - 1) * pdcp_y[11];	\
+	 for(int iter11 = 0; iter11 < N11; ++iter11) {	\
+i_out11 = (pstarts[10] + iter11) * pdcp_out[10];	\
+i_y11 = (pind11[iter11] - 1) * pdcp_y[10];	\
+	 for(int iter10 = 0; iter10 < N10; ++iter10) {	\
+i_out10 = (pstarts[9] + iter10) * pdcp_out[9];	\
+i_y10 = (pind10[iter10] - 1) * pdcp_y[9];	\
+	 for(int iter9 = 0; iter9 < N9; ++iter9) {	\
+i_out9 = (pstarts[8] + iter9) * pdcp_out[8];	\
+i_y9 = (pind9[iter9] - 1) * pdcp_y[8];	\
+	 for(int iter8 = 0; iter8 < N8; ++iter8) {	\
+i_out8 = (pstarts[7] + iter8) * pdcp_out[7];	\
+i_y8 = (pind8[iter8] - 1) * pdcp_y[7];	\
+	 for(int iter7 = 0; iter7 < N7; ++iter7) {	\
+i_out7 = (pstarts[6] + iter7) * pdcp_out[6];	\
+i_y7 = (pind7[iter7] - 1) * pdcp_y[6];	\
+	 for(int iter6 = 0; iter6 < N6; ++iter6) {	\
+i_out6 = (pstarts[5] + iter6) * pdcp_out[5];	\
+i_y6 = (pind6[iter6] - 1) * pdcp_y[5];	\
+	 for(int iter5 = 0; iter5 < N5; ++iter5) {	\
+i_out5 = (pstarts[4] + iter5) * pdcp_out[4];	\
+i_y5 = (pind5[iter5] - 1) * pdcp_y[4];	\
+	 for(int iter4 = 0; iter4 < N4; ++iter4) {	\
+i_out4 = (pstarts[3] + iter4) * pdcp_out[3];	\
+i_y4 = (pind4[iter4] - 1) * pdcp_y[3];	\
+	 for(int iter3 = 0; iter3 < N3; ++iter3) {	\
+i_out3 = (pstarts[2] + iter3) * pdcp_out[2];	\
+i_y3 = (pind3[iter3] - 1) * pdcp_y[2];	\
+	 for(int iter2 = 0; iter2 < N2; ++iter2) {	\
+i_out2 = (pstarts[1] + iter2) * pdcp_out[1];	\
+i_y2 = (pind2[iter2] - 1) * pdcp_y[1];	\
+	 for(int iter1 = 0; iter1 < N1; ++iter1) {	\
+i_out1 = (pstarts[0] + iter1) * pdcp_out[0];	\
+i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
+        flatind_out = i_out1 + i_out2 + i_out3 + i_out4 + i_out5 + i_out6 + i_out7 + i_out8 + i_out9 + i_out10 + i_out11 + i_out12 + i_out13 + i_out14;       \
+        flatind_y = i_y1 + i_y2 + i_y3 + i_y4 + i_y5 + i_y6 + i_y7 + i_y8 + i_y9 + i_y10 + i_y11 + i_y12 + i_y13 + i_y14;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        flatind_out++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
 	 }	\
 	 }	\
 	 }	\
@@ -3111,8 +3872,20 @@ i_y1 = (pind1[iter1] - 1) * pdcp_y[0];	\
 case 4:                                       \
   MACRO_ACAST_DIM_4(DOCODE);    \
   break;                                        \
+case 6:                                       \
+  MACRO_ACAST_DIM_6(DOCODE);    \
+  break;                                        \
 case 8:                                       \
   MACRO_ACAST_DIM_8(DOCODE);    \
+  break;                                        \
+case 10:                                       \
+  MACRO_ACAST_DIM_10(DOCODE);    \
+  break;                                        \
+case 12:                                       \
+  MACRO_ACAST_DIM_12(DOCODE);    \
+  break;                                        \
+case 14:                                       \
+  MACRO_ACAST_DIM_14(DOCODE);    \
   break;                                        \
 case 16:                                       \
   MACRO_ACAST_DIM_16(DOCODE);    \

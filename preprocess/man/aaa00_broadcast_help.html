@@ -72,13 +72,13 @@ The following functions for type-specific binary operations are available:
 </p>
 
 <ul>
-<li> <p><code>[bc.b](bc.b.qmd)</code>: Boolean operations;
+<li> <p><code>[bc.b](bc.b.qmd)</code>: Boolean (i.e. logical) operations;
 </p>
 </li>
-<li> <p><code>[bc.i](bc.i.qmd)</code>: integer (53bit) arithmetic and relational operations;
+<li> <p><code>[bc.i](bc.i.qmd)</code>: integer arithmetic and relational operations;
 </p>
 </li>
-<li> <p><code>[bc.d](bc.d.qmd)</code>: decimal (64bit) arithmetic and relational operations;
+<li> <p><code>[bc.d](bc.d.qmd)</code>: decimal arithmetic and relational operations;
 </p>
 </li>
 <li> <p><code>[bc.cplx](bc.cplx.qmd)</code>: complex arithmetic and (in)equality operations;
@@ -87,7 +87,10 @@ The following functions for type-specific binary operations are available:
 <li> <p><code>[bc.str](bc.str.qmd)</code>: string (in)equality, concatenation, and distance operations;
 </p>
 </li>
-<li> <p><code>[bc.raw](bc.raw.qmd)</code>: for raw arrays; bit-wise operations and (in)equality operations;
+<li> <p><code>[bc.raw](bc.raw.qmd)</code>: byte- and relational operations for vectors/arrays of type <code>raw</code>;
+</p>
+</li>
+<li> <p><code>[bc.bit](bc.bit.qmd)</code>: BIT-WISE operations, supporting the <code>raw</code> and <code>integer</code> types;
 </p>
 </li>
 <li> <p><code>[bc.list](bc.list.qmd)</code>: apply any 'R' function to 2 recursive arrays with broadcasting. <br /> <br />
@@ -177,24 +180,8 @@ which comes with its own method dispatch for the base operators. <br />
 </p>
 </li></ol>
 
-<p>The following base operators can be overloaded via either method:
-</p>
-
-<ul>
-<li><p> From <code>[bc.num](bc.d.qmd)</code> and <code>[bc.cplx](bc.cplx.qmd)</code>: +, -, *, /, ^
-</p>
-</li>
-<li><p> From <code>[bc.i](bc.i.qmd)</code>: %%, %/%
-</p>
-</li>
-<li><p> From <code>[bc.b](bc.b.qmd)</code>: &amp;, |
-</p>
-</li>
-<li><p> From <code>[bc.raw](bc.raw.qmd)</code>: &amp;, |, ^ <br />
-</p>
-</li></ul>
-
 <p>Overloads for the relational operators (==, !=, etc.) have also been implemented. <br />
+Please refer to the website for additional details. <br /> <br />
 </p>
 
 

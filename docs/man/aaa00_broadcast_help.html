@@ -133,6 +133,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/aaa01_broadcast_attributes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">On Attribute Handling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.b</span></a>
   </div>
@@ -165,6 +171,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../man/bc.raw.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.raw</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc.bit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.bit</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -292,13 +304,13 @@ ul.task-list li input[type="checkbox"] {
 <p><b>Functions for broadcasted element-wise binary operations</b> <br> ‘broadcast’ provides a set of functions for broadcasted element-wise binary operations with broadcasting. <br> These functions use an API similar to the outer function. <br> <br> The following functions for type-specific binary operations are available:</p>
 <ul>
 <li>
-<p><a href="../man/bc.b.html">bc.b</a>: Boolean operations;</p>
+<p><a href="../man/bc.b.html">bc.b</a>: Boolean (i.e.&nbsp;logical) operations;</p>
 </li>
 <li>
-<p><a href="../man/bc.i.html">bc.i</a>: integer (53bit) arithmetic and relational operations;</p>
+<p><a href="../man/bc.i.html">bc.i</a>: integer arithmetic and relational operations;</p>
 </li>
 <li>
-<p><a href="../man/bc.d.html">bc.d</a>: decimal (64bit) arithmetic and relational operations;</p>
+<p><a href="../man/bc.d.html">bc.d</a>: decimal arithmetic and relational operations;</p>
 </li>
 <li>
 <p><a href="../man/bc.cplx.html">bc.cplx</a>: complex arithmetic and (in)equality operations;</p>
@@ -307,7 +319,10 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../man/bc.str.html">bc.str</a>: string (in)equality, concatenation, and distance operations;</p>
 </li>
 <li>
-<p><a href="../man/bc.raw.html">bc.raw</a>: for raw arrays; bit-wise operations and (in)equality operations;</p>
+<p><a href="../man/bc.raw.html">bc.raw</a>: byte- and relational operations for vectors/arrays of type <code>raw</code>;</p>
+</li>
+<li>
+<p><a href="../man/bc.bit.html">bc.bit</a>: BIT-WISE operations, supporting the <code>raw</code> and <code>integer</code> types;</p>
 </li>
 <li>
 <p><a href="../man/bc.list.html">bc.list</a>: apply any ‘R’ function to 2 recursive arrays with broadcasting. <br> <br></p>
@@ -353,22 +368,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Via the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators. <br></p>
 </li>
 </ol>
-<p>The following base operators can be overloaded via either method:</p>
-<ul>
-<li>
-<p>From <a href="../man/bc.d.html">bc.num</a> and <a href="../man/bc.cplx.html">bc.cplx</a>: +, -, *, /, ^</p>
-</li>
-<li>
-<p>From <a href="../man/bc.i.html">bc.i</a>: %%, %/%</p>
-</li>
-<li>
-<p>From <a href="../man/bc.b.html">bc.b</a>: &amp;, |</p>
-</li>
-<li>
-<p>From <a href="../man/bc.raw.html">bc.raw</a>: &amp;, |, ^ <br></p>
-</li>
-</ul>
-<p>Overloads for the relational operators (==, !=, etc.) have also been implemented. <br></p>
+<p>Overloads for the relational operators (==, !=, etc.) have also been implemented. <br> Please refer to the website for additional details. <br> <br></p>
 </section>
 <section id="authors" class="level3">
 <h3 class="anchored" data-anchor-id="authors">Author(s)</h3>

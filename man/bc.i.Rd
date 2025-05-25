@@ -13,13 +13,13 @@ bc.i(x, y, op)
 Supported arithmetic operators: +, -, *, gcd, \%\%, \%/\%, ^, pmin, pmax. \cr
 Supported relational operators: ==, !=, <, >, <=, >=. \cr
 The "gcd" operator performs the Greatest Common Divisor" operation,
-using the Euclidean algorithm.. \cr}
+using the Euclidean algorithm. \cr}
 }
 \value{
 For arithmetic operators: \cr
 A numeric array of whole numbers,
 as a result of the broadcasted arithmetic operation. \cr
-Base 'R' supports 53 bit integers,
+Base 'R' supports integers from \code{-2^53} to \code{2^53},
 which thus range from approximately \code{-9} quadrillion to \code{+9} quadrillion. \cr
 Values outside of this range will be returned as \code{-Inf} or \code{Inf},
 as an extra protection against integer overflow. \cr
@@ -32,7 +32,7 @@ A logical array as a result of the broadcasted integer relational comparison. \c
 The \code{bc.i()} function
 performs broadcasted integer numeric operations on 2 numeric or logical arrays. \cr
 \cr
-Please note that these operations will treat the input as 53bit integers,
+Please note that these operations will treat the input as (\code{double} typed) integers,
 and will efficiently truncate when necessary. \cr
 Therefore, something like \code{bc.i(1, 1.5, "==")} returns \code{TRUE},
 because \code{trunc(1.5)} equals \code{1}. \cr

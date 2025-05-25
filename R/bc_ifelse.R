@@ -2,17 +2,20 @@
 #'
 #' @description
 #' The `bc_ifelse()` function
-#' performs a broadcasted form of \link[base]{ifelse}. \cr
+#' performs a broadcasted form of `ifelse()`. \cr
 #' 
-#' @param test `logical` vector or array with the length equal to `prod(bc_dim(yes, no))`.
+#' @param test a vector or array,
+#' with the type `logical`, `integer`, or `raw`,
+#' and a length equal to `prod(bc_dim(yes, no))`. \cr
+#' If `yes` / `no` are of type `raw`, `test` is not allowed to contain any `NA`s.
 #' @param yes,no conformable arrays of the same type. \cr
-#' All \link[base]{atomic} types are supported except for the type of raw. \cr
+#' All \link[base]{atomic} types are supported. \cr
 #' Recursive arrays of type \link[base]{list} are also supported. \cr \cr
 #' 
 #' 
 #'
 #' @returns
-#' The ouput, here referred to as `out`,
+#' The output, here referred to as `out`,
 #' will be an array of the same type as `yes` and `no`. \cr
 #' If `test` has the same dimensions as `bc_dim(yes, no)`,
 #' then `out` will also have the same dimnames as `test`. \cr
@@ -41,11 +44,8 @@ bc_ifelse <- function(test, yes, no) {
   if(typeof(yes) != typeof(no)) {
     stop("`yes` and `no` must be of the same type")
   }
-  if(is.raw(yes) || is.raw(no)) {
-    stop("`yes` and `no` cannot be type of raw")
-  }
-  if(!is.logical(test)) {
-    stop("`test` must be a logical array")
+  if(!.is_boolable(test)) {
+    stop("unsupported type given for `test`")
   }
   if(!.is_supported_type(yes) || !.is_supported_type(no)) {
     stop("input must be arrays or simple vecors")
@@ -86,8 +86,8 @@ bc_ifelse <- function(test, yes, no) {
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
     
     out <- .rcpp_bc_ifelse_d(
       test, x, y, by_x, by_y,
@@ -102,6 +102,11 @@ bc_ifelse <- function(test, yes, no) {
     }
   }
   
+  if(inherits(yes, "broadcaster") || inherits(no, "broadcaster")) {
+    broadcaster(out) <- TRUE
+  }
+  
+  .binary_set_ma(out, yes, no)
   
   return(out)
   

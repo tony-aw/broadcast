@@ -468,7 +468,7 @@ macro_op_int_rel <- "
 
 
 macro_op_bool_math <- "
-#define MACRO_OP_B_ANDOR(DIMCODE) do {	\\
+#define MACRO_OP_B_MATH(DIMCODE) do {	\\
   switch(op) {	\\
     case 1:	\\
     {	\\
@@ -751,6 +751,8 @@ macro_op_str_conc <- "
 "
 
 
+
+
 ################################################################################
 # Raw ====
 #
@@ -811,48 +813,27 @@ macro_op_raw_rel <- "
 
 
 
-macro_op_raw_bit <- "
-#define MACRO_OP_RAW_BIT(DIMCODE) do {	\\
+macro_op_raw_byte <- "
+#define MACRO_OP_RAW_BYTE(DIMCODE) do {	\\
   switch(op) {	\\
     case 1:	\\
-    {	\\
-      DIMCODE(                                                          \\
-        pout[flatind_out] = px[flatind_x] & py[flatind_y]                \\
-      );                                                                \\
-      break;	\\
-    }	\\
-    case 2:	\\
-    {	\\
-      DIMCODE(                                                          \\
-        pout[flatind_out] = px[flatind_x] | py[flatind_y]                \\
-      );                                                                \\
-      break;	\\
-    }	\\
-    case 3:	\\
-    {	\\
-      DIMCODE(                                                          \\
-        pout[flatind_out] = px[flatind_x] ^ py[flatind_y]                \\
-      );                                                                \\
-      break;	\\
-    }	\\
-    case 4:	\\
-    {	\\
-      DIMCODE(                                                          \\
-        pout[flatind_out] = rcpp_raw_diff(px[flatind_x], py[flatind_y]) \\
-      );                                                                \\
-      break;	\\
-    }	\\
-    case 5:	\\
     {	\\
       DIMCODE(                                                          \\
         pout[flatind_out] = (px[flatind_x] < py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \\
       );                                                                \\
       break;	\\
     }	\\
-    case 6:	\\
+    case 2:	\\
     {	\\
       DIMCODE(                                                          \\
         pout[flatind_out] = (px[flatind_x] > py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 3:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        pout[flatind_out] = rcpp_raw_diff(px[flatind_x], py[flatind_y]) \\
       );                                                                \\
       break;	\\
     }	\\
@@ -865,70 +846,235 @@ macro_op_raw_bit <- "
 "
 
 
-macro_op_raw_arith <- "
-#define MACRO_OP_RAW_ARITH(DIMCODE) do {  \\
+
+
+################################################################################
+# Bit-wise ====
+#
+
+macro_op_bit_raw <- "
+#define MACRO_OP_BIT_RAW(DIMCODE) do {	\\
   switch(op) {	\\
     case 1:	\\
     {	\\
-      if(overflow == 1) { \\
-        DIMCODE(  \\
-          pout[flatind_out] = MACRO_ACTION_RAW_CIRC(px[flatind_x] + py[flatind_y])  \\
-        );  \\
-      } \\
-      else {  \\
-        DIMCODE(  \\
-          pout[flatind_out] = MACRO_ACTION_RAW_BOUND(px[flatind_x] + py[flatind_y])  \\
-        );  \\
-      } \\
+      DIMCODE(  \\
+        pout[flatind_out] = px[flatind_x] & py[flatind_y] \\
+      );                                                                \\
       break;	\\
     }	\\
     case 2:	\\
     {	\\
-      if(overflow == 1) { \\
-        DIMCODE(  \\
-          pout[flatind_out] = MACRO_ACTION_RAW_CIRC(px[flatind_x] - py[flatind_y])  \\
-        );  \\
-      } \\
-      else {  \\
-        DIMCODE(  \\
-          pout[flatind_out] = MACRO_ACTION_RAW_BOUND(px[flatind_x] - py[flatind_y])  \\
-        );  \\
-      } \\
+      DIMCODE(  \\
+        pout[flatind_out] = px[flatind_x] | py[flatind_y] \\
+      );                                                                \\
       break;	\\
     }	\\
     case 3:	\\
     {	\\
-      if(overflow == 1) { \\
-        DIMCODE(  \\
-          pout[flatind_out] = MACRO_ACTION_RAW_CIRC(px[flatind_x] * py[flatind_y])  \\
-        );    \\
-      } \\
-      else {  \\
-        DIMCODE(                                                          \\
-          pout[flatind_out] = MACRO_ACTION_RAW_BOUND(px[flatind_x] * py[flatind_y])  \\
-        );  \\
-      } \\
+      DIMCODE(  \\
+        pout[flatind_out] = px[flatind_x] ^ py[flatind_y] \\
+      );                                                                \\
       break;	\\
     }	\\
     case 4:	\\
     {	\\
-      DIMCODE(                                                          \\
-        pout[flatind_out] = px[flatind_x] / py[flatind_y]  \\
+      DIMCODE(  \\
+        pout[flatind_out] = (~px[flatind_x] & ~py[flatind_y]) \\
       );                                                                \\
       break;	\\
     }	\\
-    
+    case 5:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = (px[flatind_x] & py[flatind_y]) | (~px[flatind_x] & ~py[flatind_y]) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 6:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = px[flatind_x] ^ py[flatind_y] \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 7:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = (~px[flatind_x] & py[flatind_y]) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 8:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = (px[flatind_x] & ~py[flatind_y]) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 9:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = rcpp_bit_se_raw(px[flatind_x], py[flatind_y]) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 10:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = rcpp_bit_ge_raw(px[flatind_x], py[flatind_y]) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 11:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = rcpp_bit_ls(px[flatind_x], py[flatind_y]) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 12:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = rcpp_bit_rs(px[flatind_x], py[flatind_y]) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    default:	\\
+    {	\\
+      stop(\"given operator not supported in the given context\");	\\
+    }	\\
   } \\
 } while(0)
-
 "
+
+macro_op_bit_int <- "
+#define MACRO_OP_BIT_INT(DIMCODE) do {	\\
+  switch(op) {	\\
+    case 1:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION2(                                                    \\
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \\
+          pout[flatind_out] = NA_INTEGER,                                                     \\
+          pout[flatind_out] = px[flatind_x] & py[flatind_y]                \\
+        ) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 2:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION2(                                                    \\
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \\
+          pout[flatind_out] = NA_INTEGER,                                                     \\
+          pout[flatind_out] = px[flatind_x] | py[flatind_y]                \\
+        ) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 3:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION2(                                                    \\
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \\
+          pout[flatind_out] = NA_INTEGER,                                                     \\
+          pout[flatind_out] = px[flatind_x] ^ py[flatind_y]                \\
+        ) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 4:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION2(                                                    \\
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \\
+          pout[flatind_out] = NA_INTEGER,                                                     \\
+          pout[flatind_out] = (~px[flatind_x]) & (~py[flatind_y])         \\
+        ) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 5:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION2(                                                    \\
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \\
+          pout[flatind_out] = NA_INTEGER,                                                     \\
+          pout[flatind_out] = (px[flatind_x] & py[flatind_y]) | (~px[flatind_x] & ~py[flatind_y]) \\
+        ) \\
+      );                                                                \\
+      break;  \\
+    } \\
+    case 6:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION2(                                                    \\
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \\
+          pout[flatind_out] = NA_INTEGER,                                                     \\
+          pout[flatind_out] = px[flatind_x] ^ py[flatind_y] \\
+        ) \\
+      );                                                                \\
+      break;  \\
+    } \\
+    case 7:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION2(                                                    \\
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \\
+          pout[flatind_out] = NA_INTEGER,                                                     \\
+          pout[flatind_out] = (~px[flatind_x] & py[flatind_y]) \\
+        ) \\
+      );                                                                \\
+      break;  \\
+    } \\
+    case 8:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION2(                                                    \\
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \\
+          pout[flatind_out] = NA_INTEGER,                                                     \\
+          pout[flatind_out] = (px[flatind_x] & ~py[flatind_y]) \\
+        ) \\
+      );                                                                \\
+      break;  \\
+    } \\
+    case 9:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION2(                                                    \\
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \\
+          pout[flatind_out] = NA_INTEGER,                                                     \\
+          pout[flatind_out] = rcpp_bit_se_int(px[flatind_x], py[flatind_y]) \\
+        ) \\
+      );                                                                \\
+      break;  \\
+    } \\
+    case 10:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION2(                                                    \\
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \\
+          pout[flatind_out] = NA_INTEGER,                                                     \\
+          pout[flatind_out] = rcpp_bit_ge_int(px[flatind_x], py[flatind_y]) \\
+        ) \\
+      );                                                                \\
+      break;  \\
+    } \\
+    default:	\\
+    {	\\
+      stop(\"given operator not supported in the given context\");	\\
+    }	\\
+  } \\
+} while(0)
+"
+
 
 
 ################################################################################
 # Ifelse ====
 
-macro_op_ifelse <- "
-#define MACRO_OP_IFELSE(DIMCODE) do {       \\
+macro_op_ifelse_int <- "
+#define MACRO_OP_IFELSE_INT(DIMCODE) do {       \\
   switch(TYPEOF(x)) {	\\
     case LGLSXP:	\\
     {	\\
@@ -941,7 +1087,7 @@ macro_op_ifelse <- "
       	\\
       DIMCODE(	\\
         MACRO_ACTION2(	\\
-          pcond[flatind_out] == NA_LOGICAL,	\\
+          pcond[flatind_out] == NA_INTEGER,	\\
           pout[flatind_out] = NA_LOGICAL,	\\
           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
         )	\\
@@ -962,7 +1108,7 @@ macro_op_ifelse <- "
       	\\
       DIMCODE(	\\
         MACRO_ACTION2(	\\
-          pcond[flatind_out] == NA_LOGICAL,	\\
+          pcond[flatind_out] == NA_INTEGER,	\\
           pout[flatind_out] = NA_INTEGER,	\\
           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
         )	\\
@@ -983,7 +1129,7 @@ macro_op_ifelse <- "
       	\\
       DIMCODE(	\\
         MACRO_ACTION2(	\\
-          pcond[flatind_out] == NA_LOGICAL,	\\
+          pcond[flatind_out] == NA_INTEGER,	\\
           pout[flatind_out] = NA_REAL,	\\
           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
         )	\\
@@ -1004,7 +1150,7 @@ macro_op_ifelse <- "
       	\\
       DIMCODE(	\\
         MACRO_ACTION2(	\\
-          pcond[flatind_out] == NA_LOGICAL,	\\
+          pcond[flatind_out] == NA_INTEGER,	\\
           pout[flatind_out] = rcpp_cplx_returnNA(),	\\
           pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
         )	\\
@@ -1023,9 +1169,29 @@ macro_op_ifelse <- "
       	\\
       DIMCODE(	\\
         MACRO_ACTION2(	\\
-          pcond[flatind_out] == NA_LOGICAL,	\\
+          pcond[flatind_out] == NA_INTEGER,	\\
           SET_STRING_ELT(out, flatind_out, NA_STRING),	\\
           SET_STRING_ELT(out, flatind_out, pcond[flatind_out] ? px[flatind_x] : py[flatind_y])	\\
+        )	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case RAWSXP:	\\
+    {	\\
+      const Rbyte *px = RAW_RO(x);	\\
+      const Rbyte *py = RAW_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\\
+      Rbyte *pout = RAW(out); \\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION2(	\\
+          pcond[flatind_out] == NA_INTEGER,	\\
+          stop(\"NA condition not supported for type of `raw`\"),	\\
+          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
         )	\\
       );	\\
       	\\
@@ -1039,10 +1205,132 @@ macro_op_ifelse <- "
       	\\
       DIMCODE(	\\
         MACRO_ACTION2(	\\
-          pcond[flatind_out] == NA_LOGICAL,	\\
+          pcond[flatind_out] == NA_INTEGER,	\\
           SET_VECTOR_ELT(out, flatind_out, R_NilValue),	\\
           SET_VECTOR_ELT(out, flatind_out, pcond[flatind_out] ? VECTOR_ELT(x, flatind_x) : VECTOR_ELT(y, flatind_y))	\\
         )	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    default:	\\
+    {	\\
+      stop(\"unsupported type\");	\\
+    }	\\
+  }	\\
+} while(0)
+"
+
+macro_op_ifelse_raw <- "
+#define MACRO_OP_IFELSE_RAW(DIMCODE) do {       \\
+  switch(TYPEOF(x)) {	\\
+    case LGLSXP:	\\
+    {	\\
+      const int *px = LOGICAL_RO(x);	\\
+      const int *py = LOGICAL_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));	\\
+      int *pout;	\\
+      pout = LOGICAL(out);	\\
+      	\\
+      DIMCODE(	\\
+        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case INTSXP:	\\
+    {	\\
+      const int *px = INTEGER_RO(x);	\\
+      const int *py = INTEGER_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));	\\
+      int *pout;	\\
+      pout = INTEGER(out);	\\
+      	\\
+      DIMCODE(	\\
+        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case REALSXP:	\\
+    {	\\
+      const double *px = REAL_RO(x);	\\
+      const double *py = REAL_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\\
+      double *pout;	\\
+      pout = REAL(out);	\\
+      	\\
+      DIMCODE(	\\
+        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case CPLXSXP:	\\
+    {	\\
+      const Rcomplex *px = COMPLEX_RO(x);	\\
+      const Rcomplex *py = COMPLEX_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\\
+      Rcomplex *pout;	\\
+      pout = COMPLEX(out);	\\
+      	\\
+      DIMCODE(	\\
+        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case STRSXP:	\\
+    {	\\
+      const SEXP *px = STRING_PTR_RO(x);	\\
+      const SEXP *py = STRING_PTR_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\\
+      	\\
+      DIMCODE(	\\
+        SET_STRING_ELT(out, flatind_out, (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y])	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case RAWSXP:	\\
+    {	\\
+      const Rbyte *px = RAW_RO(x);	\\
+      const Rbyte *py = RAW_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\\
+      Rbyte *pout = RAW(out); \\
+      	\\
+      DIMCODE(	\\
+        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case VECSXP:	\\
+    {	\\
+      SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\\
+      	\\
+      DIMCODE(	\\
+        SET_VECTOR_ELT(out, flatind_out, (bool)pcond[flatind_out] ? VECTOR_ELT(x, flatind_x) : VECTOR_ELT(y, flatind_y))	\\
       );	\\
       	\\
       UNPROTECT(1);	\\
@@ -1168,9 +1456,15 @@ macro_op <- stri_c(
   "\n",
   macro_op_raw_rel,
   "\n",
-  macro_op_raw_bit,
+  macro_op_raw_byte,
   "\n",
-  macro_op_ifelse,
+  macro_op_bit_raw,
+  "\n",
+  macro_op_bit_int,
+  "\n",
+  macro_op_ifelse_int,
+  "\n",
+  macro_op_ifelse_raw,
   "\n",
   macro_op_bcapply,
   "\n"

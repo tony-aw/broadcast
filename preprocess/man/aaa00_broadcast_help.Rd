@@ -46,12 +46,13 @@ These functions use an API similar to the \link[base]{outer} function. \cr
 \cr
 The following functions for type-specific binary operations are available:
 \itemize{
-\item \code{[bc.b](bc.b.qmd)}: Boolean operations;
-\item \code{[bc.i](bc.i.qmd)}: integer (53bit) arithmetic and relational operations;
-\item \code{[bc.d](bc.d.qmd)}: decimal (64bit) arithmetic and relational operations;
+\item \code{[bc.b](bc.b.qmd)}: Boolean (i.e. logical) operations;
+\item \code{[bc.i](bc.i.qmd)}: integer arithmetic and relational operations;
+\item \code{[bc.d](bc.d.qmd)}: decimal arithmetic and relational operations;
 \item \code{[bc.cplx](bc.cplx.qmd)}: complex arithmetic and (in)equality operations;
 \item \code{[bc.str](bc.str.qmd)}: string (in)equality, concatenation, and distance operations;
-\item \code{[bc.raw](bc.raw.qmd)}: for raw arrays; bit-wise operations and (in)equality operations;
+\item \code{[bc.raw](bc.raw.qmd)}: byte- and relational operations for vectors/arrays of type \code{raw};
+\item \code{[bc.bit](bc.bit.qmd)}: BIT-WISE operations, supporting the \code{raw} and \code{integer} types;
 \item \code{[bc.list](bc.list.qmd)}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 }
 
@@ -116,15 +117,8 @@ to evaluate a mathematical expression using overloaded operators for broadcast s
 which comes with its own method dispatch for the base operators. \cr
 }
 
-The following base operators can be overloaded via either method:
-\itemize{
-\item From \code{[bc.num](bc.d.qmd)} and \code{[bc.cplx](bc.cplx.qmd)}: +, -, *, /, ^
-\item From \code{[bc.i](bc.i.qmd)}: \%\%, \%/\%
-\item From \code{[bc.b](bc.b.qmd)}: &, |
-\item From \code{[bc.raw](bc.raw.qmd)}: &, |, ^ \cr
-}
-
 Overloads for the relational operators (==, !=, etc.) have also been implemented. \cr
+Please refer to the website for additional details. \cr \cr
 }
 
 \references{

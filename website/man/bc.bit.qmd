@@ -1,0 +1,101 @@
+---
+title: bc.bit
+---
+## Broadcasted Bit-wise Operations {.unnumbered}
+
+
+### Description
+
+The <code>bc.bit()</code> function
+performs broadcasted bit-wise operations
+on pairs of arrays, where both arrays are of type <code>raw</code> or both arrays are of type <code>integer</code>. <br />
+<br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>bc.bit(x, y, op)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code>, <code id="y">y</code></td>
+<td>
+conformable raw or integer (32 bit) vectors or arrays.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
+<td>
+a single string, giving the operator. <br />
+Supported bit-wise operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=, &lt;&lt;, &gt;&gt;. <br />
+<br />
+</td></tr>
+</table>
+
+
+### Details
+
+The &quot;&amp;&quot;, &quot;|&quot;, &quot;xor&quot;, and &quot;nand&quot; operators given in <code>bc.bit()</code>
+perform BIT-WISE AND, OR, XOR, and NAND operations, respectively. <br />
+<br />
+The relational operators given in <code>bc.bit()</code> perform BIT-WISE relational operations:
+
+
+<ul>
+<li> &quot;==&quot; is equivalent to bit-wise <code>(x &amp; y) | (!x &amp; !y)</code>, but faster;
+
+</li>
+<li> &quot;!=&quot; is equivalent to bit-wise <code>xor(x, y)</code>;
+
+</li>
+<li> &quot;&lt;&quot; is equivalent to bit-wise <code>(!x &amp; y)</code>, but faster;
+
+</li>
+<li> &quot;&gt;&quot; is equivalent to bit-wise <code>(x &amp; !y)</code>, but faster;
+
+</li>
+<li> &quot;&lt;=&quot; is equivalent to bit-wise <code>(!x &amp; y) | (y == x)</code>, but faster;
+
+</li>
+<li> &quot;&gt;=&quot; is equivalent to bit-wise <code>(x &amp; !y) | (y == x)</code>, but faster. <br /> <br />
+
+</li></ul>
+
+The &quot;&lt;&lt;&quot; and &quot;&gt;&gt;&quot; operators perform bit-wise left-shift and right-shift,
+respectively,
+on <code>x</code> by unit <code>y</code>. <br />
+For these shift operations,
+<code>y</code> being larger than the number of bits of <code>x</code> results in an error. <br />
+Shift operations are only supported for type of <code>raw</code>. <br /> <br />
+
+
+
+### Value
+
+For bit-wise operators: <br />
+An array of the same type as <code>x</code> and <code>y</code>,
+as a result of the broadcasted bit-wise operation. <br />
+<br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+x.dim <- c(4:2)
+x.len <- prod(x.dim)
+x.data <- as.raw(0:10)
+y.data <- as.raw(10:0)
+x <- array(x.data, x.dim)
+y <- array(y.data, c(4,1,1))
+
+bc.bit(x, y, "&")
+bc.bit(x, y, "|")
+bc.bit(x, y, "xor")
+
+
+
+```

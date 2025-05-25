@@ -102,8 +102,8 @@ bc.str <- function(x, y, op) {
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
     
     out <- .rcpp_bc_str_d(
       x, y, by_x, by_y,
@@ -112,6 +112,12 @@ bc.str <- function(x, y, op) {
   }
   
   dim(out) <- out.dimorig
+  
+  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
+    broadcaster(out) <- TRUE
+  }
+  
+  .binary_set_ma(out, x, y)
   
   return(out)
   
@@ -148,8 +154,8 @@ bc.str <- function(x, y, op) {
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
     
     out <- .rcpp_bcRel_str_d(
       x, y, by_x, by_y,
@@ -194,8 +200,8 @@ bc.str <- function(x, y, op) {
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
-    dcp_x <- .make_dcp(x.dim)
-    dcp_y <- .make_dcp(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
     
     out <- .rcpp_bcDist_str_d(
       x, y, by_x, by_y,

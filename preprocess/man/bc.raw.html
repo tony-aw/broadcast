@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><title>R: Broadcasted Operations on Raw Arrays</title>
+<!DOCTYPE html><html><head><title>R: Broadcasted Byte and Relational Operations on Raw Arrays</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -16,13 +16,16 @@ function processMathHTML() {
 
 <table style="width: 100%;"><tr><td>bc.raw</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Broadcasted Operations on Raw Arrays</h2>
+<h2>Broadcasted Byte and Relational Operations on Raw Arrays</h2>
 
 <h3>Description</h3>
 
 <p>The <code>bc.raw()</code> function
-performs broadcasted (in)equality operations and bit-wise operations
+performs broadcasted byte- and relational operations
 on arrays of type <code>raw</code>. <br />
+<br />
+For bit-wise operations, use <code>[bc.bit](bc.bit.qmd)</code>. <br />
+For logical operations, use <code>[bc.b](bc.b.qmd)</code> <br />
 <br />
 </p>
 
@@ -43,8 +46,8 @@ on arrays of type <code>raw</code>. <br />
 <tr><td><code id="op">op</code></td>
 <td>
 <p>a single string, giving the operator. <br />
-Supported bit-wise operators: &amp;, |, ^, diff, pmin, pmax. <br />
-Note that &quot;^&quot;  refers to bit-wise XOR, and &quot;diff&quot; refers to the absolute numerical difference. <br />
+Supported byte operators: pmin, pmax, diff. <br />
+The &quot;diff&quot; operator performs the byte equivalent of <code>abs(x - y)</code>. <br />
 Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br />
 <br /></p>
 </td></tr>
@@ -53,12 +56,12 @@ Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br />
 
 <h3>Value</h3>
 
-<p>For bit-wise operators: <br />
+<p>For the byte operators: <br />
 A array of type <code>raw</code>,
-as a result of the broadcasted bit-wise operation. <br />
+as a result of the broadcasted byte operation. <br />
 <br />
 For relational operators: <br />
-A logical array as a result of the broadcasted integer relational comparison. <br />
+A logical array as a result of the broadcasted relational comparison. <br />
 <br />
 </p>
 
@@ -74,11 +77,11 @@ y &lt;- array(y.data, c(4,1,1))
 
 bc.raw(x, y, "==")
 bc.raw(x, y, "!=")
+bc.raw(x, y, "&lt;")
+bc.raw(x, y, "&gt;")
+bc.raw(x, y, "&lt;=")
+bc.raw(x, y, "&gt;=")
 
-bc.raw(x, y, "&amp;")
-bc.raw(x, y, "|")
-bc.raw(x, y, "^")
-bc.raw(x, y, "diff") |&gt; as_int()
 </code></pre>
 
 </main>

@@ -19,6 +19,12 @@ inline bool rcpp_isFALSE(
   return(x != NA_INTEGER && x == 0);
 }
 
+inline bool rcpp_is_lgl(
+  SEXP x
+) {
+  return(TYPEOF(x) == INTSXP || TYPEOF(x) == LGLSXP);
+}
+
 
 
 
@@ -34,15 +40,11 @@ SEXP rcpp_bc_b_v(
 int tempout;
 
 int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-
-const int *px = INTEGER(x);
-const int *py = INTEGER(y);
-
 SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
 int *pout;
 pout = LOGICAL(out);
 
-MACRO_OP_B_ANDOR(MACRO_DIM_VECTOR);
+MACRO_TYPESWITCH_BOOL(MACRO_DIM_VECTOR);
 
 UNPROTECT(1);
 return out;
@@ -63,15 +65,11 @@ SEXP rcpp_bc_b_ov(
 int tempout;
 
 int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-
-const int *px = INTEGER(x);
-const int *py = INTEGER(y);
-
 SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
 int *pout;
 pout = LOGICAL(out);
 
-MACRO_OP_B_ANDOR(MACRO_DIM_ORTHOVECTOR);
+MACRO_TYPESWITCH_BOOL(MACRO_DIM_ORTHOVECTOR);
 
 UNPROTECT(1);
 return out;
@@ -93,17 +91,13 @@ SEXP rcpp_bc_b_d(
 
 
 int tempout;
-
 int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-
-const int *px = INTEGER(x);
-const int *py = INTEGER(y);
-
 SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
 int *pout;
 pout = LOGICAL(out);
 
-MACRO_OP_B_ANDOR(MACRO_DIM_DOCALL);
+MACRO_TYPESWITCH_BOOL(MACRO_DIM_DOCALL);
+
 
 UNPROTECT(1);
 return out;

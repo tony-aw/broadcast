@@ -452,6 +452,162 @@ macro_dim_bind_docall <- templatecode_docall2
 
 
 ################################################################################
+# Intro 3 ====
+#
+
+introcomments3 <- "
+
+********************************************************************************
+MACROs for the set implementation
+
+The following MACROs define the loops used for broadcasted in-place modification.
+
+The MACROs were written for every 2 dimensions, from 2 to 16.
+i.e. 2, 4, 6, ..., 16
+
+********************************************************************************
+
+"
+
+introcomments3 <- stri_split(introcomments3, fixed = "\n")[[1]]
+introcomments3 <- stri_c("// ", introcomments3) |> paste0(collapse = "\n")
+cat(introcomments3)
+
+
+
+################################################################################
+# MACRO SET ====
+#
+
+
+all_N_decl <- sprintf("const int N%d = INTEGER(x_dim)[%d];\t\\", 1:16, 0:15)
+
+all_for <- c(
+  sprintf("\t for(int iter%d = 0; iter%d < N%d; ++iter%d) {\t\\", 1:16, 1:16, 1:16, 1:16)
+)
+fory <- c(
+  "\t\\",
+  sprintf("i_y%d = pby_y[%d] * iter%d * pdcp_y[%d];\t\\", 2:16, 1:15, 2:16, 1:15)
+)
+all_for <- stri_c(all_for, fory, sep = "\n")
+cat(all_for[16])
+
+all_parts_y <- c(
+  "iter1 * pby_y[0]",
+  sprintf("i_y%d", 2:16)
+)
+
+all_y_decl <- sprintf("i_y%d", 2:16) 
+
+temp <- "
+
+#define MACRO_DIM_SET_<dtype>(DOCODE) do {      \\
+  R_xlen_t flatind_x = 0;         \\
+  const int *pby_y = INTEGER_RO(by_y);        \\
+  <all_N_decl>
+  const double *pdcp_y = REAL_RO(dcp_y);        \\
+  R_xlen_t flatind_y;       \\
+  R_xlen_t <all_y_decl>; \\
+  <startfor>
+        flatind_y = <main_y>;     \\
+                                  \\
+        DOCODE;                   \\
+  	                              \\
+        flatind_x++;                    \\
+  <endfor>
+} while(0)
+
+"
+
+dMacro_skeletons <- character(length(DTYPES))
+names(dMacro_skeletons) <- DTYPES
+counter <- 1
+for(i in DTYPES) {
+  
+  current_N_decl <- stri_c(all_N_decl[1:i], collapse = "\n")
+  current_y_decl <- stri_c(all_y_decl[1:(i-1)], collapse = ", ")
+  current_for <- stri_c(all_for[i:1], collapse = "\n")
+  current_main_y <- stri_c(all_parts_y[1:i], collapse = " + ")
+  current_end <- stri_c(rep("\t }\t\\", i), collapse = "\n")
+  
+  current_fixed <- c(
+    "<dtype>",
+    "<all_N_decl>",
+    "<all_y_decl>",
+    "<startfor>",
+    "<main_y>",
+    "<endfor>"
+  )
+  current_replacement <- c(
+    i,
+    current_N_decl,
+    current_y_decl,
+    current_for,
+    current_main_y,
+    current_end
+  )
+  
+  out <- stri_replace_all(
+    temp,
+    fixed = current_fixed,
+    replacement = current_replacement,
+    case_insensitive = FALSE,
+    vectorize_all = FALSE
+  )
+  
+  dMacro_skeletons[counter] <- out
+  counter <- counter + 1
+}
+
+cat(dMacro_skeletons[[2]])
+
+
+macro_dim_set <- stri_c(dMacro_skeletons, collapse = "\n")
+
+
+
+################################################################################
+# DoCall set skeleton ====
+#
+
+
+
+# cases:
+case_set <-
+  "case %d:                                       \\
+  MACRO_DIM_SET_%d(DOCODE);    \\
+  break;                                        \\
+"
+cases_set <- sprintf(case_set, DTYPES, DTYPES) |> stringi::stri_c(collapse = "")
+
+
+cat(cases_set)
+
+templatecode_docall <- "
+
+#define MACRO_DIM_SET_DOCALL(DOCODE) do {     \\
+  int ndims = Rf_length(out_dim);         \\
+                                          \\
+  switch(ndims) {                       \\
+    <cases_set>                     \\
+  }                                     \\
+} while(0)"
+
+templatecode_docall2 <- stringi::stri_replace_all(
+  templatecode_docall,
+  fixed = c("<cases_set>"),
+  replacement = c(cases_set),
+  vectorize_all = FALSE
+)
+
+
+cat(templatecode_docall2)
+
+
+macro_dim_set_docall <- templatecode_docall2
+
+
+################################################################################
 # Save macros ====
 #
 

@@ -46,12 +46,13 @@ These functions use an API similar to the \link[base]{outer} function. \cr
 \cr
 The following functions for type-specific binary operations are available:
 \itemize{
-\item \link{bc.b}: Boolean operations;
-\item \link{bc.i}: integer (53bit) arithmetic and relational operations;
-\item \link{bc.d}: decimal (64bit) arithmetic and relational operations;
+\item \link{bc.b}: Boolean (i.e. logical) operations;
+\item \link{bc.i}: integer arithmetic and relational operations;
+\item \link{bc.d}: decimal arithmetic and relational operations;
 \item \link{bc.cplx}: complex arithmetic and (in)equality operations;
 \item \link{bc.str}: string (in)equality, concatenation, and distance operations;
-\item \link{bc.raw}: for raw arrays; bit-wise operations and (in)equality operations;
+\item \link{bc.raw}: byte- and relational operations for vectors/arrays of type \code{raw};
+\item \link{bc.bit}: BIT-WISE operations, supporting the \code{raw} and \code{integer} types;
 \item \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 }
 
@@ -116,15 +117,8 @@ to evaluate a mathematical expression using overloaded operators for broadcast s
 which comes with its own method dispatch for the base operators. \cr
 }
 
-The following base operators can be overloaded via either method:
-\itemize{
-\item From \link{bc.num} and \link{bc.cplx}: +, -, *, /, ^
-\item From \link{bc.i}: \%\%, \%/\%
-\item From \link{bc.b}: &, |
-\item From \link{bc.raw}: &, |, ^ \cr
-}
-
 Overloads for the relational operators (==, !=, etc.) have also been implemented. \cr
+Please refer to the website for additional details. \cr \cr
 }
 
 \references{
