@@ -3,17 +3,11 @@
 #' @export
 `[.broadcaster` <- function(x, ..., drop = FALSE) {
   
-  drop <- FALSE
-  
   if(!broadcaster(x)) {
     stop("malformed broadcaster")
   }
   y <- NextMethod("[")
-  
-  if(!inherits(y, "broadcaster")) {
-    class(y) <- c("broadcaster", .internal_sane_class(y))
-  }
-  
+  class(y) <- oldClass(x)
   y
 }
 
@@ -25,10 +19,7 @@
     stop("malformed broadcaster")
   }
   y <- NextMethod("[[")
-  
-  if(!inherits(y, "broadcaster")) {
-    class(y) <- c("broadcaster", .internal_sane_class(y))
-  }
+  class(y) <- oldClass(x)
   y
 }
 

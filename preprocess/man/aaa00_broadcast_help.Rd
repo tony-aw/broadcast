@@ -8,7 +8,7 @@
 \title{broadcast Package Overview}
 \description{
 broadcast: \cr
-Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
+'Numpy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
 Implements simple broadcasted operations for atomic and recursive arrays.
 
 Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;

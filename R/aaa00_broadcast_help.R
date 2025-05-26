@@ -2,7 +2,7 @@
 #' 
 #' @description
 #' broadcast: \cr
-#' Simple Broadcasted Binding and Binary Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
+#' 'Numpy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
 #' 
 #' ```{r echo = FALSE, eval = TRUE, results = 'asis'}
 #' 

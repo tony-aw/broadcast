@@ -261,7 +261,7 @@
 #' @noRd
 .binary_set_ma <- function(out, x, y) {
   if(inherits(x, "mutatomic") || inherits(y, "mutatomic")) {
-    .rcpp_set_ma(out, c("mutatomic", .internal_sane_class(out)))
+    .rcpp_set_ma(out, c("mutatomic", oldClass(out)))
   }
   
 }

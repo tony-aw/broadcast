@@ -93,23 +93,6 @@ broadcaster <- function(x) {
 }
 
 
-
-#' @keywords internal
-#' @noRd
-.internal_sane_class <- function(x) {
-  if(is.null(oldClass(x)) && is.null(dim(x))) {
-    return(NULL)
-  }
-  oc <- oldClass(x)
-  if(length(oc) == 0L) {
-    return(NULL)
-  }
-  else {
-    return(oc)
-  }
-}
-
-
 #' @keywords internal
 #' @noRd
 .couldb.broadcaster <- function(x) {

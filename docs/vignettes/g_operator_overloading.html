@@ -371,8 +371,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <script>
 
-      function styleCell_2hvl2fef006o94murs57(i, j, css_id) {
-          var table = document.getElementById("tinytable_2hvl2fef006o94murs57");
+      function styleCell_e7myt2spcwt9pgue4duo(i, j, css_id) {
+          var table = document.getElementById("tinytable_e7myt2spcwt9pgue4duo");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -382,7 +382,7 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_2hvl2fef006o94murs57');
+        var table = document.getElementById('tinytable_e7myt2spcwt9pgue4duo');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -390,8 +390,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_2hvl2fef006o94murs57(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_2hvl2fef006o94murs57");
+      function spanCell_e7myt2spcwt9pgue4duo(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_e7myt2spcwt9pgue4duo");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -421,14 +421,14 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_tig4zlffbptsa15ibsx0',}, 
-          { positions: [ { i: 7, j: 0 }, { i: 7, j: 1 }, { i: 7, j: 2 },  ], css_id: 'tinytable_css_pn8fh8fw6e9j58fv19p9',}, 
+          { positions: [ { i: 7, j: 0 }, { i: 7, j: 1 }, { i: 7, j: 2 },  ], css_id: 'tinytable_css_nwy9xpy1y778qpo64hcx',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_8ze0gaf7wl72a5yroopa',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_2hvl2fef006o94murs57(cell.i, cell.j, group.css_id);
+                  styleCell_e7myt2spcwt9pgue4duo(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -436,11 +436,11 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_tig4zlffbptsa15ibsx0, .table th.tinytable_css_tig4zlffbptsa15ibsx0 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_pn8fh8fw6e9j58fv19p9, .table th.tinytable_css_pn8fh8fw6e9j58fv19p9 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_nwy9xpy1y778qpo64hcx, .table th.tinytable_css_nwy9xpy1y778qpo64hcx { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_8ze0gaf7wl72a5yroopa, .table th.tinytable_css_8ze0gaf7wl72a5yroopa { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_2hvl2fef006o94murs57" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_e7myt2spcwt9pgue4duo" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -504,8 +504,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <script>
 
-      function styleCell_x6d7h6btv9jtd5swa2ya(i, j, css_id) {
-          var table = document.getElementById("tinytable_x6d7h6btv9jtd5swa2ya");
+      function styleCell_okq1m1d6bnis7j5cq6f6(i, j, css_id) {
+          var table = document.getElementById("tinytable_okq1m1d6bnis7j5cq6f6");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -515,7 +515,7 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_x6d7h6btv9jtd5swa2ya');
+        var table = document.getElementById('tinytable_okq1m1d6bnis7j5cq6f6');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -523,8 +523,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_x6d7h6btv9jtd5swa2ya(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_x6d7h6btv9jtd5swa2ya");
+      function spanCell_okq1m1d6bnis7j5cq6f6(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_okq1m1d6bnis7j5cq6f6");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -554,14 +554,14 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_idh0elyawq9gfh1f16pl',}, 
-          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 },  ], css_id: 'tinytable_css_i1yqta1te71vvzkvbi9g',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_ysfibd1wkp5ly6n1d43x',}, 
+          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 },  ], css_id: 'tinytable_css_6z29d6e235x3vq3nzvfw',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_x6d7h6btv9jtd5swa2ya(cell.i, cell.j, group.css_id);
+                  styleCell_okq1m1d6bnis7j5cq6f6(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -569,11 +569,11 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_idh0elyawq9gfh1f16pl, .table th.tinytable_css_idh0elyawq9gfh1f16pl { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_i1yqta1te71vvzkvbi9g, .table th.tinytable_css_i1yqta1te71vvzkvbi9g { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_ysfibd1wkp5ly6n1d43x, .table th.tinytable_css_ysfibd1wkp5ly6n1d43x { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_6z29d6e235x3vq3nzvfw, .table th.tinytable_css_6z29d6e235x3vq3nzvfw { border-bottom: solid #d3d8dc 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_x6d7h6btv9jtd5swa2ya" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_okq1m1d6bnis7j5cq6f6" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -622,8 +622,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <script>
 
-      function styleCell_lnfj9qske8ks00b6zaji(i, j, css_id) {
-          var table = document.getElementById("tinytable_lnfj9qske8ks00b6zaji");
+      function styleCell_ucu0vov4b1lx69a39dcq(i, j, css_id) {
+          var table = document.getElementById("tinytable_ucu0vov4b1lx69a39dcq");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -633,7 +633,7 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_lnfj9qske8ks00b6zaji');
+        var table = document.getElementById('tinytable_ucu0vov4b1lx69a39dcq');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -641,8 +641,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_lnfj9qske8ks00b6zaji(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_lnfj9qske8ks00b6zaji");
+      function spanCell_ucu0vov4b1lx69a39dcq(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_ucu0vov4b1lx69a39dcq");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -672,14 +672,14 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_6q97b95fdpogsdbyrequ',}, 
-          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_5kkgkz1ukyhak7ukrdha',}, 
+          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_uv5j4chpzzfrlg5491h2',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_2qsukdz1r8r3r059y6y9',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_lnfj9qske8ks00b6zaji(cell.i, cell.j, group.css_id);
+                  styleCell_ucu0vov4b1lx69a39dcq(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -687,11 +687,11 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_6q97b95fdpogsdbyrequ, .table th.tinytable_css_6q97b95fdpogsdbyrequ { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_5kkgkz1ukyhak7ukrdha, .table th.tinytable_css_5kkgkz1ukyhak7ukrdha { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_uv5j4chpzzfrlg5491h2, .table th.tinytable_css_uv5j4chpzzfrlg5491h2 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_2qsukdz1r8r3r059y6y9, .table th.tinytable_css_2qsukdz1r8r3r059y6y9 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_lnfj9qske8ks00b6zaji" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_ucu0vov4b1lx69a39dcq" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -730,8 +730,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <script>
 
-      function styleCell_37rn9ouqfl4lzlyqzazv(i, j, css_id) {
-          var table = document.getElementById("tinytable_37rn9ouqfl4lzlyqzazv");
+      function styleCell_fx9rc93jjj6v3qfpesko(i, j, css_id) {
+          var table = document.getElementById("tinytable_fx9rc93jjj6v3qfpesko");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -741,7 +741,7 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_37rn9ouqfl4lzlyqzazv');
+        var table = document.getElementById('tinytable_fx9rc93jjj6v3qfpesko');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -749,8 +749,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_37rn9ouqfl4lzlyqzazv(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_37rn9ouqfl4lzlyqzazv");
+      function spanCell_fx9rc93jjj6v3qfpesko(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_fx9rc93jjj6v3qfpesko");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -780,14 +780,14 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_cmzugjgeq6fciqnn2ypk',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_bmpwq8cymflojcwvoh2z',}, 
+          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_p70ns0m9yxea0rwww2k7',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_7m7yysv9fl2vtl6ninx4',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_37rn9ouqfl4lzlyqzazv(cell.i, cell.j, group.css_id);
+                  styleCell_fx9rc93jjj6v3qfpesko(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -795,11 +795,11 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_cmzugjgeq6fciqnn2ypk, .table th.tinytable_css_cmzugjgeq6fciqnn2ypk { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_bmpwq8cymflojcwvoh2z, .table th.tinytable_css_bmpwq8cymflojcwvoh2z { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_p70ns0m9yxea0rwww2k7, .table th.tinytable_css_p70ns0m9yxea0rwww2k7 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_7m7yysv9fl2vtl6ninx4, .table th.tinytable_css_7m7yysv9fl2vtl6ninx4 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_37rn9ouqfl4lzlyqzazv" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_fx9rc93jjj6v3qfpesko" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
