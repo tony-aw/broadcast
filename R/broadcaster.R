@@ -1,11 +1,11 @@
 #' Check or Set if an Array is a Broadcaster
 #'
 #' @description
-#' `broadcaster()` checks if an array is of class "broadcaster". \cr
+#' `broadcaster()` checks if an array has the "broadcaster" attribute. \cr
 #' `broadcaster()<-` sets or un-sets the class attribute "broadcaster" on an array. \cr
 #' \cr
-#' The `broadcaster` class is a simple (or "lazy") class,
-#' and exists purely to overload the arithmetic, Boolean, bit-wise, and relational infix operators
+#' The `broadcaster` class attribute exists purely to overload the
+#' arithmetic, Boolean, bit-wise, and relational infix operators,
 #' to support broadcasting. \cr
 #' This makes mathematical expressions with multiple variables,
 #' where precedence may be important,
@@ -14,13 +14,14 @@
 #' `x / (y + z)` \cr
 #' \cr
 #' 
-#' The `broadcaster` class comes with its own method dispatch for the base operators. \cr
-#' If at least one of the 2 arguments of the base operators is of class `broadcaster`,
+#' Broadcaster arrays come with their own method dispatch for the base operators. \cr
+#' If at least one of the 2 arguments of the base operators has the `broadcaster` class attribute,
 #' and no other class (like `bit64`) interferes,
 #' broadcasting will occur in the same manner as used in the various `bc.*` - functions. \cr
 #' \cr
 #'
-#' @param x object to check or set.
+#' @param x object to check or set. \cr
+#' Only S3 vectors and arrays are supported, and only up to 16 dimensions.
 #' @param value set to `TRUE` to make an array a broadcaster,
 #' or `FALSE` to remove the broadcaster class attribute from an array.
 #' 
@@ -63,7 +64,7 @@ broadcaster <- function(x) {
     x
   }
   else if(!value && broadcaster(x)) {
-    class(x) <- setdiff(class(x), "broadcaster")
+    class(x) <- setdiff(oldClass(x), "broadcaster")
     x
   }
   else if(value && !broadcaster(x)) {
@@ -83,6 +84,9 @@ broadcaster <- function(x) {
 #' @keywords internal
 #' @noRd
 .as.broadcaster <- function(x) {
+  if(!.couldb.broadcaster(x)) {
+    stop("cannot make this object broadcaster")
+  }
   if(broadcaster(x)) {
     return(x)
   }
@@ -96,6 +100,6 @@ broadcaster <- function(x) {
 #' @keywords internal
 #' @noRd
 .couldb.broadcaster <- function(x) {
-  return(.is_array_like(x) && .is_supported_type(x))
+  return(.is_array_like(x) && .is_supported_type(x) && ndim(x) <= 16L)
 }
 

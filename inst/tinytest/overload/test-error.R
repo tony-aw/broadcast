@@ -107,10 +107,5 @@ expect_error(
   x & y
 )
 
-expect_error(
-  x == y,
-  pattern = "unsupported combination of types"
-)
-
 enumerate <- enumerate + 2L
 

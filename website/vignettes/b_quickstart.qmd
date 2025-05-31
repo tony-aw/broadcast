@@ -114,25 +114,26 @@ bc.num(x, y, "+")
 
 ```
 
+&nbsp;
 
-When operator precedence is important (i.e. power comes before multiply/divide, which comes before add/subtract), the base 'R' operators can be overloaded to use broadcasting.  
-For example in an mathematical expression like  `x + y / z`.
+# Overloaded Operators
 
-The [bc_chain()](/man/bc_chain.qmd) function can be used to evaluate the above expression using broadcasting like so:
+Sometimes broadcasting is needed in a large mathematical expression, involving multiple variables, where precedence is of importance.
+For example in an expression like this:  
+
+`x + y / z`
+
+Using the `bc.*` functions for that, while possible, may be inconvenient. It may be more convenient to use the base operators directly, whilst still keeping the broadcasting property.  
+
+To this end, the 'broadcast' package provides the [broadcaster](/man/broadcaster.qmd) class, which comes with its own method dispatch for the base operators.
+
+See the following example:
 
 ```{r}
+
 x <- array(1:20, c(4, 5))
 y <- array(1:5 * 100, c(1, 5))
 z <- array(20:1, c(4, 5))
-
-
-bc_chain(~ x + y / z)
-
-```
-
-Or the the arrays in question can be turned into "broadcaster" arrays, which will overload the operators these arrays are involved in, like so:
-
-```{r}
 
 broadcaster(x) <- TRUE
 broadcaster(y) <- TRUE

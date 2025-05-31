@@ -21,6 +21,8 @@ test_make_dims <- function(n) {
 }
 .return_missing <- broadcast:::.return_missing
 
+ab <- broadcast:::.as.broadcaster
+
 gen <- function() {
   sample(c(rnorm(10), NA, NaN, Inf, -Inf), 100, TRUE)
 }
@@ -48,7 +50,7 @@ basefun <- function(x, y) {
   return(out)
 }
 testfun <- function(x, y) {
-  bc_chain(~ x == y)
+  ab(x) == ab(y)
 }
 
 
@@ -138,10 +140,8 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             
             dim(expected[[i]]) <- tdim
             
-            expect_equal(
-              out[[i]],
-              expected[[i]]
-            )
+            out[[i]] <- unclass(out[[i]]) # because broadcaster attribute is preserved
+            
             
             i <- i + 1L
           }
@@ -167,7 +167,7 @@ basefun <- function(x, y) {
   return(out)
 }
 testfun <- function(x, y) {
-  bc_chain(~ x != y)
+  ab(x) != ab(y)
 }
 
 
@@ -257,10 +257,7 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             
             dim(expected[[i]]) <- tdim
             
-            expect_equal(
-              out[[i]],
-              expected[[i]]
-            )
+            out[[i]] <- unclass(out[[i]]) # because broadcaster attribute is preserved
             
             i <- i + 1L
           }

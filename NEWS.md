@@ -28,3 +28,9 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 * Re-written some internal code in 'C'.
 * `bc_ifelse()` and `bc.b()` can now also handle type of `raw` in its arguments.
 
+
+# broadcast 0.0.0.9005
+* Removed `bc_chain()`, and adjusted the documentation and tests accordingly.
+* Added more tests.
+
+

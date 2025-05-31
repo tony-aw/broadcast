@@ -105,20 +105,10 @@ which preserve names and dimensions - convenient for arrays. \cr \cr
 Sometimes broadcasting is needed in large mathematical expression,
 involving multiple variables,
 where precedence is of importance. \cr
-For example in an expression like \code{(x + y) / z^y}. \cr
+For example in an expression like \code{x + y / z^y}. \cr
 For such cases, you may want to overload the base operators. \cr
-\cr
-The 'broadcast' package
-provides 2 ways to overload base operators to support broadcasting:
-\enumerate{
-\item Via the \code{[bc_chain](bc_chain.qmd)} function,
-to evaluate a mathematical expression using overloaded operators for broadcast support.
-\item Via the \code{[broadcaster](broadcaster.qmd)} class,
+To that end, the 'broadcast' package provides the \code{[broadcaster](broadcaster.qmd)} class,
 which comes with its own method dispatch for the base operators. \cr
-}
-
-Overloads for the relational operators (==, !=, etc.) have also been implemented. \cr
-Please refer to the website for additional details. \cr \cr
 }
 
 \references{

@@ -12,6 +12,8 @@ as.someclass <- function(x) {
   return(x)
 }
 
+ab <- broadcast:::.as.broadcaster
+
 # check if broadcaster works even with overwriting class ====
 
 x <- 1:10
@@ -32,7 +34,7 @@ expect_equivalent(
 }
 
 expect_equal(
-  bc_chain(~ x + y),
+  ab(x) + ab(y),
   broadcast:::`+.broadcaster`(x, y)
 )
 

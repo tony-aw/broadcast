@@ -100,7 +100,7 @@ bc.raw <- function(x, y, op) {
   dim(out) <- out.dimorig
   
   if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
-    broadcaster(out) <- TRUE
+    .rcpp_set_class(out, "broadcaster")
   }
   
   .binary_set_ma(out, x, y)
@@ -150,6 +150,10 @@ bc.raw <- function(x, y, op) {
   }
   
   dim(out) <- out.dimorig
+  
+  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
+    .rcpp_set_class(out, "broadcaster")
+  }
   
   return(out)
   

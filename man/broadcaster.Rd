@@ -10,7 +10,8 @@ broadcaster(x)
 broadcaster(x) <- value
 }
 \arguments{
-\item{x}{object to check or set.}
+\item{x}{object to check or set. \cr
+Only S3 vectors and arrays are supported, and only up to 16 dimensions.}
 
 \item{value}{set to \code{TRUE} to make an array a broadcaster,
 or \code{FALSE} to remove the broadcaster class attribute from an array.}
@@ -26,11 +27,11 @@ or removes (if right hand side is \code{FALSE})
 the "broadcaster" class attribute. \cr \cr
 }
 \description{
-\code{broadcaster()} checks if an array is of class "broadcaster". \cr
+\code{broadcaster()} checks if an array has the "broadcaster" attribute. \cr
 \verb{broadcaster()<-} sets or un-sets the class attribute "broadcaster" on an array. \cr
 \cr
-The \code{broadcaster} class is a simple (or "lazy") class,
-and exists purely to overload the arithmetic, Boolean, bit-wise, and relational infix operators
+The \code{broadcaster} class attribute exists purely to overload the
+arithmetic, Boolean, bit-wise, and relational infix operators,
 to support broadcasting. \cr
 This makes mathematical expressions with multiple variables,
 where precedence may be important,
@@ -39,8 +40,8 @@ Like in the following calculation: \cr
 \code{x / (y + z)} \cr
 \cr
 
-The \code{broadcaster} class comes with its own method dispatch for the base operators. \cr
-If at least one of the 2 arguments of the base operators is of class \code{broadcaster},
+Broadcaster arrays come with their own method dispatch for the base operators. \cr
+If at least one of the 2 arguments of the base operators has the \code{broadcaster} class attribute,
 and no other class (like \code{bit64}) interferes,
 broadcasting will occur in the same manner as used in the various \verb{bc.*} - functions. \cr
 \cr

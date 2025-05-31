@@ -111,14 +111,3 @@ for(i in seq_along(x.data)) {
   
 }
 
-
-
-# errors ====
-x <- factor(letters)
-expect_error(
-  broadcaster(x) <- TRUE,
-  "cannot make this object broadcaster"
-)
-
-enumerate <- enumerate + 1L
-

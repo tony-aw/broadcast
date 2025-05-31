@@ -53,10 +53,3 @@
   return(out)
 }
 
-
-
-#' @keywords internal
-bc_overloaded_boolops <- list(
-  `&` =  `&.broadcaster`,
-  `|` =  `|.broadcaster`
-)

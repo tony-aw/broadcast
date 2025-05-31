@@ -230,8 +230,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#derived-operators" id="toc-derived-operators" class="nav-link" data-scroll-target="#derived-operators"><span class="header-section-number">4</span> Derived operators</a></li>
   <li><a href="#base-operators-vs-overloaded-operators" id="toc-base-operators-vs-overloaded-operators" class="nav-link" data-scroll-target="#base-operators-vs-overloaded-operators"><span class="header-section-number">5</span> Base operators vs Overloaded operators</a></li>
   <li><a href="#overloaded-operators-vs-bc.-functions" id="toc-overloaded-operators-vs-bc.-functions" class="nav-link" data-scroll-target="#overloaded-operators-vs-bc.-functions"><span class="header-section-number">6</span> Overloaded operators vs <code>bc.*</code> functions</a></li>
-  <li><a href="#bc_chain-function-vs-broadcaster-class" id="toc-bc_chain-function-vs-broadcaster-class" class="nav-link" data-scroll-target="#bc_chain-function-vs-broadcaster-class"><span class="header-section-number">7</span> bc_chain() function vs <code>broadcaster</code> class</a></li>
-  <li><a href="#compatibility-between-broadcaster-and-other-classes" id="toc-compatibility-between-broadcaster-and-other-classes" class="nav-link" data-scroll-target="#compatibility-between-broadcaster-and-other-classes"><span class="header-section-number">8</span> Compatibility between ‘broadcaster’ and other classes</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -261,12 +259,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Sometimes broadcasting is needed in a large mathematical expression, involving multiple variables, where precedence is of importance. For example in an expression like this:</p>
 <p><code>x / (y + z) + a</code></p>
 <p>Using the <code>bc.*</code> functions for that, while possible, may be inconvenient. It may be more convenient to use the base operators directly, whilst still keeping the broadcasting property.</p>
-<p>To this end, the ‘broadcast’ package allows the user to overload the base operators. This includes mathematical operators (+, -., *, /, etc.), Boolean operators (&amp;, |), bit-wise operators (&amp;, |), and relational operators (==, !=, etc.).<br>
-‘broadcast’ provides 2 ways to overload operators:</p>
-<ul>
-<li>Via the <a href="../man/bc_chain.html">bc_chain()</a> function, to evaluate a mathematical expression using overloaded operators for broadcast support.</li>
-<li>Via the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators.</li>
-</ul>
+<p>To this end, the ‘broadcast’ package provides the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators.</p>
 <p>&nbsp;</p>
 </section>
 <section id="example" class="level1" data-number="2">
@@ -313,46 +306,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 9.882353 23.38462 45.33333 96.00000 520.0000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>…but as the mathematical expression involves more and more variables with a greater variety of operators, it comes more and more taxing to keep track of the operator precedence.</p>
-<p>Luckily, ‘broadcast’ provides 2 alternative ways.</p>
-<p>One is to evaluate the expression using a formula:</p>
+<p>Instead, one can designate all arrays as a “broadcaster”; all base operators that involve a broadcaster will use the overloaded variant provided by the ‘broadcast’ package - like so:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bc_chain</span>(<span class="sc">~</span> x <span class="sc">+</span> y <span class="sc">/</span> z)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 6.000000 17.50000 34.00000 63.00000 142.0000</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] 7.263158 19.33333 37.27273 71.14286 184.6667</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] 8.555556 21.28571 41.00000 81.66667 269.0000</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 9.882353 23.38462 45.33333 96.00000 520.0000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The other, perhaps more natural way, is to designate all arrays as a “broadcaster”; all base operators that involve a broadcaster will use the overloaded variant provided by the ‘broadcast’ package - like so:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(x) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(y) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(z) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y <span class="sc">/</span> z</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 6.000000 17.50000 34.00000 63.00000 142.0000</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] 7.263158 19.33333 37.27273 71.14286 184.6667</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] 8.555556 21.28571 41.00000 81.66667 269.0000</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 9.882353 23.38462 45.33333 96.00000 520.0000</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(x) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(y) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(z) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y <span class="sc">/</span> z</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 6.000000 17.50000 34.00000 63.00000 142.0000</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] 7.263158 19.33333 37.27273 71.14286 184.6667</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] 8.555556 21.28571 41.00000 81.66667 269.0000</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 9.882353 23.38462 45.33333 96.00000 520.0000</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Actually, not <em>all</em> arrays necessarily need to be a broadcaster.<br>
-Overloaded operations that involve a broadcaster, will result in a broadcaster.<br>
+Overloaded arithmetic operations that involve a broadcaster, will result in a broadcaster.<br>
 So technically, one could just make the array that is used first - according to the mathematical rules of precedence - as a broadcaster, and broadcasting will continue to be used.<br>
 In this case, the mathematically first preceding array is <code>y</code>.<br>
 To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster, and you’ll see broadcasting still occurs:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(x) <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(z) <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y <span class="sc">/</span> z</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 6.000000 17.50000 34.00000 63.00000 142.0000</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] 7.263158 19.33333 37.27273 71.14286 184.6667</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] 8.555556 21.28571 41.00000 81.66667 269.0000</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 9.882353 23.38462 45.33333 96.00000 520.0000</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(x) <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(z) <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y <span class="sc">/</span> z</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 6.000000 17.50000 34.00000 63.00000 142.0000</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] 7.263158 19.33333 37.27273 71.14286 184.6667</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] 8.555556 21.28571 41.00000 81.66667 269.0000</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 9.882353 23.38462 45.33333 96.00000 520.0000</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>&nbsp;</p>
 </section>
@@ -371,8 +354,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <script>
 
-      function styleCell_e7myt2spcwt9pgue4duo(i, j, css_id) {
-          var table = document.getElementById("tinytable_e7myt2spcwt9pgue4duo");
+      function styleCell_vt632h56qdjy006ir02p(i, j, css_id) {
+          var table = document.getElementById("tinytable_vt632h56qdjy006ir02p");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -382,7 +365,7 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_e7myt2spcwt9pgue4duo');
+        var table = document.getElementById('tinytable_vt632h56qdjy006ir02p');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -390,8 +373,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_e7myt2spcwt9pgue4duo(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_e7myt2spcwt9pgue4duo");
+      function spanCell_vt632h56qdjy006ir02p(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_vt632h56qdjy006ir02p");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -421,14 +404,14 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 7, j: 0 }, { i: 7, j: 1 }, { i: 7, j: 2 },  ], css_id: 'tinytable_css_nwy9xpy1y778qpo64hcx',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_8ze0gaf7wl72a5yroopa',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_fv63foer9vbsjwhb1wdb',}, 
+          { positions: [ { i: 7, j: 0 }, { i: 7, j: 1 }, { i: 7, j: 2 },  ], css_id: 'tinytable_css_3hok42fnz4m0t5gafgl1',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_e7myt2spcwt9pgue4duo(cell.i, cell.j, group.css_id);
+                  styleCell_vt632h56qdjy006ir02p(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -436,11 +419,11 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_nwy9xpy1y778qpo64hcx, .table th.tinytable_css_nwy9xpy1y778qpo64hcx { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_8ze0gaf7wl72a5yroopa, .table th.tinytable_css_8ze0gaf7wl72a5yroopa { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_fv63foer9vbsjwhb1wdb, .table th.tinytable_css_fv63foer9vbsjwhb1wdb { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_3hok42fnz4m0t5gafgl1, .table th.tinytable_css_3hok42fnz4m0t5gafgl1 { border-bottom: solid #d3d8dc 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_e7myt2spcwt9pgue4duo" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_vt632h56qdjy006ir02p" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -504,8 +487,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <script>
 
-      function styleCell_okq1m1d6bnis7j5cq6f6(i, j, css_id) {
-          var table = document.getElementById("tinytable_okq1m1d6bnis7j5cq6f6");
+      function styleCell_lhhmava8ul91ibb37gcb(i, j, css_id) {
+          var table = document.getElementById("tinytable_lhhmava8ul91ibb37gcb");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -515,7 +498,7 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_okq1m1d6bnis7j5cq6f6');
+        var table = document.getElementById('tinytable_lhhmava8ul91ibb37gcb');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -523,8 +506,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_okq1m1d6bnis7j5cq6f6(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_okq1m1d6bnis7j5cq6f6");
+      function spanCell_lhhmava8ul91ibb37gcb(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_lhhmava8ul91ibb37gcb");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -554,14 +537,14 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_ysfibd1wkp5ly6n1d43x',}, 
-          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 },  ], css_id: 'tinytable_css_6z29d6e235x3vq3nzvfw',}, 
+          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 },  ], css_id: 'tinytable_css_vef2wv7b8l038nqtwts7',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_1jb89lvw877d1u9310wx',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_okq1m1d6bnis7j5cq6f6(cell.i, cell.j, group.css_id);
+                  styleCell_lhhmava8ul91ibb37gcb(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -569,11 +552,11 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_ysfibd1wkp5ly6n1d43x, .table th.tinytable_css_ysfibd1wkp5ly6n1d43x { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_6z29d6e235x3vq3nzvfw, .table th.tinytable_css_6z29d6e235x3vq3nzvfw { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_vef2wv7b8l038nqtwts7, .table th.tinytable_css_vef2wv7b8l038nqtwts7 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_1jb89lvw877d1u9310wx, .table th.tinytable_css_1jb89lvw877d1u9310wx { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_okq1m1d6bnis7j5cq6f6" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_lhhmava8ul91ibb37gcb" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -622,8 +605,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <script>
 
-      function styleCell_ucu0vov4b1lx69a39dcq(i, j, css_id) {
-          var table = document.getElementById("tinytable_ucu0vov4b1lx69a39dcq");
+      function styleCell_ku66jvlj5r23tauw5rxx(i, j, css_id) {
+          var table = document.getElementById("tinytable_ku66jvlj5r23tauw5rxx");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -633,7 +616,7 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_ucu0vov4b1lx69a39dcq');
+        var table = document.getElementById('tinytable_ku66jvlj5r23tauw5rxx');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -641,8 +624,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_ucu0vov4b1lx69a39dcq(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_ucu0vov4b1lx69a39dcq");
+      function spanCell_ku66jvlj5r23tauw5rxx(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_ku66jvlj5r23tauw5rxx");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -672,14 +655,14 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_uv5j4chpzzfrlg5491h2',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_2qsukdz1r8r3r059y6y9',}, 
+          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_v7x36gzc6gal1waggo3a',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_0nqs4987uennpu30ma5j',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_ucu0vov4b1lx69a39dcq(cell.i, cell.j, group.css_id);
+                  styleCell_ku66jvlj5r23tauw5rxx(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -687,11 +670,11 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_uv5j4chpzzfrlg5491h2, .table th.tinytable_css_uv5j4chpzzfrlg5491h2 { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_2qsukdz1r8r3r059y6y9, .table th.tinytable_css_2qsukdz1r8r3r059y6y9 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_v7x36gzc6gal1waggo3a, .table th.tinytable_css_v7x36gzc6gal1waggo3a { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_0nqs4987uennpu30ma5j, .table th.tinytable_css_0nqs4987uennpu30ma5j { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_ucu0vov4b1lx69a39dcq" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_ku66jvlj5r23tauw5rxx" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -730,8 +713,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <script>
 
-      function styleCell_fx9rc93jjj6v3qfpesko(i, j, css_id) {
-          var table = document.getElementById("tinytable_fx9rc93jjj6v3qfpesko");
+      function styleCell_62yj36zhnbui38j9obpc(i, j, css_id) {
+          var table = document.getElementById("tinytable_62yj36zhnbui38j9obpc");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -741,7 +724,7 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_fx9rc93jjj6v3qfpesko');
+        var table = document.getElementById('tinytable_62yj36zhnbui38j9obpc');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -749,8 +732,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_fx9rc93jjj6v3qfpesko(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_fx9rc93jjj6v3qfpesko");
+      function spanCell_62yj36zhnbui38j9obpc(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_62yj36zhnbui38j9obpc");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -780,14 +763,14 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_p70ns0m9yxea0rwww2k7',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_7m7yysv9fl2vtl6ninx4',}, 
+          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_wrrmw7t2gcq09vf4kaa8',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_cju7pk23jwi1kos3gisd',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_fx9rc93jjj6v3qfpesko(cell.i, cell.j, group.css_id);
+                  styleCell_62yj36zhnbui38j9obpc(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -795,11 +778,11 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_p70ns0m9yxea0rwww2k7, .table th.tinytable_css_p70ns0m9yxea0rwww2k7 { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_7m7yysv9fl2vtl6ninx4, .table th.tinytable_css_7m7yysv9fl2vtl6ninx4 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_wrrmw7t2gcq09vf4kaa8, .table th.tinytable_css_wrrmw7t2gcq09vf4kaa8 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_cju7pk23jwi1kos3gisd, .table th.tinytable_css_cju7pk23jwi1kos3gisd { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_fx9rc93jjj6v3qfpesko" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_62yj36zhnbui38j9obpc" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -864,27 +847,6 @@ When using the overloaded operators, using logical AND/OR for type <code>raw</co
 With the <code>bc.*()</code> functions, this is not necessary.<br>
 Want to use logical AND/OR? Use <a href="../man/bc.b.html">bc.b()</a>, it supports several types including <code>raw</code>.<br>
 Want to use bit-wise AND/OR? Use <a href="../man/bc.bit.html">bc.bit()</a>, it supports not only <code>raw</code>, but <code>integer</code> as well.</p>
-<p>&nbsp;</p>
-</section>
-<section id="bc_chain-function-vs-broadcaster-class" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> <a href="../man/bc_chain.html">bc_chain()</a> function vs <code>broadcaster</code> class</h1>
-<p>As stated in the introduction, the ‘broadcast’ package provides 2 ways to overload the base <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> operator to use broadcasting.</p>
-<p>One way is to use the <a href="../man/bc_chain.html">bc_chain()</a> function. The user can supply a formula with a mathematical expression in <a href="../man/bc_chain.html">bc_chain()</a> - like so: <code>bc_chain(~ x + y / z)</code>, and the base <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> operators in the expression will use the overloaded broadcasted operators.</p>
-<p>The other way is to designate a vector or array as “broadcaster”.<br>
-Like so: <code>broadcaster(x) &lt;- TRUE</code>.<br>
-The “broadcast” class has its own method dispatches for the base <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> operators.<br>
-So if either side of the base <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> operators is of class “broadcaster”, the broadcasted overloaded operator is used.</p>
-<p>&nbsp;</p>
-<p>Both ways have their own advantages and disadvantages.</p>
-<p>The primary disadvantage of <a href="../man/bc_chain.html">bc_chain()</a> is that it has rather large overhead, because a formula needs to be translated to an expression that can evaluated, AND the operators need to be overloaded ‘on-the-fly’. The broadcaster class has no such problem.</p>
-<p>The primary disadvantage of the broadcaster class, is that it may have to compete with other classed. For example, if <code>x</code> is a “broadcaster”, and <code>y</code> is a “bit64” class, they will compete for the method dispatch. The <a href="../man/bc_chain.html">bc_chain()</a> method has no such problem.</p>
-<p>&nbsp;</p>
-</section>
-<section id="compatibility-between-broadcaster-and-other-classes" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Compatibility between ‘broadcaster’ and other classes</h1>
-<p>When an object is set to be a “broadcaster” using the <code>broadcaster()&lt;-</code> operation, the ‘broadcaster’ class is <strong>before</strong> custom classes such as “bit64” (ignoring internal classes like “array”, “matrix”, “numeric”, etc.), to ensure compatibility.</p>
-<p>Thus if a custom class provide method dispatches for base operators, like the “bit64” class, the method dispatch for said will (or at least should) win over the “broadcaster” class.<br>
-It is up to the authors of such classes to decide whether to incorporate broadcasting in their method dispatches.</p>
 <p>&nbsp;</p>
 
 

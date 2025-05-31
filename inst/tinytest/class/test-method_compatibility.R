@@ -77,3 +77,4 @@ expect_equal(
   y[[2, 3]]
 )
 
+enumerate <- enumerate + 4L

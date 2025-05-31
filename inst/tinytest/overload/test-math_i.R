@@ -21,6 +21,7 @@ test_make_dims <- function(n) {
 }
 .return_missing <- broadcast:::.return_missing
 
+ab <- broadcast:::.as.broadcaster
 
 
 # mod ====
@@ -69,27 +70,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- trunc(as_dbl(drop(x))) %% trunc(as_dbl(drop(y)))
 
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc_chain(~ x %% y)
+            out[[i]] <- ab(x) %% ab(y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- trunc(as.double(x)) %% trunc(as.double(y))
-            out[[i]] <- bc_chain(~ x %% y)
+            out[[i]] <- ab(x) %% ab(y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- trunc(as.double(x)) %% trunc(rep_dim(as_dbl(y), tdim))
-            out[[i]] <- bc_chain(~ x %% y)
+            out[[i]] <- ab(x) %% ab(y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- trunc(rep_dim(as_dbl(x), tdim)) %% trunc(as.double(y))
-            out[[i]] <- bc_chain(~ x %% y)
+            out[[i]] <- ab(x) %% ab(y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- trunc(rep_dim(as_dbl(x), tdim)) %% trunc(rep_dim(as_dbl(y), tdim))
-            out[[i]] <- bc_chain(~ x %% y)
+            out[[i]] <- ab(x) %% ab(y)
           }
           # END CASES
           
@@ -104,6 +105,8 @@ for(iSample in 1:5) { # re-do tests with different random configurations
           
           # ensure correct dimensions:
           dim(expected[[i]]) <- tdim
+          
+          out[[i]] <- unclass(out[[i]])
           
           i <- i + 1L
         }
@@ -165,27 +168,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- trunc(as_dbl(drop(x))) %/% trunc(as_dbl(drop(y)))
             
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- bc_chain(~ x %/% y)
+            out[[i]] <- ab(x) %/% ab(y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- trunc(as.double(x)) %/% trunc(as.double(y))
-            out[[i]] <- bc_chain(~ x %/% y)
+            out[[i]] <- ab(x) %/% ab(y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- trunc(as.double(x)) %/% trunc(rep_dim(as_dbl(y), tdim))
-            out[[i]] <- bc_chain(~ x %/% y)
+            out[[i]] <- ab(x) %/% ab(y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- trunc(rep_dim(as_dbl(x), tdim)) %/% trunc(as.double(y))
-            out[[i]] <- bc_chain(~ x %/% y)
+            out[[i]] <- ab(x) %/% ab(y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- trunc(rep_dim(as_dbl(x), tdim)) %/% trunc(rep_dim(as_dbl(y), tdim))
-            out[[i]] <- bc_chain(~ x %/% y)
+            out[[i]] <- ab(x) %/% ab(y)
           }
           # END CASES
           
@@ -200,6 +203,8 @@ for(iSample in 1:5) { # re-do tests with different random configurations
           
           # ensure correct dimensions:
           dim(expected[[i]]) <- tdim
+          
+          out[[i]] <- unclass(out[[i]])
           
           i <- i + 1L
         }

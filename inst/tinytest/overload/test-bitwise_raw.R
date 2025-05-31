@@ -21,6 +21,8 @@ test_make_dims <- function(n) {
 }
 .return_missing <- broadcast:::.return_missing
 
+ab <- broadcast:::.as.broadcaster
+
 
 # bit-wise and ====
 nres <- 10 * 5 * 5 * 3 * 3 # number of tests performed here
@@ -54,32 +56,34 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
           expected[[i]] <- as_raw(drop(x)) & as_raw(drop(y))
           attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-          out[[i]] <- bc_chain(~ x & y)
+          out[[i]] <- ab(x) & ab(y)
         }
         else if(length(y) == 1L && length(x) == 1L) {
           # CASE 2: x and y are both scalar arrays
           expected[[i]] <- as.raw(x) & as.raw(y)
-          out[[i]] <- bc_chain(~ x & y)
+          out[[i]] <- ab(x) & ab(y)
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
           expected[[i]] <- as.raw(x) & rep_dim(as_raw(y), tdim)
-          out[[i]] <- bc_chain(~ x & y)
+          out[[i]] <- ab(x) & ab(y)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
           expected[[i]] <- rep_dim(as_raw(x), tdim) & as.raw(y)
-          out[[i]] <- bc_chain(~ x & y)
+          out[[i]] <- ab(x) & ab(y)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
           expected[[i]] <- rep_dim(as_raw(x), tdim) & rep_dim(as_raw(y), tdim)
-          out[[i]] <- bc_chain(~ x & y)
+          out[[i]] <- ab(x) & ab(y)
         }
         # END CASES
         
         # ensure correct dimensions:
         dim(expected[[i]]) <- tdim
+        
+        out[[i]] <- unclass(out[[i]]) # because broadcaster attribute is preserved
         
         i <- i + 1L
     }
@@ -124,32 +128,34 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
         expected[[i]] <- as_raw(drop(x)) | as_raw(drop(y))
         attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-        out[[i]] <- bc_chain(~ x | y)
+        out[[i]] <- ab(x) | ab(y)
       }
       else if(length(y) == 1L && length(x) == 1L) {
         # CASE 2: x and y are both scalar arrays
         expected[[i]] <- as.raw(x) | as.raw(y)
-        out[[i]] <- bc_chain(~ x | y)
+        out[[i]] <- ab(x) | ab(y)
       }
       else if(length(x) == 1L && length(y) > 1L) {
         # CASE 3: x is scalar, y is not
         expected[[i]] <- as.raw(x) | rep_dim(as_raw(y), tdim)
-        out[[i]] <- bc_chain(~ x | y)
+        out[[i]] <- ab(x) | ab(y)
       }
       else if(length(y) == 1L && length(x) > 1L) {
         # CASE 4: y is scalar, x is not
         expected[[i]] <- rep_dim(as_raw(x), tdim) | as.raw(y)
-        out[[i]] <- bc_chain(~ x | y)
+        out[[i]] <- ab(x) | ab(y)
       }
       else {
         # CASE 5: x and y are both non-reducible arrays
         expected[[i]] <- rep_dim(as_raw(x), tdim) | rep_dim(as_raw(y), tdim)
-        out[[i]] <- bc_chain(~ x | y)
+        out[[i]] <- ab(x) | ab(y)
       }
       # END CASES
       
       # ensure correct dimensions:
       dim(expected[[i]]) <- tdim
+      
+      out[[i]] <- unclass(out[[i]]) # because broadcaster attribute is preserved
       
       i <- i + 1L
     }
@@ -160,3 +166,4 @@ enumerate <- enumerate + i # count number of tests
 expect_equal(
   expected, out
 )
+

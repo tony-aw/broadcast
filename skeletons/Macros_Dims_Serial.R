@@ -586,7 +586,7 @@ cat(cases_set)
 templatecode_docall <- "
 
 #define MACRO_DIM_SET_DOCALL(DOCODE) do {     \\
-  int ndims = Rf_length(out_dim);         \\
+  int ndims = Rf_length(x_dim);         \\
                                           \\
   switch(ndims) {                       \\
     <cases_set>                     \\
@@ -628,6 +628,12 @@ macro_dim <- stri_c(
   macro_dim_bind,
   "\n",
   macro_dim_bind_docall,
+  # "\n",
+  # introcomments3,
+  # "\n",
+  # macro_dim_set,
+  # "\n",
+  # macro_dim_set_docall,
   "\n"
 )
 

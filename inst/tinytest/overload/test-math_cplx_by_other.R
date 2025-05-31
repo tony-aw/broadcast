@@ -21,6 +21,8 @@ test_make_dims <- function(n) {
 }
 .return_missing <- broadcast:::.return_missing
 
+ab <- broadcast:::.as.broadcaster
+
 gen <- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
 
 
@@ -29,7 +31,6 @@ gen <- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
 # plus - cplx by other ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
-op <- "+"
 
 i <- 1L
 basefun <- function(x, y) {
@@ -69,27 +70,27 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
           expected[[i]] <- basefun(drop(x), drop(y))
           attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-          out[[i]] <- bc_chain(~ x + y)
+          out[[i]] <- ab(x) + ab(y)
         }
         else if(length(y) == 1L && length(x) == 1L) {
           # CASE 2: x and y are both scalar arrays
           expected[[i]] <- basefun(drop(x), drop(y))
-          out[[i]] <- bc_chain(~ x + y)
+          out[[i]] <- ab(x) + ab(y)
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
           expected[[i]] <- basefun(drop(x), rep_dim(y, tdim))
-          out[[i]] <- bc_chain(~ x + y)
+          out[[i]] <- ab(x) + ab(y)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
           expected[[i]] <- basefun(rep_dim(x, tdim), drop(y))
-          out[[i]] <- bc_chain(~ x + y)
+          out[[i]] <- ab(x) + ab(y)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
           expected[[i]] <- basefun(rep_dim(x, tdim), rep_dim(y, tdim))
-          out[[i]] <- bc_chain(~ x + y)
+          out[[i]] <- ab(x) + ab(y)
         }
         # END CASES
         
@@ -104,6 +105,8 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         
         # ensure correct dimensions:
         dim(expected[[i]]) <- tdim
+        
+        out[[i]] <- unclass(out[[i]])
         
         i <- i + 1L
       }
@@ -162,27 +165,27 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
           expected[[i]] <- basefun(drop(x), drop(y))
           attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-          out[[i]] <- bc_chain(~ x + y)
+          out[[i]] <- ab(x) + ab(y)
         }
         else if(length(y) == 1L && length(x) == 1L) {
           # CASE 2: x and y are both scalar arrays
           expected[[i]] <- basefun(drop(x), drop(y))
-          out[[i]] <- bc_chain(~ x + y)
+          out[[i]] <- ab(x) + ab(y)
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
           expected[[i]] <- basefun(drop(x), rep_dim(y, tdim))
-          out[[i]] <- bc_chain(~ x + y)
+          out[[i]] <- ab(x) + ab(y)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
           expected[[i]] <- basefun(rep_dim(x, tdim), drop(y))
-          out[[i]] <- bc_chain(~ x + y)
+          out[[i]] <- ab(x) + ab(y)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
           expected[[i]] <- basefun(rep_dim(x, tdim), rep_dim(y, tdim))
-          out[[i]] <- bc_chain(~ x + y)
+          out[[i]] <- ab(x) + ab(y)
         }
         # END CASES
         
@@ -197,6 +200,8 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         
         # ensure correct dimensions:
         dim(expected[[i]]) <- tdim
+        
+        out[[i]] <- unclass(out[[i]])
         
         i <- i + 1L
       }
@@ -254,27 +259,27 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
           expected[[i]] <- basefun(drop(x), drop(y))
           attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-          out[[i]] <- bc_chain(~ x - y)
+          out[[i]] <- ab(x) - ab(y)
         }
         else if(length(y) == 1L && length(x) == 1L) {
           # CASE 2: x and y are both scalar arrays
           expected[[i]] <- basefun(drop(x), drop(y))
-          out[[i]] <- bc_chain(~ x - y)
+          out[[i]] <- ab(x) - ab(y)
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
           expected[[i]] <- basefun(drop(x), rep_dim(y, tdim))
-          out[[i]] <- bc_chain(~ x - y)
+          out[[i]] <- ab(x) - ab(y)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
           expected[[i]] <- basefun(rep_dim(x, tdim), drop(y))
-          out[[i]] <- bc_chain(~ x - y)
+          out[[i]] <- ab(x) - ab(y)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
           expected[[i]] <- basefun(rep_dim(x, tdim), rep_dim(y, tdim))
-          out[[i]] <- bc_chain(~ x - y)
+          out[[i]] <- ab(x) - ab(y)
         }
         # END CASES
         
@@ -289,6 +294,8 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         
         # ensure correct dimensions:
         dim(expected[[i]]) <- tdim
+        
+        out[[i]] <- unclass(out[[i]])
         
         i <- i + 1L
       }
@@ -347,27 +354,27 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
           expected[[i]] <- basefun(drop(x), drop(y))
           attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-          out[[i]] <- bc_chain(~ x - y)
+          out[[i]] <- ab(x) - ab(y)
         }
         else if(length(y) == 1L && length(x) == 1L) {
           # CASE 2: x and y are both scalar arrays
           expected[[i]] <- basefun(drop(x), drop(y))
-          out[[i]] <- bc_chain(~ x - y)
+          out[[i]] <- ab(x) - ab(y)
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
           expected[[i]] <- basefun(drop(x), rep_dim(y, tdim))
-          out[[i]] <- bc_chain(~ x - y)
+          out[[i]] <- ab(x) - ab(y)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
           expected[[i]] <- basefun(rep_dim(x, tdim), drop(y))
-          out[[i]] <- bc_chain(~ x - y)
+          out[[i]] <- ab(x) - ab(y)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
           expected[[i]] <- basefun(rep_dim(x, tdim), rep_dim(y, tdim))
-          out[[i]] <- bc_chain(~ x - y)
+          out[[i]] <- ab(x) - ab(y)
         }
         # END CASES
         
@@ -382,6 +389,8 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         
         # ensure correct dimensions:
         dim(expected[[i]]) <- tdim
+        
+        out[[i]] <- unclass(out[[i]])
         
         i <- i + 1L
       }
@@ -439,27 +448,27 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
           expected[[i]] <- basefun(drop(x), drop(y))
           attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-          out[[i]] <- bc_chain(~ x * y)
+          out[[i]] <- ab(x) * ab(y)
         }
         else if(length(y) == 1L && length(x) == 1L) {
           # CASE 2: x and y are both scalar arrays
           expected[[i]] <- basefun(drop(x), drop(y))
-          out[[i]] <- bc_chain(~ x * y)
+          out[[i]] <- ab(x) * ab(y)
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
           expected[[i]] <- basefun(drop(x), rep_dim(y, tdim))
-          out[[i]] <- bc_chain(~ x * y)
+          out[[i]] <- ab(x) * ab(y)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
           expected[[i]] <- basefun(rep_dim(x, tdim), drop(y))
-          out[[i]] <- bc_chain(~ x * y)
+          out[[i]] <- ab(x) * ab(y)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
           expected[[i]] <- basefun(rep_dim(x, tdim), rep_dim(y, tdim))
-          out[[i]] <- bc_chain(~ x * y)
+          out[[i]] <- ab(x) * ab(y)
         }
         # END CASES
         
@@ -474,6 +483,8 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         
         # ensure correct dimensions:
         dim(expected[[i]]) <- tdim
+        
+        out[[i]] <- unclass(out[[i]])
         
         i <- i + 1L
       }
@@ -531,27 +542,27 @@ for(iSample in 1:10) { # re-do tests with different random configurations
           # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
           expected[[i]] <- basefun(drop(x), drop(y))
           attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-          out[[i]] <- bc_chain(~ x * y)
+          out[[i]] <- ab(x) * ab(y)
         }
         else if(length(y) == 1L && length(x) == 1L) {
           # CASE 2: x and y are both scalar arrays
           expected[[i]] <- basefun(drop(x), drop(y))
-          out[[i]] <- bc_chain(~ x * y)
+          out[[i]] <- ab(x) * ab(y)
         }
         else if(length(x) == 1L && length(y) > 1L) {
           # CASE 3: x is scalar, y is not
           expected[[i]] <- basefun(drop(x), rep_dim(y, tdim))
-          out[[i]] <- bc_chain(~ x * y)
+          out[[i]] <- ab(x) * ab(y)
         }
         else if(length(y) == 1L && length(x) > 1L) {
           # CASE 4: y is scalar, x is not
           expected[[i]] <- basefun(rep_dim(x, tdim), drop(y))
-          out[[i]] <- bc_chain(~ x * y)
+          out[[i]] <- ab(x) * ab(y)
         }
         else {
           # CASE 5: x and y are both non-reducible arrays
           expected[[i]] <- basefun(rep_dim(x, tdim), rep_dim(y, tdim))
-          out[[i]] <- bc_chain(~ x * y)
+          out[[i]] <- ab(x) * ab(y)
         }
         # END CASES
         
@@ -566,6 +577,8 @@ for(iSample in 1:10) { # re-do tests with different random configurations
         
         # ensure correct dimensions:
         dim(expected[[i]]) <- tdim
+        
+        out[[i]] <- unclass(out[[i]])
         
         i <- i + 1L
       }

@@ -277,12 +277,7 @@ Note
 <p>Sometimes broadcasting is needed in a large mathematical expression, involving multiple variables, where precedence is of importance. For example in an expression like this:</p>
 <p><code>x / (y + z) + a</code></p>
 <p>Using the <code>bc.*</code> functions for that, while possible, may be inconvenient. It may be more convenient to use the base operators directly, whilst still keeping the broadcasting property.</p>
-<p>To this end, the ‘broadcast’ package allows the user to overload the base operators. This includes mathematical operators (+, -., *, /, etc.), Boolean operators (&amp;, |), bit-wise operators (&amp;, |), and relational operators (==, !=, etc.).<br>
-‘broadcast’ provides 2 ways to overload operators:</p>
-<ul>
-<li>Via the <a href="../man/bc_chain.html">bc_chain()</a> function, to evaluate a mathematical expression using overloaded operators for broadcast support.</li>
-<li>Via the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators.</li>
-</ul>
+<p>To this end, the ‘broadcast’ package provides the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators.</p>
 <p>&nbsp;</p>
 </section>
 </section>

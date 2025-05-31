@@ -5,14 +5,25 @@
 \alias{broadcast_attributes}
 \title{Attribute handling}
 \description{
-The \verb{bc.*} functions and the overloaded operators generally do \bold{not}
+The \code{bc.} functions and the overloaded operators generally do \bold{not}
 preserve attributes, unlike the base 'R' operators. \cr
 \cr
 Broadcasting often results in an object with more dimensions, larger dimensions,
 and/or larger length than the original objects. \cr
 Therefore, the \code{names}, \code{dimnames}, and \code{dim} attributes often no longer fit the new object. \cr
-Moreover, class attributes such as \code{matrix} presume the object to have 2 dimensions,
-so even class attributes cannot be guaranteed to hold for the resulting objects. \cr
-Only some class attributes, like the 'broadcaster' class (and related) attributes,
-will be preserved, if present.
+Moreover, some classes are only appropriate for certain dimensions or lengths. \cr
+The implicit \code{matrix} class, for example, presumes an object to have exactly 2 dimensions. \cr
+And the various classes provided by the 'bit' package have length-related attributes. \cr
+So even class attributes cannot be guaranteed to hold for the resulting objects. \cr
+\cr
+However, the \code{bc.} functions and the overloaded operators
+\bold{always} preserve the "broadcaster" attribute,
+as this is necessary to chain together broadcasted operations. \cr
+Notice that this contrats with base 'R' in the following sense: \cr
+In base 'R', logical (&, |) and relational (==, !=, etc.) operators never preserve attributes,
+whereas the broadcasted equivalents do preserve the "broadcaster" attribute. \cr
+\cr
+Unary operations (i.e. \code{+ x}, \code{- x}) return the original object,
+with only the sign adjusted. \cr
+\cr
 }

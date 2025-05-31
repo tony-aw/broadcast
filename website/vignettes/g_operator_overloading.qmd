@@ -29,11 +29,7 @@ For example in an expression like this:
 
 Using the `bc.*` functions for that, while possible, may be inconvenient. It may be more convenient to use the base operators directly, whilst still keeping the broadcasting property.  
 
-To this end, the 'broadcast' package allows the user to overload the base operators. This includes mathematical operators (+, -., *, /, etc.), Boolean operators (&, |), bit-wise operators (&, |), and relational operators (==, !=, etc.).  
-'broadcast' provides 2 ways to overload operators:
-
- - Via the [bc_chain()](/man/bc_chain.qmd) function, to evaluate a mathematical expression using overloaded operators for broadcast support.
- - Via the [broadcaster](/man/broadcaster.qmd) class, which comes with its own method dispatch for the base operators.
+To this end, the 'broadcast' package provides the [broadcaster](/man/broadcaster.qmd) class, which comes with its own method dispatch for the base operators.
 
 &nbsp;
 
@@ -68,15 +64,7 @@ bc.num(y, z, "/") |> bc.num(x, "+")
 
 ...but as the mathematical expression involves more and more variables with a greater variety of operators, it comes more and more taxing to keep track of the operator precedence.
 
-Luckily, 'broadcast' provides 2 alternative ways.
-
-One is to evaluate the expression using a formula:
-
-```{r}
-bc_chain(~ x + y / z)
-```
-
-The other, perhaps more natural way, is to designate all arrays  as a "broadcaster"; all base operators that involve a broadcaster will use the overloaded variant provided by the 'broadcast' package - like so:
+Instead, one can designate all arrays as a "broadcaster"; all base operators that involve a broadcaster will use the overloaded variant provided by the 'broadcast' package - like so:
 
 ```{r}
 broadcaster(x) <- TRUE
@@ -88,7 +76,7 @@ x + y / z
 
 
 Actually, not *all* arrays necessarily need to be a broadcaster.  
-Overloaded operations that involve a broadcaster, will result in a broadcaster.  
+Overloaded arithmetic operations that involve a broadcaster, will result in a broadcaster.  
 So technically, one could just make the array that is used first - according to the mathematical rules of precedence - as a broadcaster, and broadcasting will continue to be used.  
 In this case, the mathematically first preceding array is `y`.  
 To demonstrate, we'll un-set `x` and `z` as broadcaster, and you'll see broadcasting still occurs:
@@ -100,6 +88,7 @@ broadcaster(z) <- FALSE
 
 x + y / z
 ```
+
 
 &nbsp;
 
@@ -252,37 +241,5 @@ Want to use bit-wise AND/OR? Use [bc.bit()](/man/bc.bit.qmd), it supports not on
 &nbsp;
 
 
-# [bc_chain()](/man/bc_chain.qmd) function vs `broadcaster` class
-
-As stated in the introduction, the 'broadcast' package provides 2 ways to overload the base `r fa("r-project")` operator to use broadcasting.
-
-One way is to use the [bc_chain()](/man/bc_chain.qmd) function. The user can supply a formula with a mathematical expression in [bc_chain()](/man/bc_chain.qmd) - like so: `bc_chain(~ x + y / z)`, and the base `r fa("r-project")` operators in the expression will use the overloaded broadcasted operators.
-
-The other way is to designate a vector or array as "broadcaster".  
-Like so: `broadcaster(x) <- TRUE`.  
-The "broadcast" class has its own method dispatches for the base `r fa("r-project")` operators.  
-So if either side of the base `r fa("r-project")` operators is of class "broadcaster", the broadcasted overloaded operator is used.  
-
-
-&nbsp;
-
-Both ways have their own advantages and disadvantages.  
-
-The primary disadvantage of [bc_chain()](/man/bc_chain.qmd) is that it has rather large overhead, because a formula needs to be translated to an expression that can evaluated, AND the operators need to be overloaded 'on-the-fly'. The broadcaster class has no such problem.  
-
-The primary disadvantage of the broadcaster class, is that it may have to compete with other classed. For example, if `x` is a "broadcaster", and `y` is a "bit64" class, they will compete for the method dispatch. The [bc_chain()](/man/bc_chain.qmd) method has no such problem.
-
-
-&nbsp;
-
-# Compatibility between 'broadcaster' and other classes
-
-When an object is set to be a "broadcaster" using the `broadcaster()<-` operation, the 'broadcaster' class is **before** custom classes such as "bit64" (ignoring internal classes like "array", "matrix", "numeric", etc.), to ensure compatibility.
-
-Thus if a custom class provide method dispatches for base operators, like the "bit64" class, the method dispatch for said will (or at least should) win over the "broadcaster" class.  
-It is up to the authors of such classes to decide whether to incorporate broadcasting in their method dispatches.
-
-
-&nbsp;
 
 

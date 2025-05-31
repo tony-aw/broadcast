@@ -21,6 +21,15 @@ test_make_dims <- function(n) {
 }
 .return_missing <- broadcast:::.return_missing
 
+ab <- broadcast:::.as.broadcaster
+
+mysub <- function(txt) {
+  txt <- gsub("x", "ab(x)", txt)
+  txt <- gsub("y", "ab(y)", txt)
+  txt <- gsub("z", "ab(z)", txt)
+  return(txt)
+}
+
 gen <- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
 
 
@@ -35,24 +44,24 @@ for(iSample in 1:5) {
   for(iOp1 in ops) {
     for(iOp2 in ops) {
       
-      txt1 <- sprintf("~ x %s y %s z", iOp1, iOp2)
-      txt2 <- sprintf("~ (x %s y) %s z", iOp1, iOp2)
-      txt3 <- sprintf("~ x %s (y %s z)", iOp1, iOp2)
+      txt1 <- sprintf("x %s y %s z", iOp1, iOp2)
+      txt2 <- sprintf("(x %s y) %s z", iOp1, iOp2)
+      txt3 <- sprintf("x %s (y %s z)", iOp1, iOp2)
       
-      out <- bc_chain(as.formula(txt1)) |> as.vector()
-      expect <- eval(as.formula(txt1)[[2]])
+      out <- txt1 |> mysub() |> str2expression() |> eval() |> unclass()
+      expect <- eval(str2expression(txt1))
       expect_equivalent(
         out, expect
       ) |> errorfun()
       
-      out <- bc_chain(as.formula(txt2)) |> as.vector()
-      expect <- eval(as.formula(txt2)[[2]])
+      out <- txt2 |> mysub() |> str2expression() |> eval() |> unclass()
+      expect <- eval(str2expression(txt2))
       expect_equivalent(
         out, expect
       ) |> errorfun()
       
-      out <- bc_chain(as.formula(txt3)) |> as.vector()
-      expect <- eval(as.formula(txt3)[[2]])
+      out <- txt3 |> mysub() |> str2expression() |> eval() |> unclass()
+      expect <- eval(str2expression(txt3))
       expect_equivalent(
         out, expect
       ) |> errorfun()
@@ -74,24 +83,24 @@ for(iSample in 1:5) {
   for(iOp1 in ops) {
     for(iOp2 in ops) {
       
-      txt1 <- sprintf("~ x %s y %s z", iOp1, iOp2)
-      txt2 <- sprintf("~ (x %s y) %s z", iOp1, iOp2)
-      txt3 <- sprintf("~ x %s (y %s z)", iOp1, iOp2)
+      txt1 <- sprintf("x %s y %s z", iOp1, iOp2)
+      txt2 <- sprintf("(x %s y) %s z", iOp1, iOp2)
+      txt3 <- sprintf("x %s (y %s z)", iOp1, iOp2)
       
-      out <- bc_chain(as.formula(txt1)) |> as.vector()
-      expect <- eval(as.formula(txt1)[[2]])
+      out <- txt1 |> mysub() |> str2expression() |> eval() |> unclass()
+      expect <- eval(str2expression(txt1))
       expect_equivalent(
         out, expect
       ) |> errorfun()
       
-      out <- bc_chain(as.formula(txt2)) |> as.vector()
-      expect <- eval(as.formula(txt2)[[2]])
+      out <- txt2 |> mysub() |> str2expression() |> eval() |> unclass()
+      expect <- eval(str2expression(txt2))
       expect_equivalent(
         out, expect
       ) |> errorfun()
       
-      out <- bc_chain(as.formula(txt3)) |> as.vector()
-      expect <- eval(as.formula(txt3)[[2]])
+      out <- txt3 |> mysub() |> str2expression() |> eval() |> unclass()
+      expect <- eval(str2expression(txt3))
       expect_equivalent(
         out, expect
       ) |> errorfun()
@@ -113,24 +122,24 @@ for(iSample in 1:5) {
   for(iOp1 in ops) {
     for(iOp2 in ops) {
       
-      txt1 <- sprintf("~ x %s y %s z", iOp1, iOp2)
-      txt2 <- sprintf("~ (x %s y) %s z", iOp1, iOp2)
-      txt3 <- sprintf("~ x %s (y %s z)", iOp1, iOp2)
+      txt1 <- sprintf("x %s y %s z", iOp1, iOp2)
+      txt2 <- sprintf("(x %s y) %s z", iOp1, iOp2)
+      txt3 <- sprintf("x %s (y %s z)", iOp1, iOp2)
       
-      out <- bc_chain(as.formula(txt1)) |> as.vector()
-      expect <- eval(as.formula(txt1)[[2]])
+      out <- txt1 |> mysub() |> str2expression() |> eval() |> unclass()
+      expect <- eval(str2expression(txt1))
       expect_equivalent(
         out, expect
       ) |> errorfun()
       
-      out <- bc_chain(as.formula(txt2)) |> as.vector()
-      expect <- eval(as.formula(txt2)[[2]])
+      out <- txt2 |> mysub() |> str2expression() |> eval() |> unclass()
+      expect <- eval(str2expression(txt2))
       expect_equivalent(
         out, expect
       ) |> errorfun()
       
-      out <- bc_chain(as.formula(txt3)) |> as.vector()
-      expect <- eval(as.formula(txt3)[[2]])
+      out <- txt3 |> mysub() |> str2expression() |> eval() |> unclass()
+      expect <- eval(str2expression(txt3))
       expect_equivalent(
         out, expect
       ) |> errorfun()

@@ -6,11 +6,11 @@ title: broadcaster
 
 ### Description
 
-<code>broadcaster()</code> checks if an array is of class &quot;broadcaster&quot;. <br />
+<code>broadcaster()</code> checks if an array has the &quot;broadcaster&quot; attribute. <br />
 <code style="white-space: pre;">broadcaster()&lt;-</code> sets or un-sets the class attribute &quot;broadcaster&quot; on an array. <br />
 <br />
-The <code>broadcaster</code> class is a simple (or &quot;lazy&quot;) class,
-and exists purely to overload the arithmetic, Boolean, bit-wise, and relational infix operators
+The <code>broadcaster</code> class attribute exists purely to overload the
+arithmetic, Boolean, bit-wise, and relational infix operators,
 to support broadcasting. <br />
 This makes mathematical expressions with multiple variables,
 where precedence may be important,
@@ -19,8 +19,8 @@ Like in the following calculation: <br />
 <code>x / (y + z)</code> <br />
 <br />
 
-The <code>broadcaster</code> class comes with its own method dispatch for the base operators. <br />
-If at least one of the 2 arguments of the base operators is of class <code>broadcaster</code>,
+Broadcaster arrays come with their own method dispatch for the base operators. <br />
+If at least one of the 2 arguments of the base operators has the <code>broadcaster</code> class attribute,
 and no other class (like <code>bit64</code>) interferes,
 broadcasting will occur in the same manner as used in the various <code style="white-space: pre;">bc.*</code> - functions. <br />
 <br />
@@ -40,7 +40,8 @@ broadcaster(x) &lt;- value
 <table>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
 <td>
-object to check or set.
+object to check or set. <br />
+Only S3 vectors and arrays are supported, and only up to 16 dimensions.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="value">value</code></td>
 <td>

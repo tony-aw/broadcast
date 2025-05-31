@@ -29,8 +29,8 @@
 #' @export
 `-.broadcaster` <- function(e1, e2) {
   if (missing(e2)) {
-    e2 <- e1
-    e1 <- 0L
+    y <- NextMethod("-")
+    return(y)
   }
   .binary_stop_general(e1, e2, "-", sys.call())
   
@@ -157,15 +157,3 @@
  
   return(out)
 }
-
-
-#' @keywords internal
-bc_overloaded_mathops <- list(
-  `+` =  `+.broadcaster`,
-  `-` =  `-.broadcaster`,
-  `*` =  `*.broadcaster`,
-  `/` =  `/.broadcaster`,
-  `^` =  `^.broadcaster`,
-  `%%` =  `%%.broadcaster`,
-  `%/%` =  `%/%.broadcaster`
-)

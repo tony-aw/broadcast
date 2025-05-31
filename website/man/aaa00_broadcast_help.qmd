@@ -147,25 +147,10 @@ which preserve names and dimensions - convenient for arrays. <br /> <br />
 Sometimes broadcasting is needed in large mathematical expression,
 involving multiple variables,
 where precedence is of importance. <br />
-For example in an expression like <code>(x + y) / z^y</code>. <br />
+For example in an expression like <code>x + y / z^y</code>. <br />
 For such cases, you may want to overload the base operators. <br />
-<br />
-The 'broadcast' package
-provides 2 ways to overload base operators to support broadcasting:
-
-
-<ol>
-<li> Via the [bc_chain](bc_chain.qmd) function,
-to evaluate a mathematical expression using overloaded operators for broadcast support.
-
-</li>
-<li> Via the [broadcaster](broadcaster.qmd) class,
+To that end, the 'broadcast' package provides the [broadcaster](broadcaster.qmd) class,
 which comes with its own method dispatch for the base operators. <br />
-
-</li></ol>
-
-Overloads for the relational operators (==, !=, etc.) have also been implemented. <br />
-Please refer to the website for additional details. <br /> <br />
 
 
 

@@ -193,12 +193,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/bc_chain.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">bc_chain</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../man/bind_array.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bind_array</span></a>
   </div>
@@ -359,16 +353,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="overloading" class="level3">
 <h3 class="anchored" data-anchor-id="overloading">Overloading</h3>
-<p>Sometimes broadcasting is needed in large mathematical expression, involving multiple variables, where precedence is of importance. <br> For example in an expression like <code>(x + y) / z^y</code>. <br> For such cases, you may want to overload the base operators. <br> <br> The ‘broadcast’ package provides 2 ways to overload base operators to support broadcasting:</p>
-<ol>
-<li>
-<p>Via the <a href="../man/bc_chain.html">bc_chain</a> function, to evaluate a mathematical expression using overloaded operators for broadcast support.</p>
-</li>
-<li>
-<p>Via the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators. <br></p>
-</li>
-</ol>
-<p>Overloads for the relational operators (==, !=, etc.) have also been implemented. <br> Please refer to the website for additional details. <br> <br></p>
+<p>Sometimes broadcasting is needed in large mathematical expression, involving multiple variables, where precedence is of importance. <br> For example in an expression like <code>x + y / z^y</code>. <br> For such cases, you may want to overload the base operators. <br> To that end, the ‘broadcast’ package provides the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators. <br></p>
 </section>
 <section id="authors" class="level3">
 <h3 class="anchored" data-anchor-id="authors">Author(s)</h3>

@@ -102,8 +102,8 @@ bc_ifelse <- function(test, yes, no) {
     }
   }
   
-  if(inherits(yes, "broadcaster") || inherits(no, "broadcaster")) {
-    broadcaster(out) <- TRUE
+  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
+    .rcpp_set_class(out, "broadcaster")
   }
   
   .binary_set_ma(out, yes, no)

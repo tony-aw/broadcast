@@ -185,12 +185,15 @@ of any size (up to 16 dimensions).
 Like so:
 
 ``` r
-bc.num(x, y, "+")
+broadcaster(x) <- TRUE
+broadcaster(y) <- TRUE
+x + y
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]  101  205  309  413  517
 #> [2,]  102  206  310  414  518
 #> [3,]  103  207  311  415  519
 #> [4,]  104  208  312  416  520
+#> broadcaster
 ```
 
  

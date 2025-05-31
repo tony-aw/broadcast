@@ -99,6 +99,10 @@ bc.b <- function(x, y, op) {
   
   dim(out) <- out.dimorig
   
+  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
+    .rcpp_set_class(out, "broadcaster")
+  }
+  
   return(out)
   
 }

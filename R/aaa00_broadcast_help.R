@@ -92,19 +92,11 @@
 #' Sometimes broadcasting is needed in large mathematical expression,
 #' involving multiple variables,
 #' where precedence is of importance. \cr
-#' For example in an expression like `(x + y) / z^y`. \cr
+#' For example in an expression like `x + y / z^y`. \cr
 #' For such cases, you may want to overload the base operators. \cr
-#' \cr
-#' The 'broadcast' package
-#' provides 2 ways to overload base operators to support broadcasting:
+#' To that end, the 'broadcast' package provides the \link{broadcaster} class,
+#' which comes with its own method dispatch for the base operators. \cr
 #' 
-#'  1) Via the \link{bc_chain} function,
-#'  to evaluate a mathematical expression using overloaded operators for broadcast support.
-#'  2) Via the \link{broadcaster} class,
-#'  which comes with its own method dispatch for the base operators. \cr
-#'
-#' Overloads for the relational operators (==, !=, etc.) have also been implemented. \cr
-#' Please refer to the website for additional details. \cr \cr
 #' 
 #' 
 #' @references Plate T, Heiberger R (2016). \emph{abind: Combine Multidimensional Arrays}. R package version 1.4-5, \url{https://CRAN.R-project.org/package=abind}.
