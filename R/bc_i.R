@@ -15,7 +15,8 @@
 #' Supported arithmetic operators: `r paste0(broadcast:::.op_int_math(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_int_rel(), collapse = ", ")`. \cr
 #' The "gcd" operator performs the Greatest Common Divisor" operation,
-#' using the Euclidean algorithm. \cr
+#' using the Euclidean algorithm.
+#' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' 
 #' 
@@ -40,42 +41,53 @@
 #' 
 
 
+
 #' @rdname bc.i
 #' @export
-bc.i <- function(x, y, op) {
-  
-  # checks:
-  .binary_stop_general(x, y, op, sys.call())
-  if(!.is_numeric_like(x) || !.is_numeric_like(y)) {
-    stop("`x` and `y` must be numeric or logical arrays or vectors")
-  }
-  
-  # make x and y integer scalars if possible:
-  if(length(x) == 1L) {
-    x <- .make_int53scalar(x)
-  }
-  if(length(y) == 1L) {
-    y <- .make_int53scalar(y)
-  }
-  
-  
-  # get operator:
-  op_math <- which(.op_int_math() == op)
-  op_rel <- which(.op_int_rel() == op)
-  
-  if(length(op_math)) {
-    return(.bc_int_math(x, y, op_math, sys.call()))
-  }
-  else if(length(op_rel)) {
-    return(.bc_int_rel(x, y, op_rel, sys.call()))
-  }
-  else {
-    stop("given operator not supported in the given context")
-  }
-  
-  
-}
+setGeneric(
+  "bc.i",
+  function(x, y, op, ...) standardGeneric("bc.i"),
+  signature = c("x", "y")
+)
 
+
+#' @rdname bc.i
+#' @export
+setMethod(
+  "bc.i", c(x = "ANY", y = "ANY"),
+  function(x, y, op) {
+    # checks:
+    .binary_stop_general(x, y, op, sys.call())
+    if(!.is_numeric_like(x) || !.is_numeric_like(y)) {
+      stop("`x` and `y` must be numeric or logical arrays or vectors")
+    }
+    
+    # make x and y integer scalars if possible:
+    if(length(x) == 1L) {
+      x <- .make_int53scalar(x)
+    }
+    if(length(y) == 1L) {
+      y <- .make_int53scalar(y)
+    }
+    
+    
+    # get operator:
+    op_math <- which(.op_int_math() == op)
+    op_rel <- which(.op_int_rel() == op)
+    
+    if(length(op_math)) {
+      return(.bc_int_math(x, y, op_math, sys.call()))
+    }
+    else if(length(op_rel)) {
+      return(.bc_int_rel(x, y, op_rel, sys.call()))
+    }
+    else {
+      stop("given operator not supported in the given context")
+    }
+    
+    
+  }
+)
 
 
 #' @keywords internal

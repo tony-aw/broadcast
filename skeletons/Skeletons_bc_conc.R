@@ -51,7 +51,7 @@ txt0 <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_string_conc)]]
 String rcpp_string_conc(
-    String x, String y
+    String x, String y, String sep
   ) {
     if(x == NA_STRING || y == NA_STRING) {
       return(NA_STRING);
@@ -59,6 +59,7 @@ String rcpp_string_conc(
     else {
       String out = \"\";
       out += x;
+      out += sep;
       out += y;
       return(out);
     }
@@ -71,14 +72,15 @@ txt1 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_str_conc)]]
-void rcpp_bc_str_conc(
-  CharacterVector x, CharacterVector y, 
+// [[Rcpp::export(.rcpp_bc_conc)]]
+void rcpp_bc_conc(
+  CharacterVector x, SEXP y, String sep,
   SEXP by_y, SEXP dcp_y, SEXP x_dim
 ) {
 
+const SEXP *py = STRING_PTR_RO(y);
 
-MACRO_DIM_SET_DOCALL(x[flatind_x] = rcpp_string_conc(x[flatind_x], y[flatind_y]));
+MACRO_DIM_SET_DOCALL(x[flatind_x] = rcpp_string_conc(x[flatind_x], py[flatind_y], sep));
 
 
 }
@@ -101,19 +103,20 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2, txt3,
+  txt0, txt1,
   collapse = "\n\n"
 )
-readr::write_file(txt, "src/rcpp_bcConc_str.cpp")
+readr::write_file(txt, "src/rcpp_bc_conc.cpp")
 
 
 # test
 x <- matrix("", 5, 5)
 y <- array("hello", c(1, 5))
+sep <- " MYSEP "
 by_y <- broadcast:::.C_make_by(dim(y))
 dcp_y <- broadcast:::.C_make_dcp(dim(y))
-.rcpp_bc_str_conc(x, y, by_y, dcp_y, dim(x))
+.rcpp_bc_conc(x, y, "", by_y, dcp_y, dim(x))
 x
-.rcpp_bc_str_conc(x, y, by_y, dcp_y, dim(x))
+.rcpp_bc_conc(x, y, sep, by_y, dcp_y, dim(x))
 x
 y

@@ -2,9 +2,12 @@
 % Please edit documentation in R/bc_i.R
 \name{bc.i}
 \alias{bc.i}
+\alias{bc.i,ANY-method}
 \title{Broadcasted Integer Numeric Operations with Extra Overflow Protection}
 \usage{
-bc.i(x, y, op)
+bc.i(x, y, op, ...)
+
+\S4method{bc.i}{ANY}(x, y, op)
 }
 \arguments{
 \item{x, y}{conformable logical or numeric arrays.}
@@ -13,7 +16,9 @@ bc.i(x, y, op)
 Supported arithmetic operators: +, -, *, gcd, \%\%, \%/\%, ^, pmin, pmax. \cr
 Supported relational operators: ==, !=, <, >, <=, >=. \cr
 The "gcd" operator performs the Greatest Common Divisor" operation,
-using the Euclidean algorithm. \cr}
+using the Euclidean algorithm.}
+
+\item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
 For arithmetic operators: \cr

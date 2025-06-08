@@ -46,18 +46,18 @@ These functions use an API similar to the \link[base]{outer} function. \cr
 \cr
 The following functions for type-specific binary operations are available:
 \itemize{
-\item \code{[bc.b](bc.b.qmd)}: Boolean (i.e. logical) operations;
-\item \code{[bc.i](bc.i.qmd)}: integer arithmetic and relational operations;
-\item \code{[bc.d](bc.d.qmd)}: decimal arithmetic and relational operations;
-\item \code{[bc.cplx](bc.cplx.qmd)}: complex arithmetic and (in)equality operations;
-\item \code{[bc.str](bc.str.qmd)}: string (in)equality, concatenation, and distance operations;
-\item \code{[bc.raw](bc.raw.qmd)}: byte- and relational operations for vectors/arrays of type \code{raw};
-\item \code{[bc.bit](bc.bit.qmd)}: BIT-WISE operations, supporting the \code{raw} and \code{integer} types;
-\item \code{[bc.list](bc.list.qmd)}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
+\item \code{[bc.b](rep_dim.qmd)}: Boolean (i.e. logical) operations;
+\item \code{[bc.i](broadcaster.qmd)}: integer arithmetic and relational operations;
+\item \code{[bc.d](typecast.qmd)}: decimal arithmetic and relational operations;
+\item \code{[bc.cplx](typecast.qmd)}: complex arithmetic and (in)equality operations;
+\item \code{[bc.str](typecast.qmd)}: string (in)equality, concatenation, and distance operations;
+\item \code{[bc.raw](typecast.qmd)}: byte- and relational operations for vectors/arrays of type \code{raw};
+\item \code{[bc.bit](ndim.qmd)}: BIT-WISE operations, supporting the \code{raw} and \code{integer} types;
+\item \code{[bc.list](typecast.qmd)}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 }
 
 \bold{\code{bind_array()}} \cr
-'broadcast' provides the \code{[bind_array](bind_array.qmd)} function,
+'broadcast' provides the \code{[bind_array](broadcaster.qmd)} function,
 to bind arrays along an arbitrary dimension,
 with support for broadcasting. \cr
 \cr
@@ -87,12 +87,12 @@ compared to \code{abind::abind}. \cr \cr
 \bold{General functions} \cr
 'broadcast' also comes with 2 general broadcasted functions:
 \itemize{
-\item \code{[bc_ifelse](bc_ifelse.qmd)}: Broadcasted version of \link[base]{ifelse}.
-\item \code{[bcapply](bcapply.qmd)}: Broadcasted apply-like function. \cr \cr
+\item \code{[bc_ifelse](bc.bit.qmd)}: Broadcasted version of \link[base]{ifelse}.
+\item \code{[bcapply](bc.cplx.qmd)}: Broadcasted apply-like function. \cr \cr
 }
 
 \bold{Other functions} \cr
-'broadcast' provides the \code{[acast](acast.qmd)} function,
+'broadcast' provides the \code{[acast](bc.b.qmd)} function,
 for casting (i.e. pivoting) an array into a new dimension. \cr
 \cr
 'broadcast' also provides
@@ -107,7 +107,7 @@ involving multiple variables,
 where precedence is of importance. \cr
 For example in an expression like \code{x + y / z^y}. \cr
 For such cases, you may want to overload the base operators. \cr
-To that end, the 'broadcast' package provides the \code{[broadcaster](broadcaster.qmd)} class,
+To that end, the 'broadcast' package provides the \code{[broadcaster](typecast.qmd)} class,
 which comes with its own method dispatch for the base operators. \cr
 }
 

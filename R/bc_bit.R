@@ -8,8 +8,8 @@
 #' 
 #' @param x,y conformable raw or integer (32 bit) vectors or arrays.
 #' @param op a single string, giving the operator. \cr
-#' Supported bit-wise operators: `r paste0(broadcast:::.op_bit(), collapse = ", ")`. \cr
-#' \cr
+#' Supported bit-wise operators: `r paste0(broadcast:::.op_bit(), collapse = ", ")`.
+#' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' @details
 #' The "&", "|", "xor", and "nand" operators given in `bc.bit()`
@@ -46,35 +46,46 @@
 
 #' @rdname bc.bit
 #' @export
-bc.bit <- function(x, y, op) {
-  
-  # checks:
-  .binary_stop_general(x, y, op, sys.call())
-  
-  if(is.double(x) || is.double(y)) {
-    stop("only 32-bit integers allowed, not 53-bit integers")
+setGeneric(
+  "bc.bit",
+  function(x, y, op, ...) standardGeneric("bc.bit"),
+  signature = c("x", "y")
+)
+
+
+#' @rdname bc.bit
+#' @export
+setMethod(
+  "bc.bit", c(x = "ANY", y = "ANY"),
+  function(x, y, op) {
+    # checks:
+    .binary_stop_general(x, y, op, sys.call())
+    
+    if(is.double(x) || is.double(y)) {
+      stop("only 32-bit integers allowed, not 53-bit integers")
+    }
+    
+    if(typeof(x) != typeof(y)) {
+      stop("`x` and `y` must be of the same type")
+    }
+    check_raw <- is.raw(x) && is.raw(y)
+    check_int <- is.integer(x) && is.integer(y)
+    if(!check_raw && !check_int) {
+      stop("`x` and `y` must both be raw or integer arrays")
+    }
+    
+    
+    # get operator:
+    op_bit <- which(.op_bit() == op)
+    
+    if(length(op_bit)) {
+      return(.bc_bit(x, y, op_bit, sys.call()))
+    }
+    else {
+      stop("given operator not supported in the given context")
+    }
   }
-  
-  if(typeof(x) != typeof(y)) {
-    stop("`x` and `y` must be of the same type")
-  }
-  check_raw <- is.raw(x) && is.raw(y)
-  check_int <- is.integer(x) && is.integer(y)
-  if(!check_raw && !check_int) {
-    stop("`x` and `y` must both be raw or integer arrays")
-  }
-  
-  
-  # get operator:
-  op_bit <- which(.op_bit() == op)
-  
-  if(length(op_bit)) {
-    return(.bc_bit(x, y, op_bit, sys.call()))
-  }
-  else {
-    stop("given operator not supported in the given context")
-  }
-}
+)
 
 
 #' @keywords internal

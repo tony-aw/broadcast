@@ -732,8 +732,8 @@ macro_op_str_dist <- "
 
 
 
-macro_op_str_conc <- "
-#define MACRO_OP_STR_CONC(DIMCODE) do {	\\
+macro_op_str_plus <- "
+#define MACRO_OP_STR_PLUS(DIMCODE) do {	\\
   switch(op) {	\\
   case 1:	\\
   {	\\
@@ -1448,7 +1448,7 @@ macro_op <- stri_c(
   "\n",
   macro_op_cplx_rel,
   "\n",
-  macro_op_str_conc,
+  macro_op_str_plus,
   "\n",
   macro_op_str_rel,
   "\n",

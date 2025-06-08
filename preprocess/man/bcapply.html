@@ -27,7 +27,10 @@ applies a function to 2 arrays element-wise with broadcasting. <br />
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>bcapply(x, y, f, v = NULL)
+<pre><code class='language-R'>bcapply(x, y, f, ...)
+
+## S4 method for signature 'ANY'
+bcapply(x, y, f, v = NULL)
 </code></pre>
 
 
@@ -44,6 +47,10 @@ applies a function to 2 arrays element-wise with broadcasting. <br />
 and <b>returns</b> a result
 that can be stored in a single element of a recursive or atomic array.</p>
 </td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>further arguments passed to or from methods. <br /> <br /></p>
+</td></tr>
 <tr><td><code id="v">v</code></td>
 <td>
 <p>either <code>NULL</code>, or single string, giving the scalar type for a single iteration. <br />
@@ -53,7 +60,7 @@ If it is certain that, for every iteration,
 the user can specify the type in <code>v</code> to pre-allocate the result. <br />
 Pre-allocating the results leads to slightly faster and more memory efficient code. <br />
 NOTE: Incorrectly specifying <code>v</code> leads to undefined behaviour; <br />
-when unsure, leave <code>v</code> at its default value. <br /></p>
+when unsure, leave <code>v</code> at its default value.</p>
 </td></tr>
 </table>
 

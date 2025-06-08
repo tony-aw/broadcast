@@ -11,8 +11,8 @@
 #' 
 #' @param x,y conformable arrays of type `logical`, `integer`(32 bit), or `raw`.
 #' @param op a single string, giving the operator. \cr
-#' Supported Boolean  operators: `r paste0(broadcast:::.op_b(), collapse = ", ")`. \cr
-#' 
+#' Supported Boolean  operators: `r paste0(broadcast:::.op_b(), collapse = ", ")`.
+#' @param ... further arguments passed to or from methods. \cr \cr
 #'
 #' @details
 #' `bc.b()` efficiently casts the input to logical without making copies of the entire vectors/arrays. \cr
@@ -33,29 +33,39 @@
 #' @example inst/examples/bc_b.R
 #' 
 
+#' @rdname bc.b
+#' @export
+setGeneric(
+  "bc.b",
+  function(x, y, op, ...) standardGeneric("bc.b"),
+  signature = c("x", "y")
+)
+
 
 #' @rdname bc.b
 #' @export
-bc.b <- function(x, y, op) {
-  
-  # checks:
-  .binary_stop_general(x, y, op, sys.call())
-  if(!.is_boolable(x) || !.is_boolable(y)) {
-    stop("unsupported types given")
+setMethod(
+  "bc.b", c(x = "ANY", y = "ANY"),
+  function(x, y, op) {
+    
+    # checks:
+    .binary_stop_general(x, y, op, sys.call())
+    if(!.is_boolable(x) || !.is_boolable(y)) {
+      stop("unsupported types given")
+    }
+    
+    # get operator:
+    op <- which(.op_b() == op)
+    
+    if(length(op)) {
+      return(.bc_b(x, y, op, sys.call()))
+    }
+    else {
+      stop("given operator not supported in the given context")
+    }
   }
-  
-  # get operator:
-  op <- which(.op_b() == op)
-  
-  if(length(op)) {
-    return(.bc_b(x, y, op, sys.call()))
-  }
-  else {
-    stop("given operator not supported in the given context")
-  }
-  
-  
-}
+)
+
 
 
 

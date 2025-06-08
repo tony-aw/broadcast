@@ -628,13 +628,13 @@ macro_dim <- stri_c(
   macro_dim_bind,
   "\n",
   macro_dim_bind_docall,
-  # "\n",
+  "\n"
   # introcomments3,
   # "\n",
   # macro_dim_set,
   # "\n",
   # macro_dim_set_docall,
-  "\n"
+  # "\n"
 )
 
 readr::write_file(macro_dim, "macro_dim.txt")

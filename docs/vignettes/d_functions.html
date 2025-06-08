@@ -196,6 +196,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#acast" id="toc-acast" class="nav-link" data-scroll-target="#acast">Acast</a></li>
   <li><a href="#type-casting" id="toc-type-casting" class="nav-link" data-scroll-target="#type-casting">Type-casting</a></li>
   <li><a href="#supported-structures" id="toc-supported-structures" class="nav-link" data-scroll-target="#supported-structures">Supported Structures</a></li>
+  <li><a href="#writing-methods-for-custom-classes" id="toc-writing-methods-for-custom-classes" class="nav-link" data-scroll-target="#writing-methods-for-custom-classes">Writing Methods for Custom Classes</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -266,8 +267,7 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><a href="../man/bc.d.html">bc.num()</a> is an alias for <a href="../man/bc.d.html">bc.d()</a></li>
-<li><code>bc.i(x, y "+")</code> is faster and more memory efficient than <code>bc.num(trunc(x), trunc(y), "+")</code>, as the latter results in producing unnecessary copies of both <code>x</code> and <code>y</code>.</li>
+<li><code>bc.i(x, y "+")</code> is faster and more memory efficient than <code>bc.d(trunc(x), trunc(y), "+")</code>, as the latter results in producing unnecessary copies of both <code>x</code> and <code>y</code>.</li>
 </ul>
 </div>
 </div>
@@ -318,6 +318,12 @@ Roughly speaking, it is somewhat analogous to <code>data.table::dcast()</code>, 
 <section id="supported-structures" class="level1">
 <h1>Supported Structures</h1>
 <p>The functions in the ‘broadcast’ package only support S3 structures. S4 structures, Reference Classes, and so on are not supported.</p>
+<p>&nbsp;</p>
+</section>
+<section id="writing-methods-for-custom-classes" class="level1">
+<h1>Writing Methods for Custom Classes</h1>
+<p>Almost all functions provided by ‘broadcast’ are S3 or S4 generics.<br>
+Users and package authors can write methods for these generics to support custom classes (like custom handling of class-related attributes).</p>
 <p>&nbsp;</p>
 
 

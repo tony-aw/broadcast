@@ -15,7 +15,10 @@ on pairs of arrays, where both arrays are of type <code>raw</code> or both array
 
 ### Usage
 
-<pre><code class='language-R'>bc.bit(x, y, op)
+<pre><code class='language-R'>bc.bit(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.bit(x, y, op)
 </code></pre>
 
 
@@ -29,8 +32,11 @@ conformable raw or integer (32 bit) vectors or arrays.
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
 a single string, giving the operator. <br />
-Supported bit-wise operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=, &lt;&lt;, &gt;&gt;. <br />
-<br />
+Supported bit-wise operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=, &lt;&lt;, &gt;&gt;.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
 </td></tr>
 </table>
 

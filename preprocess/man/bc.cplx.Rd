@@ -2,16 +2,21 @@
 % Please edit documentation in R/bc_cplx.R
 \name{bc.cplx}
 \alias{bc.cplx}
+\alias{bc.cplx,ANY-method}
 \title{Broadcasted Complex Numeric Operations}
 \usage{
-bc.cplx(x, y, op)
+bc.cplx(x, y, op, ...)
+
+\S4method{bc.cplx}{ANY}(x, y, op)
 }
 \arguments{
 \item{x, y}{conformable atomic arrays of type \code{complex}.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported arithmetic operators: +, -, *, /. \cr
-Supported relational operators: ==, !=. \cr}
+Supported relational operators: ==, !=.}
+
+\item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
 For arithmetic operators: \cr

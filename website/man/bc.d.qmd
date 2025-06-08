@@ -7,16 +7,16 @@ title: bc.d
 ### Description
 
 The <code>bc.d()</code> function
-performs broadcasted decimal numeric operations on 2 numeric or logical arrays. <br />
-<code>bc.num()</code> is an alias for <code>bc.d()</code>. <br /> <br />
+performs broadcasted decimal numeric operations on 2 numeric or logical arrays. <br /> <br />
 
 
 
 ### Usage
 
-<pre><code class='language-R'>bc.d(x, y, op, tol = sqrt(.Machine$double.eps))
+<pre><code class='language-R'>bc.d(x, y, op, ...)
 
-bc.num(x, y, op, tol = sqrt(.Machine$double.eps))
+## S4 method for signature 'ANY'
+bc.d(x, y, op, tol = sqrt(.Machine$double.eps))
 </code></pre>
 
 
@@ -33,6 +33,10 @@ a single string, giving the operator. <br />
 Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. <br />
 Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;=. <br />
 </td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
+</td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="tol">tol</code></td>
 <td>
 a single number between 0 and 0.1, giving the machine tolerance to use. <br />
@@ -40,7 +44,7 @@ Only relevant for the following operators: <br />
 d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;= <br />
 See the
 %d==%, %d!=%, %d&lt;%, %d&gt;%, %d&lt;=%, %d&gt;=% operators
-from the 'tinycodet' package for details. <br />
+from the 'tinycodet' package for details.
 </td></tr>
 </table>
 

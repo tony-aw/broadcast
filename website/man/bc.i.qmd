@@ -19,7 +19,10 @@ because <code>trunc(1.5)</code> equals <code>1</code>. <br />
 
 ### Usage
 
-<pre><code class='language-R'>bc.i(x, y, op)
+<pre><code class='language-R'>bc.i(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.i(x, y, op)
 </code></pre>
 
 
@@ -36,7 +39,11 @@ a single string, giving the operator. <br />
 Supported arithmetic operators: +, -, *, gcd, %%, %/%, ^, pmin, pmax. <br />
 Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br />
 The &quot;gcd&quot; operator performs the Greatest Common Divisor&quot; operation,
-using the Euclidean algorithm. <br />
+using the Euclidean algorithm.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
 </td></tr>
 </table>
 

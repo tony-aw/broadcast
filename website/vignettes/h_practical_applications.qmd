@@ -97,7 +97,7 @@ mult <- array(
 mult[, "mult_val", c("a", "b")] <- c(2, 10)
 print(mult)
 
-out2 <- bc.num(out, mult, "*")
+out2 <- bc.d(out, mult, "*")
 dimnames(out2) <- dimnames(out)
 print(out2)
 
@@ -173,7 +173,7 @@ codes <- array(
   dim = c(4, 2)
 )
 
-diff <- bc.num(codes, observation, "-") # broadcasting happens here
+diff <- bc.d(codes, observation, "-") # broadcasting happens here
 dist <- matrixStats::colSums2(diff^2) |> sqrt()
 which.min(dist) |> print()
 codes[1] |> print()

@@ -2,9 +2,12 @@
 % Please edit documentation in R/bcapply.R
 \name{bcapply}
 \alias{bcapply}
+\alias{bcapply,ANY-method}
 \title{Apply a Function to 2 Broadcasted Arrays}
 \usage{
-bcapply(x, y, f, v = NULL)
+bcapply(x, y, f, ...)
+
+\S4method{bcapply}{ANY}(x, y, f, v = NULL)
 }
 \arguments{
 \item{x, y}{conformable atomic or recursive arrays.}
@@ -13,6 +16,8 @@ bcapply(x, y, f, v = NULL)
 and \bold{returns} a result
 that can be stored in a single element of a recursive or atomic array.}
 
+\item{...}{further arguments passed to or from methods. \cr \cr}
+
 \item{v}{either \code{NULL}, or single string, giving the scalar type for a single iteration. \cr
 If \code{NULL} (default) or \code{"list"}, the result will be a recursive array. \cr
 If it is certain that, for every iteration,
@@ -20,7 +25,7 @@ If it is certain that, for every iteration,
 the user can specify the type in \code{v} to pre-allocate the result. \cr
 Pre-allocating the results leads to slightly faster and more memory efficient code. \cr
 NOTE: Incorrectly specifying \code{v} leads to undefined behaviour; \cr
-when unsure, leave \code{v} at its default value. \cr}
+when unsure, leave \code{v} at its default value.}
 }
 \value{
 An atomic or recursive array with dimensions \code{bc_dim(x, y)}. \cr

@@ -23,6 +23,10 @@ Notice that this contrats with base 'R' in the following sense: \cr
 In base 'R', logical (&, |) and relational (==, !=, etc.) operators never preserve attributes,
 whereas the broadcasted equivalents do preserve the "broadcaster" attribute. \cr
 \cr
+Almost all functions provided by 'broadcast' are S3 or S4 generics; \cr
+methods can be written for them for specific classes,
+so that class-specific attributes can be supported when needed. \cr
+\cr
 Unary operations (i.e. \code{+ x}, \code{- x}) return the original object,
 with only the sign adjusted. \cr
 \cr

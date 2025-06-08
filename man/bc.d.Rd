@@ -2,12 +2,12 @@
 % Please edit documentation in R/bc_d.R
 \name{bc.d}
 \alias{bc.d}
-\alias{bc.num}
+\alias{bc.d,ANY-method}
 \title{Broadcasted Decimal Numeric Operations}
 \usage{
-bc.d(x, y, op, tol = sqrt(.Machine$double.eps))
+bc.d(x, y, op, ...)
 
-bc.num(x, y, op, tol = sqrt(.Machine$double.eps))
+\S4method{bc.d}{ANY}(x, y, op, tol = sqrt(.Machine$double.eps))
 }
 \arguments{
 \item{x, y}{conformable logical or numeric arrays.}
@@ -16,12 +16,14 @@ bc.num(x, y, op, tol = sqrt(.Machine$double.eps))
 Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. \cr
 Supported relational operators: ==, !=, <, >, <=, >=, d==, d!=, d<, d>, d<=, d>=. \cr}
 
+\item{...}{further arguments passed to or from methods. \cr \cr}
+
 \item{tol}{a single number between 0 and 0.1, giving the machine tolerance to use. \cr
 Only relevant for the following operators: \cr
 d==, d!=, d<, d>, d<=, d>= \cr
 See the
 \%d==\%, \%d!=\%, \%d<\%, \%d>\%, \%d<=\%, \%d>=\% operators
-from the 'tinycodet' package for details. \cr}
+from the 'tinycodet' package for details.}
 }
 \value{
 For arithmetic operators: \cr
@@ -33,8 +35,7 @@ A logical array as a result of the broadcasted decimal relational comparison. \c
 }
 \description{
 The \code{bc.d()} function
-performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr
-\code{bc.num()} is an alias for \code{bc.d()}. \cr \cr
+performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr \cr
 }
 \examples{
 x.dim <- c(4:2)

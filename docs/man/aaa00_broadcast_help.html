@@ -298,31 +298,31 @@ ul.task-list li input[type="checkbox"] {
 <p><b>Functions for broadcasted element-wise binary operations</b> <br> ‘broadcast’ provides a set of functions for broadcasted element-wise binary operations with broadcasting. <br> These functions use an API similar to the outer function. <br> <br> The following functions for type-specific binary operations are available:</p>
 <ul>
 <li>
-<p><a href="../man/bc.b.html">bc.b</a>: Boolean (i.e.&nbsp;logical) operations;</p>
+<p><a href="../man/rep_dim.html">bc.b</a>: Boolean (i.e.&nbsp;logical) operations;</p>
 </li>
 <li>
-<p><a href="../man/bc.i.html">bc.i</a>: integer arithmetic and relational operations;</p>
+<p><a href="../man/broadcaster.html">bc.i</a>: integer arithmetic and relational operations;</p>
 </li>
 <li>
-<p><a href="../man/bc.d.html">bc.d</a>: decimal arithmetic and relational operations;</p>
+<p><a href="../man/typecast.html">bc.d</a>: decimal arithmetic and relational operations;</p>
 </li>
 <li>
-<p><a href="../man/bc.cplx.html">bc.cplx</a>: complex arithmetic and (in)equality operations;</p>
+<p><a href="../man/typecast.html">bc.cplx</a>: complex arithmetic and (in)equality operations;</p>
 </li>
 <li>
-<p><a href="../man/bc.str.html">bc.str</a>: string (in)equality, concatenation, and distance operations;</p>
+<p><a href="../man/typecast.html">bc.str</a>: string (in)equality, concatenation, and distance operations;</p>
 </li>
 <li>
-<p><a href="../man/bc.raw.html">bc.raw</a>: byte- and relational operations for vectors/arrays of type <code>raw</code>;</p>
+<p><a href="../man/typecast.html">bc.raw</a>: byte- and relational operations for vectors/arrays of type <code>raw</code>;</p>
 </li>
 <li>
-<p><a href="../man/bc.bit.html">bc.bit</a>: BIT-WISE operations, supporting the <code>raw</code> and <code>integer</code> types;</p>
+<p><a href="../man/ndim.html">bc.bit</a>: BIT-WISE operations, supporting the <code>raw</code> and <code>integer</code> types;</p>
 </li>
 <li>
-<p><a href="../man/bc.list.html">bc.list</a>: apply any ‘R’ function to 2 recursive arrays with broadcasting. <br> <br></p>
+<p><a href="../man/typecast.html">bc.list</a>: apply any ‘R’ function to 2 recursive arrays with broadcasting. <br> <br></p>
 </li>
 </ul>
-<p><b><code>bind_array()</code></b> <br> ‘broadcast’ provides the <a href="../man/bind_array.html">bind_array</a> function, to bind arrays along an arbitrary dimension, with support for broadcasting. <br> <br> The API of <code>bind_array()</code> is inspired by the fantastic <code>abind::abind()</code> function by Tony Plare &amp; Richard Heiberger (2016). <br> But <code>bind_array()</code> differs considerably from <code>abind::abind</code> in the following ways:</p>
+<p><b><code>bind_array()</code></b> <br> ‘broadcast’ provides the <a href="../man/broadcaster.html">bind_array</a> function, to bind arrays along an arbitrary dimension, with support for broadcasting. <br> <br> The API of <code>bind_array()</code> is inspired by the fantastic <code>abind::abind()</code> function by Tony Plare &amp; Richard Heiberger (2016). <br> But <code>bind_array()</code> differs considerably from <code>abind::abind</code> in the following ways:</p>
 <ul>
 <li>
 <p><code>bind_array()</code> differs from <code>abind::abind</code> in that it can handle recursive arrays properly <br> (the <code>abind::abind</code> function would unlist everything to atomic arrays, ruining the structure).</p>
@@ -343,17 +343,17 @@ ul.task-list li input[type="checkbox"] {
 <p><b>General functions</b> <br> ‘broadcast’ also comes with 2 general broadcasted functions:</p>
 <ul>
 <li>
-<p><a href="../man/bc_ifelse.html">bc_ifelse</a>: Broadcasted version of ifelse.</p>
+<p><a href="../man/bc.bit.html">bc_ifelse</a>: Broadcasted version of ifelse.</p>
 </li>
 <li>
-<p><a href="../man/bcapply.html">bcapply</a>: Broadcasted apply-like function. <br> <br></p>
+<p><a href="../man/bc.cplx.html">bcapply</a>: Broadcasted apply-like function. <br> <br></p>
 </li>
 </ul>
-<p><b>Other functions</b> <br> ‘broadcast’ provides the <a href="../man/acast.html">acast</a> function, for casting (i.e.&nbsp;pivoting) an array into a new dimension. <br> <br> ‘broadcast’ also provides <a href="../man/typecast.html">type-casting</a> functions, which preserve names and dimensions - convenient for arrays. <br> <br></p>
+<p><b>Other functions</b> <br> ‘broadcast’ provides the <a href="../man/bc.b.html">acast</a> function, for casting (i.e.&nbsp;pivoting) an array into a new dimension. <br> <br> ‘broadcast’ also provides <a href="../man/typecast.html">type-casting</a> functions, which preserve names and dimensions - convenient for arrays. <br> <br></p>
 </section>
 <section id="overloading" class="level3">
 <h3 class="anchored" data-anchor-id="overloading">Overloading</h3>
-<p>Sometimes broadcasting is needed in large mathematical expression, involving multiple variables, where precedence is of importance. <br> For example in an expression like <code>x + y / z^y</code>. <br> For such cases, you may want to overload the base operators. <br> To that end, the ‘broadcast’ package provides the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators. <br></p>
+<p>Sometimes broadcasting is needed in large mathematical expression, involving multiple variables, where precedence is of importance. <br> For example in an expression like <code>x + y / z^y</code>. <br> For such cases, you may want to overload the base operators. <br> To that end, the ‘broadcast’ package provides the <a href="../man/typecast.html">broadcaster</a> class, which comes with its own method dispatch for the base operators. <br></p>
 </section>
 <section id="authors" class="level3">
 <h3 class="anchored" data-anchor-id="authors">Author(s)</h3>

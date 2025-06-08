@@ -17,7 +17,7 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 * Added the `%/%` operator to [bc.i()](/man/bc.i.qmd), added overload support for `%/%`, and added tests for these also.
 * Added [bc.raw()](/man/bc.raw.qmd), added overload support for bit-wise operators (`&` `|`), and added tests for these also.
 * [bc_ifelse()](/man/bc_ifelse.qmd) now takes the dimnames from the `test` argument if `dim(test)` is equal to `bc_dim(yes, no)`.
-* Renamed `bc()` to [bc_chain()](/man/bc_chain.qmd).
+* Renamed `bc()` to `bc_chain()`.
 
 
 # broadcast 0.0.0.9003
@@ -36,3 +36,6 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 * Removed `bc_chain()`, and adjusted the documentation and tests accordingly.
 * Added more tests.
 
+
+# broadcast 0.0.0.9006
+* Almost all functions are now S3 or S4 generics; methods can now be written for them.

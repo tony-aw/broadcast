@@ -23,9 +23,9 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 ## 🗺️Overview
 
-‘broadcast’ is a relatively small ‘R’ package that, as the name
-suggests, performs “broadcasting” (similar to broadcasting in the
-‘Numpy’ module for ‘Python’).
+‘broadcast’ is an efficient ‘R’ package that, as the name suggests,
+performs “broadcasting” (similar to broadcasting in the ‘Numpy’ module
+for ‘Python’).
 
 In the context of operations involving 2 (or more) arrays,
 “broadcasting” refers to recycling array dimensions **without**
@@ -183,6 +183,17 @@ The ‘broadcast’ package performs “broadcasting”, which can do the above,
 but **faster**, **without unnecessary copies**, and scalable to arrays
 of any size (up to 16 dimensions).  
 Like so:
+
+``` r
+bc.d(x, y, "+")
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]  101  205  309  413  517
+#> [2,]  102  206  310  414  518
+#> [3,]  103  207  311  415  519
+#> [4,]  104  208  312  416  520
+```
+
+or like so:
 
 ``` r
 broadcaster(x) <- TRUE

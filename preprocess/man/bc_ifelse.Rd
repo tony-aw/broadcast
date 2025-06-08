@@ -2,9 +2,12 @@
 % Please edit documentation in R/bc_ifelse.R
 \name{bc_ifelse}
 \alias{bc_ifelse}
+\alias{bc_ifelse,ANY-method}
 \title{Broadcasted Ifelse}
 \usage{
-bc_ifelse(test, yes, no)
+bc_ifelse(test, yes, no, ...)
+
+\S4method{bc_ifelse}{ANY}(test, yes, no)
 }
 \arguments{
 \item{test}{a vector or array,
@@ -14,7 +17,9 @@ If \code{yes} / \code{no} are of type \code{raw}, \code{test} is not allowed to 
 
 \item{yes, no}{conformable arrays of the same type. \cr
 All \link[base]{atomic} types are supported. \cr
-Recursive arrays of type \link[base]{list} are also supported. \cr \cr}
+Recursive arrays of type \link[base]{list} are also supported.}
+
+\item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
 The output, here referred to as \code{out},

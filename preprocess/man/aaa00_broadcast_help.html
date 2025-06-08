@@ -72,33 +72,33 @@ The following functions for type-specific binary operations are available:
 </p>
 
 <ul>
-<li> <p><code>[bc.b](bc.b.qmd)</code>: Boolean (i.e. logical) operations;
+<li> <p><code>[bc.b](rep_dim.qmd)</code>: Boolean (i.e. logical) operations;
 </p>
 </li>
-<li> <p><code>[bc.i](bc.i.qmd)</code>: integer arithmetic and relational operations;
+<li> <p><code>[bc.i](broadcaster.qmd)</code>: integer arithmetic and relational operations;
 </p>
 </li>
-<li> <p><code>[bc.d](bc.d.qmd)</code>: decimal arithmetic and relational operations;
+<li> <p><code>[bc.d](typecast.qmd)</code>: decimal arithmetic and relational operations;
 </p>
 </li>
-<li> <p><code>[bc.cplx](bc.cplx.qmd)</code>: complex arithmetic and (in)equality operations;
+<li> <p><code>[bc.cplx](typecast.qmd)</code>: complex arithmetic and (in)equality operations;
 </p>
 </li>
-<li> <p><code>[bc.str](bc.str.qmd)</code>: string (in)equality, concatenation, and distance operations;
+<li> <p><code>[bc.str](typecast.qmd)</code>: string (in)equality, concatenation, and distance operations;
 </p>
 </li>
-<li> <p><code>[bc.raw](bc.raw.qmd)</code>: byte- and relational operations for vectors/arrays of type <code>raw</code>;
+<li> <p><code>[bc.raw](typecast.qmd)</code>: byte- and relational operations for vectors/arrays of type <code>raw</code>;
 </p>
 </li>
-<li> <p><code>[bc.bit](bc.bit.qmd)</code>: BIT-WISE operations, supporting the <code>raw</code> and <code>integer</code> types;
+<li> <p><code>[bc.bit](ndim.qmd)</code>: BIT-WISE operations, supporting the <code>raw</code> and <code>integer</code> types;
 </p>
 </li>
-<li> <p><code>[bc.list](bc.list.qmd)</code>: apply any 'R' function to 2 recursive arrays with broadcasting. <br /> <br />
+<li> <p><code>[bc.list](typecast.qmd)</code>: apply any 'R' function to 2 recursive arrays with broadcasting. <br /> <br />
 </p>
 </li></ul>
 
 <p><b><code>bind_array()</code></b> <br />
-'broadcast' provides the <code>[bind_array](bind_array.qmd)</code> function,
+'broadcast' provides the <code>[bind_array](broadcaster.qmd)</code> function,
 to bind arrays along an arbitrary dimension,
 with support for broadcasting. <br />
 <br />
@@ -141,15 +141,15 @@ compared to <code>abind::abind</code>. <br /> <br />
 </p>
 
 <ul>
-<li> <p><code>[bc_ifelse](bc_ifelse.qmd)</code>: Broadcasted version of ifelse.
+<li> <p><code>[bc_ifelse](bc.bit.qmd)</code>: Broadcasted version of ifelse.
 </p>
 </li>
-<li> <p><code>[bcapply](bcapply.qmd)</code>: Broadcasted apply-like function. <br /> <br />
+<li> <p><code>[bcapply](bc.cplx.qmd)</code>: Broadcasted apply-like function. <br /> <br />
 </p>
 </li></ul>
 
 <p><b>Other functions</b> <br />
-'broadcast' provides the <code>[acast](acast.qmd)</code> function,
+'broadcast' provides the <code>[acast](bc.b.qmd)</code> function,
 for casting (i.e. pivoting) an array into a new dimension. <br />
 <br />
 'broadcast' also provides
@@ -165,7 +165,7 @@ involving multiple variables,
 where precedence is of importance. <br />
 For example in an expression like <code>x + y / z^y</code>. <br />
 For such cases, you may want to overload the base operators. <br />
-To that end, the 'broadcast' package provides the <code>[broadcaster](broadcaster.qmd)</code> class,
+To that end, the 'broadcast' package provides the <code>[broadcaster](typecast.qmd)</code> class,
 which comes with its own method dispatch for the base operators. <br />
 </p>
 

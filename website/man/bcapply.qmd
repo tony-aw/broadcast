@@ -13,7 +13,10 @@ applies a function to 2 arrays element-wise with broadcasting. <br />
 
 ### Usage
 
-<pre><code class='language-R'>bcapply(x, y, f, v = NULL)
+<pre><code class='language-R'>bcapply(x, y, f, ...)
+
+## S4 method for signature 'ANY'
+bcapply(x, y, f, v = NULL)
 </code></pre>
 
 
@@ -30,6 +33,10 @@ a function that takes in exactly <b>2</b> arguments,
 and <b>returns</b> a result
 that can be stored in a single element of a recursive or atomic array.
 </td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
+</td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="v">v</code></td>
 <td>
 either <code>NULL</code>, or single string, giving the scalar type for a single iteration. <br />
@@ -39,7 +46,7 @@ If it is certain that, for every iteration,
 the user can specify the type in <code>v</code> to pre-allocate the result. <br />
 Pre-allocating the results leads to slightly faster and more memory efficient code. <br />
 NOTE: Incorrectly specifying <code>v</code> leads to undefined behaviour; <br />
-when unsure, leave <code>v</code> at its default value. <br />
+when unsure, leave <code>v</code> at its default value.
 </td></tr>
 </table>
 

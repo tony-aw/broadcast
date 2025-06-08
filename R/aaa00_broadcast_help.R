@@ -111,6 +111,8 @@
 #' @aliases broadcast_help
 #' @useDynLib broadcast, .registration=TRUE
 #' @importFrom Rcpp evalCpp
+#' @importFrom methods setGeneric
+#' @importFrom methods setMethod
 #' 
 NULL
 #> NULL

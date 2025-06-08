@@ -13,8 +13,8 @@
 #' @param op a single string, giving the operator. \cr
 #' Supported byte operators: `r paste0(broadcast:::.op_raw_byte(), collapse = ", ")`. \cr
 #' The "diff" operator performs the byte equivalent of `abs(x - y)`. \cr
-#' Supported relational operators: `r paste0(broadcast:::.op_raw_rel(), collapse = ", ")`. \cr
-#' \cr
+#' Supported relational operators: `r paste0(broadcast:::.op_raw_rel(), collapse = ", ")`.
+#' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #'
 #' @returns
@@ -32,31 +32,44 @@
 #' 
 
 
+
 #' @rdname bc.raw
 #' @export
-bc.raw <- function(x, y, op) {
-  
-  # checks:
-  .binary_stop_general(x, y, op, sys.call())
-  if(!is.raw(x) || !is.raw(y)) {
-    stop("`x` and `y` must be raw arrays")
+setGeneric(
+  "bc.raw",
+  function(x, y, op, ...) standardGeneric("bc.raw"),
+  signature = c("x", "y")
+)
+
+
+#' @rdname bc.raw
+#' @export
+setMethod(
+  "bc.raw", c(x = "ANY", y = "ANY"),
+  function(x, y, op) {
+    # checks:
+    .binary_stop_general(x, y, op, sys.call())
+    if(!is.raw(x) || !is.raw(y)) {
+      stop("`x` and `y` must be raw arrays")
+    }
+    
+    
+    # get operator:
+    op_bit <- which(.op_raw_byte() == op)
+    op_rel <- which(.op_raw_rel() == op)
+    
+    if(length(op_bit)) {
+      return(.bc_raw_byte(x, y, op_bit, sys.call()))
+    }
+    else if(length(op_rel)) {
+      return(.bc_raw_rel(x, y, op_rel, sys.call()))
+    }
+    else {
+      stop("given operator not supported in the given context")
+    }
   }
-  
-  
-  # get operator:
-  op_bit <- which(.op_raw_byte() == op)
-  op_rel <- which(.op_raw_rel() == op)
-  
-  if(length(op_bit)) {
-    return(.bc_raw_byte(x, y, op_bit, sys.call()))
-  }
-  else if(length(op_rel)) {
-    return(.bc_raw_rel(x, y, op_rel, sys.call()))
-  }
-  else {
-    stop("given operator not supported in the given context")
-  }
-}
+)
+ 
 
 
 #' @keywords internal

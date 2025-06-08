@@ -29,7 +29,10 @@ on pairs of arrays, where both arrays are of type <code>raw</code> or both array
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>bc.bit(x, y, op)
+<pre><code class='language-R'>bc.bit(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.bit(x, y, op)
 </code></pre>
 
 
@@ -43,8 +46,11 @@ on pairs of arrays, where both arrays are of type <code>raw</code> or both array
 <tr><td><code id="op">op</code></td>
 <td>
 <p>a single string, giving the operator. <br />
-Supported bit-wise operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=, &lt;&lt;, &gt;&gt;. <br />
-<br /></p>
+Supported bit-wise operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=, &lt;&lt;, &gt;&gt;.</p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>further arguments passed to or from methods. <br /> <br /></p>
 </td></tr>
 </table>
 

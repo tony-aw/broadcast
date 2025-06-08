@@ -21,16 +21,16 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>The <code>bc.d()</code> function
-performs broadcasted decimal numeric operations on 2 numeric or logical arrays. <br />
-<code>bc.num()</code> is an alias for <code>bc.d()</code>. <br /> <br />
+performs broadcasted decimal numeric operations on 2 numeric or logical arrays. <br /> <br />
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>bc.d(x, y, op, tol = sqrt(.Machine$double.eps))
+<pre><code class='language-R'>bc.d(x, y, op, ...)
 
-bc.num(x, y, op, tol = sqrt(.Machine$double.eps))
+## S4 method for signature 'ANY'
+bc.d(x, y, op, tol = sqrt(.Machine$double.eps))
 </code></pre>
 
 
@@ -47,6 +47,10 @@ bc.num(x, y, op, tol = sqrt(.Machine$double.eps))
 Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. <br />
 Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;=. <br /></p>
 </td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>further arguments passed to or from methods. <br /> <br /></p>
+</td></tr>
 <tr><td><code id="tol">tol</code></td>
 <td>
 <p>a single number between 0 and 0.1, giving the machine tolerance to use. <br />
@@ -54,7 +58,7 @@ Only relevant for the following operators: <br />
 d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;= <br />
 See the
 %d==%, %d!=%, %d&lt;%, %d&gt;%, %d&lt;=%, %d&gt;=% operators
-from the 'tinycodet' package for details. <br /></p>
+from the 'tinycodet' package for details.</p>
 </td></tr>
 </table>
 

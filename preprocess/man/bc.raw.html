@@ -24,15 +24,18 @@ function processMathHTML() {
 performs broadcasted byte- and relational operations
 on arrays of type <code>raw</code>. <br />
 <br />
-For bit-wise operations, use <code>[bc.bit](bc.bit.qmd)</code>. <br />
-For logical operations, use <code>[bc.b](bc.b.qmd)</code> <br />
+For bit-wise operations, use <code>[bc.bit](ndim.qmd)</code>. <br />
+For logical operations, use <code>[bc.b](rep_dim.qmd)</code> <br />
 <br />
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>bc.raw(x, y, op)
+<pre><code class='language-R'>bc.raw(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.raw(x, y, op)
 </code></pre>
 
 
@@ -48,8 +51,11 @@ For logical operations, use <code>[bc.b](bc.b.qmd)</code> <br />
 <p>a single string, giving the operator. <br />
 Supported byte operators: pmin, pmax, diff. <br />
 The &quot;diff&quot; operator performs the byte equivalent of <code>abs(x - y)</code>. <br />
-Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br />
-<br /></p>
+Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=.</p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>further arguments passed to or from methods. <br /> <br /></p>
 </td></tr>
 </table>
 

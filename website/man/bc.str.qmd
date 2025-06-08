@@ -13,7 +13,10 @@ performs broadcasted string operations on pairs of arrays. <br /> <br />
 
 ### Usage
 
-<pre><code class='language-R'>bc.str(x, y, op)
+<pre><code class='language-R'>bc.str(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.str(x, y, op)
 </code></pre>
 
 
@@ -29,7 +32,11 @@ conformable atomic arrays of type <code>character</code>.
 a single string, giving the operator. <br />
 Supported concatenation operators: +. <br />
 Supported relational operators: ==, !=. <br />
-Supported distance operators: levenshtein. <br />
+Supported distance operators: levenshtein.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
 </td></tr>
 </table>
 

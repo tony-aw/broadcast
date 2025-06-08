@@ -32,7 +32,10 @@ because both <code>1</code> and <code>2</code> are <code>TRUE</code> when treate
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>bc.b(x, y, op)
+<pre><code class='language-R'>bc.b(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.b(x, y, op)
 </code></pre>
 
 
@@ -46,7 +49,11 @@ because both <code>1</code> and <code>2</code> are <code>TRUE</code> when treate
 <tr><td><code id="op">op</code></td>
 <td>
 <p>a single string, giving the operator. <br />
-Supported Boolean  operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br /></p>
+Supported Boolean  operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=.</p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>further arguments passed to or from methods. <br /> <br /></p>
 </td></tr>
 </table>
 

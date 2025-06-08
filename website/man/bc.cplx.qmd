@@ -16,7 +16,10 @@ than the result of the operation for that element is necessarily <code>NA</code>
 
 ### Usage
 
-<pre><code class='language-R'>bc.cplx(x, y, op)
+<pre><code class='language-R'>bc.cplx(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.cplx(x, y, op)
 </code></pre>
 
 
@@ -31,7 +34,11 @@ conformable atomic arrays of type <code>complex</code>.
 <td>
 a single string, giving the operator. <br />
 Supported arithmetic operators: +, -, *, /. <br />
-Supported relational operators: ==, !=. <br />
+Supported relational operators: ==, !=.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
 </td></tr>
 </table>
 

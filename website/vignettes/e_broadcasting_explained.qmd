@@ -106,7 +106,7 @@ To compute the element-wise addition using broadcasting through the 'broadcast' 
 ```{r}
 library(broadcast)
 
-bc.num(x, y, "+")
+bc.d(x, y, "+")
 
 ```
 
@@ -132,7 +132,7 @@ y <- array(1:5*10, c(1, 5))
 Let's see what happens if we sum them together using broadcasting:
 
 ```{r}
-bc.num(x, y, "+")
+bc.d(x, y, "+")
 ```
 
 What happens here is that `x` remains the same, but row vector `y` is **virtually** recycled 4 times, but without requiring 4 times more memory. This is also illustrated here:
@@ -173,7 +173,7 @@ print(y)
 Computing the broadcasted element-wise sum of `x` and `y` produces the following:
 
 ```{r}
-bc.num(x, y, "+")
+bc.d(x, y, "+")
 ```
 
 
@@ -459,7 +459,7 @@ Earlier in this guide, we used the following computation:
 x <- array(1:5, c(5, 1))
 y <- array(1:5*10, c(1, 5))
 
-bc.num(x, y, "+")
+bc.d(x, y, "+")
 
 ```
 

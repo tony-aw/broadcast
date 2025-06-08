@@ -33,4 +33,6 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 * Removed `bc_chain()`, and adjusted the documentation and tests accordingly.
 * Added more tests.
 
+# broadcast 0.0.0.9006
+* Almost all functions are now S3 or S4 generics; methods can now be written for them.
 

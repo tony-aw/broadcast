@@ -1275,7 +1275,7 @@
 } while(0)
 
 
-#define MACRO_OP_STR_CONC(DIMCODE) do {	\
+#define MACRO_OP_STR_PLUS(DIMCODE) do {	\
   switch(op) {	\
   case 1:	\
   {	\

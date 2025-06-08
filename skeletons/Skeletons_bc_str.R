@@ -75,7 +75,7 @@ SEXP rcpp_bc_str_v(
 
 
 CharacterVector out(nout);
-MACRO_OP_STR_CONC(
+MACRO_OP_STR_PLUS(
   MACRO_DIM_VECTOR
 );
 
@@ -101,7 +101,7 @@ SEXP rcpp_bc_str_ov(
 
 CharacterVector out(nout);
 
-MACRO_OP_STR_CONC(
+MACRO_OP_STR_PLUS(
   MACRO_DIM_ORTHOVECTOR
 );
 
@@ -130,7 +130,7 @@ SEXP rcpp_bc_str_d(
 
 CharacterVector out(nout);
 
-MACRO_OP_STR_CONC(
+MACRO_OP_STR_PLUS(
   MACRO_DIM_DOCALL
 );
 

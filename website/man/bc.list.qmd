@@ -12,7 +12,10 @@ The <code>bc.list()</code> function performs broadcasted operations on 2 Recursi
 
 ### Usage
 
-<pre><code class='language-R'>bc.list(x, y, f)
+<pre><code class='language-R'>bc.list(x, y, f, ...)
+
+## S4 method for signature 'ANY'
+bc.list(x, y, f)
 </code></pre>
 
 
@@ -26,7 +29,11 @@ conformable Recursive arrays (i.e. arrays of type <code>list</code>).
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="f">f</code></td>
 <td>
 a function that takes in exactly <b>2</b> arguments,
-and <b>returns</b> a result that can be stored in a single element of a list. <br />
+and <b>returns</b> a result that can be stored in a single element of a list.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
 </td></tr>
 </table>
 

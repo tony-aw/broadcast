@@ -2,8 +2,7 @@
 #'
 #' @description
 #' The `bc.d()` function
-#' performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr
-#' `bc.num()` is an alias for `bc.d()`. \cr \cr
+#' performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr \cr
 #' 
 #' @param x,y conformable logical or numeric arrays.
 #' @param op a single string, giving the operator. \cr
@@ -14,8 +13,8 @@
 #' `r paste0(broadcast:::.op_dec_rel()[7:12], collapse = ", ")` \cr
 #' See the
 #' `r paste0(paste0("%", broadcast:::.op_dec_rel()[7:12], "%"), collapse = ", ")` operators
-#' from the 'tinycodet' package for details. \cr
-#' 
+#' from the 'tinycodet' package for details.
+#' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #'
 #' @returns
@@ -33,36 +32,42 @@
 
 #' @rdname bc.d
 #' @export
-bc.d <- function(x, y, op, tol = sqrt(.Machine$double.eps)) {
-  
-  # checks:
-  .binary_stop_general(x, y, op, sys.call())
-  if(!.is_numeric_like(x) || !.is_numeric_like(y)) {
-    stop("`x` and `y` must be numeric or logical arrays or vectors")
-  }
-  
-  # get operator:
-  op_math <- which(.op_dec_math() == op)
-  op_rel <- which(.op_dec_rel() == op)
-  
-  if(length(op_math)) {
-    return(.bc_dec_math(x, y, op_math, sys.call()))
-  }
-  else if(length(op_rel)) {
-    return(.bc_dec_rel(x, y, op_rel, tol, sys.call()))
-  }
-  else {
-    stop("given operator not supported in the given context")
-  }
-  
-  
-}
+setGeneric(
+  "bc.d",
+  function(x, y, op, ...) standardGeneric("bc.d"),
+  signature = c("x", "y")
+)
 
 
 #' @rdname bc.d
 #' @export
-bc.num <- bc.d
-
+setMethod(
+  "bc.d", c(x = "ANY", y = "ANY"),
+  function(x, y, op, tol = sqrt(.Machine$double.eps)) {
+    
+    # checks:
+    .binary_stop_general(x, y, op, sys.call())
+    if(!.is_numeric_like(x) || !.is_numeric_like(y)) {
+      stop("`x` and `y` must be numeric or logical arrays or vectors")
+    }
+    
+    # get operator:
+    op_math <- which(.op_dec_math() == op)
+    op_rel <- which(.op_dec_rel() == op)
+    
+    if(length(op_math)) {
+      return(.bc_dec_math(x, y, op_math, sys.call()))
+    }
+    else if(length(op_rel)) {
+      return(.bc_dec_rel(x, y, op_rel, tol, sys.call()))
+    }
+    else {
+      stop("given operator not supported in the given context")
+    }
+    
+    
+  }
+)
 
 
 #' @keywords internal

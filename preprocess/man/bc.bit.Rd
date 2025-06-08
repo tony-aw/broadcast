@@ -2,16 +2,20 @@
 % Please edit documentation in R/bc_bit.R
 \name{bc.bit}
 \alias{bc.bit}
+\alias{bc.bit,ANY-method}
 \title{Broadcasted Bit-wise Operations}
 \usage{
-bc.bit(x, y, op)
+bc.bit(x, y, op, ...)
+
+\S4method{bc.bit}{ANY}(x, y, op)
 }
 \arguments{
 \item{x, y}{conformable raw or integer (32 bit) vectors or arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported bit-wise operators: &, |, xor, nand, ==, !=, <, >, <=, >=, <<, >>. \cr
-\cr}
+Supported bit-wise operators: &, |, xor, nand, ==, !=, <, >, <=, >=, <<, >>.}
+
+\item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
 For bit-wise operators: \cr

@@ -30,7 +30,10 @@ than the result of the operation for that element is necessarily <code>NA</code>
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>bc.cplx(x, y, op)
+<pre><code class='language-R'>bc.cplx(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.cplx(x, y, op)
 </code></pre>
 
 
@@ -45,7 +48,11 @@ than the result of the operation for that element is necessarily <code>NA</code>
 <td>
 <p>a single string, giving the operator. <br />
 Supported arithmetic operators: +, -, *, /. <br />
-Supported relational operators: ==, !=. <br /></p>
+Supported relational operators: ==, !=.</p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>further arguments passed to or from methods. <br /> <br /></p>
 </td></tr>
 </table>
 

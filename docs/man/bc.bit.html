@@ -323,7 +323,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">bc.bit(x, y, op)
+<pre><code class="language-R">bc.bit(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.bit(x, y, op)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -343,7 +346,15 @@ conformable raw or integer (32 bit) vectors or arrays.
 <code id="op">op</code>
 </td>
 <td>
-a single string, giving the operator. <br> Supported bit-wise operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=, &lt;&lt;, &gt;&gt;. <br> <br>
+a single string, giving the operator. <br> Supported bit-wise operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=, &lt;&lt;, &gt;&gt;.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="...">…</code>
+</td>
+<td>
+further arguments passed to or from methods. <br> <br>
 </td>
 </tr>
 

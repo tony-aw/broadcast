@@ -42,12 +42,16 @@ instead of casting into new columns.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>acast(
+<pre><code class='language-R'>acast(x, ...)
+
+## Default S3 method:
+acast(
   x,
   margin,
   grp,
   fill = FALSE,
-  fill_val = if (is.atomic(x)) NA else list(NULL)
+  fill_val = if (is.atomic(x)) NA else list(NULL),
+  ...
 )
 </code></pre>
 
@@ -58,6 +62,10 @@ instead of casting into new columns.
 <tr><td><code id="x">x</code></td>
 <td>
 <p>an atomic or recursive array.</p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>further arguments passed to or from methods. <br /> <br /></p>
 </td></tr>
 <tr><td><code id="margin">margin</code></td>
 <td>
@@ -86,7 +94,8 @@ When <code>x</code> has type of <code>raw</code>, unbalanced <code>grp</code> is
 <td>
 <p>scalar of the same type of <code>x</code>,
 giving value to use to fill in the gaps when <code>fill = TRUE</code>. <br />
-The <code>fill_val</code> argument is ignored when <code>fill = FALSE</code> or when <code>x</code> has type of <code>raw</code>.</p>
+The <code>fill_val</code> argument is ignored when <code>fill = FALSE</code>
+or when <code>x</code> has type of <code>raw</code>.</p>
 </td></tr>
 </table>
 

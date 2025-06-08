@@ -181,7 +181,6 @@
   
   
   # check if input is conformable:
-  # NOTE: only 1 dimension may be broadcasted per array, for the user's safety
   conf <- .rcpp_bindhelper_conf_dims_all(input.dims, out.dim, along - 1L, ndim2bc)
   if(conf < 0) {
     stop(simpleError("arrays are not conformable for binding", call = abortcall))

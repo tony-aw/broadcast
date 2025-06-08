@@ -2,15 +2,20 @@
 % Please edit documentation in R/bc_b.R
 \name{bc.b}
 \alias{bc.b}
+\alias{bc.b,ANY-method}
 \title{Broadcasted Boolean Operations}
 \usage{
-bc.b(x, y, op)
+bc.b(x, y, op, ...)
+
+\S4method{bc.b}{ANY}(x, y, op)
 }
 \arguments{
 \item{x, y}{conformable arrays of type \code{logical}, \code{integer}(32 bit), or \code{raw}.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported Boolean  operators: &, |, xor, nand, ==, !=, <, >, <=, >=. \cr}
+Supported Boolean  operators: &, |, xor, nand, ==, !=, <, >, <=, >=.}
+
+\item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
 A logical array as a result of the broadcasted Boolean operation. \cr \cr

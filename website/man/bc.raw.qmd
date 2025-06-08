@@ -10,15 +10,18 @@ The <code>bc.raw()</code> function
 performs broadcasted byte- and relational operations
 on arrays of type <code>raw</code>. <br />
 <br />
-For bit-wise operations, use [bc.bit](bc.bit.qmd). <br />
-For logical operations, use [bc.b](bc.b.qmd) <br />
+For bit-wise operations, use [bc.bit](ndim.qmd). <br />
+For logical operations, use [bc.b](rep_dim.qmd) <br />
 <br />
 
 
 
 ### Usage
 
-<pre><code class='language-R'>bc.raw(x, y, op)
+<pre><code class='language-R'>bc.raw(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.raw(x, y, op)
 </code></pre>
 
 
@@ -34,8 +37,11 @@ conformable raw vectors or arrays.
 a single string, giving the operator. <br />
 Supported byte operators: pmin, pmax, diff. <br />
 The &quot;diff&quot; operator performs the byte equivalent of <code>abs(x - y)</code>. <br />
-Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br />
-<br />
+Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
 </td></tr>
 </table>
 

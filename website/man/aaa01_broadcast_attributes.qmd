@@ -22,6 +22,10 @@ Notice that this contrats with base 'R' in the following sense: <br />
 In base 'R', logical (&amp;, |) and relational (==, !=, etc.) operators never preserve attributes,
 whereas the broadcasted equivalents do preserve the &quot;broadcaster&quot; attribute. <br />
 <br />
+Almost all functions provided by 'broadcast' are S3 or S4 generics; <br />
+methods can be written for them for specific classes,
+so that class-specific attributes can be supported when needed. <br />
+<br />
 Unary operations (i.e. <code>+ x</code>, <code>- x</code>) return the original object,
 with only the sign adjusted. <br />
 <br />

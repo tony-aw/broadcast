@@ -321,7 +321,7 @@ A very, very basic refresher for <svg aria-hidden="true" role="img" viewbox="0 0
 <p>The ‘broadcast’ package performs “broadcasting”, which can do the above, but <strong>faster</strong>, <strong>without unnecessary copies</strong>, and scalable to arrays of any size (up to 16 dimensions).<br>
 Like so:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.num</span>(x, y, <span class="st">"+"</span>)</span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.d</span>(x, y, <span class="st">"+"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  101  205  309  413  517</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  102  206  310  414  518</span></span>
@@ -335,7 +335,7 @@ Like so:</p>
 <h1 data-number="4"><span class="header-section-number">4</span> Binary operations</h1>
 <p>‘broadcast’ supports a wide range of binary element-wise broadcasted operations.<br>
 This includes arithmetic, relational, logical, string, and bit-wise operations.</p>
-<p>The <code>bc.*</code> functions, like <a href="../man/bc.d.html">bc.num()</a> and <a href="../man/bc.b.html">bc.b()</a>, provide great control over these operations.</p>
+<p>The <code>bc.*</code> functions, like <a href="../man/bc.d.html">bc.d()</a> and <a href="../man/bc.b.html">bc.b()</a>, provide great control over these operations.</p>
 <p>For example:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
@@ -350,7 +350,7 @@ This includes arithmetic, relational, logical, string, and bit-wise operations.<
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  100  200  300  400  500</span></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.num</span>(x, y, <span class="st">"+"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.d</span>(x, y, <span class="st">"+"</span>)</span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  101  205  309  413  517</span></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  102  206  310  414  518</span></span>

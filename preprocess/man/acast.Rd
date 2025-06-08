@@ -2,18 +2,24 @@
 % Please edit documentation in R/acast.R
 \name{acast}
 \alias{acast}
+\alias{acast.default}
 \title{Simple and Fast Casting/Pivoting of an Array}
 \usage{
-acast(
+acast(x, ...)
+
+\method{acast}{default}(
   x,
   margin,
   grp,
   fill = FALSE,
-  fill_val = if (is.atomic(x)) NA else list(NULL)
+  fill_val = if (is.atomic(x)) NA else list(NULL),
+  ...
 )
 }
 \arguments{
 \item{x}{an atomic or recursive array.}
+
+\item{...}{further arguments passed to or from methods. \cr \cr}
 
 \item{margin}{a scalar integer, specifying the margin to cast from.}
 
@@ -34,7 +40,8 @@ When \code{x} has type of \code{raw}, unbalanced \code{grp} is never allowed.}
 
 \item{fill_val}{scalar of the same type of \code{x},
 giving value to use to fill in the gaps when \code{fill = TRUE}. \cr
-The \code{fill_val} argument is ignored when \code{fill = FALSE} or when \code{x} has type of \code{raw}.}
+The \code{fill_val} argument is ignored when \code{fill = FALSE}
+or when \code{x} has type of \code{raw}.}
 }
 \value{
 An array with the following properties:

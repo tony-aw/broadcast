@@ -26,7 +26,10 @@ function processMathHTML() {
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>bc.list(x, y, f)
+<pre><code class='language-R'>bc.list(x, y, f, ...)
+
+## S4 method for signature 'ANY'
+bc.list(x, y, f)
 </code></pre>
 
 
@@ -40,7 +43,11 @@ function processMathHTML() {
 <tr><td><code id="f">f</code></td>
 <td>
 <p>a function that takes in exactly <b>2</b> arguments,
-and <b>returns</b> a result that can be stored in a single element of a list. <br /></p>
+and <b>returns</b> a result that can be stored in a single element of a list.</p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>further arguments passed to or from methods. <br /> <br /></p>
 </td></tr>
 </table>
 

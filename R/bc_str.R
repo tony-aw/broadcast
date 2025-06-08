@@ -8,7 +8,8 @@
 #' @param op a single string, giving the operator. \cr
 #' Supported concatenation operators: `r paste0(broadcast:::.op_str_conc(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_str_rel(), collapse = ", ")`. \cr
-#' Supported distance operators: `r paste0(broadcast:::.op_str_dist(), collapse = ", ")`. \cr
+#' Supported distance operators: `r paste0(broadcast:::.op_str_dist(), collapse = ", ")`.
+#' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #'
 #' @returns
@@ -30,47 +31,61 @@
 #' 
 
 
+
+
+
 #' @rdname bc.str
 #' @export
-bc.str <- function(x, y, op) {
-  
-  # checks:
-  .binary_stop_general(x, y, op, sys.call())
-  if(!is.character(x) || !is.character(y)) {
-    stop("`x` and `y` must be character/string arrays")
-  }
-  
-  encodings <- c(
-    Encoding(x[1]),
-    Encoding(y[1]),
-    Encoding(x[length(x)]),
-    Encoding(y[length(y)])
-  )
-  if(length(unique(encodings)) > 1L) {
-    warning("difference in encoding detected between `x` and `y`")
-  }
-    
-  
-  # get operator:
-  op_conc <- which(.op_str_conc() == op)
-  op_rel <- which(.op_str_rel() == op)
-  op_dist <- which(.op_str_dist() == op)
-  
-  if(length(op_conc)) {
-    return(.bc_str_conc(x, y, op_conc, sys.call()))
-  }
-  else if(length(op_rel)) {
-    return(.bc_str_rel(x, y, op_rel, sys.call()))
-  }
-  else if(length(op_dist)) {
-    return(.bc_str_dist(x, y, op_dist, sys.call()))
-  }
-  else {
-    stop("given operator not supported in the given context")
-  }
-  
-}
+setGeneric(
+  "bc.str",
+  function(x, y, op, ...) standardGeneric("bc.str"),
+  signature = c("x", "y")
+)
 
+
+#' @rdname bc.str
+#' @export
+setMethod(
+  "bc.str", c(x = "ANY", y = "ANY"),
+  function(x, y, op) {
+    # checks:
+    .binary_stop_general(x, y, op, sys.call())
+    if(!is.character(x) || !is.character(y)) {
+      stop("`x` and `y` must be character/string arrays")
+    }
+    
+    encodings <- c(
+      Encoding(x[1]),
+      Encoding(y[1]),
+      Encoding(x[length(x)]),
+      Encoding(y[length(y)])
+    )
+    if(length(unique(encodings)) > 1L) {
+      warning("difference in encoding detected between `x` and `y`")
+    }
+    
+    
+    # get operator:
+    op_conc <- which(.op_str_conc() == op)
+    op_rel <- which(.op_str_rel() == op)
+    op_dist <- which(.op_str_dist() == op)
+    
+    if(length(op_conc)) {
+      return(.bc_str_conc(x, y, op_conc, sys.call()))
+    }
+    else if(length(op_rel)) {
+      return(.bc_str_rel(x, y, op_rel, sys.call()))
+    }
+    else if(length(op_dist)) {
+      return(.bc_str_dist(x, y, op_dist, sys.call()))
+    }
+    else {
+      stop("given operator not supported in the given context")
+    }
+    
+  }
+  
+)
 
 
 #' @keywords internal

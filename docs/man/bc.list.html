@@ -322,7 +322,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">bc.list(x, y, f)
+<pre><code class="language-R">bc.list(x, y, f, ...)
+
+## S4 method for signature 'ANY'
+bc.list(x, y, f)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -342,7 +345,15 @@ conformable Recursive arrays (i.e.&nbsp;arrays of type <code>list</code>).
 <code id="f">f</code>
 </td>
 <td>
-a function that takes in exactly <b>2</b> arguments, and <b>returns</b> a result that can be stored in a single element of a list. <br>
+a function that takes in exactly <b>2</b> arguments, and <b>returns</b> a result that can be stored in a single element of a list.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="...">…</code>
+</td>
+<td>
+further arguments passed to or from methods. <br> <br>
 </td>
 </tr>
 

@@ -5,7 +5,8 @@
 #' 
 #' @param x,y conformable Recursive arrays (i.e. arrays of type `list`).
 #' @param f a function that takes in exactly \bold{2} arguments,
-#' and \bold{returns} a result that can be stored in a single element of a list. \cr
+#' and \bold{returns} a result that can be stored in a single element of a list.
+#' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' 
 #'
@@ -17,12 +18,32 @@
 #' 
 
 
+
 #' @rdname bc.list
 #' @export
-bc.list <- function(x, y, f) {
-  
+setGeneric(
+  "bc.list",
+  function(x, y, f, ...) standardGeneric("bc.list"),
+  signature = c("x", "y")
+)
+
+
+#' @rdname bc.list
+#' @export
+setMethod(
+  "bc.list", c(x = "ANY", y = "ANY"),
+  function(x, y, f) {
+    .bc.list(x, y, f, sys.call())
+  }
+)
+
+
+
+#' @keywords internal
+#' @noRd
+.bc.list <- function(x, y, f, abortcall) {
   # checks:
-  .binary_stop_general(x, y, "", sys.call())
+  .binary_stop_general(x, y, "", abortcall)
   if(!is.list(x) || !is.list(y)) {
     stop("`x` and `y` must be recursive arrays")
   }
@@ -38,7 +59,7 @@ bc.list <- function(x, y, f) {
   
   
   # general prep:
-  prep <- .binary_prep(x, y, sys.call())
+  prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   # x.len <- prep[[3L]]
@@ -71,6 +92,4 @@ bc.list <- function(x, y, f) {
   dim(out) <- out.dimorig
   
   return(out)
-  
 }
-

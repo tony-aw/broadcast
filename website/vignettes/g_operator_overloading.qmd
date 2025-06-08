@@ -51,7 +51,7 @@ Suppose we wish to compute `x + y / z`;
 The following is **wrong**:
 
 ```{r}
-bc.num(x, y, "+") |> bc.num(y, "/")
+bc.d(x, y, "+") |> bc.d(y, "/")
 ```
 
 ...because division must come **before** addition, according to standard math precedence rules.
@@ -59,7 +59,7 @@ bc.num(x, y, "+") |> bc.num(y, "/")
 We *could* do the following:
 
 ```{r}
-bc.num(y, z, "/") |> bc.num(x, "+")
+bc.d(y, z, "/") |> bc.d(x, "+")
 ```
 
 ...but as the mathematical expression involves more and more variables with a greater variety of operators, it comes more and more taxing to keep track of the operator precedence.

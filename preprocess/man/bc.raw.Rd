@@ -2,9 +2,12 @@
 % Please edit documentation in R/bc_raw.R
 \name{bc.raw}
 \alias{bc.raw}
+\alias{bc.raw,ANY-method}
 \title{Broadcasted Byte and Relational Operations on Raw Arrays}
 \usage{
-bc.raw(x, y, op)
+bc.raw(x, y, op, ...)
+
+\S4method{bc.raw}{ANY}(x, y, op)
 }
 \arguments{
 \item{x, y}{conformable raw vectors or arrays.}
@@ -12,8 +15,9 @@ bc.raw(x, y, op)
 \item{op}{a single string, giving the operator. \cr
 Supported byte operators: pmin, pmax, diff. \cr
 The "diff" operator performs the byte equivalent of \code{abs(x - y)}. \cr
-Supported relational operators: ==, !=, <, >, <=, >=. \cr
-\cr}
+Supported relational operators: ==, !=, <, >, <=, >=.}
+
+\item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
 For the byte operators: \cr
@@ -29,8 +33,8 @@ The \code{bc.raw()} function
 performs broadcasted byte- and relational operations
 on arrays of type \code{raw}. \cr
 \cr
-For bit-wise operations, use \code{[bc.bit](bc.bit.qmd)}. \cr
-For logical operations, use \code{[bc.b](bc.b.qmd)} \cr
+For bit-wise operations, use \code{[bc.bit](ndim.qmd)}. \cr
+For logical operations, use \code{[bc.b](rep_dim.qmd)} \cr
 \cr
 }
 \examples{

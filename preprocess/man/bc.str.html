@@ -27,7 +27,10 @@ performs broadcasted string operations on pairs of arrays. <br /> <br />
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>bc.str(x, y, op)
+<pre><code class='language-R'>bc.str(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.str(x, y, op)
 </code></pre>
 
 
@@ -43,7 +46,11 @@ performs broadcasted string operations on pairs of arrays. <br /> <br />
 <p>a single string, giving the operator. <br />
 Supported concatenation operators: +. <br />
 Supported relational operators: ==, !=. <br />
-Supported distance operators: levenshtein. <br /></p>
+Supported distance operators: levenshtein.</p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>further arguments passed to or from methods. <br /> <br /></p>
 </td></tr>
 </table>
 

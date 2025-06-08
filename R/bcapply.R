@@ -15,7 +15,8 @@
 #' the user can specify the type in `v` to pre-allocate the result. \cr
 #' Pre-allocating the results leads to slightly faster and more memory efficient code. \cr
 #' NOTE: Incorrectly specifying `v` leads to undefined behaviour; \cr
-#' when unsure, leave `v` at its default value. \cr
+#' when unsure, leave `v` at its default value.
+#' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' 
 #'
@@ -26,81 +27,90 @@
 #' @example inst/examples/bcapply.R
 #' 
 
+#' @rdname bcapply
+#' @export
+setGeneric(
+  "bcapply",
+  function(x, y, f, ...) standardGeneric("bcapply"),
+  signature = c("x", "y")
+)
 
 #' @rdname bcapply
 #' @export
-bcapply <- function(x, y, f, v = NULL) {
-  
-  # checks:
-  .binary_stop_general(x, y, "", sys.call())
-  if(!is.function(f)) {
-    stop("`f` must be a function")
-  }
-  if(.n_args(f) != 2L) {
-    stop("`f` must be a function that takes in exactly 2 arguments")
-  }
-  if(!.is_supported_type(x) || !.is_supported_type(y)) {
-    stop("input must be arrays or simple vecors")
-  }
-  if(is.null(v)) {
-    v <- "list"
-  }
-  if(!v %in% c("raw", "logical", "integer", "double", "complex", "character", "list")) {
-    stop("unsupported type specified for `v`")
-  }
-  
-  
-  # early zero-len return:
-  if(length(x) == 0L || length(y) == 0L) {
-    return(vector(v, 0L))
-  }
-  
-  
-  # General prep:
-  prep <- .binary_prep(x, y, sys.call())
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  # x.len <- prep[[3L]]
-  # y.len <- prep[[4L]]
-  out.dimorig <- prep[[5L]]
-  out.dimsimp <- prep[[6L]]
-  out.len <- prep[[7L]]
-  dimmode <- prep[[8L]]
-  
-  
-  # Allocate output:
-  out <- vector(v, out.len)
-  
-  
-  # transform function:
-  fnew <- .transform_function(f)
-  
-  
-  # Broadcast:
-  
-  if(dimmode == 1L) { # vector mode
-    .rcpp_bcapply_v(out, x, y, out.len, fnew)
-  }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    .rcpp_bcapply_ov(out, x, y, RxC, out.dimsimp, out.len, fnew)
-  }
-  else if(dimmode == 3L) { # general mode
+setMethod(
+  "bcapply", c(x = "ANY", y = "ANY"),
+  function(x, y, f, v = NULL) {
     
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
+    # checks:
+    .binary_stop_general(x, y, "", sys.call())
+    if(!is.function(f)) {
+      stop("`f` must be a function")
+    }
+    if(.n_args(f) != 2L) {
+      stop("`f` must be a function that takes in exactly 2 arguments")
+    }
+    if(!.is_supported_type(x) || !.is_supported_type(y)) {
+      stop("input must be arrays or simple vecors")
+    }
+    if(is.null(v)) {
+      v <- "list"
+    }
+    if(!v %in% c("raw", "logical", "integer", "double", "complex", "character", "list")) {
+      stop("unsupported type specified for `v`")
+    }
     
-    .rcpp_bcapply_d(
-      out, x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, fnew
-    )
+    
+    # early zero-len return:
+    if(length(x) == 0L || length(y) == 0L) {
+      return(vector(v, 0L))
+    }
+    
+    
+    # General prep:
+    prep <- .binary_prep(x, y, sys.call())
+    x.dim <- prep[[1L]]
+    y.dim <- prep[[2L]]
+    # x.len <- prep[[3L]]
+    # y.len <- prep[[4L]]
+    out.dimorig <- prep[[5L]]
+    out.dimsimp <- prep[[6L]]
+    out.len <- prep[[7L]]
+    dimmode <- prep[[8L]]
+    
+    
+    # Allocate output:
+    out <- vector(v, out.len)
+    
+    
+    # transform function:
+    fnew <- .transform_function(f)
+    
+    
+    # Broadcast:
+    
+    if(dimmode == 1L) { # vector mode
+      .rcpp_bcapply_v(out, x, y, out.len, fnew)
+    }
+    else if(dimmode == 2L) { # orthogonal vector mode
+      RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
+      .rcpp_bcapply_ov(out, x, y, RxC, out.dimsimp, out.len, fnew)
+    }
+    else if(dimmode == 3L) { # general mode
+      
+      by_x <- .C_make_by(x.dim)
+      by_y <- .C_make_by(y.dim)
+      dcp_x <- .C_make_dcp(x.dim)
+      dcp_y <- .C_make_dcp(y.dim)
+      
+      .rcpp_bcapply_d(
+        out, x, y, by_x, by_y,
+        dcp_x, dcp_y, as.integer(out.dimsimp), out.len, fnew
+      )
+    }
+    
+    dim(out) <- out.dimorig
+    
+    return(out)
+    
   }
-  
-  dim(out) <- out.dimorig
-  
-  return(out)
-  
-}
-
+)

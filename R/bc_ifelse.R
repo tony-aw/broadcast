@@ -10,7 +10,8 @@
 #' If `yes` / `no` are of type `raw`, `test` is not allowed to contain any `NA`s.
 #' @param yes,no conformable arrays of the same type. \cr
 #' All \link[base]{atomic} types are supported. \cr
-#' Recursive arrays of type \link[base]{list} are also supported. \cr \cr
+#' Recursive arrays of type \link[base]{list} are also supported.
+#' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' 
 #'
@@ -34,81 +35,90 @@
 #' @example inst/examples/bc_ifelse.R
 #' 
 
+#' @rdname bc_ifelse
+#' @export
+setGeneric(
+  "bc_ifelse",
+  function(test, yes, no, ...) standardGeneric("bc_ifelse"),
+  signature = c("test", "yes", "no")
+)
 
 #' @rdname bc_ifelse
 #' @export
-bc_ifelse <- function(test, yes, no) {
-  
-  # checks:
-  .binary_stop_general(yes, no, "", sys.call())
-  if(typeof(yes) != typeof(no)) {
-    stop("`yes` and `no` must be of the same type")
-  }
-  if(!.is_boolable(test)) {
-    stop("unsupported type given for `test`")
-  }
-  if(!.is_supported_type(yes) || !.is_supported_type(no)) {
-    stop("input must be arrays or simple vecors")
-  }
-  if(length(test) == 0L) {
-    return(vector(typeof(yes), 0L))
-  }
-  if(length(test) != prod(bc_dim(yes, no))) {
-    stop("`test` of incorrect length")
-  }
-  
-  
-  # re-assign
-  x <- yes
-  y <- no
-  
-  # Prep:
-  prep <- .binary_prep(x, y, sys.call())
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  # x.len <- prep[[3L]]
-  # y.len <- prep[[4L]]
-  out.dimorig <- prep[[5L]]
-  out.dimsimp <- prep[[6L]]
-  out.len <- prep[[7L]]
-  dimmode <- prep[[8L]]
-  
-  # Broadcast:
-  
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bc_ifelse_v(test, x, y, out.len)
-  }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bc_ifelse_ov(test, x, y, RxC, out.dimsimp, out.len)
-  }
-  else if(dimmode == 3L) { # general mode
+setMethod(
+  "bc_ifelse", c(test = "ANY", yes = "ANY", no = "ANY"),
+  function(test, yes, no) {
     
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bc_ifelse_d(
-      test, x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len
-    )
-  }
-  
-  dim(out) <- out.dimorig
-  if(is.array(test)) {
-    if(ndim(out) > 1L && all(dim(test) == out.dimorig)) {
-      dimnames(out) <- dimnames(test)
+    # checks:
+    .binary_stop_general(yes, no, "", sys.call())
+    if(typeof(yes) != typeof(no)) {
+      stop("`yes` and `no` must be of the same type")
     }
+    if(!.is_boolable(test)) {
+      stop("unsupported type given for `test`")
+    }
+    if(!.is_supported_type(yes) || !.is_supported_type(no)) {
+      stop("input must be arrays or simple vecors")
+    }
+    if(length(test) == 0L) {
+      return(vector(typeof(yes), 0L))
+    }
+    if(length(test) != prod(bc_dim(yes, no))) {
+      stop("`test` of incorrect length")
+    }
+    
+    
+    # re-assign
+    x <- yes
+    y <- no
+    
+    # Prep:
+    prep <- .binary_prep(x, y, sys.call())
+    x.dim <- prep[[1L]]
+    y.dim <- prep[[2L]]
+    # x.len <- prep[[3L]]
+    # y.len <- prep[[4L]]
+    out.dimorig <- prep[[5L]]
+    out.dimsimp <- prep[[6L]]
+    out.len <- prep[[7L]]
+    dimmode <- prep[[8L]]
+    
+    # Broadcast:
+    
+    if(dimmode == 1L) { # vector mode
+      out <- .rcpp_bc_ifelse_v(test, x, y, out.len)
+    }
+    else if(dimmode == 2L) { # orthogonal vector mode
+      RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
+      out <- .rcpp_bc_ifelse_ov(test, x, y, RxC, out.dimsimp, out.len)
+    }
+    else if(dimmode == 3L) { # general mode
+      
+      by_x <- .C_make_by(x.dim)
+      by_y <- .C_make_by(y.dim)
+      dcp_x <- .C_make_dcp(x.dim)
+      dcp_y <- .C_make_dcp(y.dim)
+      
+      out <- .rcpp_bc_ifelse_d(
+        test, x, y, by_x, by_y,
+        dcp_x, dcp_y, as.integer(out.dimsimp), out.len
+      )
+    }
+    
+    dim(out) <- out.dimorig
+    if(is.array(test)) {
+      if(ndim(out) > 1L && all(dim(test) == out.dimorig)) {
+        dimnames(out) <- dimnames(test)
+      }
+    }
+    
+    if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
+      .rcpp_set_class(out, "broadcaster")
+    }
+    
+    .binary_set_ma(out, yes, no)
+    
+    return(out)
+    
   }
-  
-  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
-    .rcpp_set_class(out, "broadcaster")
-  }
-  
-  .binary_set_ma(out, yes, no)
-  
-  return(out)
-  
-}
-
+)

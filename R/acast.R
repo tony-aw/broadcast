@@ -31,7 +31,9 @@
 #' When `x` has type of `raw`, unbalanced `grp` is never allowed.
 #' @param fill_val scalar of the same type of `x`,
 #' giving value to use to fill in the gaps when `fill = TRUE`. \cr
-#' The `fill_val` argument is ignored when `fill = FALSE` or when `x` has type of `raw`.
+#' The `fill_val` argument is ignored when `fill = FALSE`
+#' or when `x` has type of `raw`.
+#' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' 
 #' @details
@@ -78,11 +80,16 @@
 #' 
 #'  
 
+#' @rdname acast
+#' @export
+acast <- function(x, ...) {
+  UseMethod("acast", x)
+}
 
 #' @rdname acast
 #' @export
-acast <- function(
-    x, margin, grp, fill = FALSE, fill_val = if(is.atomic(x)) NA else list(NULL)
+acast.default <- function(
+    x, margin, grp, fill = FALSE, fill_val = if(is.atomic(x)) NA else list(NULL), ...
 ) {
   
   # first checks:

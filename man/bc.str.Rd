@@ -2,9 +2,12 @@
 % Please edit documentation in R/bc_str.R
 \name{bc.str}
 \alias{bc.str}
+\alias{bc.str,ANY-method}
 \title{Broadcasted String Operations}
 \usage{
-bc.str(x, y, op)
+bc.str(x, y, op, ...)
+
+\S4method{bc.str}{ANY}(x, y, op)
 }
 \arguments{
 \item{x, y}{conformable atomic arrays of type \code{character}.}
@@ -12,7 +15,9 @@ bc.str(x, y, op)
 \item{op}{a single string, giving the operator. \cr
 Supported concatenation operators: +. \cr
 Supported relational operators: ==, !=. \cr
-Supported distance operators: levenshtein. \cr}
+Supported distance operators: levenshtein.}
+
+\item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
 For concatenation operation: \cr

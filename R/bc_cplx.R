@@ -10,7 +10,8 @@
 #' @param x,y conformable atomic arrays of type `complex`.
 #' @param op a single string, giving the operator. \cr
 #' Supported arithmetic operators: `r paste0(broadcast:::.op_cplx_math(), collapse = ", ")`. \cr
-#' Supported relational operators: `r paste0(broadcast:::.op_cplx_rel(), collapse = ", ")`. \cr
+#' Supported relational operators: `r paste0(broadcast:::.op_cplx_rel(), collapse = ", ")`.
+#' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' 
 #'
@@ -29,31 +30,41 @@
 
 #' @rdname bc.cplx
 #' @export
-bc.cplx <- function(x, y, op) {
-  
-  # checks:
-  .binary_stop_general(x, y, op, sys.call())
-  if(!is.complex(x) || !is.complex(y)) {
-    stop("`x` and `y` must be complex arrays or vectors")
-  }
-  
-  # get operator:
-  op_math <- which(.op_cplx_math() == op)
-  op_rel <- which(.op_cplx_rel() == op)
-  
-  if(length(op_math)) {
-    return(.bc_cplx_math(x, y, op_math, sys.call()))
-  }
-  else if(length(op_rel)) {
-    return(.bc_cplx_rel(x, y, op_rel, sys.call()))
-  }
-  else {
-    stop("given operator not supported in the given context")
-  }
-  
-  
-}
+setGeneric(
+  "bc.cplx",
+  function(x, y, op, ...) standardGeneric("bc.cplx"),
+  signature = c("x", "y")
+)
 
+
+#' @rdname bc.cplx
+#' @export
+setMethod(
+  "bc.cplx", c(x = "ANY", y = "ANY"),
+  function(x, y, op) {
+    # checks:
+    .binary_stop_general(x, y, op, sys.call())
+    if(!is.complex(x) || !is.complex(y)) {
+      stop("`x` and `y` must be complex arrays or vectors")
+    }
+    
+    # get operator:
+    op_math <- which(.op_cplx_math() == op)
+    op_rel <- which(.op_cplx_rel() == op)
+    
+    if(length(op_math)) {
+      return(.bc_cplx_math(x, y, op_math, sys.call()))
+    }
+    else if(length(op_rel)) {
+      return(.bc_cplx_rel(x, y, op_rel, sys.call()))
+    }
+    else {
+      stop("given operator not supported in the given context")
+    }
+    
+    
+  }
+)
 
 
 #' @keywords internal

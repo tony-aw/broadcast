@@ -13,7 +13,10 @@ performs a broadcasted form of <code>ifelse()</code>. <br />
 
 ### Usage
 
-<pre><code class='language-R'>bc_ifelse(test, yes, no)
+<pre><code class='language-R'>bc_ifelse(test, yes, no, ...)
+
+## S4 method for signature 'ANY'
+bc_ifelse(test, yes, no)
 </code></pre>
 
 
@@ -31,7 +34,11 @@ If <code>yes</code> / <code>no</code> are of type <code>raw</code>, <code>test</
 <td>
 conformable arrays of the same type. <br />
 All atomic types are supported. <br />
-Recursive arrays of type list are also supported. <br /> <br />
+Recursive arrays of type list are also supported.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
 </td></tr>
 </table>
 

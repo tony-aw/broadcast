@@ -18,7 +18,10 @@ because both <code>1</code> and <code>2</code> are <code>TRUE</code> when treate
 
 ### Usage
 
-<pre><code class='language-R'>bc.b(x, y, op)
+<pre><code class='language-R'>bc.b(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.b(x, y, op)
 </code></pre>
 
 
@@ -32,7 +35,11 @@ conformable arrays of type <code>logical</code>, <code>integer</code>(32 bit), o
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
 a single string, giving the operator. <br />
-Supported Boolean  operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br />
+Supported Boolean  operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
 </td></tr>
 </table>
 
