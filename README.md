@@ -39,8 +39,8 @@ page for a more complete explanation of what “broadcasting” is.
 
  
 
-At its core, the ‘broadcast’ package provides 3 functionalities, all 3
-related to “broadcasting”:
+At its core, the ‘broadcast’ package provides the following
+functionalities, all related to “broadcasting”:
 
 1.  Functions for broadcasted element-wise operations between any 2
     arrays. They support a large set of relational-, arithmetic-,
@@ -55,10 +55,10 @@ related to “broadcasting”:
 3.  ‘broadcast’ provides several generic functions for broadcasting,
     namely `bcapply()` (broadcasted apply-like function) and
     `bc_ifelse()` (broadcasted version of `ifelse()`).
-
-Additionally, ‘broadcast’ includes the `acast()` function, for
-casting/pivoting an array into a new dimension. Roughly analogous to
-`data.table::dcast()`, but for arrays.
+4.  ‘broadcast’ includes the `acast()` function, for casting/pivoting an
+    array into a new dimension. Roughly analogous to
+    `data.table::dcast()`, but for arrays. Can be used for performing
+    **grouped** broadcasted operations, among other things.
 
  
 

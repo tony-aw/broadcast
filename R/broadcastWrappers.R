@@ -59,11 +59,11 @@
 
 #' @keywords Internal
 #' @noRd
-.C_bind_which_comnames <- function(out_dim, start, obj_dim) {
+.C_bind_which_comdims <- function(out_dim, start, obj_dim) {
   out_dim <- as.integer(out_dim)
   start <- as.integer(start)
   obj_dim <- as.integer(obj_dim)
-  .Call("C_bind_which_comnames", out_dim, start, obj_dim)
+  .Call("C_bind_which_comdims", out_dim, start, obj_dim)
 }
 
 
@@ -84,4 +84,5 @@
 .C_dims_all_equal <- function(xdim, ydim) {
   .Call("C_dims_all_equal", xdim, ydim)
 }
+
 

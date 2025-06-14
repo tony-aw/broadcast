@@ -280,7 +280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="rfastouter" class="level1">
 <h1><code>Rfast::Outer()</code></h1>
 <p>An outer computation is a special case of broadcasting, namely a broadcasting computation between a row-vector and a column-vector. The <code>outer()</code> function from base ‘R’ is too slow and consumes too much memory to provide any meaningful benchmark. But the ‘Rfast’ package provides a very fast implementation of the <code>outer()</code> function. It may be interesting how broadcasted operations hold up to the famously fast ‘Rfast’ package.</p>
-<p>Here the outer-sum between a row-vector <code>x</code> and column-vector <code>y</code> (both have 9000 elements) is computed using <code>Rfast::outer()</code> and <code>broadcast::bc.num()</code>, and their speeds and memory consumption are compared.</p>
+<p>Here the outer-sum between a row-vector <code>x</code> and column-vector <code>y</code> (both have 9000 elements) is computed using <code>Rfast::outer()</code> and <code>broadcast::bc.d()</code>, and their speeds and memory consumption are compared.</p>
 <p>The following code was used:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
@@ -290,7 +290,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>bm_outer <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Rfast =</span> Rfast<span class="sc">::</span><span class="fu">Outer</span>(x, y, <span class="st">"+"</span>),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">broadcast =</span> <span class="fu">bc.num</span>(x, y, <span class="st">"+"</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">broadcast =</span> <span class="fu">bc.d</span>(x, y, <span class="st">"+"</span>),</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_iterations =</span> <span class="dv">100</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bm_outer)</span>
@@ -301,8 +301,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>#&gt; # A tibble: 2 × 6
 #&gt;   expression      min   median `itr/sec` mem_alloc `gc/sec`
 #&gt;   &lt;bch:expr&gt; &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
-#&gt; 1 Rfast        98.8ms    102ms      9.14     619MB     2.29
-#&gt; 2 broadcast    98.9ms    107ms      8.72     618MB     2.18</code></pre>
+#&gt; 1 Rfast        97.9ms    103ms      8.88     618MB     4.57
+#&gt; 2 broadcast    97.9ms    105ms      9.33     618MB     4.60</code></pre>
 <div class="cell-output-display">
 <p><img src="f_benchmarks_other_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="768"></p>
 </div>
@@ -313,7 +313,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="r-operator-from-collapse" class="level1">
 <h1><code>%r+%</code> operator from ‘collapse’</h1>
-<p>The impressive ‘collapse’ package supports a large set of blazingly fast functions for a large variety of tasks. One of these is the <code>x %r% v</code> operator. Given a matrix <code>x</code> and a vector <code>v</code>, <code>x %r+% v</code> will add <code>v</code> to every row of <code>x</code>. Using this function in this way is equivalent to the <a href="../man/bc.d.html">bc.num()</a> function, using a column-vector for <code>v</code>.</p>
+<p>The impressive ‘collapse’ package supports a large set of blazingly fast functions for a large variety of tasks. One of these is the <code>x %r% v</code> operator. Given a matrix <code>x</code> and a vector <code>v</code>, <code>x %r+% v</code> will add <code>v</code> to every row of <code>x</code>. Using this function in this way is equivalent to the <a href="../man/bc.d.html">bc.d()</a> function, using a column-vector for <code>v</code>.</p>
 <p>Here these 2 approaches are benchmarked.</p>
 <p>The code used was as follows:</p>
 <div class="cell">
@@ -323,7 +323,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>), <span class="fu">c</span>(<span class="dv">1</span>, n))</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>bm_collapse_row <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">collapse =</span> x <span class="sc">%r+%</span> v,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">broadcast =</span> <span class="fu">bc.num</span>(x, v, <span class="st">"+"</span>),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">broadcast =</span> <span class="fu">bc.d</span>(x, v, <span class="st">"+"</span>),</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_iterations =</span> <span class="dv">100</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bm_collapse_row)</span>
@@ -334,8 +334,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>#&gt; # A tibble: 2 × 6
 #&gt;   expression      min   median `itr/sec` mem_alloc `gc/sec`
 #&gt;   &lt;bch:expr&gt; &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
-#&gt; 1 collapse       93ms   98.5ms      9.85     488MB     2.02
-#&gt; 2 broadcast    98.3ms    106ms      9.20     488MB     1.88</code></pre>
+#&gt; 1 collapse     94.1ms   96.4ms      9.71     488MB     3.24
+#&gt; 2 broadcast    97.1ms  114.4ms      8.85     488MB     2.95</code></pre>
 <div class="cell-output-display">
 <p><img src="f_benchmarks_other_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="768"></p>
 </div>

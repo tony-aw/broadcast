@@ -230,6 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#derived-operators" id="toc-derived-operators" class="nav-link" data-scroll-target="#derived-operators"><span class="header-section-number">4</span> Derived operators</a></li>
   <li><a href="#base-operators-vs-overloaded-operators" id="toc-base-operators-vs-overloaded-operators" class="nav-link" data-scroll-target="#base-operators-vs-overloaded-operators"><span class="header-section-number">5</span> Base operators vs Overloaded operators</a></li>
   <li><a href="#overloaded-operators-vs-bc.-functions" id="toc-overloaded-operators-vs-bc.-functions" class="nav-link" data-scroll-target="#overloaded-operators-vs-bc.-functions"><span class="header-section-number">6</span> Overloaded operators vs <code>bc.*</code> functions</a></li>
+  <li><a href="#compatibility-with-custom-methods" id="toc-compatibility-with-custom-methods" class="nav-link" data-scroll-target="#compatibility-with-custom-methods"><span class="header-section-number">7</span> Compatibility with Custom Methods</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -354,8 +355,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <script>
 
-      function styleCell_8n27q55xec6l7uenud8t(i, j, css_id) {
-          var table = document.getElementById("tinytable_8n27q55xec6l7uenud8t");
+      function styleCell_jgpy71al8wr4vz1z0agg(i, j, css_id) {
+          var table = document.getElementById("tinytable_jgpy71al8wr4vz1z0agg");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -365,7 +366,7 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_8n27q55xec6l7uenud8t');
+        var table = document.getElementById('tinytable_jgpy71al8wr4vz1z0agg');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -373,8 +374,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_8n27q55xec6l7uenud8t(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_8n27q55xec6l7uenud8t");
+      function spanCell_jgpy71al8wr4vz1z0agg(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_jgpy71al8wr4vz1z0agg");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -404,14 +405,14 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_vu5flsn9f3sj2avdq8g5',}, 
-          { positions: [ { i: 7, j: 0 }, { i: 7, j: 1 }, { i: 7, j: 2 },  ], css_id: 'tinytable_css_lfh1x6s14g97vdyaobcw',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_zsltwbycmqc5thgv3pfs',}, 
+          { positions: [ { i: 7, j: 0 }, { i: 7, j: 1 }, { i: 7, j: 2 },  ], css_id: 'tinytable_css_eh7y78dxx5tlv9hh1rmn',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_8n27q55xec6l7uenud8t(cell.i, cell.j, group.css_id);
+                  styleCell_jgpy71al8wr4vz1z0agg(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -419,11 +420,11 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_vu5flsn9f3sj2avdq8g5, .table th.tinytable_css_vu5flsn9f3sj2avdq8g5 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_lfh1x6s14g97vdyaobcw, .table th.tinytable_css_lfh1x6s14g97vdyaobcw { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_zsltwbycmqc5thgv3pfs, .table th.tinytable_css_zsltwbycmqc5thgv3pfs { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_eh7y78dxx5tlv9hh1rmn, .table th.tinytable_css_eh7y78dxx5tlv9hh1rmn { border-bottom: solid #d3d8dc 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_8n27q55xec6l7uenud8t" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_jgpy71al8wr4vz1z0agg" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -487,8 +488,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <script>
 
-      function styleCell_su4svgrl19pdab84uyn9(i, j, css_id) {
-          var table = document.getElementById("tinytable_su4svgrl19pdab84uyn9");
+      function styleCell_ztgfhnh0c6c1599876gf(i, j, css_id) {
+          var table = document.getElementById("tinytable_ztgfhnh0c6c1599876gf");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -498,7 +499,7 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_su4svgrl19pdab84uyn9');
+        var table = document.getElementById('tinytable_ztgfhnh0c6c1599876gf');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -506,8 +507,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_su4svgrl19pdab84uyn9(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_su4svgrl19pdab84uyn9");
+      function spanCell_ztgfhnh0c6c1599876gf(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_ztgfhnh0c6c1599876gf");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -537,14 +538,14 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 },  ], css_id: 'tinytable_css_l0q8j5huk8puabaypmgu',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_dn0u9u36yhr1il9ysdju',}, 
+          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 },  ], css_id: 'tinytable_css_zpidx574vemeqzorgnkj',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_hjggkoon84fuaawbdix6',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_su4svgrl19pdab84uyn9(cell.i, cell.j, group.css_id);
+                  styleCell_ztgfhnh0c6c1599876gf(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -552,11 +553,11 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_l0q8j5huk8puabaypmgu, .table th.tinytable_css_l0q8j5huk8puabaypmgu { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_dn0u9u36yhr1il9ysdju, .table th.tinytable_css_dn0u9u36yhr1il9ysdju { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_zpidx574vemeqzorgnkj, .table th.tinytable_css_zpidx574vemeqzorgnkj { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_hjggkoon84fuaawbdix6, .table th.tinytable_css_hjggkoon84fuaawbdix6 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_su4svgrl19pdab84uyn9" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_ztgfhnh0c6c1599876gf" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -605,8 +606,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <script>
 
-      function styleCell_7pq6cqmy0vs17g2j0ym8(i, j, css_id) {
-          var table = document.getElementById("tinytable_7pq6cqmy0vs17g2j0ym8");
+      function styleCell_04mltwcu2d8vtvoutthw(i, j, css_id) {
+          var table = document.getElementById("tinytable_04mltwcu2d8vtvoutthw");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -616,7 +617,7 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_7pq6cqmy0vs17g2j0ym8');
+        var table = document.getElementById('tinytable_04mltwcu2d8vtvoutthw');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -624,8 +625,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_7pq6cqmy0vs17g2j0ym8(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_7pq6cqmy0vs17g2j0ym8");
+      function spanCell_04mltwcu2d8vtvoutthw(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_04mltwcu2d8vtvoutthw");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -655,14 +656,14 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_fhm2fo2p126okh01ba2a',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_3sylun3xyzo4xxyekcpg',}, 
+          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_ku5n0a8yxx08v5re82qc',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_huz08ddhnk3que2mbpx7',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_7pq6cqmy0vs17g2j0ym8(cell.i, cell.j, group.css_id);
+                  styleCell_04mltwcu2d8vtvoutthw(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -670,11 +671,11 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_fhm2fo2p126okh01ba2a, .table th.tinytable_css_fhm2fo2p126okh01ba2a { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_3sylun3xyzo4xxyekcpg, .table th.tinytable_css_3sylun3xyzo4xxyekcpg { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_ku5n0a8yxx08v5re82qc, .table th.tinytable_css_ku5n0a8yxx08v5re82qc { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_huz08ddhnk3que2mbpx7, .table th.tinytable_css_huz08ddhnk3que2mbpx7 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_7pq6cqmy0vs17g2j0ym8" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_04mltwcu2d8vtvoutthw" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -713,8 +714,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <script>
 
-      function styleCell_5i6meogz65qqae7otw1n(i, j, css_id) {
-          var table = document.getElementById("tinytable_5i6meogz65qqae7otw1n");
+      function styleCell_u0o8v0l4q8zpkr376557(i, j, css_id) {
+          var table = document.getElementById("tinytable_u0o8v0l4q8zpkr376557");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -724,7 +725,7 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_5i6meogz65qqae7otw1n');
+        var table = document.getElementById('tinytable_u0o8v0l4q8zpkr376557');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -732,8 +733,8 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_5i6meogz65qqae7otw1n(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_5i6meogz65qqae7otw1n");
+      function spanCell_u0o8v0l4q8zpkr376557(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_u0o8v0l4q8zpkr376557");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -763,14 +764,14 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_47iq8avmya8m5ew9jbyp',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_2wwxwe3h1depp2lm1zgx',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_sitbpql4tslvmky5gs54',}, 
+          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_h54alb19whi9wov3gyye',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_5i6meogz65qqae7otw1n(cell.i, cell.j, group.css_id);
+                  styleCell_u0o8v0l4q8zpkr376557(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -778,11 +779,11 @@ To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster,
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_47iq8avmya8m5ew9jbyp, .table th.tinytable_css_47iq8avmya8m5ew9jbyp { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_2wwxwe3h1depp2lm1zgx, .table th.tinytable_css_2wwxwe3h1depp2lm1zgx { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_sitbpql4tslvmky5gs54, .table th.tinytable_css_sitbpql4tslvmky5gs54 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_h54alb19whi9wov3gyye, .table th.tinytable_css_h54alb19whi9wov3gyye { border-bottom: solid #d3d8dc 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_5i6meogz65qqae7otw1n" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_u0o8v0l4q8zpkr376557" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -847,6 +848,43 @@ When using the overloaded operators, using logical AND/OR for type <code>raw</co
 With the <code>bc.*()</code> functions, this is not necessary.<br>
 Want to use logical AND/OR? Use <a href="../man/bc.b.html">bc.b()</a>, it supports several types including <code>raw</code>.<br>
 Want to use bit-wise AND/OR? Use <a href="../man/bc.bit.html">bc.bit()</a>, it supports not only <code>raw</code>, but <code>integer</code> as well.</p>
+<p>&nbsp;</p>
+</section>
+<section id="compatibility-with-custom-methods" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Compatibility with Custom Methods</h1>
+<p>Consider a classed vector like the following:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x) <span class="ot">&lt;-</span> <span class="st">"someclass"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">class</span>(x))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "someclass"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Setting a vector or array as a “broadcaster” using the <code>broadcaster()&lt;-</code> function, will add the “broadcaster” class attribute;<br>
+but note that the “broadcaster” class will be placed <strong>last</strong> in the class attribute:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(x) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">class</span>(x))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "someclass"   "broadcaster"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice how the “broadcaster” class comes after the “someclass” class.</p>
+<p>Let’s make a quick ’n dirty (and not at all smart) <code>+</code> method for “somceclass”, which will just print some text:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">+.someclass</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(e1, e2) {<span class="fu">print</span>(<span class="st">"someclass method called"</span>)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>What will happen? Will the <code>+</code> method for the broadcaster be called, or the <code>+</code> method for “someclass”?<br>
+Well, since the “broadcaster” class is intentionally placed last, operator methods for the overriding classes will always “win” over the “broadcaster” class. In this case, if there are methods for the base operators (such as <code>+</code>, <code>-</code>, etc.) for the “someclass” class, the method for “someclass” will be called, rather than the broadcaster method:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(y) <span class="ot">&lt;-</span> <span class="st">"someclass"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(y) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "someclass method called"</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "someclass method called"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice how the <code>+</code> method for “someclass” is called, rather than the <code>+</code> method for the broadcaster.</p>
+<p>This ensures compatibility with custom classes.<br>
+After all, some classes may not be intended to be broadcasted, or they may not be compatible with the base ‘R’ way of arithmetic (which is what ‘broadcast’ mimics), or they may need careful handling of attributes.</p>
+<p>Authors of these custom classes can make their methods use broadcasting if a broadcaster vector/array is detected, if they so choose; only they know what is appropriate for their classes and what isn’t.</p>
 <p>&nbsp;</p>
 
 

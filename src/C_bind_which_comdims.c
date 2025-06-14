@@ -2,7 +2,7 @@
 #include <Rdefines.h>
 #include <R_ext/Error.h>
 
-SEXP C_bind_which_comnames ( SEXP out_dim, SEXP start, SEXP obj_dim ) {
+SEXP C_bind_which_comdims ( SEXP out_dim, SEXP start, SEXP obj_dim ) {
 
 
 int n = Rf_length(obj_dim);

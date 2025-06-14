@@ -1140,7 +1140,7 @@ END_RCPP
 }
 
 RcppExport SEXP C_any_nonNULL(SEXP);
-RcppExport SEXP C_bind_which_comnames(SEXP, SEXP, SEXP);
+RcppExport SEXP C_bind_which_comdims(SEXP, SEXP, SEXP);
 RcppExport SEXP C_check_conf_dim(SEXP, SEXP);
 RcppExport SEXP C_dims_all_equal(SEXP, SEXP);
 RcppExport SEXP C_dims_all_orthogonal(SEXP, SEXP);
@@ -1229,7 +1229,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_set_vind_32_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_32_atomic, 3},
     {"_broadcast_rcpp_set_vind_64_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_64_atomic, 3},
     {"C_any_nonNULL",         (DL_FUNC) &C_any_nonNULL,         1},
-    {"C_bind_which_comnames", (DL_FUNC) &C_bind_which_comnames, 3},
+    {"C_bind_which_comdims",  (DL_FUNC) &C_bind_which_comdims,  3},
     {"C_check_conf_dim",      (DL_FUNC) &C_check_conf_dim,      2},
     {"C_dims_all_equal",      (DL_FUNC) &C_dims_all_equal,      2},
     {"C_dims_all_orthogonal", (DL_FUNC) &C_dims_all_orthogonal, 2},

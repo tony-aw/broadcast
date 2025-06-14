@@ -85,7 +85,7 @@
   
   if(along == 0) {
     if(!is.null(obj.dimnames)) {
-      ind <- .C_bind_which_comnames(dim(out), 2L, dim(obj))
+      ind <- .C_bind_which_comdims(dim(out), 2L, dim(obj))
       if(length(ind) > 0L) {
         return(list(out.ind = ind + 1L, obj.ind = ind))
       }
@@ -95,7 +95,7 @@
   
   if(along > ndim_max) {
     if(!is.null(obj.dimnames)) {
-      ind <- .C_bind_which_comnames(dim(out), 1L, dim(obj))
+      ind <- .C_bind_which_comdims(dim(out), 1L, dim(obj))
       if(length(ind) > 0L) {
         return(list(out.ind = ind, obj.ind = ind))
       }
@@ -104,7 +104,7 @@
   }
   
   if(!is.null(obj.dimnames)) {
-    ind <- .C_bind_which_comnames(dim(out), 1L, dim(obj))
+    ind <- .C_bind_which_comdims(dim(out), 1L, dim(obj))
     ind <- ind[ind != along]
     if(length(ind) > 0L) {
       return(list(out.ind = ind, obj.ind = ind))

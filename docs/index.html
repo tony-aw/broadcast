@@ -185,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions <strong>without</strong> allocating additional memory, which is considerably <strong>faster</strong> and <strong>more memory-efficient</strong> than R’s regular dimensions replication mechanism.</p>
 <p>Please read the <a href="https://tony-aw.github.io/broadcast/vignettes/d_broadcasting_explained.html">Broadcasting explained</a> page for a more complete explanation of what “broadcasting” is.</p>
 <p>&nbsp;</p>
-<p>At its core, the ‘broadcast’ package provides 3 functionalities, all 3 related to “broadcasting”:</p>
+<p>At its core, the ‘broadcast’ package provides the following functionalities, all related to “broadcasting”:</p>
 <ol type="1">
 <li>Functions for broadcasted element-wise operations between any 2 arrays. They support a large set of relational-, arithmetic-, Boolean-, and string operations.</li>
 <li>The <a href="./man/broadcaster.html">bind_array()</a> function for binding arrays along any arbitrary dimension. Similar to the fantastic <code>abind::abind()</code> function, but with a few key differences:
@@ -195,8 +195,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="./man/broadcaster.html">bind_array()</a> supports both atomic and recursive arrays (<code>abind()</code> only supports atomic arrays).</li>
 </ul></li>
 <li>‘broadcast’ provides several generic functions for broadcasting, namely <a href="./man/bc.cplx.html">bcapply()</a> (broadcasted apply-like function) and <a href="./man/bc.bit.html">bc_ifelse()</a> (broadcasted version of <code>ifelse()</code>).</li>
+<li>‘broadcast’ includes the <a href="./man/bc.b.html">acast()</a> function, for casting/pivoting an array into a new dimension. Roughly analogous to <code>data.table::dcast()</code>, but for arrays. Can be used for performing <strong>grouped</strong> broadcasted operations, among other things.</li>
 </ol>
-<p>Additionally, ‘broadcast’ includes the <a href="./man/bc.b.html">acast()</a> function, for casting/pivoting an array into a new dimension. Roughly analogous to <code>data.table::dcast()</code>, but for arrays.</p>
 <p>&nbsp;</p>
 </section>
 <section id="why-use-broadcast" class="level2">

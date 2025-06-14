@@ -30,7 +30,7 @@ With the emergence of the 'broadcast' `r fa("r-project")` package, users can now
 
 The "broadcasting" implementation in the 'broadcast' package is conceptually (though not programmatically) inspired by the broadcasting employed by the 'Numpy' module for 'Python', which might be the first implementation of broadcasting. More importantly, 'Numpy' is remarkably fast, and the 'broadcast' `r fa("r-project")` package aims to be somewhat comparably fast.  
 
-This page presents the comparisons in the speed of broadcasted operations, between 'broadcast' and 'Numpy'. The operation that is compared is a simple, element-wise, broadcasted addition, given by the code `x + y` in the 'Numpy' module for 'Python', and `bc.num(x, y, "+")` in the 'broadcast' `r fa("r-project")` package.
+This page presents the comparisons in the speed of broadcasted operations, between 'broadcast' and 'Numpy'. The operation that is compared is a simple, element-wise, broadcasted addition, given by the code `x + y` in the 'Numpy' module for 'Python', and `bc.d(x, y, "+")` in the 'broadcast' `r fa("r-project")` package.
 
 Please bear in mind these are rough comparisons of speed. Since the comparisons involve 2 separate programming languages, `r fa("r-project")` and 'Python', "proper" speed comparison is rather difficult to do fairly.
 
@@ -127,7 +127,7 @@ fig.cap.fun <- function(i) {
     "Figure ", i - 1, ": ",
     "Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays,
     comparing the code `x + y` in the 'Numpy' 'Python'-module,
-    against the code `bc.num(x, y,\"+\")` in the 'broadcast' 'R'-package. <br>",
+    against the code `bc.d(x, y,\"+\")` in the 'broadcast' 'R'-package. <br>",
     "Both arrays are ", i, " - dimensional arrays. <br>",
     "The dimensions of `x` are {", x.dim, "}; <br>",
     "the dimensions of `y` are {", y.dim, "}. <br>", 
@@ -479,7 +479,7 @@ for(i in seq_along(dimsizes)) {
   b <- array(runif(100), y.dims)
   
   res <- bench::mark(
-    broadcast = bc.num(a, b, "+"),
+    broadcast = bc.d(a, b, "+"),
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -524,7 +524,7 @@ for(i in seq_along(dimsizes)) {
   b <- array(runif(100), y.dims)
   
   res <- bench::mark(
-    broadcast = bc.num(a, b, "+"),
+    broadcast = bc.d(a, b, "+"),
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -570,7 +570,7 @@ for(i in seq_along(dimsizes)) {
   b <- array(runif(100), y.dims)
   
   res <- bench::mark(
-    broadcast = bc.num(a, b, "+"),
+    broadcast = bc.d(a, b, "+"),
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -618,7 +618,7 @@ for(i in seq_along(dimsizes)) {
   b <- array(runif(100), y.dims)
   
   res <- bench::mark(
-    broadcast = bc.num(a, b, "+"),
+    broadcast = bc.d(a, b, "+"),
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -666,7 +666,7 @@ for(i in seq_along(dimsizes)) {
   b <- array(runif(100), y.dims)
   
   res <- bench::mark(
-    broadcast = bc.num(a, b, "+"),
+    broadcast = bc.d(a, b, "+"),
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -713,7 +713,7 @@ for(i in seq_along(dimsizes)) {
   b <- array(runif(100), y.dims)
   
   res <- bench::mark(
-    broadcast = bc.num(a, b, "+"),
+    broadcast = bc.d(a, b, "+"),
     min_iterations = 200
   )
   bc_all <- get_times(res)

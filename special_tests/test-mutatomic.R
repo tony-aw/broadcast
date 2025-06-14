@@ -6,7 +6,7 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 
-library(mutatomic)
+library(squarebrackets)
 
 x <- 1:10
 y <- array(1:10, c(1, 10))

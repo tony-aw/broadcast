@@ -80,7 +80,7 @@ Clearly, the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is ab
 
 An outer computation is a special case of broadcasting, namely a broadcasting computation between a row-vector and a column-vector. The `outer()` function from base 'R' is too slow and consumes too much memory to provide any meaningful benchmark. But the 'Rfast' package provides a very fast implementation of the `outer()` function. It may be interesting how broadcasted operations hold up to the famously fast 'Rfast' package.
 
-Here the outer-sum between a row-vector `x` and column-vector `y` (both have 9000 elements) is computed using `Rfast::outer()` and `broadcast::bc.num()`, and their speeds and memory consumption are compared.
+Here the outer-sum between a row-vector `x` and column-vector `y` (both have 9000 elements) is computed using `Rfast::outer()` and `broadcast::bc.d()`, and their speeds and memory consumption are compared.
 
 The following code was used:
 
@@ -92,7 +92,7 @@ y <- array(rnorm(10), c(n, 1))
 gc()
 bm_outer <- bench::mark(
   Rfast = Rfast::Outer(x, y, "+"),
-  broadcast = bc.num(x, y, "+"),
+  broadcast = bc.d(x, y, "+"),
   min_iterations = 100
 )
 summary(bm_outer)
@@ -119,7 +119,7 @@ Note, however, that `Rfast::Outer()` unfortunately only supports numeric vectors
 # `%r+%` operator from 'collapse'
 
 
-The impressive 'collapse' package supports a large set of blazingly fast functions for a large variety of tasks. One of these is the `x %r% v` operator. Given a matrix `x` and a vector `v`, `x %r+% v` will add `v` to every row of `x`. Using this function in this way is equivalent to the [bc.num()](/man/bc.d.qmd) function, using a column-vector for `v`.
+The impressive 'collapse' package supports a large set of blazingly fast functions for a large variety of tasks. One of these is the `x %r% v` operator. Given a matrix `x` and a vector `v`, `x %r+% v` will add `v` to every row of `x`. Using this function in this way is equivalent to the [bc.d()](/man/bc.d.qmd) function, using a column-vector for `v`.
 
 Here these 2 approaches are benchmarked.
 
@@ -132,7 +132,7 @@ x <- matrix(rnorm(10), n, n)
 v <- array(rnorm(10), c(1, n))
 bm_collapse_row <- bench::mark(
   collapse = x %r+% v,
-  broadcast = bc.num(x, v, "+"),
+  broadcast = bc.d(x, v, "+"),
   min_iterations = 100
 )
 summary(bm_collapse_row)
