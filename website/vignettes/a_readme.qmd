@@ -46,12 +46,12 @@ Please read the [Broadcasting explained](https://tony-aw.github.io/broadcast/vig
 At its core, the 'broadcast' package provides the following functionalities, all related to "broadcasting":
 
 1.  Functions for broadcasted element-wise operations between any 2 arrays. They support a large set of relational-, arithmetic-, Boolean-, and string operations.
-2.  The [bind_array()](/man/broadcaster.qmd) function for binding arrays along any arbitrary dimension. Similar to the fantastic `abind::abind()` function, but with a few key differences:
-    -   [bind_array()](/man/broadcaster.qmd) is faster and more memory efficient;
-    -   [bind_array()](/man/broadcaster.qmd) supports broadcasting;
-    -   [bind_array()](/man/broadcaster.qmd) supports both atomic and recursive arrays (`abind()` only supports atomic arrays).
-3.  'broadcast' provides several generic functions for broadcasting, namely [bcapply()](/man/bc.cplx.qmd) (broadcasted apply-like function) and [bc_ifelse()](/man/bc.bit.qmd) (broadcasted version of `ifelse()`).
-4.  'broadcast' includes the [acast()](/man/bc.b.qmd) function, for casting/pivoting an array into a new dimension. Roughly analogous to `data.table::dcast()`, but for arrays. Can be used for performing **grouped** broadcasted operations, among other things.
+2.  The [bind_array()](/man/bind_array.qmd) function for binding arrays along any arbitrary dimension. Similar to the fantastic `abind::abind()` function, but with a few key differences:
+    -   [bind_array()](/man/bind_array.qmd) is faster and more memory efficient;
+    -   [bind_array()](/man/bind_array.qmd) supports broadcasting;
+    -   [bind_array()](/man/bind_array.qmd) supports both atomic and recursive arrays (`abind()` only supports atomic arrays).
+3.  'broadcast' provides several generic functions for broadcasting, namely [bcapply()](/man/bcapply.qmd) (broadcasted apply-like function) and [bc_ifelse()](/man/bc_ifelse.qmd) (broadcasted version of `ifelse()`).
+4.  'broadcast' includes the [acast()](/man/acast.qmd) function, for casting/pivoting an array into a new dimension. Roughly analogous to `data.table::dcast()`, but for arrays. Can be used for performing **grouped** broadcasted operations, among other things.
 
  
 

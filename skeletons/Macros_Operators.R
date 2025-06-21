@@ -718,7 +718,7 @@ macro_op_str_dist <- "
   case 1:	\\
   {	\\
     DIMCODE(                                                          \\
-      pout[flatind_out] = rcpp_str_dist_led(x[flatind_x], y[flatind_y])   \\
+      pout[flatind_out] = rcpp_str_dist_led(px[flatind_x], py[flatind_y])   \\
     );                                                                \\
     break;	\\
   }	\\
@@ -738,7 +738,7 @@ macro_op_str_plus <- "
   case 1:	\\
   {	\\
     DIMCODE(                                                          \\
-      out[flatind_out] = rcpp_string_plus(x[flatind_x], y[flatind_y]) \\
+      out[flatind_out] = rcpp_string_plus(px[flatind_x], py[flatind_y]) \\
     );                                                                \\
     break;	\\
   }	\\

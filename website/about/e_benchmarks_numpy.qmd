@@ -28,7 +28,7 @@ Before the emergence of the 'broadcast' package, if `r fa("r-project")` users wi
 
 With the emergence of the 'broadcast' `r fa("r-project")` package, users can now call broadcasted implementations without using external libraries, which spares the computing power needed for translating between object structures of different languages.
 
-The "broadcasting" implementation in the 'broadcast' package is conceptually (though not programmatically) inspired by the broadcasting employed by the 'Numpy' module for 'Python', which might be the first implementation of broadcasting. More importantly, 'Numpy' is remarkably fast, and the 'broadcast' `r fa("r-project")` package aims to be somewhat comparably fast.  
+The "broadcasting" implementation in the 'broadcast' package is conceptually inspired by the broadcasting employed by the 'Numpy' module for 'Python' - though 'broadcast' does not use/borrow any of 'Numpy' source code. 'Numpy' might have the first implementation of broadcasting. More importantly, 'Numpy' is remarkably fast, and the 'broadcast' `r fa("r-project")` package aims to be somewhat comparably fast.  
 
 This page presents the comparisons in the speed of broadcasted operations, between 'broadcast' and 'Numpy'. The operation that is compared is a simple, element-wise, broadcasted addition, given by the code `x + y` in the 'Numpy' module for 'Python', and `bc.d(x, y, "+")` in the 'broadcast' `r fa("r-project")` package.
 
@@ -52,7 +52,7 @@ Due to the above (and other) considerations, any form of benchmarks between `r f
 
 ## The Set-Up
 
-The operation that was bench-marked in this study, is the operation `x + y` in 'Numpy' and the equivalent `bc. num(x, y, "+")` in 'broadcast'.  
+The operation that was bench-marked in this study, is the operation `x + y` in 'Numpy' and the equivalent `bc.d(x, y, "+")` in 'broadcast'.  
 Here `x` and `y` were both decimal numeric arrays (type of 64 bit `double` in `r fa("r-project")` and 64 bit `float` in 'Python'), and had the same number of dimensions.  
 This operation was run for pairs of arrays with different number of dimensions, going from 2 dimensional to 7 dimensional.  
 So we have `x + y` where both arrays were 2-dimensional (i.e. matrices), and `x + y` where both arrays were 3-dimensional, and so on up to 7-dimensional arrays.  
@@ -109,7 +109,7 @@ The benchmarks were all run on the same computer (processor: 12th Gen Intel(R) C
 
 The code used to run the benchmarks can be found at the bottom of this page. `r fa("r-project")` version 4.4.0 was used to run the `r fa("r-project")` code, and 'Python' version 3.12.0 with 'Numpy' version 2.2.1 was used to run the 'Python' code.
 
-The `r fa("r-project")` code was sourced from 'RStudio' using `source()`, from a freshly started computer. The 'Python' code was run via 'Jupyter', also from a freshly started computer.
+The `r fa("r-project")` code was sourced from 'RStudio' (2024.12.1) using `source()`, from a freshly started computer. The 'Python' code was run via 'Jupyter', also from a freshly started computer.
 
 &nbsp;
 

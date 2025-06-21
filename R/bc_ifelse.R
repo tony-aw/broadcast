@@ -52,7 +52,13 @@ setMethod(
     # checks:
     .binary_stop_general(yes, no, "", sys.call())
     if(typeof(yes) != typeof(no)) {
-      stop("`yes` and `no` must be of the same type")
+      if(is.numeric(yes) && is.numeric(no)) {
+        yes <- as_dbl(yes)
+        no <- as_dbl(no)
+      }
+      else {
+        stop("`yes` and `no` must be of the same type")
+      }
     }
     if(!.is_boolable(test)) {
       stop("unsupported type given for `test`")

@@ -37,7 +37,10 @@ ortho-vector broadcasting occurs when the following is true:
 when none of the above techniques hold, The regular broadcasting technique is used.
 
 The MACROs were written for every 2 dimensions, from 2 to 16.
-i.e. 2, 4, 6, ..., 16
+i.e. 2, 4, 6, ..., 16.
+
+The regular broadcasting MACROs were written via a simple 'R' script,
+to minimize the risk of human error.
 
 ********************************************************************************
 

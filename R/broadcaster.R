@@ -103,3 +103,5 @@ broadcaster <- function(x) {
   return(.is_array_like(x) && .is_supported_type(x) && ndim(x) <= 16L)
 }
 
+setOldClass("broadcaster")
+

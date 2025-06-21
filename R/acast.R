@@ -40,7 +40,7 @@
 #' For the sake of illustration, consider a matrix `x` and a grouping factor `grp`. \cr
 #' Let the integer scalar `k` represent a group in `grp`, such that `k` \eqn{\in} `1:nlevels(grp)`. \cr
 #' Then the code \cr
-#' `out = acast(x, margin = 1, grp = grp)` \cr
+#' `out <- acast(x, margin = 1, grp = grp)` \cr
 #' essentially performs the following for every group `k`:
 #' 
 #'  - copy-paste the subset `x[grp == k, ]` to the subset `out[, , k]`.

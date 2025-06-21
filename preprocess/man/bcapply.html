@@ -73,16 +73,17 @@ when unsure, leave <code>v</code> at its default value.</p>
 
 <h3>Examples</h3>
 
-<pre><code class='language-R'>x.dim &lt;- c(c(10, 2,2))
+<pre><code class='language-R'>
+x.dim &lt;- c(5, 3, 2)
 x.len &lt;- prod(x.dim)
 
 gen &lt;- function(n) sample(list(letters, month.abb, 1:10), n, TRUE)
 
 x &lt;- array(gen(10), x.dim)
-y &lt;- array(gen(10), c(10,1,1))
+y &lt;- array(gen(10), c(5, 1, 1))
 
-f &lt;- function(x, y) list(x, y)
-bcapply(x, y, f)
+f &lt;- function(x, y) paste(x, y)
+bcapply(x, y, f, v = "character")
 </code></pre>
 
 </main>

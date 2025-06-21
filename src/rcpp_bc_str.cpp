@@ -29,10 +29,12 @@ String rcpp_string_plus(
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_str_v)]]
 SEXP rcpp_bc_str_v(
-  CharacterVector x, CharacterVector y, 
+  SEXP x, SEXP y, 
   R_xlen_t nout, int op
 ) {
 
+const SEXP *px = STRING_PTR_RO(x);
+const SEXP *py = STRING_PTR_RO(y);
 
 CharacterVector out(nout);
 MACRO_OP_STR_PLUS(
@@ -51,9 +53,12 @@ return out;
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_str_ov)]]
 SEXP rcpp_bc_str_ov(
-  CharacterVector x, CharacterVector y,  bool RxC, SEXP out_dim,
+  SEXP x, SEXP y,  bool RxC, SEXP out_dim,
   R_xlen_t nout, int op
 ) {
+
+const SEXP *px = STRING_PTR_RO(x);
+const SEXP *py = STRING_PTR_RO(y);
 
 CharacterVector out(nout);
 
@@ -73,12 +78,15 @@ return out;
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_str_d)]]
 SEXP rcpp_bc_str_d(
-  CharacterVector x, CharacterVector y, 
+  SEXP x, SEXP y, 
   SEXP by_x,
   SEXP by_y,
   SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op
 ) {
 
+
+const SEXP *px = STRING_PTR_RO(x);
+const SEXP *py = STRING_PTR_RO(y);
 
 CharacterVector out(nout);
 

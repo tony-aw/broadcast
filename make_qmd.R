@@ -68,17 +68,21 @@ for(i in lst.files) {
 from <- "intro_template.qmd"
 to <- file.path("website", "vignettes", "a_readme.qmd")
 file.copy(from, to, overwrite = TRUE)
-# to <- "README.qmd"
-# file.copy(from, to, overwrite = TRUE)
-# gfm <- readLines("README.qmd")
-# gfm <- stri_replace_all(
-#   gfm,
-#   "'R'",
-#   fixed = '`r fa("r-project")`'
-# )
-# writeLines(gfm, to)
-# quarto::quarto_render(to, "gfm", "README.md")
 
+
+# clear any present links in vignettes ====
+funs <- getNamespaceExports("broadcast")
+lst.files <- list.files(file.path("website", "vignettes"), pattern = "qmd")
+for(i in lst.files) {
+  filepath <- file.path("website", "vignettes", i)
+  temp <- readLines(filepath)
+  p <- paste0("\\[", funs, "\\(\\)\\]", "\\(\\/man\\/.*\\.qmd\\)")
+  rp <- paste0("`", funs, "()`")
+  temp <- stri_replace_all(
+    temp, rp, regex = p, vectorize_all = FALSE
+  )
+  writeLines(temp, file.path("website", "vignettes", i))
+}
 
 
 # create links in vignettes ====
@@ -106,6 +110,23 @@ file.copy(from, to, overwrite = TRUE)
 ################################################################################
 # Process About pages ====
 #
+
+
+
+# clear any present links in vignettes ====
+funs <- getNamespaceExports("broadcast")
+lst.files <- list.files(file.path("website", "About"), pattern = "qmd")
+for(i in lst.files) {
+  filepath <- file.path("website", "About", i)
+  temp <- readLines(filepath)
+  p <- paste0("\\[", funs, "\\(\\)\\]", "\\(\\/man\\/.*\\.qmd\\)")
+  rp <- paste0("`", funs, "()`")
+  temp <- stri_replace_all(
+    temp, rp, regex = p, vectorize_all = FALSE
+  )
+  writeLines(temp, file.path("website", "About", i))
+}
+
 
 # create links in About pages ====
 funs <- getNamespaceExports("broadcast")

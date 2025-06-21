@@ -86,20 +86,16 @@ and <code>out[i]</code> is <code>list(NULL)</code> when <code>yes</code> and <co
 
 <h3>Examples</h3>
 
-<pre><code class='language-R'>x.dim &lt;- c(c(10, 2,2))
+<pre><code class='language-R'>
+x.dim &lt;- c(5, 3,2)
 x.len &lt;- prod(x.dim)
 
-gen &lt;- function(n) sample(list(letters, month.abb, 1:10), n, TRUE)
+x &lt;- array(sample(1:100), x.dim)
+y &lt;- array(sample(1:100), c(5, 1, 1))
 
-x &lt;- array(gen(10), x.dim)
-y &lt;- array(gen(10), c(10,1,1))
+cond &lt;- bc.i(x, y, "&gt;")
 
-cond &lt;- bc.list(
-  x, y,
-  \(x, y)c(length(x) == length(y) &amp;&amp; typeof(x) == typeof(y))
-) |&gt; as_bool()
-
-bc_ifelse(cond, yes = x, no = y)
+bc_ifelse(cond, yes = x, no = -1)
 </code></pre>
 
 </main>

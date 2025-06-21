@@ -56,26 +56,12 @@ rep_dim <- function(
   
   # Core function:
   times <- tdim
-  # if(tdimlen < x.dimlen) {
-  #   times <- c(tdim, rep(1, x.dimlen - tdimlen))
-  # }
   
   subs <- .rcpp_recycle_seq_mlen(x.dim, times)
   x <- do.call(function(...)x[..., drop = FALSE], subs)
   
   return(x)
   
-}
-
-
-#' @keywords internal
-#' @noRd
-.internal_drop_dims <- function(x) {
-  x <- drop(x)
-  if(is.null(dim(x))) {
-    dim(x) <- length(x)
-  }
-  return(x)
 }
 
 

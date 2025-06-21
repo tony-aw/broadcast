@@ -2,8 +2,12 @@
 library(stringi)
 
 rd_index <- function(funs, pkg = "broadcast") {
-  tempfun <- function(x) {utils:::index.search(x, find.package(pkg)) |> basename()}
-  lapply(funs, tempfun) |> unlist()
+  tempfun <- function(x) {
+    out <- utils:::index.search(x, find.package(pkg)) |> basename()
+    if(length(out) == 0) out <- NA_character_
+    return(out)
+  }
+  out <- lapply(funs, tempfun) |> unlist()
 }
 
 rd_links <- function(source_file, target_dir, funs) {

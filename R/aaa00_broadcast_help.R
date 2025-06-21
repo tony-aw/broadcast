@@ -12,17 +12,16 @@
 #' for(i in 1:length(rp)) {
 #'  txt <- gsub(p[i], rp[i], txt, fixed = TRUE)
 #' }
+#' txt <- paste0(txt, "\n\n\n\n")
 #' cat(txt)
 #' ```
 #' 
-#' @section Getting Started:
-#' An introduction and overview of the package can be found
-#' \href{https://tony-aw.github.io/broadcast/vignettes/a_readme.html}{HERE}. \cr
-#' Note that 'broadcast' is still somewhat experimental;
-#' if you find bugs or other issues,
-#' please report them promptly on the 'broadcast' GitHub
-#' \href{https://github.com/tony-aw/broadcast/issues}{issues tab}. \cr
-#' \cr
+#' @section Links to Get Started:
+#' 
+#'  - GitHub main page: \url{https://github.com/tony-aw/broadcast}
+#'  - Quick Start Guide: \url{https://tony-aw.github.io/broadcast/vignettes/b_quickstart.html}
+#'  - Reporting Issues: \url{https://github.com/tony-aw/broadcast/issues} \cr \cr
+#' 
 #' 
 #' @section Functions:
 #' 
@@ -31,7 +30,7 @@
 #' with broadcasting. \cr
 #' These functions use an API similar to the \link[base]{outer} function. \cr
 #' \cr
-#' The following functions for type-specific binary operations are available:
+#' The following functions for binary operations are available:
 #' 
 #'  * \link{bc.b}: Boolean (i.e. logical) operations;
 #'  * \link{bc.i}: integer arithmetic and relational operations;
@@ -100,6 +99,7 @@
 #' 
 #' 
 #' @references Plate T, Heiberger R (2016). \emph{abind: Combine Multidimensional Arrays}. R package version 1.4-5, \url{https://CRAN.R-project.org/package=abind}.
+#' @references Harris, C.R., Millman, K.J., van der Walt, S.J. et al. \emph{Array programming with NumPy}. Nature 585, 357–362 (2020). \doi{10.1038/s41586-020-2649-2}. (\href{https://www.nature.com/articles/s41586-020-2649-2}{Publisher link}).
 #' 
 #' @author \strong{Author, Maintainer}: Tony Wilkes \email{tony_a_wilkes@outlook.com} (\href{https://orcid.org/0000-0001-9498-8379}{ORCID})
 #' 

@@ -222,9 +222,10 @@
   # x.dim[1:2] can be merged to become 1 and y.dim[1:2] to become 6 (= prod(c(2, 3))).
   # But if x.dim[1:3] = c(1, 9, 1) and y.dim = c(8, 1, 8),
   # x.dim[1:3] is auto-orthogonal, and so is y.dim[1:3], and thus they CANNOT be merged.
-  # Merging prevents unnecessary broadcasting,
-  # and I have found it to be a simple but effective optimization method for broadcasting.
-  
+  # Merging reduces the number of nested loops required,
+  # and prevents unnecessary broadcasting,
+  # which in turn makes the actual broadcasting more efficient and more environnmentally friendly.
+
   if(length(x.dim) > 2L && length(y.dim) > 2L) {
     mergeable <- .rcpp_is_mergeable_with_prev(x.dim == 1L, y.dim == 1L)
     if(any(mergeable)) {

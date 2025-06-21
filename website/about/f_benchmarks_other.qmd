@@ -19,6 +19,7 @@ suppressMessages(
     library(tinyplot)
     library(ggplot2)
     library(abind)
+    library(fontawesome)
   }
 )
 
@@ -30,6 +31,14 @@ suppressMessages(
 # Introduction
 
 This page benchmarks some of the functions from 'broadcast' with some near-equivalent functions from other packages. The code is given here also.
+
+The 'benchmark' package was used for measuring speed and memory usage, and for producing the figures showing the results.
+
+The benchmarks were all run on the same computer (processor: 12th Gen Intel(R) Core(TM) i5-12500H @ 2.50 GHz) with 32GB of RAM and running the Windows 11 OS (64 bit).
+
+`r fa("r-project")` version 4.4.0 with 'Rstudio' version 2024.12.1 was used to run the `r fa("r-project")` code.
+
+The various comparisons are split over several sections. The code used to run the benchmarks is given in each section, just before the results.
 
 &nbsp;
 
@@ -89,6 +98,7 @@ The following code was used:
 n <- 9e3
 x <- array(rnorm(10), c(1, n))
 y <- array(rnorm(10), c(n, 1))
+
 gc()
 bm_outer <- bench::mark(
   Rfast = Rfast::Outer(x, y, "+"),
@@ -130,6 +140,8 @@ The code used was as follows:
 n <- 8e3
 x <- matrix(rnorm(10), n, n)
 v <- array(rnorm(10), c(1, n))
+
+gc()
 bm_collapse_row <- bench::mark(
   collapse = x %r+% v,
   broadcast = bc.d(x, v, "+"),
@@ -151,4 +163,41 @@ plot(bm_collapse_row)
 
 The 'collapse' package is slightly faster than 'broadcast' in this case. This does show how super fast 'collapse' truly is.
 
+&nbsp;
+
+
+# Base 'R' replication
+
+Here replicating array dimensions using base 'R' is benchmarked against broadcasting.
+
+The following code was used:
+
+```{r echo=TRUE, eval=FALSE}
+
+n <- 400
+x <- array(rnorm(10), c(1, n, 1))
+y <- array(rnorm(10), c(n, 1, n))
+
+gc()
+bm_base <- bench::mark(
+  base = x[rep(1, n), , rep(1, n)] + y[, rep(1, n), ],
+  broadcast = bc.d(x, y, "+"),
+  min_iterations = 100
+)
+summary(bm_base)
+plot(bm_base)
+
+```
+
+
+And here are the results:
+
+```{r fig.width=8, echo=FALSE}
+load("benchmarks/bm_base.RData")
+summary(bm_base)
+plot(bm_base)
+```
+
+
+'broadcasting' is 4 to 5 times (!) faster than replicating array dimensions, and uses approximately 2 times less memory.
 

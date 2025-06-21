@@ -56,16 +56,20 @@ summary(bm_collapse_row)
 plot(bm_collapse_row)
 save(bm_collapse_row, file = "benchmarks/bm_collapse_row.RData")
 
-# 
-# n <- 8e3
-# x <- matrix(rnorm(10), n, n)
-# v <- array(rnorm(10), c(n, 1))
-# V <- drop(v) # need to make `v` a regular vector for collapse %c+%
-# bm_collapse_col <- bench::mark(
-#   collapse = x %c+% V,
-#   broadcast = bc.d(x, v, "+"),
-#   min_iterations = 100
-# )
-# summary(bm_collapse_col)
-# plot(bm_collapse_col)
-# save(bm_collapse_col, file = "benchmarks/bm_collapse_col.RData")
+
+
+# base replication ====
+n <- 400
+x <- array(rnorm(10), c(1, n, 1))
+y <- array(rnorm(10), c(n, 1, n))
+
+gc()
+bm_base <- bench::mark(
+  base = x[rep(1, n), , rep(1, n)] + y[, rep(1, n), ],
+  broadcast = bc.d(x, y, "+"),
+  min_iterations = 100
+)
+summary(bm_base)
+plot(bm_base)
+save(bm_base, file = "benchmarks/bm_base.RData")
+

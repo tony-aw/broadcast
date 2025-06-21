@@ -1,19 +1,19 @@
 Package: broadcast
 Title: 'Numpy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies
-Version: 0.0.0.9007
+Version: 0.0.0.9008
 Authors@R: person("Tony", "Wilkes", role = c("aut", "cre", "cph"),
                   email = "tony_a_wilkes@outlook.com",
                   comment = c(ORCID = "0000-0001-9498-8379"))
-Description: Implements simple broadcasted operations for atomic and recursive arrays.
+Description: Implements efficient broadcasted operations for atomic and recursive arrays.
 		Besides linking to 'Rcpp',
 		'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;
 		'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 		The implementations available in 'broadcast' include, but are not limited to, the following.
-		  1) A set of type-specific functions for broadcasted element-wise operations on any 2 arrays;
-		  they support a large set of relational-, arithmetic-, Boolean-, and string operations.
-		  2) A faster, more memory efficient, and broadcasted version of `abind()`,
-		  for binding arrays along an arbitrary dimension;
-		  3) Broadcasted ifelse- and apply-like functions;
+		  1) Broadcasted element-wise operations on any 2 arrays;
+		  they support a large set of relational-, arithmetic-, Boolean-, string- and bit-wise operations.
+		  2) A faster, more memory efficient, and broadcasted abind-like function,
+		  for binding arrays along an arbitrary dimension.
+		  3) Broadcasted ifelse- and apply-like functions.
 		  4) The `acast()` function, for casting/pivoting an array into a new dimension.
 		The functions in the 'broadcast' package strive to minimize computation time and memory usage
 		(which is not just good for efficient computing, but also for the environment).

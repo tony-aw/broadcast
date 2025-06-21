@@ -1,4 +1,5 @@
-x.dim <- c(c(10, 2,2))
+
+x.dim <- c(10, 2,2)
 x.len <- prod(x.dim)
 
 gen <- function(n) sample(list(letters, month.abb, 1:10), n, TRUE)

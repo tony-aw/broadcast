@@ -55,7 +55,7 @@ bind_array(list(x, y), 2)
 
 &nbsp;
 
-# Array casting
+# Grouped Broadcasting
 
 ## Casting with equal group sizes
 
@@ -70,7 +70,7 @@ x <- cbind(
 print(x)
 ```
 
-For computing purposes, you may need the rows of each group - defined in column "grp" - to be cast to a new dimension.
+For computing purposes, you may need the rows of each group - defined in column "grp" - to be cast to a new dimension. This is commonly needed to perform a **grouped** broadcasted operation.  
 
 'broadcast' allows users to cast subsets of an array onto a new dimension, based on some grouping factor.
 In this case, the following will do the job:
@@ -89,7 +89,7 @@ With the cast array, one can use broadcasting to easily do things like multiply 
 
 ```{r}
 
-# create the multiplication factor array
+# create the multiplication factor array:
 mult <- array(
   1, c(1, 3, 2),
   list(NULL, c("mult_id", "mult_grp", "mult_val"), c("a", "b"))
@@ -97,6 +97,7 @@ mult <- array(
 mult[, "mult_val", c("a", "b")] <- c(2, 10)
 print(mult)
 
+# grouped broadcasted operation:
 out2 <- bc.d(out, mult, "*")
 dimnames(out2) <- dimnames(out)
 print(out2)
@@ -131,7 +132,7 @@ x <- cbind(
 print(x)
 ```
 
-Once again, the [acast()](/man/acast.qmd) function can be used to cast the group subsets from the rows over a new dimension. But this time, we need to specify `fill = TRUE` to allow [acast()](/man/acast.qmd) to fill the gaps, otherwise an error is called.
+Once again, the [acast()](/man/acast.qmd) to fill the gaps, otherwise an error is called.
 
 Thus one can cast in this case like so:
 

@@ -33,8 +33,8 @@ The \code{bc.raw()} function
 performs broadcasted byte- and relational operations
 on arrays of type \code{raw}. \cr
 \cr
-For bit-wise operations, use \code{[bc.bit](ndim.qmd)}. \cr
-For logical operations, use \code{[bc.b](rep_dim.qmd)} \cr
+For bit-wise operations, use \code{[bc.bit](bc.bit.qmd)}. \cr
+For logical operations, use \code{[bc.b](bc.b.qmd)} \cr
 \cr
 }
 \examples{

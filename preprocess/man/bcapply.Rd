@@ -35,14 +35,15 @@ The \code{bcapply()} function
 applies a function to 2 arrays element-wise with broadcasting. \cr
 }
 \examples{
-x.dim <- c(c(10, 2,2))
+
+x.dim <- c(5, 3, 2)
 x.len <- prod(x.dim)
 
 gen <- function(n) sample(list(letters, month.abb, 1:10), n, TRUE)
 
 x <- array(gen(10), x.dim)
-y <- array(gen(10), c(10,1,1))
+y <- array(gen(10), c(5, 1, 1))
 
-f <- function(x, y) list(x, y)
-bcapply(x, y, f)
+f <- function(x, y) paste(x, y)
+bcapply(x, y, f, v = "character")
 }

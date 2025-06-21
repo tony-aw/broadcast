@@ -9,31 +9,29 @@
 \description{
 broadcast: \cr
 'Numpy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
-Implements simple broadcasted operations for atomic and recursive arrays.
+Implements efficient broadcasted operations for atomic and recursive arrays.
 
 Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;
 'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 
 The implementations available in 'broadcast' include, but are not limited to, the following:
 \enumerate{
-\item A set of type-specific functions for broadcasted element-wise operations on any 2 arrays;
-they support a large set of relational-, arithmetic-, Boolean-, and string operations.
-\item A faster, more memory efficient, and broadcasted version of \code{abind()}, for binding arrays along an arbitrary dimension;
-\item Broadcasted ifelse- and apply-like functions;
+\item Broadcasted element-wise operations on any 2 arrays;
+they support a large set of relational-, arithmetic-, Boolean-, string- and bit-wise operations.
+\item A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.
+\item Broadcasted ifelse- and apply-like functions.
 \item The \code{acast()} function, for casting/pivoting an array into a new dimension.
 }
 
 The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).
 }
-\section{Getting Started}{
+\section{Links to Get Started}{
 
-An introduction and overview of the package can be found
-\href{https://tony-aw.github.io/broadcast/vignettes/a_readme.html}{HERE}. \cr
-Note that 'broadcast' is still somewhat experimental;
-if you find bugs or other issues,
-please report them promptly on the 'broadcast' GitHub
-\href{https://github.com/tony-aw/broadcast/issues}{issues tab}. \cr
-\cr
+\itemize{
+\item GitHub main page: \url{https://github.com/tony-aw/broadcast}
+\item Quick Start Guide: \url{https://tony-aw.github.io/broadcast/vignettes/b_quickstart.html}
+\item Reporting Issues: \url{https://github.com/tony-aw/broadcast/issues} \cr \cr
+}
 }
 
 \section{Functions}{
@@ -44,7 +42,7 @@ please report them promptly on the 'broadcast' GitHub
 with broadcasting. \cr
 These functions use an API similar to the \link[base]{outer} function. \cr
 \cr
-The following functions for type-specific binary operations are available:
+The following functions for binary operations are available:
 \itemize{
 \item \link{bc.b}: Boolean (i.e. logical) operations;
 \item \link{bc.i}: integer arithmetic and relational operations;
@@ -113,6 +111,8 @@ which comes with its own method dispatch for the base operators. \cr
 
 \references{
 Plate T, Heiberger R (2016). \emph{abind: Combine Multidimensional Arrays}. R package version 1.4-5, \url{https://CRAN.R-project.org/package=abind}.
+
+Harris, C.R., Millman, K.J., van der Walt, S.J. et al. \emph{Array programming with NumPy}. Nature 585, 357–362 (2020). \doi{10.1038/s41586-020-2649-2}. (\href{https://www.nature.com/articles/s41586-020-2649-2}{Publisher link}).
 }
 \author{
 \strong{Author, Maintainer}: Tony Wilkes \email{tony_a_wilkes@outlook.com} (\href{https://orcid.org/0000-0001-9498-8379}{ORCID})

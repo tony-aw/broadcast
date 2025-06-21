@@ -1280,7 +1280,7 @@
   case 1:	\
   {	\
     DIMCODE(                                                          \
-      out[flatind_out] = rcpp_string_plus(x[flatind_x], y[flatind_y]) \
+      out[flatind_out] = rcpp_string_plus(px[flatind_x], py[flatind_y]) \
     );                                                                \
     break;	\
   }	\
@@ -1329,7 +1329,7 @@
   case 1:	\
   {	\
     DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_str_dist_led(x[flatind_x], y[flatind_y])   \
+      pout[flatind_out] = rcpp_str_dist_led(px[flatind_x], py[flatind_y])   \
     );                                                                \
     break;	\
   }	\
@@ -2009,7 +2009,10 @@
 // when none of the above techniques hold, The regular broadcasting technique is used.
 // 
 // The MACROs were written for every 2 dimensions, from 2 to 16.
-// i.e. 2, 4, 6, ..., 16
+// i.e. 2, 4, 6, ..., 16.
+// 
+// The regular broadcasting MACROs were written via a simple 'R' script,
+// to minimize the risk of human error.
 // 
 // ********************************************************************************
 // 

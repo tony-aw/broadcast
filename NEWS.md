@@ -42,3 +42,12 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 # broadcast 0.0.0.9007
 * Re-ran the benchmarks involving the `bc.*` functions, as these functions have changed since the last benchmarking.
 
+
+# broadcast 0.0.0.9008
+* Some minor tweaks in the compiled code.
+* Improved the speed of the `bc.str()` function.
+* Improved some of the examples.
+* Fixed some small mistakes in the documentation.
+* Fixed incorrect links on the website.
+* Registered the 'broadcaster' class to the S4 system.
+

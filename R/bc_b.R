@@ -2,7 +2,7 @@
 #'
 #' @description
 #' The `bc.b()` function
-#' performs broadcasted Boolean operations on 2 logical (or 32bit integer) arrays. \cr
+#' performs broadcasted Boolean operations on 2 arrays. \cr
 #' \cr
 #' Please note that these operations will treat the input as `logical`. \cr
 #' Therefore, something like `bc.b(1, 2, "==")` returns `TRUE`,

@@ -219,7 +219,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
   <li><a href="#binding-arrays-along-an-arbitrary-dimension" id="toc-binding-arrays-along-an-arbitrary-dimension" class="nav-link" data-scroll-target="#binding-arrays-along-an-arbitrary-dimension"><span class="header-section-number">2</span> Binding arrays along an arbitrary dimension</a></li>
-  <li><a href="#array-casting" id="toc-array-casting" class="nav-link" data-scroll-target="#array-casting"><span class="header-section-number">3</span> Array casting</a>
+  <li><a href="#grouped-broadcasting" id="toc-grouped-broadcasting" class="nav-link" data-scroll-target="#grouped-broadcasting"><span class="header-section-number">3</span> Grouped Broadcasting</a>
   <ul class="collapse">
   <li><a href="#casting-with-equal-group-sizes" id="toc-casting-with-equal-group-sizes" class="nav-link" data-scroll-target="#casting-with-equal-group-sizes"><span class="header-section-number">3.1</span> Casting with equal group sizes</a></li>
   <li><a href="#casting-with-unequal-group-sizes" id="toc-casting-with-unequal-group-sizes" class="nav-link" data-scroll-target="#casting-with-unequal-group-sizes"><span class="header-section-number">3.2</span> Casting with unequal group sizes</a></li>
@@ -298,8 +298,8 @@ But intuitively, binding <code>x</code> and <code>y</code> should be possible, w
 <p><a href="../man/bind_array.html">bind_array()</a> is also considerably faster and more memory efficient than <code>abind()</code>.</p>
 <p>&nbsp;</p>
 </section>
-<section id="array-casting" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Array casting</h1>
+<section id="grouped-broadcasting" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Grouped Broadcasting</h1>
 <section id="casting-with-equal-group-sizes" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="casting-with-equal-group-sizes"><span class="header-section-number">3.1</span> Casting with equal group sizes</h2>
 <p>Suppose you read the following matrix from a file:</p>
@@ -318,7 +318,7 @@ But intuitively, binding <code>x</code> and <code>y</code> should be possible, w
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]  3   1  10</span></span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6,]  3   2  12</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>For computing purposes, you may need the rows of each group - defined in column “grp” - to be cast to a new dimension.</p>
+<p>For computing purposes, you may need the rows of each group - defined in column “grp” - to be cast to a new dimension. This is commonly needed to perform a <strong>grouped</strong> broadcasted operation.</p>
 <p>‘broadcast’ allows users to cast subsets of an array onto a new dimension, based on some grouping factor. In this case, the following will do the job:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>margin <span class="ot">&lt;-</span> 1L <span class="co"># we cast from the rows, so margin = 1</span></span>
@@ -344,7 +344,7 @@ But intuitively, binding <code>x</code> and <code>y</code> should be possible, w
 <p>With the cast array, one can use broadcasting to easily do things like multiply the values in each group with a different value, like so:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create the multiplication factor array</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create the multiplication factor array:</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>mult <span class="ot">&lt;-</span> <span class="fu">array</span>(</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>),</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">"mult_id"</span>, <span class="st">"mult_grp"</span>, <span class="st">"mult_val"</span>), <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>))</span>
@@ -361,22 +361,23 @@ But intuitively, binding <code>x</code> and <code>y</code> should be possible, w
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      mult_id mult_grp mult_val</span></span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]       1        1       10</span></span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>out2 <span class="ot">&lt;-</span> <span class="fu">bc.d</span>(out, mult, <span class="st">"*"</span>)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(out2) <span class="ot">&lt;-</span> <span class="fu">dimnames</span>(out)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out2)</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , a</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      id grp val</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  1   1   4</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  2   1  12</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]  3   1  20</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , b</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      id grp val</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  1   2  40</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  2   2  80</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]  3   2 120</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># grouped broadcasted operation:</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>out2 <span class="ot">&lt;-</span> <span class="fu">bc.d</span>(out, mult, <span class="st">"*"</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(out2) <span class="ot">&lt;-</span> <span class="fu">dimnames</span>(out)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out2)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , a</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      id grp val</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  1   1   4</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  2   1  12</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]  3   1  20</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , b</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      id grp val</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  1   2  40</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  2   2  80</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]  3   2 120</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Perhaps you’d like to reverse-cast the array back when you’re done computing; reverse-casting an array can be done be combining <code>asplit()</code> with <a href="../man/bind_array.html">bind_array()</a>:</p>
 <div class="cell">
@@ -404,15 +405,15 @@ But intuitively, binding <code>x</code> and <code>y</code> should be possible, w
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      id grp        val</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  1   1  0.3851162</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  1   2 -0.1111652</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]  2   1  0.3469242</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]  2   2  0.6902973</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]  3   1  2.0386163</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6,]  3   2 -0.1938958</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7,]  1   2 -0.6697370</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  1   1  0.3893685</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  1   2  0.5521010</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]  2   1 -0.7183618</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]  2   2  0.1569809</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]  3   1 -0.2367983</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6,]  3   2  0.1731860</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7,]  1   2 -0.6661885</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Once again, the <a href="../man/acast.html">acast()</a> function can be used to cast the group subsets from the rows over a new dimension. But this time, we need to specify <code>fill = TRUE</code> to allow <a href="../man/acast.html">acast()</a> to fill the gaps, otherwise an error is called.</p>
+<p>Once again, the <a href="../man/acast.html">acast()</a> to fill the gaps, otherwise an error is called.</p>
 <p>Thus one can cast in this case like so:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>grp <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(x[, <span class="dv">2</span>])</span>
@@ -422,33 +423,33 @@ But intuitively, binding <code>x</code> and <code>y</code> should be possible, w
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , a</span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      id grp       val</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  1   1 0.3851162</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  2   1 0.3469242</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]  3   1 2.0386163</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] NA  NA        NA</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      id grp        val</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  1   1  0.3893685</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  2   1 -0.7183618</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]  3   1 -0.2367983</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] NA  NA         NA</span></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , b</span></span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      id grp        val</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  1   2 -0.1111652</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  2   2  0.6902973</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]  3   2 -0.1938958</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]  1   2 -0.6697370</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  1   2  0.5521010</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  2   2  0.1569809</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]  3   2  0.1731860</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]  1   2 -0.6661885</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice that some values are missing ( <code>NA</code> ); if some groups have unequal number of elements, <a href="../man/acast.html">acast()</a> needs to fill the gaps with missing values. By default, gaps are filled with <code>NA</code> if <code>x</code> is atomic, and with <code>list(NULL)</code> if <code>x</code> is recursive. The user can change the filling value through the <code>fill_value</code> argument.</p>
 <p>Once again, we can get the original array back when we’re done like so:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">asplit</span>(out, <span class="fu">ndim</span>(out)) <span class="sc">|&gt;</span> <span class="fu">bind_array</span>(<span class="at">along =</span> margin)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     id grp        val</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; a.1  1   1  0.3851162</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; a.2  2   1  0.3469242</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; a.3  3   1  2.0386163</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; a.1  1   1  0.3893685</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; a.2  2   1 -0.7183618</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; a.3  3   1 -0.2367983</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; a.4 NA  NA         NA</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; b.1  1   2 -0.1111652</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; b.2  2   2  0.6902973</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; b.3  3   2 -0.1938958</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; b.4  1   2 -0.6697370</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; b.1  1   2  0.5521010</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; b.2  2   2  0.1569809</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; b.3  3   2  0.1731860</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; b.4  1   2 -0.6661885</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>… but we do keep the missing values when the groups have an unequal number of elements.</p>
 <p>&nbsp;</p>

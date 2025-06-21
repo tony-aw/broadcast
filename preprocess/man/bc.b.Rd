@@ -22,7 +22,7 @@ A logical array as a result of the broadcasted Boolean operation. \cr \cr
 }
 \description{
 The \code{bc.b()} function
-performs broadcasted Boolean operations on 2 logical (or 32bit integer) arrays. \cr
+performs broadcasted Boolean operations on 2 arrays. \cr
 \cr
 Please note that these operations will treat the input as \code{logical}. \cr
 Therefore, something like \code{bc.b(1, 2, "==")} returns \code{TRUE},

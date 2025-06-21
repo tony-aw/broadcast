@@ -69,7 +69,7 @@ instead of casting into new columns.
 For the sake of illustration, consider a matrix \code{x} and a grouping factor \code{grp}. \cr
 Let the integer scalar \code{k} represent a group in \code{grp}, such that \code{k} \eqn{\in} \code{1:nlevels(grp)}. \cr
 Then the code \cr
-\code{out = acast(x, margin = 1, grp = grp)} \cr
+\code{out <- acast(x, margin = 1, grp = grp)} \cr
 essentially performs the following for every group \code{k}:
 \itemize{
 \item copy-paste the subset \code{x[grp == k, ]} to the subset \code{out[, , k]}.

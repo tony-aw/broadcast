@@ -119,12 +119,13 @@ txt1 <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_bcDist_str_v)]]
 SEXP rcpp_bcDist_str_v(
-  CharacterVector x, CharacterVector y, 
+  SEXP x, SEXP y, 
   R_xlen_t nout, int op
 ) {
 
 
-
+const SEXP *px = STRING_PTR_RO(x);
+const SEXP *py = STRING_PTR_RO(y);
 
 SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
 int *pout;
@@ -149,12 +150,13 @@ txt2 <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_bcDist_str_ov)]]
 SEXP rcpp_bcDist_str_ov(
-  CharacterVector x, CharacterVector y,  bool RxC, SEXP out_dim,
+  SEXP x, SEXP y,  bool RxC, SEXP out_dim,
   R_xlen_t nout, int op
 ) {
 
 
-
+const SEXP *px = STRING_PTR_RO(x);
+const SEXP *py = STRING_PTR_RO(y);
 
 SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
 int *pout;
@@ -178,13 +180,14 @@ txt3 <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_bcDist_str_d)]]
 SEXP rcpp_bcDist_str_d(
-  CharacterVector x, CharacterVector y, 
+  SEXP x, SEXP y, 
   SEXP by_x,
   SEXP by_y,
   SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op
 ) {
 
-
+const SEXP *px = STRING_PTR_RO(x);
+const SEXP *py = STRING_PTR_RO(y);
 
 SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
 int *pout;
@@ -218,4 +221,19 @@ txt <- stringi::stri_c(
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bcDist_str.cpp")
+
+n <- 500
+x <- sample(month.name, n, TRUE)
+y <- array(month.abb, c(1, n))
+out.dim <- c(n, n) |> as.integer()
+out.n <- prod(out.dim)
+
+foo <- bench::mark(
+  sd = stringdist::stringdist(x, y, method = "lv", nthread = 1L),
+  bc = .rcpp_bcDist_str_ov(x, y, TRUE, out.dim, out.n, 1L),
+  check = FALSE,
+  min_iterations = 100
+)
+summary(foo)
+plot(foo)
 
