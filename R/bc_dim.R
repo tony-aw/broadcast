@@ -1,4 +1,4 @@
-#' Predict Broadcasted dimensions
+#' Predict Broadcasted Dimensions
 #'
 #' @description
 #' `bc_dim(x, y)` gives the dimensions an array would have,

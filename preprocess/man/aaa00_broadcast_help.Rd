@@ -21,6 +21,7 @@ they support a large set of relational-, arithmetic-, Boolean-, string- and bit-
 \item A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.
 \item Broadcasted ifelse- and apply-like functions.
 \item The \code{acast()} function, for casting/pivoting an array into a new dimension.
+\item Simple linear algebra functions for statistics..
 }
 
 The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).
@@ -92,10 +93,15 @@ compared to \code{abind::abind}. \cr \cr
 \bold{Other functions} \cr
 'broadcast' provides the \code{[acast](acast.qmd)} function,
 for casting (i.e. pivoting) an array into a new dimension. \cr
+Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
 \cr
 'broadcast' also provides
 \code{[type-casting](typecast.qmd)} functions,
-which preserve names and dimensions - convenient for arrays. \cr \cr
+which preserve names and dimensions - convenient for arrays. \cr
+\cr
+And 'broadcast' provides
+\code{[simple linear algebra functions for statistics](linear_algebra_stats.qmd)}. \cr
+\cr
 }
 
 \section{Overloading}{

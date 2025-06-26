@@ -120,13 +120,15 @@ Benchmarks can be found on the website.
 
 # Illustrating Broadcasting
 
-## Retracing the first example
+## Matrices
 
-In the previous example the following arrays were used:
+Consider the following matrices
 
 ```{r}
-x <- array(1:20, c(4, 5))
-y <- array(1:5*10, c(1, 5))
+x <- array(1:12, c(4, 3))
+y <- array(1:5*10, c(1, 3))
+print(x)
+print(y)
 ```
 
 Let's see what happens if we sum them together using broadcasting:
@@ -141,10 +143,10 @@ What happens here is that `x` remains the same, but row vector `y` is **virtuall
 
 
 foo <- rbind(
-  sprintf("x[%d, %d] + y[1, %d]", 1, 1:5, 1:5),
-  sprintf("x[%d, %d] + y[1, %d]", 2, 1:5, 1:5),
-  sprintf("x[%d, %d] + y[1, %d]", 3, 1:5, 1:5),
-  sprintf("x[%d, %d] + y[1, %d]", 4, 1:5, 1:5)
+  sprintf("x[%d, %d] + y[1, %d]", 1, 1:3, 1:3),
+  sprintf("x[%d, %d] + y[1, %d]", 2, 1:3, 1:3),
+  sprintf("x[%d, %d] + y[1, %d]", 3, 1:3, 1:3),
+  sprintf("x[%d, %d] + y[1, %d]", 4, 1:3, 1:3)
 )
 
 foo <- as.data.frame(foo)
@@ -163,8 +165,8 @@ We now take again 2 matrices `x` and `y`, but this time `x` is a column vector (
 
 
 ```{r}
-x <- array(1:5, c(5, 1))
-y <- array(1:5 * 10, c(1, 5))
+x <- array(1:3, c(3, 1))
+y <- array(1:3 * 10, c(1, 3))
 print(x)
 print(y)
 ```
@@ -185,11 +187,9 @@ The following table illustrates what broadcasting does, conceptually:
 
 
 foo <- cbind(
-  sprintf("x[%d, 1] + y[1, %d]", 1:5, 1),
-  sprintf("x[%d, 1] + y[1, %d]", 1:5, 2),
-  sprintf("x[%d, 1] + y[1, %d]", 1:5, 3),
-  sprintf("x[%d, 1] + y[1, %d]", 1:5, 4),
-  sprintf("x[%d, 1] + y[1, %d]", 1:5, 5)
+  sprintf("x[%d, 1] + y[1, %d]", 1:3, 1),
+  sprintf("x[%d, 1] + y[1, %d]", 1:3, 2),
+  sprintf("x[%d, 1] + y[1, %d]", 1:3, 3)
 )
 foo <- as.data.frame(foo)
 colnames(foo) <- NULL
@@ -206,7 +206,7 @@ tt(foo, theme = "grid") |> style_tt(line = "tlbr")
 The examples shown so far used matrices. But 'broadcast' is not restricted to only handling matrices; this package can handle any array, provided it does not have more than 16 dimensions.
 Moreover, any number of dimensions (provided <= 16) can be broadcasted simultaneously.
 
-The examples show so far only used addition. But 'broadcast' supports a wide variety of binary operations, inlcuding relational-, arithmetic-, Boolean-, and string operations.
+The examples show so far only used addition. But 'broadcast' supports a wide variety of binary operations, including relational-, arithmetic-, Boolean-, string- and bit-wise operations.
 
 
 &nbsp;
@@ -215,9 +215,11 @@ The examples show so far only used addition. But 'broadcast' supports a wide var
 
 Before broadcasting occurs, the number of dimensions of `x` and `y` are normalized, such that `ndim(x)` and `ndim(y)` are the same ( the `ndim(x)` function is the same as `length(dim(x))`).
 
-This normalization achieved by appending dimensions of size 1 to the array with the smaller number of dimensions until both array have the same number of dimensions.
+This normalization is achieved by appending dimensions of size 1 to the array with the smaller number of dimensions until both array have the same number of dimensions.
 
-For example, if `dim(x) = c(3, 4, 3)` and `dim(y) = c(3, 4)`, then internally `dim(y)` is changed to `c(3, 4, 1)`.
+For example, if `dim(x) = c(3, 4, 3)` and `dim(y) = c(3, 4)`, then internally `dim(y)` is interpreted to be `c(3, 4, 1)`. This neither copies nor modifies array `y`.
+
+Following the standard rules of Linear Algebra, a vector `z` without dimensions is taken to be a column vector (i.e. a matrix with 1 column and `length(z)` rows).
 
 &nbsp;
 
@@ -478,3 +480,6 @@ The `outer()` approach has the same problems as the `x[, rep(1L, 5L)] + y[rep(1L
 Broadcasting can thus be used as a more efficient alternative to `outer()` in case of vector inputs, simply by making the inputs orthogonal. But please don't confuse outer computations with broadcasting: broadcasting is efficient array recycling for element-wise computations.
 
 &nbsp;
+
+
+

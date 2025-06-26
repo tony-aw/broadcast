@@ -81,10 +81,16 @@
 #' \bold{Other functions} \cr
 #' 'broadcast' provides the \link{acast} function,
 #' for casting (i.e. pivoting) an array into a new dimension. \cr
+#' Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
 #' \cr
 #' 'broadcast' also provides
 #' \link[=as_bool]{type-casting} functions,
-#' which preserve names and dimensions - convenient for arrays. \cr \cr
+#' which preserve names and dimensions - convenient for arrays. \cr
+#' \cr
+#' And 'broadcast' provides
+#' \link[=sd_gauss_lc]{simple linear algebra functions for statistics}. \cr
+#' \cr
+#' 
 #' 
 #' 
 #' @section Overloading:

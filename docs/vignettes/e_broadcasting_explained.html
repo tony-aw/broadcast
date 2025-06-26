@@ -226,7 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#illustrating-broadcasting" id="toc-illustrating-broadcasting" class="nav-link" data-scroll-target="#illustrating-broadcasting"><span class="header-section-number">3</span> Illustrating Broadcasting</a>
   <ul class="collapse">
-  <li><a href="#retracing-the-first-example" id="toc-retracing-the-first-example" class="nav-link" data-scroll-target="#retracing-the-first-example"><span class="header-section-number">3.1</span> Retracing the first example</a></li>
+  <li><a href="#matrices" id="toc-matrices" class="nav-link" data-scroll-target="#matrices"><span class="header-section-number">3.1</span> Matrices</a></li>
   <li><a href="#perpendicular-vectors" id="toc-perpendicular-vectors" class="nav-link" data-scroll-target="#perpendicular-vectors"><span class="header-section-number">3.2</span> Perpendicular vectors</a></li>
   </ul></li>
   <li><a href="#broadcasting-limitations-and-rules" id="toc-broadcasting-limitations-and-rules" class="nav-link" data-scroll-target="#broadcasting-limitations-and-rules"><span class="header-section-number">4</span> Broadcasting limitations and rules</a>
@@ -354,21 +354,30 @@ Virtual recycling requires no additional memory (apart from allocating the final
 </section>
 <section id="illustrating-broadcasting" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Illustrating Broadcasting</h1>
-<section id="retracing-the-first-example" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="retracing-the-first-example"><span class="header-section-number">3.1</span> Retracing the first example</h2>
-<p>In the previous example the following arrays were used:</p>
+<section id="matrices" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="matrices"><span class="header-section-number">3.1</span> Matrices</h2>
+<p>Consider the following matrices</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span><span class="sc">*</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span><span class="sc">*</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    5    9</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    2    6   10</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    3    7   11</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    4    8   12</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(y)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   10   20   30</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s see what happens if we sum them together using broadcasting:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.d</span>(x, y, <span class="st">"+"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   11   25   39   53   67</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   12   26   40   54   68</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   13   27   41   55   69</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]   14   28   42   56   70</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   11   25   39</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   12   26   40</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   13   27   41</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]   14   28   42</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>What happens here is that <code>x</code> remains the same, but row vector <code>y</code> is <strong>virtually</strong> recycled 4 times, but without requiring 4 times more memory. This is also illustrated here:</p>
 <div class="cell">
@@ -378,8 +387,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <script>
 
-      function styleCell_o4iqobszufibgfis5bqw(i, j, css_id) {
-          var table = document.getElementById("tinytable_o4iqobszufibgfis5bqw");
+      function styleCell_mo53tpmxexfirivxryua(i, j, css_id) {
+          var table = document.getElementById("tinytable_mo53tpmxexfirivxryua");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -389,7 +398,7 @@ Virtual recycling requires no additional memory (apart from allocating the final
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_o4iqobszufibgfis5bqw');
+        var table = document.getElementById('tinytable_mo53tpmxexfirivxryua');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -397,8 +406,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_o4iqobszufibgfis5bqw(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_o4iqobszufibgfis5bqw");
+      function spanCell_mo53tpmxexfirivxryua(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_mo53tpmxexfirivxryua");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -428,13 +437,13 @@ Virtual recycling requires no additional memory (apart from allocating the final
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 0, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 0, j: 2 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 0, j: 3 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 0, j: 4 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 3, j: 4 },  ], css_id: 'tinytable_css_tcssrlm18smp14s4eajs',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 0, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 0, j: 2 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 },  ], css_id: 'tinytable_css_cxyc15zk5sc9az77wzmz',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_o4iqobszufibgfis5bqw(cell.i, cell.j, group.css_id);
+                  styleCell_mo53tpmxexfirivxryua(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -442,10 +451,10 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_tcssrlm18smp14s4eajs, .table th.tinytable_css_tcssrlm18smp14s4eajs { border: solid black 0.1em; }
+      .table td.tinytable_css_cxyc15zk5sc9az77wzmz, .table th.tinytable_css_cxyc15zk5sc9az77wzmz { border: solid black 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-bordered" id="tinytable_o4iqobszufibgfis5bqw" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-bordered" id="tinytable_mo53tpmxexfirivxryua" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
         </thead>
@@ -455,29 +464,21 @@ Virtual recycling requires no additional memory (apart from allocating the final
                   <td>x[1, 1] + y[1, 1]</td>
                   <td>x[1, 2] + y[1, 2]</td>
                   <td>x[1, 3] + y[1, 3]</td>
-                  <td>x[1, 4] + y[1, 4]</td>
-                  <td>x[1, 5] + y[1, 5]</td>
                 </tr>
                 <tr>
                   <td>x[2, 1] + y[1, 1]</td>
                   <td>x[2, 2] + y[1, 2]</td>
                   <td>x[2, 3] + y[1, 3]</td>
-                  <td>x[2, 4] + y[1, 4]</td>
-                  <td>x[2, 5] + y[1, 5]</td>
                 </tr>
                 <tr>
                   <td>x[3, 1] + y[1, 1]</td>
                   <td>x[3, 2] + y[1, 2]</td>
                   <td>x[3, 3] + y[1, 3]</td>
-                  <td>x[3, 4] + y[1, 4]</td>
-                  <td>x[3, 5] + y[1, 5]</td>
                 </tr>
                 <tr>
                   <td>x[4, 1] + y[1, 1]</td>
                   <td>x[4, 2] + y[1, 2]</td>
                   <td>x[4, 3] + y[1, 3]</td>
-                  <td>x[4, 4] + y[1, 4]</td>
-                  <td>x[4, 5] + y[1, 5]</td>
                 </tr>
         </tbody>
       </table>
@@ -491,28 +492,24 @@ Virtual recycling requires no additional memory (apart from allocating the final
 <h2 data-number="3.2" class="anchored" data-anchor-id="perpendicular-vectors"><span class="header-section-number">3.2</span> Perpendicular vectors</h2>
 <p>Let’s now consider another scenario. We now take again 2 matrices <code>x</code> and <code>y</code>, but this time <code>x</code> is a column vector (i.e.&nbsp;a matrix with 1 column and multiple rows), and <code>y</code> is a row vector (i.e.&nbsp;a matrix with 1 row and multiple columns):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>))</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span> <span class="sc">*</span> <span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span> <span class="sc">*</span> <span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1]</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    2</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    3</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    4</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]    5</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(y)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   10   20   30   40   50</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(y)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   10   20   30</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Computing the broadcasted element-wise sum of <code>x</code> and <code>y</code> produces the following:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.d</span>(x, y, <span class="st">"+"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   11   21   31   41   51</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   12   22   32   42   52</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   13   23   33   43   53</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]   14   24   34   44   54</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]   15   25   35   45   55</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   11   21   31</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   12   22   32</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   13   23   33</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So what exactly does broadcasting compute here?</p>
 <p>The following table illustrates what broadcasting does, conceptually:</p>
@@ -523,8 +520,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <script>
 
-      function styleCell_kan2w42gyqubd9wu757k(i, j, css_id) {
-          var table = document.getElementById("tinytable_kan2w42gyqubd9wu757k");
+      function styleCell_fuzl4g10azv7d958o4gb(i, j, css_id) {
+          var table = document.getElementById("tinytable_fuzl4g10azv7d958o4gb");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -534,7 +531,7 @@ Virtual recycling requires no additional memory (apart from allocating the final
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_kan2w42gyqubd9wu757k');
+        var table = document.getElementById('tinytable_fuzl4g10azv7d958o4gb');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -542,8 +539,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_kan2w42gyqubd9wu757k(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_kan2w42gyqubd9wu757k");
+      function spanCell_fuzl4g10azv7d958o4gb(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_fuzl4g10azv7d958o4gb");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -573,13 +570,13 @@ Virtual recycling requires no additional memory (apart from allocating the final
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 0, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 0, j: 2 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 4, j: 2 }, { i: 0, j: 3 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 4, j: 3 }, { i: 0, j: 4 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 3, j: 4 }, { i: 4, j: 4 },  ], css_id: 'tinytable_css_ga1igqlg9pjew3ri6vcw',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 0, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 0, j: 2 }, { i: 1, j: 2 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_i99qj9v7992dzuxfgl98',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_kan2w42gyqubd9wu757k(cell.i, cell.j, group.css_id);
+                  styleCell_fuzl4g10azv7d958o4gb(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -587,10 +584,10 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_ga1igqlg9pjew3ri6vcw, .table th.tinytable_css_ga1igqlg9pjew3ri6vcw { border: solid black 0.1em; }
+      .table td.tinytable_css_i99qj9v7992dzuxfgl98, .table th.tinytable_css_i99qj9v7992dzuxfgl98 { border: solid black 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-bordered" id="tinytable_kan2w42gyqubd9wu757k" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-bordered" id="tinytable_fuzl4g10azv7d958o4gb" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
         </thead>
@@ -600,36 +597,16 @@ Virtual recycling requires no additional memory (apart from allocating the final
                   <td>x[1, 1] + y[1, 1]</td>
                   <td>x[1, 1] + y[1, 2]</td>
                   <td>x[1, 1] + y[1, 3]</td>
-                  <td>x[1, 1] + y[1, 4]</td>
-                  <td>x[1, 1] + y[1, 5]</td>
                 </tr>
                 <tr>
                   <td>x[2, 1] + y[1, 1]</td>
                   <td>x[2, 1] + y[1, 2]</td>
                   <td>x[2, 1] + y[1, 3]</td>
-                  <td>x[2, 1] + y[1, 4]</td>
-                  <td>x[2, 1] + y[1, 5]</td>
                 </tr>
                 <tr>
                   <td>x[3, 1] + y[1, 1]</td>
                   <td>x[3, 1] + y[1, 2]</td>
                   <td>x[3, 1] + y[1, 3]</td>
-                  <td>x[3, 1] + y[1, 4]</td>
-                  <td>x[3, 1] + y[1, 5]</td>
-                </tr>
-                <tr>
-                  <td>x[4, 1] + y[1, 1]</td>
-                  <td>x[4, 1] + y[1, 2]</td>
-                  <td>x[4, 1] + y[1, 3]</td>
-                  <td>x[4, 1] + y[1, 4]</td>
-                  <td>x[4, 1] + y[1, 5]</td>
-                </tr>
-                <tr>
-                  <td>x[5, 1] + y[1, 1]</td>
-                  <td>x[5, 1] + y[1, 2]</td>
-                  <td>x[5, 1] + y[1, 3]</td>
-                  <td>x[5, 1] + y[1, 4]</td>
-                  <td>x[5, 1] + y[1, 5]</td>
                 </tr>
         </tbody>
       </table>
@@ -643,13 +620,14 @@ Virtual recycling requires no additional memory (apart from allocating the final
 <section id="broadcasting-limitations-and-rules" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Broadcasting limitations and rules</h1>
 <p>The examples shown so far used matrices. But ‘broadcast’ is not restricted to only handling matrices; this package can handle any array, provided it does not have more than 16 dimensions. Moreover, any number of dimensions (provided &lt;= 16) can be broadcasted simultaneously.</p>
-<p>The examples show so far only used addition. But ‘broadcast’ supports a wide variety of binary operations, inlcuding relational-, arithmetic-, Boolean-, and string operations.</p>
+<p>The examples show so far only used addition. But ‘broadcast’ supports a wide variety of binary operations, including relational-, arithmetic-, Boolean-, string- and bit-wise operations.</p>
 <p>&nbsp;</p>
 <section id="normalization" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="normalization"><span class="header-section-number">4.1</span> Normalization</h2>
 <p>Before broadcasting occurs, the number of dimensions of <code>x</code> and <code>y</code> are normalized, such that <code>ndim(x)</code> and <code>ndim(y)</code> are the same ( the <code>ndim(x)</code> function is the same as <code>length(dim(x))</code>).</p>
-<p>This normalization achieved by appending dimensions of size 1 to the array with the smaller number of dimensions until both array have the same number of dimensions.</p>
-<p>For example, if <code>dim(x) = c(3, 4, 3)</code> and <code>dim(y) = c(3, 4)</code>, then internally <code>dim(y)</code> is changed to <code>c(3, 4, 1)</code>.</p>
+<p>This normalization is achieved by appending dimensions of size 1 to the array with the smaller number of dimensions until both array have the same number of dimensions.</p>
+<p>For example, if <code>dim(x) = c(3, 4, 3)</code> and <code>dim(y) = c(3, 4)</code>, then internally <code>dim(y)</code> is interpreted to be <code>c(3, 4, 1)</code>. This neither copies nor modifies array <code>y</code>.</p>
+<p>Following the standard rules of Linear Algebra, a vector <code>z</code> without dimensions is taken to be a column vector (i.e.&nbsp;a matrix with 1 column and <code>length(z)</code> rows).</p>
 <p>&nbsp;</p>
 </section>
 <section id="conformability" class="level2" data-number="4.2">
@@ -675,8 +653,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <script>
 
-      function styleCell_c1mk85fzt9my40ntnx7o(i, j, css_id) {
-          var table = document.getElementById("tinytable_c1mk85fzt9my40ntnx7o");
+      function styleCell_0ascmb0gv0boyyz8h4x7(i, j, css_id) {
+          var table = document.getElementById("tinytable_0ascmb0gv0boyyz8h4x7");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -686,7 +664,7 @@ Virtual recycling requires no additional memory (apart from allocating the final
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_c1mk85fzt9my40ntnx7o');
+        var table = document.getElementById('tinytable_0ascmb0gv0boyyz8h4x7');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -694,8 +672,8 @@ Virtual recycling requires no additional memory (apart from allocating the final
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_c1mk85fzt9my40ntnx7o(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_c1mk85fzt9my40ntnx7o");
+      function spanCell_0ascmb0gv0boyyz8h4x7(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_0ascmb0gv0boyyz8h4x7");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -725,14 +703,14 @@ Virtual recycling requires no additional memory (apart from allocating the final
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 }, { i: 4, j: 3 }, { i: 4, j: 4 },  ], css_id: 'tinytable_css_sl4ukllwoc8a9hjco9h8',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 },  ], css_id: 'tinytable_css_70qctiajihn2j0gqfa8y',}, 
+          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 }, { i: 4, j: 3 }, { i: 4, j: 4 },  ], css_id: 'tinytable_css_wto5dcduq02avt4jho4f',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 },  ], css_id: 'tinytable_css_9nxbg6igi7b8uu5htf8g',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_c1mk85fzt9my40ntnx7o(cell.i, cell.j, group.css_id);
+                  styleCell_0ascmb0gv0boyyz8h4x7(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -740,11 +718,11 @@ Virtual recycling requires no additional memory (apart from allocating the final
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_sl4ukllwoc8a9hjco9h8, .table th.tinytable_css_sl4ukllwoc8a9hjco9h8 { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_70qctiajihn2j0gqfa8y, .table th.tinytable_css_70qctiajihn2j0gqfa8y { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_wto5dcduq02avt4jho4f, .table th.tinytable_css_wto5dcduq02avt4jho4f { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_9nxbg6igi7b8uu5htf8g, .table th.tinytable_css_9nxbg6igi7b8uu5htf8g { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_c1mk85fzt9my40ntnx7o" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_0ascmb0gv0boyyz8h4x7" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -806,8 +784,8 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
 
     <script>
 
-      function styleCell_4dbesjixw2rnjfaocts3(i, j, css_id) {
-          var table = document.getElementById("tinytable_4dbesjixw2rnjfaocts3");
+      function styleCell_1w85h12vj5p1xy04abyu(i, j, css_id) {
+          var table = document.getElementById("tinytable_1w85h12vj5p1xy04abyu");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -817,7 +795,7 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_4dbesjixw2rnjfaocts3');
+        var table = document.getElementById('tinytable_1w85h12vj5p1xy04abyu');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -825,8 +803,8 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_4dbesjixw2rnjfaocts3(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_4dbesjixw2rnjfaocts3");
+      function spanCell_1w85h12vj5p1xy04abyu(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_1w85h12vj5p1xy04abyu");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -856,14 +834,14 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 }, { i: 4, j: 3 }, { i: 4, j: 4 },  ], css_id: 'tinytable_css_u4cfk0b3kzfpf2haw19n',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 },  ], css_id: 'tinytable_css_besjl03dsfvqzolf3dqb',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 },  ], css_id: 'tinytable_css_fik4p64gz3kjjal29suk',}, 
+          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 }, { i: 4, j: 3 }, { i: 4, j: 4 },  ], css_id: 'tinytable_css_9ty1njtkz5yd6k83z07x',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_4dbesjixw2rnjfaocts3(cell.i, cell.j, group.css_id);
+                  styleCell_1w85h12vj5p1xy04abyu(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -871,11 +849,11 @@ Therefore, broadcasted binary operations involving <code>x</code> and <code>y</c
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_u4cfk0b3kzfpf2haw19n, .table th.tinytable_css_u4cfk0b3kzfpf2haw19n { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_besjl03dsfvqzolf3dqb, .table th.tinytable_css_besjl03dsfvqzolf3dqb { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_fik4p64gz3kjjal29suk, .table th.tinytable_css_fik4p64gz3kjjal29suk { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_9ty1njtkz5yd6k83z07x, .table th.tinytable_css_9ty1njtkz5yd6k83z07x { border-bottom: solid #d3d8dc 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_4dbesjixw2rnjfaocts3" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_1w85h12vj5p1xy04abyu" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -959,8 +937,8 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
 
     <script>
 
-      function styleCell_kfrk30r99es1vy067snw(i, j, css_id) {
-          var table = document.getElementById("tinytable_kfrk30r99es1vy067snw");
+      function styleCell_pgqi55nag5me0gkxxggy(i, j, css_id) {
+          var table = document.getElementById("tinytable_pgqi55nag5me0gkxxggy");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -970,7 +948,7 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_kfrk30r99es1vy067snw');
+        var table = document.getElementById('tinytable_pgqi55nag5me0gkxxggy');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -978,8 +956,8 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_kfrk30r99es1vy067snw(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_kfrk30r99es1vy067snw");
+      function spanCell_pgqi55nag5me0gkxxggy(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_pgqi55nag5me0gkxxggy");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -1009,14 +987,14 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 5, j: 0 }, { i: 5, j: 1 }, { i: 5, j: 2 }, { i: 5, j: 3 }, { i: 5, j: 4 }, { i: 5, j: 5 },  ], css_id: 'tinytable_css_zlxfkjyfu2kmztwrxif6',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 }, { i: 0, j: 5 },  ], css_id: 'tinytable_css_0bzz7zqcq6946um8jri8',}, 
+          { positions: [ { i: 5, j: 0 }, { i: 5, j: 1 }, { i: 5, j: 2 }, { i: 5, j: 3 }, { i: 5, j: 4 }, { i: 5, j: 5 },  ], css_id: 'tinytable_css_pnfjcd0n8ee3ddckb24r',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 }, { i: 0, j: 5 },  ], css_id: 'tinytable_css_0iy1q6u5qkm9rm7l0zk3',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_kfrk30r99es1vy067snw(cell.i, cell.j, group.css_id);
+                  styleCell_pgqi55nag5me0gkxxggy(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1024,11 +1002,11 @@ Similarly, if <code>dim(y)[i] &gt; 1</code> and <code>dim(x)[i]</code> is non-ex
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_zlxfkjyfu2kmztwrxif6, .table th.tinytable_css_zlxfkjyfu2kmztwrxif6 { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_0bzz7zqcq6946um8jri8, .table th.tinytable_css_0bzz7zqcq6946um8jri8 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_pnfjcd0n8ee3ddckb24r, .table th.tinytable_css_pnfjcd0n8ee3ddckb24r { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_0iy1q6u5qkm9rm7l0zk3, .table th.tinytable_css_0iy1q6u5qkm9rm7l0zk3 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_kfrk30r99es1vy067snw" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_pgqi55nag5me0gkxxggy" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -1132,8 +1110,8 @@ For the purposes of broadcasting, any pair of arrays, <code>x</code> and <code>y
 
     <script>
 
-      function styleCell_d30u6b2jzqht5zmkuucq(i, j, css_id) {
-          var table = document.getElementById("tinytable_d30u6b2jzqht5zmkuucq");
+      function styleCell_glaqvg7t6gl17c4pfddv(i, j, css_id) {
+          var table = document.getElementById("tinytable_glaqvg7t6gl17c4pfddv");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -1143,7 +1121,7 @@ For the purposes of broadcasting, any pair of arrays, <code>x</code> and <code>y
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_d30u6b2jzqht5zmkuucq');
+        var table = document.getElementById('tinytable_glaqvg7t6gl17c4pfddv');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -1151,8 +1129,8 @@ For the purposes of broadcasting, any pair of arrays, <code>x</code> and <code>y
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_d30u6b2jzqht5zmkuucq(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_d30u6b2jzqht5zmkuucq");
+      function spanCell_glaqvg7t6gl17c4pfddv(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_glaqvg7t6gl17c4pfddv");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -1182,14 +1160,14 @@ For the purposes of broadcasting, any pair of arrays, <code>x</code> and <code>y
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 },  ], css_id: 'tinytable_css_zcjxo8hx05dnl8qm9qns',}, 
-          { positions: [ { i: 6, j: 0 }, { i: 6, j: 1 }, { i: 6, j: 2 }, { i: 6, j: 3 }, { i: 6, j: 4 },  ], css_id: 'tinytable_css_oemmdmkasav660xp18wc',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 },  ], css_id: 'tinytable_css_w0vhst0tad7pk63i8x51',}, 
+          { positions: [ { i: 6, j: 0 }, { i: 6, j: 1 }, { i: 6, j: 2 }, { i: 6, j: 3 }, { i: 6, j: 4 },  ], css_id: 'tinytable_css_8mq1db4lyathdqvzmh6v',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_d30u6b2jzqht5zmkuucq(cell.i, cell.j, group.css_id);
+                  styleCell_glaqvg7t6gl17c4pfddv(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1197,11 +1175,11 @@ For the purposes of broadcasting, any pair of arrays, <code>x</code> and <code>y
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_zcjxo8hx05dnl8qm9qns, .table th.tinytable_css_zcjxo8hx05dnl8qm9qns { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_oemmdmkasav660xp18wc, .table th.tinytable_css_oemmdmkasav660xp18wc { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_w0vhst0tad7pk63i8x51, .table th.tinytable_css_w0vhst0tad7pk63i8x51 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_8mq1db4lyathdqvzmh6v, .table th.tinytable_css_8mq1db4lyathdqvzmh6v { border-bottom: solid #d3d8dc 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_d30u6b2jzqht5zmkuucq" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_glaqvg7t6gl17c4pfddv" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -1275,8 +1253,8 @@ For the purposes of broadcasting, any pair of arrays, <code>x</code> and <code>y
 
     <script>
 
-      function styleCell_lv3rencxogcg773ih0a8(i, j, css_id) {
-          var table = document.getElementById("tinytable_lv3rencxogcg773ih0a8");
+      function styleCell_4on9e3zxjnghnjst59va(i, j, css_id) {
+          var table = document.getElementById("tinytable_4on9e3zxjnghnjst59va");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -1286,7 +1264,7 @@ For the purposes of broadcasting, any pair of arrays, <code>x</code> and <code>y
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_lv3rencxogcg773ih0a8');
+        var table = document.getElementById('tinytable_4on9e3zxjnghnjst59va');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -1294,8 +1272,8 @@ For the purposes of broadcasting, any pair of arrays, <code>x</code> and <code>y
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_lv3rencxogcg773ih0a8(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_lv3rencxogcg773ih0a8");
+      function spanCell_4on9e3zxjnghnjst59va(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_4on9e3zxjnghnjst59va");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -1325,14 +1303,14 @@ For the purposes of broadcasting, any pair of arrays, <code>x</code> and <code>y
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 },  ], css_id: 'tinytable_css_q4621vy49yrkkd74gtj3',}, 
-          { positions: [ { i: 5, j: 0 }, { i: 5, j: 1 }, { i: 5, j: 2 }, { i: 5, j: 3 }, { i: 5, j: 4 },  ], css_id: 'tinytable_css_1se8ncq2fn1k7gemmv5j',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 }, { i: 0, j: 4 },  ], css_id: 'tinytable_css_zs5212f9kzpcjap4rysy',}, 
+          { positions: [ { i: 5, j: 0 }, { i: 5, j: 1 }, { i: 5, j: 2 }, { i: 5, j: 3 }, { i: 5, j: 4 },  ], css_id: 'tinytable_css_egtp15o565je16adjkw7',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_lv3rencxogcg773ih0a8(cell.i, cell.j, group.css_id);
+                  styleCell_4on9e3zxjnghnjst59va(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1340,11 +1318,11 @@ For the purposes of broadcasting, any pair of arrays, <code>x</code> and <code>y
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_q4621vy49yrkkd74gtj3, .table th.tinytable_css_q4621vy49yrkkd74gtj3 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_1se8ncq2fn1k7gemmv5j, .table th.tinytable_css_1se8ncq2fn1k7gemmv5j { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_zs5212f9kzpcjap4rysy, .table th.tinytable_css_zs5212f9kzpcjap4rysy { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_egtp15o565je16adjkw7, .table th.tinytable_css_egtp15o565je16adjkw7 { border-bottom: solid #d3d8dc 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_lv3rencxogcg773ih0a8" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_4on9e3zxjnghnjst59va" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>

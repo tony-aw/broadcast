@@ -1,4 +1,4 @@
-#' Apply a Function to 2 Broadcasted Arrays
+#' Apply Function to Pair of Arrays with Broadcasting
 #'
 #' @description
 #' The `bcapply()` function

@@ -159,66 +159,94 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
  <span class="menu-text">Reference Manual</span>
   </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../man/aaa00_broadcast_help.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview Help pages</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/aaa00_broadcast_help.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">broadcast help</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/aaa01_broadcast_attributes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">On Attribute Handling</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/aaa02_broadcast_overload.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overloaded Operators</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc. - functions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.b</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.i.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.i</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.d.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.d</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.cplx.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.cplx</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.str.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.str</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.raw.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.raw</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.bit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.bit</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.list.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.list</span></a>
   </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/broadcaster.html" class="sidebar-item-text sidebar-link">
@@ -247,6 +275,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/acast.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">acast</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/linear_algebra_stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">linear_algebra_stats</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -283,7 +317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#apply-a-function-to-2-broadcasted-arrays" id="toc-apply-a-function-to-2-broadcasted-arrays" class="nav-link active" data-scroll-target="#apply-a-function-to-2-broadcasted-arrays">Apply a Function to 2 Broadcasted Arrays</a>
+  <li><a href="#apply-function-to-pair-of-arrays-with-broadcasting" id="toc-apply-function-to-pair-of-arrays-with-broadcasting" class="nav-link active" data-scroll-target="#apply-function-to-pair-of-arrays-with-broadcasting">Apply Function to Pair of Arrays with Broadcasting</a>
   <ul class="collapse">
   <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description">Description</a></li>
   <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
@@ -314,8 +348,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="apply-a-function-to-2-broadcasted-arrays" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="apply-a-function-to-2-broadcasted-arrays">Apply a Function to 2 Broadcasted Arrays</h2>
+<section id="apply-function-to-pair-of-arrays-with-broadcasting" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="apply-function-to-pair-of-arrays-with-broadcasting">Apply Function to Pair of Arrays with Broadcasting</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
 <p>The <code>bcapply()</code> function applies a function to 2 arrays element-wise with broadcasting. <br></p>
@@ -389,21 +423,21 @@ either <code>NULL</code>, or single string, giving the scalar type for a single 
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">bcapply</span>(x, y, f, <span class="at">v =</span> <span class="st">"character"</span>)</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 1</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1]    [,2]      [,3]   </span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,] "a 1"   "1 1"     "a 1"  </span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] "a 1"   "a 1"     "a 1"  </span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] "1 a"   "Jan a"   "1 a"  </span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] "1 Jan" "Jan Jan" "1 Jan"</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] "a 1"   "1 1"     "a 1"  </span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1]      [,2]      [,3]     </span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,] "Jan a"   "1 a"     "Jan a"  </span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] "a 1"     "1 1"     "a 1"    </span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] "Jan a"   "Jan a"   "Jan a"  </span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] "a Jan"   "Jan Jan" "a Jan"  </span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] "Jan Jan" "1 Jan"   "Jan Jan"</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 2</span></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1]      [,2]    [,3]     </span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,] "1 1"     "a 1"   "1 1"    </span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] "a 1"     "a 1"   "a 1"    </span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] "Jan a"   "1 a"   "Jan a"  </span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] "Jan Jan" "1 Jan" "Jan Jan"</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] "1 1"     "a 1"   "1 1"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1]      [,2]      [,3]     </span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,] "1 a"     "Jan a"   "1 a"    </span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] "1 1"     "a 1"     "1 1"    </span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] "Jan a"   "Jan a"   "Jan a"  </span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] "Jan Jan" "a Jan"   "Jan Jan"</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] "1 Jan"   "Jan Jan" "1 Jan"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

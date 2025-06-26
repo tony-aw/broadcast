@@ -3,7 +3,7 @@
 \name{ndim}
 \alias{ndim}
 \alias{lst.ndim}
-\title{Get number of dimensions}
+\title{Get the Number of Dimensions of an Array}
 \usage{
 ndim(x)
 

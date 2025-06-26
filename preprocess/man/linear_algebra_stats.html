@@ -1,0 +1,119 @@
+<!DOCTYPE html><html><head><title>R: Simple Linear Algebra Functions for Statistics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>linear_algebra_stats</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simple Linear Algebra Functions for Statistics</h2>
+
+<h3>Description</h3>
+
+<p>'broadcast' provides some simple Linear Algebra Functions for Statistics: <br />
+<code>cinv()</code>; <br />
+<code>sd_gauss_lc</code>. <br />
+<br />
+<br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>cinv(x)
+
+sd_gauss_lc(X, vc, bad_rp = NaN)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="x">x</code></td>
+<td>
+<p>a matrix</p>
+</td></tr>
+<tr><td><code id="X">X</code></td>
+<td>
+<p>a numeric matrix of constants</p>
+</td></tr>
+<tr><td><code id="vc">vc</code></td>
+<td>
+<p>the variance-covariance matrix for the (correlated) Gaussian random variables.</p>
+</td></tr>
+<tr><td><code id="bad_rp">bad_rp</code></td>
+<td>
+<p>if <code>vc</code> is not a Positive (semi-) Definite matrix,
+give here the value to replace bad standard deviations with. <br /> <br /></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><b>cinv()</b> <br />
+<code>cinv()</code>
+computes the Choleski inverse of a symmetric Positive Definite matrix. <br />
+<br />
+<b>sd_gauss_lc()</b> <br />
+Given the linear combination <code>X %*% b</code>, where:
+</p>
+
+<ul>
+<li> <p><code>X</code> is a matrix of constants;
+</p>
+</li>
+<li> <p><code>b</code> is a vector of (correlated) Gaussian random variables;
+</p>
+</li>
+<li> <p><code>vc</code> is the variance-covariance matrix for <code>b</code>;
+</p>
+</li></ul>
+
+<p><code>sd_gauss_ls(X, vc)</code> computes the standard deviations for the linear combination <code>X %*% b</code>.
+<br />
+<br />
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>cinv()</code>: <br />
+A matrix. <br />
+<br />
+For <code>lincomb_coeff()</code>: <br />
+A vector of standard deviations.
+<br />
+<br />
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+vc &lt;- datasets::ability.cov$cov
+X &lt;- matrix(rnorm(1000), 1000, ncol(vc))
+
+solve(vc)
+cinv(vc) # faster than `solve()`, but only works on positive definite matrices
+all(round(solve(vc), 6) == round(cinv(vc), 6)) # they're the same
+
+sd_gauss_lc(X, vc)
+
+     
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

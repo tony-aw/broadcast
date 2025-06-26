@@ -2,7 +2,7 @@
 # set-up ====
 enumerate <- 0L
 errorfun <- function(tt) {
-  if(isTRUE(tt)) print(tt)
+  
   if(isFALSE(tt)) stop(print(tt))
 }
 
@@ -21,7 +21,7 @@ test_make_dims <- function(n) {
 }
 
 datagens <- list(
-  # \() as.raw(sample(1:10)), # ifelse() cannot handle raw, apparently
+  \() as.raw(sample(1:10)),
   \() sample(c(TRUE, FALSE, NA), 10L, TRUE),
   \() sample(c(-10L:10L, NA_integer_)),
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)),

@@ -8,7 +8,7 @@
 #' and/or larger length than the original objects. \cr
 #' Therefore, the `names`, `dimnames`, and `dim` attributes often no longer fit the new object. \cr
 #' Moreover, some classes are only appropriate for certain dimensions or lengths. \cr
-#' The implicit `matrix` class, for example, presumes an object to have exactly 2 dimensions. \cr
+#' Custom matrix classes, for example, presumes an object to have exactly 2 dimensions. \cr
 #' And the various classes provided by the 'bit' package have length-related attributes. \cr
 #' So even class attributes cannot be guaranteed to hold for the resulting objects. \cr
 #' \cr

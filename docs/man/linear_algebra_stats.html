@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>R-package: broadcast - linear_algebra_stats</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../man/figures/flavicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">R-package: broadcast</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../vignettes/a_readme.html" rel="" target="">
+ <span class="menu-text">Guides and Vignettes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../man/aaa00_broadcast_help.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Reference Manual</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about/a_acknowledgements.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/tony-aw/broadcast" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/linear_algebra_stats.html">linear_algebra_stats</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+ <span class="menu-text">Reference Manual</span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../man/aaa00_broadcast_help.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview Help pages</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/aaa00_broadcast_help.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">broadcast help</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/aaa01_broadcast_attributes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">On Attribute Handling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/aaa02_broadcast_overload.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overloaded Operators</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc. - functions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.b</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc.i.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.i</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc.d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.d</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc.cplx.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.cplx</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc.str.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.str</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc.raw.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.raw</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc.bit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.bit</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc.list.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.list</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/broadcaster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">broadcaster</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bind_array.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bind_array</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc_ifelse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc_ifelse</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bcapply.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bcapply</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/acast.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">acast</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/linear_algebra_stats.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">linear_algebra_stats</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/typecast.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">typecast</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc_dim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc_dim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/rep_dim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">rep_dim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/ndim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ndim</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#simple-linear-algebra-functions-for-statistics" id="toc-simple-linear-algebra-functions-for-statistics" class="nav-link active" data-scroll-target="#simple-linear-algebra-functions-for-statistics">Simple Linear Algebra Functions for Statistics</a>
+  <ul class="collapse">
+  <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description">Description</a></li>
+  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
+  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
+  <li><a href="#details" id="toc-details" class="nav-link" data-scroll-target="#details">Details</a></li>
+  <li><a href="#value" id="toc-value" class="nav-link" data-scroll-target="#value">Value</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">linear_algebra_stats</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="simple-linear-algebra-functions-for-statistics" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="simple-linear-algebra-functions-for-statistics">Simple Linear Algebra Functions for Statistics</h2>
+<section id="description" class="level3">
+<h3 class="anchored" data-anchor-id="description">Description</h3>
+<p>‘broadcast’ provides some simple Linear Algebra Functions for Statistics: <br> <code>cinv()</code>; <br> <code>sd_gauss_lc</code>. <br> <br> <br></p>
+</section>
+<section id="usage" class="level3">
+<h3 class="anchored" data-anchor-id="usage">Usage</h3>
+<pre><code class="language-R">cinv(x)
+
+sd_gauss_lc(X, vc, bad_rp = NaN)
+</code></pre>
+</section>
+<section id="arguments" class="level3">
+<h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
+
+<table>
+<tbody><tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="x">x</code>
+</td>
+<td>
+a matrix
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="X">X</code>
+</td>
+<td>
+a numeric matrix of constants
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="vc">vc</code>
+</td>
+<td>
+the variance-covariance matrix for the (correlated) Gaussian random variables.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="bad_rp">bad_rp</code>
+</td>
+<td>
+if <code>vc</code> is not a Positive (semi-) Definite matrix, give here the value to replace bad standard deviations with. <br> <br>
+</td>
+</tr>
+
+</tbody></table>
+</section>
+<section id="details" class="level3">
+<h3 class="anchored" data-anchor-id="details">Details</h3>
+<p><b>cinv()</b> <br> <code>cinv()</code> computes the Choleski inverse of a symmetric Positive Definite matrix. <br> <br> <b>sd_gauss_lc()</b> <br> Given the linear combination <code>X %*% b</code>, where:</p>
+<ul>
+<li>
+<p><code>X</code> is a matrix of constants;</p>
+</li>
+<li>
+<p><code>b</code> is a vector of (correlated) Gaussian random variables;</p>
+</li>
+<li>
+<p><code>vc</code> is the variance-covariance matrix for <code>b</code>;</p>
+</li>
+</ul>
+<p><code>sd_gauss_ls(X, vc)</code> computes the standard deviations for the linear combination <code>X %*% b</code>. <br> <br></p>
+</section>
+<section id="value" class="level3">
+<h3 class="anchored" data-anchor-id="value">Value</h3>
+<p>For <code>cinv()</code>: <br> A matrix. <br> <br> For <code>lincomb_coeff()</code>: <br> A vector of standard deviations. <br> <br></p>
+</section>
+<section id="examples" class="level3">
+<h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"broadcast"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> datasets<span class="sc">::</span>ability.cov<span class="sc">$</span>cov</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">1000</span>), <span class="dv">1000</span>, <span class="fu">ncol</span>(vc))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(vc)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">##              general       picture        blocks         maze       reading</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">## general  0.082259001 -0.0312406436 -7.750932e-03 -0.013309494 -2.061705e-02</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## picture -0.031240644  0.2369906996 -2.484938e-02  0.017844845  8.603286e-04</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="do">## blocks  -0.007750932 -0.0248493822  1.344272e-02 -0.012544830 -3.802671e-05</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="do">## maze    -0.013309494  0.0178448450 -1.254483e-02  0.101625400  5.508423e-03</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## reading -0.020617049  0.0008603286 -3.802671e-05  0.005508423  5.713620e-02</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="do">## vocab   -0.002420800  0.0019394999 -1.157864e-03 -0.002857265 -2.406969e-02</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="do">##                vocab</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="do">## general -0.002420800</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="do">## picture  0.001939500</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="do">## blocks  -0.001157864</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="do">## maze    -0.002857265</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="do">## reading -0.024069692</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="do">## vocab    0.020323179</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">cinv</span>(vc) <span class="co"># faster than `solve()`, but only works on positive definite matrices</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="do">##              [,1]          [,2]          [,3]         [,4]          [,5]</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  0.082259001 -0.0312406436 -7.750932e-03 -0.013309494 -2.061705e-02</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] -0.031240644  0.2369906996 -2.484938e-02  0.017844845  8.603286e-04</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] -0.007750932 -0.0248493822  1.344272e-02 -0.012544830 -3.802671e-05</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] -0.013309494  0.0178448450 -1.254483e-02  0.101625400  5.508423e-03</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] -0.020617049  0.0008603286 -3.802671e-05  0.005508423  5.713620e-02</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [6,] -0.002420800  0.0019394999 -1.157864e-03 -0.002857265 -2.406969e-02</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="do">##              [,6]</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,] -0.002420800</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  0.001939500</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] -0.001157864</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] -0.002857265</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] -0.024069692</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="do">## [6,]  0.020323179</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(<span class="fu">round</span>(<span class="fu">solve</span>(vc), <span class="dv">6</span>) <span class="sc">==</span> <span class="fu">round</span>(<span class="fu">cinv</span>(vc), <span class="dv">6</span>)) <span class="co"># they're the same</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">sd_gauss_lc</span>(X, vc)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="do">##    [1]  17.54066626  40.27736402  10.09338731   8.87460643  30.46076420</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="do">##    [6]  39.96176002  47.78296534   5.12529845  43.20932372  39.49257214</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="do">##   [11]  12.59648492  25.62427270   8.22325083  37.45232718  67.55389345</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="do">##   [16]  18.24545684  23.84609591  27.27835638   5.96898065  21.60117241</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="do">##   [21]  30.40300036   6.88434606  49.40250630  14.08634050  33.87712957</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="do">##   [26]  46.46688573  15.99496559   4.62137261   1.88396639  26.17368625</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="do">##   [31]   2.58107582   7.43829981  27.15756169  39.19030324  42.25320664</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="do">##   [36]  18.18483194  77.74300936  65.94863389  48.64441028   0.19314056</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="do">##   [41]   5.29263316   4.74406074  19.35992108  36.27222922  20.00012785</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="do">##   [46]   7.53176458  48.73627878  46.27922052  11.59471551  15.70335605</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="do">##   [51]  25.12921413  36.18386275  20.16201406  29.56648930  41.48229766</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="do">##   [56]  29.11500110  33.78478327  40.90581632  10.98583345  33.13010653</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="do">##   [61]  12.75045462   1.12564070  15.77690464  29.77953866   9.79523520</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="do">##   [66]  54.41256636  46.28824050  44.57320493  27.67614020  47.69034574</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="do">##   [71]   7.83321936  29.98142162  59.23471800  64.92124973   1.90018147</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="do">##   [76]  16.67807967   2.32412935  22.46940665  56.64559977  19.38295390</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="do">##   [81]   4.56608466  42.66703777   0.95886350  50.65090334   7.15207336</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="do">##   [86]  19.84105903   9.32814913  52.37440176   9.80505049   2.13185351</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="do">##   [91]  29.24946708  30.12065479  19.58144874  51.92934301  12.83852016</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="do">##   [96]  20.51824428   5.85173365  13.56064814   1.21442106  44.25621050</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="do">##  [101]  10.96863587  43.62685913  16.04880241  32.41670671   7.55416188</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="do">##  [106]   5.69050621  27.04115819  11.79705003  29.79821468  61.68915326</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="do">##  [111]   8.28935087  18.23805993  49.52548632   3.73933791  47.63829156</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="do">##  [116]  38.15319455  14.62975149  34.34298188   0.54396018  23.85751399</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="do">##  [121]  31.04601081  31.76920100  14.92857108  29.79274611   5.90224482</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="do">##  [126]   4.33042308   8.62405931  39.82425352   3.48639427  57.47020013</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="do">##  [131]  28.05058275  26.01265795  34.14064872  19.91682248  21.59097645</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="do">##  [136]  35.21606763   7.17321960   0.04206045   8.48773592  26.38904683</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="do">##  [141]  39.68349683  26.30312870  47.81963467   4.56070482  22.06835443</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="do">##  [146]  15.09253227  31.26271285  42.11221507  16.85303891  47.85159948</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="do">##  [151]   7.97671626   9.89726110  16.54646191  59.47707112  41.18420678</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="do">##  [156]  54.43591211  31.42328318  22.04305577   3.91488619  40.90898347</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="do">##  [161]   1.72850663  86.33140120   6.90150710  79.93034156  38.30443035</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="do">##  [166]  60.44341755  38.93641588   6.70022082  22.27354824  22.05696612</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="do">##  [171]   7.92045086  57.90608487  12.27917432  20.00375848  10.24129265</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="do">##  [176]  15.97330026   4.45183267  51.79349547  17.06954336  10.99234031</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="do">##  [181]  22.74675464  23.81658659  30.74695591  34.27619623  54.08797654</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="do">##  [186]   7.63280475  23.24119478  12.11785120  43.95969823  13.03075269</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="do">##  [191]  23.88041586  29.74490399  30.51080107  37.60541812  31.82569121</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="do">##  [196]   1.83445006  14.48414575   7.90294694  16.35685558  23.82904712</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="do">##  [201]   6.10925590  17.45861869  13.03715490  18.14378510  24.62445082</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="do">##  [206]   5.68584694  11.36187680   1.25331245  43.05556720  22.25114915</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="do">##  [211]  15.45098871  51.02869903  42.98215478  15.06551744  29.89087270</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="do">##  [216]   4.94928006  52.24823600   6.05751422  78.20280557  17.88003308</span></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="do">##  [221]  73.29430962  23.86999552   3.36334315   0.72466997  13.11349310</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="do">##  [226]  42.96253873  37.47362405  49.46940949   9.97165824  28.58233801</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="do">##  [231]  18.05226057  10.02152457   7.81764748   0.71074344  19.93673570</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="do">##  [236]  26.79318613  75.42344767   1.57577557  29.28219279   1.20809066</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="do">##  [241]  66.21291260  16.31444583  42.16356852  28.66722138  16.27992491</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="do">##  [246]  21.53807713   6.42947521  23.66478155  59.34549782  27.29019691</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="do">##  [251]  26.63178768  18.34260465   6.83206136  24.32741949  34.38759012</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="do">##  [256]  41.69184486  47.22594136   5.30936823  47.35185980   1.59783716</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="do">##  [261]  33.83321274  30.24266280  46.09823611  24.63374210  18.70006167</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="do">##  [266]  18.99329505  18.11200184  39.30885746  70.78588074  34.51235388</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="do">##  [271]  36.27741072  14.35068712  49.23041219  43.54449745  20.10240553</span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="do">##  [276]  31.21086853  23.69949738  15.15922359  13.73857664   3.29399616</span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="do">##  [281]   9.96335548   1.86842619  10.70195435   4.04165599   4.38073617</span></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="do">##  [286]  31.17965758  48.04015604  13.00696335  14.01560962  19.22283960</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="do">##  [291]  52.39762565  49.66889226  18.07115410  16.38783974  43.19208309</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="do">##  [296]  51.83173878   9.81263075  59.15032378  29.09750192  26.16010588</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="do">##  [301]  26.57937252   5.22136705  12.06539816  16.95572097  16.60359803</span></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="do">##  [306]  21.32343968  19.54831634  22.20591377  18.54189330  10.48447429</span></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="do">##  [311]  29.89853975   0.12393308   4.81238460  39.79389344   4.96193454</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="do">##  [316]  41.16542532  27.62742702  50.13480096   5.15411084   8.87164046</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="do">##  [321]  44.11508711  23.91887228  24.34291802  45.38654749  30.39054079</span></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="do">##  [326]  26.09407245  82.59788177  35.45165744  15.90398368   3.76808132</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="do">##  [331]   0.53954260   6.81199778  35.16764742   6.68323253  50.57763466</span></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="do">##  [336]  29.16305941  16.07169370   9.55583461  54.16161173   9.60924128</span></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="do">##  [341]  16.92144425  31.18775153  60.87346111  31.29605821   7.80790218</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="do">##  [346]   6.65291996  20.90665529  16.22561923   3.41527423   1.09827277</span></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="do">##  [351]  17.23146516   1.24908630  14.21320411  43.95314474  16.04543707</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="do">##  [356]   5.67952398   7.19169617  61.53471229   5.51657176  27.73539544</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="do">##  [361]  11.73205342  21.90987123  42.74770412  50.06510400  18.63873885</span></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="do">##  [366]  43.48023812  12.29073680  58.22621312  32.62071523  26.51691463</span></span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="do">##  [371]  28.86968300   5.86032604   7.70481199  44.55400936  12.32535220</span></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="do">##  [376]  48.35853246   5.51524205   9.68616285  22.73276866  47.18107619</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="do">##  [381]  18.61083071   4.23311396  21.79042792  43.46189426  69.05372809</span></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="do">##  [386]  66.97590747   9.61015769   7.31527518   3.21950979  11.40896918</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="do">##  [391]  74.90027414   9.59672130  21.82170962  12.95413107   2.56753719</span></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="do">##  [396]  29.17629457  16.81115738   9.14959885  32.13880348  15.03923300</span></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="do">##  [401]   8.71366025  11.71628981  20.99676931  45.78541010  24.28323842</span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="do">##  [406]  22.76061131   9.32094432  12.04234866   6.51803408  14.87727384</span></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="do">##  [411]  24.84179822  14.61945081  19.17873311  66.17699102  46.26074240</span></span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="do">##  [416]  32.62359732  25.21238669   0.18786519   4.23014208  66.09643561</span></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="do">##  [421]  60.24493271  17.33585848  15.05942029  21.68423611  11.56811198</span></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="do">##  [426]  58.54832526  35.64008867  44.31073809  12.21920733  21.29519234</span></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="do">##  [431]  34.17119537  70.91327964  31.18172436  23.89030308   9.35239086</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="do">##  [436]  88.36949293   5.33248719   0.55632304  45.27944522  51.84305311</span></span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="do">##  [441]  28.10984088  19.52456341  25.26588581  30.88392271  40.35099466</span></span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="do">##  [446]  50.18715381  70.18961153  52.51157749  12.54812291  37.96512351</span></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="do">##  [451]   6.45620816  12.85166415  41.23092186  11.20796997  17.35761951</span></span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="do">##  [456]   1.05453132  39.70208909  39.13934490  33.17781770   2.67690424</span></span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="do">##  [461]  73.88022661  43.77804151  15.85320236  41.53777233  36.85960080</span></span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="do">##  [466]  43.38293014  60.06076610   5.75768612  57.20813020  37.58724433</span></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="do">##  [471]  16.33371497  35.62852565   6.13350481   7.54569745  17.33767273</span></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="do">##  [476]   7.17305627  40.67270245  16.54003941   4.22498721  23.19470444</span></span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="do">##  [481]  10.06144279   6.53134270  14.90776611   1.55351480  33.71693752</span></span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="do">##  [486]  52.77640419  10.98581468  42.03834604  13.52643835   3.25373066</span></span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="do">##  [491]  34.19305398  33.74469736  35.18290256  43.14467026  14.77144102</span></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="do">##  [496]  29.70974350   7.98107114  28.74662192  30.99318984  16.13414968</span></span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="do">##  [501]  30.22360261  35.17490998  59.52620449   4.41609789   6.80718165</span></span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="do">##  [506]   8.99272188  39.03303187   4.47377512   6.41453202  22.70708291</span></span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="do">##  [511]  16.03027094  11.95372159  84.92333799  40.29735620  12.17043861</span></span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a><span class="do">##  [516]  15.61088797  46.70458015   7.11809740  62.62391449  14.39626623</span></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a><span class="do">##  [521]  22.62684413  26.89488780   2.59297087  26.60557831   6.77326684</span></span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a><span class="do">##  [526]  33.68526226   4.79479749 101.91481121  10.77141731  92.32699794</span></span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a><span class="do">##  [531]  36.25150818  17.35977824  12.95974632   9.13702735  19.54580953</span></span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a><span class="do">##  [536]  15.67815779  25.34296390  13.32775754   5.98145347   3.41774603</span></span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="do">##  [541]  31.41745875  19.44767773  47.60271611   3.55716657  14.73740257</span></span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="do">##  [546]  40.36141080  44.08351707   9.62097670  22.49711476  60.89732967</span></span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a><span class="do">##  [551]  24.36329491  27.84715123  30.83296283  32.33274694   4.09618847</span></span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a><span class="do">##  [556]  35.48352573  30.84305415  12.03385297  38.33521746   3.88336833</span></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a><span class="do">##  [561]  32.16982183  36.62634990   6.51784678  14.44633549  30.92356270</span></span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a><span class="do">##  [566]   6.65253968  28.84253437  34.61271857  12.50925665   8.56024059</span></span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="do">##  [571]   8.23920575  37.03036263  24.02913354   0.31546696  18.95181455</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="do">##  [576]  41.67682222  13.16077619  38.48651641   8.06124710  42.62279125</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="do">##  [581]  59.41144102   2.09266242  20.91971408   0.34022751  42.49322755</span></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="do">##  [586]  11.08232967  16.01402670   6.14926869  13.29097720  16.31867683</span></span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="do">##  [591]  53.77278611   0.29621871  32.63534186   6.19150270  44.78593696</span></span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="do">##  [596]  17.78913414  32.52200445  30.50675622  33.02489765  38.36777589</span></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="do">##  [601]  41.68203974  10.53988253   6.21515206   3.78567180  22.04860538</span></span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a><span class="do">##  [606]  87.61597341  10.56853767  27.43996656  21.65516107   4.23613691</span></span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a><span class="do">##  [611]  31.14038204  10.25718596  57.63409014  44.49517969   4.39128106</span></span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="do">##  [616]   8.85837502  16.91073664  58.45071491  41.80239674  20.83882977</span></span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="do">##  [621]  49.46806589  25.71760178  19.55392991  59.70241012   6.20866700</span></span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="do">##  [626]  36.56435314   4.69594735  37.27623562   1.01346861   7.41541943</span></span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a><span class="do">##  [631]  62.96356400  58.61541599  85.23596451  22.70195989  61.24903574</span></span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="do">##  [636]  58.36358199  20.43975142  59.53874142  17.35724716  21.70760866</span></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="do">##  [641]   8.68105550   5.73722580   2.38788906  64.04608614  43.38281875</span></span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a><span class="do">##  [646]  13.37814197  72.71463078  10.69500232  19.56106635  46.70828929</span></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="do">##  [651]   9.80348093   2.83045097  27.01692305  31.63123385   3.48099105</span></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a><span class="do">##  [656]  10.64751866  16.10095719  35.31191079   4.67099731  29.16393179</span></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="do">##  [661]   3.35647199  28.65080381   6.44236153  26.02153524  31.70407776</span></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="do">##  [666]   9.23569021  30.02553035  16.58486729  13.35060652  10.88328073</span></span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a><span class="do">##  [671]  17.49612662  35.89017958   7.68033090  46.86713167  40.59730045</span></span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a><span class="do">##  [676]  47.02542508  21.02719330   5.99214166  26.62400298  13.66845840</span></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="do">##  [681]   5.10860580  24.35861438   5.37062424  40.35631076   7.20051554</span></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="do">##  [686]  35.39086620   3.50038188   7.26533223  17.87384827  15.98649681</span></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a><span class="do">##  [691]  41.13594052  38.57759281  77.70555966  89.81176829  20.79783787</span></span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="do">##  [696]  11.24361928  38.15710648   2.65083461   2.56631046  41.12921843</span></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a><span class="do">##  [701]  52.41040554  17.74316477  63.60115109  51.79337628  87.56109104</span></span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="do">##  [706]  18.77595316   3.36690280  35.31614850   2.53506194  31.65386068</span></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="do">##  [711]   3.39652668  22.50580735  28.46413138  12.97533577  58.91444858</span></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="do">##  [716]  16.63759798  27.19609985  28.08145751  32.14298076  12.26746357</span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="do">##  [721]  14.86012349  20.97958278  19.76276166  24.86018250  17.62411052</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="do">##  [726]  21.14379590  28.09695755   6.10412353   0.67787618  60.27762704</span></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="do">##  [731]  21.78470903  32.00213907  10.64349452   8.50266579   0.36283459</span></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="do">##  [736]   6.11655978  17.63765815  35.05927959   7.93142399  32.49345835</span></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="do">##  [741]  18.24310811  16.35557543  24.50840044  19.32662403  19.72202031</span></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="do">##  [746]  59.88629174   8.89655833  39.05486256  12.10396296   8.95077315</span></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="do">##  [751]  30.22173453  76.80250235  10.45429123  13.79047070  13.40377752</span></span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="do">##  [756]  14.29150770  49.41000480  12.58715248   2.15018580  23.51333767</span></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="do">##  [761]  45.18543979  15.21142358  13.74064224  13.43183477  43.76314154</span></span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="do">##  [766]  35.56994577  20.77647788  15.37711953  10.94916501  32.39200602</span></span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a><span class="do">##  [771]  23.22237525   5.74610596   9.95267676   5.08663470  42.67591308</span></span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a><span class="do">##  [776]   1.15858916  27.30133757   6.87962277  44.31534632  25.53294780</span></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a><span class="do">##  [781]  19.98486579  28.59004653   3.50439564  13.49398364  10.64316277</span></span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="do">##  [786]  28.32276209  29.67542723  66.79332328   7.92067597  40.40412596</span></span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a><span class="do">##  [791]  30.10552992  31.21108610  29.14691193   9.75813819  19.31999698</span></span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a><span class="do">##  [796]   5.76934978  28.39950972  13.27519800   0.27878311  26.57590126</span></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a><span class="do">##  [801]   1.11877283  61.65670466  42.65562862  19.34335193  40.73712051</span></span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a><span class="do">##  [806]  18.14940297  53.11699909  39.91240368  17.87198114  11.87076797</span></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a><span class="do">##  [811]   5.56699702   7.75088444  31.27325623  44.83147559  10.62785943</span></span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="do">##  [816]  32.96180644  24.90642524  58.91138624   0.99421737  11.02263602</span></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="do">##  [821]  16.81132973  24.39243257  21.96661683   3.79237530  10.73120685</span></span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="do">##  [826]  49.00808177  27.22844355  17.40903284  55.85023246  50.94575736</span></span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="do">##  [831]  28.30563586   8.99719921   2.41832226  32.80266795  24.92543535</span></span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="do">##  [836]  10.04454251  71.48082936  19.82645043  20.13149245   7.98588030</span></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="do">##  [841]  20.32201524   2.91829756  27.00371945  54.27083982  45.03814780</span></span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="do">##  [846]  27.40731446  35.89602027  25.80453422  15.38961166  26.25422432</span></span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="do">##  [851]   2.08605885  62.14223830  10.82614758   8.29699315  38.47021458</span></span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="do">##  [856]  48.57843440  22.55164301  15.10054697  71.72553939   6.64820197</span></span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="do">##  [861]  32.90677159  12.99532163  29.65886377  34.70981155  15.68262263</span></span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a><span class="do">##  [866]  22.53004998  16.12785763  11.51616154   1.95012287  14.75060617</span></span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="do">##  [871]  22.63081107  14.65781443  20.93451087  24.78330046  32.56265032</span></span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a><span class="do">##  [876]  54.40740837  28.82725464  40.21851515  13.40657607   8.18903509</span></span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a><span class="do">##  [881]  61.76419083  28.65763372  47.98679420  53.82461672  11.69540384</span></span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a><span class="do">##  [886]  15.65509939   6.61989910   2.25829938  33.36350620   5.80005093</span></span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a><span class="do">##  [891]  23.49161271   2.98334707  23.99368402  25.57594350  48.21916198</span></span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="do">##  [896]  10.09244976  10.06349734  21.02618682  46.64794784  18.66496348</span></span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="do">##  [901]  14.59603000  44.02239662  29.20964256  78.62976474  12.91767840</span></span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a><span class="do">##  [906]   1.55775009   2.11929658  39.23385883   2.90359118   4.01121164</span></span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a><span class="do">##  [911]  32.76663288  52.16203702  61.83870586  13.01383104   9.56790592</span></span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a><span class="do">##  [916]   6.68311232  12.10604263  60.99799888  28.47994284  30.01076141</span></span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a><span class="do">##  [921]  38.66379988  50.63964758  66.54798150  12.55321442  72.61088794</span></span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a><span class="do">##  [926]  17.23138558  51.04893075   6.11075479  38.06921257  25.80149637</span></span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a><span class="do">##  [931]  42.52090700  32.69152831  22.64407614  25.82648461   7.48100167</span></span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="do">##  [936]  27.08859111  10.36208015   8.02758467  55.25534008  21.41402288</span></span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="do">##  [941]  38.75853960  48.47105837  17.74534684   1.93697066   4.62713110</span></span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="do">##  [946]   9.68627055  17.16967690  16.69972039  11.61664558  24.94472742</span></span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="do">##  [951]  29.88306699   7.81484714   3.45414741  37.54342402  47.38042452</span></span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="do">##  [956]  42.91124741  41.56381556  14.00178984   5.46028904   5.75665328</span></span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="do">##  [961]  14.14229422  44.35882052  13.55529670   6.09927337  36.95246727</span></span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="do">##  [966]  32.71910543   3.46631157   0.24559717  18.26972014  26.99639288</span></span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="do">##  [971]  21.04216636   6.05696384   9.16332118  22.05195908   1.13372618</span></span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="do">##  [976]  21.11293300  53.13300515  63.01673637   8.17734496  52.40065832</span></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="do">##  [981]  31.26330401  25.99831160  44.18149893   8.18734217  68.14944574</span></span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a><span class="do">##  [986]   1.54094297  36.39387773  31.26144273  38.16535550   6.56174720</span></span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a><span class="do">##  [991]  26.99663477  13.63971016   5.50239707   4.30006732  27.85291529</span></span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a><span class="do">##  [996]  20.32873146  35.28083197  39.59661803   9.15292481   8.99468519</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Developed by Tony Wilkes</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

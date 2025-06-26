@@ -3,7 +3,7 @@
 \name{bcapply}
 \alias{bcapply}
 \alias{bcapply,ANY-method}
-\title{Apply a Function to 2 Broadcasted Arrays}
+\title{Apply Function to Pair of Arrays with Broadcasting}
 \usage{
 bcapply(x, y, f, ...)
 

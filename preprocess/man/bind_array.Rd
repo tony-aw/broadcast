@@ -8,7 +8,7 @@ bind_array(
   input,
   along,
   rev = FALSE,
-  ndim2bc = 1L,
+  ndim2bc = 16L,
   name_along = TRUE,
   comnames_from = 1L
 )

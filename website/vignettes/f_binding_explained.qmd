@@ -32,7 +32,6 @@ This should be fairly obvious, but the dimension specified in `along` is never b
 
 &nbsp;
 
-By default, `ndim2bc` is set to `1`. This means that, by default, [bind_array()](/man/bind_array.qmd) will broadcast no more than 1 dimension for each array in the input list, when necessary.
 
 Consider the following arrays:
 
@@ -84,18 +83,16 @@ x <- array(1:20, c(4, 5, 3))
 print(x)
 ```
 
-Trying to bind `x` with `y` now will produce an error even with [bind_array()](/man/bind_array.qmd), to protect the user from unintended broadcasting:
+Suppose we don't want to broadcast more than 1 dimension at a time, out of fear of accidentally broadcasting too many dimensions (like when binding arrays in a loop without knowing a-priori how many dimensions the arrays have).
+
+One can than set `ndim2bc = 1L`, to ensure no more than one dimensions is being broadcasted when binding arrays.
+
+So trying to bind `x` with `y` now will produce an error even with [bind_array()](/man/bind_array.qmd), to protect the user from unintended broadcasting:
 
 ```{r eval=FALSE, echo=TRUE}
-bind_array(list(x, y), 2L)
-Error in bind_array(list(x, y), 2L) : 
+bind_array(list(x, y), 2L, ndim2bc = 1L)
+Error in bind_array(list(x, y), 2L, ndim2bc = 1L) : 
   maximum number of dimensions to be broadcasted (2) exceeds `ndim2bc` (1)
-```
-
-If you know you actually do want to broadcast multiple dimensions, simply increase `ndim2bc`:
-
-```{r}
-bind_array(list(x, y), 2L, ndim2bc = 3L)
 ```
 
 &nbsp;

@@ -2,7 +2,7 @@
 # set-up ====
 enumerate <- 0L
 errorfun <- function(tt) {
-  if(isTRUE(tt)) print(tt)
+  
   if(isFALSE(tt)) stop(print(tt))
 }
 
@@ -33,7 +33,7 @@ test_make_dimnames <- function(x) {
 
 
 datagens <- list(
-  # \() as.raw(sample(1:10)), # ifelse() cannot handle raw, apparently
+  \() as.raw(sample(1:10)),
   \() sample(c(TRUE, FALSE, NA), 10L, TRUE),
   \() sample(c(-10L:10L, NA_integer_)),
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)),
@@ -41,6 +41,14 @@ datagens <- list(
   \() sample(c(letters, NA)),
   \() sample(list(letters, month.abb, 1:10))
 )
+
+
+datagens_comp <- function(x, y, z) {
+  # check if all data are raw, or all are NOT raw
+  # because R does not allow mixing raw with non-raw in `[<-` operator
+  out <- sum(c(x==1, y==1, z==1)) %in% c(3, 0)
+  return(out)
+}
 
 along <- 3L
 
@@ -57,6 +65,10 @@ for(iSample in 1:5) {
   for(iDataX in seq_along(datagens)) {
     for(iDataY in seq_along(datagens)) {
       for(iDataZ in seq_along(datagens)) {
+        
+        if(!datagens_comp(iDataX, iDataY, iDataZ)) {
+          next
+        } 
         
         # make input:
         x.dim <- y.dim <- z.dim <- test_make_dims(nDims)

@@ -2,7 +2,7 @@
 # set-up ====
 enumerate <- 0 # to count number of tests performed using iterations in loops
 errorfun <- function(tt) {
-  if(isTRUE(tt)) print(tt)
+  
   if(isFALSE(tt)) stop(print(tt))
 }
 tol <- sqrt(.Machine$double.eps)

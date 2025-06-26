@@ -1,4 +1,4 @@
-#' Get number of dimensions
+#' Get the Number of Dimensions of an Array
 #'
 #' @description
 #' `ndim()` returns the number of dimensions of an object. \cr

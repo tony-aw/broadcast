@@ -105,10 +105,3 @@
   }
   return(coerce)
 }
-
-#' @keywords internal
-#' @noRd
-.is_formula <- function(form) {
-  check <- inherits(form, "formula") && is.call(form) && isTRUE(form[[1]] == "~")
-  return(check)
-}

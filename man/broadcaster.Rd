@@ -39,12 +39,7 @@ far more convenient. \cr
 Like in the following calculation: \cr
 \code{x / (y + z)} \cr
 \cr
-
-Broadcaster arrays come with their own method dispatch for the base operators. \cr
-If at least one of the 2 arguments of the base operators has the \code{broadcaster} class attribute,
-and no other class (like \code{bit64}) interferes,
-broadcasting will occur in the same manner as used in the various \verb{bc.*} - functions. \cr
-\cr
+See \link{broadcast_overload} for more information. \cr
 }
 \examples{
 

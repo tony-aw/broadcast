@@ -195,6 +195,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#general-broadcasted-functions" id="toc-general-broadcasted-functions" class="nav-link" data-scroll-target="#general-broadcasted-functions">General Broadcasted functions</a></li>
   <li><a href="#acast" id="toc-acast" class="nav-link" data-scroll-target="#acast">Acast</a></li>
   <li><a href="#type-casting" id="toc-type-casting" class="nav-link" data-scroll-target="#type-casting">Type-casting</a></li>
+  <li><a href="#simple-linear-algebra-functions-for-statistics" id="toc-simple-linear-algebra-functions-for-statistics" class="nav-link" data-scroll-target="#simple-linear-algebra-functions-for-statistics">Simple linear algebra functions for statistics</a></li>
   <li><a href="#supported-structures" id="toc-supported-structures" class="nav-link" data-scroll-target="#supported-structures">Supported Structures</a></li>
   <li><a href="#writing-methods-for-custom-classes" id="toc-writing-methods-for-custom-classes" class="nav-link" data-scroll-target="#writing-methods-for-custom-classes">Writing Methods for Custom Classes</a></li>
   </ul>
@@ -223,13 +224,14 @@ ul.task-list li input[type="checkbox"] {
 <p>&nbsp;</p>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>The ‘broadcast’ package provides 5 main functionalities:</p>
+<p>The ‘broadcast’ package provides 6 main functionalities:</p>
 <ul>
 <li>functions to perform broadcasted element-wise binary operations</li>
 <li>broadcasted dimensional binding of arrays</li>
 <li>broadcasted generic pair-wise functions</li>
 <li>casting/pivoting an array into a new dimension</li>
 <li>array typecasting with dimensions and names preserved</li>
+<li>simple linear algebra functions for statistics</li>
 </ul>
 <p>This guide gives a brief overview of the functions provided by the ‘broadcast’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> - package.</p>
 <p>&nbsp;</p>
@@ -312,7 +314,12 @@ Roughly speaking, it is somewhat analogous to <code>data.table::dcast()</code>, 
 </section>
 <section id="type-casting" class="level1">
 <h1>Type-casting</h1>
-<p>‘broadcast’ offers type-casting functions. Unlike base R’s type-casting functions (<code>as.logical()</code>, <code>as.integer()</code>, etc.), the type-casting functions from ‘broadcast’ preserve names and dimensions.</p>
+<p>‘broadcast’ offers type-casting functions. Unlike base R’s type-casting functions (<code>as.logical()</code>, <code>as.integer()</code>, etc.), the type-casting functions from ‘broadcast’ preserve names and dimensions. See <a href="../man/typecast.html">typecast</a>.</p>
+<p>&nbsp;</p>
+</section>
+<section id="simple-linear-algebra-functions-for-statistics" class="level1">
+<h1>Simple linear algebra functions for statistics</h1>
+<p>‘broadcast’ provides a small set of simple linear algebra functions for usage in statistics. See <a href="../man/linear_algebra_stats.html">linear_algebra_stats</a>.</p>
 <p>&nbsp;</p>
 </section>
 <section id="supported-structures" class="level1">

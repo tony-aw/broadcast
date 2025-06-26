@@ -3,7 +3,7 @@
 
 enumerate <- 0 # to count number of tests in loops
 errorfun <- function(tt) {
-  if(isTRUE(tt)) print(tt)
+  
   if(isFALSE(tt)) stop(print(tt))
 }
 

@@ -85,4 +85,21 @@
   .Call("C_dims_all_equal", xdim, ydim)
 }
 
+#' @keywords Internal
+#' @noRd
+.C_recycle_seq_dim <- function(x, y) {
+  .Call("C_recycle_seq_dim", as.integer(x), as.integer(y))
+}
+
+
+#' @keywords Internal
+#' @noRd
+.C_sd_gauss_lc <- function(w, vc, nvars, nobs, bad_rp) {
+  .Call("C_sd_gauss_lc", w, vc, as.integer(nvars), as.integer(nobs), as.double(bad_rp))
+}
+
+
+
+
+
 

@@ -159,66 +159,94 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
  <span class="menu-text">Reference Manual</span>
   </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../man/aaa00_broadcast_help.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview Help pages</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/aaa00_broadcast_help.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">broadcast help</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/aaa01_broadcast_attributes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">On Attribute Handling</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/aaa02_broadcast_overload.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overloaded Operators</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc. - functions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.b</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.i.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.i</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.d.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.d</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.cplx.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.cplx</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.str.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.str</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.raw.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.raw</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.bit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.bit</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.list.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc.list</span></a>
   </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/broadcaster.html" class="sidebar-item-text sidebar-link active">
@@ -247,6 +275,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/acast.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">acast</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/linear_algebra_stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">linear_algebra_stats</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -318,8 +352,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="check-or-set-if-an-array-is-a-broadcaster">Check or Set if an Array is a Broadcaster</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p><code>broadcaster()</code> checks if an array has the "broadcaster" attribute. <br> <code style="white-space: pre;">broadcaster()&lt;-</code> sets or un-sets the class attribute "broadcaster" on an array. <br> <br> The <code>broadcaster</code> class attribute exists purely to overload the arithmetic, Boolean, bit-wise, and relational infix operators, to support broadcasting. <br> This makes mathematical expressions with multiple variables, where precedence may be important, far more convenient. <br> Like in the following calculation: <br> <code>x / (y + z)</code> <br> <br></p>
-<p>Broadcaster arrays come with their own method dispatch for the base operators. <br> If at least one of the 2 arguments of the base operators has the <code>broadcaster</code> class attribute, and no other class (like <code>bit64</code>) interferes, broadcasting will occur in the same manner as used in the various <code style="white-space: pre;">bc.*</code> - functions. <br> <br></p>
+<p><code>broadcaster()</code> checks if an array has the "broadcaster" attribute. <br> <code style="white-space: pre;">broadcaster()&lt;-</code> sets or un-sets the class attribute "broadcaster" on an array. <br> <br> The <code>broadcaster</code> class attribute exists purely to overload the arithmetic, Boolean, bit-wise, and relational infix operators, to support broadcasting. <br> This makes mathematical expressions with multiple variables, where precedence may be important, far more convenient. <br> Like in the following calculation: <br> <code>x / (y + z)</code> <br> <br> See broadcast_overload for more information. <br></p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>

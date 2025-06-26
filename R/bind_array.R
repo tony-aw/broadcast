@@ -51,7 +51,7 @@
 #' @rdname bind_array
 #' @export
 bind_array <- function(
-    input, along, rev = FALSE, ndim2bc = 1L, name_along = TRUE, comnames_from = 1L
+    input, along, rev = FALSE, ndim2bc = 16L, name_along = TRUE, comnames_from = 1L
 ) {
   
   if(!is.list(input) && is.array(along)) {

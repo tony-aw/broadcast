@@ -59,7 +59,7 @@ save(bm_collapse_row, file = "benchmarks/bm_collapse_row.RData")
 
 
 # base replication ====
-n <- 400
+n <- 450
 x <- array(rnorm(10), c(1, n, 1))
 y <- array(rnorm(10), c(n, 1, n))
 
@@ -72,4 +72,22 @@ bm_base <- bench::mark(
 summary(bm_base)
 plot(bm_base)
 save(bm_base, file = "benchmarks/bm_base.RData")
+
+
+# base linear algebra ====
+n <- 1000
+w <- matrix(rnorm(n), n, 1)
+X <- t(w)
+vc <- matrix(rnorm(n), n, n)
+
+gc()
+bm_la <- bench::mark(
+  sqrt(t(w) %*% vc %*% w),
+  sd_gauss_lc(X, vc),
+  check = FALSE,
+  min_iterations = 100
+)
+summary(bm_la)
+plot(bm_la)
+save(bm_la, file = "benchmarks/bm_la.RData")
 

@@ -43,23 +43,32 @@ website:
     - title: Reference Manual
       contents:
       - text: Reference Manual
-      - text: broadcast help
+      - section: Overview Help pages
         href: man/aaa00_broadcast_help.qmd
-      - text: On Attribute Handling
-        href: man/aaa01_broadcast_attributes.qmd
-      - man/bc.b.qmd
-      - man/bc.i.qmd
-      - man/bc.d.qmd
-      - man/bc.cplx.qmd
-      - man/bc.str.qmd
-      - man/bc.raw.qmd
-      - man/bc.bit.qmd
-      - man/bc.list.qmd
+        contents:
+        - text: broadcast help
+          href: man/aaa00_broadcast_help.qmd
+        - text: On Attribute Handling
+          href: man/aaa01_broadcast_attributes.qmd
+        - text: Overloaded Operators
+          href: man/aaa02_broadcast_overload.qmd
+      - section: bc. - functions
+        href: man/bc.b.qmd
+        contents:
+          - man/bc.b.qmd
+          - man/bc.i.qmd
+          - man/bc.d.qmd
+          - man/bc.cplx.qmd
+          - man/bc.str.qmd
+          - man/bc.raw.qmd
+          - man/bc.bit.qmd
+          - man/bc.list.qmd
       - man/broadcaster.qmd
       - man/bind_array.qmd
       - man/bc_ifelse.qmd
       - man/bcapply.qmd
       - man/acast.qmd
+      - man/linear_algebra_stats.qmd
       - man/typecast.qmd
       - man/bc_dim.qmd
       - man/rep_dim.qmd

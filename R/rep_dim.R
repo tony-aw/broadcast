@@ -57,7 +57,7 @@ rep_dim <- function(
   # Core function:
   times <- tdim
   
-  subs <- .rcpp_recycle_seq_mlen(x.dim, times)
+  subs <- .C_recycle_seq_dim(x.dim, times)
   x <- do.call(function(...)x[..., drop = FALSE], subs)
   
   return(x)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bc_dim.R
 \name{bc_dim}
 \alias{bc_dim}
-\title{Predict Broadcasted dimensions}
+\title{Predict Broadcasted Dimensions}
 \usage{
 bc_dim(x, y)
 }

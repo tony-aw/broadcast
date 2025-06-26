@@ -2,7 +2,7 @@
 # set-up ====
 enumerate <- 0L
 errorfun <- function(tt) {
-  if(isTRUE(tt)) print(tt)
+  
   if(isFALSE(tt)) stop(print(tt))
 }
 
@@ -183,7 +183,7 @@ expect_error(
 
 x <- array(1:20, c(4, 5, 3))
 expect_error(
-  bind_array(list(x, y), 2L),
+  bind_array(list(x, y), 2L, ndim2bc = 1),
   pattern = "maximum number of dimensions to be broadcasted (2) exceeds `ndim2bc` (1)",
   fixed = TRUE
 )

@@ -54,5 +54,8 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "class")
   )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "linear_algebra")
+  )
 }
 

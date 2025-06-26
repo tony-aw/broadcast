@@ -93,7 +93,7 @@ Since only benchmarks with no and level 0 garbage collection calls were used for
 `r fa("r-project")` has more support for missing values than 'Numpy', which also leads to a difference in speed. But both `r fa("r-project")` and 'Numpy' handle missing values equally in decimal numbers ( 64bit floats in Numpy and 64bit doubles in `r fa("r-project")` ), through the `NaN` construct. Therefore, only operations on decimal numbers are compared.
 
 
-Operations like power (`^`) and division (`/`) need to handle special cases (like when the right-hand side of the operation is 0). The plus (`+`) operator, however, has no such special cases. Therefore, to keep things fair, the comparisons on this page only involve summation.
+Operations like power (`^`) and division (`/`) need to handle special cases (like when the right-hand side of the operation is 0). The plus (`+`) operator, however, has no such special cases. Therefore, to keep things fair, the comparisons on this page only involve addition. Addition also has the nice property of being commutative, while subtraction is not (this avoids any discussion regarding the influence of the order of elements on the benchmarks in `x + y` versus `y + x`, if the order of arrays even has any influence on the benchmarks).
 
 &nbsp;
 

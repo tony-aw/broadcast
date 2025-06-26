@@ -51,3 +51,10 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 * Fixed incorrect links on the website.
 * Registered the 'broadcaster' class to the S4 system.
 
+
+# broadcast 0.0.0.9009
+* Added an additional help page to the Reference Manual explaining the operator overloading.
+* Added more examples
+* Re-written some 'C++' code to 'C'.
+* Added simple linear algebra functions for statistics.
+* Added more tests

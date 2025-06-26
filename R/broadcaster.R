@@ -13,12 +13,7 @@
 #' Like in the following calculation: \cr
 #' `x / (y + z)` \cr
 #' \cr
-#' 
-#' Broadcaster arrays come with their own method dispatch for the base operators. \cr
-#' If at least one of the 2 arguments of the base operators has the `broadcaster` class attribute,
-#' and no other class (like `bit64`) interferes,
-#' broadcasting will occur in the same manner as used in the various `bc.*` - functions. \cr
-#' \cr
+#' See \link{broadcast_overload} for more information. \cr
 #'
 #' @param x object to check or set. \cr
 #' Only S3 vectors and arrays are supported, and only up to 16 dimensions.

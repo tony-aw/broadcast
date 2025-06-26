@@ -435,12 +435,6 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
-.rcpp_recycle_seq_mlen <- function(x, y) {
-    .Call(`_broadcast_rcpp_recycle_seq_mlen`, x, y)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_set_vind_32 <- function(x, ind, rp) {
     invisible(.Call(`_broadcast_rcpp_set_vind_32_atomic`, x, ind, rp))
 }

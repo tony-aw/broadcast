@@ -1,0 +1,104 @@
+---
+title: linear_algebra_stats
+---
+## Simple Linear Algebra Functions for Statistics {.unnumbered}
+
+
+### Description
+
+'broadcast' provides some simple Linear Algebra Functions for Statistics: <br />
+<code>cinv()</code>; <br />
+<code>sd_gauss_lc</code>. <br />
+<br />
+<br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>cinv(x)
+
+sd_gauss_lc(X, vc, bad_rp = NaN)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<td>
+a matrix
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="X">X</code></td>
+<td>
+a numeric matrix of constants
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="vc">vc</code></td>
+<td>
+the variance-covariance matrix for the (correlated) Gaussian random variables.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="bad_rp">bad_rp</code></td>
+<td>
+if <code>vc</code> is not a Positive (semi-) Definite matrix,
+give here the value to replace bad standard deviations with. <br /> <br />
+</td></tr>
+</table>
+
+
+### Details
+
+<b>cinv()</b> <br />
+<code>cinv()</code>
+computes the Choleski inverse of a symmetric Positive Definite matrix. <br />
+<br />
+<b>sd_gauss_lc()</b> <br />
+Given the linear combination <code>X %*% b</code>, where:
+
+
+<ul>
+<li> <code>X</code> is a matrix of constants;
+
+</li>
+<li> <code>b</code> is a vector of (correlated) Gaussian random variables;
+
+</li>
+<li> <code>vc</code> is the variance-covariance matrix for <code>b</code>;
+
+</li></ul>
+
+<code>sd_gauss_ls(X, vc)</code> computes the standard deviations for the linear combination <code>X %*% b</code>.
+<br />
+<br />
+
+
+
+### Value
+
+For <code>cinv()</code>: <br />
+A matrix. <br />
+<br />
+For <code>lincomb_coeff()</code>: <br />
+A vector of standard deviations.
+<br />
+<br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+
+vc <- datasets::ability.cov$cov
+X <- matrix(rnorm(1000), 1000, ncol(vc))
+
+solve(vc)
+cinv(vc) # faster than `solve()`, but only works on positive definite matrices
+all(round(solve(vc), 6) == round(cinv(vc), 6)) # they're the same
+
+sd_gauss_lc(X, vc)
+
+     
+
+
+```

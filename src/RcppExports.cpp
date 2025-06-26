@@ -1102,18 +1102,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_recycle_seq_mlen
-List rcpp_recycle_seq_mlen(IntegerVector x, IntegerVector y);
-RcppExport SEXP _broadcast_rcpp_recycle_seq_mlen(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_recycle_seq_mlen(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_set_vind_32_atomic
 void rcpp_set_vind_32_atomic(SEXP x, const SEXP ind, const SEXP rp);
 RcppExport SEXP _broadcast_rcpp_set_vind_32_atomic(SEXP xSEXP, SEXP indSEXP, SEXP rpSEXP) {
@@ -1150,6 +1138,8 @@ RcppExport SEXP C_lst_ndims(SEXP);
 RcppExport SEXP C_make_by(SEXP);
 RcppExport SEXP C_make_dcp(SEXP);
 RcppExport SEXP C_pmax(SEXP, SEXP);
+RcppExport SEXP C_recycle_seq_dim(SEXP, SEXP);
+RcppExport SEXP C_sd_gauss_lc(SEXP, SEXP, SEXP, SEXP, SEXP);
 RcppExport SEXP C_seq_Clen(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
@@ -1225,7 +1215,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_mergedims", (DL_FUNC) &_broadcast_rcpp_mergedims, 3},
     {"_broadcast_rcpp_rep_new_int", (DL_FUNC) &_broadcast_rcpp_rep_new_int, 2},
     {"_broadcast_rcpp_normalize_dims_regular", (DL_FUNC) &_broadcast_rcpp_normalize_dims_regular, 3},
-    {"_broadcast_rcpp_recycle_seq_mlen", (DL_FUNC) &_broadcast_rcpp_recycle_seq_mlen, 2},
     {"_broadcast_rcpp_set_vind_32_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_32_atomic, 3},
     {"_broadcast_rcpp_set_vind_64_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_64_atomic, 3},
     {"C_any_nonNULL",         (DL_FUNC) &C_any_nonNULL,         1},
@@ -1239,6 +1228,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"C_make_by",             (DL_FUNC) &C_make_by,             1},
     {"C_make_dcp",            (DL_FUNC) &C_make_dcp,            1},
     {"C_pmax",                (DL_FUNC) &C_pmax,                2},
+    {"C_recycle_seq_dim",     (DL_FUNC) &C_recycle_seq_dim,     2},
+    {"C_sd_gauss_lc",         (DL_FUNC) &C_sd_gauss_lc,         5},
     {"C_seq_Clen",            (DL_FUNC) &C_seq_Clen,            2},
     {NULL, NULL, 0}
 };

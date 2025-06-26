@@ -2,7 +2,7 @@
 # set-up ====
 enumerate <- 0L
 errorfun <- function(tt) {
-  if(isTRUE(tt)) print(tt)
+  
   if(isFALSE(tt)) stop(print(tt))
 }
 
@@ -59,7 +59,7 @@ for(iSample in 1:10) {
           maxbc, 1L
         )
         expect_error(
-          bind_array(list(x, y), along),
+          bind_array(list(x, y), along, ndim2bc = 1L),
           pattern = p,
           fixed = TRUE
         ) |> errorfun()
