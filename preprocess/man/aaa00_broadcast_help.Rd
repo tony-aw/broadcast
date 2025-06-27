@@ -21,10 +21,10 @@ they support a large set of relational-, arithmetic-, Boolean-, string- and bit-
 \item A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.
 \item Broadcasted ifelse- and apply-like functions.
 \item The \code{acast()} function, for casting/pivoting an array into a new dimension.
-\item Simple linear algebra functions for statistics..
+\item Simple linear algebra functions for statistics.
 }
 
-The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).
+The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).\cr \cr
 }
 \section{Links to Get Started}{
 
@@ -66,12 +66,12 @@ by Tony Plare & Richard Heiberger (2016). \cr
 But \code{bind_array()} differs considerably from \code{abind::abind}
 in the following ways:
 \itemize{
+\item \code{bind_array()} allows for broadcasting,
+while \code{abind::abind} does not support broadcasting.
 \item \code{bind_array()} differs from \code{abind::abind}
 in that it can handle recursive arrays properly \cr
 (the \code{abind::abind} function would unlist everything to atomic arrays,
 ruining the structure).
-\item \code{bind_array()} allows for broadcasting,
-while \code{abind::abind} does not support broadcasting.
 \item \code{bind_array()} is generally faster than \code{abind::abind},
 as \code{bind_array()} relies heavily on 'C' and 'C++' code.
 \item unlike \code{abind::abind},
@@ -83,6 +83,12 @@ This saves computation time and prevents unexpected results.
 compared to \code{abind::abind}. \cr \cr
 }
 
+\bold{\code{acast()}} \cr
+'broadcast' provides the \code{[acast](acast.qmd)} function,
+for casting (i.e. pivoting) an array into a new dimension. \cr
+Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
+\cr
+
 \bold{General functions} \cr
 'broadcast' also comes with 2 general broadcasted functions:
 \itemize{
@@ -91,28 +97,26 @@ compared to \code{abind::abind}. \cr \cr
 }
 
 \bold{Other functions} \cr
-'broadcast' provides the \code{[acast](acast.qmd)} function,
-for casting (i.e. pivoting) an array into a new dimension. \cr
-Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
-\cr
-'broadcast' also provides
+'broadcast' provides
 \code{[type-casting](typecast.qmd)} functions,
 which preserve names and dimensions - convenient for arrays. \cr
 \cr
-And 'broadcast' provides
+'broadcast' also provides
 \code{[simple linear algebra functions for statistics](linear_algebra_stats.qmd)}. \cr
 \cr
+And 'broadcast' comes with some helper functions: \cr
+\code{[bc_dim](bc_dim.qmd)}, \code{[ndim](ndim.qmd)}, \code{[lst.ndim](ndim.qmd)}, \code{[rep_dim](rep_dim.qmd)}. \cr \cr
 }
 
 \section{Overloading}{
 
-Sometimes broadcasting is needed in large mathematical expression,
+Sometimes broadcasting is needed in a large mathematical expression,
 involving multiple variables,
 where precedence is of importance. \cr
 For example in an expression like \code{x + y / z^y}. \cr
 For such cases, you may want to overload the base operators. \cr
-To that end, the 'broadcast' package provides the \code{[broadcaster](broadcaster.qmd)} class,
-which comes with its own method dispatch for the base operators. \cr
+To that end, the 'broadcast' package provides the \code{[broadcaster](broadcaster.qmd)} class attribute,
+which comes with its own method dispatch for the base operators. \cr \cr
 }
 
 \references{

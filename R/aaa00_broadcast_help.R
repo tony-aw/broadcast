@@ -12,7 +12,7 @@
 #' for(i in 1:length(rp)) {
 #'  txt <- gsub(p[i], rp[i], txt, fixed = TRUE)
 #' }
-#' txt <- paste0(txt, "\n\n\n\n")
+#' txt <- paste0(txt, "\\cr \\cr")
 #' cat(txt)
 #' ```
 #' 
@@ -53,12 +53,12 @@
 #' But `bind_array()` differs considerably from \code{abind::abind}
 #' in the following ways:
 #'  
+#'  - `bind_array()` allows for broadcasting,
+#'  while \code{abind::abind} does not support broadcasting.
 #'  - `bind_array()` differs from \code{abind::abind}
 #'  in that it can handle recursive arrays properly \cr
 #'  (the \code{abind::abind} function would unlist everything to atomic arrays,
 #'  ruining the structure).
-#'  - `bind_array()` allows for broadcasting,
-#'  while \code{abind::abind} does not support broadcasting.
 #'  - `bind_array()` is generally faster than \code{abind::abind},
 #'  as `bind_array()` relies heavily on 'C' and 'C++' code.
 #'  - unlike \code{abind::abind},
@@ -69,7 +69,11 @@
 #'  - `bind_array()` has more streamlined naming options,
 #'  compared to \code{abind::abind}. \cr \cr
 #'  
-#' 
+#' \bold{\code{acast()}} \cr
+#' 'broadcast' provides the \link{acast} function,
+#' for casting (i.e. pivoting) an array into a new dimension. \cr
+#' Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
+#' \cr
 #' 
 #' \bold{General functions} \cr
 #' 'broadcast' also comes with 2 general broadcasted functions:
@@ -79,28 +83,26 @@
 #' 
 #' 
 #' \bold{Other functions} \cr
-#' 'broadcast' provides the \link{acast} function,
-#' for casting (i.e. pivoting) an array into a new dimension. \cr
-#' Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
-#' \cr
-#' 'broadcast' also provides
+#' 'broadcast' provides
 #' \link[=as_bool]{type-casting} functions,
 #' which preserve names and dimensions - convenient for arrays. \cr
 #' \cr
-#' And 'broadcast' provides
+#' 'broadcast' also provides
 #' \link[=sd_gauss_lc]{simple linear algebra functions for statistics}. \cr
 #' \cr
+#' And 'broadcast' comes with some helper functions: \cr
+#' \link{bc_dim}, \link{ndim}, \link{lst.ndim}, \link{rep_dim}. \cr \cr
 #' 
 #' 
 #' 
 #' @section Overloading:
-#' Sometimes broadcasting is needed in large mathematical expression,
+#' Sometimes broadcasting is needed in a large mathematical expression,
 #' involving multiple variables,
 #' where precedence is of importance. \cr
 #' For example in an expression like `x + y / z^y`. \cr
 #' For such cases, you may want to overload the base operators. \cr
-#' To that end, the 'broadcast' package provides the \link{broadcaster} class,
-#' which comes with its own method dispatch for the base operators. \cr
+#' To that end, the 'broadcast' package provides the \link{broadcaster} class attribute,
+#' which comes with its own method dispatch for the base operators. \cr \cr
 #' 
 #' 
 #' 

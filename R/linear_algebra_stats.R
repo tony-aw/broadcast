@@ -3,7 +3,7 @@
 #' @description
 #' 'broadcast' provides some simple Linear Algebra Functions for Statistics: \cr
 #' `cinv()`; \cr
-#' `sd_gauss_lc`. \cr
+#' `sd_gauss_lc()`. \cr
 #' \cr
 #' \cr
 #' 
@@ -25,7 +25,9 @@
 #'  - `b` is a vector of (correlated) Gaussian random variables;
 #'  - `vc` is the variance-covariance matrix for `b`;
 #' 
-#' `sd_gauss_ls(X, vc)` computes the standard deviations for the linear combination `X %*% b`.
+#' `sd_gauss_lc(X, vc)`
+#' computes the standard deviations for the linear combination `X %*% b`. \cr
+#' Written in 'C' for efficiency. \cr
 #' \cr
 #' \cr
 #' 
@@ -35,7 +37,7 @@
 #' For `cinv()`: \cr
 #' A matrix. \cr
 #' \cr
-#' For `lincomb_coeff()`: \cr
+#' For `sd_gauss_lc()`: \cr
 #' A vector of standard deviations.
 #' \cr
 #' \cr

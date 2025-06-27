@@ -22,7 +22,7 @@ function processMathHTML() {
 
 <p>'broadcast' provides some simple Linear Algebra Functions for Statistics: <br />
 <code>cinv()</code>; <br />
-<code>sd_gauss_lc</code>. <br />
+<code>sd_gauss_lc()</code>. <br />
 <br />
 <br />
 </p>
@@ -80,7 +80,9 @@ Given the linear combination <code>X %*% b</code>, where:
 </p>
 </li></ul>
 
-<p><code>sd_gauss_ls(X, vc)</code> computes the standard deviations for the linear combination <code>X %*% b</code>.
+<p><code>sd_gauss_lc(X, vc)</code>
+computes the standard deviations for the linear combination <code>X %*% b</code>. <br />
+Written in 'C' for efficiency. <br />
 <br />
 <br />
 </p>
@@ -91,7 +93,7 @@ Given the linear combination <code>X %*% b</code>, where:
 <p>For <code>cinv()</code>: <br />
 A matrix. <br />
 <br />
-For <code>lincomb_coeff()</code>: <br />
+For <code>sd_gauss_lc()</code>: <br />
 A vector of standard deviations.
 <br />
 <br />

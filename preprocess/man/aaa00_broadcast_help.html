@@ -44,11 +44,11 @@ they support a large set of relational-, arithmetic-, Boolean-, string- and bit-
 <li><p> The <code>acast()</code> function, for casting/pivoting an array into a new dimension.
 </p>
 </li>
-<li><p> Simple linear algebra functions for statistics..
+<li><p> Simple linear algebra functions for statistics.
 </p>
 </li></ol>
 
-<p>The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).
+<p>The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).<br /> <br />
 </p>
 
 
@@ -117,14 +117,14 @@ in the following ways:
 </p>
 
 <ul>
+<li> <p><code>bind_array()</code> allows for broadcasting,
+while <code>abind::abind</code> does not support broadcasting.
+</p>
+</li>
 <li> <p><code>bind_array()</code> differs from <code>abind::abind</code>
 in that it can handle recursive arrays properly <br />
 (the <code>abind::abind</code> function would unlist everything to atomic arrays,
 ruining the structure).
-</p>
-</li>
-<li> <p><code>bind_array()</code> allows for broadcasting,
-while <code>abind::abind</code> does not support broadcasting.
 </p>
 </li>
 <li> <p><code>bind_array()</code> is generally faster than <code>abind::abind</code>,
@@ -143,6 +143,12 @@ compared to <code>abind::abind</code>. <br /> <br />
 </p>
 </li></ul>
 
+<p><b><code>acast()</code></b> <br />
+'broadcast' provides the <code>[acast](acast.qmd)</code> function,
+for casting (i.e. pivoting) an array into a new dimension. <br />
+Useful for, for example, computing <b>grouped</b> broadcasted operations. <br />
+<br />
+</p>
 <p><b>General functions</b> <br />
 'broadcast' also comes with 2 general broadcasted functions:
 </p>
@@ -156,29 +162,27 @@ compared to <code>abind::abind</code>. <br /> <br />
 </li></ul>
 
 <p><b>Other functions</b> <br />
-'broadcast' provides the <code>[acast](acast.qmd)</code> function,
-for casting (i.e. pivoting) an array into a new dimension. <br />
-Useful for, for example, computing <b>grouped</b> broadcasted operations. <br />
-<br />
-'broadcast' also provides
+'broadcast' provides
 <code>[type-casting](typecast.qmd)</code> functions,
 which preserve names and dimensions - convenient for arrays. <br />
 <br />
-And 'broadcast' provides
+'broadcast' also provides
 <code>[simple linear algebra functions for statistics](linear_algebra_stats.qmd)</code>. <br />
 <br />
+And 'broadcast' comes with some helper functions: <br />
+<code>[bc_dim](bc_dim.qmd)</code>, <code>[ndim](ndim.qmd)</code>, <code>[lst.ndim](ndim.qmd)</code>, <code>[rep_dim](rep_dim.qmd)</code>. <br /> <br />
 </p>
 
 
 <h3>Overloading</h3>
 
-<p>Sometimes broadcasting is needed in large mathematical expression,
+<p>Sometimes broadcasting is needed in a large mathematical expression,
 involving multiple variables,
 where precedence is of importance. <br />
 For example in an expression like <code>x + y / z^y</code>. <br />
 For such cases, you may want to overload the base operators. <br />
-To that end, the 'broadcast' package provides the <code>[broadcaster](broadcaster.qmd)</code> class,
-which comes with its own method dispatch for the base operators. <br />
+To that end, the 'broadcast' package provides the <code>[broadcaster](broadcaster.qmd)</code> class attribute,
+which comes with its own method dispatch for the base operators. <br /> <br />
 </p>
 
 

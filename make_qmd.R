@@ -113,7 +113,7 @@ file.copy(from, to, overwrite = TRUE)
 
 
 
-# clear any present links in vignettes ====
+# clear any present links in About pages ====
 funs <- getNamespaceExports("broadcast")
 lst.files <- list.files(file.path("website", "About"), pattern = "qmd")
 for(i in lst.files) {

@@ -44,7 +44,7 @@ functionalities, all related to “broadcasting”:
 
 1.  Functions for broadcasted element-wise operations between any 2
     arrays. They support a large set of relational-, arithmetic-,
-    Boolean-, and string operations.
+    Boolean-, string-, and bit-wise operations.
 2.  The `bind_array()` function for binding arrays along any arbitrary
     dimension. Similar to the fantastic `abind::abind()` function, but
     with a few key differences:

@@ -321,10 +321,10 @@ ul.task-list li input[type="checkbox"] {
 <p>The <code>acast()</code> function, for casting/pivoting an array into a new dimension.</p>
 </li>
 <li>
-<p>Simple linear algebra functions for statistics..</p>
+<p>Simple linear algebra functions for statistics.</p>
 </li>
 </ol>
-<p>The functions in the ‘broadcast’ package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).</p>
+<p>The functions in the ‘broadcast’ package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).<br> <br></p>
 </section>
 <section id="links-to-get-started" class="level3">
 <h3 class="anchored" data-anchor-id="links-to-get-started">Links to Get Started</h3>
@@ -372,10 +372,10 @@ ul.task-list li input[type="checkbox"] {
 <p><b><code>bind_array()</code></b> <br> ‘broadcast’ provides the <a href="../man/bind_array.html">bind_array</a> function, to bind arrays along an arbitrary dimension, with support for broadcasting. <br> <br> The API of <code>bind_array()</code> is inspired by the fantastic <code>abind::abind()</code> function by Tony Plare &amp; Richard Heiberger (2016). <br> But <code>bind_array()</code> differs considerably from <code>abind::abind</code> in the following ways:</p>
 <ul>
 <li>
-<p><code>bind_array()</code> differs from <code>abind::abind</code> in that it can handle recursive arrays properly <br> (the <code>abind::abind</code> function would unlist everything to atomic arrays, ruining the structure).</p>
+<p><code>bind_array()</code> allows for broadcasting, while <code>abind::abind</code> does not support broadcasting.</p>
 </li>
 <li>
-<p><code>bind_array()</code> allows for broadcasting, while <code>abind::abind</code> does not support broadcasting.</p>
+<p><code>bind_array()</code> differs from <code>abind::abind</code> in that it can handle recursive arrays properly <br> (the <code>abind::abind</code> function would unlist everything to atomic arrays, ruining the structure).</p>
 </li>
 <li>
 <p><code>bind_array()</code> is generally faster than <code>abind::abind</code>, as <code>bind_array()</code> relies heavily on ‘C’ and ‘C++’ code.</p>
@@ -387,6 +387,7 @@ ul.task-list li input[type="checkbox"] {
 <p><code>bind_array()</code> has more streamlined naming options, compared to <code>abind::abind</code>. <br> <br></p>
 </li>
 </ul>
+<p><b><code>acast()</code></b> <br> ‘broadcast’ provides the <a href="../man/acast.html">acast</a> function, for casting (i.e.&nbsp;pivoting) an array into a new dimension. <br> Useful for, for example, computing <b>grouped</b> broadcasted operations. <br> <br></p>
 <p><b>General functions</b> <br> ‘broadcast’ also comes with 2 general broadcasted functions:</p>
 <ul>
 <li>
@@ -396,11 +397,11 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../man/bcapply.html">bcapply</a>: Broadcasted apply-like function. <br> <br></p>
 </li>
 </ul>
-<p><b>Other functions</b> <br> ‘broadcast’ provides the <a href="../man/acast.html">acast</a> function, for casting (i.e.&nbsp;pivoting) an array into a new dimension. <br> Useful for, for example, computing <b>grouped</b> broadcasted operations. <br> <br> ‘broadcast’ also provides <a href="../man/typecast.html">type-casting</a> functions, which preserve names and dimensions - convenient for arrays. <br> <br> And ‘broadcast’ provides <a href="../man/linear_algebra_stats.html">simple linear algebra functions for statistics</a>. <br> <br></p>
+<p><b>Other functions</b> <br> ‘broadcast’ provides <a href="../man/typecast.html">type-casting</a> functions, which preserve names and dimensions - convenient for arrays. <br> <br> ‘broadcast’ also provides <a href="../man/linear_algebra_stats.html">simple linear algebra functions for statistics</a>. <br> <br> And ‘broadcast’ comes with some helper functions: <br> <a href="../man/bc_dim.html">bc_dim</a>, <a href="../man/ndim.html">ndim</a>, <a href="../man/ndim.html">lst.ndim</a>, <a href="../man/rep_dim.html">rep_dim</a>. <br> <br></p>
 </section>
 <section id="overloading" class="level3">
 <h3 class="anchored" data-anchor-id="overloading">Overloading</h3>
-<p>Sometimes broadcasting is needed in large mathematical expression, involving multiple variables, where precedence is of importance. <br> For example in an expression like <code>x + y / z^y</code>. <br> For such cases, you may want to overload the base operators. <br> To that end, the ‘broadcast’ package provides the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators. <br></p>
+<p>Sometimes broadcasting is needed in a large mathematical expression, involving multiple variables, where precedence is of importance. <br> For example in an expression like <code>x + y / z^y</code>. <br> For such cases, you may want to overload the base operators. <br> To that end, the ‘broadcast’ package provides the <a href="../man/broadcaster.html">broadcaster</a> class attribute, which comes with its own method dispatch for the base operators. <br> <br></p>
 </section>
 <section id="authors" class="level3">
 <h3 class="anchored" data-anchor-id="authors">Author(s)</h3>

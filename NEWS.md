@@ -58,3 +58,5 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 * Re-written some 'C++' code to 'C'.
 * Added simple linear algebra functions for statistics.
 * Added more tests
+* Default value for the `ndim2bc` argument in `bind_array()` set to `16L`.
+

@@ -24,7 +24,7 @@ give here the value to replace bad standard deviations with. \cr \cr}
 For \code{cinv()}: \cr
 A matrix. \cr
 \cr
-For \code{lincomb_coeff()}: \cr
+For \code{sd_gauss_lc()}: \cr
 A vector of standard deviations.
 \cr
 \cr
@@ -32,7 +32,7 @@ A vector of standard deviations.
 \description{
 'broadcast' provides some simple Linear Algebra Functions for Statistics: \cr
 \code{cinv()}; \cr
-\code{sd_gauss_lc}. \cr
+\code{sd_gauss_lc()}. \cr
 \cr
 \cr
 }
@@ -49,7 +49,9 @@ Given the linear combination \code{X \%*\% b}, where:
 \item \code{vc} is the variance-covariance matrix for \code{b};
 }
 
-\code{sd_gauss_ls(X, vc)} computes the standard deviations for the linear combination \code{X \%*\% b}.
+\code{sd_gauss_lc(X, vc)}
+computes the standard deviations for the linear combination \code{X \%*\% b}. \cr
+Written in 'C' for efficiency. \cr
 \cr
 \cr
 }
