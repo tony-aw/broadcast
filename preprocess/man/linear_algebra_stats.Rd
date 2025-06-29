@@ -11,9 +11,9 @@ cinv(x)
 sd_gauss_lc(X, vc, bad_rp = NaN)
 }
 \arguments{
-\item{x}{a matrix}
+\item{x}{a real symmetric positive-definite square matrix.}
 
-\item{X}{a numeric matrix of constants}
+\item{X}{a numeric matrix of multipliers/constants}
 
 \item{vc}{the variance-covariance matrix for the (correlated) Gaussian random variables.}
 
@@ -39,12 +39,13 @@ A vector of standard deviations.
 \details{
 \bold{cinv()} \cr
 \code{cinv()}
-computes the Choleski inverse of a symmetric Positive Definite matrix. \cr
+computes the Choleski inverse
+of a real symmetric positive-definite square matrix. \cr
 \cr
 \bold{sd_gauss_lc()} \cr
 Given the linear combination \code{X \%*\% b}, where:
 \itemize{
-\item \code{X} is a matrix of constants;
+\item \code{X} is a matrix of multipliers/constants;
 \item \code{b} is a vector of (correlated) Gaussian random variables;
 \item \code{vc} is the variance-covariance matrix for \code{b};
 }

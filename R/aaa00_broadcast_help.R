@@ -18,9 +18,9 @@
 #' 
 #' @section Links to Get Started:
 #' 
+#'  - On-line Vignettes: \url{https://tony-aw.github.io/broadcast/vignettes/a_readme.html}
 #'  - GitHub main page: \url{https://github.com/tony-aw/broadcast}
-#'  - Quick Start Guide: \url{https://tony-aw.github.io/broadcast/vignettes/b_quickstart.html}
-#'  - Reporting Issues: \url{https://github.com/tony-aw/broadcast/issues} \cr \cr
+#'  - Reporting Issues or Giving Suggestions: \url{https://github.com/tony-aw/broadcast/issues} \cr \cr
 #' 
 #' 
 #' @section Functions:
@@ -104,6 +104,11 @@
 #' To that end, the 'broadcast' package provides the \link{broadcaster} class attribute,
 #' which comes with its own method dispatch for the base operators. \cr \cr
 #' 
+#' 
+#' @section Supported Structures:
+#' 'broadcast' supports atomic/recursive arrays (up to 16 dimensions),
+#' and atomic/recursive vectors. \cr
+#' \cr
 #' 
 #' 
 #' @references Plate T, Heiberger R (2016). \emph{abind: Combine Multidimensional Arrays}. R package version 1.4-5, \url{https://CRAN.R-project.org/package=abind}.

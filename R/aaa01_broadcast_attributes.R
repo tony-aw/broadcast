@@ -1,4 +1,4 @@
-#' Attribute handling
+#' Attribute Handling
 #' 
 #' @description
 #' The `bc.` functions and the overloaded operators generally do \bold{not}

@@ -7,8 +7,8 @@
 #' \cr
 #' \cr
 #' 
-#' @param x a matrix
-#' @param X a numeric matrix of constants
+#' @param x a real symmetric positive-definite square matrix.
+#' @param X a numeric matrix of multipliers/constants
 #' @param vc the variance-covariance matrix for the (correlated) Gaussian random variables.
 #' @param bad_rp if `vc` is not a Positive (semi-) Definite matrix,
 #' give here the value to replace bad standard deviations with. \cr \cr
@@ -16,12 +16,13 @@
 #' @details
 #' \bold{cinv()} \cr
 #' `cinv()`
-#' computes the Choleski inverse of a symmetric Positive Definite matrix. \cr
+#' computes the Choleski inverse
+#' of a real symmetric positive-definite square matrix. \cr
 #' \cr
 #' \bold{sd_gauss_lc()} \cr
 #' Given the linear combination `X %*% b`, where:
 #' 
-#'  - `X` is a matrix of constants;
+#'  - `X` is a matrix of multipliers/constants;
 #'  - `b` is a vector of (correlated) Gaussian random variables;
 #'  - `vc` is the variance-covariance matrix for `b`;
 #' 

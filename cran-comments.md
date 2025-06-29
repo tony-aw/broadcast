@@ -11,10 +11,10 @@ But I have checked my package against various Operating Systems via GitHub actio
 no errors found on any other OS either.
 * There are currently no references describing my package.
 * This package has been inspired by the "broadcasting" mechanism from the 'Numpy' module for the 'Python' programming language.
-However, this package does **not** depend on, vendor, link to, include, or otherwise use 'Numpy' or any external libraries.
-All 'C'/'C++' code in this package has been written by me entirely from scratch.
+However, this package does not depend on, vendor, link to, include, or otherwise use 'Numpy' or any external libraries.
+All 'C'/'C++' code in this package has been written by me from scratch.
 * A lot of effort has been made to make this package efficient, both in terms of memory usage and speed,
-because more efficient code is better for the **environment**. I trust CRAN can appreciate this effort.
+because more efficient code is better for the environment. I trust CRAN can appreciate this effort.
 
 
 ## R CMD check results

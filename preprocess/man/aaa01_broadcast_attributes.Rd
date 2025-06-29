@@ -3,7 +3,7 @@
 \name{aaa01_broadcast_attributes}
 \alias{aaa01_broadcast_attributes}
 \alias{broadcast_attributes}
-\title{Attribute handling}
+\title{Attribute Handling}
 \description{
 The \code{bc.} functions and the overloaded operators generally do \bold{not}
 preserve attributes, unlike the base 'R' operators. \cr

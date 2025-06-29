@@ -58,34 +58,49 @@ nvars <- nrow(vc)
 n <- nobs * nvars
 
 X <- matrix(rnorm(1000), nobs, nvars)
+Xlist <- list(
+  as.vector(X),
+  as_chr(X),
+  matrix(numeric(0))
+)
+for(i in Xlist) {
+  expect_error(
+    sd_gauss_lc(i, vc),
+    pattern = "`X` must be a numeric matrix"
+  ) |> errorfun()
+  enumerate <- enumerate + 1L
+}
 
-expect_error(
-  sd_gauss_lc(as.numeric(X), vc),
-  pattern = "`X` must be a numeric matrix"
+vcList <- list(
+  as.vector(vc),
+  as_chr(vc),
+  as_int(vc),
+  matrix(numeric(0))
 )
-expect_error(
-  sd_gauss_lc(as_chr(X), vc),
-  pattern = "`X` must be a numeric matrix"
+for(i in vcList) {
+  expect_error(
+    sd_gauss_lc(X, i),
+    pattern = "`vc` must be a variance-covariance matrix"
+  ) |> errorfun()
+  enumerate <- enumerate + 1L
+}
+
+badrpList <- list(
+  1:10,
+  "a",
+  numeric(0L)
 )
-expect_error(
-  sd_gauss_lc(X, as.numeric(vc)),
-  pattern = "`vc` must be a variance-covariance matrix"
-)
-expect_error(
-  sd_gauss_lc(X, as_chr(vc)),
-  pattern = "`vc` must be a variance-covariance matrix"
-)
-expect_error(
-  sd_gauss_lc(X, vc, 1:10),
-  pattern = "`bad_rp` must be a numeric scalar"
-)
-expect_error(
-  sd_gauss_lc(X, vc, "a"),
-  pattern = "`bad_rp` must be a numeric scalar"
-)
+for(i in badrpList) {
+  expect_error(
+    sd_gauss_lc(X, vc, i),
+    pattern = "`bad_rp` must be a numeric scalar"
+  ) |> errorfun()
+  enumerate <- enumerate + 1L
+}
+
 expect_error(
   sd_gauss_lc(cbind(X, X), vc),
   pattern = "`X` and `vc` do not have correctly corresponding dimensions!"
 )
-enumerate <- enumerate + 7L
+enumerate <- enumerate + 1L
 

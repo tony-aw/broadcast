@@ -60,6 +60,9 @@ functionalities, all related to “broadcasting”:
     `data.table::dcast()`, but for arrays. Can be used for performing
     **grouped** broadcasted operations, among other things.
 
+Additionally, ‘broadcast’ comes with a few linear algebra functions for
+statistics.
+
  
 
 ## 🤷🏽Why use ‘broadcast’
@@ -235,6 +238,7 @@ parts:
 - [About](https://tony-aw.github.io/broadcast/about/a_acknowledgements.html):
   Contains the Acknowledgements, Change logs and License file. Here
   you’ll also find some information regarding the relationship between
-  ‘broadcast’ and other packages/modules.
+  ‘broadcast’ and other packages/modules. Benchmarks can also be found
+  here.
 
    

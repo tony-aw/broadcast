@@ -41,11 +41,11 @@ sd_gauss_lc(X, vc, bad_rp = NaN)
 <table>
 <tr><td><code id="x">x</code></td>
 <td>
-<p>a matrix</p>
+<p>a real symmetric positive-definite square matrix.</p>
 </td></tr>
 <tr><td><code id="X">X</code></td>
 <td>
-<p>a numeric matrix of constants</p>
+<p>a numeric matrix of multipliers/constants</p>
 </td></tr>
 <tr><td><code id="vc">vc</code></td>
 <td>
@@ -63,14 +63,15 @@ give here the value to replace bad standard deviations with. <br /> <br /></p>
 
 <p><b>cinv()</b> <br />
 <code>cinv()</code>
-computes the Choleski inverse of a symmetric Positive Definite matrix. <br />
+computes the Choleski inverse
+of a real symmetric positive-definite square matrix. <br />
 <br />
 <b>sd_gauss_lc()</b> <br />
 Given the linear combination <code>X %*% b</code>, where:
 </p>
 
 <ul>
-<li> <p><code>X</code> is a matrix of constants;
+<li> <p><code>X</code> is a matrix of multipliers/constants;
 </p>
 </li>
 <li> <p><code>b</code> is a vector of (correlated) Gaussian random variables;

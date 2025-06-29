@@ -29,9 +29,9 @@ The functions in the 'broadcast' package strive to minimize computation time and
 \section{Links to Get Started}{
 
 \itemize{
+\item On-line Vignettes: \url{https://tony-aw.github.io/broadcast/vignettes/a_readme.html}
 \item GitHub main page: \url{https://github.com/tony-aw/broadcast}
-\item Quick Start Guide: \url{https://tony-aw.github.io/broadcast/vignettes/b_quickstart.html}
-\item Reporting Issues: \url{https://github.com/tony-aw/broadcast/issues} \cr \cr
+\item Reporting Issues or Giving Suggestions: \url{https://github.com/tony-aw/broadcast/issues} \cr \cr
 }
 }
 
@@ -117,6 +117,13 @@ For example in an expression like \code{x + y / z^y}. \cr
 For such cases, you may want to overload the base operators. \cr
 To that end, the 'broadcast' package provides the \link{broadcaster} class attribute,
 which comes with its own method dispatch for the base operators. \cr \cr
+}
+
+\section{Supported Structures}{
+
+'broadcast' supports atomic/recursive arrays (up to 16 dimensions),
+and atomic/recursive vectors. \cr
+\cr
 }
 
 \references{

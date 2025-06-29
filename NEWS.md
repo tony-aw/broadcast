@@ -60,3 +60,7 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 * Added more tests
 * Default value for the `ndim2bc` argument in `bind_array()` set to `16L`.
 
+
+# broadcast 0.0.0.9010
+* Improved the documentation a bit.
+

@@ -1,0 +1,35 @@
+---
+title: "Unit Test Coverage Report"
+format: html
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE
+)
+```
+
+```{r setup, eval=TRUE, echo=FALSE}
+suppressMessages(
+  {
+    library(covr)
+  }
+)
+
+```
+
+
+&nbsp;
+
+The unit tests employed by the 'broadcast' package have a test coverage of over 90%.  
+For the sake of transparency, the unit tests coverage report, produced by the [covr](https://github.com/r-lib/covr) package, is provided here:
+
+```{r}
+load("covr.RData")
+print(covr_broadcast)
+
+```
+
+&nbsp;
