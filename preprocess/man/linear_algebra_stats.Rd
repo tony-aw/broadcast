@@ -3,19 +3,19 @@
 \name{linear_algebra_stats}
 \alias{linear_algebra_stats}
 \alias{cinv}
-\alias{sd_gauss_lc}
+\alias{sd_lc}
 \title{Simple Linear Algebra Functions for Statistics}
 \usage{
 cinv(x)
 
-sd_gauss_lc(X, vc, bad_rp = NaN)
+sd_lc(X, vc, bad_rp = NaN)
 }
 \arguments{
 \item{x}{a real symmetric positive-definite square matrix.}
 
 \item{X}{a numeric matrix of multipliers/constants}
 
-\item{vc}{the variance-covariance matrix for the (correlated) Gaussian random variables.}
+\item{vc}{the variance-covariance matrix for the (correlated) random variables.}
 
 \item{bad_rp}{if \code{vc} is not a Positive (semi-) Definite matrix,
 give here the value to replace bad standard deviations with. \cr \cr}
@@ -24,7 +24,7 @@ give here the value to replace bad standard deviations with. \cr \cr}
 For \code{cinv()}: \cr
 A matrix. \cr
 \cr
-For \code{sd_gauss_lc()}: \cr
+For \code{sd_lc()}: \cr
 A vector of standard deviations.
 \cr
 \cr
@@ -32,7 +32,7 @@ A vector of standard deviations.
 \description{
 'broadcast' provides some simple Linear Algebra Functions for Statistics: \cr
 \code{cinv()}; \cr
-\code{sd_gauss_lc()}. \cr
+\code{sd_lc()}. \cr
 \cr
 \cr
 }
@@ -42,15 +42,15 @@ A vector of standard deviations.
 computes the Choleski inverse
 of a real symmetric positive-definite square matrix. \cr
 \cr
-\bold{sd_gauss_lc()} \cr
+\bold{sd_lc()} \cr
 Given the linear combination \code{X \%*\% b}, where:
 \itemize{
 \item \code{X} is a matrix of multipliers/constants;
-\item \code{b} is a vector of (correlated) Gaussian random variables;
-\item \code{vc} is the variance-covariance matrix for \code{b};
+\item \code{b} is a vector of (correlated) random variables;
+\item \code{vc} is the real variance-covariance matrix for \code{b};
 }
 
-\code{sd_gauss_lc(X, vc)}
+\code{sd_lc(X, vc)}
 computes the standard deviations for the linear combination \code{X \%*\% b}. \cr
 Written in 'C' for efficiency. \cr
 \cr
@@ -65,7 +65,13 @@ solve(vc)
 cinv(vc) # faster than `solve()`, but only works on positive definite matrices
 all(round(solve(vc), 6) == round(cinv(vc), 6)) # they're the same
 
-sd_gauss_lc(X, vc)
+sd_lc(X, vc)
 
      
+}
+\references{
+Richard Johnson & Dean Wichern (2001), Applied Multivariate Statistical Analysis (6th Edition)
+}
+\seealso{
+\link[base]{chol}, \link[base]{chol2inv}
 }

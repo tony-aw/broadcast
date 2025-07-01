@@ -94,8 +94,8 @@
 
 #' @keywords Internal
 #' @noRd
-.C_sd_gauss_lc <- function(w, vc, nvars, nobs, bad_rp) {
-  .Call("C_sd_gauss_lc", w, vc, as.integer(nvars), as.integer(nobs), as.double(bad_rp))
+.C_sd_lc <- function(w, vc, nvars, nobs, bad_rp) {
+  .Call("C_sd_lc", w, vc, as.integer(nvars), as.integer(nobs), as.double(bad_rp))
 }
 
 

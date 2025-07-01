@@ -63,4 +63,5 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 
 # broadcast 0.0.0.9010
 * Improved the documentation a bit.
+* Generalized `sd_gauss_lc()` to `sd_lc()`
 

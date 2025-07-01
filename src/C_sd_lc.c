@@ -2,10 +2,13 @@
 #include <Rdefines.h>
 #include <R_ext/Error.h>
 
-SEXP C_sd_gauss_lc(
+SEXP C_sd_lc(
   SEXP w, SEXP vc, SEXP nvars0, SEXP nobs0, SEXP bad_rp0
 ) {
   
+  // For the mathematical formula this code is based on,
+  // See page 76 of:
+  // Applied Multivariate Statistical Analysis (6th Edition), by Richard Johnson & Dean Wichern (2001)
   
   int nvars = INTEGER(nvars0)[0];
   int nobs = INTEGER(nobs0)[0];

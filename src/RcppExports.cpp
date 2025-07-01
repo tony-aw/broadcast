@@ -1139,7 +1139,7 @@ RcppExport SEXP C_make_by(SEXP);
 RcppExport SEXP C_make_dcp(SEXP);
 RcppExport SEXP C_pmax(SEXP, SEXP);
 RcppExport SEXP C_recycle_seq_dim(SEXP, SEXP);
-RcppExport SEXP C_sd_gauss_lc(SEXP, SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP C_sd_lc(SEXP, SEXP, SEXP, SEXP, SEXP);
 RcppExport SEXP C_seq_Clen(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
@@ -1229,7 +1229,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"C_make_dcp",            (DL_FUNC) &C_make_dcp,            1},
     {"C_pmax",                (DL_FUNC) &C_pmax,                2},
     {"C_recycle_seq_dim",     (DL_FUNC) &C_recycle_seq_dim,     2},
-    {"C_sd_gauss_lc",         (DL_FUNC) &C_sd_gauss_lc,         5},
+    {"C_sd_lc",               (DL_FUNC) &C_sd_lc,               5},
     {"C_seq_Clen",            (DL_FUNC) &C_seq_Clen,            2},
     {NULL, NULL, 0}
 };

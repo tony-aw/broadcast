@@ -8,7 +8,7 @@ title: linear_algebra_stats
 
 'broadcast' provides some simple Linear Algebra Functions for Statistics: <br />
 <code>cinv()</code>; <br />
-<code>sd_gauss_lc()</code>. <br />
+<code>sd_lc()</code>. <br />
 <br />
 <br />
 
@@ -18,7 +18,7 @@ title: linear_algebra_stats
 
 <pre><code class='language-R'>cinv(x)
 
-sd_gauss_lc(X, vc, bad_rp = NaN)
+sd_lc(X, vc, bad_rp = NaN)
 </code></pre>
 
 
@@ -35,7 +35,7 @@ a numeric matrix of multipliers/constants
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="vc">vc</code></td>
 <td>
-the variance-covariance matrix for the (correlated) Gaussian random variables.
+the variance-covariance matrix for the (correlated) random variables.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="bad_rp">bad_rp</code></td>
 <td>
@@ -52,7 +52,7 @@ give here the value to replace bad standard deviations with. <br /> <br />
 computes the Choleski inverse
 of a real symmetric positive-definite square matrix. <br />
 <br />
-<b>sd_gauss_lc()</b> <br />
+<b>sd_lc()</b> <br />
 Given the linear combination <code>X %*% b</code>, where:
 
 
@@ -60,14 +60,14 @@ Given the linear combination <code>X %*% b</code>, where:
 <li> <code>X</code> is a matrix of multipliers/constants;
 
 </li>
-<li> <code>b</code> is a vector of (correlated) Gaussian random variables;
+<li> <code>b</code> is a vector of (correlated) random variables;
 
 </li>
-<li> <code>vc</code> is the variance-covariance matrix for <code>b</code>;
+<li> <code>vc</code> is the real variance-covariance matrix for <code>b</code>;
 
 </li></ul>
 
-<code>sd_gauss_lc(X, vc)</code>
+<code>sd_lc(X, vc)</code>
 computes the standard deviations for the linear combination <code>X %*% b</code>. <br />
 Written in 'C' for efficiency. <br />
 <br />
@@ -80,10 +80,22 @@ Written in 'C' for efficiency. <br />
 For <code>cinv()</code>: <br />
 A matrix. <br />
 <br />
-For <code>sd_gauss_lc()</code>: <br />
+For <code>sd_lc()</code>: <br />
 A vector of standard deviations.
 <br />
 <br />
+
+
+
+### References
+
+Richard Johnson &amp; Dean Wichern (2001), Applied Multivariate Statistical Analysis (6th Edition)
+
+
+
+### See Also
+
+chol, chol2inv
 
 
 
@@ -99,7 +111,7 @@ solve(vc)
 cinv(vc) # faster than `solve()`, but only works on positive definite matrices
 all(round(solve(vc), 6) == round(cinv(vc), 6)) # they're the same
 
-sd_gauss_lc(X, vc)
+sd_lc(X, vc)
 
      
 

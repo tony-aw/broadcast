@@ -102,7 +102,7 @@ Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
 which preserve names and dimensions - convenient for arrays. \cr
 \cr
 'broadcast' also provides
-\link[=sd_gauss_lc]{simple linear algebra functions for statistics}. \cr
+\link[=sd_lc]{simple linear algebra functions for statistics}. \cr
 \cr
 And 'broadcast' comes with some helper functions: \cr
 \link{bc_dim}, \link{ndim}, \link{lst.ndim}, \link{rep_dim}. \cr \cr

@@ -3,13 +3,13 @@
 #' @description
 #' 'broadcast' provides some simple Linear Algebra Functions for Statistics: \cr
 #' `cinv()`; \cr
-#' `sd_gauss_lc()`. \cr
+#' `sd_lc()`. \cr
 #' \cr
 #' \cr
 #' 
 #' @param x a real symmetric positive-definite square matrix.
 #' @param X a numeric matrix of multipliers/constants
-#' @param vc the variance-covariance matrix for the (correlated) Gaussian random variables.
+#' @param vc the variance-covariance matrix for the (correlated) random variables.
 #' @param bad_rp if `vc` is not a Positive (semi-) Definite matrix,
 #' give here the value to replace bad standard deviations with. \cr \cr
 #' 
@@ -19,14 +19,14 @@
 #' computes the Choleski inverse
 #' of a real symmetric positive-definite square matrix. \cr
 #' \cr
-#' \bold{sd_gauss_lc()} \cr
+#' \bold{sd_lc()} \cr
 #' Given the linear combination `X %*% b`, where:
 #' 
 #'  - `X` is a matrix of multipliers/constants;
-#'  - `b` is a vector of (correlated) Gaussian random variables;
-#'  - `vc` is the variance-covariance matrix for `b`;
+#'  - `b` is a vector of (correlated) random variables;
+#'  - `vc` is the real variance-covariance matrix for `b`;
 #' 
-#' `sd_gauss_lc(X, vc)`
+#' `sd_lc(X, vc)`
 #' computes the standard deviations for the linear combination `X %*% b`. \cr
 #' Written in 'C' for efficiency. \cr
 #' \cr
@@ -38,14 +38,17 @@
 #' For `cinv()`: \cr
 #' A matrix. \cr
 #' \cr
-#' For `sd_gauss_lc()`: \cr
+#' For `sd_lc()`: \cr
 #' A vector of standard deviations.
 #' \cr
 #' \cr
 #'
+#'
+#' @seealso \link[base]{chol}, \link[base]{chol2inv}
+#' @references Richard Johnson & Dean Wichern (2001), Applied Multivariate Statistical Analysis (6th Edition) 
+#'
 #' @example inst/examples/linear_algebra_stats.R
 #' 
-
 
 #' @name linear_algebra_stats
 NULL
@@ -59,7 +62,7 @@ cinv <- function(x) {
 
 #' @rdname linear_algebra_stats
 #' @export
-sd_gauss_lc <- function(
+sd_lc <- function(
     X, vc, bad_rp = NaN
 ){
   
@@ -85,7 +88,7 @@ sd_gauss_lc <- function(
   if(!check_dims) {
     stop("`X` and `vc` do not have correctly corresponding dimensions!")
   }
-  return(.C_sd_gauss_lc(X, vc, ncol(X), nrow(X), bad_rp))
+  return(.C_sd_lc(X, vc, ncol(X), nrow(X), bad_rp))
 }
 
 

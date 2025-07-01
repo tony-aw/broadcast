@@ -83,7 +83,7 @@ vc <- matrix(rnorm(n), n, n)
 gc()
 bm_la <- bench::mark(
   sqrt(t(w) %*% vc %*% w),
-  sd_gauss_lc(X, vc),
+  sd_lc(X, vc),
   check = FALSE,
   min_iterations = 100
 )

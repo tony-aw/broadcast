@@ -22,7 +22,7 @@ function processMathHTML() {
 
 <p>'broadcast' provides some simple Linear Algebra Functions for Statistics: <br />
 <code>cinv()</code>; <br />
-<code>sd_gauss_lc()</code>. <br />
+<code>sd_lc()</code>. <br />
 <br />
 <br />
 </p>
@@ -32,7 +32,7 @@ function processMathHTML() {
 
 <pre><code class='language-R'>cinv(x)
 
-sd_gauss_lc(X, vc, bad_rp = NaN)
+sd_lc(X, vc, bad_rp = NaN)
 </code></pre>
 
 
@@ -49,7 +49,7 @@ sd_gauss_lc(X, vc, bad_rp = NaN)
 </td></tr>
 <tr><td><code id="vc">vc</code></td>
 <td>
-<p>the variance-covariance matrix for the (correlated) Gaussian random variables.</p>
+<p>the variance-covariance matrix for the (correlated) random variables.</p>
 </td></tr>
 <tr><td><code id="bad_rp">bad_rp</code></td>
 <td>
@@ -66,7 +66,7 @@ give here the value to replace bad standard deviations with. <br /> <br /></p>
 computes the Choleski inverse
 of a real symmetric positive-definite square matrix. <br />
 <br />
-<b>sd_gauss_lc()</b> <br />
+<b>sd_lc()</b> <br />
 Given the linear combination <code>X %*% b</code>, where:
 </p>
 
@@ -74,14 +74,14 @@ Given the linear combination <code>X %*% b</code>, where:
 <li> <p><code>X</code> is a matrix of multipliers/constants;
 </p>
 </li>
-<li> <p><code>b</code> is a vector of (correlated) Gaussian random variables;
+<li> <p><code>b</code> is a vector of (correlated) random variables;
 </p>
 </li>
-<li> <p><code>vc</code> is the variance-covariance matrix for <code>b</code>;
+<li> <p><code>vc</code> is the real variance-covariance matrix for <code>b</code>;
 </p>
 </li></ul>
 
-<p><code>sd_gauss_lc(X, vc)</code>
+<p><code>sd_lc(X, vc)</code>
 computes the standard deviations for the linear combination <code>X %*% b</code>. <br />
 Written in 'C' for efficiency. <br />
 <br />
@@ -94,10 +94,22 @@ Written in 'C' for efficiency. <br />
 <p>For <code>cinv()</code>: <br />
 A matrix. <br />
 <br />
-For <code>sd_gauss_lc()</code>: <br />
+For <code>sd_lc()</code>: <br />
 A vector of standard deviations.
 <br />
 <br />
+</p>
+
+
+<h3>References</h3>
+
+<p>Richard Johnson &amp; Dean Wichern (2001), Applied Multivariate Statistical Analysis (6th Edition)
+</p>
+
+
+<h3>See Also</h3>
+
+<p>chol, chol2inv
 </p>
 
 
@@ -111,7 +123,7 @@ solve(vc)
 cinv(vc) # faster than `solve()`, but only works on positive definite matrices
 all(round(solve(vc), 6) == round(cinv(vc), 6)) # they're the same
 
-sd_gauss_lc(X, vc)
+sd_lc(X, vc)
 
      
 </code></pre>
