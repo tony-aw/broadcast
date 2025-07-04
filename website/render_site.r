@@ -4,8 +4,9 @@
 
 library(quarto)
 
+# always render first
 quarto_render()
 
-# wait until render is done!
+# wait preview until render is done
 quarto_preview()
 
