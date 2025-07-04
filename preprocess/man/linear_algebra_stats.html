@@ -45,7 +45,7 @@ sd_lc(X, vc, bad_rp = NaN)
 </td></tr>
 <tr><td><code id="X">X</code></td>
 <td>
-<p>a numeric matrix of multipliers/constants</p>
+<p>a numeric (or logical) matrix of multipliers/constants</p>
 </td></tr>
 <tr><td><code id="vc">vc</code></td>
 <td>
@@ -77,13 +77,16 @@ Given the linear combination <code>X %*% b</code>, where:
 <li> <p><code>b</code> is a vector of (correlated) random variables;
 </p>
 </li>
-<li> <p><code>vc</code> is the real variance-covariance matrix for <code>b</code>;
+<li> <p><code>vc</code> is the symmetric variance-covariance matrix for <code>b</code>;
 </p>
 </li></ul>
 
 <p><code>sd_lc(X, vc)</code>
-computes the standard deviations for the linear combination <code>X %*% b</code>. <br />
-Written in 'C' for efficiency. <br />
+computes the standard deviations for the linear combination <code>X %*% b</code>,
+without making needless copies. <br />
+<code>sd_lc(X, vc)</code> will use <b>much</b> less memory than a base 'R' approach. <br />
+<code>sd_lc(X, vc)</code> may possibly, but not necessarily, be faster than a base 'R' approach
+(depending on the Linear Algebra Library used for base 'R'). <br />
 <br />
 <br />
 </p>
@@ -103,7 +106,7 @@ A vector of standard deviations.
 
 <h3>References</h3>
 
-<p>Richard Johnson &amp; Dean Wichern (2001), Applied Multivariate Statistical Analysis (6th Edition)
+<p>John A. Rice (2007), <em>Mathematical Statistics and Data Analysis</em> (6th Edition)
 </p>
 
 

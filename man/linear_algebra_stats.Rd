@@ -13,7 +13,7 @@ sd_lc(X, vc, bad_rp = NaN)
 \arguments{
 \item{x}{a real symmetric positive-definite square matrix.}
 
-\item{X}{a numeric matrix of multipliers/constants}
+\item{X}{a numeric (or logical) matrix of multipliers/constants}
 
 \item{vc}{the variance-covariance matrix for the (correlated) random variables.}
 
@@ -47,12 +47,15 @@ Given the linear combination \code{X \%*\% b}, where:
 \itemize{
 \item \code{X} is a matrix of multipliers/constants;
 \item \code{b} is a vector of (correlated) random variables;
-\item \code{vc} is the real variance-covariance matrix for \code{b};
+\item \code{vc} is the symmetric variance-covariance matrix for \code{b};
 }
 
 \code{sd_lc(X, vc)}
-computes the standard deviations for the linear combination \code{X \%*\% b}. \cr
-Written in 'C' for efficiency. \cr
+computes the standard deviations for the linear combination \code{X \%*\% b},
+without making needless copies. \cr
+\code{sd_lc(X, vc)} will use \bold{much} less memory than a base 'R' approach. \cr
+\code{sd_lc(X, vc)} may possibly, but not necessarily, be faster than a base 'R' approach
+(depending on the Linear Algebra Library used for base 'R'). \cr
 \cr
 \cr
 }
@@ -70,7 +73,7 @@ sd_lc(X, vc)
      
 }
 \references{
-Richard Johnson & Dean Wichern (2001), Applied Multivariate Statistical Analysis (6th Edition)
+John A. Rice (2007), \emph{Mathematical Statistics and Data Analysis} (6th Edition)
 }
 \seealso{
 \link[base]{chol}, \link[base]{chol2inv}

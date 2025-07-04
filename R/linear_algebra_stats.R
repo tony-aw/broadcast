@@ -8,7 +8,7 @@
 #' \cr
 #' 
 #' @param x a real symmetric positive-definite square matrix.
-#' @param X a numeric matrix of multipliers/constants
+#' @param X a numeric (or logical) matrix of multipliers/constants
 #' @param vc the variance-covariance matrix for the (correlated) random variables.
 #' @param bad_rp if `vc` is not a Positive (semi-) Definite matrix,
 #' give here the value to replace bad standard deviations with. \cr \cr
@@ -24,11 +24,14 @@
 #' 
 #'  - `X` is a matrix of multipliers/constants;
 #'  - `b` is a vector of (correlated) random variables;
-#'  - `vc` is the real variance-covariance matrix for `b`;
+#'  - `vc` is the symmetric variance-covariance matrix for `b`;
 #' 
 #' `sd_lc(X, vc)`
-#' computes the standard deviations for the linear combination `X %*% b`. \cr
-#' Written in 'C' for efficiency. \cr
+#' computes the standard deviations for the linear combination `X %*% b`,
+#' without making needless copies. \cr
+#' `sd_lc(X, vc)` will use \bold{much} less memory than a base 'R' approach. \cr
+#' `sd_lc(X, vc)` may possibly, but not necessarily, be faster than a base 'R' approach
+#' (depending on the Linear Algebra Library used for base 'R'). \cr
 #' \cr
 #' \cr
 #' 
@@ -45,7 +48,7 @@
 #'
 #'
 #' @seealso \link[base]{chol}, \link[base]{chol2inv}
-#' @references Richard Johnson & Dean Wichern (2001), Applied Multivariate Statistical Analysis (6th Edition) 
+#' @references John A. Rice (2007), \emph{Mathematical Statistics and Data Analysis} (6th Edition) 
 #'
 #' @example inst/examples/linear_algebra_stats.R
 #' 
@@ -67,12 +70,9 @@ sd_lc <- function(
 ){
   
   # check input:
-  check_X <- is.matrix(X) && is.numeric(X) && length(X) >= 1L
+  check_X <- is.matrix(X) && (is.numeric(X)||is.logical(X)) && length(X) >= 1L
   if(!check_X) {
-    stop("`X` must be a numeric matrix")
-  }
-  if(is.integer(X)) {
-    X <- as_dbl(X)
+    stop("`X` must be a numeric or logical matrix")
   }
   check_vc <- is.matrix(vc) && is.double(vc) && length(vc) >= 1L
   if(!check_vc) {
@@ -88,7 +88,7 @@ sd_lc <- function(
   if(!check_dims) {
     stop("`X` and `vc` do not have correctly corresponding dimensions!")
   }
-  return(.C_sd_lc(X, vc, ncol(X), nrow(X), bad_rp))
+  return(.C_sd_lc(X, vc, nrow(X), ncol(X), bad_rp))
 }
 
 

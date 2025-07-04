@@ -1,6 +1,6 @@
 
 
-#include <Rcpp.h>
+#include <Rcpp/Lightest>
 #include "broadcast.h"
 
 using namespace Rcpp;

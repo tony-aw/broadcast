@@ -74,20 +74,50 @@ plot(bm_base)
 save(bm_base, file = "benchmarks/bm_base.RData")
 
 
+
+
 # base linear algebra ====
-n <- 1000
-w <- matrix(rnorm(n), n, 1)
-X <- t(w)
-vc <- matrix(rnorm(n), n, n)
+# making objects that one might get from a usual large regression model:
+n <- 3e3
+X <- matrix(rnorm(n, 10), 10, n)
+X1 <- X[1, , drop = FALSE]
+w <- t(X1)
+vc <- cov(as.data.frame(X))
+
+
 
 gc()
 bm_la <- bench::mark(
-  sqrt(t(w) %*% vc %*% w),
-  sd_lc(X, vc),
+  t(w) %*% vc %*% w,
+  sd_lc(X1, vc),
   check = FALSE,
   min_iterations = 100
 )
 summary(bm_la)
 plot(bm_la)
-save(bm_la, file = "benchmarks/bm_la.RData")
+
+
+n <- 500
+X <- matrix(rnorm(n), 1e3, n)
+vc <- cov(as.data.frame(X))
+
+
+
+gc()
+bm_la <- bench::mark(
+  sqrt(pmax(rowSums((X %*% vc) * X), 0)),
+  check = FALSE,
+  min_iterations = 100
+)
+summary(bm_la)
+
+
+gc()
+bm_la <- bench::mark(
+  sd_lc(X, vc),
+  min_iterations = 100
+)
+summary(bm_la)
+
+
 

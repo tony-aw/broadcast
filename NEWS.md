@@ -65,3 +65,9 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 * Improved the documentation a bit.
 * Generalized `sd_gauss_lc()` to `sd_lc()`
 
+
+# broadcast 0.0.0.9011
+* `sd_lc()` now also accepts integer and logical types for argument `X`.
+* Improved the speed of `sd_lc()` by using a slightly different mathematical formula.
+
+

@@ -191,7 +191,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">bc. - functions</span></a>
+ <span class="menu-text">Operators</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -245,14 +245,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">bc.list</span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/broadcaster.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">broadcaster</span></a>
   </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bind_array.html" class="sidebar-item-text sidebar-link">
@@ -381,7 +381,7 @@ a real symmetric positive-definite square matrix.
 <code id="X">X</code>
 </td>
 <td>
-a numeric matrix of multipliers/constants
+a numeric (or logical) matrix of multipliers/constants
 </td>
 </tr>
 <tr>
@@ -414,10 +414,10 @@ if <code>vc</code> is not a Positive (semi-) Definite matrix, give here the valu
 <p><code>b</code> is a vector of (correlated) random variables;</p>
 </li>
 <li>
-<p><code>vc</code> is the real variance-covariance matrix for <code>b</code>;</p>
+<p><code>vc</code> is the symmetric variance-covariance matrix for <code>b</code>;</p>
 </li>
 </ul>
-<p><code>sd_lc(X, vc)</code> computes the standard deviations for the linear combination <code>X %*% b</code>. <br> Written in ‘C’ for efficiency. <br> <br> <br></p>
+<p><code>sd_lc(X, vc)</code> computes the standard deviations for the linear combination <code>X %*% b</code>, without making needless copies. <br> <code>sd_lc(X, vc)</code> will use <b>much</b> less memory than a base ‘R’ approach. <br> <code>sd_lc(X, vc)</code> may possibly, but not necessarily, be faster than a base ‘R’ approach (depending on the Linear Algebra Library used for base ‘R’). <br> <br> <br></p>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
@@ -425,7 +425,7 @@ if <code>vc</code> is not a Positive (semi-) Definite matrix, give here the valu
 </section>
 <section id="references" class="level3">
 <h3 class="anchored" data-anchor-id="references">References</h3>
-<p>Richard Johnson &amp; Dean Wichern (2001), Applied Multivariate Statistical Analysis (6th Edition)</p>
+<p>John A. Rice (2007), <em>Mathematical Statistics and Data Analysis</em> (6th Edition)</p>
 </section>
 <section id="see-also" class="level3">
 <h3 class="anchored" data-anchor-id="see-also">See Also</h3>
@@ -474,206 +474,206 @@ if <code>vc</code> is not a Positive (semi-) Definite matrix, give here the valu
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE</span></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">sd_lc</span>(X, vc)</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="do">##    [1]   9.77346948  25.64466441  40.85154726  13.85467356   6.06105320</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="do">##    [6]  23.46058597  15.92599385   9.97896454  31.39405645  11.70960599</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="do">##   [11]  65.12566689  52.17023366   7.54462799  11.14745012  13.49712222</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="do">##   [16]   3.83563623  38.71746451  41.04683605  49.74600114  13.60685080</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="do">##   [21]  15.93516640  41.39995124  22.68805162   7.90317284  14.16518135</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="do">##   [26]  28.42355229  19.04610165  29.02014086  49.08273733  26.76224366</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="do">##   [31]  19.98596001  40.16227202   7.83660081   7.40199819  47.77034590</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="do">##   [36]  38.67022188  18.06899328  10.19497336  16.34089042   2.49132588</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="do">##   [41]  14.90755717   6.69126755   1.36422513   3.21771832  38.50410397</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="do">##   [46]  27.31475711  15.40474896  16.66752304  12.54437616  13.23398538</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="do">##   [51]  15.46975890   2.98365587  35.70432681  21.25234589  14.40617483</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="do">##   [56]  18.44353556  50.34334966  28.72819448   6.40310800  64.09794045</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="do">##   [61]  21.71225945   1.84758813  13.94095130  36.25158646   2.72976725</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="do">##   [66]  13.24549531  68.02350739  25.58955084  20.39128490   5.76173273</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="do">##   [71]  17.09094926  63.48109159  40.83020883  26.11347690  46.38444618</span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="do">##   [76]  12.66702017  30.01543722  29.83819365  16.41416741   3.31321821</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="do">##   [81]  16.86056163   7.84679862   4.87008270  38.07546928   7.51802088</span></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="do">##   [86]   9.94756605  21.69461797  16.48207847   1.60026293   9.88323759</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="do">##   [91]  23.06538793  43.44701140  37.41277524  27.42435596  11.37509564</span></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="do">##   [96]  18.04915155   3.03505776  44.16782004  11.53744455  18.71855709</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="do">##  [101]  39.55124757  45.47532367  18.77287528  21.19660648  22.15945311</span></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="do">##  [106]  18.56512251   7.81578561  30.94093669  23.99373953   2.94671676</span></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="do">##  [111]   9.83582316  20.07472680  45.76991488  18.48176035  25.83079241</span></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="do">##  [116]   9.16940107  34.43158428   5.45285679  44.13016706   3.60488231</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="do">##  [121]   0.37183754  48.95865718  17.32257200  32.08115351  43.28556849</span></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="do">##  [126]  48.72544746  32.50367318   7.48142962  13.31889543  34.46813251</span></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="do">##  [131]   5.64957960  71.90365171  20.24230202   3.55356692  35.77694253</span></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="do">##  [136]   6.69939130  80.98079226  59.51464810  33.97411349  12.81073773</span></span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="do">##  [141]   2.98660353   0.72763737  47.87823061  13.90603030  11.30587763</span></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="do">##  [146]  10.55338989   9.23998426  26.94073788  23.02781704   4.07689092</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="do">##  [151]  30.14903667  14.01386748  33.09955436  21.46593275  13.07974713</span></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="do">##  [156]   1.02943490   0.74901080  10.40748589  29.94134808   4.31567377</span></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="do">##  [161]  16.32225328  37.69374728  26.74463019  27.34476308  20.45869074</span></span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="do">##  [166]  45.30090812  24.42933928   4.53399243  38.45562349  15.53326809</span></span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="do">##  [171]  49.92824110  44.90852171  34.48438063  26.36404183  32.96169783</span></span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="do">##  [176]  21.92810516  23.13309562  22.99690581   8.08003276   3.82723353</span></span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="do">##  [181]   2.24208880   8.69257698  21.60544973  21.99943253  11.81478743</span></span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="do">##  [186]   1.45368933  34.43009336  21.27868871  32.53264114  36.21092432</span></span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="do">##  [191]   1.34634575  42.06828077   8.69684347  56.65813190  31.07484591</span></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="do">##  [196]  24.45790788   8.78922742  55.34246213  13.41983445  22.59037938</span></span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="do">##  [201]  36.36495758  15.59968169  36.41351848  19.38200402  11.74735216</span></span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="do">##  [206]   0.49419569   1.95245575  47.00545056  54.75843106  24.54201919</span></span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="do">##  [211]  14.13300081  15.81538331   5.68958059  59.97041368  20.18437224</span></span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="do">##  [216]  38.01849080  17.39031836   5.44830259  28.02696784   8.08828397</span></span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="do">##  [221]   1.06401453  24.02057421  46.29086995   8.45539850  22.53940403</span></span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="do">##  [226]  15.53408855  14.73384147  15.48581672  16.07750966  52.66149839</span></span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="do">##  [231]  19.64233140   1.73729101  21.57700613   6.66168604  16.99561639</span></span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="do">##  [236]  55.35909619  52.05939794   4.45777143  30.51480378   2.92194703</span></span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="do">##  [241]  25.23803100  23.04867439   8.43000606  26.34140821  39.71865683</span></span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="do">##  [246]   2.27993981  35.55559171  18.85418623  21.09009471  46.06525022</span></span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="do">##  [251]   1.15710325  26.69531638   9.64245213   4.77581782  11.75309369</span></span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="do">##  [256]  37.76827460  35.62765306  61.26365568  23.80728272   2.47482381</span></span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="do">##  [261]  56.03367797  16.36573614   2.02218550  62.52417654  10.61301451</span></span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="do">##  [266]  10.73996874  23.38268525  10.67213772  27.38675333  21.19064941</span></span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="do">##  [271]   3.54692444  12.59551006  13.06525094   0.04746424  22.14558691</span></span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="do">##  [276]  38.20202731  13.44738433  18.79253023   2.69138517   3.55198359</span></span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="do">##  [281]  24.54342539  10.38496077   1.97204150  35.77351516   1.47918904</span></span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="do">##  [286]  26.35455116  48.71601168  37.11663055   1.19350902  22.95815588</span></span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="do">##  [291]  27.38711017  29.83073937  51.70097985  46.53388718  21.02987060</span></span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="do">##  [296]  17.53134780  13.34235776   7.80363030   8.11911312   2.64082031</span></span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="do">##  [301]  32.91927650  10.65140082   7.78242061  39.90939127  65.75530851</span></span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="do">##  [306]  10.17415369   2.33655834  16.21719846  62.07507869  18.52671453</span></span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="do">##  [311]  51.25847314  41.91779365   9.12548028   3.26774917  73.77907375</span></span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="do">##  [316]  26.82795497  40.87388447  48.19432381  32.74106246  55.55670481</span></span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="do">##  [321]   9.57689902  46.99027358  20.22337112  38.17971678  10.91970739</span></span>
-<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="do">##  [326]   1.46886510  39.71963103  25.44774750  12.63185036  44.15888928</span></span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="do">##  [331]  44.35277062   5.60838782  40.99266904  29.89758505  48.91338047</span></span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="do">##  [336]  10.44872711  46.44147249  25.95293143  19.44249761  16.15866327</span></span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="do">##  [341]  18.03248807   0.28622022  49.71354067  45.74611952  35.28358411</span></span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="do">##  [346]  32.22226082   2.34197371  29.52298485  22.07785351  17.00483604</span></span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="do">##  [351]  42.26962032  58.93398286  21.42113347  25.89209100  13.31268980</span></span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="do">##  [356]  12.58862058  21.23531653   8.38411171  65.18068813  43.94136513</span></span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="do">##  [361]  16.17527094  11.36801856   0.07316696  71.05929958  10.35771297</span></span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="do">##  [366]  24.33751811  22.96234299  11.93051221  14.61510749   3.66285619</span></span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="do">##  [371]  15.58274745   5.55068029  26.86961941  12.10329641   7.78457107</span></span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="do">##  [376]  23.29275589  18.99752152  30.67435615   9.60677847  15.01925452</span></span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="do">##  [381]  16.03831958  21.12296695  22.84065167  49.32696761  58.56276991</span></span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="do">##  [386]   7.21657321  35.21644991  22.15262485  35.29877077   2.58423322</span></span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="do">##  [391]  20.34856004  14.09674576  14.97536319   8.23057884  13.68065239</span></span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="do">##  [396]   6.51828813  31.20093278  11.54452303  16.23133773   5.69485663</span></span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="do">##  [401]  12.16112880  40.81515889  12.01556759  23.15780551  28.34731304</span></span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="do">##  [406]  10.51097641  15.65908844  37.05807855  27.99644526   3.28181694</span></span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="do">##  [411]  17.83274466  42.42096125  30.02715574   5.11460000  23.27978299</span></span>
-<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="do">##  [416]  41.29407681  23.35477030  26.00653216  19.51445777  67.39399889</span></span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="do">##  [421]  29.54004476   4.24116473  43.32427286  15.94082119  20.01173405</span></span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="do">##  [426]   2.78216375  90.07088789   8.87571564  20.50416734  23.80714182</span></span>
-<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="do">##  [431]  12.15242927   3.78797420  21.35404918  23.06884091  16.44191180</span></span>
-<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="do">##  [436]  47.53536031   8.26778971  51.43784162   3.56476124   3.08444027</span></span>
-<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="do">##  [441]  24.92385428  11.15291689   0.44687148   4.08146251  37.02621923</span></span>
-<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="do">##  [446]  24.59298060  10.94134447   2.61495187  27.23019209  13.29731478</span></span>
-<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="do">##  [451]  12.54131702  17.75400289   3.45240500  22.99413065  16.45642415</span></span>
-<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="do">##  [456]  14.31429764   5.20701800  44.25437023   1.70692034  27.84896091</span></span>
-<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="do">##  [461]  32.64367312  33.40922077  20.01909164   7.05134700  24.78812719</span></span>
-<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="do">##  [466]  23.21841219  12.47971291  13.94198874  57.60315012  18.79011782</span></span>
-<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="do">##  [471]  23.29407360  35.75380028  19.58151795   5.37190411  13.52862115</span></span>
-<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="do">##  [476]  66.71879101  26.87493203   6.48424546  18.81385421  12.26414412</span></span>
-<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="do">##  [481]  36.76874955   0.57540160   0.60704201  40.93048187  76.48747461</span></span>
-<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="do">##  [486]  23.73606883   8.62672069   2.10975480  26.60845877   7.28477824</span></span>
-<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="do">##  [491]  26.30122364   9.67656368  10.80492355  26.18532283  14.79929892</span></span>
-<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="do">##  [496]  54.43076425  39.46975024  29.85910987  40.68305251  49.82903922</span></span>
-<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="do">##  [501]  26.93833681   9.64533501  72.55486793  27.09171069  67.09817287</span></span>
-<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="do">##  [506]  29.14211106  18.43772723   2.12584201  28.80016735  38.38856230</span></span>
-<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="do">##  [511]  60.35504747   1.26052211  11.50294675  48.37205416   0.64365519</span></span>
-<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a><span class="do">##  [516]  10.52689468  30.52391014  23.26335654  64.40837458  18.97792905</span></span>
-<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a><span class="do">##  [521]  15.86050824  17.93880402  15.26324266  59.13616932   8.42753819</span></span>
-<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a><span class="do">##  [526]  36.01653343  12.46724337   0.43977131  29.70486371  34.19856633</span></span>
-<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a><span class="do">##  [531]   4.41596581   6.30580146  31.33605866  17.52032176  54.60527048</span></span>
-<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a><span class="do">##  [536]  26.24248227  53.39967528   7.08362907  13.79855190  16.07032691</span></span>
-<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="do">##  [541]  42.03900599  13.19118215   8.31781726  22.03914192  26.94860082</span></span>
-<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="do">##  [546]   6.63331113   4.62286613   2.49978686  24.15301450  69.40201969</span></span>
-<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a><span class="do">##  [551]  43.97802664  11.93118888  13.92832366  30.40047160  85.33157710</span></span>
-<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a><span class="do">##  [556]  49.40205464  13.12404538  55.66623140  42.47010190   6.63253272</span></span>
-<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a><span class="do">##  [561]  48.55274480   9.31771088  21.13887092  10.28065098  11.50404358</span></span>
-<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a><span class="do">##  [566]  37.24511829  12.54428100  34.96524373  63.14089492  47.56948029</span></span>
-<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="do">##  [571]  94.08162073   5.39444088   4.58222078  65.63079919  36.47673499</span></span>
-<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="do">##  [576]  18.39441404  46.83710658  14.59712139  19.53516420   7.10295052</span></span>
-<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="do">##  [581]  56.76972953  17.63790859  26.88864888  23.06252745  25.95047986</span></span>
-<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="do">##  [586]  23.47574513   0.88663436  22.64260984  53.06931617  39.12326449</span></span>
-<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="do">##  [591]  23.74717658  17.94094223  40.49673759  14.12194507  35.83196791</span></span>
-<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="do">##  [596]  18.49777819  54.69339621  18.53462268  45.72056577  19.76105658</span></span>
-<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="do">##  [601]  38.40823621   1.67791950  32.32449947  28.52933276  22.51638552</span></span>
-<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a><span class="do">##  [606]  23.07243843  27.31147358   3.34870914   0.84452989   7.36090060</span></span>
-<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a><span class="do">##  [611]  37.38155346  11.35421076  31.42910111   0.82731575  33.06019365</span></span>
-<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="do">##  [616]  11.56199420  19.91155798  39.17150288  52.28579663  38.18704126</span></span>
-<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="do">##  [621]  17.51277061  41.42914336  12.11564827  78.78617611  13.15364203</span></span>
-<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="do">##  [626]  27.52048728   1.20912232   7.96938370  14.81157207  49.67574692</span></span>
-<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a><span class="do">##  [631]  27.65678841  10.60582962  45.68588228  13.07829901  15.86714391</span></span>
-<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="do">##  [636]  49.46929033   6.81088831  21.90603979  21.34479295  48.00776408</span></span>
-<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="do">##  [641]  32.46688262   1.92651318  40.30415102  22.97308077  18.84055958</span></span>
-<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a><span class="do">##  [646]  15.39626388  12.77527208  16.51063716  11.13256126   7.72751815</span></span>
-<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="do">##  [651]  35.92762682   4.15142490   8.79162532  27.61594520  30.18192027</span></span>
-<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a><span class="do">##  [656]  45.27846373   2.98845361  62.07017156   6.07095757  22.45069852</span></span>
-<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="do">##  [661]  64.37059078  20.92779483   6.13296081  11.00828446  17.75961792</span></span>
-<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="do">##  [666]  57.31890075   7.64010806   4.23657267   4.53728224  32.49906705</span></span>
-<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a><span class="do">##  [671]   4.18831411  17.79140601   6.59203186  11.42335305  21.94895482</span></span>
-<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a><span class="do">##  [676]  18.59817740   7.78891045  57.65695774   9.47668167  48.44918339</span></span>
-<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="do">##  [681]  46.74118594   9.48704436  48.98821059  24.07686987  10.11766776</span></span>
-<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="do">##  [686]  40.78269246  39.71787160  14.33073161  24.93262713  53.48423789</span></span>
-<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a><span class="do">##  [691]  31.36595432  19.08133625  42.31858916   0.66134353  23.68369294</span></span>
-<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="do">##  [696]  26.23717318  17.59931006  49.89790598 100.14003200  12.62949471</span></span>
-<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a><span class="do">##  [701]  43.49734826  20.92484455   0.04613805  28.29066049  22.91966466</span></span>
-<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="do">##  [706]  15.34759888  52.92586115  28.80978230  63.97887935  24.60505704</span></span>
-<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="do">##  [711]   5.68240576   2.48035342  58.69399463  30.05717019  19.98341623</span></span>
-<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="do">##  [716]  20.29411910  35.05269029  34.65599625  18.37921570  44.55883217</span></span>
-<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="do">##  [721]   7.17351202  44.00734917   5.03912510   9.80157683  56.70431853</span></span>
-<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="do">##  [726]  20.37569862  37.91565267  30.67952651  30.29180304   8.29054295</span></span>
-<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="do">##  [731]  33.48881552  24.97119568  34.95174470  87.59090015  32.99010523</span></span>
-<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="do">##  [736]  19.34502116   2.89416174   2.45402917  10.46906804  11.66238693</span></span>
-<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="do">##  [741]  42.20340251  15.31443778  42.77768280   3.74446839   2.08738272</span></span>
-<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="do">##  [746]  23.91590424   5.49824636   6.22401592  30.40951139   2.95796060</span></span>
-<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="do">##  [751]  30.91374850  12.70364391  17.40842951  64.24092736  18.38200537</span></span>
-<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="do">##  [756]  30.13570833  11.17197095   9.31140852  23.10257102  29.40795214</span></span>
-<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="do">##  [761]  36.78670587  22.09423068   2.22212191   0.23429058  29.60988179</span></span>
-<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="do">##  [766]  34.99680470  10.44204851  33.79798699  63.36325348   7.30021968</span></span>
-<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a><span class="do">##  [771]  68.49594170  27.38817404  44.44588608  54.44980631  18.68121951</span></span>
-<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a><span class="do">##  [776]  30.23706977  23.21605347  30.19692332   4.59916207  39.29837776</span></span>
-<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a><span class="do">##  [781]   8.86333797  26.09491757  26.91270711  39.80763556   6.16062651</span></span>
-<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="do">##  [786]  68.40626972  31.23632138  10.59813264  52.74501420  11.21554342</span></span>
-<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a><span class="do">##  [791]  24.01577173  53.23443995  46.22848711  26.68507802   6.62303119</span></span>
-<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a><span class="do">##  [796]  71.42477605   1.85218899   2.15728938  32.29887673  49.49060065</span></span>
-<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a><span class="do">##  [801]   5.42641484  18.11506972   2.85004147   3.35508184   8.23031685</span></span>
-<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a><span class="do">##  [806]   2.02520557   8.54375594  70.69453897  57.81090776  53.45575213</span></span>
-<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a><span class="do">##  [811]  29.07441123   9.02578817  12.98461374 102.75334293  28.05028984</span></span>
-<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="do">##  [816]  25.37277890  15.57478593  49.22933757  25.07718867  15.06216798</span></span>
-<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="do">##  [821]  36.83797598  25.91068593  60.83611415   4.67019599  54.02462078</span></span>
-<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="do">##  [826]   0.37228698   3.53918840  23.63431456  16.72404410  84.31045067</span></span>
-<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="do">##  [831]  22.04582939   7.98980431  27.56013870  38.02332934  37.24269977</span></span>
-<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="do">##  [836]   5.42611750  11.48339295  33.88053698  25.51971032   9.04492335</span></span>
-<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="do">##  [841]  34.83491741  16.34257074   0.09489104  41.86829964  24.57866549</span></span>
-<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="do">##  [846]  31.50472013  56.27865819   4.33214728  32.10442528  42.22648430</span></span>
-<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="do">##  [851]  17.47686836  12.64321081  10.27051565  49.13379287   5.93160411</span></span>
-<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="do">##  [856]  70.60885525  63.34120738  13.91036981  48.28999273  69.99622033</span></span>
-<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="do">##  [861]  18.81435461   0.40964052  21.80545243  11.96379882  65.61286354</span></span>
-<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a><span class="do">##  [866]   0.95336127  23.94524395   5.54187896  26.60780435  31.29960917</span></span>
-<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="do">##  [871]  13.04513854  16.83950621  14.82505289  31.79209768  63.71600433</span></span>
-<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a><span class="do">##  [876]  12.74086896  48.14678274   7.96163600  33.27841872  56.08164740</span></span>
-<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a><span class="do">##  [881]   3.42802749   4.73748760  33.95818343   5.52472675   8.03669849</span></span>
-<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a><span class="do">##  [886]  25.02601166  10.78877910   8.17632380   6.84172988  32.55268784</span></span>
-<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a><span class="do">##  [891]  26.63208202  19.34864887  31.08008494  31.69663080   6.58297667</span></span>
-<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="do">##  [896]   6.75837592  44.70502308  11.80242711  28.75378177  38.49110714</span></span>
-<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="do">##  [901]  10.75602414  34.15024932   6.10933895  38.02492951  38.22360561</span></span>
-<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a><span class="do">##  [906]  35.80431950  39.96042244  33.11041898   9.18573014  12.65916944</span></span>
-<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a><span class="do">##  [911]   0.72176795  54.13780824  15.50471406  36.25191925  22.80485939</span></span>
-<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a><span class="do">##  [916]  12.35597013  14.56746345  20.15389176  37.23048731  20.23901291</span></span>
-<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a><span class="do">##  [921]  30.21421586  13.44001554  24.12295603  44.05611992   0.74821037</span></span>
-<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a><span class="do">##  [926]  16.39511841  23.85475287  21.86324457  18.03366179  14.54351295</span></span>
-<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a><span class="do">##  [931]  13.44026206  40.69694504  15.14736641   7.48833564  43.92710882</span></span>
-<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="do">##  [936]  27.25001964  24.05494606  41.26775576   2.51352359  38.55850092</span></span>
-<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="do">##  [941]  30.74429134  21.06653142  17.41097480  23.15297775  21.94708105</span></span>
-<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="do">##  [946]  13.20224399   5.36068896  16.91844660   0.22485222   3.19050172</span></span>
-<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="do">##  [951]  34.86685904   6.04439299   2.52909468  45.88584552  49.10393543</span></span>
-<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="do">##  [956]  52.31038998  34.17900062  18.33363540  78.94503885   7.88420570</span></span>
-<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="do">##  [961]  56.68943764  37.47963816  22.32026899  24.70274052  63.75566156</span></span>
-<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="do">##  [966]  24.15041498  34.04770068   0.56587102  52.51089875  22.44864803</span></span>
-<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="do">##  [971]  15.98356970  15.54505379  22.85954297   0.25930204  10.70212158</span></span>
-<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="do">##  [976]   4.76301167  10.30869021   7.07657272  11.30535458  55.82565331</span></span>
-<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="do">##  [981]  10.68938245  20.71875311  18.69536722  51.40400776  31.84145530</span></span>
-<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a><span class="do">##  [986]   3.16400688  40.14606606   4.26814492  54.73489508  11.36054738</span></span>
-<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a><span class="do">##  [991]   8.77108818  25.71864829  19.74732068   3.75218521  21.01220077</span></span>
-<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a><span class="do">##  [996]  10.43731543  55.67602606   6.54883507  11.87452794  20.27443857</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="do">##    [1]   5.77048098  30.55155268   3.02888919  11.10155985   4.71495554</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="do">##    [6]  26.58400580  42.49029916  12.47468115  17.49473173   1.86922928</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="do">##   [11]  22.30061914   6.29689220  15.54685105  24.79341429  51.98739461</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="do">##   [16]  43.26302894  41.58686396  50.85022278  15.29967081   5.44096394</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="do">##   [21]  60.83001049   0.46151644  47.05506130  23.73830860  67.93482241</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="do">##   [26]   2.01035270   4.46186914  48.66430065  43.73437511  56.46839697</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="do">##   [31]   0.70741139  46.47141054  10.72014035  19.20524054   8.80349766</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="do">##   [36]   8.77828024  10.69493797  70.93999833  48.30711103  46.07661579</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="do">##   [41]  70.85369202  23.73107360  37.81273415   8.33688505   8.68504690</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="do">##   [46]  16.82858984   2.92877402  13.82030058  26.16663609  47.79252567</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="do">##   [51]  20.02165475  69.35479766  32.50360776  48.48103894   0.30289414</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="do">##   [56]  44.87032661  45.58785168  14.36399163  79.30503084  16.07662053</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="do">##   [61]  32.84201180  13.69827453  19.78551118  10.19437364   6.27853519</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="do">##   [66]  20.24945909  34.24619439  32.80061359  23.70892424  45.89828308</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="do">##   [71]   9.69585767  25.67312848  38.03670148  17.35080700   7.34405546</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="do">##   [76]  25.70455282  54.64518255  68.31918528  28.36859972  22.60908644</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="do">##   [81]   9.04698603   7.40676047  34.46410804  41.64601274  30.32470692</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="do">##   [86]  22.96281031  31.42937096  27.26316000  48.65588249  25.49680695</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="do">##   [91]  43.54404774   1.30374236  18.81793179  21.86826227   7.57284150</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="do">##   [96]  25.45925317   5.39414604   3.62800643  58.51234309  12.06142462</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="do">##  [101]   3.60508461  50.15134399  38.56943174  17.31998417  18.36548172</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="do">##  [106]  16.07902791  23.73432286  16.99524662  17.28667423  10.38113230</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="do">##  [111]  30.72572784  13.04254557  38.13638666  30.59002627   7.61300105</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="do">##  [116]  13.31813792  13.48032174  35.11430065  18.73531628  20.05028703</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="do">##  [121]   8.82535962  79.28162721  43.70682310  36.98609683   9.60423038</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="do">##  [126]   9.15528855   9.69305565  24.21693376   0.83481206   5.83341726</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="do">##  [131]  33.04211109  11.82061989  11.16437896  22.04856103 102.81282524</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="do">##  [136]   1.87388989  58.46326066   0.18047873  36.87631588  37.83167829</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="do">##  [141]  19.43900401  17.39396559  28.31271177  69.58111051   1.12290769</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="do">##  [146]   0.13402849  13.33308221  15.09403385  36.31491278   2.81541646</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="do">##  [151]  19.40101887  37.16361362   2.34770715  10.52887550   0.19436329</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="do">##  [156]  19.55890990  27.95847282   3.33547609  43.89521078  53.85566225</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="do">##  [161]   1.96032405  25.78711742  21.80657548   3.98871017  55.20351543</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="do">##  [166]  29.05587788  52.11723856   7.82105653  22.98946038   3.49591061</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="do">##  [171]  20.16855594  15.01860210  35.89198824  19.15895406  31.33075321</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="do">##  [176]  26.22201142   3.29312159  13.86082744  41.03555082   5.79113104</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="do">##  [181]  14.74055428   1.82359845  59.72177829  20.76883172  62.39863983</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="do">##  [186]  30.16536271  13.37260635  30.19276326   0.79707596  25.39173216</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="do">##  [191]  24.23764855  31.69087062   1.29223827   9.73176785   2.86355844</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="do">##  [196]  56.00467608  23.73020896  28.48839693  29.98204484  14.94164541</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="do">##  [201]  22.65000976  11.12358427  15.80073023  22.27331077  14.13628524</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="do">##  [206]  15.68835664  26.97634043  39.04247807  15.70434656  29.55970291</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="do">##  [211]  58.28601615   5.37394056  24.09202451   9.48066381  18.41453444</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="do">##  [216]  39.22939185   6.43130022  36.57368577  22.29172930  28.79666636</span></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="do">##  [221]  20.60511248  32.83237087  12.41978715   0.37009344  17.00227246</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="do">##  [226]  21.82404640  12.87104985  53.37325980  15.50648960  19.05546319</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="do">##  [231]  35.63811485  26.97066828   0.67278858  43.90966908   2.48730579</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="do">##  [236]  33.66885908  13.64614804  31.80685924   2.31714697  20.22840435</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="do">##  [241]  22.94718234  48.13871668  12.02113755  17.77544814  41.75581918</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="do">##  [246]  27.84387124  45.74532710   2.76489489  45.92456790  52.52107546</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="do">##  [251]  62.28196887  27.67502739  38.15251432   0.86098918   1.64833106</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="do">##  [256]   2.13245749  23.84350641  16.08760099  12.92812935  37.47388015</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="do">##  [261]  22.81699624  40.22553771  28.95724262  32.89745590  31.66754579</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="do">##  [266]  20.34265348  23.87772389   1.65959697   2.93585717  23.74764889</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="do">##  [271]  11.51306689  69.40089170   3.90714263  22.07923703  75.24723020</span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="do">##  [276]  22.54200922  29.12110027  12.02985520  13.95670197  64.14459596</span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="do">##  [281]  33.79319221  36.06543159  44.96827916  53.40001542  17.27220584</span></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="do">##  [286]  12.48268772  60.91793485   8.52592152  25.44258982  19.79802572</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="do">##  [291]  37.02398027  12.23796797  24.24081990   2.07619214  15.96050400</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="do">##  [296]  20.85192385  31.93850258  60.60967123  58.58408494  24.82042635</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="do">##  [301]  19.98346111  43.82521682  17.16609136  35.43783672  10.60616740</span></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="do">##  [306]  27.99265186  32.71140761  29.28079678   5.10928731  21.88232836</span></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="do">##  [311]   3.81088513  21.21438974  33.35596934  12.27415181   0.83925031</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="do">##  [316]  41.73194154  24.46712828  29.60571632  46.73129601  93.23635170</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="do">##  [321]  10.85593471  21.63042167  23.02313432  13.38173705  16.12432564</span></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="do">##  [326]  39.76691387  34.09962196  28.18249993  20.28571442  47.24859554</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="do">##  [331]  10.79789502  25.25492647  45.14326654  18.14716394  31.91495541</span></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="do">##  [336]  13.66302379  41.15514337  38.36326477  15.59706232  20.01998887</span></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="do">##  [341]  14.59797951  40.09803643  47.96818636  30.66031244   3.36961854</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="do">##  [346]   6.92055081  10.62974827  31.97537557  11.41919277   1.38111358</span></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="do">##  [351]  42.95800519  38.17827638   9.50352225  12.05903092  20.51233023</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="do">##  [356]   4.49481780  29.54908483  33.54831289  23.23684121  38.23112551</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="do">##  [361]  34.25444627  69.07055417  16.33186730  37.29907973   5.62197045</span></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="do">##  [366]  58.04297759  41.33160927   3.49550624   2.21671771  39.77519780</span></span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="do">##  [371]  66.64074389  22.86993192  80.26323009  43.62438223  44.81157009</span></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="do">##  [376]  36.14646028  54.36678900  54.98017785  21.57239969  49.59683431</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="do">##  [381]  28.64005368   9.82071368  51.02137755  25.00566623   5.09428878</span></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="do">##  [386]   4.41193876   3.75214076  19.86203795  35.41585862  40.39383874</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="do">##  [391]  26.08696327  13.31950508  25.75062958   6.15993234  23.39899022</span></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="do">##  [396]  11.39638269  59.97114373 108.91874499   4.51096208  38.24305997</span></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="do">##  [401]  11.37928637  15.06775700  50.24911071  47.07062176  38.69558592</span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="do">##  [406]   7.06835499   1.04248931  31.76830085  27.43395166  21.70821417</span></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="do">##  [411]  48.55901420  12.39836678  38.37822293  51.28300904   9.40481288</span></span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="do">##  [416]  28.47613511   5.08533739  30.16797942  27.35372733  18.44672236</span></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="do">##  [421]  35.30601774  49.12048351   1.12566046   2.26197126   1.29783999</span></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="do">##  [426]  14.88323331  43.19821998  31.58857316  38.36315997  47.49517002</span></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="do">##  [431]   3.07852755  17.79039712   2.80598260  24.83141059  53.74964492</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="do">##  [436]   4.98376864  10.66457501  59.74866480   7.26204240  31.99399266</span></span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="do">##  [441]  14.11123851   7.37680027  27.92214437  17.01751165  23.34118937</span></span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="do">##  [446]  12.39477528  21.20091463  22.39512611  46.20803363  23.67516311</span></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="do">##  [451]  37.78709426  34.71438723   9.24012361  29.39686746  51.05889645</span></span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="do">##  [456]  14.79856724   0.90554142  22.74587871   3.24593379   6.54904324</span></span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="do">##  [461]   7.31581470  44.97662283   3.52152437  19.51112281   1.11925062</span></span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="do">##  [466]  10.52471933   4.83072024   9.14197974  20.75541611   6.92167774</span></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="do">##  [471]  15.04604693   6.52474733  52.55443334   8.09967943  20.81800525</span></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="do">##  [476]   1.62072625  20.11244888  12.19881277  26.19425169  21.72467738</span></span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="do">##  [481]  22.55778782  49.46568798  21.13731158  42.26430735  35.16008170</span></span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="do">##  [486]  27.92662144   2.33726960  41.23828732  23.23588789   9.91163683</span></span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="do">##  [491]  42.45758704   9.70231972   8.17187080  23.49096928  36.04226548</span></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="do">##  [496]  37.12043057  42.83475518  24.79441486   4.86146580   1.75952110</span></span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="do">##  [501]   7.02293397   8.54314696  26.66448679  35.12249880  40.45318333</span></span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="do">##  [506]   3.27261538  29.67744582   0.32843710  24.48780356  11.12105409</span></span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="do">##  [511]  43.62004314  11.22987580  15.93868550   3.38187634   2.36277394</span></span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a><span class="do">##  [516]  10.63090591   2.56483816   2.02129154  51.80859186   2.38862217</span></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a><span class="do">##  [521]   5.22138525  20.24143881  35.00133353  39.88280684  34.45398337</span></span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a><span class="do">##  [526]  23.73373418  25.73744705   5.22449922  65.87207635   1.21820403</span></span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a><span class="do">##  [531]  14.50007581  11.66943750  57.61611960  70.08702303  37.76568905</span></span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a><span class="do">##  [536]  32.07839353  12.70284119  18.50571347   7.44570186   2.42035714</span></span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="do">##  [541]   0.61626625   9.69470271  65.63049961  10.84054273  37.29868688</span></span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="do">##  [546]  29.50095971  39.15537709  32.53816283  27.96824324   5.41698375</span></span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a><span class="do">##  [551]   1.49291092   3.37871550  66.84869688  25.80114465  21.63591264</span></span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a><span class="do">##  [556]  10.44294112  18.27917267  34.75637292  28.42868729  13.21454384</span></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a><span class="do">##  [561]  20.97685517  10.56083925  20.50848846  41.20446212  50.00599377</span></span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a><span class="do">##  [566]   5.04967350  74.20061886  29.83156894  51.07330206  11.35590254</span></span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="do">##  [571]  38.01032579  19.99626550   6.12139841  47.16013881  13.33852355</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="do">##  [576]  27.32921132  16.98464457  17.55220890  22.04472705   3.76007139</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="do">##  [581]  44.55208032  15.47680851   6.51825495  45.60425471  10.39746877</span></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="do">##  [586]  33.22081452  16.05716037  22.45486688   0.49814681  49.52684428</span></span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="do">##  [591]   9.40976412  42.42260545  30.52858108   0.19531938  31.00545040</span></span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="do">##  [596]  11.93346790  39.04180021  43.33818769  37.61737927  16.43623109</span></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="do">##  [601]   1.91311889  17.10047335  34.84645461  61.92630839  28.78696158</span></span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a><span class="do">##  [606]  41.69341422   0.87319382  44.72628928   2.81139311  30.51861139</span></span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a><span class="do">##  [611]   2.22641190  38.67825148   9.08894625  11.45901712   4.13448543</span></span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="do">##  [616]   6.50017445  26.00812933  11.50993374   6.00612210  43.05982979</span></span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="do">##  [621]   8.78212937   2.98892060  20.67530330  37.41235982  12.27161594</span></span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="do">##  [626]  14.66914256  10.92460652  51.73750978  40.49125509  18.46743896</span></span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a><span class="do">##  [631]  14.63262766  35.19268986   3.69475034   2.08814354  61.75118343</span></span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="do">##  [636]  35.21259601   8.41761721  16.62040749   8.90483487  37.68088841</span></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="do">##  [641]  14.08377950  17.71090954   9.96240873  14.06716982  43.39877225</span></span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a><span class="do">##  [646]   0.33874702  10.54231977  41.00944409  25.40863328   8.09693636</span></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="do">##  [651]   8.55272482  14.37658930   3.50444941  27.37826704  17.78011943</span></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a><span class="do">##  [656]  46.69217785  30.95463238  37.42021560   3.57394932   2.14347187</span></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="do">##  [661]  16.67831715  29.59036697  60.15933796   6.19032402  37.13816695</span></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="do">##  [666]  30.44389141  21.25259948   4.06074834  51.69225162  27.32317977</span></span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a><span class="do">##  [671]  84.53555372  11.78642798  19.08117696   8.99255210   9.84901938</span></span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a><span class="do">##  [676]  17.81524978   5.03067385  26.86853587  24.35403506  11.48289740</span></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="do">##  [681]  19.10247984  25.24957749   8.62283655   1.07452652   9.65261980</span></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="do">##  [686]  32.16108512  22.31492901  20.90647882  20.73873281  48.11517963</span></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a><span class="do">##  [691]  23.26039036  28.73475352  46.93314779  40.78000382  29.22167291</span></span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="do">##  [696]  13.51576165  12.60076868  22.29365047  29.41535394  57.97627008</span></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a><span class="do">##  [701]  25.54495005  23.53920173   2.48076717  30.83622145   8.73268846</span></span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="do">##  [706]  18.20732914   4.15305643  10.29149274   9.20622846  16.18054869</span></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="do">##  [711]  74.87293793   9.06407517   4.04147558  38.01206836   0.80393600</span></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="do">##  [716]   5.15486576   9.07305944  34.44692672  54.42079826   3.45977370</span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="do">##  [721]   4.76815926  15.42624764   1.26762510  31.04829233  52.87831668</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="do">##  [726]  21.74304942  12.62238623   4.86785572  62.76340563  10.57219868</span></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="do">##  [731]  21.66285136  50.05143700   6.32264603  24.72068966   5.98706820</span></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="do">##  [736]  17.86451918   3.50157196  49.68757555  24.63624508   3.47278960</span></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="do">##  [741]  15.41251253  12.21034818   1.99249883  23.45868944  35.08017460</span></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="do">##  [746]   2.11553508   1.96389238   3.56222877  56.28455497  16.96348235</span></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="do">##  [751]  32.80289139   7.51483773  44.53183083   8.77308783   7.31795146</span></span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="do">##  [756]   2.30128054  28.02036072  29.36957462   2.79519793   4.95284843</span></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="do">##  [761]   3.83782271  11.70997777  13.98655149  37.89497843  29.75440035</span></span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="do">##  [766]  39.59470140  28.00797972  31.47690442  44.04219985  14.20432712</span></span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a><span class="do">##  [771]  38.12356447   0.88647183  16.88059358  16.00359657  38.92538223</span></span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a><span class="do">##  [776]  50.81396880   3.46490558  64.03990397  24.92448020  52.05025529</span></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a><span class="do">##  [781]  20.24609487  12.46956002  27.19897015  50.55909032   2.98048097</span></span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="do">##  [786]   0.44052401  30.82809301  85.37880947  62.82011018   5.96540825</span></span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a><span class="do">##  [791]  47.40879836  36.08545668  51.36173537  44.81718012  43.86957735</span></span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a><span class="do">##  [796]  29.94322869  52.46617727   6.38954507  38.88349475  56.53242242</span></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a><span class="do">##  [801]  45.35113787  66.53073728  26.66216002   6.33117623  30.43666811</span></span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a><span class="do">##  [806]  28.52007079  14.83527642  18.57850514  86.14533973   1.12184841</span></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a><span class="do">##  [811]   0.76422970  19.93911217  12.42907924   0.34779244   4.35602933</span></span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="do">##  [816]   1.16679108  38.78964751  17.17449684  30.65372025  32.26552288</span></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="do">##  [821]  20.15595234  41.41100788  71.54557100  27.41867580   7.48629992</span></span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="do">##  [826]  14.56763016  10.93157979  15.79782887  14.57939557  13.81552996</span></span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="do">##  [831]  25.12926504   9.37616652  13.16477613  35.74832808  49.01284235</span></span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="do">##  [836]   4.61513400  29.69178365   3.98974208  17.10006184   2.66854531</span></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="do">##  [841]  50.12796518  24.77981072  35.17948640  20.82767239  43.41522352</span></span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="do">##  [846]  10.80546925  25.44815574  27.61943081  11.67893534  13.06494878</span></span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="do">##  [851]  36.91747877   8.28141217   6.73357519  32.36143738  35.57467199</span></span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="do">##  [856]  20.16258454   3.40614140  21.15316053  24.93705471  78.19519219</span></span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="do">##  [861]  20.52518960   0.01871868  28.45701209  10.11510779  45.42589313</span></span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a><span class="do">##  [866]  16.76553577  23.66414176   9.68976391  52.39043893   6.44780380</span></span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="do">##  [871]  24.58684921  14.91994710  30.10510929  11.08000018  57.13597423</span></span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a><span class="do">##  [876]  16.57497003  20.85587368  36.03227849  73.37941670  35.72375986</span></span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a><span class="do">##  [881]  18.94087346  20.99629931  49.87960478  27.15091471  18.56103948</span></span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a><span class="do">##  [886]  46.58538549  90.20584864   8.92071510  40.33372823  55.73179772</span></span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a><span class="do">##  [891]  33.07389104  15.21236071  15.86626699   2.56876699  47.40192596</span></span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="do">##  [896]  17.73325757  16.90039930  39.56804335  34.06251084  31.29411387</span></span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="do">##  [901]  16.60247547  25.81446503  13.21239827  17.53360945  12.44101501</span></span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a><span class="do">##  [906]  10.61295213  36.08863938  35.55933311  28.43231108  22.23795740</span></span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a><span class="do">##  [911]  36.28236142  23.76822070   8.62548148  43.85465216  31.58243146</span></span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a><span class="do">##  [916]  59.71992943  51.43848844   3.30101293  13.70535355  65.69038925</span></span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a><span class="do">##  [921]   1.81272580  23.88318862  11.46200688  18.85744747  10.53411733</span></span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a><span class="do">##  [926]  50.28568055  13.14284161   2.77414091  35.75674433  33.82112140</span></span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a><span class="do">##  [931]  12.21672023   5.36406898   3.16381406  65.43799242  14.96699772</span></span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="do">##  [936]  61.73476365  10.96054209   3.83197798  38.03797239  49.58254670</span></span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="do">##  [941]  29.75225128   2.07559130  18.29195365  58.27876625  44.48261281</span></span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="do">##  [946]  31.64104624  30.37451878  42.44906059   2.80113303  17.82810854</span></span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="do">##  [951]  25.37013484  13.69420129  12.96494810  21.53751322  29.28898984</span></span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="do">##  [956]  69.07621569  11.23326255  51.57287755  20.61986564  13.46954096</span></span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="do">##  [961]  32.02695273  51.50066867  26.80538344   1.30211065  65.56492831</span></span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="do">##  [966]  21.02658150  57.08323031  60.76550493  20.70626620   9.71428946</span></span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="do">##  [971]  26.30925979  33.02129530   6.11973891   7.56632402   5.25812926</span></span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="do">##  [976]  31.65940206  38.16649604  41.46637565  23.34735223  45.45065978</span></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="do">##  [981]  27.64875550  61.16715632  31.20182792   1.77652360  20.38074313</span></span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a><span class="do">##  [986]   3.18802824  35.45692568  30.13685043  49.92129051  80.39935464</span></span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a><span class="do">##  [991]   0.51731297  45.25758284   8.16850145  37.51781377   3.34361815</span></span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a><span class="do">##  [996]  32.86069307  29.02128748   6.26321472  53.61313804  38.50970902</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
