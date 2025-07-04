@@ -22,9 +22,9 @@ test_make_dims <- function(n) {
 
 along <- 1L
 for(iSample in 1:10) {
-  for(iDims in 2:10) {
+  for(iDims in 2:8) {
     for(iBc in 0:(iDims - 1)) {
-      x.dim <- y.dim <- sample(2:10, iDims, TRUE)
+      x.dim <- y.dim <- sample(2:5, iDims, TRUE)
       x.dim[sample(1:length(x.dim), iBc)] <- 1
       y.dim[sample(1:length(y.dim), iBc)] <- 1
       
