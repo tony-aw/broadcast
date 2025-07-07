@@ -1,0 +1,66 @@
+
+## Details on Casting Functions {.unnumbered}
+
+
+### Description
+
+This help page gives some additional information on the casting functions
+provided by the 'broadcast' package. <br />
+<br />
+
+
+
+### Argument <code>in2out = TRUE</code>
+
+The [hier2dim](cast_hier2dim.qmd), [cast_hier2dim](cast_hier2dim.qmd), and [cast_dim2hier](cast_dim2hier.qmd) methods
+all have the <code>in2out</code> argument. <br />
+By default <code>in2out</code> is <code>TRUE</code>. <br />
+This means the call <br />
+<code>y &lt;- cast_hier2dim(x)</code> <br />
+will cast the elements of the deepest valid depth of <code>x</code> to the rows of <code>y</code>,
+and elements of the depth above that to the columns of <code>y</code>,
+and so on until the surface-level elements of <code>x</code> are cast to the last dimension of <code>y</code>. <br />
+<br />
+Similarly, the call <br />
+<code>x &lt;- cast_dim2hier(y)</code> <br />
+will cast the rows of <code>y</code> to the inner most elements of <code>x</code>,
+and the columns of <code>y</code> to one depth above that,
+and so on until the last dimension of <code>y</code> is cast to the surface-level elements of <code>x</code>. <br />
+<br />
+Consider the nested list <code>x</code> with a depth of <code>3</code>,
+and the recursive array <code>y</code> with 3 dimensions,
+where their relationship can described as the following code: <br />
+<code>x &lt;- cast_hier2dim(y)</code> <br />
+<code>y &lt;- cast_dim2hier(x)</code>. <br />
+Then it holds that: <br />
+<code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[k, j, i]]</code>, <br />
+$\forall$(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br /> <br />
+
+
+
+### Argument <code>in2out = FALSE</code>
+
+The [hier2dim](cast_hier2dim.qmd), [cast_hier2dim](cast_hier2dim.qmd), and [cast_dim2hier](cast_dim2hier.qmd) methods
+all have the <code>in2out</code> argument. <br />
+If <code>in2out = FALSE</code>, the call <br />
+<code>y &lt;- cast_hier2dim(x, in2out = FALSE)</code> <br />
+will cast the surface-level elements of <code>x</code> to the rows of <code>y</code>,
+and elements of the depth below that to the columns of <code>y</code>,
+and so on until the elements of the deepest valid depth of <code>x</code> are cast to the last dimension of <code>y</code>. <br />
+<br />
+Similarly, the call <br />
+<code>x &lt;- cast_dim2hier(y, in2out = FALSE)</code> <br />
+will cast the rows of <code>y</code> to the surface-level elements of <code>x</code>,
+and the columns of <code>y</code> to one depth below that,
+and so on until the last dimension of <code>y</code> is cast to the inner most elements of <code>x</code>. <br />
+<br />
+Consider the nested list <code>x</code> with a depth of <code>3</code>,
+and the recursive array <code>y</code> with 3 dimensions,
+where their relationship can described with the following code: <br />
+<code>x &lt;- cast_hier2dim(y, in2out = FALSE)</code> <br />
+<code>y &lt;- cast_dim2hier(x, in2out = FALSE)</code>. <br />
+Then it holds that : <br />
+<code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[i, j, k]]</code>, <br />
+$\forall$(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br /> <br />
+
+

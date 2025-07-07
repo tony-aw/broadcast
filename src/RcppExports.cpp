@@ -56,6 +56,17 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// rcpp_address
+String rcpp_address(SEXP x);
+RcppExport SEXP _broadcast_rcpp_address(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_address(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_str_dist_led
 int rcpp_str_dist_led(String x, String y);
 RcppExport SEXP _broadcast_rcpp_str_dist_led(SEXP xSEXP, SEXP ySEXP) {
@@ -982,6 +993,61 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_allocate_nestedlist
+List rcpp_allocate_nestedlist(NumericVector lens, int depth);
+RcppExport SEXP _broadcast_rcpp_allocate_nestedlist(SEXP lensSEXP, SEXP depthSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type lens(lensSEXP);
+    Rcpp::traits::input_parameter< int >::type depth(depthSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_allocate_nestedlist(lens, depth));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_rec_dim2hier
+void rcpp_rec_dim2hier(SEXP x, SEXP out, SEXP dcp, int dimpart_prev, int depth, int depth_target);
+RcppExport SEXP _broadcast_rcpp_rec_dim2hier(SEXP xSEXP, SEXP outSEXP, SEXP dcpSEXP, SEXP dimpart_prevSEXP, SEXP depthSEXP, SEXP depth_targetSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type out(outSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp(dcpSEXP);
+    Rcpp::traits::input_parameter< int >::type dimpart_prev(dimpart_prevSEXP);
+    Rcpp::traits::input_parameter< int >::type depth(depthSEXP);
+    Rcpp::traits::input_parameter< int >::type depth_target(depth_targetSEXP);
+    rcpp_rec_dim2hier(x, out, dcp, dimpart_prev, depth, depth_target);
+    return R_NilValue;
+END_RCPP
+}
+// rcpp_rec_dim2hier_names
+void rcpp_rec_dim2hier_names(List out, List dimnames, int depth, int depth_target);
+RcppExport SEXP _broadcast_rcpp_rec_dim2hier_names(SEXP outSEXP, SEXP dimnamesSEXP, SEXP depthSEXP, SEXP depth_targetSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type out(outSEXP);
+    Rcpp::traits::input_parameter< List >::type dimnames(dimnamesSEXP);
+    Rcpp::traits::input_parameter< int >::type depth(depthSEXP);
+    Rcpp::traits::input_parameter< int >::type depth_target(depth_targetSEXP);
+    rcpp_rec_dim2hier_names(out, dimnames, depth, depth_target);
+    return R_NilValue;
+END_RCPP
+}
+// rcpp_rec_cast_hier2dim
+void rcpp_rec_cast_hier2dim(SEXP x, SEXP out, SEXP dcp, int dimpart_prev, int depth, int depth_target);
+RcppExport SEXP _broadcast_rcpp_rec_cast_hier2dim(SEXP xSEXP, SEXP outSEXP, SEXP dcpSEXP, SEXP dimpart_prevSEXP, SEXP depthSEXP, SEXP depth_targetSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type out(outSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp(dcpSEXP);
+    Rcpp::traits::input_parameter< int >::type dimpart_prev(dimpart_prevSEXP);
+    Rcpp::traits::input_parameter< int >::type depth(depthSEXP);
+    Rcpp::traits::input_parameter< int >::type depth_target(depth_targetSEXP);
+    rcpp_rec_cast_hier2dim(x, out, dcp, dimpart_prev, depth, depth_target);
+    return R_NilValue;
+END_RCPP
+}
 // rcpp_serial
 SEXP rcpp_serial(SEXP x);
 RcppExport SEXP _broadcast_rcpp_serial(SEXP xSEXP) {
@@ -1024,6 +1090,84 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< CharacterVector >::type newclass(newclassSEXP);
     rcpp_set_class(x, newclass);
     return R_NilValue;
+END_RCPP
+}
+// rcpp_clone
+SEXP rcpp_clone(RObject x);
+RcppExport SEXP _broadcast_rcpp_clone(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_clone(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_hier_flatlen
+SEXP rcpp_hier_flatlen(SEXP x, int maxdepth, bool recurse_classed);
+RcppExport SEXP _broadcast_rcpp_hier_flatlen(SEXP xSEXP, SEXP maxdepthSEXP, SEXP recurse_classedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type maxdepth(maxdepthSEXP);
+    Rcpp::traits::input_parameter< bool >::type recurse_classed(recurse_classedSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_hier_flatlen(x, maxdepth, recurse_classed));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_rec_depths
+void rcpp_rec_depths(SEXP x, SEXP out, SEXP index, int depth, int maxdepth, bool recurse_classed);
+RcppExport SEXP _broadcast_rcpp_rec_depths(SEXP xSEXP, SEXP outSEXP, SEXP indexSEXP, SEXP depthSEXP, SEXP maxdepthSEXP, SEXP recurse_classedSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type out(outSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type index(indexSEXP);
+    Rcpp::traits::input_parameter< int >::type depth(depthSEXP);
+    Rcpp::traits::input_parameter< int >::type maxdepth(maxdepthSEXP);
+    Rcpp::traits::input_parameter< bool >::type recurse_classed(recurse_classedSEXP);
+    rcpp_rec_depths(x, out, index, depth, maxdepth, recurse_classed);
+    return R_NilValue;
+END_RCPP
+}
+// rcpp_hierlen
+SEXP rcpp_hierlen(SEXP x, int depth_target, R_xlen_t n, bool recurse_classed);
+RcppExport SEXP _broadcast_rcpp_hierlen(SEXP xSEXP, SEXP depth_targetSEXP, SEXP nSEXP, SEXP recurse_classedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type depth_target(depth_targetSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type n(nSEXP);
+    Rcpp::traits::input_parameter< bool >::type recurse_classed(recurse_classedSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_hierlen(x, depth_target, n, recurse_classed));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_hier2dim_surface_OK
+bool rcpp_hier2dim_surface_OK(SEXP x, bool recurse_classed);
+RcppExport SEXP _broadcast_rcpp_hier2dim_surface_OK(SEXP xSEXP, SEXP recurse_classedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< bool >::type recurse_classed(recurse_classedSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_hier2dim_surface_OK(x, recurse_classed));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_dropnests
+SEXP rcpp_dropnests(SEXP x, int maxdepth, bool recurse_classed);
+RcppExport SEXP _broadcast_rcpp_dropnests(SEXP xSEXP, SEXP maxdepthSEXP, SEXP recurse_classedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type maxdepth(maxdepthSEXP);
+    Rcpp::traits::input_parameter< bool >::type recurse_classed(recurse_classedSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_dropnests(x, maxdepth, recurse_classed));
+    return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_mergedims_output
@@ -1146,6 +1290,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_factor_count", (DL_FUNC) &_broadcast_rcpp_factor_count, 2},
     {"_broadcast_rcpp_factor_which", (DL_FUNC) &_broadcast_rcpp_factor_which, 3},
     {"_broadcast_rcpp_acast", (DL_FUNC) &_broadcast_rcpp_acast, 12},
+    {"_broadcast_rcpp_address", (DL_FUNC) &_broadcast_rcpp_address, 1},
     {"_broadcast_rcpp_str_dist_led", (DL_FUNC) &_broadcast_rcpp_str_dist_led, 2},
     {"_broadcast_rcpp_bcDist_str_v", (DL_FUNC) &_broadcast_rcpp_bcDist_str_v, 4},
     {"_broadcast_rcpp_bcDist_str_ov", (DL_FUNC) &_broadcast_rcpp_bcDist_str_ov, 6},
@@ -1205,10 +1350,20 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bindhelper_conf_dims_2", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_2, 4},
     {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 4},
     {"_broadcast_rcpp_bindhelper_get_dimnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_get_dimnames, 2},
+    {"_broadcast_rcpp_allocate_nestedlist", (DL_FUNC) &_broadcast_rcpp_allocate_nestedlist, 2},
+    {"_broadcast_rcpp_rec_dim2hier", (DL_FUNC) &_broadcast_rcpp_rec_dim2hier, 6},
+    {"_broadcast_rcpp_rec_dim2hier_names", (DL_FUNC) &_broadcast_rcpp_rec_dim2hier_names, 4},
+    {"_broadcast_rcpp_rec_cast_hier2dim", (DL_FUNC) &_broadcast_rcpp_rec_cast_hier2dim, 6},
     {"_broadcast_rcpp_serial", (DL_FUNC) &_broadcast_rcpp_serial, 1},
     {"_broadcast_rcpp_is_ma", (DL_FUNC) &_broadcast_rcpp_is_ma, 1},
     {"_broadcast_rcpp_set_ma", (DL_FUNC) &_broadcast_rcpp_set_ma, 2},
     {"_broadcast_rcpp_set_class", (DL_FUNC) &_broadcast_rcpp_set_class, 2},
+    {"_broadcast_rcpp_clone", (DL_FUNC) &_broadcast_rcpp_clone, 1},
+    {"_broadcast_rcpp_hier_flatlen", (DL_FUNC) &_broadcast_rcpp_hier_flatlen, 3},
+    {"_broadcast_rcpp_rec_depths", (DL_FUNC) &_broadcast_rcpp_rec_depths, 6},
+    {"_broadcast_rcpp_hierlen", (DL_FUNC) &_broadcast_rcpp_hierlen, 4},
+    {"_broadcast_rcpp_hier2dim_surface_OK", (DL_FUNC) &_broadcast_rcpp_hier2dim_surface_OK, 2},
+    {"_broadcast_rcpp_dropnests", (DL_FUNC) &_broadcast_rcpp_dropnests, 3},
     {"_broadcast_rcpp_mergedims_output", (DL_FUNC) &_broadcast_rcpp_mergedims_output, 3},
     {"_broadcast_rcpp_mergedims_prod", (DL_FUNC) &_broadcast_rcpp_mergedims_prod, 3},
     {"_broadcast_rcpp_is_mergeable_with_prev", (DL_FUNC) &_broadcast_rcpp_is_mergeable_with_prev, 2},

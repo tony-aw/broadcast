@@ -1,0 +1,139 @@
+---
+title: cast_hier2dim
+---
+## Cast Hierarchical List into Dimensional list {.unnumbered}
+
+
+### Description
+
+<code>cast_hier2dim()</code> casts a hierarchical list into a dimensional list
+(i.e. into a recursive array). <br />
+<code>hier2dim()</code> takes a hierarchical list,
+and predicts what dimensions the list would have,
+if re-casted by the <code>cast_hier2dim()</code> function. <br />
+<br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>cast_hier2dim(x, ...)
+
+hier2dim(x, ...)
+
+## Default S3 method:
+cast_hier2dim(x, in2out = TRUE, maxdepth = 16L, recurse_classed = FALSE, ...)
+
+## Default S3 method:
+hier2dim(x, in2out = TRUE, maxdepth = 16L, recurse_classed = FALSE, ...)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<td>
+a list. <br />
+If <code>x</code> has redundant nesting,
+it is advisable (though not necessary) to reduce the redundant nesting using [dropnests](dropnests.qmd).
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="in2out">in2out</code></td>
+<td>
+see broadcast_casting.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="maxdepth">maxdepth</code></td>
+<td>
+a single, positive integer, giving the maximum depth to drop nesting in. <br />
+The surface-level elements of a list is depth 1, so <code>maxdepth</code> must be <code style="white-space: pre;">&gt;= 2</code>.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="recurse_classed">recurse_classed</code></td>
+<td>
+<code>TRUE</code> or <code>FALSE</code>,
+indicating if the function should also recurse through classed lists within <code>x</code>,
+like data.frames.
+</td></tr>
+</table>
+
+
+### Value
+
+For <code>cast_hier2dim()</code>: <br />
+A recursive array (i.e. a dimensional list). <br />
+<br />
+For <code>hier2dim()</code>: <br />
+An integer vector,
+giving the dimensions <code>x</code> would have,
+if re-casted by <code>cast_hier2dim()</code>. <br />
+<br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+
+# ideal scenario ====
+x <- list(
+  group1 = list(
+    id1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    id2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    id3 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    id1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    id2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    id3 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+print(x)
+
+hier2dim(x) # predict what dimensions `x` would have if casted as dimensional
+x2 <- cast_hier2dim(x) # cast as dimensional
+
+# since the original list uses the same names for all elements within the same depth,
+# dimnames can be set easily:
+dimnames(x2) <- list(
+  names( x[[1]][[1]] ),
+  names( x[[1]] ),
+  names( x )
+)
+print(x2) # very compact, maybe too compact...?
+
+# print a small portion of the list, but less compact:
+cast_dim2flat(x2[, 1:2, "group1", drop = FALSE])
+
+
+
+
+```

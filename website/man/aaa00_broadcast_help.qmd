@@ -22,10 +22,10 @@ they support a large set of relational-, arithmetic-, Boolean-, string- and bit-
 <li> A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.
 
 </li>
-<li> Broadcasted ifelse- and apply-like functions.
+<li> casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.
 
 </li>
-<li> The <code>acast()</code> function, for casting/pivoting an array into a new dimension.
+<li> Broadcasted ifelse- and apply-like functions.
 
 </li>
 <li> Simple linear algebra functions for statistics.
@@ -59,7 +59,7 @@ The functions in the 'broadcast' package strive to minimize computation time and
 with broadcasting. <br />
 These functions use an API similar to the outer function. <br />
 <br />
-The following functions for binary operations are available:
+The following functions for simple operations are available:
 
 
 <ul>
@@ -127,11 +127,38 @@ compared to <code>abind::abind</code>. <br /> <br />
 
 </li></ul>
 
-<b><code>acast()</code></b> <br />
-'broadcast' provides the [acast](acast.qmd) function,
-for casting (i.e. pivoting) an array into a new dimension. <br />
-Useful for, for example, computing <b>grouped</b> broadcasted operations. <br />
+<b>Casting Functions</b> <br />
+'broadcast' provides several &quot;casting&quot; functions. <br />
+These can facility complex forms of broadcasting that would normally not be possible. <br />
+But these &quot;casting&quot; functions also have their own merit, beside empowering complex broadcasting. <br />
 <br />
+The following casting functions are available:
+
+
+<ul>
+<li> [acast](acast.qmd): <br />
+casts group-based subset of an array into a new dimension. <br />
+Useful for, for example, computing <b>grouped</b> broadcasted operations. <br />
+
+</li>
+<li> [cast_hier2dim](cast_hier2dim.qmd): <br />
+casts a nested/hierarchical list into a dimensional list (i.e. recursive array). <br />
+Useful because one cannot broadcast through nesting, but one <b>can</b> broadcast along dimensions.
+
+</li>
+<li> [cast_dim2hier](cast_dim2hier.qmd): <br />
+casts a dimensional list into a nested/hierarchical list; the opposite of [cast_hier2dim](cast_hier2dim.qmd). <br />
+
+</li>
+<li> [cast_dim2flat](cast_dim2flat.qmd): <br />
+casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. <br />
+Mostly useful for printing or summarizing dimensional lists.
+
+</li>
+<li> [dropnests](dropnests.qmd): <br />
+drop redundant nesting in lists; mostly used for facilitating the above casting functions. <br /> <br />
+
+</li></ul>
 
 <b>General functions</b> <br />
 'broadcast' also comes with 2 general broadcasted functions:

@@ -1,0 +1,80 @@
+---
+title: cast_dim2hier
+---
+## Cast Dimensional List into Hierarchical List {.unnumbered}
+
+
+### Description
+
+<code>cast_dim2hier()</code> casts a dimensional list
+(i.e. recursive array)
+into a hierarchical list. <br />
+<br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>cast_dim2hier(x, ...)
+
+## Default S3 method:
+cast_dim2hier(x, in2out = TRUE, distr.names = FALSE, ...)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<td>
+a list
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="in2out">in2out</code></td>
+<td>
+see broadcast_casting.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="distr.names">distr.names</code></td>
+<td>
+<code>TRUE</code> or <code>FALSE</code>,
+indicating if <code>dimnames</code> from <code>x</code> should be distributed over the nested elements of the output. <br />
+See examples section for demonstration.
+</td></tr>
+</table>
+
+
+### Value
+
+A nested list. <br />
+<br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+
+
+x <- array(c(as.list(1:34), as.list(letters)), 5:3)
+dimnames(x) <- list(
+  letters[1:5],
+  LETTERS[1:4],
+  month.abb[1:3]
+)
+print(x)
+
+
+# cast `x` from in to out, and distribute names:
+x2 <- cast_dim2hier(x, distr.names = TRUE)
+head(x2, n = 2)
+
+# cast `x` from out to in, and distribute names:
+x2 <- cast_dim2hier(x, in2out = FALSE, distr.names = TRUE)
+head(x2, n = 2)
+
+
+```

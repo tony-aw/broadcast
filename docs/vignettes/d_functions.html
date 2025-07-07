@@ -157,19 +157,25 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../vignettes/f_binding_explained.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Binding Explained</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../vignettes/g_operator_overloading.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/f_operator_overloading.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Operator Overloading</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../vignettes/h_practical_applications.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/g_binding_explained.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Binding Explained</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../vignettes/h_casting_explained.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Casting Explained</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../vignettes/i_practical_applications.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Practical Applications</span></a>
   </div>
 </li>
@@ -192,8 +198,8 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#why-another-array-binding-function" id="toc-why-another-array-binding-function" class="nav-link" data-scroll-target="#why-another-array-binding-function">Why another array binding function</a></li>
   </ul></li>
+  <li><a href="#casting" id="toc-casting" class="nav-link" data-scroll-target="#casting">Casting</a></li>
   <li><a href="#general-broadcasted-functions" id="toc-general-broadcasted-functions" class="nav-link" data-scroll-target="#general-broadcasted-functions">General Broadcasted functions</a></li>
-  <li><a href="#acast" id="toc-acast" class="nav-link" data-scroll-target="#acast">Acast</a></li>
   <li><a href="#type-casting" id="toc-type-casting" class="nav-link" data-scroll-target="#type-casting">Type-casting</a></li>
   <li><a href="#simple-linear-algebra-functions-for-statistics" id="toc-simple-linear-algebra-functions-for-statistics" class="nav-link" data-scroll-target="#simple-linear-algebra-functions-for-statistics">Simple linear algebra functions for statistics</a></li>
   <li><a href="#supported-structures" id="toc-supported-structures" class="nav-link" data-scroll-target="#supported-structures">Supported Structures</a></li>
@@ -228,8 +234,8 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>functions to perform broadcasted element-wise binary operations</li>
 <li>broadcasted dimensional binding of arrays</li>
+<li>casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.</li>
 <li>broadcasted generic pair-wise functions</li>
-<li>casting/pivoting an array into a new dimension</li>
 <li>array typecasting with dimensions and names preserved</li>
 <li>simple linear algebra functions for statistics</li>
 </ul>
@@ -301,15 +307,25 @@ Note
 <p>&nbsp;</p>
 </section>
 </section>
-<section id="general-broadcasted-functions" class="level1">
-<h1>General Broadcasted functions</h1>
-<p>‘broadcast’ provides <a href="../man/bcapply.html">bcapply()</a>, which is a broadcasted apply-like function, and <a href="../man/bc_ifelse.html">bc_ifelse()</a>, which is a broadcasted version of <code>ifelse()</code>.</p>
-<p>&nbsp;</p>
-</section>
-<section id="acast" class="level1">
-<h1>Acast</h1>
+<section id="casting" class="level1">
+<h1>Casting</h1>
 <p>The <a href="../man/acast.html">acast()</a> function casts an array into a new dimension.<br>
 Roughly speaking, it is somewhat analogous to <code>data.table::dcast()</code>, except that <a href="../man/acast.html">acast()</a> works on arrays (instead of data.tables) and casts into a entirely new dimension (instead of into more columns).</p>
+<ul>
+<li><p><a href="../man/acast.html">acast()</a>: casts group-based subset of an array into a new dimension.<br>
+Useful for, for example, computing grouped broadcasted operations.</p></li>
+<li><p><a href="../man/cast_hier2dim.html">cast_hier2dim()</a>: casts a nested/hierarchical list into a dimensional list (i.e.&nbsp;recursive array).<br>
+Useful because one cannot broadcast through nesting, but one can broadcast along dimensions.</p></li>
+<li><p><a href="../man/cast_dim2hier.html">cast_dim2hier()</a>: casts a dimensional list into a nested/hierarchical list; the opposite of cast_hier2dim.</p></li>
+<li><p><a href="../man/cast_dim2flat.html">cast_dim2flat()</a>: casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions.<br>
+Mostly useful for printing or summarizing dimensional lists.</p></li>
+<li><p><a href="../man/dropnests.html">dropnests()</a>: drop redundant nesting in lists; mostly used for facilitating the above casting functions.</p></li>
+</ul>
+<p>&nbsp;</p>
+</section>
+<section id="general-broadcasted-functions" class="level1">
+<h1>General Broadcasted functions</h1>
+<p>‘broadcast’ provides <a href="../man/bcapply.html">bcapply()</a>, which are broadcasted apply-like and ifelse-like functions, respectively.</p>
 <p>&nbsp;</p>
 </section>
 <section id="type-casting" class="level1">

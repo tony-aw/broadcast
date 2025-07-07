@@ -1,0 +1,115 @@
+---
+title: cast_dim2flat
+---
+## Cast Dimensional List into a Flattened List {.unnumbered}
+
+
+### Description
+
+<code>cast_dim2flat()</code> casts a dimensional list
+(i.e. recursive array)
+into a flat list
+(i.e. recursive vector),
+but with names that indicate the original dimensional positions of the elements. <br />
+<br />
+Primary purpose for this function
+is to facilitate printing or summarizing dimensional lists. <br />
+<br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>cast_dim2flat(x, ...)
+
+## Default S3 method:
+cast_dim2flat(x, ...)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<td>
+a list
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
+</td></tr>
+</table>
+
+
+### Value
+
+A flattened list,
+with names that indicate the original dimensional positions of the elements. <br />
+<br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+
+# ideal scenario ====
+x <- list(
+  group1 = list(
+    id1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    id2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    id3 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    id1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    id2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    id3 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+print(x)
+
+hier2dim(x) # predict what dimensions `x` would have if casted as dimensional
+x2 <- cast_hier2dim(x) # cast as dimensional
+
+# since the original list uses the same names for all elements within the same depth,
+# dimnames can be set easily:
+dimnames(x2) <- list(
+  names( x[[1]][[1]] ),
+  names( x[[1]] ),
+  names( x )
+)
+print(x2) # very compact, maybe too compact...?
+
+# print a small portion of the list, but less compact:
+cast_dim2flat(x2[, 1:2, "group1", drop = FALSE])
+
+
+
+
+```

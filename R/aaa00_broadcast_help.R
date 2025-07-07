@@ -30,7 +30,7 @@
 #' with broadcasting. \cr
 #' These functions use an API similar to the \link[base]{outer} function. \cr
 #' \cr
-#' The following functions for binary operations are available:
+#' The following functions for simple operations are available:
 #' 
 #'  * \link{bc.b}: Boolean (i.e. logical) operations;
 #'  * \link{bc.i}: integer arithmetic and relational operations;
@@ -69,11 +69,27 @@
 #'  - `bind_array()` has more streamlined naming options,
 #'  compared to \code{abind::abind}. \cr \cr
 #'  
-#' \bold{\code{acast()}} \cr
-#' 'broadcast' provides the \link{acast} function,
-#' for casting (i.e. pivoting) an array into a new dimension. \cr
-#' Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
+#' \bold{Casting Functions} \cr
+#' 'broadcast' provides several "casting" functions. \cr
+#' These can facility complex forms of broadcasting that would normally not be possible. \cr
+#' But these "casting" functions also have their own merit, beside empowering complex broadcasting. \cr
 #' \cr
+#' The following casting functions are available:
+#' 
+#'  - \link{acast}: \cr
+#'  casts group-based subset of an array into a new dimension. \cr
+#'  Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
+#'  - \link{cast_hier2dim}: \cr
+#'  casts a nested/hierarchical list into a dimensional list (i.e. recursive array). \cr
+#'  Useful because one cannot broadcast through nesting, but one \bold{can} broadcast along dimensions.
+#'  - \link{cast_dim2hier}: \cr
+#'  casts a dimensional list into a nested/hierarchical list; the opposite of \link{cast_hier2dim}. \cr
+#'  - \link{cast_dim2flat}: \cr
+#'  casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. \cr
+#'  Mostly useful for printing or summarizing dimensional lists.
+#'  - \link{dropnests}: \cr
+#'  drop redundant nesting in lists; mostly used for facilitating the above casting functions. \cr \cr
+#' 
 #' 
 #' \bold{General functions} \cr
 #' 'broadcast' also comes with 2 general broadcasted functions:

@@ -1,0 +1,14 @@
+{
+  "hash": "5ff88e32a5bfb34b7729ca61cfcd6d0a",
+  "result": {
+    "markdown": "---\ntitle: dropnests\n---\n\n## Drop Redundant Nesting {.unnumbered}\n\n\n### Description\n\n<code>dropnests()</code> drops redundant nesting of a list. <br />\nIt is the hierarchical equivalent to the dimensional drop function. <br />\n<br />\n\n\n\n### Usage\n\n<pre><code class='language-R'>dropnests(x, ...)\n\n## Default S3 method:\ndropnests(x, maxdepth = 16L, recurse_classed = FALSE, ...)\n</code></pre>\n\n\n### Arguments\n\n<table>\n<tr><td style = \"white-space: collapse; font-family: monospace; vertical-align: top\"><code id=\"x\">x</code></td>\n<td>\na list\n</td></tr>\n<tr><td style = \"white-space: collapse; font-family: monospace; vertical-align: top\"><code id=\"...\">...</code></td>\n<td>\nfurther arguments passed to or from methods. <br /> <br />\n</td></tr>\n<tr><td style = \"white-space: collapse; font-family: monospace; vertical-align: top\"><code id=\"maxdepth\">maxdepth</code></td>\n<td>\na single, positive integer, giving the maximum depth to drop nesting in. <br />\nThe surface-level elements of a list is depth 1;\nso when <code>maxdepth = 1</code>, <code>x</code> will be returned unchanged.\n</td></tr>\n<tr><td style = \"white-space: collapse; font-family: monospace; vertical-align: top\"><code id=\"recurse_classed\">recurse_classed</code></td>\n<td>\n<code>TRUE</code> or <code>FALSE</code>,\nindicating if the function should also recurse through classed lists within <code>x</code>,\nlike data.frames.\n</td></tr>\n</table>\n\n\n### Value\n\nA flattened list,\nwith names that indicate the original dimensional positions of the elements. <br />\n<br />\n\n\n\n### Examples\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(\"broadcast\")\n\n\nx <- list(\n  list(list(list(list(1:10)))),\n  list(1:10)\n)\nprint(x)\n## [[1]]\n## [[1]][[1]]\n## [[1]][[1]][[1]]\n## [[1]][[1]][[1]][[1]]\n## [[1]][[1]][[1]][[1]][[1]]\n##  [1]  1  2  3  4  5  6  7  8  9 10\n## \n## \n## \n## \n## \n## [[2]]\n## [[2]][[1]]\n##  [1]  1  2  3  4  5  6  7  8  9 10\n\ndropnests(x)\n## [[1]]\n##  [1]  1  2  3  4  5  6  7  8  9 10\n## \n## [[2]]\n##  [1]  1  2  3  4  5  6  7  8  9 10\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

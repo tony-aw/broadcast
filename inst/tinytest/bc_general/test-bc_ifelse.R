@@ -164,4 +164,8 @@ expect_error(
   bc_ifelse(c(TRUE, FALSE, NA, NA), letters[1:4], 1:4),
   pattern = "`yes` and `no` must be of the same type"
 )
-enumerate <- enumerate + 2L
+expect_error(
+  bc_ifelse(1:10, 1:4, 1:4),
+  pattern = "`test` of incorrect length"
+)
+enumerate <- enumerate + 3L

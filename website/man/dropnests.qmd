@@ -1,0 +1,72 @@
+---
+title: dropnests
+---
+## Drop Redundant Nesting {.unnumbered}
+
+
+### Description
+
+<code>dropnests()</code> drops redundant nesting of a list. <br />
+It is the hierarchical equivalent to the dimensional drop function. <br />
+<br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>dropnests(x, ...)
+
+## Default S3 method:
+dropnests(x, maxdepth = 16L, recurse_classed = FALSE, ...)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<td>
+a list
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="maxdepth">maxdepth</code></td>
+<td>
+a single, positive integer, giving the maximum depth to drop nesting in. <br />
+The surface-level elements of a list is depth 1;
+so when <code>maxdepth = 1</code>, <code>x</code> will be returned unchanged.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="recurse_classed">recurse_classed</code></td>
+<td>
+<code>TRUE</code> or <code>FALSE</code>,
+indicating if the function should also recurse through classed lists within <code>x</code>,
+like data.frames.
+</td></tr>
+</table>
+
+
+### Value
+
+A flattened list,
+with names that indicate the original dimensional positions of the elements. <br />
+<br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+
+x <- list(
+  list(list(list(list(1:10)))),
+  list(1:10)
+)
+print(x)
+
+dropnests(x)
+
+
+```

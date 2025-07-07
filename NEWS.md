@@ -71,3 +71,6 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 * Improved the speed of `sd_lc()` by using a slightly different mathematical formula.
 
 
+# broadcast 0.0.0.9012
+* Added new casting functions: `hier2dim()`, `cast_hier2dim()`, `cast_dim2hier()`, `cast_dim2flat()`, `dropnests()`.
+

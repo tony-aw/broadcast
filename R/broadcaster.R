@@ -13,7 +13,7 @@
 #' Like in the following calculation: \cr
 #' `x / (y + z)` \cr
 #' \cr
-#' See \link{broadcast_overload} for more information. \cr
+#' See \link{broadcast_operators} for more information. \cr
 #'
 #' @param x object to check or set. \cr
 #' Only S3 vectors and arrays are supported, and only up to 16 dimensions.

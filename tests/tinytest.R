@@ -46,6 +46,9 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
     "broadcast", testdir = file.path("tinytest", "bind_array_6_post")
   )
   tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "cast")
+  )
+  tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "othercast")
   )
   tinytest::test_package(

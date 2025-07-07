@@ -1,0 +1,126 @@
+<!DOCTYPE html><html><head><title>R: Details on Broadcasted Operators</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>aaa01_broadcast_operators</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Details on Broadcasted Operators</h2>
+
+<h3>Description</h3>
+
+<p>This help page gives some additional information on the properties of
+the <code>bc.</code> functions and the overloaded operators. <br />
+<br />
+</p>
+
+
+<h3>Available Overloads</h3>
+
+<p>Sometimes broadcasting is needed in large mathematical expression,
+involving multiple variables,
+where precedence is of importance. <br />
+For example in an expression like <code>x + y / z^y</code>. <br />
+For such cases, you may want to overload the base operators. <br />
+<br />
+To that end, the 'broadcast' package provides the <code>[broadcaster](broadcaster.qmd)</code> class,
+which comes with its own method dispatch for the base operators. <br />
+If at least one of the 2 arguments of the base operators has the <code>broadcaster</code> class attribute,
+and no other class (like <code>bit64</code>) interferes,
+broadcasting will occur in the same manner as used in the various <code>bc.</code> - functions. <br />
+<br />
+The following arithmetic operators have a 'broadcaster' method:
++, -, *, /, ^, %%, %/% <br />
+The following relational operators have a 'broadcaster' method:
+==, !=, &lt;, &gt;, &lt;=, &gt;= <br />
+And finally, the &amp; and | operators also have a 'broadcaster' method. <br />
+<br />
+</p>
+
+
+<h3>Attribute Handling</h3>
+
+<p>The <code>bc.</code> functions and the overloaded operators generally do <b>not</b>
+preserve attributes, unlike the base 'R' operators. <br />
+<br />
+Broadcasting often results in an object with more dimensions, larger dimensions,
+and/or larger length than the original objects. <br />
+Therefore, the <code>names</code>, <code>dimnames</code>, and <code>dim</code> attributes often no longer fit the new object. <br />
+Moreover, some classes are only appropriate for certain dimensions or lengths. <br />
+Custom matrix classes, for example, presumes an object to have exactly 2 dimensions. <br />
+And the various classes provided by the 'bit' package have length-related attributes. <br />
+So even class attributes cannot be guaranteed to hold for the resulting objects. <br />
+<br />
+However, the <code>bc.</code> functions and the overloaded operators
+<b>always</b> preserve the &quot;broadcaster&quot; attribute,
+as this is necessary to chain together broadcasted operations. <br />
+Notice that this contrats with base 'R' in the following sense: <br />
+In base 'R', logical (&amp;, |) and relational (==, !=, etc.) operators never preserve attributes,
+whereas the broadcasted equivalents do preserve the &quot;broadcaster&quot; attribute. <br />
+<br />
+Almost all functions provided by 'broadcast' are S3 or S4 generics; <br />
+methods can be written for them for specific classes,
+so that class-specific attributes can be supported when needed. <br />
+<br />
+Unary operations (i.e. <code>+ x</code>, <code>- x</code>) return the original object,
+with only the sign adjusted. <br />
+<br />
+<br />
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+# maths ====
+
+x &lt;- 1:10
+broadcaster(x) &lt;- TRUE
+
+y &lt;- 1:10
+broadcaster(y) &lt;- TRUE
+
+x + y / x
+x + 1 # mathematically equivalent to the above, since x == y
+(x + y) / x
+2 * x/x # mathematically equivalent to the above, since x == y
+
+dim(x) &lt;- c(10, 1)
+dim(y) &lt;- c(1, 10)
+
+x + y / x
+(x + y) / x
+
+(x + y) * x
+
+
+# relational operators ====
+x &lt;- 1:10
+y &lt;- array(1:10, c(1, 10))
+broadcaster(x) &lt;- TRUE
+broadcaster(y) &lt;- TRUE
+
+x == y
+x != y
+x &lt; y
+x &gt; y
+x &lt;= y
+x &gt;= y
+
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

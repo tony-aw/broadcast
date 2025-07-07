@@ -43,15 +43,9 @@ website:
     - title: Reference Manual
       contents:
       - text: Reference Manual
-      - section: Overview Help pages
+      - text: Broadcast Help
         href: man/aaa00_broadcast_help.qmd
-        contents:
-        - text: broadcast help
-          href: man/aaa00_broadcast_help.qmd
-        - text: On Attribute Handling
-          href: man/aaa01_broadcast_attributes.qmd
-        - text: Overloaded Operators
-          href: man/aaa02_broadcast_overload.qmd
+      
       - section: Operators
         href: man/bc.b.qmd
         contents:
@@ -64,16 +58,33 @@ website:
           - man/bc.bit.qmd
           - man/bc.list.qmd
           - man/broadcaster.qmd
+          - text: Details on Broadcasted Operators
+            href: man/aaa01_broadcast_operators.qmd
       
       - man/bind_array.qmd
+      
+      - section: Casting
+        href: man/acast.qmd
+        contents:
+          - man/acast.qmd
+          - man/cast_hier2dim.qmd
+          - man/cast_dim2hier.qmd
+          - man/cast_dim2flat.qmd
+          - man/dropnests.qmd
+          - text: Details on Casting
+            href: man/aaa02_broadcast_casting.qmd
+
       - man/bc_ifelse.qmd
       - man/bcapply.qmd
-      - man/acast.qmd
       - man/linear_algebra_stats.qmd
       - man/typecast.qmd
-      - man/bc_dim.qmd
-      - man/rep_dim.qmd
-      - man/ndim.qmd
+      
+      - section: Helper Functions
+        href: man/bc_dim.qmd
+        contents:
+        - man/bc_dim.qmd
+        - man/rep_dim.qmd
+        - man/ndim.qmd
     
     - title: About
       contents:

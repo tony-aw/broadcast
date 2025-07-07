@@ -39,7 +39,7 @@ far more convenient. \cr
 Like in the following calculation: \cr
 \code{x / (y + z)} \cr
 \cr
-See \link{broadcast_overload} for more information. \cr
+See \link{broadcast_operators} for more information. \cr
 }
 \examples{
 

@@ -21,6 +21,12 @@
 
 #' @keywords internal
 #' @noRd
+.rcpp_address <- function(x) {
+    .Call(`_broadcast_rcpp_address`, x)
+}
+
+#' @keywords internal
+#' @noRd
 rcpp_str_dist_led <- function(x, y) {
     .Call(`_broadcast_rcpp_str_dist_led`, x, y)
 }
@@ -375,6 +381,30 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
+.rcpp_allocate_nestedlist <- function(lens, depth) {
+    .Call(`_broadcast_rcpp_allocate_nestedlist`, lens, depth)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_rec_dim2hier <- function(x, out, dcp, dimpart_prev, depth, depth_target) {
+    invisible(.Call(`_broadcast_rcpp_rec_dim2hier`, x, out, dcp, dimpart_prev, depth, depth_target))
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_rec_dim2hier_names <- function(out, dimnames, depth, depth_target) {
+    invisible(.Call(`_broadcast_rcpp_rec_dim2hier_names`, out, dimnames, depth, depth_target))
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_rec_cast_hier2dim <- function(x, out, dcp, dimpart_prev, depth, depth_target) {
+    invisible(.Call(`_broadcast_rcpp_rec_cast_hier2dim`, x, out, dcp, dimpart_prev, depth, depth_target))
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_serial <- function(x) {
     .Call(`_broadcast_rcpp_serial`, x)
 }
@@ -395,6 +425,42 @@ rcpp_str_dist_led <- function(x, y) {
 #' @noRd
 .rcpp_set_class <- function(x, newclass) {
     invisible(.Call(`_broadcast_rcpp_set_class`, x, newclass))
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_clone <- function(x) {
+    .Call(`_broadcast_rcpp_clone`, x)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_hier_flatlen <- function(x, maxdepth, recurse_classed) {
+    .Call(`_broadcast_rcpp_hier_flatlen`, x, maxdepth, recurse_classed)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_rec_depths <- function(x, out, index, depth, maxdepth, recurse_classed) {
+    invisible(.Call(`_broadcast_rcpp_rec_depths`, x, out, index, depth, maxdepth, recurse_classed))
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_hierlen <- function(x, depth_target, n, recurse_classed) {
+    .Call(`_broadcast_rcpp_hierlen`, x, depth_target, n, recurse_classed)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_hier2dim_surface_OK <- function(x, recurse_classed) {
+    .Call(`_broadcast_rcpp_hier2dim_surface_OK`, x, recurse_classed)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_dropnests <- function(x, maxdepth, recurse_classed) {
+    .Call(`_broadcast_rcpp_dropnests`, x, maxdepth, recurse_classed)
 }
 
 #' @keywords internal
