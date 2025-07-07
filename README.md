@@ -55,10 +55,10 @@ functionalities, all related to “broadcasting”:
 3.  ‘broadcast’ provides several generic functions for broadcasting,
     namely `bcapply()` (broadcasted apply-like function) and
     `bc_ifelse()` (broadcasted version of `ifelse()`).
-4.  ‘broadcast’ includes the `acast()` function, for casting/pivoting an
-    array into a new dimension. Roughly analogous to
-    `data.table::dcast()`, but for arrays. Can be used for performing
-    **grouped** broadcasted operations, among other things.
+4.  casting functions, that cast subset-groups of an array to a new
+    dimension, cast nested lists to dimensional lists, and vice-versa.  
+    These functions are useful for facilitating complex broadcasted
+    operations, though they also have much merit beside broadcasting.
 
 Additionally, ‘broadcast’ comes with a few linear algebra functions for
 statistics.

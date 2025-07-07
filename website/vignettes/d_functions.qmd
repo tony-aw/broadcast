@@ -111,8 +111,12 @@ Well, as great as `abind::abind()` is, there are some issues with it, and the [b
 
 # Casting
 
-The [acast()](/man/acast.qmd) function casts an array into a new dimension.  
-Roughly speaking, it is somewhat analogous to `data.table::dcast()`, except that [acast()](/man/acast.qmd) works on arrays (instead of data.tables) and casts into a entirely new dimension (instead of into more columns).
+'broadcast' provides several "casting" functions.
+These can facility complex forms of broadcasting that would normally not be possible.  
+But these "casting" functions also have their own merit, beside empowering complex broadcasting.
+
+The following casting functions are currently available:
+
 
  - [acast()](/man/acast.qmd): casts group-based subset of an array into a new dimension.  
 Useful for, for example, computing grouped broadcasted operations.
@@ -132,7 +136,7 @@ Mostly useful for printing or summarizing dimensional lists.
 
 # General Broadcasted functions
 
-'broadcast' provides [bcapply()](/man/bcapply.qmd), which are broadcasted apply-like and ifelse-like functions, respectively.
+'broadcast' provides the [bcapply()](/man/bcapply.qmd) and [bc_ifelse()](/man/bc_ifelse.qmd) functions, which are broadcasted apply-like and ifelse-like functions, respectively.
 
 &nbsp;
 

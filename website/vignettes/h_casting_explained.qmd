@@ -305,7 +305,7 @@ y[2,] # much faster
 
 # Cast Dimensional List to Hierarchical list
 
-'broadcast' provides the [cast_dim2hier()](/man/cast_dim2hier.qmd) function, which essentially does the opposite of [cast_hier2dim()](/man/cast_hier2dim.qmd):  
+'broadcast' provides the [cast_dim2hier()](/man/cast_dim2hier.qmd):  
 [cast_dim2hier()](/man/cast_dim2hier.qmd) takes a dimensional list (i.e. an array of type `list`), and casts it to a nested list.
 
 For example:
@@ -323,7 +323,7 @@ print(x2)
 
 Like [cast_hier2dim()](/man/cast_hier2dim.qmd), `castdim2hier()` has the `in2out` argument, which (again) defaults to `TRUE`.  
 As show above, the array `x`, with dimensions `c(4, 3, 2)`, became the nested list `x2`, where `length(x2)` is `2`, `length(x2[[i]])` is `3` for every `i`, and `length(x2[[i]][[j]])` is `4` for every `i` & `j`.  
-Setting `in2out = FALSE` will cast in the opposite order:
+Setting `in2out = FALSE` will cast in the opposite manner:
 
 ```{r}
 x2 <- cast_dim2hier(x, in2out = FALSE)

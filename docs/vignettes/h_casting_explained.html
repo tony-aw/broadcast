@@ -426,26 +426,26 @@ We only need to see a portion of the list in detail, so let’s look at id1 and 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="st">"group1"</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'id1', 'group1']`</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 170.2123 170.7399 171.0782 171.1099 170.1273 169.1657 170.1617 168.3856</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 168.8160 170.0294</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.5435 169.8176 169.9830 169.0434 170.6826 169.0345 170.7548 169.5743</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 168.7524 169.7871</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['weight', 'id1', 'group1']`</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 79.93469 79.71087 79.54992 80.80880 79.79103 79.72529 78.17759 79.87364</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 79.35816 81.13033</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80.57869 81.46489 78.37532 80.03733 80.43364 79.75614 78.98302 80.14096</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 78.94094 78.91445</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['sex', 'id1', 'group1']`</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "F" "F" "F" "F" "F" NA  "M" "F" NA  "F"</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] NA  NA  NA  "M" NA  "F" "F" "M" "M" NA </span></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'id2', 'group1']`</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.6944 171.2219 168.8608 170.5473 170.8489 168.3703 170.3739 171.2645</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.5797 167.7114</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 170.1487 171.9460 169.1421 169.8973 169.1894 170.9010 168.0093 170.9175</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.2054 168.5731</span></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['weight', 'id2', 'group1']`</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80.03249 79.69069 79.58062 80.19775 80.29500 81.75438 80.67837 81.14846</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 79.71815 80.22986</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80.41721 79.87398 80.68338 79.79734 80.60200 79.79668 79.99187 78.17837</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 79.75505 79.94334</span></span>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['sex', 'id2', 'group1']`</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] NA  NA  NA  "F" "M" "F" "M" "F" "M" NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "M" NA  NA  NA  "F" "M" NA  "M" NA  NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><a href="../man/cast_dim2flat.html">cast_dim2flat()</a> function.</p>
 <p>&nbsp;</p>
@@ -639,7 +639,7 @@ And this is what the <a href="../man/cast_hier2dim.html">cast_hier2dim()</a> fun
 </section>
 <section id="cast-dimensional-list-to-hierarchical-list" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Cast Dimensional List to Hierarchical list</h1>
-<p>‘broadcast’ provides the <a href="../man/cast_dim2hier.html">cast_dim2hier()</a> function, which essentially does the opposite of <a href="../man/cast_hier2dim.html">cast_hier2dim()</a>:<br>
+<p>‘broadcast’ provides the <a href="../man/cast_dim2hier.html">cast_dim2hier()</a>:<br>
 <a href="../man/cast_dim2hier.html">cast_dim2hier()</a> takes a dimensional list (i.e.&nbsp;an array of type <code>list</code>), and casts it to a nested list.</p>
 <p>For example:</p>
 <div class="cell">
@@ -752,7 +752,7 @@ And this is what the <a href="../man/cast_hier2dim.html">cast_hier2dim()</a> fun
 </div>
 <p>Like <a href="../man/cast_hier2dim.html">cast_hier2dim()</a>, <code>castdim2hier()</code> has the <code>in2out</code> argument, which (again) defaults to <code>TRUE</code>.<br>
 As show above, the array <code>x</code>, with dimensions <code>c(4, 3, 2)</code>, became the nested list <code>x2</code>, where <code>length(x2)</code> is <code>2</code>, <code>length(x2[[i]])</code> is <code>3</code> for every <code>i</code>, and <code>length(x2[[i]][[j]])</code> is <code>4</code> for every <code>i</code> &amp; <code>j</code>.<br>
-Setting <code>in2out = FALSE</code> will cast in the opposite order:</p>
+Setting <code>in2out = FALSE</code> will cast in the opposite manner:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_dim2hier</span>(x, <span class="at">in2out =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x2)</span>

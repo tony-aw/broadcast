@@ -195,7 +195,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="./man/bind_array.html">bind_array()</a> supports both atomic and recursive arrays (<code>abind()</code> only supports atomic arrays).</li>
 </ul></li>
 <li>‘broadcast’ provides several generic functions for broadcasting, namely <a href="./man/bcapply.html">bcapply()</a> (broadcasted apply-like function) and <a href="./man/bc_ifelse.html">bc_ifelse()</a> (broadcasted version of <code>ifelse()</code>).</li>
-<li>‘broadcast’ includes the <a href="./man/acast.html">acast()</a> function, for casting/pivoting an array into a new dimension. Roughly analogous to <code>data.table::dcast()</code>, but for arrays. Can be used for performing <strong>grouped</strong> broadcasted operations, among other things.</li>
+<li>casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.<br>
+These functions are useful for facilitating complex broadcasted operations, though they also have much merit beside broadcasting.</li>
 </ol>
 <p>Additionally, ‘broadcast’ comes with a few linear algebra functions for statistics.</p>
 <p>&nbsp;</p>
