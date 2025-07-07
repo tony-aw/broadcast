@@ -18,6 +18,7 @@ library(fontawesome) |> suppressWarnings()
 ```
 
 
+
 # Cast Hierarchical List to Dimensional List
 
 ## Introduction
@@ -180,7 +181,6 @@ We only need to see a portion of the list in detail, so let's look at id1 and id
 cast_dim2flat(x2[, 1:2, "group1", drop = FALSE])
 ```
 
-[cast_dim2flat()](/man/cast_dim2flat.qmd) function.
 
 &nbsp;
 
@@ -238,12 +238,45 @@ As the original list `x` is unevenly nested, there is little point in giving the
 cast_dim2flat(x2[, 1:2, , drop = FALSE])
 ```
 
+&nbsp;
+
+# Cast Dimensional List to Hierarchical list
+
+'broadcast' provides the [cast_dim2hier()](/man/cast_dim2hier.qmd):  
+[cast_dim2hier()](/man/cast_dim2hier.qmd) takes a dimensional list (i.e. an array of type `list`), and casts it to a nested list.
+
+For example:
+
+```{r}
+
+x <- array(c(as.list(1:11), ~hello, as.list(month.abb)), c(4:2))
+print(x)
+
+x2 <- cast_dim2hier(x)
+print(x2)
+           
+```
+
+
+Like [cast_hier2dim()](/man/cast_hier2dim.qmd), `castdim2hier()` has the `in2out` argument, which (again) defaults to `TRUE`.  
+As show above, the array `x`, with dimensions `c(4, 3, 2)`, became the nested list `x2`, where `length(x2)` is `2`, `length(x2[[i]])` is `3` for every `i`, and `length(x2[[i]][[j]])` is `4` for every `i` & `j`.  
+Setting `in2out = FALSE` will cast in the opposite manner:
+
+```{r}
+x2 <- cast_dim2hier(x, in2out = FALSE)
+print(x2)
+```
+
+Now `length(x2)` is `4`, and the length of `length(x2[[i]][[j]])` is `2` for every `i` & `j`. 
+
+
+
 
 &nbsp;
 
-## Additional Details
+# Additional Details
 
-### Why nested broadcasting does not work
+## Why nested broadcasting does not work
 
 You can perform broadcasted operations along dimensions of a dimensional list (for example using [bc.list()](/man/bc.list.qmd), [bcapply()](/man/bcapply.qmd)), but you can't really perform broadcasted operations along the depths or recursive nests of a nested list.
 
@@ -252,14 +285,12 @@ One glaring issue is that broadcasting requires matching lengths (i.e. row 1 in 
 A nested list may have, for example, 5 elements in one nested subset of a certain depth, and 4 elements on another nested subset of the same depth.  
 So broadcasting can't work recursively like that.
 
-One easy solution is to take a nested list, which could conceivably be represented as a dimensional list, and then actually cast the nested list as a dimensional list.  
-And this is what the [cast_hier2dim()](/man/cast_hier2dim.qmd) function does.  
+One easy solution is to take a nested list, which could conceivably be represented as a dimensional list, and then actually cast the nested list as a dimensional list, which is what the [cast_hier2dim()](/man/cast_hier2dim.qmd) function is for.  
 
-'broadcast' provides the [cast_hier2dim()](/man/cast_hier2dim.qmd) function, to cast nested lists into dimensional lists.
 
 &nbsp;
 
-### Nested VS Dimensional Sub-set operations
+## Nested VS Dimensional Sub-set operations
 
 Let's start with 2 lists, `x` and `y`, with essentially the same content, but `x` is a nested list, and `y` is a dimensional list:
 
@@ -299,37 +330,4 @@ for(i in 1:2) {
 y[2,] # much faster
 
 ```
-
-
-&nbsp;
-
-# Cast Dimensional List to Hierarchical list
-
-'broadcast' provides the [cast_dim2hier()](/man/cast_dim2hier.qmd):  
-[cast_dim2hier()](/man/cast_dim2hier.qmd) takes a dimensional list (i.e. an array of type `list`), and casts it to a nested list.
-
-For example:
-
-```{r}
-
-x <- array(c(as.list(1:11), ~hello, as.list(month.abb)), c(4:2))
-print(x)
-
-x2 <- cast_dim2hier(x)
-print(x2)
-           
-```
-
-
-Like [cast_hier2dim()](/man/cast_hier2dim.qmd), `castdim2hier()` has the `in2out` argument, which (again) defaults to `TRUE`.  
-As show above, the array `x`, with dimensions `c(4, 3, 2)`, became the nested list `x2`, where `length(x2)` is `2`, `length(x2[[i]])` is `3` for every `i`, and `length(x2[[i]][[j]])` is `4` for every `i` & `j`.  
-Setting `in2out = FALSE` will cast in the opposite manner:
-
-```{r}
-x2 <- cast_dim2hier(x, in2out = FALSE)
-print(x2)
-```
-
-Now `length(x2)` is `4`, and the length of `length(x2[[i]][[j]])` is `2` for every `i` & `j`. 
-
 
