@@ -14,7 +14,7 @@ cast_dim2hier(x, ...)
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 
-\item{in2out}{see \link{broadcast_casting}.}
+\item{in2out}{see \code{[broadcast_casting](aaa02_broadcast_casting.qmd)}.}
 
 \item{distr.names}{\code{TRUE} or \code{FALSE},
 indicating if \code{dimnames} from \code{x} should be distributed over the nested elements of the output. \cr

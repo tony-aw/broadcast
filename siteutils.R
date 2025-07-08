@@ -8,6 +8,7 @@ rd_index <- function(funs, pkg = "broadcast") {
     return(out)
   }
   out <- lapply(funs, tempfun) |> unlist()
+  return(out)
 }
 
 rd_links <- function(source_file, target_dir, funs) {

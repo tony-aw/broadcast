@@ -17,23 +17,33 @@ library(broadcast) |> suppressMessages()
 library(fontawesome) |> suppressWarnings()
 ```
 
+# Introduction
 
+Hierarchical data is surprisingly common, and are commonly represented in `r fa("r-project")` by nested lists.
 
-# Cast Hierarchical List to Dimensional List
+Broadcasted operations can be performed over dimensions, but not through nesting or hierarchies.  
+Therefore, it is useful to be able to cast nested lists into dimensional lists.  
+The 'broadcast' package provides the [cast_hier2dim()](/man/cast_hier2dim.qmd) function, to cast nested lists into dimensional lists, and the [cast_dim2hier()](/man/cast_dim2hier.qmd) to cast dimensional lists back to nested lists.
 
-## Introduction
+Casting between nested and dimensional lists is not only useful for broadcasting, however.  
+Casting nested lists to dimensional lists has its own merits, as dimensional lists have some advantages over nested lists beside the broadcasting, such as the following:
 
-The 'broadcast' package provides the [cast_hier2dim()](/man/cast_hier2dim.qmd) function, to cast nested lists into dimensional lists.  
-This is useful as dimensional list have 2 (relevant for now) advantages over nested lists without dimensions:
-
- - Broadcasted operations can be performed over dimensions, but not through nesting or hierarchies;
- - Performing sub-set operations on **multiple** recursive subsets (using the `[[` and `[[<-` operators) requires a loop, whereas multi-dimensional subsets (using operator forms like `[..., ...]` and `[..., ...]<-`) are vectorized
+ - Performing sub-set operations on **multiple** recursive subsets (using the `[[` and `[[<-` operators) requires a (potentially slow) loop, whereas multi-dimensional subsets (using operator forms like `[..., ...]` and `[..., ...]<-`) are vectorized and generally much faster.
+ - Re-organizing recursive arrays is generally much easier, faster, and more straight-forward than re-organizing nested lists.
+ 
+ 
+This Vignette explains the functions 'broadcast' provides to cast between nested and dimensional lists.
 
 &nbsp;
 
-## Example of ideal scenario
 
-The "ideal" use-case for [cast_hier2dim()](/man/cast_hier2dim.qmd) is when you have a list where all elements within the same depth have equal number of elements - like the following lists:
+# Cast Evenly Nested List to Dimensional List
+
+## Introduction
+
+The "ideal" use-case for [cast_hier2dim()](/man/cast_hier2dim.qmd) is when you have an evenly nested list.  
+Evenly nested here means that all elements within the same depth have equal number of elements - like the following list:
+
 
 ```{r}
 x <- list(
@@ -73,50 +83,19 @@ x <- list(
   )
 )
 
-y <- list(
-  group1 = list(
-    id1 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    id2 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    id3 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    )
-  ),
-  group2 = list(
-    id1 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    id2 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    id3 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    )
-  )
-)
 ```
 
-Suppose you have 2 lists like the above, and want to do a broadcasted operation on them. Like using some measurement to determine the difference in the elements of both lists.  
+Suppose you have 2 lists like the one above, and want to do a broadcasted operation on them. Like using some measurement to determine the difference in the elements of both lists.  
 Broadcasting, as stated earlier, only works over dimensions, not through nesting.  
-Lists `x` and `y` thus need to become dimensional lists, rather than nested lists.  
+A list like `x` thus needs to become a dimensional list, rather than a nested list.  
 And that's what the [cast_hier2dim()](/man/cast_hier2dim.qmd) function does: it re-casts a nested list to a dimensional list.
 
 Let's try this out on list `x`.
+
+&nbsp;
+
+## [hier2dim()](/man/cast_hier2dim.qmd)
+
 
 Before actually casting `x` into a dimensional list, one may want to know what the dimensions will become when casted as a dimensional list;  
 The [hier2dim()](/man/cast_hier2dim.qmd) functions does that:
@@ -141,7 +120,8 @@ hier2dim(x, in2out = FALSE)
 ```
 
 
-For this Vignette, `in2out` is left at its default value of `TRUE`.  
+## Cast in to out
+
 Let's now cast `x` as a dimensional list:
 
 ```{r}
@@ -152,7 +132,6 @@ print(x2)
 
 `x2` is the casted list.
 Since `in2out = TRUE`, element `x[[i]][[j]][[k]]` corresponds to element `x2[k, j, i]` (for all `i`, `j`, and `k`).
-If `in2out` were set to `FALSE`, element `x[[i]][[j]][[k]]` would correspond to element `x2[i, j, k]` (for all `i`, `j`, and `k`).
 
 
 [cast_hier2dim()](/man/cast_hier2dim.qmd) will **not** preserve names, as there is no guarantee that the names of all elements over iterations within the same depth will have the same names.  
@@ -171,7 +150,7 @@ print(x2)
 
 There, the names are now correct.
 
-As shown above, 'R' will display a dimensional list more compactly than a nested list.  
+As shown above, `r fa("r-project")` will display a dimensional list more compactly than a nested list.  
 Depending on the situation this may be either be desirable or undesirable.  
 
 One can print `x2` less compactly without much effort by flattening it.  
@@ -181,13 +160,52 @@ We only need to see a portion of the list in detail, so let's look at id1 and id
 cast_dim2flat(x2[, 1:2, "group1", drop = FALSE])
 ```
 
+&nbsp;
+
+## Cast from out to in
+
+Let's cast `x` again, but this time set the argument `in2out = FALSE`.
+
+
+```{r}
+hier2dim(x, in2out = FALSE) # check once again the dimensions
+x2 <- cast_hier2dim(x, in2out = FALSE) # actually cast nested list into dimensional list
+print(x2)
+```
+
+`x2` is the casted list.
+Since `in2out = FALSE`, element `x[[i]][[j]][[k]]` corresponds to element `x2[i, j, k]` (for all `i`, `j`, and `k`).
+
+
+Once again the `dimnames` need to be set manually:
+
+```{r}
+# this time, in2out = FALSE
+# so we go from the surface names to the deepest names
+dimnames(x2) <- list(
+  names(x),
+  names(x[[1]]),
+  names(x[[1]][[1]])
+)
+print(x2)
+```
+
+There, the names are now correct.
+
+One can print `x2` less compactly without much effort by flattening it.  
+We only need to see a portion of the list in detail, so let's look at id1 and id2 from group 1 in the flattened form:
+
+```{r}
+cast_dim2flat(x2["group1", 1:2, , drop = FALSE])
+```
+
 
 &nbsp;
 
-## Less ideal scenario
 
-Up until now an ideal scenario was used.  
-I.e. within the same depth, all iterations had the same number of elements.  
+# Cast Unevenly Nested List to Dimensional List
+
+In the previous section, the ideal scenario of an evenly nested list was used.   
 But the [cast_hier2dim()](/man/cast_hier2dim.qmd) and [hier2dim()](/man/cast_hier2dim.qmd) functions also work on nested lists with uneven nesting.
 
 Take for example the following list:
@@ -195,7 +213,7 @@ Take for example the following list:
 ```{r}
 x <- list(
   A = list(
-    A = list(A = "AAA", B = "AAB", list(NULL)),
+    A = list(A = "AAA", B = "AAB", list(1:10, letters)),
     A = list(A  = "AA2A", B = "AA2B", list(NA)),
     B = list(A = "ABA", B = "ABB", list(), list(NULL))
   ),
@@ -245,12 +263,19 @@ cast_dim2flat(x2[, 1:2, , drop = FALSE])
 'broadcast' provides the [cast_dim2hier()](/man/cast_dim2hier.qmd):  
 [cast_dim2hier()](/man/cast_dim2hier.qmd) takes a dimensional list (i.e. an array of type `list`), and casts it to a nested list.
 
-For example:
+Consider the following recursive array as an example:
 
 ```{r}
 
 x <- array(c(as.list(1:11), ~hello, as.list(month.abb)), c(4:2))
 print(x)
+
+```
+
+
+Casting it to a nested list gives the following:
+
+```{r}
 
 x2 <- cast_dim2hier(x)
 print(x2)
@@ -284,8 +309,6 @@ Broadcasting along recursive nests of a nested lists, has several issues.
 One glaring issue is that broadcasting requires matching lengths (i.e. row 1 in an array has as many columns as row 2), but matching lengths cannot be guaranteed on a nested list:  
 A nested list may have, for example, 5 elements in one nested subset of a certain depth, and 4 elements on another nested subset of the same depth.  
 So broadcasting can't work recursively like that.
-
-One easy solution is to take a nested list, which could conceivably be represented as a dimensional list, and then actually cast the nested list as a dimensional list, which is what the [cast_hier2dim()](/man/cast_hier2dim.qmd) function is for.  
 
 
 &nbsp;

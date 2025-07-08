@@ -8,8 +8,11 @@ source("siteutils.R")
 # Create man pages ====
 #
 
+# make vector of function and topic names ====
+funs <- c(getNamespaceExports("broadcast"), "broadcast_casting", "broadcast_operators", "broadcast_help")
+
+
 ## pre-process Rds for linking ====
-funs <- getNamespaceExports("broadcast")
 lst.files <- list.files("man", pattern = "Rd")
 pkgpath <- getwd()
 for(i in lst.files) {
@@ -51,7 +54,6 @@ for(i in lst.files) {
 
 
 ## unpack links in man pages ====
-funs <- getNamespaceExports("broadcast")
 lst.files <- list.files("website/man/", pattern = "qmd")
 for(i in lst.files) {
   filepath <- file.path("website", "man", i)

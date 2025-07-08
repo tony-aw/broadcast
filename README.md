@@ -23,9 +23,9 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 ## 🗺️Overview
 
-‘broadcast’ is an efficient ‘R’ package that, as the name suggests,
-performs “broadcasting” (similar to broadcasting in the ‘Numpy’ module
-for ‘Python’).
+‘broadcast’ is an efficient ‘C’/‘C++’ - based ‘R’ package that, as the
+name suggests, performs “broadcasting” (similar to broadcasting in the
+‘Numpy’ module for ‘Python’).
 
 In the context of operations involving 2 (or more) arrays,
 “broadcasting” refers to recycling array dimensions **without**
@@ -88,7 +88,8 @@ Have you ever been bothered by any of the following while programming in
   ‘R’ unnecessarily allocated too much memory in array operations?
 - `abind::abind()` being too slow, or ruining the structure of recursive
   arrays?
-- that there is no built-in way to cast or pivot arrays?
+- that there is no array analogy to `data.table::dcast()`?
+- difficulties in handling nested lists?
 - that certain ‘Numpy’ operations have no equivalent operation in ‘R’?
 
 If you answered “YES” to any of the above, ‘broadcast’ may be the ‘R’ -
@@ -104,22 +105,10 @@ essentially made from scratch and can be installed out-of-the-box.
 
 Not using external libraries brings a number of advantages:
 
-- **Avoid dependency hell**: Every dependency that is added to a
-  software package increases the likelihood of something breaking (AKA
-  “dependency hell”). ‘broadcast’ thus avoids this.
-- **Avoid wasting resources for translations**: Using libraries from
-  other languages, such as ‘xtensor’ (‘C++’) or ‘Numpy’ (‘Python’) means
-  that - at some point - one needs to convert between the structure of
-  ‘R’ to that of the other language, and vice-versa, which wastes
-  precious time, memory, and power. ‘broadcast’ requires no such
-  translations of structures, and is therefore much less wasteful.
-- **Ensure consistent behaviour**: Using libraries from other languages
-  also means one cannot always guarantee consistent behaviour for some
-  operations. For example: both ‘Numpy’ and ‘xtensor’ have only limited
-  support for missing values, whereas ‘R’ supports missing values for
-  both atomic and recursive array/vector types (except type of ‘Raw’).
-  Since ‘broadcast’ does not rely on external libraries, it can ensure
-  behaviour that is consistent with the rest of ‘R’.
+- Avoid dependency hell.
+- Avoid wasting time, memory and computing resources for translating
+  between language structures.
+- Ensure consistent behaviour with the rest of ‘R’.
 
  
 

@@ -22,7 +22,7 @@ it is advisable (though not necessary) to reduce the redundant nesting using \co
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 
-\item{in2out}{see \link{broadcast_casting}.}
+\item{in2out}{see \code{[broadcast_casting](aaa02_broadcast_casting.qmd)}.}
 
 \item{maxdepth}{a single, positive integer, giving the maximum depth to drop nesting in. \cr
 The surface-level elements of a list is depth 1, so \code{maxdepth} must be \verb{>= 2}.}
