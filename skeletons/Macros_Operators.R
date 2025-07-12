@@ -1328,11 +1328,9 @@ macro_op_ifelse_raw <- "
     case VECSXP:	\\
     {	\\
       SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\\
-      const SEXP *px = (SEXP *)DATAPTR_RO(x);                   \\
-      const SEXP *py = (SEXP *)DATAPTR_RO(y);                   \\
       	                                                \\
       DIMCODE(	\\
-        SET_VECTOR_ELT(out, flatind_out, (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y])	\\
+        SET_VECTOR_ELT(out, flatind_out, (bool)pcond[flatind_out] ? VECTOR_ELT(x, flatind_x) : VECTOR_ELT(y, flatind_y))	\\
       );	\\
       	\\
       UNPROTECT(1);	\\

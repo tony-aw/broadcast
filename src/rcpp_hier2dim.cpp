@@ -99,7 +99,7 @@ inline void rcpp_rec_lenrange_atdepth(
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_lenrange_at_depth)]]
-SEXP rcpp_len_range(SEXP x, int depth_target, bool recurse_classed) {
+SEXP rcpp_lenrange_at_depth(SEXP x, int depth_target, bool recurse_classed) {
   
   
   double maxint = pow(2, 31) - 1;
@@ -128,11 +128,9 @@ bool rcpp_hier2dim_surface_OK(
   if(n > maxlen) {
     stop("long vectors not supported");
   }
-
-  const SEXP *px = (SEXP *) DATAPTR_RO(x);
   
   for(int i = 0; i < n; ++i) {
-    SEXP temp = px[i];
+    SEXP temp = VECTOR_ELT(x, i);
     if(!rcpp_OK_listclass(temp, recurse_classed) || (Rf_xlength(temp) == 0)) {
       return false;
     }

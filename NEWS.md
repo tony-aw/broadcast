@@ -76,7 +76,6 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 
 
 # broadcast 0.0.0.9013
-* Improved the speed for typeof `list` in `bc_ifelse()`, `acast()`, and `bind_array()`.
 * Reduced the amount of memory allocation required in the list casting functions.
 * Added the `depth_range()` method.
 * `hier2dim()` now returns a **named** integer vector,

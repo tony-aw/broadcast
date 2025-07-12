@@ -5,9 +5,8 @@
 SEXP C_any_nonNULL ( SEXP x ) {
 
 int n = Rf_xlength(x);
-const SEXP *px = (SEXP *) DATAPTR_RO(x);
 for(int i = 0; i < n; ++i) {
-  if(px[i] != R_NilValue) {
+  if(VECTOR_ELT(x, i) != R_NilValue) {
     return Rf_ScalarLogical(1);
   }
 }

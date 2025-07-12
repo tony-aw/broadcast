@@ -1891,11 +1891,9 @@
     case VECSXP:	\
     {	\
       SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\
-      const SEXP *px = (SEXP *)DATAPTR_RO(x);                   \
-      const SEXP *py = (SEXP *)DATAPTR_RO(y);                   \
       	                                                \
       DIMCODE(	\
-        SET_VECTOR_ELT(out, flatind_out, (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y])	\
+        SET_VECTOR_ELT(out, flatind_out, (bool)pcond[flatind_out] ? VECTOR_ELT(x, flatind_x) : VECTOR_ELT(y, flatind_y))	\
       );	\
       	\
       UNPROTECT(1);	\
@@ -3960,9 +3958,8 @@ case 16:                                       \
     }	\
     case VECSXP:	\
     {	\
-      const SEXP *py = (SEXP *) DATAPTR_RO(y);    \
       MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(                                                \
-        SET_VECTOR_ELT(out, flatind_out, py[flatind_y])  \
+        SET_VECTOR_ELT(out, flatind_out, VECTOR_ELT(y, flatind_y))  \
       ));                                                              \
       break;                                                \
     }	\
