@@ -256,8 +256,9 @@ macro_op_acast <- "
     }	\\
     case VECSXP:	\\
     {	\\
+      const SEXP *py = (SEXP *) DATAPTR_RO(y);    \\
       MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(                                                \\
-        SET_VECTOR_ELT(out, flatind_out, VECTOR_ELT(y, flatind_y))  \\
+        SET_VECTOR_ELT(out, flatind_out, py[flatind_y])  \\
       ));                                                              \\
       break;                                                \\
     }	\\

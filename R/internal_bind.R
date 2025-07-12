@@ -218,7 +218,7 @@
   # MAIN FUNCTION:
   counter <- 1L
   max_ndims <- length(out.dim)
-  dcp_out <- c(1, cumprod(out.dim))
+  dcp_out <- .C_make_dcp(out.dim)
   for(i in 1:length(input)) {
     
     # construct parameters:
@@ -231,7 +231,7 @@
     ends[along] <- counter + size_along - 1L
     by_x <- .C_make_by(x.dim)
     by_x[along] <- 1L
-    dcp_x <- c(1, cumprod(x.dim))
+    dcp_x <- .C_make_dcp(x.dim)
     
     # coerce input if necessary:
     if(typeof(x) != typeof(out)) {

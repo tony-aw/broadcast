@@ -74,3 +74,13 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 # broadcast 0.0.0.9012
 * Added new casting functions: `hier2dim()`, `cast_hier2dim()`, `cast_dim2hier()`, `cast_dim2flat()`, `dropnests()`.
 
+
+# broadcast 0.0.0.9013
+* Improved the speed for typeof `list` in `bc_ifelse()`, `acast()`, and `bind_array()`.
+* Reduced the amount of memory allocation required in the list casting functions.
+* Added the `depth_range()` method.
+* `hier2dim()` now returns a **named** integer vector,
+  where the names indicate if padding will be used when casting with `cast_hier2dim()`.
+* Improved the documentation.
+
+

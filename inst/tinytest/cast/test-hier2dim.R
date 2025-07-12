@@ -8,7 +8,7 @@ errorfun <- function(tt) {
 
 .rcpp_allocate_nestedlist <- broadcast:::.rcpp_allocate_nestedlist
 .rcpp_clone <- broadcast:::.rcpp_clone
-.rcpp_hier_flatlen <- broadcast:::.rcpp_hier_flatlen
+.rcpp_lenrange_at_depth <- broadcast:::.rcpp_lenrange_at_depth
 .hiercast_depth <- broadcast:::.hiercast_depth
 
 
@@ -18,11 +18,11 @@ for(i in 2:16) {
     lens <- sample(1:3, i, TRUE)
     x <- .rcpp_allocate_nestedlist(lens, 1)
     expect_equal(
-      hier2dim(x),
+      hier2dim(x) |> unname(),
       rev(lens)
     ) |> errorfun()
     expect_equal(
-      hier2dim(x, FALSE),
+      hier2dim(x, FALSE) |> unname(),
       lens
     ) |> errorfun()
     enumerate <- enumerate + 2L
@@ -65,8 +65,8 @@ x <- list(
 )
 y <- .rcpp_clone(x)
 
-out <- .rcpp_hier_flatlen(x, 16L, FALSE)
-out2 <- .rcpp_hier_flatlen(x, 16L, FALSE)
+out <- .rcpp_lenrange_at_depth(x, 16L, FALSE)
+out2 <- .rcpp_lenrange_at_depth(x, 16L, FALSE)
 
 expect_equal(
   out, out2
@@ -104,13 +104,13 @@ enumerate <- enumerate + 6L
 
 x <- .rcpp_allocate_nestedlist(rep(1, 20), 1)
 expect_equal(
-  hier2dim(x, maxdepth = 6L),
+  hier2dim(x, maxdepth = 6L) |> unname(),
   rep(1, 6)
 )
 
 x <- .rcpp_allocate_nestedlist(rep(1, 20), 1)
 expect_equal(
-  hier2dim(x, maxdepth = 15),
+  hier2dim(x, maxdepth = 15) |> unname(),
   rep(1, 15)
 )
 
@@ -161,7 +161,7 @@ expect_error(
 
 x <- .rcpp_allocate_nestedlist(rep(2, 18), 1)
 expect_equal(
-  hier2dim(x),
+  hier2dim(x) |> unname(),
   rep(2, 16) # 16, NOT 18, BECAUSE I DON'T ALLOW GOING ANY DEEPER THAN 16
 )
 

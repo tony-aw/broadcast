@@ -6,6 +6,16 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 
+gen_vcov <- function(n) {
+  upper <- rnorm((n^2)/2 - (n/2))
+  vc <- matrix(0.0, n, n)
+  vc[upper.tri(vc)] <- upper
+  vc <- vc + t(vc)
+  diag(vc) <- sum(abs(upper)) + abs(rnorm(n))
+  return(vc)
+}
+
+
 # basic tests ====
 coercefun <- list(
   as.double,
@@ -20,7 +30,7 @@ for(j in c(NaN, NA, 0, -1e6, 1e6)) {
     nvars <- 10
     n <- nobs * nvars
     X <- matrix(coercefun[[k]](rnorm(100)), nobs, nvars)
-    vc <- cov(as.data.frame(X))
+    vc <- gen_vcov(nvars)
     
     out <- rowSums((X %*% vc) * X) |> sqrt()
     out[is.na(out)] <- j
@@ -113,10 +123,13 @@ funlist <- list( # normal distribution already tested above, so not needed here
   \(p) rweibull(1000, p)
 )
 
-make_vc <- function(x, y, z) {
-  data <- data.frame(x, y, z)
+make_vc <- function(x, y, z, w) {
+  data <- data.frame(x, y, z, w)
   return(cov(data))
 }
+
+expected_la <- expected_real <- out <- numeric(length(funlist)^3)
+counter <- 1
 
 for(i in seq_along(funlist)) {
   for(j in seq_along(funlist)) {
@@ -124,31 +137,33 @@ for(i in seq_along(funlist)) {
       
       p <- sample(1:10, 3)
       x <- funlist[[i]](p[1])
-      y <- funlist[[i]](p[2])
-      z <- funlist[[i]](p[3])
+      y <- funlist[[j]](p[2])
+      z <- funlist[[k]](p[3])
+      w <-( x + y * z) * rnorm(1000)
       
-      mult <- sample(1:10, 3)
-      dim(mult) <- c(3, 1)
-      lc <- mult[1] * x + mult[2] * y + mult[3] * z
-      vc <- make_vc(x, y, z)
+      mult <- sample(1:10, 4)
+      dim(mult) <- c(4, 1)
+      lc <- mult[1] * x + mult[2] * y + mult[3] * z + mult[4] * w
+      vc <- make_vc(x, y, z, w)
       
-      sd_real <- sd(lc)
-      sd_la <- sqrt(t(mult) %*% vc %*% mult) |> as.vector()
-      sd_bc <- sd_lc(t(mult), vc)
+      expected_real[counter] <- sd(lc)
+      expected_la[counter] <- sqrt(t(mult) %*% vc %*% mult) |> as.vector()
+      out[counter] <- sd_lc(t(mult), vc)
+      counter <- counter + 1
       
-      expect_equal(
-        round(sd_real, 6),
-        round(sd_bc, 6)
-      ) |> errorfun()
-      expect_equal(
-        round(sd_la, 6),
-        round(sd_bc, 6)
-      ) |> errorfun()
-      enumerate <- enumerate + 2L
     }
   }
 }
 
+expect_equal(
+  round(expected_real, 6),
+  round(out, 6)
+)
+expect_equal(
+  round(expected_la, 6),
+  round(out, 6)
+)
+enumerate <- enumerate + 2 * length(funlist)^3
 
 
 # errors ====

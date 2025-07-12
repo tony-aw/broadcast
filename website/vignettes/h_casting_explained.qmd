@@ -41,41 +41,30 @@ This Vignette explains the functions 'broadcast' provides to cast between nested
 
 ## Introduction
 
-The "ideal" use-case for [cast_hier2dim()](/man/cast_hier2dim.qmd) is when you have an evenly nested list.  
-Evenly nested here means that all elements within the same depth have equal number of elements - like the following list:
+The "ideal" use-case for [cast_hier2dim()](/man/cast_hier2dim.qmd) is when you have an evenly nested list  - like the following list:
 
 
 ```{r}
 x <- list(
   group1 = list(
-    id1 = list(
+    class1 = list(
       height = rnorm(10, 170),
       weight = rnorm(10, 80),
       sex = sample(c("M", "F", NA), 10, TRUE)
     ),
-    id2 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    id3 = list(
+    class2 = list(
       height = rnorm(10, 170),
       weight = rnorm(10, 80),
       sex = sample(c("M", "F", NA), 10, TRUE)
     )
   ),
   group2 = list(
-    id1 = list(
+    class1 = list(
       height = rnorm(10, 170),
       weight = rnorm(10, 80),
       sex = sample(c("M", "F", NA), 10, TRUE)
     ),
-    id2 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    id3 = list(
+    class2 = list(
       height = rnorm(10, 170),
       weight = rnorm(10, 80),
       sex = sample(c("M", "F", NA), 10, TRUE)
@@ -84,6 +73,8 @@ x <- list(
 )
 
 ```
+
+The above list is evenly nested, because all "group#" elements consists of the same number of "class#" elements each, and all "class#" elements consist of the same number of variables (height, weight, and sex) each.
 
 Suppose you have 2 lists like the one above, and want to do a broadcasted operation on them. Like using some measurement to determine the difference in the elements of both lists.  
 Broadcasting, as stated earlier, only works over dimensions, not through nesting.  
@@ -104,16 +95,21 @@ The [hier2dim()](/man/cast_hier2dim.qmd) functions does that:
 hier2dim(x)
 ```
 
-It returns `c(3, 3, 2)`.  
-`cast_hier2dim` has an argument called `in2out`, which is set to `TRUE` by default.  
+It returns `c(3, 2, 2)`.  
+Notice all elements are named "no padding".  
+This means that, when `x` is casted as dimensional list, no elements will be added (no "padding").  
+No padding is needed because `x` is an evenly nested list.
+
+
+[cast_hier2dim()](/man/cast_hier2dim.qmd) has an argument called `in2out`, which is set to `TRUE` by default.  
 This means [cast_hier2dim()](/man/cast_hier2dim.qmd) will by default cast the inner most elements to the rows, and elements of the depth above that to the columns, and so on until the surface-level elements become the last dimensions.  
 `x` has 3 elements at its deepest level for all iterations: height, weight, and sex; so those will become the rows.  
-`x` also has 3 elements at the second-deepest level for all iterations of the list: id1, id2, id3; so those will become the columns.  
+`x` has 2 elements at the second-deepest level for all iterations of the list: class1, class2; so those will become the columns.  
 Finally `x` itself has 2 elements: group1 and group2, so those will become the last dimension (the layers).  
 
 
 If the element ordering described above is not desired, one can set `in2out` to `FALSE`.  
-If `in2out = FALSE`, the surface elements become the rows, the elements at one depth deeper the columns, and the elements yet another level deeper the layers (i.e. third dimension), and so on:
+If `in2out = FALSE`, the surface elements (in this case the "group#" elements) become the rows, the elements at one depth deeper ("class#") become the columns, and the elements yet another level deeper (height, weight, sex) become the layers (i.e. third dimension), and so on:
 
 ```{r}
 hier2dim(x, in2out = FALSE)
@@ -153,11 +149,11 @@ There, the names are now correct.
 As shown above, `r fa("r-project")` will display a dimensional list more compactly than a nested list.  
 Depending on the situation this may be either be desirable or undesirable.  
 
-One can print `x2` less compactly without much effort by flattening it.  
-We only need to see a portion of the list in detail, so let's look at id1 and id2 from group 1 in the flattened form:
+One can print `x2` less compactly without much effort by flattening it, using the [cast_dim2flat()](/man/cast_dim2flat.qmd) function.  
+We only need to see a portion of the list in detail, so let's look at class1 from group 1 in the flattened form:
 
 ```{r}
-cast_dim2flat(x2[, 1:2, "group1", drop = FALSE])
+cast_dim2flat(x2[, 1, "group1", drop = FALSE])
 ```
 
 &nbsp;
@@ -192,11 +188,11 @@ print(x2)
 
 There, the names are now correct.
 
-One can print `x2` less compactly without much effort by flattening it.  
-We only need to see a portion of the list in detail, so let's look at id1 and id2 from group 1 in the flattened form:
+One can print `x2` less compactly without much effort by flattening it, again using the [cast_dim2flat()](/man/cast_dim2flat.qmd) function.  
+We only need to see a portion of the list in detail, so let's look at class1 from group 1 in the flattened form:
 
 ```{r}
-cast_dim2flat(x2["group1", 1:2, , drop = FALSE])
+cast_dim2flat(x2["group1", 1, , drop = FALSE])
 ```
 
 
@@ -212,31 +208,51 @@ Take for example the following list:
 
 ```{r}
 x <- list(
-  A = list(
-    A = list(A = "AAA", B = "AAB", list(1:10, letters)),
-    A = list(A  = "AA2A", B = "AA2B", list(NA)),
-    B = list(A = "ABA", B = "ABB", list(), list(NULL))
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
   ),
-  B = list(
-    A = list(A = "BAA", B = "BAB", NULL),
-    B = list(A = "BBA", B = "BBB", list(NA)),
-    B = list(A = "BB2A", B = "BB2B", list())
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class3 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
   )
 )
+
 ```
 
 
-Let's see what dimensions one would get if this  nested list were to be made dimensional:
+The above list is UNEVENLY nested:
+
+ - not all groups (surface level, or depth = 1) have the same number of classes.
+ - not all classes (depth = 2) have the same number of variables: x$group2$class2 is missing the variable "weight".
+
+Checking what dimensions the casted list will have gives the following:
 
 ```{r}
 hier2dim(x)
 ```
 
-We get `c(4, 3, 2)`.  
-`x` has 2 elements, so that explains the `2` at the end.  
-Every element `x[[i]]` has 3 elements, so that explains the `3` in the middle.
-At its deepest level, `x` usually has 3 elements, but at one spot - namely `x$A$B` - it has 4 elements. So therefor the first dimension becomes `4`. 
-
+The [hier2dim()](/man/cast_hier2dim.qmd) function indicates the first 2 dimensions (rows and columns) will require some padding.
 
 Let's cast `x`:
 
@@ -245,15 +261,14 @@ x2 <- cast_hier2dim(x)
 print(x2)
 ```
 
-`x2` has more `NULL` values than `x`:  
-Remember that the dimensions take the maximum sizes, which means some rows/columns/etc. need to be padded; `NULL` is used for the padding.
-
-As the original list `x` is unevenly nested, there is little point in giving the resulting list dimensional names.
+`x2` has more `NULL` values than `x`.  
+The `NULL` values are added for padding, as all slices of the same dimension need to have the same number of elements.  
+For example, all rows need to have the same number of columns.
 
 [cast_dim2flat()](/man/cast_dim2flat.qmd) also works on `x2`; the additional `NULL` values used for padding do remain:
 
 ```{r}
-cast_dim2flat(x2[, 1:2, , drop = FALSE])
+cast_dim2flat(x2[1:2, , , drop = FALSE])
 ```
 
 &nbsp;
@@ -344,12 +359,12 @@ Selecting multiple nested subsets requires a slow loop, but selecting multiple d
 For example, to get elements "AB" and "BB", you need to do the following:
 
 ```{r}
-# for x:
+# for nested list x:
 for(i in 1:2) {
   x[[i]][[2]] |> print()
 }
 
-# for y:
+# for dimensional list y:
 y[2,] # much faster
 
 ```

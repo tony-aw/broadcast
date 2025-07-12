@@ -45,7 +45,7 @@ cast_dim2flat.default <- function(x, ...) {
   x.ndim <- ndim(x)
   x.len <- length(x)
   if(is.null(x.dimnames)) {
-    dcp <- c(1, cumprod(x.dim))
+    dcp <- .C_make_dcp(x.dim)
     dimnumbers <- vector("list", x.ndim)
     dimnumbers[[1]] <- rep_len(1:x.dim[1], x.len)
     for(i in 2:x.ndim) {
@@ -57,7 +57,7 @@ cast_dim2flat.default <- function(x, ...) {
     flatnames <- paste0("[", flatnames, "]")
   }
   else {
-    dcp <- c(1, cumprod(x.dim))
+    dcp <- .C_make_dcp(x.dim)
     out.dimnames <- vector("list", x.ndim)
     for(i in 1:x.ndim) {
       if(is.null(x.dimnames[[i]])) {

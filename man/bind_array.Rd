@@ -69,6 +69,13 @@ input <- list(x, y, z)
 bind_array(input, 2L)
 
 
+# Broadcasting example ====
+x <- array(1:20, c(5, 4))
+y <- array(-1:-5, c(5, 1))
+z <- array(21:40, c(5, 4))
+input <- list(x, y, z)
+bind_array(input, 2L)
+
 
 # Mixing types ====
 # here, atomic and recursive arrays are mixed,

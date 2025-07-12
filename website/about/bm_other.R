@@ -74,50 +74,21 @@ plot(bm_base)
 save(bm_base, file = "benchmarks/bm_base.RData")
 
 
-
-
-# base linear algebra ====
-# making objects that one might get from a usual large regression model:
-n <- 3e3
-X <- matrix(rnorm(n, 10), 10, n)
-X1 <- X[1, , drop = FALSE]
-w <- t(X1)
-vc <- cov(as.data.frame(X))
-
-
-
-gc()
-bm_la <- bench::mark(
-  t(w) %*% vc %*% w,
-  sd_lc(X1, vc),
-  check = FALSE,
-  min_iterations = 100
-)
-summary(bm_la)
-plot(bm_la)
-
-
+# cinv ====
 n <- 500
-X <- matrix(rnorm(n), 1e3, n)
-vc <- cov(as.data.frame(X))
+upper <- rnorm((n^2)/2 - (n/2))
+vc <- matrix(0.0, n, n)
+vc[upper.tri(vc)] <- upper
+vc <- vc + t(vc)
+diag(vc) <- sum(abs(upper)) + abs(rnorm(n))
 
 
-
-gc()
-bm_la <- bench::mark(
-  sqrt(pmax(rowSums((X %*% vc) * X), 0)),
-  check = FALSE,
+bm_cinv <- bench::mark(
+  solve = solve(vc),
+  cinv = cinv(vc),
   min_iterations = 100
 )
-summary(bm_la)
-
-
-gc()
-bm_la <- bench::mark(
-  sd_lc(X, vc),
-  min_iterations = 100
-)
-summary(bm_la)
-
-
+summary(bm_cinv)
+plot(bm_cinv)
+save(bm_cinv, file = "benchmarks/bm_cinv.RData")
 

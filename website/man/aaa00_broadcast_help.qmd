@@ -6,6 +6,7 @@
 
 broadcast: <br />
 'Numpy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. <br /> <br />
+
 Implements efficient broadcasted operations for atomic and recursive arrays.
 
 Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;
@@ -16,23 +17,29 @@ The implementations available in 'broadcast' include, but are not limited to, th
 
 <ol>
 <li> Broadcasted element-wise operations on any 2 arrays;
-they support a large set of relational-, arithmetic-, Boolean-, string- and bit-wise operations.
+they support a large set of
+relational, arithmetic, Boolean, string, bit-wise operations.
 
 </li>
 <li> A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.
 
 </li>
-<li> casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.
+<li> Broadcastede ifelse-like, and apply-like functions.
 
 </li>
-<li> Broadcasted ifelse- and apply-like functions.
+<li> Casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.
 
 </li>
-<li> Simple linear algebra functions for statistics.
+<li> A few linear algebra functions for statistics.
 
 </li></ol>
 
 The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).<br /> <br />
+
+In the context of operations involving 2 (or more) arrays,
+“broadcasting” refers to recycling array dimensions without allocating additional memory,
+which is considerably faster and more memory-efficient
+than R’s regular dimensions replication mechanism. <br /> <br />
 
 
 
@@ -105,14 +112,14 @@ in the following ways:
 while <code>abind::abind</code> does not support broadcasting.
 
 </li>
+<li> <code>bind_array()</code> is generally faster than <code>abind::abind</code>,
+as <code>bind_array()</code> relies heavily on 'C' and 'C++' code.
+
+</li>
 <li> <code>bind_array()</code> differs from <code>abind::abind</code>
 in that it can handle recursive arrays properly <br />
 (the <code>abind::abind</code> function would unlist everything to atomic arrays,
 ruining the structure).
-
-</li>
-<li> <code>bind_array()</code> is generally faster than <code>abind::abind</code>,
-as <code>bind_array()</code> relies heavily on 'C' and 'C++' code.
 
 </li>
 <li> unlike <code>abind::abind</code>,

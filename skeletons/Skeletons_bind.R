@@ -104,7 +104,8 @@ void rcpp_bc_bind(
     }
     case VECSXP:
     {
-      MACRO_DIM_BIND_DOCALL(SET_VECTOR_ELT(out, flatind_out, VECTOR_ELT(x, flatind_x)));
+      const SEXP *px = (SEXP *) DATAPTR_RO(x);
+      MACRO_DIM_BIND_DOCALL(SET_VECTOR_ELT(out, flatind_out, px[flatind_x]));
       break;
     }
   }

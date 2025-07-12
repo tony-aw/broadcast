@@ -104,12 +104,16 @@ basefun3 <- function(x, in2out = TRUE) {
 
 # main function test ====
 
+mat <- matrix(NA, 10, 10, dimnames = list(letters[1:10], LETTERS[1:10]))
+attr(mat, "test") <- "test"
+
 for(i in seq(2, 20, 2)) {
   nrowi <- i
   ncoli <- 20 / nrowi
   
+  data <- sample(c(as.list(1:18), list(mat), list(NULL)), max(nrowi, ncoli))
   x <- matrix(
-    sample(c(as.list(1:19), list(NULL)), max(nrowi, ncoli)),
+    data,
     nrowi, ncoli
   )
   expect_equal(

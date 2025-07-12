@@ -136,4 +136,37 @@ for(i in 1:3) {
 }
 
 
+# Long ATOMIC vectors WITHIN lists allowed ====
+
+x <- list(
+  list(1:(2^52 - 1)),
+  list(1:(2^52 - 1)),
+  list(1:(2^52 - 1)),
+  list(1:(2^52 - 1))
+)
+
+expect_silent(
+  dropnests(x)
+)
+expect_silent(
+  depth_range(x)
+)
+
+expect_silent(
+  hier2dim(x)
+)
+expect_silent(
+  cast_hier2dim(x)
+)
+
+dim(x) <- c(2,2)
+expect_silent(
+  cast_dim2hier(x)
+)
+expect_silent(
+  cast_dim2flat(x)
+)
+
+enumerate <- enumerate + 6L
+
 

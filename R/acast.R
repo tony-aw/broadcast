@@ -145,8 +145,8 @@ acast.default <- function(
   subs <- lapply(1:dimchunksize, \(i)1:x.dimchunk[i])
   starts <- rep(0L, dimchunksize)
   lens <- lengths(subs)
-  dcp_out <- cumprod(c(1, out.dimchunk))[1:dimchunksize]
-  dcp_x <- cumprod(c(1, x.dimchunk))[1:dimchunksize]
+  dcp_out <- .C_make_dcp(out.dimchunk)[1:dimchunksize]
+  dcp_x <- .C_make_dcp(x.dimchunk)[1:dimchunksize]
   
   
   # CORE function:

@@ -1,13 +1,12 @@
 #' Cast Dimensional List into Hierarchical List
 #'
 #' @description
-#' `cast_dim2hier()` casts a dimensional list
-#' (i.e. recursive array)
-#' into a hierarchical list. \cr
+#' `cast_dim2hier()` casts a dimensional list (i.e. an array of type `list`)
+#' into a hierarchical/nested list. \cr
 #' \cr
 #' 
 #' 
-#' @param x a list
+#' @param x an array of type `list`.
 #' @param in2out see \link{broadcast_casting}.
 #' @param distr.names `TRUE` or `FALSE`,
 #' indicating if `dimnames` from `x` should be distributed over the nested elements of the output. \cr
@@ -53,8 +52,7 @@ cast_dim2hier.default <- function(x, in2out = TRUE, distr.names = FALSE, ...) {
   # FUNCTION:
   x.dim <- dim(x)
   x.ndim <- depth <- ndim(x)
-  x.dcp <- c(1, cumprod(x.dim))
-  x.dcp <- c(1, cumprod(x.dim))[1:x.ndim]
+  x.dcp <- .C_make_dcp(x.dim)[1:x.ndim]
   lens <- x.dim
   
   if(in2out) {
@@ -69,12 +67,12 @@ cast_dim2hier.default <- function(x, in2out = TRUE, distr.names = FALSE, ...) {
   
   .rcpp_rec_dim2hier(x, out, x.dcp, 0, 1.0, depth)
   
-  check_name <- is.list(dimnames(x)) &&
-    !all(vapply(dimnames(x), is.null, logical(1L))) &&
+  x.dimnames <- dimnames(x)
+  check_name <- is.list(x.dimnames) &&
+    .C_any_nonNULL(x.dimnames) &&
     distr.names
   
   if(check_name) {
-    x.dimnames <- dimnames(x)
     if(in2out) {
       x.dimnames <- rev(x.dimnames)
     }
@@ -82,7 +80,7 @@ cast_dim2hier.default <- function(x, in2out = TRUE, distr.names = FALSE, ...) {
       names(out) <- x.dimnames[[1]]
     }
     if(length(x.dim) > 1) {
-      .rcpp_rec_dim2hier_names(out, x.dimnames, 1.0, depth - 1)
+      .rcpp_rec_dim2hier_names(out, x.dimnames, 1L, depth - 1L)
     }
     
   }

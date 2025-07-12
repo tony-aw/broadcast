@@ -111,17 +111,7 @@
 #' @noRd
 .hiercast_depth <- function(x, maxdepth, recurse_classed = FALSE, abortcall) {
   
-  # Need to clone hier constantly,
-  # otherwise 'R' starts doing REALLY weird stuff
-  n <- .rcpp_hier_flatlen(x, maxdepth, recurse_classed) |> .rcpp_clone()
-  out <- rep(NA_real_, n) |> .rcpp_clone()
-  index <- .rcpp_clone(0.0)
-  
-  .rcpp_rec_depths(x, out, index, 1L, maxdepth, recurse_classed)
-  
-  # pmin strictly not necessary here, but I use it just in case
-  out <- pmin(min(out, na.rm = TRUE), 16L) |> as.integer()
-  
+  out <- min(.rcpp_depth_range(x, maxdepth, recurse_classed))
   if(out == 1) {
     stop(simpleError(
       "not all elements have valid nested elements",
@@ -137,13 +127,15 @@
 #' @noRd
 .hiercast_dims <- function(x, depth, in2out, recurse_classed, abortcall) {
   dims <- integer(depth)
+  names(dims) <- rep("no padding", depth)
   dims[1] <- length(x)
   if(depth > 1) {
-    n <- length(x)
     for(i in 2:depth) {
-      hierlen <- .rcpp_hierlen(x, i - 1L, n, recurse_classed)
-      dims[i] <- max(hierlen)
-      n <- sum(hierlen)
+      range <- .rcpp_lenrange_at_depth(x, i - 1L, recurse_classed)
+      dims[i] <- range[2L]
+      if(range[1L] != range[2L]) {
+        names(dims)[i] <- "padding"
+      }
     }
   }
   

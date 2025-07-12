@@ -435,20 +435,14 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
-.rcpp_hier_flatlen <- function(x, maxdepth, recurse_classed) {
-    .Call(`_broadcast_rcpp_hier_flatlen`, x, maxdepth, recurse_classed)
+.rcpp_depth_range <- function(x, depth_limit, recurse_classed) {
+    .Call(`_broadcast_rcpp_depth_range`, x, depth_limit, recurse_classed)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_rec_depths <- function(x, out, index, depth, maxdepth, recurse_classed) {
-    invisible(.Call(`_broadcast_rcpp_rec_depths`, x, out, index, depth, maxdepth, recurse_classed))
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_hierlen <- function(x, depth_target, n, recurse_classed) {
-    .Call(`_broadcast_rcpp_hierlen`, x, depth_target, n, recurse_classed)
+.rcpp_lenrange_at_depth <- function(x, depth_target, recurse_classed) {
+    .Call(`_broadcast_rcpp_len_range`, x, depth_target, recurse_classed)
 }
 
 #' @keywords internal

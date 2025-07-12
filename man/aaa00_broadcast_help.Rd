@@ -9,6 +9,7 @@
 \description{
 broadcast: \cr
 'Numpy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
+
 Implements efficient broadcasted operations for atomic and recursive arrays.
 
 Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;
@@ -17,14 +18,20 @@ Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, incl
 The implementations available in 'broadcast' include, but are not limited to, the following:
 \enumerate{
 \item Broadcasted element-wise operations on any 2 arrays;
-they support a large set of relational-, arithmetic-, Boolean-, string- and bit-wise operations.
+they support a large set of
+relational, arithmetic, Boolean, string, bit-wise operations.
 \item A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.
-\item casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.
-\item Broadcasted ifelse- and apply-like functions.
-\item Simple linear algebra functions for statistics.
+\item Broadcastede ifelse-like, and apply-like functions.
+\item Casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.
+\item A few linear algebra functions for statistics.
 }
 
 The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).\cr \cr
+
+In the context of operations involving 2 (or more) arrays,
+“broadcasting” refers to recycling array dimensions without allocating additional memory,
+which is considerably faster and more memory-efficient
+than R’s regular dimensions replication mechanism. \cr \cr
 }
 \section{Links to Get Started}{
 
@@ -68,12 +75,12 @@ in the following ways:
 \itemize{
 \item \code{bind_array()} allows for broadcasting,
 while \code{abind::abind} does not support broadcasting.
+\item \code{bind_array()} is generally faster than \code{abind::abind},
+as \code{bind_array()} relies heavily on 'C' and 'C++' code.
 \item \code{bind_array()} differs from \code{abind::abind}
 in that it can handle recursive arrays properly \cr
 (the \code{abind::abind} function would unlist everything to atomic arrays,
 ruining the structure).
-\item \code{bind_array()} is generally faster than \code{abind::abind},
-as \code{bind_array()} relies heavily on 'C' and 'C++' code.
 \item unlike \code{abind::abind},
 \code{bind_array()} only binds (atomic/recursive) arrays and matrices. \cr
 \code{bind_array()}does not attempt to convert things to arrays when they are not arrays,

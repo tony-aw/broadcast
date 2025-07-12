@@ -11,7 +11,7 @@ errorfun <- function(tt) {
 
 
 basefun3 <- function(x, in2out = TRUE) {
-  dims <- broadcast:::.hiercast_dims(x, 3L, in2out, FALSE)
+  dims <- unname(broadcast:::.hiercast_dims(x, 3L, in2out, FALSE))
   if(in2out) {
     out <- vector("list", prod(dims))
     dim(out) <- dims
@@ -51,7 +51,7 @@ basefun3 <- function(x, in2out = TRUE) {
 }
 
 basefun2 <- function(x, in2out = TRUE) {
-  dims <- broadcast:::.hiercast_dims(x, 2L, in2out, FALSE)
+  dims <- unname(broadcast:::.hiercast_dims(x, 2L, in2out, FALSE))
   if(in2out) {
     out <- vector("list", prod(dims))
     dim(out) <- dims
@@ -110,10 +110,13 @@ enumerate <- enumerate + 2L
 
 # main function test general lists ====
 
+mat <- matrix(NA, 10, 10, dimnames = list(letters[1:10], LETTERS[1:10]))
+attr(mat, "test") <- "test"
+
 x <- list(
   A = list(
     A = list(A = "AAA", B = "AAB", list(NULL)),
-    A = list(A  = "AA2A", B = "AA2B", list(NA)),
+    A = list(A  = "AA2A", B = "AA2B", mat),
     B = list(A = "ABA", B = "ABB", list(), list(NULL))
   ),
   B = list(
@@ -136,7 +139,7 @@ y <- list(
   ),
   B = list(
     A = list(A = "BAA", B = "BAB", NULL),
-    B = list(A = "BBA", B = "BBB", list(NA)),
+    B = list(A = "BBA", B = "BBB", mat),
     B = list(A = "BB2A", B = "BB2B", list())
   ),
   C = list(

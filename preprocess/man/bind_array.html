@@ -111,6 +111,13 @@ input &lt;- list(x, y, z)
 bind_array(input, 2L)
 
 
+# Broadcasting example ====
+x &lt;- array(1:20, c(5, 4))
+y &lt;- array(-1:-5, c(5, 1))
+z &lt;- array(21:40, c(5, 4))
+input &lt;- list(x, y, z)
+bind_array(input, 2L)
+
 
 # Mixing types ====
 # here, atomic and recursive arrays are mixed,

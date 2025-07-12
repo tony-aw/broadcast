@@ -340,27 +340,29 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="unnumbered anchored" data-anchor-id="broadcast-package-overview">broadcast Package Overview</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>broadcast: <br> ‘Numpy’-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. <br> <br> Implements efficient broadcasted operations for atomic and recursive arrays.</p>
+<p>broadcast: <br> ‘Numpy’-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. <br> <br></p>
+<p>Implements efficient broadcasted operations for atomic and recursive arrays.</p>
 <p>Besides linking to ‘Rcpp’, ‘broadcast’ does not depend on, vendor, link to, include, or otherwise use any external libraries; ‘broadcast’ was essentially made from scratch and can be installed out-of-the-box.</p>
 <p>The implementations available in ‘broadcast’ include, but are not limited to, the following:</p>
 <ol>
 <li>
-<p>Broadcasted element-wise operations on any 2 arrays; they support a large set of relational-, arithmetic-, Boolean-, string- and bit-wise operations.</p>
+<p>Broadcasted element-wise operations on any 2 arrays; they support a large set of relational, arithmetic, Boolean, string, bit-wise operations.</p>
 </li>
 <li>
 <p>A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.</p>
 </li>
 <li>
-<p>casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.</p>
+<p>Broadcastede ifelse-like, and apply-like functions.</p>
 </li>
 <li>
-<p>Broadcasted ifelse- and apply-like functions.</p>
+<p>Casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.</p>
 </li>
 <li>
-<p>Simple linear algebra functions for statistics.</p>
+<p>A few linear algebra functions for statistics.</p>
 </li>
 </ol>
 <p>The functions in the ‘broadcast’ package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).<br> <br></p>
+<p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions without allocating additional memory, which is considerably faster and more memory-efficient than R’s regular dimensions replication mechanism. <br> <br></p>
 </section>
 <section id="links-to-get-started" class="level3">
 <h3 class="anchored" data-anchor-id="links-to-get-started">Links to Get Started</h3>
@@ -411,10 +413,10 @@ ul.task-list li input[type="checkbox"] {
 <p><code>bind_array()</code> allows for broadcasting, while <code>abind::abind</code> does not support broadcasting.</p>
 </li>
 <li>
-<p><code>bind_array()</code> differs from <code>abind::abind</code> in that it can handle recursive arrays properly <br> (the <code>abind::abind</code> function would unlist everything to atomic arrays, ruining the structure).</p>
+<p><code>bind_array()</code> is generally faster than <code>abind::abind</code>, as <code>bind_array()</code> relies heavily on ‘C’ and ‘C++’ code.</p>
 </li>
 <li>
-<p><code>bind_array()</code> is generally faster than <code>abind::abind</code>, as <code>bind_array()</code> relies heavily on ‘C’ and ‘C++’ code.</p>
+<p><code>bind_array()</code> differs from <code>abind::abind</code> in that it can handle recursive arrays properly <br> (the <code>abind::abind</code> function would unlist everything to atomic arrays, ruining the structure).</p>
 </li>
 <li>
 <p>unlike <code>abind::abind</code>, <code>bind_array()</code> only binds (atomic/recursive) arrays and matrices. <br> <code>bind_array()</code>does not attempt to convert things to arrays when they are not arrays, but will give an error instead. <br> This saves computation time and prevents unexpected results.</p>

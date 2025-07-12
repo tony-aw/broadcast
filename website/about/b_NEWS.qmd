@@ -74,6 +74,16 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 * [sd_lc()](/man/linear_algebra_stats.qmd) now also accepts integer and logical types for argument `X`.
 * Improved the speed of [sd_lc()](/man/linear_algebra_stats.qmd) by using a slightly different mathematical formula.
 
+
 # broadcast 0.0.0.9012
 * Added new casting functions: [hier2dim()](/man/cast_hier2dim.qmd), [cast_dim2hier()](/man/cast_dim2hier.qmd), [dropnests()](/man/dropnests.qmd).
+
+
+# broadcast 0.0.0.9013
+* Improved the speed for typeof `list` in [bc_ifelse()](/man/bc_ifelse.qmd), [acast()](/man/acast.qmd), and [bind_array()](/man/bind_array.qmd).
+* Reduced the amount of memory allocation required in the list casting functions.
+* Added the [depth_range()](/man/dropnests.qmd) method.
+* [hier2dim()](/man/cast_hier2dim.qmd) now returns a **named** integer vector,
+  where the names indicate if padding will be used when casting with [cast_hier2dim()](/man/cast_hier2dim.qmd).
+* Improved the documentation.
 

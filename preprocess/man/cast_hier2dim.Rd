@@ -16,7 +16,7 @@ hier2dim(x, ...)
 \method{hier2dim}{default}(x, in2out = TRUE, maxdepth = 16L, recurse_classed = FALSE, ...)
 }
 \arguments{
-\item{x}{a list. \cr
+\item{x}{a nested list. \cr
 If \code{x} has redundant nesting,
 it is advisable (though not necessary) to reduce the redundant nesting using \code{[dropnests](dropnests.qmd)}.}
 
@@ -24,64 +24,74 @@ it is advisable (though not necessary) to reduce the redundant nesting using \co
 
 \item{in2out}{see \code{[broadcast_casting](aaa02_broadcast_casting.qmd)}.}
 
-\item{maxdepth}{a single, positive integer, giving the maximum depth to drop nesting in. \cr
-The surface-level elements of a list is depth 1, so \code{maxdepth} must be \verb{>= 2}.}
+\item{maxdepth}{a single, positive integer,
+giving the maximum depth to recurse into the list. \cr
+The surface-level elements of a list is depth 1. \cr}
 
 \item{recurse_classed}{\code{TRUE} or \code{FALSE},
 indicating if the function should also recurse through classed lists within \code{x},
 like data.frames.}
 }
 \value{
-For \code{cast_hier2dim()}: \cr
-A recursive array (i.e. a dimensional list). \cr
-\cr
 For \code{hier2dim()}: \cr
-An integer vector,
+An integer vector of length \code{min(depth_range(x, maxdepth = 16L))}.
 giving the dimensions \code{x} would have,
-if re-casted by \code{cast_hier2dim()}. \cr
+if casted by \code{cast_hier2dim()}. \cr
+The names of the output indicates if padding is required ("padding"),
+or no padding is required ("no padding") for that dimension; \cr
+Padding will be required if not all list-elements at a certain depth have the same length. \cr
+\cr
+For \code{cast_hier2dim()}: \cr
+An array of type \code{list}, with the dimensions given by \code{hier2dim()}. \cr
+If the output needs padding (indicated by \code{hier2dim()}),
+the output will have more elements than \code{x},
+filled with \code{NULL} as padding,
+to ensure every all slices of the same dimension have equal number of elements
+(for example, all rows must have the same number of columns). \cr
 \cr
 }
 \description{
-\code{cast_hier2dim()} casts a hierarchical list into a dimensional list
-(i.e. into a recursive array). \cr
-\code{hier2dim()} takes a hierarchical list,
+\code{cast_hier2dim()} casts a hierarchical/nested list into a dimensional list
+(i.e. an array of type \code{list}). \cr
+\code{hier2dim()} takes a hierarchical/nested list,
 and predicts what dimensions the list would have,
-if re-casted by the \code{cast_hier2dim()} function. \cr
+if casted by the \code{cast_hier2dim()} function. \cr
 \cr
 }
 \examples{
 
-# ideal scenario ====
+
+# evenly nested list, in2out = TRUE ====
 x <- list(
   group1 = list(
-    id1 = list(
+    class1 = list(
       height = rnorm(10, 170),
       weight = rnorm(10, 80),
       sex = sample(c("M", "F", NA), 10, TRUE)
     ),
-    id2 = list(
+    class2 = list(
       height = rnorm(10, 170),
       weight = rnorm(10, 80),
       sex = sample(c("M", "F", NA), 10, TRUE)
     ),
-    id3 = list(
+    class3 = list(
       height = rnorm(10, 170),
       weight = rnorm(10, 80),
       sex = sample(c("M", "F", NA), 10, TRUE)
     )
   ),
   group2 = list(
-    id1 = list(
+    class1 = list(
       height = rnorm(10, 170),
       weight = rnorm(10, 80),
       sex = sample(c("M", "F", NA), 10, TRUE)
     ),
-    id2 = list(
+    class2 = list(
       height = rnorm(10, 170),
       weight = rnorm(10, 80),
       sex = sample(c("M", "F", NA), 10, TRUE)
     ),
-    id3 = list(
+    class3 = list(
       height = rnorm(10, 170),
       weight = rnorm(10, 80),
       sex = sample(c("M", "F", NA), 10, TRUE)
@@ -89,13 +99,14 @@ x <- list(
   )
 )
 
-print(x)
+# predict what dimensions `x` would have if casted as dimensional:
+hier2dim(x) # all have name "no padding", because `x` is an evenly nested list
 
-hier2dim(x) # predict what dimensions `x` would have if casted as dimensional
 x2 <- cast_hier2dim(x) # cast as dimensional
 
 # since the original list uses the same names for all elements within the same depth,
 # dimnames can be set easily:
+# because in2out = TRUE, we go from the deeper names to the surface names
 dimnames(x2) <- list(
   names( x[[1]][[1]] ),
   names( x[[1]] ),
@@ -107,4 +118,144 @@ print(x2) # very compact, maybe too compact...?
 cast_dim2flat(x2[, 1:2, "group1", drop = FALSE])
 
 
+# evenly nested list, in2out = FALSE ====
+x <- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class3 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class3 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+# predict what dimensions `x` would have if casted as dimensional:
+hier2dim(x) # all have name "no padding", because `x` is an evenly nested list
+
+x2 <- cast_hier2dim(x, in2out = FALSE) # cast as dimensional
+
+# since the original list uses the same names for all elements within the same depth,
+# dimnames can be set easily:
+# because in2out = FALSE, we go from the shallow names to the deeper names
+dimnames(x2) <- list(
+  names( x ),
+  names( x[[1]] ),
+  names( x[[1]][[1]] )
+)
+print(x2) # very compact, maybe too compact...?
+
+# print a small portion of the list, but less compact:
+cast_dim2flat(x2["group1", 1:2, , drop = FALSE])
+
+
+
+# unevenly nested list ====
+
+# this list is UNEVENLY nested:
+x <- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class3 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+# here `x` is UNEVENLY nested because:
+# -> not all groups (surface level, or depth = 1) have the same number of classes.
+# -> not all classes (depth = 2) have the same number of variables:
+#     x$group2$class2 is missing variable "weight".
+
+hier2dim(x) # as indicated here, the first 2 dimensions (i.e. rows and columns) will have padding
+
+# casting this to a dimensional list will resulting in padding with `NULL`:
+x2 <- cast_hier2dim(x)
+print(x2)
+# The `NULL` values are added for padding.
+# This is because all slices of the same dimension need to have the same number of elements.  
+# For example, all rows need to have the same number of columns.
+
+
+
+# because `x` is unevenly nested, there is no guarantee you can set dimnames properly:
+if(requireNamespace("tinytest")) {
+  tinytest::expect_error(
+    dimnames(x2) <- list(
+      names( x[[1]][[1]] ),
+      names( x[[1]] ),
+      names( x )
+    ),
+    pattern = "length of 'dimnames' [2] not equal to array extent", # error message
+    fixed = TRUE
+  )
+}
+
+# in this case I know what the dimnames should be, so I can try like so:
+dimnames(x2) <- list(
+  c("sex", "weight", "height"),
+  c("class1", "class2", "class3"),
+  c("group1", "group2")
+)
+
+print(x2)
+cast_dim2flat(x2[1:2, , , drop = FALSE])
+
+# we can also use in2out = FALSE:
+x2 <- cast_hier2dim(x, in2out = FALSE)
+dimnames(x2) <- list( # notice the order here is reversed, because in2out = FALSE
+  c("group1", "group2"),
+  c("class1", "class2", "class3"),
+  c("sex", "weight", "height")
+  
+)
+print(x2)
+cast_dim2flat(x2[, , 1:2, drop = FALSE])
 }

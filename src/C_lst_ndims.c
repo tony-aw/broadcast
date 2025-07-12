@@ -20,8 +20,10 @@ int tempndims;
 SEXP out = PROTECT(Rf_allocVector(INTSXP, n));
 int *pout = INTEGER(out);
 
+const SEXP *px = (SEXP *) DATAPTR_RO(x);
+
 for(int i = 0; i < n; ++i) {
-  tempout = VECTOR_ELT(x, i);
+  tempout = px[i];
   tempdim = Rf_getAttrib(tempout, R_DimSymbol);
   tempndims = Rf_length(tempdim);
   pout[i] = tempndims;

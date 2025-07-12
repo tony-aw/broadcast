@@ -10,7 +10,7 @@ cast_dim2hier(x, ...)
 \method{cast_dim2hier}{default}(x, in2out = TRUE, distr.names = FALSE, ...)
 }
 \arguments{
-\item{x}{a list}
+\item{x}{an array of type \code{list}.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 
@@ -25,9 +25,8 @@ A nested list. \cr
 \cr
 }
 \description{
-\code{cast_dim2hier()} casts a dimensional list
-(i.e. recursive array)
-into a hierarchical list. \cr
+\code{cast_dim2hier()} casts a dimensional list (i.e. an array of type \code{list})
+into a hierarchical/nested list. \cr
 \cr
 }
 \examples{

@@ -4,6 +4,7 @@
 #' broadcast: \cr
 #' 'Numpy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
 #' 
+#' 
 #' ```{r echo = FALSE, eval = TRUE, results = 'asis'}
 #' 
 #' txt <- packageDescription("broadcast", fields = "Description")
@@ -15,6 +16,12 @@
 #' txt <- paste0(txt, "\\cr \\cr")
 #' cat(txt)
 #' ```
+#' 
+#' In the context of operations involving 2 (or more) arrays,
+#' “broadcasting” refers to recycling array dimensions without allocating additional memory,
+#' which is considerably faster and more memory-efficient
+#' than R’s regular dimensions replication mechanism. \cr \cr
+#' 
 #' 
 #' @section Links to Get Started:
 #' 
@@ -55,12 +62,12 @@
 #'  
 #'  - `bind_array()` allows for broadcasting,
 #'  while \code{abind::abind} does not support broadcasting.
+#'   - `bind_array()` is generally faster than \code{abind::abind},
+#'  as `bind_array()` relies heavily on 'C' and 'C++' code.
 #'  - `bind_array()` differs from \code{abind::abind}
 #'  in that it can handle recursive arrays properly \cr
 #'  (the \code{abind::abind} function would unlist everything to atomic arrays,
 #'  ruining the structure).
-#'  - `bind_array()` is generally faster than \code{abind::abind},
-#'  as `bind_array()` relies heavily on 'C' and 'C++' code.
 #'  - unlike \code{abind::abind},
 #'  `bind_array()` only binds (atomic/recursive) arrays and matrices. \cr
 #'  `bind_array()`does not attempt to convert things to arrays when they are not arrays,

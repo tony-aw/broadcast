@@ -6,6 +6,7 @@
 #' \cr
 #' 
 #' 
+#' 
 #' @section Argument `in2out = TRUE`: 
 #' The \link{hier2dim}, \link{cast_hier2dim}, and \link{cast_dim2hier} methods
 #' all have the `in2out` argument. \cr
@@ -57,6 +58,8 @@
 #' `x[[i]][[j]][[k]]` corresponds to `y[[i, j, k]]`, \cr
 #' \eqn{\forall}(`i`, `j`, `k`) , provided `x[[i]][[j]][[k]]` exists. \cr \cr
 #' 
+#' 
+#' @example inst/examples/aaa_broadcast_casting.R
 #' 
 #' @name aaa02_broadcast_casting
 #' @rdname aaa02_broadcast_casting

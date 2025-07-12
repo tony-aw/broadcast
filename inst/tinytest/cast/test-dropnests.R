@@ -179,7 +179,7 @@ enumerate <- enumerate + 2L
 
 x <- .rcpp_allocate_nestedlist(rep(1, 20), 1)
 expect_equal(
-  dropnests(x),
+  dropnests(x, maxdepth = 16L),
   .rcpp_allocate_nestedlist(rep(1, 5), 1)
 )
 

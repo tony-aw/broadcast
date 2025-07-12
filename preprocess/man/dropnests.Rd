@@ -2,35 +2,48 @@
 % Please edit documentation in R/dropnests.R
 \name{dropnests}
 \alias{dropnests}
+\alias{depth_range}
 \alias{dropnests.default}
-\title{Drop Redundant Nesting}
+\alias{depth_range.default}
+\title{Drop Redundant List Nesting}
 \usage{
 dropnests(x, ...)
 
-\method{dropnests}{default}(x, maxdepth = 16L, recurse_classed = FALSE, ...)
+depth_range(x, ...)
+
+\method{dropnests}{default}(x, maxdepth = 32L, recurse_classed = FALSE, ...)
+
+\method{depth_range}{default}(x, maxdepth = 32L, recurse_classed = FALSE, ...)
 }
 \arguments{
 \item{x}{a list}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 
-\item{maxdepth}{a single, positive integer, giving the maximum depth to drop nesting in. \cr
-The surface-level elements of a list is depth 1;
-so when \code{maxdepth = 1}, \code{x} will be returned unchanged.}
+\item{maxdepth}{a single, positive integer,
+giving the maximum depth to recurse into the list. \cr
+The surface-level elements of a list is depth 1. \cr
+\code{dropnests(x, maxdepth = 1)} will return \code{x} unchanged.}
 
 \item{recurse_classed}{\code{TRUE} or \code{FALSE},
 indicating if the function should also recurse through classed lists within \code{x},
 like data.frames.}
 }
 \value{
-A flattened list,
-with names that indicate the original dimensional positions of the elements. \cr
+For \code{dropnests()}: \cr
+A list without redundant nesting. \cr
+Attributes are preserved. \cr
 \cr
+For \code{depth_range()}: \cr
+An integer vector of length 2,
+where the first element gives the minimum depth found,
+and the second element gives the maximum depth found. \cr \cr
 }
 \description{
 \code{dropnests()} drops redundant nesting of a list. \cr
 It is the hierarchical equivalent to the dimensional \link[base]{drop} function. \cr
 \cr
+\code{depth_range()} gives the minimum and maximum depth of a list. \cr
 }
 \examples{
 
@@ -40,5 +53,38 @@ x <- list(
 )
 print(x)
 
+depth_range(x)
 dropnests(x)
+
+
+# recurse_classed demonstration ====
+x <- list(
+  list(list(list(list(1:10)))),
+  data.frame(month.abb, month.name),
+  data.frame(month.abb)
+)
+
+depth_range(x)
+dropnests(x) # by default, recurse_classed = FALSE
+
+depth_range(x, recurse_classed = TRUE)
+dropnests(x, recurse_classed = TRUE)
+
+
+# maxdepth demonstration ====
+x <- list(
+  list(list(list(list(1:10)))),
+  list(1:10)
+)
+print(x)
+
+depth_range(x)
+dropnests(x) # by default, maxdepth = 32
+
+depth_range(x, maxdepth = 3L)
+dropnests(x, maxdepth = 3L)
+
+depth_range(x, maxdepth = 1L)
+dropnests(x, maxdepth = 1L) # returns `x` unchanged
+
 }
