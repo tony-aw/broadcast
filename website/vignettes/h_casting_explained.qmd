@@ -37,12 +37,18 @@ This Vignette explains the functions 'broadcast' provides to cast between nested
 &nbsp;
 
 
-# Cast Evenly Nested List to Dimensional List
+# Cast Nested List to Dimensional List
 
 ## Introduction
 
-The "ideal" use-case for [cast_hier2dim()](/man/cast_hier2dim.qmd) is when you have an evenly nested list  - like the following list:
+The [cast_hier2dim()](/man/cast_hier2dim.qmd) function casts a nested list into a dimensional list.  
+In this section, the properties of this function is shown through a series of examples, where the complexity of each subsequent example increases gently.
 
+&nbsp;
+
+## Example 1: Basics
+
+For a first example, consider the following list:
 
 ```{r}
 x <- list(
@@ -74,67 +80,35 @@ x <- list(
 
 ```
 
-The above list is evenly nested, because all "group#" elements consists of the same number of "class#" elements each, and all "class#" elements consist of the same number of variables (height, weight, and sex) each.
-
-Suppose you have 2 lists like the one above, and want to do a broadcasted operation on them. Like using some measurement to determine the difference in the elements of both lists.  
-Broadcasting, as stated earlier, only works over dimensions, not through nesting.  
-A list like `x` thus needs to become a dimensional list, rather than a nested list.  
-And that's what the [cast_hier2dim()](/man/cast_hier2dim.qmd) function does: it re-casts a nested list to a dimensional list.
-
-Let's try this out on list `x`.
-
-&nbsp;
-
-## [hier2dim()](/man/cast_hier2dim.qmd)
-
 
 Before actually casting `x` into a dimensional list, one may want to know what the dimensions will become when casted as a dimensional list;  
-The [hier2dim()](/man/cast_hier2dim.qmd) functions does that:
+The [hier2dim()](/man/cast_hier2dim.qmd) function shows you that:
 
 ```{r}
 hier2dim(x)
 ```
 
-It returns `c(3, 2, 2)`.  
-Notice all elements are named "no padding".  
-This means that, when `x` is casted as dimensional list, no elements will be added (no "padding").  
-No padding is needed because `x` is an evenly nested list.
-
-
-[cast_hier2dim()](/man/cast_hier2dim.qmd) has an argument called `in2out`, which is set to `TRUE` by default.  
-This means [cast_hier2dim()](/man/cast_hier2dim.qmd) will by default cast the inner most elements to the rows, and elements of the depth above that to the columns, and so on until the surface-level elements become the last dimensions.  
-`x` has 3 elements at its deepest level for all iterations: height, weight, and sex; so those will become the rows.  
-`x` has 2 elements at the second-deepest level for all iterations of the list: class1, class2; so those will become the columns.  
-Finally `x` itself has 2 elements: group1 and group2, so those will become the last dimension (the layers).  
-
-
-If the element ordering described above is not desired, one can set `in2out` to `FALSE`.  
-If `in2out = FALSE`, the surface elements (in this case the "group#" elements) become the rows, the elements at one depth deeper ("class#") become the columns, and the elements yet another level deeper (height, weight, sex) become the layers (i.e. third dimension), and so on:
-
-```{r}
-hier2dim(x, in2out = FALSE)
-```
-
-
-## Cast in to out
+It returns the dimensions `c(3, 2, 2)`.  
 
 Let's now cast `x` as a dimensional list:
 
 ```{r}
-hier2dim(x) # check once again the dimensions
 x2 <- cast_hier2dim(x) # actually cast nested list into dimensional list
 print(x2)
 ```
 
-`x2` is the casted list.
-Since `in2out = TRUE`, element `x[[i]][[j]][[k]]` corresponds to element `x2[k, j, i]` (for all `i`, `j`, and `k`).
+Using the default arguments, element `x[[i]][[j]][[k]]` corresponds to element `x2[k, j, i]` (for all `i`, `j`, and `k`).  
+This can be changed, as will be shown in a later example.
 
 
-[cast_hier2dim()](/man/cast_hier2dim.qmd) will **not** preserve names, as there is no guarantee that the names of all elements over iterations within the same depth will have the same names.  
-But in this case, it is known the names as consistent, so `x2` can very easily be given dimensional names, like so:
+As shown in the results above, [cast_hier2dim()](/man/cast_hier2dim.qmd) will **not** preserve names:
+
+In arrays, all rows share the same row names, all columns share the same column names and so on. Moreover, all rows have the same number of columns (and vice-versa) and so on. But these things are not necessarily the case for nested lists. And so  [cast_hier2dim()](/man/cast_hier2dim.qmd) won't know how to name the elements.
+
+But in this case, it is known the names are consistent, so `x2` can very easily be given dimensional names, like so:
 
 ```{r}
-# remember: in2out = TRUE
+# remember: element `x[[i]][[j]][[k]]` corresponds to element `x2[k, j, i]`
 # so we go from the deepest names to the surface names
 dimnames(x2) <- list(
   names(x[[1]][[1]]),
@@ -156,11 +130,57 @@ We only need to see a portion of the list in detail, so let's look at class1 fro
 cast_dim2flat(x2[, 1, "group1", drop = FALSE])
 ```
 
+
 &nbsp;
 
-## Cast from out to in
+## Example 2: Cast from outside to inside
 
-Let's cast `x` again, but this time set the argument `in2out = FALSE`.
+
+In Example 1, the default arguments were used for [cast_hier2dim()](/man/cast_hier2dim.qmd).  
+One of these arguments is `in2out`, which defaults to `TRUE`.
+
+Consider a nested list `x` with a depth of 3, and a dimensional list `X2` with 3 dimensions, where the relationship between `x` and `x2` can be expressed as `x2 <- cast_hier2dim(x, ...)`.  
+Given this, the following can be stated about `in2out`:
+
+ - If `in2out = TRUE`, which is the default and used in Example 1, element `x[[i]][[j]][[k]]` corresponds to element `x2[k, j, i]` (for all `i`, `j`, and `k`).  
+ - If `in2out = FALSE`, element `x[[i]][[j]][[k]]` corresponds to element `x2[i, j, k]` (for all `i`, `j`, and `k`).  
+
+The default of `in2out = TRUE` was chosen, because elements in subsequent rows are close to each other, while elements in subsequent layers (third dimension) are generally not close to each other, and [cast_hier2dim()](/man/cast_hier2dim.qmd) attempts to retain that behaviour.
+
+For this example, the same list will be used as in Example 1:
+
+```{r}
+x <- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+```
+
+
+Let's once again cast this list to a dimensional list, but this time use `in2out = FALSE`:
 
 
 ```{r}
@@ -195,26 +215,16 @@ We only need to see a portion of the list in detail, so let's look at class1 fro
 cast_dim2flat(x2["group1", 1, , drop = FALSE])
 ```
 
-
 &nbsp;
 
+## Example 3: Padding
 
-# Cast Unevenly Nested List to Dimensional List
-
-In the previous section, the ideal scenario of an evenly nested list was used.   
-But the [cast_hier2dim()](/man/cast_hier2dim.qmd) and [hier2dim()](/man/cast_hier2dim.qmd) functions also work on nested lists with uneven nesting.
-
-Take for example the following list:
+For Example 3, we take the same list as before, but remove `x$group1$class2`:
 
 ```{r}
 x <- list(
   group1 = list(
     class1 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class2 = list(
       height = rnorm(10, 170),
       weight = rnorm(10, 80),
       sex = sample(c("M", "F", NA), 10, TRUE)
@@ -228,48 +238,71 @@ x <- list(
     ),
     class2 = list(
       height = rnorm(10, 170),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class3 = list(
-      height = rnorm(10, 170),
       weight = rnorm(10, 80),
       sex = sample(c("M", "F", NA), 10, TRUE)
     )
   )
 )
 
+
 ```
 
-
-The above list is UNEVENLY nested:
-
- - not all groups (surface level, or depth = 1) have the same number of classes.
- - not all classes (depth = 2) have the same number of variables: x$group2$class2 is missing the variable "weight".
-
-Checking what dimensions the casted list will have gives the following:
+Let's first check what dimensions it will get when casted using [hier2dim()](/man/cast_hier2dim.qmd):
 
 ```{r}
 hier2dim(x)
 ```
 
-The [hier2dim()](/man/cast_hier2dim.qmd).
+The dimensions are the same as in Example 1: `c(3, 2, 2)`.  
+But notice the **names** of the output are different: the second element has the name "padding", instead of "no padding".  
+This indicates that some columns won't have enough elements to completely fill the column, and so additional elements will be added as padding.
 
-Let's cast `x`:
+Because remember: in an array, all rows must have the same number of columns and vice-versa, all columns must have the same number of layers, and so on.
+
+So let's cast this list as dimensional:
 
 ```{r}
 x2 <- cast_hier2dim(x)
 print(x2)
 ```
 
-`x2` has more `NULL` values than `x`.  
-The `NULL` values are added for padding, as all slices of the same dimension need to have the same number of elements.  
-For example, all rows need to have the same number of columns.
+Subset `x2[1, , 2]` is filled with `NULL`; this is the place where `x$group1$class2` was in Example 1, but since it's not there, we need to fill **something**.
 
-[cast_dim2flat()](/man/cast_dim2flat.qmd) also works on `x2`; the additional `NULL` values used for padding do remain:
+To make it make obvious, let's give the list proper names:
 
 ```{r}
-cast_dim2flat(x2[1:2, , , drop = FALSE])
+dimnames(x2) <- list(
+  c("height", "weight", "sex"),
+  c("class1", "class2"),
+  c("group1", "group2")
+)
+print(x2)
 ```
+
+Again, element "class2" is missing from element "group1", but not from "group2", and so padded with `NULL` when the list is casted as dimensional.
+
+Sometimes, a different value than `NULL` is desired for padding.  
+For example, when casting `x2` back to a nested list, or when casting `x2` to a flat list, I can imagine you'd want to disregard the padded values.  
+Padding with `NULL` may then be inconvenient, as a list may contain "true" `NULL` values.
+
+So let's change the padding with something REALLY obvious, using the `padding` argument:
+
+```{r}
+x2 <- cast_hier2dim(x, padding = list(~ "this is padding!"))
+dimnames(x2) <- list(
+  c("height", "weight", "sex"),
+  c("class1", "class2"),
+  c("group1", "group2")
+)
+print(x2)
+```
+
+Once again, one can print or summarise `x2` less compactly by flattening it:
+
+```{r}
+cast_dim2flat(x2)
+```
+
 
 &nbsp;
 
