@@ -232,11 +232,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#example-3-padding" id="toc-example-3-padding" class="nav-link" data-scroll-target="#example-3-padding"><span class="header-section-number">2.4</span> Example 3: Padding</a></li>
   </ul></li>
   <li><a href="#cast-dimensional-list-to-hierarchical-list" id="toc-cast-dimensional-list-to-hierarchical-list" class="nav-link" data-scroll-target="#cast-dimensional-list-to-hierarchical-list"><span class="header-section-number">3</span> Cast Dimensional List to Hierarchical list</a></li>
-  <li><a href="#additional-details" id="toc-additional-details" class="nav-link" data-scroll-target="#additional-details"><span class="header-section-number">4</span> Additional Details</a>
-  <ul class="collapse">
-  <li><a href="#why-nested-broadcasting-does-not-work" id="toc-why-nested-broadcasting-does-not-work" class="nav-link" data-scroll-target="#why-nested-broadcasting-does-not-work"><span class="header-section-number">4.1</span> Why nested broadcasting does not work</a></li>
-  <li><a href="#nested-vs-dimensional-sub-set-operations" id="toc-nested-vs-dimensional-sub-set-operations" class="nav-link" data-scroll-target="#nested-vs-dimensional-sub-set-operations"><span class="header-section-number">4.2</span> Nested VS Dimensional Sub-set operations</a></li>
-  </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -280,7 +275,8 @@ Casting nested lists to dimensional lists has its own merits, as dimensional lis
 <section id="introduction-1" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="introduction-1"><span class="header-section-number">2.1</span> Introduction</h2>
 <p>The <a href="../man/cast_hier2dim.html">cast_hier2dim()</a> function casts a nested list into a dimensional list.<br>
-In this section, the properties of this function is shown through a series of examples, where the complexity of each subsequent example increases gently.</p>
+This section gently introduces the properties of this function through a series of examples, where the complexity of each subsequent example increases a bit.<br>
+Familiarity with nested lists and dimensional lists (i.e.&nbsp;arrays of type <code>list</code>) is essential to follow these examples.</p>
 <p>&nbsp;</p>
 </section>
 <section id="example-1-basics" class="level2" data-number="2.2">
@@ -342,9 +338,8 @@ The <a href="../man/cast_hier2dim.html">hier2dim()</a> function shows you that:<
 </div>
 <p>Using the default arguments, element <code>x[[i]][[j]][[k]]</code> corresponds to element <code>x2[k, j, i]</code> (for all <code>i</code>, <code>j</code>, and <code>k</code>).<br>
 This can be changed, as will be shown in a later example.</p>
-<p>As shown in the results above, <a href="../man/cast_hier2dim.html">cast_hier2dim()</a> will <strong>not</strong> preserve names:</p>
-<p>In arrays, all rows share the same row names, all columns share the same column names and so on. Moreover, all rows have the same number of columns (and vice-versa) and so on. But these things are not necessarily the case for nested lists. And so <a href="../man/cast_hier2dim.html">cast_hier2dim()</a> won’t know how to name the elements.</p>
-<p>But in this case, it is known the names are consistent, so <code>x2</code> can very easily be given dimensional names, like so:</p>
+<p>As shown in the results above, <a href="../man/cast_hier2dim.html">cast_hier2dim()</a> will obviously not preserve names.</p>
+<p>In this case, it is trivially easy to set the <code>dimnames</code> of <code>x2</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remember: element `x[[i]][[j]][[k]]` corresponds to element `x2[k, j, i]`</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># so we go from the deepest names to the surface names</span></span>
@@ -376,15 +371,15 @@ We only need to see a portion of the list in detail, so let’s look at class1 f
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[, <span class="dv">1</span>, <span class="st">"group1"</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class1', 'group1']`</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 170.8787 171.3404 172.9931 170.3691 169.0685 170.6738 168.6666 171.7895</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.3952 167.9825</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.8534 170.3045 169.9818 170.3428 169.8843 168.6264 168.5645 170.5286</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.1717 169.6173</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['weight', 'class1', 'group1']`</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 78.40525 80.70792 78.62103 79.63595 79.87906 81.34549 80.29827 79.57316</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 78.43724 80.14998</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 78.50220 78.72941 78.16260 78.62757 79.83542 80.39776 80.35968 81.39560</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 79.30248 80.72435</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['sex', 'class1', 'group1']`</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "M" NA  "M" "F" "F" NA  NA  NA  "M" "M"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "M" "M" NA  "F" NA  "M" "F" "F" "F" NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>&nbsp;</p>
 </section>
@@ -399,7 +394,7 @@ Given this, the following can be stated about <code>in2out</code>:</p>
 </li>
 <li>If <code>in2out = FALSE</code>, element <code>x[[i]][[j]][[k]]</code> corresponds to element <code>x2[i, j, k]</code> (for all <code>i</code>, <code>j</code>, and <code>k</code>).</li>
 </ul>
-<p>The default of <code>in2out = TRUE</code> was chosen, because elements in subsequent rows are close to each other, while elements in subsequent layers (third dimension) are generally not close to each other, and <a href="../man/cast_hier2dim.html">cast_hier2dim()</a> attempts to retain that behaviour.</p>
+<p>The default of <code>in2out = TRUE</code> was chosen, because elements in subsequent rows are close to each other, while elements in subsequent layers (third dimension) are generally not close to each other, and the default of <code>in2out = TRUE</code> attempts to retain that behaviour.</p>
 <p>For this example, the same list will be used as in Example 1:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
@@ -489,15 +484,15 @@ We only need to see a portion of the list in detail, so let’s look at class1 f
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[<span class="st">"group1"</span>, <span class="dv">1</span>, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['group1', 'class1', 'height']`</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.4302 170.1971 168.8204 172.9883 170.0084 170.2071 169.0003 169.0936</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 167.6802 170.3154</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 168.7278 170.7973 171.2560 170.4654 171.0667 169.3453 170.4978 169.5738</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 168.1899 171.2336</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['group1', 'class1', 'weight']`</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80.44266 80.08703 80.01090 79.44864 80.76332 81.46142 81.10753 79.95307</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 81.18349 80.60439</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 81.20666 81.38403 78.92972 79.31318 80.33615 81.66615 80.71866 80.17757</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 79.59866 78.95129</span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['group1', 'class1', 'sex']`</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "F" NA  NA  NA  "F" NA  "M" NA  "F" "F"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] NA  NA  "F" "M" "M" "M" "M" "M" NA  NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>&nbsp;</p>
 </section>
@@ -536,7 +531,6 @@ We only need to see a portion of the list in detail, so let’s look at class1 f
 <p>The dimensions are the same as in Example 1: <code>c(3, 2, 2)</code>.<br>
 But notice the <strong>names</strong> of the output are different: the second element has the name “padding”, instead of “no padding”.<br>
 This indicates that some columns won’t have enough elements to completely fill the column, and so additional elements will be added as padding.</p>
-<p>Because remember: in an array, all rows must have the same number of columns and vice-versa, all columns must have the same number of layers, and so on.</p>
 <p>So let’s cast this list as dimensional:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x)</span>
@@ -556,7 +550,7 @@ This indicates that some columns won’t have enough elements to completely fill
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] character,10 character,10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Subset <code>x2[1, , 2]</code> is filled with <code>NULL</code>; this is the place where <code>x$group1$class2</code> was in Example 1, but since it’s not there, we need to fill <strong>something</strong>.</p>
-<p>To make it make obvious, let’s give the list proper names:</p>
+<p>To make it make obvious, let’s give the array proper <code>dimnames</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(x2) <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"height"</span>, <span class="st">"weight"</span>, <span class="st">"sex"</span>),</span>
@@ -580,9 +574,7 @@ This indicates that some columns won’t have enough elements to completely fill
 </div>
 <p>Again, element “class2” is missing from element “group1”, but not from “group2”, and so padded with <code>NULL</code> when the list is casted as dimensional.</p>
 <p>Sometimes, a different value than <code>NULL</code> is desired for padding.<br>
-For example, when casting <code>x2</code> back to a nested list, or when casting <code>x2</code> to a flat list, I can imagine you’d want to disregard the padded values.<br>
-Padding with <code>NULL</code> may then be inconvenient, as a list may contain “true” <code>NULL</code> values.</p>
-<p>So let’s change the padding with something REALLY obvious, using the <code>padding</code> argument:</p>
+So let’s change the padding with something REALLY obvious, using the <code>padding</code> argument:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x, <span class="at">padding =</span> <span class="fu">list</span>(<span class="sc">~</span> <span class="st">"this is padding!"</span>))</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(x2) <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
@@ -609,15 +601,15 @@ Padding with <code>NULL</code> may then be inconvenient, as a list may contain �
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class1', 'group1']`</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 168.0814 170.6787 170.6763 168.6224 168.8356 169.2833 170.3747 169.9308</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.3814 170.4443</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.1494 169.0084 169.4902 170.5674 171.6746 168.5234 171.4246 168.2372</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 171.0348 170.5815</span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['weight', 'class1', 'group1']`</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80.97411 80.92017 79.23368 79.62751 79.57130 80.15429 80.11386 80.81290</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 80.81775 81.62435</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80.17487 78.78238 78.76462 81.75961 79.53171 78.91392 80.55407 78.64043</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 79.08529 80.70651</span></span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['sex', 'class1', 'group1']`</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] NA  "F" "F" NA  "M" "M" "M" "F" NA  "M"</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "M" "M" "M" NA  NA  NA  "M" "M" "M" "F"</span></span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class2', 'group1']`</span></span>
 <span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ~"this is padding!"</span></span>
@@ -629,26 +621,26 @@ Padding with <code>NULL</code> may then be inconvenient, as a list may contain �
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ~"this is padding!"</span></span>
 <span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class1', 'group2']`</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 170.1893 171.0401 170.7783 168.9469 169.3191 168.8491 172.3423 168.3398</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.4829 168.6408</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 170.6741 168.8564 168.5708 170.5317 169.6771 170.9603 169.2299 170.1458</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 168.6807 170.6155</span></span>
 <span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['weight', 'class1', 'group2']`</span></span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 81.79609 80.05083 79.05075 79.43431 80.33915 80.14595 78.69705 80.99255</span></span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 80.17863 80.82994</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 78.61271 80.03006 79.88123 80.36043 79.98766 79.06312 81.02248 80.26045</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 81.02684 81.85836</span></span>
 <span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['sex', 'class1', 'group2']`</span></span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "M" NA  NA  "M" "F" "M" "M" NA  NA  "F"</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "M" "M" "M" NA  NA  "F" NA  "F" NA  "F"</span></span>
 <span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class2', 'group2']`</span></span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 170.8087 170.4093 169.8706 170.4447 169.4825 168.9659 170.1217 170.6111</span></span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.1014 170.2084</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 170.1777 168.9846 170.3046 168.9651 170.4434 169.2505 168.7711 170.2313</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.2084 170.2761</span></span>
 <span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['weight', 'class2', 'group2']`</span></span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 79.46897 79.68145 81.23343 80.51787 80.06137 80.06501 80.13427 79.79982</span></span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 77.61648 80.03735</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 81.56440 78.90411 78.95510 81.76903 81.56637 80.75503 79.87911 79.94208</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 80.34554 79.85874</span></span>
 <span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['sex', 'class2', 'group2']`</span></span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "F" "M" "F" "F" "M" "F" "F" "F" NA  "F"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] NA  "F" "F" "F" NA  NA  "M" "M" "M" "M"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>&nbsp;</p>
 </section>
@@ -885,80 +877,9 @@ Setting <code>in2out = FALSE</code> will cast in the opposite manner:</p>
 </div>
 <p>Now <code>length(x2)</code> is <code>4</code>, and the length of <code>length(x2[[i]][[j]])</code> is <code>2</code> for every <code>i</code> &amp; <code>j</code>.</p>
 <p>&nbsp;</p>
-</section>
-<section id="additional-details" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Additional Details</h1>
-<section id="why-nested-broadcasting-does-not-work" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="why-nested-broadcasting-does-not-work"><span class="header-section-number">4.1</span> Why nested broadcasting does not work</h2>
-<p>You can perform broadcasted operations along dimensions of a dimensional list (for example using <a href="../man/bc.list.html">bc.list()</a>, <a href="../man/bcapply.html">bcapply()</a>), but you can’t really perform broadcasted operations along the depths or recursive nests of a nested list.</p>
-<p>Broadcasting along recursive nests of a nested lists, has several issues.<br>
-One glaring issue is that broadcasting requires matching lengths (i.e.&nbsp;row 1 in an array has as many columns as row 2), but matching lengths cannot be guaranteed on a nested list:<br>
-A nested list may have, for example, 5 elements in one nested subset of a certain depth, and 4 elements on another nested subset of the same depth.<br>
-So broadcasting can’t work recursively like that.</p>
 <p>&nbsp;</p>
-</section>
-<section id="nested-vs-dimensional-sub-set-operations" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="nested-vs-dimensional-sub-set-operations"><span class="header-section-number">4.2</span> Nested VS Dimensional Sub-set operations</h2>
-<p>Let’s start with 2 lists, <code>x</code> and <code>y</code>, with essentially the same content, but <code>x</code> is a nested list, and <code>y</code> is a dimensional list:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">A =</span> <span class="fu">list</span>(</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">A =</span> <span class="st">"AA"</span>,</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">B =</span> <span class="st">"AB"</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">B =</span> <span class="fu">list</span>(</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">A =</span> <span class="st">"BA"</span>,</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">B =</span> <span class="st">"BB"</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"AA"</span>, <span class="st">"AB"</span>, <span class="st">"BA"</span>, <span class="st">"BB"</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(y) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)</span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $A</span></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $A$A</span></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "AA"</span></span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $A$B</span></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "AB"</span></span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $B</span></span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $B$A</span></span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "BA"</span></span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $B$B</span></span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "BB"</span></span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(y)</span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2]</span></span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] "AA" "BA"</span></span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] "AB" "BB"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Selecting multiple nested subsets requires a slow loop, but selecting multiple dimensional elements is vectorized and much faster.</p>
-<p>For example, to get elements “AB” and “BB”, you need to do the following:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for nested list x:</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  x[[i]][[<span class="dv">2</span>]] <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "AB"</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "BB"</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># for dimensional list y:</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>y[<span class="dv">2</span>,] <span class="co"># much faster</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "AB"</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "BB"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

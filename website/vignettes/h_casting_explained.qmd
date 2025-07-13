@@ -42,7 +42,8 @@ This Vignette explains the functions 'broadcast' provides to cast between nested
 ## Introduction
 
 The [cast_hier2dim()](/man/cast_hier2dim.qmd) function casts a nested list into a dimensional list.  
-In this section, the properties of this function is shown through a series of examples, where the complexity of each subsequent example increases gently.
+This section gently introduces the properties of this function through a series of examples, where the complexity of each subsequent example increases a bit.  
+Familiarity with nested lists and dimensional lists (i.e. arrays of type `list`) is essential to follow these examples.
 
 &nbsp;
 
@@ -101,11 +102,9 @@ Using the default arguments, element `x[[i]][[j]][[k]]` corresponds to element `
 This can be changed, as will be shown in a later example.
 
 
-As shown in the results above, [cast_hier2dim()](/man/cast_hier2dim.qmd) will **not** preserve names:
+As shown in the results above, [cast_hier2dim()](/man/cast_hier2dim.qmd) will obviously not preserve names.
 
-In arrays, all rows share the same row names, all columns share the same column names and so on. Moreover, all rows have the same number of columns (and vice-versa) and so on. But these things are not necessarily the case for nested lists. And so  [cast_hier2dim()](/man/cast_hier2dim.qmd) won't know how to name the elements.
-
-But in this case, it is known the names are consistent, so `x2` can very easily be given dimensional names, like so:
+In this case, it is trivially easy to set the `dimnames` of `x2`:
 
 ```{r}
 # remember: element `x[[i]][[j]][[k]]` corresponds to element `x2[k, j, i]`
@@ -145,7 +144,7 @@ Given this, the following can be stated about `in2out`:
  - If `in2out = TRUE`, which is the default and used in Example 1, element `x[[i]][[j]][[k]]` corresponds to element `x2[k, j, i]` (for all `i`, `j`, and `k`).  
  - If `in2out = FALSE`, element `x[[i]][[j]][[k]]` corresponds to element `x2[i, j, k]` (for all `i`, `j`, and `k`).  
 
-The default of `in2out = TRUE` was chosen, because elements in subsequent rows are close to each other, while elements in subsequent layers (third dimension) are generally not close to each other, and [cast_hier2dim()](/man/cast_hier2dim.qmd) attempts to retain that behaviour.
+The default of `in2out = TRUE` was chosen, because elements in subsequent rows are close to each other, while elements in subsequent layers (third dimension) are generally not close to each other, and the default of `in2out = TRUE` attempts to retain that behaviour.
 
 For this example, the same list will be used as in Example 1:
 
@@ -257,8 +256,6 @@ The dimensions are the same as in Example 1: `c(3, 2, 2)`.
 But notice the **names** of the output are different: the second element has the name "padding", instead of "no padding".  
 This indicates that some columns won't have enough elements to completely fill the column, and so additional elements will be added as padding.
 
-Because remember: in an array, all rows must have the same number of columns and vice-versa, all columns must have the same number of layers, and so on.
-
 So let's cast this list as dimensional:
 
 ```{r}
@@ -268,7 +265,7 @@ print(x2)
 
 Subset `x2[1, , 2]` is filled with `NULL`; this is the place where `x$group1$class2` was in Example 1, but since it's not there, we need to fill **something**.
 
-To make it make obvious, let's give the list proper names:
+To make it make obvious, let's give the array proper `dimnames`:
 
 ```{r}
 dimnames(x2) <- list(
@@ -282,9 +279,6 @@ print(x2)
 Again, element "class2" is missing from element "group1", but not from "group2", and so padded with `NULL` when the list is casted as dimensional.
 
 Sometimes, a different value than `NULL` is desired for padding.  
-For example, when casting `x2` back to a nested list, or when casting `x2` to a flat list, I can imagine you'd want to disregard the padded values.  
-Padding with `NULL` may then be inconvenient, as a list may contain "true" `NULL` values.
-
 So let's change the padding with something REALLY obvious, using the `padding` argument:
 
 ```{r}
@@ -348,63 +342,7 @@ print(x2)
 
 Now `length(x2)` is `4`, and the length of `length(x2[[i]][[j]])` is `2` for every `i` & `j`. 
 
-
-
-
 &nbsp;
 
-# Additional Details
-
-## Why nested broadcasting does not work
-
-You can perform broadcasted operations along dimensions of a dimensional list (for example using [bc.list()](/man/bc.list.qmd), [bcapply()](/man/bcapply.qmd)), but you can't really perform broadcasted operations along the depths or recursive nests of a nested list.
-
-Broadcasting along recursive nests of a nested lists, has several issues.  
-One glaring issue is that broadcasting requires matching lengths (i.e. row 1 in an array has as many columns as row 2), but matching lengths cannot be guaranteed on a nested list:  
-A nested list may have, for example, 5 elements in one nested subset of a certain depth, and 4 elements on another nested subset of the same depth.  
-So broadcasting can't work recursively like that.
-
-
 &nbsp;
-
-## Nested VS Dimensional Sub-set operations
-
-Let's start with 2 lists, `x` and `y`, with essentially the same content, but `x` is a nested list, and `y` is a dimensional list:
-
-```{r}
-x <- list(
-  A = list(
-    A = "AA",
-    B = "AB"
-  ),
-  B = list(
-    A = "BA",
-    B = "BB"
-  )
-)
-
-y <- list(
-  "AA", "AB", "BA", "BB"
-)
-dim(y) <- c(2,2)
-
-
-print(x)
-print(y)
-```
-
-Selecting multiple nested subsets requires a slow loop, but selecting multiple dimensional elements is vectorized and much faster.
-
-For example, to get elements "AB" and "BB", you need to do the following:
-
-```{r}
-# for nested list x:
-for(i in 1:2) {
-  x[[i]][[2]] |> print()
-}
-
-# for dimensional list y:
-y[2,] # much faster
-
-```
 
