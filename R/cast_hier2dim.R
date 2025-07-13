@@ -19,13 +19,15 @@
 #' @param recurse_classed `TRUE` or `FALSE`,
 #' indicating if the function should also recurse through classed lists within `x`,
 #' like data.frames.
+#' @param padding a list of length `1`,
+#' giving the padding value to use when padding is required.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' 
 #' 
 #' @returns
 #' For `hier2dim()`: \cr
-#' An integer vector of length `min(depth_range(x, maxdepth = 16L))`.
+#' An integer vector,
 #' giving the dimensions `x` would have,
 #' if casted by `cast_hier2dim()`. \cr
 #' The names of the output indicates if padding is required ("padding"),
@@ -63,7 +65,11 @@ hier2dim <- function(x, ...) {
 
 #' @rdname cast_hier2dim
 #' @export
-cast_hier2dim.default <- function(x, in2out = TRUE, maxdepth = 16L, recurse_classed = FALSE, ...) {
+cast_hier2dim.default <- function(x, in2out = TRUE, maxdepth = 16L, recurse_classed = FALSE, padding = list(NULL), ...) {
+  
+  if(!is.list(padding) || length(padding) > 1L) {
+    stop("`padding` must be a list of length 1")
+  }
   
   out.dims <- hier2dim(x, in2out, maxdepth, recurse_classed)
   out.ndims <- depth <- length(out.dims)
@@ -75,8 +81,13 @@ cast_hier2dim.default <- function(x, in2out = TRUE, maxdepth = 16L, recurse_clas
     # thus they need to be reversed
     out.dcp <- rev(out.dcp) 
   }
-  out <- vector("list", out.len)
-  dim(out) <- unname(out.dims)
+  if(any(names(out.dims) == "padding")) {
+    out <- array(padding, unname(out.dims))
+  }
+  else {
+    out <- vector("list", out.len)
+    dim(out) <- unname(out.dims)
+  }
   
   .rcpp_rec_cast_hier2dim(x, out, out.dcp, 0, 1.0, depth)
   return(out)

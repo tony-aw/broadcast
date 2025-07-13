@@ -8,6 +8,9 @@ errorfun <- function(tt) {
 }
 
 .rcpp_address <- broadcast:::.rcpp_address
+.rcpp_depth_range <- broadcast:::.rcpp_depth_range
+.rcpp_lenrange_atdepth <- broadcast:::.rcpp_lenrange_atdepth
+
 
 # check consistency between dim2hier and hier2dim ====
 
@@ -149,7 +152,10 @@ expect_silent(
   dropnests(x)
 )
 expect_silent(
-  depth_range(x)
+  .rcpp_depth_range(x, 32L, FALSE)
+)
+expect_silent(
+  .rcpp_lenrange_atdepth(x, 1L, FALSE)
 )
 
 expect_silent(

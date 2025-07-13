@@ -6,7 +6,6 @@
 #' \cr
 #' 
 #' 
-#' 
 #' @section Argument `in2out = TRUE`: 
 #' The \link{hier2dim}, \link{cast_hier2dim}, and \link{cast_dim2hier} methods
 #' all have the `in2out` argument. \cr

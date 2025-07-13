@@ -1,4 +1,3 @@
-
 #include <Rcpp/Lightest>
 using namespace Rcpp;
 
@@ -77,6 +76,9 @@ inline void rcpp_rec_lenrange_atdepth(
     for(int i = 0; i < n; ++i) {
       SEXP temp = VECTOR_ELT(x, i);
       R_xlen_t n_temp = Rf_xlength(temp);
+      if(!rcpp_OK_listclass(temp, recurse_classed)) {
+        continue;
+      }
       if(depth == depth_target) {
         if(n_temp > maxint) {
           stop("long vectors not supported");
@@ -88,7 +90,7 @@ inline void rcpp_rec_lenrange_atdepth(
           prange[1] = n_temp;
         }
       }
-      else if(rcpp_OK_listclass(temp, recurse_classed) && n_temp > 0 && (depth != depth_target)) {
+      else if(n_temp > 0 && (depth != depth_target)) {
         rcpp_rec_lenrange_atdepth(temp, range, depth + 1, depth_target, recurse_classed, maxint);
       }
     }
@@ -98,8 +100,8 @@ inline void rcpp_rec_lenrange_atdepth(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_lenrange_at_depth)]]
-SEXP rcpp_lenrange_at_depth(SEXP x, int depth_target, bool recurse_classed) {
+// [[Rcpp::export(.rcpp_lenrange_atdepth)]]
+SEXP rcpp_lenrange_atdepth(SEXP x, int depth_target, bool recurse_classed) {
   
   
   double maxint = pow(2, 31) - 1;
@@ -115,6 +117,7 @@ SEXP rcpp_lenrange_at_depth(SEXP x, int depth_target, bool recurse_classed) {
   return range;
   
 }
+
 
 //' @keywords internal
 //' @noRd

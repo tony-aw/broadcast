@@ -131,7 +131,7 @@
   dims[1] <- length(x)
   if(depth > 1) {
     for(i in 2:depth) {
-      range <- .rcpp_lenrange_at_depth(x, i - 1L, recurse_classed)
+      range <- .rcpp_lenrange_atdepth(x, i - 1L, recurse_classed)
       dims[i] <- range[2L]
       if(range[1L] != range[2L]) {
         names(dims)[i] <- "padding"
@@ -183,3 +183,4 @@
     stop("arrays with more than 16 dimensions not supported")
   }
 }
+

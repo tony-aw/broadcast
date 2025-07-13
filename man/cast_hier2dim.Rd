@@ -11,7 +11,14 @@ cast_hier2dim(x, ...)
 
 hier2dim(x, ...)
 
-\method{cast_hier2dim}{default}(x, in2out = TRUE, maxdepth = 16L, recurse_classed = FALSE, ...)
+\method{cast_hier2dim}{default}(
+  x,
+  in2out = TRUE,
+  maxdepth = 16L,
+  recurse_classed = FALSE,
+  padding = list(NULL),
+  ...
+)
 
 \method{hier2dim}{default}(x, in2out = TRUE, maxdepth = 16L, recurse_classed = FALSE, ...)
 }
@@ -31,10 +38,13 @@ The surface-level elements of a list is depth 1. \cr}
 \item{recurse_classed}{\code{TRUE} or \code{FALSE},
 indicating if the function should also recurse through classed lists within \code{x},
 like data.frames.}
+
+\item{padding}{a list of length \code{1},
+giving the padding value to use when padding is required.}
 }
 \value{
 For \code{hier2dim()}: \cr
-An integer vector of length \code{min(depth_range(x, maxdepth = 16L))}.
+An integer vector,
 giving the dimensions \code{x} would have,
 if casted by \code{cast_hier2dim()}. \cr
 The names of the output indicates if padding is required ("padding"),
@@ -223,7 +233,9 @@ print(x2)
 # This is because all slices of the same dimension need to have the same number of elements.  
 # For example, all rows need to have the same number of columns.
 
-
+# one can also use custom padding:
+x2 <- cast_hier2dim(x, padding = list(~ "this is padding"))
+print(x2)
 
 # because `x` is unevenly nested, there is no guarantee you can set dimnames properly:
 if(requireNamespace("tinytest")) {
@@ -249,7 +261,7 @@ print(x2)
 cast_dim2flat(x2[1:2, , , drop = FALSE])
 
 # we can also use in2out = FALSE:
-x2 <- cast_hier2dim(x, in2out = FALSE)
+x2 <- cast_hier2dim(x, in2out = FALSE, padding = list(~ "this is padding"))
 dimnames(x2) <- list( # notice the order here is reversed, because in2out = FALSE
   c("group1", "group2"),
   c("class1", "class2", "class3"),

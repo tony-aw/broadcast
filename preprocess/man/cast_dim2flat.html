@@ -229,7 +229,9 @@ print(x2)
 # This is because all slices of the same dimension need to have the same number of elements.  
 # For example, all rows need to have the same number of columns.
 
-
+# one can also use custom padding:
+x2 &lt;- cast_hier2dim(x, padding = list(~ "this is padding"))
+print(x2)
 
 # because `x` is unevenly nested, there is no guarantee you can set dimnames properly:
 if(requireNamespace("tinytest")) {
@@ -255,7 +257,7 @@ print(x2)
 cast_dim2flat(x2[1:2, , , drop = FALSE])
 
 # we can also use in2out = FALSE:
-x2 &lt;- cast_hier2dim(x, in2out = FALSE)
+x2 &lt;- cast_hier2dim(x, in2out = FALSE, padding = list(~ "this is padding"))
 dimnames(x2) &lt;- list( # notice the order here is reversed, because in2out = FALSE
   c("group1", "group2"),
   c("class1", "class2", "class3"),

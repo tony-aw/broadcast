@@ -252,7 +252,7 @@ Checking what dimensions the casted list will have gives the following:
 hier2dim(x)
 ```
 
-The [hier2dim()](/man/cast_hier2dim.qmd) function indicates the first 2 dimensions (rows and columns) will require some padding.
+The [hier2dim()](/man/cast_hier2dim.qmd).
 
 Let's cast `x`:
 
@@ -283,6 +283,11 @@ Consider the following recursive array as an example:
 ```{r}
 
 x <- array(c(as.list(1:11), ~hello, as.list(month.abb)), c(4:2))
+dimnames(x) <- list(
+  letters[1:4],
+  LETTERS[1:3],
+  c("group1", "group2")
+)
 print(x)
 
 ```
@@ -292,18 +297,19 @@ Casting it to a nested list gives the following:
 
 ```{r}
 
-x2 <- cast_dim2hier(x)
+x2 <- cast_dim2hier(x, distr.names = TRUE)
 print(x2)
            
 ```
 
+The added `distr.names = TRUE` argument will distribute the `dimnames` in a logical way over the nested elements.
 
 Like [cast_hier2dim()](/man/cast_hier2dim.qmd), `castdim2hier()` has the `in2out` argument, which (again) defaults to `TRUE`.  
 As show above, the array `x`, with dimensions `c(4, 3, 2)`, became the nested list `x2`, where `length(x2)` is `2`, `length(x2[[i]])` is `3` for every `i`, and `length(x2[[i]][[j]])` is `4` for every `i` & `j`.  
 Setting `in2out = FALSE` will cast in the opposite manner:
 
 ```{r}
-x2 <- cast_dim2hier(x, in2out = FALSE)
+x2 <- cast_dim2hier(x, in2out = FALSE, distr.names = TRUE)
 print(x2)
 ```
 

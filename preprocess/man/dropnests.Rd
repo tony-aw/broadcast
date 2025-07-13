@@ -2,18 +2,12 @@
 % Please edit documentation in R/dropnests.R
 \name{dropnests}
 \alias{dropnests}
-\alias{depth_range}
 \alias{dropnests.default}
-\alias{depth_range.default}
 \title{Drop Redundant List Nesting}
 \usage{
 dropnests(x, ...)
 
-depth_range(x, ...)
-
 \method{dropnests}{default}(x, maxdepth = 32L, recurse_classed = FALSE, ...)
-
-\method{depth_range}{default}(x, maxdepth = 32L, recurse_classed = FALSE, ...)
 }
 \arguments{
 \item{x}{a list}
@@ -30,20 +24,14 @@ indicating if the function should also recurse through classed lists within \cod
 like data.frames.}
 }
 \value{
-For \code{dropnests()}: \cr
 A list without redundant nesting. \cr
 Attributes are preserved. \cr
 \cr
-For \code{depth_range()}: \cr
-An integer vector of length 2,
-where the first element gives the minimum depth found,
-and the second element gives the maximum depth found. \cr \cr
 }
 \description{
 \code{dropnests()} drops redundant nesting of a list. \cr
 It is the hierarchical equivalent to the dimensional \link[base]{drop} function. \cr
 \cr
-\code{depth_range()} gives the minimum and maximum depth of a list. \cr
 }
 \examples{
 
@@ -53,7 +41,7 @@ x <- list(
 )
 print(x)
 
-depth_range(x)
+
 dropnests(x)
 
 
@@ -64,10 +52,9 @@ x <- list(
   data.frame(month.abb)
 )
 
-depth_range(x)
+
 dropnests(x) # by default, recurse_classed = FALSE
 
-depth_range(x, recurse_classed = TRUE)
 dropnests(x, recurse_classed = TRUE)
 
 
@@ -78,13 +65,11 @@ x <- list(
 )
 print(x)
 
-depth_range(x)
+
 dropnests(x) # by default, maxdepth = 32
 
-depth_range(x, maxdepth = 3L)
 dropnests(x, maxdepth = 3L)
 
-depth_range(x, maxdepth = 1L)
 dropnests(x, maxdepth = 1L) # returns `x` unchanged
 
 }

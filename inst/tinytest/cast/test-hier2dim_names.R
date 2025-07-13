@@ -8,7 +8,6 @@ errorfun <- function(tt) {
 
 .rcpp_allocate_nestedlist <- broadcast:::.rcpp_allocate_nestedlist
 .rcpp_clone <- broadcast:::.rcpp_clone
-.rcpp_lenrange_at_depth <- broadcast:::.rcpp_lenrange_at_depth
 .hiercast_depth <- broadcast:::.hiercast_depth
 
 

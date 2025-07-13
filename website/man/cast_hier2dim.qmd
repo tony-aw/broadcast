@@ -22,7 +22,14 @@ if casted by the <code>cast_hier2dim()</code> function. <br />
 hier2dim(x, ...)
 
 ## Default S3 method:
-cast_hier2dim(x, in2out = TRUE, maxdepth = 16L, recurse_classed = FALSE, ...)
+cast_hier2dim(
+  x,
+  in2out = TRUE,
+  maxdepth = 16L,
+  recurse_classed = FALSE,
+  padding = list(NULL),
+  ...
+)
 
 ## Default S3 method:
 hier2dim(x, in2out = TRUE, maxdepth = 16L, recurse_classed = FALSE, ...)
@@ -58,13 +65,18 @@ The surface-level elements of a list is depth 1. <br />
 indicating if the function should also recurse through classed lists within <code>x</code>,
 like data.frames.
 </td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="padding">padding</code></td>
+<td>
+a list of length <code>1</code>,
+giving the padding value to use when padding is required.
+</td></tr>
 </table>
 
 
 ### Value
 
 For <code>hier2dim()</code>: <br />
-An integer vector of length <code>min(depth_range(x, maxdepth = 16L))</code>.
+An integer vector,
 giving the dimensions <code>x</code> would have,
 if casted by <code>cast_hier2dim()</code>. <br />
 The names of the output indicates if padding is required (&quot;padding&quot;),
@@ -250,7 +262,9 @@ print(x2)
 # This is because all slices of the same dimension need to have the same number of elements.  
 # For example, all rows need to have the same number of columns.
 
-
+# one can also use custom padding:
+x2 <- cast_hier2dim(x, padding = list(~ "this is padding"))
+print(x2)
 
 # because `x` is unevenly nested, there is no guarantee you can set dimnames properly:
 if(requireNamespace("tinytest")) {
@@ -276,7 +290,7 @@ print(x2)
 cast_dim2flat(x2[1:2, , , drop = FALSE])
 
 # we can also use in2out = FALSE:
-x2 <- cast_hier2dim(x, in2out = FALSE)
+x2 <- cast_hier2dim(x, in2out = FALSE, padding = list(~ "this is padding"))
 dimnames(x2) <- list( # notice the order here is reversed, because in2out = FALSE
   c("group1", "group2"),
   c("class1", "class2", "class3"),

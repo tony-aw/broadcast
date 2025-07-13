@@ -8,7 +8,7 @@ errorfun <- function(tt) {
 
 .rcpp_allocate_nestedlist <- broadcast:::.rcpp_allocate_nestedlist
 .rcpp_clone <- broadcast:::.rcpp_clone
-.rcpp_lenrange_at_depth <- broadcast:::.rcpp_lenrange_at_depth
+.rcpp_lenrange_atdepth <- broadcast:::.rcpp_lenrange_atdepth
 .hiercast_depth <- broadcast:::.hiercast_depth
 
 
@@ -49,55 +49,6 @@ for(i in 2:16) {
     enumerate <- enumerate + 2L
   }
 }
-
-
-
-# pass-by-reference safety checks ====
-
-
-x <- list(
-  list(as.list(1:10)),
-  list(as.list(1:9)),
-  list(1:11),
-  list(list(NULL)),
-  list(list()),
-  data.frame(letters, LETTERS)
-)
-y <- .rcpp_clone(x)
-
-out <- .rcpp_lenrange_at_depth(x, 16L, FALSE)
-out2 <- .rcpp_lenrange_at_depth(x, 16L, FALSE)
-
-expect_equal(
-  out, out2
-)
-expect_equal(
-  x, y
-)
-
-
-x <- list(
-  list(as.list(1:10)),
-  list(as.list(1:9)),
-  list(list(1:11)),
-  list(list()),
-  list(list(NULL)),
-  list(data.frame(letters, LETTERS))
-)
-y <- .rcpp_clone(x)
-
-
-out <- .hiercast_depth(x, 16L, FALSE, sys.call())
-out2 <- .hiercast_depth(x, 16L, FALSE, sys.call())
-
-expect_equal(
-  out, out2
-)
-expect_equal(
-  x, y
-)
-
-enumerate <- enumerate + 6L
 
 
 # limit depth tests ====

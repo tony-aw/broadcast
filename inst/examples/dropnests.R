@@ -5,7 +5,7 @@ x <- list(
 )
 print(x)
 
-depth_range(x)
+
 dropnests(x)
 
 
@@ -16,10 +16,9 @@ x <- list(
   data.frame(month.abb)
 )
 
-depth_range(x)
+
 dropnests(x) # by default, recurse_classed = FALSE
 
-depth_range(x, recurse_classed = TRUE)
 dropnests(x, recurse_classed = TRUE)
 
 
@@ -30,12 +29,10 @@ x <- list(
 )
 print(x)
 
-depth_range(x)
+
 dropnests(x) # by default, maxdepth = 32
 
-depth_range(x, maxdepth = 3L)
 dropnests(x, maxdepth = 3L)
 
-depth_range(x, maxdepth = 1L)
 dropnests(x, maxdepth = 1L) # returns `x` unchanged
 

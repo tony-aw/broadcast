@@ -4,7 +4,6 @@
 #' `dropnests()` drops redundant nesting of a list. \cr
 #' It is the hierarchical equivalent to the dimensional \link[base]{drop} function. \cr
 #' \cr
-#' `depth_range()` gives the minimum and maximum depth of a list. \cr
 #' 
 #' 
 #' @param x a list
@@ -20,14 +19,9 @@
 #' 
 #' 
 #' @returns
-#' For `dropnests()`: \cr
 #' A list without redundant nesting. \cr
 #' Attributes are preserved. \cr
 #' \cr
-#' For `depth_range()`: \cr
-#' An integer vector of length 2,
-#' where the first element gives the minimum depth found,
-#' and the second element gives the maximum depth found. \cr \cr
 #' 
 #'
 #' @example inst/examples/dropnests.R
@@ -39,12 +33,6 @@
 #' @export
 dropnests <- function(x, ...) {
   UseMethod("dropnests", x)
-}
-
-#' @rdname dropnests
-#' @export
-depth_range <- function(x, ...) {
-  UseMethod("depth_range", x)
 }
 
 
@@ -59,16 +47,6 @@ dropnests.default <- function(x, maxdepth = 32L, recurse_classed = FALSE, ...) {
   
   out <- .rcpp_dropnests(x, maxdepth, recurse_classed)
   mostattributes(out) <- attributes(x)
-  return(out)
-}
-
-
-#' @rdname dropnests
-#' @export
-depth_range.default <- function(x, maxdepth = 32L, recurse_classed = FALSE, ...) {
-  .depth_check(x, maxdepth, recurse_classed, sys.call())
-  
-  out <- .rcpp_depth_range(x, maxdepth, recurse_classed)
   return(out)
 }
 

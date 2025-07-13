@@ -7,7 +7,6 @@
 SEXP C_lst_ndims ( SEXP x ) {
 
 
-
 if(TYPEOF(x) != VECSXP) {
   error("`x` must be a list");
 }

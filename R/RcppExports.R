@@ -441,8 +441,8 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
-.rcpp_lenrange_at_depth <- function(x, depth_target, recurse_classed) {
-    .Call(`_broadcast_rcpp_lenrange_at_depth`, x, depth_target, recurse_classed)
+.rcpp_lenrange_atdepth <- function(x, depth_target, recurse_classed) {
+    .Call(`_broadcast_rcpp_lenrange_atdepth`, x, depth_target, recurse_classed)
 }
 
 #' @keywords internal

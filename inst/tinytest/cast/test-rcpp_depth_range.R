@@ -9,6 +9,7 @@ errorfun <- function(tt) {
 
 .rcpp_allocate_nestedlist <- broadcast:::.rcpp_allocate_nestedlist
 .rcpp_clone <- broadcast:::.rcpp_clone
+.rcpp_depth_range <- broadcast:::.rcpp_depth_range
 
 
 
@@ -22,8 +23,8 @@ x <- list(
   data.frame(letters)
 )
 
-out <- depth_range(x)
-out2 <- depth_range(x)
+out <- .rcpp_depth_range(x, 32L, FALSE)
+out2 <- .rcpp_depth_range(x, 32L, FALSE)
 
 expect_equal(
   out, out2
@@ -34,7 +35,7 @@ expect_equal(
 # no depth ====
 x <- as.list(1:10)
 expect_equal(
-  depth_range(x),
+  .rcpp_depth_range(x, 32L, FALSE),
   c(1L, 1L)
 )
 enumerate <- enumerate + 1L
@@ -44,19 +45,19 @@ enumerate <- enumerate + 1L
 # unit list ====
 x <- list(list(list(list(NULL))))
 expect_equal(
-  depth_range(x),
+  .rcpp_depth_range(x, 32L, FALSE),
   c(4L, 4L)
 )
 
 x <- list(list(list(list(data.frame(letters, LETTERS)))))
 expect_equal(
-  depth_range(x),
+  .rcpp_depth_range(x, 32L, FALSE),
   c(4L, 4L)
 )
 
 x <- list(list(list(list(data.frame(letters)))))
 expect_equal(
-  depth_range(x, recurse_classed = TRUE),
+  .rcpp_depth_range(x, 32L, recurse_classed = TRUE),
   c(5L, 5L)
 )
 
@@ -74,11 +75,11 @@ x <- list(
   data.frame(letters)
 )
 expect_equal(
-  depth_range(x),
+  .rcpp_depth_range(x, 32L, FALSE),
   c(1L, 5L)
 )
 expect_equal(
-  depth_range(x, recurse_classed = TRUE),
+  .rcpp_depth_range(x, 32L, recurse_classed = TRUE),
   c(2L, 5L)
 )
 
@@ -97,11 +98,11 @@ x <- list(
 )
 dim(x) <- c(3, 2)
 expect_equal(
-  depth_range(x),
+  .rcpp_depth_range(x, 32L, FALSE),
   c(1L, 5L)
 )
 expect_equal(
-  depth_range(x, recurse_classed = TRUE),
+  .rcpp_depth_range(x, 32L, recurse_classed = TRUE),
   c(2L, 5L)
 )
 
@@ -112,13 +113,13 @@ enumerate <- enumerate + 2L
 
 x <- .rcpp_allocate_nestedlist(rep(1, 20), 1)
 expect_equal(
-  depth_range(x, maxdepth = 16L),
+  .rcpp_depth_range(x, 16L, FALSE),
   c(16L, 16L)
 )
 
 x <- .rcpp_allocate_nestedlist(rep(1, 20), 1)
 expect_equal(
-  depth_range(x, maxdepth = 15L),
+  .rcpp_depth_range(x, 15L, FALSE),
   c(15L, 15L)
 )
 
@@ -136,8 +137,8 @@ x <- list(
 )
 y <- .rcpp_clone(x)
 
-out <- depth_range(x)
-out2 <- depth_range(x)
+out <- .rcpp_depth_range(x, 32L, FALSE)
+out2 <- .rcpp_depth_range(x, 32L, FALSE)
 
 expect_equal(
   out, out2
@@ -148,35 +149,4 @@ expect_equal(
 
 enumerate <- enumerate + 2L
 
-
-
-# errors ====
-expect_error(
-  depth_range(1:10)
-)
-expect_error(
-  depth_range(as.list(1:10), NA),
-  pattern = "`maxdepth` must be a single integer >= 1"
-)
-expect_error(
-  depth_range(as.list(1:10), NA_integer_),
-  pattern = "`maxdepth` must be a single integer >= 1"
-)
-expect_error(
-  depth_range(as.list(1:10), 1:10),
-  pattern = "`maxdepth` must be a single integer >= 1"
-)
-expect_error(
-  depth_range(as.list(1:10), recurse_classed = NA),
-  pattern = "`recurse_classed` must be `TRUE` or `FALSE`"
-)
-expect_error(
-  depth_range(as.list(1:10), recurse_classed = c(TRUE, FALSE)),
-  pattern = "`recurse_classed` must be `TRUE` or `FALSE`"
-)
-expect_error(
-  depth_range(data.frame(letters, LETTERS)),
-  pattern = "if `recurse_classed` is `FALSE`, `x` cannot be a classed list"
-)
-enumerate <- enumerate + 6L
 

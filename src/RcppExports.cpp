@@ -1116,16 +1116,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_lenrange_at_depth
-SEXP rcpp_lenrange_at_depth(SEXP x, int depth_target, bool recurse_classed);
-RcppExport SEXP _broadcast_rcpp_lenrange_at_depth(SEXP xSEXP, SEXP depth_targetSEXP, SEXP recurse_classedSEXP) {
+// rcpp_lenrange_atdepth
+SEXP rcpp_lenrange_atdepth(SEXP x, int depth_target, bool recurse_classed);
+RcppExport SEXP _broadcast_rcpp_lenrange_atdepth(SEXP xSEXP, SEXP depth_targetSEXP, SEXP recurse_classedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type depth_target(depth_targetSEXP);
     Rcpp::traits::input_parameter< bool >::type recurse_classed(recurse_classedSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_lenrange_at_depth(x, depth_target, recurse_classed));
+    rcpp_result_gen = Rcpp::wrap(rcpp_lenrange_atdepth(x, depth_target, recurse_classed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1344,7 +1344,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_set_class", (DL_FUNC) &_broadcast_rcpp_set_class, 2},
     {"_broadcast_rcpp_clone", (DL_FUNC) &_broadcast_rcpp_clone, 1},
     {"_broadcast_rcpp_depth_range", (DL_FUNC) &_broadcast_rcpp_depth_range, 3},
-    {"_broadcast_rcpp_lenrange_at_depth", (DL_FUNC) &_broadcast_rcpp_lenrange_at_depth, 3},
+    {"_broadcast_rcpp_lenrange_atdepth", (DL_FUNC) &_broadcast_rcpp_lenrange_atdepth, 3},
     {"_broadcast_rcpp_hier2dim_surface_OK", (DL_FUNC) &_broadcast_rcpp_hier2dim_surface_OK, 2},
     {"_broadcast_rcpp_dropnests", (DL_FUNC) &_broadcast_rcpp_dropnests, 3},
     {"_broadcast_rcpp_mergedims_output", (DL_FUNC) &_broadcast_rcpp_mergedims_output, 3},

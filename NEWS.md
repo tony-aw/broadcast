@@ -83,3 +83,9 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 * Improved the documentation.
 
 
+# broadcast 0.0.0.9014
+* Removed `depth_range()` method as it's unnecessary.
+* Added argument `paddding` to the `cast_hier2dim()` method.
+* Added more tests.
+
+
