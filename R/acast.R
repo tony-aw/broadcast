@@ -47,9 +47,7 @@
 #'
 #'
 #' Please see the examples section
-#' to get a good idea on how this function casts an array. \cr
-#' A more detailed explanation of the `acast()` function
-#' can be found on the website. \cr \cr
+#' to get a good idea on how this function casts an array. \cr \cr
 #' 
 #' 
 #' 

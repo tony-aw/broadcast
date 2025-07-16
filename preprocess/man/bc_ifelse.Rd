@@ -44,7 +44,7 @@ performs a broadcasted form of \code{ifelse()}. \cr
 }
 \examples{
 
-x.dim <- c(5, 3,2)
+x.dim <- c(5, 3, 2)
 x.len <- prod(x.dim)
 
 x <- array(sample(1:100), x.dim)

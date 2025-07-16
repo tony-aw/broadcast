@@ -80,6 +80,7 @@ margin <- 1L # we cast from the rows, so margin = 1
 grp <- as.factor(x[, 2]) # factor to define which rows belongs to which group
 levels(grp) <- c("a", "b") # names for the new dimension
 out <- acast(x, margin, grp) # casting is performed here
+broadcaster(out) <- TRUE
 print(out)
 ```
 
@@ -95,10 +96,11 @@ mult <- array(
   list(NULL, c("mult_id", "mult_grp", "mult_val"), c("a", "b"))
 )
 mult[, "mult_val", c("a", "b")] <- c(2, 10)
+broadcaster(mult) <- TRUE
 print(mult)
 
 # grouped broadcasted operation:
-out2 <- bc.d(out, mult, "*")
+out2 <- out * mult
 dimnames(out2) <- dimnames(out)
 print(out2)
 

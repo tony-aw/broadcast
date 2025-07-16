@@ -8,8 +8,9 @@
 #' Therefore, something like `bc.b(1, 2, "==")` returns `TRUE`,
 #' because both `1` and `2` are `TRUE` when treated as `logical`. \cr
 #' \cr
+#' For regular relational operators, see \link{bc.rel}. \cr \cr
 #' 
-#' @param x,y conformable arrays of type `logical`, `integer`(32 bit), or `raw`.
+#' @param x,y conformable arrays of type `logical`, `integer`(32 bit), `numeric`, or `raw`.
 #' @param op a single string, giving the operator. \cr
 #' Supported Boolean  operators: `r paste0(broadcast:::.op_b(), collapse = ", ")`.
 #' @param ... further arguments passed to or from methods. \cr \cr
@@ -50,6 +51,8 @@ setMethod(
     
     # checks:
     .binary_stop_general(x, y, op, sys.call())
+    if(is.double(x))  x <- as.integer(x)
+    if(is.double(y)) y <- as.integer(y)
     if(!.is_boolable(x) || !.is_boolable(y)) {
       stop("unsupported types given")
     }

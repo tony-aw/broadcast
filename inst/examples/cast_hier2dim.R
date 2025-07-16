@@ -194,7 +194,7 @@ x2 <- cast_hier2dim(x, in2out = FALSE, padding = list(~ "this is padding"))
 dimnames(x2) <- list( # notice the order here is reversed, because in2out = FALSE
   c("group1", "group2"),
   c("class1", "class2", "class3"),
-  c("sex", "weight", "height")
+  c("height", "weight", "sex")
   
 )
 print(x2)

@@ -18,7 +18,7 @@ The implementations available in 'broadcast' include, but are not limited to, th
 <ol>
 <li> Broadcasted element-wise operations on any 2 arrays;
 they support a large set of
-relational, arithmetic, Boolean, string, bit-wise operations.
+relational, arithmetic, Boolean, string, and bit-wise operations.
 
 </li>
 <li> A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.
@@ -61,39 +61,24 @@ than R’s regular dimensions replication mechanism. <br /> <br />
 
 ### Functions
 
-<b>Functions for broadcasted element-wise binary operations</b> <br />
-'broadcast' provides a set of functions for broadcasted element-wise binary operations
-with broadcasting. <br />
-These functions use an API similar to the outer function. <br />
+<b>Broadcasted Operators</b> <br />
+Base 'R' comes with relational (==, !=, etc.),
+arithmetic (+, -, *, /, etc.), and logical/bit-wise (&amp;, |) operators. <br />
+'broadcast' provides 2 ways to use these operators with broadcasting. <br />
 <br />
-The following functions for simple operations are available:
-
-
-<ul>
-<li> [bc.b](bc.b.qmd): Boolean (i.e. logical) operations;
-
-</li>
-<li> [bc.i](bc.i.qmd): integer arithmetic and relational operations;
-
-</li>
-<li> [bc.d](bc.d.qmd): decimal arithmetic and relational operations;
-
-</li>
-<li> [bc.cplx](bc.cplx.qmd): complex arithmetic and (in)equality operations;
-
-</li>
-<li> [bc.str](bc.str.qmd): string (in)equality, concatenation, and distance operations;
-
-</li>
-<li> [bc.raw](bc.raw.qmd): byte- and relational operations for vectors/arrays of type <code>raw</code>;
-
-</li>
-<li> [bc.bit](bc.bit.qmd): BIT-WISE operations, supporting the <code>raw</code> and <code>integer</code> types;
-
-</li>
-<li> [bc.list](bc.list.qmd): apply any 'R' function to 2 recursive arrays with broadcasting. <br /> <br />
-
-</li></ul>
+The first (and simple) way is to use the [broadcaster](broadcaster.qmd) class,
+which comes with it's own method dispatch for the above mentioned operators. <br />
+This method support operator precedence, and for the average 'R' user,
+this is sufficient. <br />
+<br />
+The second way is to use the large set of <code>bc.</code>- functions. <br />
+These offer much greater control and more operators than the previous method,
+and has less risk of running into conflicting methods. <br />
+But it does not support operator precedence. <br />
+<br />
+More information about both methods can be found here: <br />
+[broadcast_operators](aaa01_broadcast_operators.qmd). <br />
+<br />
 
 <b><code>bind_array()</code></b> <br />
 'broadcast' provides the [bind_array](bind_array.qmd) function,
@@ -130,42 +115,20 @@ This saves computation time and prevents unexpected results.
 
 </li>
 <li> <code>bind_array()</code> has more streamlined naming options,
-compared to <code>abind::abind</code>. <br /> <br />
+compared to <code>abind::abind</code>. <br />
 
 </li></ul>
+
+See [bind_array](bind_array.qmd). <br /><br />
 
 <b>Casting Functions</b> <br />
 'broadcast' provides several &quot;casting&quot; functions. <br />
 These can facility complex forms of broadcasting that would normally not be possible. <br />
 But these &quot;casting&quot; functions also have their own merit, beside empowering complex broadcasting. <br />
 <br />
-The following casting functions are available:
-
-
-<ul>
-<li> [acast](acast.qmd): <br />
-casts group-based subset of an array into a new dimension. <br />
-Useful for, for example, computing <b>grouped</b> broadcasted operations. <br />
-
-</li>
-<li> [cast_hier2dim](cast_hier2dim.qmd): <br />
-casts a nested/hierarchical list into a dimensional list (i.e. recursive array). <br />
-Useful because one cannot broadcast through nesting, but one <b>can</b> broadcast along dimensions.
-
-</li>
-<li> [cast_dim2hier](cast_dim2hier.qmd): <br />
-casts a dimensional list into a nested/hierarchical list; the opposite of [cast_hier2dim](cast_hier2dim.qmd). <br />
-
-</li>
-<li> [cast_dim2flat](cast_dim2flat.qmd): <br />
-casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. <br />
-Mostly useful for printing or summarizing dimensional lists.
-
-</li>
-<li> [dropnests](dropnests.qmd): <br />
-drop redundant nesting in lists; mostly used for facilitating the above casting functions. <br /> <br />
-
-</li></ul>
+More information about both methods can be found here: <br />
+[broadcast_casting](aaa02_broadcast_casting.qmd). <br />
+<br />
 
 <b>General functions</b> <br />
 'broadcast' also comes with 2 general broadcasted functions:
@@ -189,18 +152,6 @@ which preserve names and dimensions - convenient for arrays. <br />
 <br />
 And 'broadcast' comes with some helper functions: <br />
 [bc_dim](bc_dim.qmd), [ndim](ndim.qmd), [lst.ndim](ndim.qmd), [rep_dim](rep_dim.qmd). <br /> <br />
-
-
-
-### Overloading
-
-Sometimes broadcasting is needed in a large mathematical expression,
-involving multiple variables,
-where precedence is of importance. <br />
-For example in an expression like <code>x + y / z^y</code>. <br />
-For such cases, you may want to overload the base operators. <br />
-To that end, the 'broadcast' package provides the [broadcaster](broadcaster.qmd) class attribute,
-which comes with its own method dispatch for the base operators. <br /> <br />
 
 
 

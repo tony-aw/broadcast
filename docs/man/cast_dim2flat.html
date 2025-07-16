@@ -144,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/acast.html">Casting</a></li><li class="breadcrumb-item"><a href="../man/cast_dim2flat.html">cast_dim2flat</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/aaa02_broadcast_casting.html">Casting</a></li><li class="breadcrumb-item"><a href="../man/cast_dim2flat.html">cast_dim2flat</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -167,13 +167,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
+            <a href="../man/aaa01_broadcast_operators.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Operators</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/aaa01_broadcast_operators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">broadcast_operators</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/broadcaster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">broadcaster</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc.rel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.rel</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
@@ -222,18 +240,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">bc.list</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/broadcaster.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">broadcaster</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/aaa01_broadcast_operators.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">broadcast_operators</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item">
@@ -244,13 +250,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../man/acast.html" class="sidebar-item-text sidebar-link">
+            <a href="../man/aaa02_broadcast_casting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Casting</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/aaa02_broadcast_casting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">broadcast_casting</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/acast.html" class="sidebar-item-text sidebar-link">
@@ -279,12 +291,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/dropnests.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">dropnests</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/aaa02_broadcast_casting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">broadcast_casting</span></a>
   </div>
 </li>
       </ul>
@@ -471,8 +477,8 @@ further arguments passed to or from methods. <br> <br>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co"># predict what dimensions `x` would have if casted as dimensional:</span></span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="fu">hier2dim</span>(x) <span class="co"># all have name "no padding", because `x` is an evenly nested list</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="do">## no padding no padding no padding </span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="do">##          3          3          2</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="do">##       </span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 3 2</span></span>
 <span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x) <span class="co"># cast as dimensional</span></span>
 <span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
@@ -502,26 +508,26 @@ further arguments passed to or from methods. <br> <br>
 <span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="co"># print a small portion of the list, but less compact:</span></span>
 <span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="st">"group1"</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
 <span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['height', 'class1', 'group1']`</span></span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 168.5001 169.6588 170.8353 170.5673 169.0186 171.7903 170.2759 167.9123</span></span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.8576 169.5434</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.5801 170.6890 169.7740 170.0909 168.9965 171.3754 170.3564 170.1562</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.3917 170.4665</span></span>
 <span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['weight', 'class1', 'group1']`</span></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 77.88254 80.02959 80.32029 78.22464 79.47511 79.37264 79.74382 80.25517</span></span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 80.17853 79.23123</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 80.42755 78.80048 78.10496 78.97839 79.44955 81.97631 78.34325 79.57978</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 79.99412 79.26887</span></span>
 <span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['sex', 'class1', 'group1']`</span></span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] NA  "F" NA  "M" NA  "M" "M" NA  "M" "F"</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] "F" "M" NA  "M" "F" "M" "F" "F" "F" "M"</span></span>
 <span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['height', 'class2', 'group1']`</span></span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.9707 169.1238 169.7245 170.3235 171.3602 170.6117 170.4461 169.4402</span></span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.7737 170.5514</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 168.4759 169.5600 169.2815 171.0164 170.8448 170.7046 169.1201 170.3100</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.0835 169.8523</span></span>
 <span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['weight', 'class2', 'group1']`</span></span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 80.42484 82.09033 79.01029 81.18034 78.94540 79.67192 78.93539 80.03056</span></span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 80.49949 80.14063</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 80.33912 79.64533 81.16177 80.64039 78.80897 80.14101 79.96243 80.54111</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 79.73867 80.31979</span></span>
 <span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['sex', 'class2', 'group1']`</span></span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] "M" "F" "M" NA  NA  "M" NA  "F" "M" "M"</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] "F" "M" "F" "M" NA  NA  "M" "M" NA  "M"</span></span>
 <span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="co"># evenly nested list, in2out = FALSE ====</span></span>
@@ -564,8 +570,8 @@ further arguments passed to or from methods. <br> <br>
 <span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="co"># predict what dimensions `x` would have if casted as dimensional:</span></span>
 <span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="fu">hier2dim</span>(x) <span class="co"># all have name "no padding", because `x` is an evenly nested list</span></span>
-<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="do">## no padding no padding no padding </span></span>
-<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="do">##          3          3          2</span></span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="do">##       </span></span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 3 2</span></span>
 <span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x, <span class="at">in2out =</span> <span class="cn">FALSE</span>) <span class="co"># cast as dimensional</span></span>
 <span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a></span>
@@ -599,26 +605,26 @@ further arguments passed to or from methods. <br> <br>
 <span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a><span class="co"># print a small portion of the list, but less compact:</span></span>
 <span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[<span class="st">"group1"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
 <span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class1', 'height']`</span></span>
-<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.4714 169.2248 168.6349 170.5294 170.3579 169.9667 169.1065 170.1152</span></span>
-<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.3321 169.9362</span></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.9252 170.4803 170.1815 169.9790 168.9979 169.1654 171.2781 170.9865</span></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.4471 171.6281</span></span>
 <span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class2', 'height']`</span></span>
-<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.0036 168.1647 169.1680 168.9217 169.7592 170.1973 169.9234 170.8009</span></span>
-<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.1035 170.9561</span></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.0626 170.0434 171.0551 169.7116 170.8823 169.3459 171.0447 169.5372</span></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.8431 170.6028</span></span>
 <span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class1', 'weight']`</span></span>
-<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 81.03013 79.07718 81.35188 81.30795 81.01226 78.39742 79.69210 80.27299</span></span>
-<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 80.03426 79.77794</span></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 78.75348 78.44880 79.00941 80.56190 80.11868 80.11460 79.55655 79.76895</span></span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 79.03951 80.01120</span></span>
 <span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class2', 'weight']`</span></span>
-<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 79.78490 78.70082 78.81991 78.63943 79.14051 80.03166 79.56760 80.27544</span></span>
-<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 79.08733 80.78909</span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 78.17001 80.87742 80.30375 79.81991 80.01360 78.86499 79.09969 78.63797</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 80.10120 79.83230</span></span>
 <span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class1', 'sex']`</span></span>
-<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] "M" NA  NA  "F" "F" "M" "M" "F" NA  "M"</span></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] "M" "F" NA  NA  NA  NA  "M" NA  NA  NA </span></span>
 <span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class2', 'sex']`</span></span>
-<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] NA  NA  "F" "M" "M" "F" NA  "F" "F" "F"</span></span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] NA  "M" "M" "F" "M" "M" "F" NA  "F" NA</span></span>
 <span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a></span>
@@ -661,8 +667,8 @@ further arguments passed to or from methods. <br> <br>
 <span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="co">#     x$group2$class2 is missing variable "weight".</span></span>
 <span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="fu">hier2dim</span>(x) <span class="co"># as indicated here, the first 2 dimensions (i.e. rows and columns) will have padding</span></span>
-<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="do">##    padding    padding no padding </span></span>
-<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="do">##          3          3          2</span></span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="do">## padding padding         </span></span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="do">##       3       3       2</span></span>
 <span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a><span class="co"># casting this to a dimensional list will resulting in padding with `NULL`:</span></span>
 <span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x)</span>
@@ -741,20 +747,20 @@ further arguments passed to or from methods. <br> <br>
 <span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a><span class="do">## sex    character,10 ~"this is padding" character,10</span></span>
 <span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, , , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
 <span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['height', 'class1', 'group1']`</span></span>
-<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.7107 170.8826 170.0636 170.8038 168.2787 169.6921 170.2736 169.3836</span></span>
-<span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.6741 170.8961</span></span>
+<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.2325 169.6596 171.0283 169.8177 171.5136 170.8965 169.3581 170.2579</span></span>
+<span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.9304 169.6805</span></span>
 <span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['weight', 'class1', 'group1']`</span></span>
-<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 79.56354 79.39560 80.20026 80.47705 79.36904 80.91405 80.48552 80.94704</span></span>
-<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 78.72936 80.36021</span></span>
+<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 81.96884 80.67114 81.03574 79.80314 79.98068 78.77392 79.21560 80.33480</span></span>
+<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 80.88339 79.56836</span></span>
 <span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-322"><a href="#cb1-322" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['height', 'class2', 'group1']`</span></span>
-<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.2108 170.7800 169.8305 170.6602 169.8777 170.4097 171.2241 169.0801</span></span>
-<span id="cb1-324"><a href="#cb1-324" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.1528 170.4913</span></span>
+<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.6758 170.2749 171.4263 170.4378 170.1559 169.0711 169.6961 169.1890</span></span>
+<span id="cb1-324"><a href="#cb1-324" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.4222 170.7898</span></span>
 <span id="cb1-325"><a href="#cb1-325" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-326"><a href="#cb1-326" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['weight', 'class2', 'group1']`</span></span>
-<span id="cb1-327"><a href="#cb1-327" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 77.98356 79.99870 79.26891 79.88413 79.56726 80.88522 78.66150 80.90374</span></span>
-<span id="cb1-328"><a href="#cb1-328" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 79.76717 79.88966</span></span>
+<span id="cb1-327"><a href="#cb1-327" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 81.22307 78.95676 80.35367 80.08759 79.62381 79.43873 81.23186 77.38851</span></span>
+<span id="cb1-328"><a href="#cb1-328" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 80.87928 79.41848</span></span>
 <span id="cb1-329"><a href="#cb1-329" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-330"><a href="#cb1-330" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['height', 'class3', 'group1']`</span></span>
 <span id="cb1-331"><a href="#cb1-331" aria-hidden="true" tabindex="-1"></a><span class="do">## ~"this is padding"</span></span>
@@ -763,38 +769,38 @@ further arguments passed to or from methods. <br> <br>
 <span id="cb1-334"><a href="#cb1-334" aria-hidden="true" tabindex="-1"></a><span class="do">## ~"this is padding"</span></span>
 <span id="cb1-335"><a href="#cb1-335" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-336"><a href="#cb1-336" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['height', 'class1', 'group2']`</span></span>
-<span id="cb1-337"><a href="#cb1-337" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.9197 168.1630 170.0794 170.9215 170.0482 170.2681 170.6076 168.9687</span></span>
-<span id="cb1-338"><a href="#cb1-338" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 171.3103 168.9725</span></span>
+<span id="cb1-337"><a href="#cb1-337" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 171.2093 169.0150 168.8865 170.0885 170.4244 171.2888 170.0155 170.6054</span></span>
+<span id="cb1-338"><a href="#cb1-338" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.6310 169.3698</span></span>
 <span id="cb1-339"><a href="#cb1-339" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-340"><a href="#cb1-340" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['weight', 'class1', 'group2']`</span></span>
-<span id="cb1-341"><a href="#cb1-341" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 79.17915 79.02236 81.10339 79.32809 78.35793 82.03849 79.29095 80.82391</span></span>
-<span id="cb1-342"><a href="#cb1-342" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 80.24878 80.12679</span></span>
+<span id="cb1-341"><a href="#cb1-341" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 81.13157 80.28913 79.56150 80.53069 81.20947 80.84093 79.98070 79.07358</span></span>
+<span id="cb1-342"><a href="#cb1-342" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 78.37553 78.88336</span></span>
 <span id="cb1-343"><a href="#cb1-343" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-344"><a href="#cb1-344" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['height', 'class2', 'group2']`</span></span>
-<span id="cb1-345"><a href="#cb1-345" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.4241 171.2414 169.3577 169.7771 169.2864 169.6815 170.6000 170.1832</span></span>
-<span id="cb1-346"><a href="#cb1-346" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.4515 169.8878</span></span>
+<span id="cb1-345"><a href="#cb1-345" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.2385 169.7865 168.9453 171.0644 168.6703 169.5876 170.2562 169.9565</span></span>
+<span id="cb1-346"><a href="#cb1-346" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.5851 169.3107</span></span>
 <span id="cb1-347"><a href="#cb1-347" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-348"><a href="#cb1-348" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['weight', 'class2', 'group2']`</span></span>
-<span id="cb1-349"><a href="#cb1-349" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] NA  "M" "F" "F" "M" "F" NA  NA  "M" NA </span></span>
+<span id="cb1-349"><a href="#cb1-349" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] "M" NA  NA  NA  "M" "F" "M" "M" "M" "M"</span></span>
 <span id="cb1-350"><a href="#cb1-350" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-351"><a href="#cb1-351" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['height', 'class3', 'group2']`</span></span>
-<span id="cb1-352"><a href="#cb1-352" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.8974 170.5352 169.6198 168.2249 171.4616 171.3646 170.1831 170.0407</span></span>
-<span id="cb1-353"><a href="#cb1-353" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.5815 171.4887</span></span>
+<span id="cb1-352"><a href="#cb1-352" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 168.5031 170.4247 169.4354 171.5143 170.0048 168.1830 171.6781 169.4094</span></span>
+<span id="cb1-353"><a href="#cb1-353" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.1368 171.2420</span></span>
 <span id="cb1-354"><a href="#cb1-354" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-355"><a href="#cb1-355" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['weight', 'class3', 'group2']`</span></span>
-<span id="cb1-356"><a href="#cb1-356" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 79.09625 82.05445 79.10283 81.14104 79.57705 81.70110 80.40664 79.20496</span></span>
-<span id="cb1-357"><a href="#cb1-357" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 80.45677 81.53465</span></span>
+<span id="cb1-356"><a href="#cb1-356" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 80.90860 79.86988 81.41735 80.94064 78.50461 80.26805 78.42482 78.29835</span></span>
+<span id="cb1-357"><a href="#cb1-357" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 79.68489 81.21214</span></span>
 <span id="cb1-358"><a href="#cb1-358" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-359"><a href="#cb1-359" aria-hidden="true" tabindex="-1"></a><span class="co"># we can also use in2out = FALSE:</span></span>
 <span id="cb1-360"><a href="#cb1-360" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x, <span class="at">in2out =</span> <span class="cn">FALSE</span>, <span class="at">padding =</span> <span class="fu">list</span>(<span class="sc">~</span> <span class="st">"this is padding"</span>))</span>
 <span id="cb1-361"><a href="#cb1-361" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(x2) <span class="ot">&lt;-</span> <span class="fu">list</span>( <span class="co"># notice the order here is reversed, because in2out = FALSE</span></span>
 <span id="cb1-362"><a href="#cb1-362" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"group1"</span>, <span class="st">"group2"</span>),</span>
 <span id="cb1-363"><a href="#cb1-363" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"class1"</span>, <span class="st">"class2"</span>, <span class="st">"class3"</span>),</span>
-<span id="cb1-364"><a href="#cb1-364" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"sex"</span>, <span class="st">"weight"</span>, <span class="st">"height"</span>)</span>
+<span id="cb1-364"><a href="#cb1-364" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"height"</span>, <span class="st">"weight"</span>, <span class="st">"sex"</span>)</span>
 <span id="cb1-365"><a href="#cb1-365" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-366"><a href="#cb1-366" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-367"><a href="#cb1-367" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x2)</span>
-<span id="cb1-368"><a href="#cb1-368" aria-hidden="true" tabindex="-1"></a><span class="do">## , , sex</span></span>
+<span id="cb1-368"><a href="#cb1-368" aria-hidden="true" tabindex="-1"></a><span class="do">## , , height</span></span>
 <span id="cb1-369"><a href="#cb1-369" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-370"><a href="#cb1-370" aria-hidden="true" tabindex="-1"></a><span class="do">##        class1     class2     class3            </span></span>
 <span id="cb1-371"><a href="#cb1-371" aria-hidden="true" tabindex="-1"></a><span class="do">## group1 numeric,10 numeric,10 ~"this is padding"</span></span>
@@ -806,56 +812,56 @@ further arguments passed to or from methods. <br> <br>
 <span id="cb1-377"><a href="#cb1-377" aria-hidden="true" tabindex="-1"></a><span class="do">## group1 numeric,10 numeric,10   ~"this is padding"</span></span>
 <span id="cb1-378"><a href="#cb1-378" aria-hidden="true" tabindex="-1"></a><span class="do">## group2 numeric,10 character,10 numeric,10        </span></span>
 <span id="cb1-379"><a href="#cb1-379" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-380"><a href="#cb1-380" aria-hidden="true" tabindex="-1"></a><span class="do">## , , height</span></span>
+<span id="cb1-380"><a href="#cb1-380" aria-hidden="true" tabindex="-1"></a><span class="do">## , , sex</span></span>
 <span id="cb1-381"><a href="#cb1-381" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-382"><a href="#cb1-382" aria-hidden="true" tabindex="-1"></a><span class="do">##        class1       class2             class3            </span></span>
 <span id="cb1-383"><a href="#cb1-383" aria-hidden="true" tabindex="-1"></a><span class="do">## group1 character,10 character,10       ~"this is padding"</span></span>
 <span id="cb1-384"><a href="#cb1-384" aria-hidden="true" tabindex="-1"></a><span class="do">## group2 character,10 ~"this is padding" character,10</span></span>
 <span id="cb1-385"><a href="#cb1-385" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[, , <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb1-386"><a href="#cb1-386" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class1', 'sex']`</span></span>
-<span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.7107 170.8826 170.0636 170.8038 168.2787 169.6921 170.2736 169.3836</span></span>
-<span id="cb1-388"><a href="#cb1-388" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.6741 170.8961</span></span>
+<span id="cb1-386"><a href="#cb1-386" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class1', 'height']`</span></span>
+<span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.2325 169.6596 171.0283 169.8177 171.5136 170.8965 169.3581 170.2579</span></span>
+<span id="cb1-388"><a href="#cb1-388" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.9304 169.6805</span></span>
 <span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-390"><a href="#cb1-390" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group2', 'class1', 'sex']`</span></span>
-<span id="cb1-391"><a href="#cb1-391" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.9197 168.1630 170.0794 170.9215 170.0482 170.2681 170.6076 168.9687</span></span>
-<span id="cb1-392"><a href="#cb1-392" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 171.3103 168.9725</span></span>
+<span id="cb1-390"><a href="#cb1-390" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group2', 'class1', 'height']`</span></span>
+<span id="cb1-391"><a href="#cb1-391" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 171.2093 169.0150 168.8865 170.0885 170.4244 171.2888 170.0155 170.6054</span></span>
+<span id="cb1-392"><a href="#cb1-392" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.6310 169.3698</span></span>
 <span id="cb1-393"><a href="#cb1-393" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-394"><a href="#cb1-394" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class2', 'sex']`</span></span>
-<span id="cb1-395"><a href="#cb1-395" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.2108 170.7800 169.8305 170.6602 169.8777 170.4097 171.2241 169.0801</span></span>
-<span id="cb1-396"><a href="#cb1-396" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.1528 170.4913</span></span>
+<span id="cb1-394"><a href="#cb1-394" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class2', 'height']`</span></span>
+<span id="cb1-395"><a href="#cb1-395" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.6758 170.2749 171.4263 170.4378 170.1559 169.0711 169.6961 169.1890</span></span>
+<span id="cb1-396"><a href="#cb1-396" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.4222 170.7898</span></span>
 <span id="cb1-397"><a href="#cb1-397" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group2', 'class2', 'sex']`</span></span>
-<span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.4241 171.2414 169.3577 169.7771 169.2864 169.6815 170.6000 170.1832</span></span>
-<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.4515 169.8878</span></span>
+<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group2', 'class2', 'height']`</span></span>
+<span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.2385 169.7865 168.9453 171.0644 168.6703 169.5876 170.2562 169.9565</span></span>
+<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.5851 169.3107</span></span>
 <span id="cb1-401"><a href="#cb1-401" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-402"><a href="#cb1-402" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class3', 'sex']`</span></span>
+<span id="cb1-402"><a href="#cb1-402" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class3', 'height']`</span></span>
 <span id="cb1-403"><a href="#cb1-403" aria-hidden="true" tabindex="-1"></a><span class="do">## ~"this is padding"</span></span>
 <span id="cb1-404"><a href="#cb1-404" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-405"><a href="#cb1-405" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group2', 'class3', 'sex']`</span></span>
-<span id="cb1-406"><a href="#cb1-406" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.8974 170.5352 169.6198 168.2249 171.4616 171.3646 170.1831 170.0407</span></span>
-<span id="cb1-407"><a href="#cb1-407" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.5815 171.4887</span></span>
+<span id="cb1-405"><a href="#cb1-405" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group2', 'class3', 'height']`</span></span>
+<span id="cb1-406"><a href="#cb1-406" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 168.5031 170.4247 169.4354 171.5143 170.0048 168.1830 171.6781 169.4094</span></span>
+<span id="cb1-407"><a href="#cb1-407" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 169.1368 171.2420</span></span>
 <span id="cb1-408"><a href="#cb1-408" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-409"><a href="#cb1-409" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class1', 'weight']`</span></span>
-<span id="cb1-410"><a href="#cb1-410" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 79.56354 79.39560 80.20026 80.47705 79.36904 80.91405 80.48552 80.94704</span></span>
-<span id="cb1-411"><a href="#cb1-411" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 78.72936 80.36021</span></span>
+<span id="cb1-410"><a href="#cb1-410" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 81.96884 80.67114 81.03574 79.80314 79.98068 78.77392 79.21560 80.33480</span></span>
+<span id="cb1-411"><a href="#cb1-411" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 80.88339 79.56836</span></span>
 <span id="cb1-412"><a href="#cb1-412" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-413"><a href="#cb1-413" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group2', 'class1', 'weight']`</span></span>
-<span id="cb1-414"><a href="#cb1-414" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 79.17915 79.02236 81.10339 79.32809 78.35793 82.03849 79.29095 80.82391</span></span>
-<span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 80.24878 80.12679</span></span>
+<span id="cb1-414"><a href="#cb1-414" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 81.13157 80.28913 79.56150 80.53069 81.20947 80.84093 79.98070 79.07358</span></span>
+<span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 78.37553 78.88336</span></span>
 <span id="cb1-416"><a href="#cb1-416" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-417"><a href="#cb1-417" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class2', 'weight']`</span></span>
-<span id="cb1-418"><a href="#cb1-418" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 77.98356 79.99870 79.26891 79.88413 79.56726 80.88522 78.66150 80.90374</span></span>
-<span id="cb1-419"><a href="#cb1-419" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 79.76717 79.88966</span></span>
+<span id="cb1-418"><a href="#cb1-418" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 81.22307 78.95676 80.35367 80.08759 79.62381 79.43873 81.23186 77.38851</span></span>
+<span id="cb1-419"><a href="#cb1-419" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 80.87928 79.41848</span></span>
 <span id="cb1-420"><a href="#cb1-420" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-421"><a href="#cb1-421" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group2', 'class2', 'weight']`</span></span>
-<span id="cb1-422"><a href="#cb1-422" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] NA  "M" "F" "F" "M" "F" NA  NA  "M" NA </span></span>
+<span id="cb1-422"><a href="#cb1-422" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] "M" NA  NA  NA  "M" "F" "M" "M" "M" "M"</span></span>
 <span id="cb1-423"><a href="#cb1-423" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-424"><a href="#cb1-424" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class3', 'weight']`</span></span>
 <span id="cb1-425"><a href="#cb1-425" aria-hidden="true" tabindex="-1"></a><span class="do">## ~"this is padding"</span></span>
 <span id="cb1-426"><a href="#cb1-426" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-427"><a href="#cb1-427" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group2', 'class3', 'weight']`</span></span>
-<span id="cb1-428"><a href="#cb1-428" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 79.09625 82.05445 79.10283 81.14104 79.57705 81.70110 80.40664 79.20496</span></span>
-<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 80.45677 81.53465</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-428"><a href="#cb1-428" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 80.90860 79.86988 81.41735 80.94064 78.50461 80.26805 78.42482 78.29835</span></span>
+<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 79.68489 81.21214</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

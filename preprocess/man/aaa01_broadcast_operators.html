@@ -20,13 +20,24 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>This help page gives some additional information on the properties of
-the <code>bc.</code> functions and the overloaded operators. <br />
+<p>Base 'R' comes with relational (==, !=, etc.),
+arithmetic (+, -, *, /, etc.), and logical/bit-wise (&amp;, |) operators. <br />
+'broadcast' provides 2 ways to use these operators with broadcasting. <br />
+<br />
+The first (and simple) way is to use the <code>[broadcaster](broadcaster.qmd)</code> class,
+which comes with it's own method dispatch for the above mentioned operators. <br />
+This approach supports operator precedence, and for the average 'R' user,
+this is sufficient. <br />
+<br />
+The second way is to use the large set of <code>bc.</code>- functions. <br />
+These offer much greater control and more operators than the previous method,
+and has less risk of running into conflicting methods. <br />
+But it does not support operator precedence. <br />
 <br />
 </p>
 
 
-<h3>Available Overloads</h3>
+<h3>Available Overloaded Operators</h3>
 
 <p>Sometimes broadcasting is needed in large mathematical expression,
 involving multiple variables,
@@ -38,13 +49,61 @@ To that end, the 'broadcast' package provides the <code>[broadcaster](broadcaste
 which comes with its own method dispatch for the base operators. <br />
 If at least one of the 2 arguments of the base operators has the <code>broadcaster</code> class attribute,
 and no other class (like <code>bit64</code>) interferes,
-broadcasting will occur in the same manner as used in the various <code>bc.</code> - functions. <br />
+broadcasting will be used. <br />
 <br />
 The following arithmetic operators have a 'broadcaster' method:
 +, -, *, /, ^, %%, %/% <br />
 The following relational operators have a 'broadcaster' method:
 ==, !=, &lt;, &gt;, &lt;=, &gt;= <br />
 And finally, the &amp; and | operators also have a 'broadcaster' method. <br />
+<br />
+See also the Examples section below. <br />
+<br />
+</p>
+
+
+<h3>Available <code>bc.</code> functions</h3>
+
+<p>'broadcast' provides a set of functions for broadcasted element-wise binary operations
+with broadcasting. <br />
+These functions use an API similar to the outer function. <br />
+<br />
+The following functions for simple operations are available:
+</p>
+
+<ul>
+<li> <p><code>[bc.rel](bc.rel.qmd)</code>: General relational operations.
+</p>
+</li>
+<li> <p><code>[bc.b](bc.b.qmd)</code>: Boolean (i.e. logical) operations;
+</p>
+</li>
+<li> <p><code>[bc.i](bc.i.qmd)</code>: integer arithmetic operations;
+</p>
+</li>
+<li> <p><code>[bc.d](bc.d.qmd)</code>: decimal arithmetic operations;
+</p>
+</li>
+<li> <p><code>[bc.cplx](bc.cplx.qmd)</code>: complex arithmetic operations;
+</p>
+</li>
+<li> <p><code>[bc.str](bc.str.qmd)</code>: string (in)equality, concatenation, and distance operations;
+</p>
+</li>
+<li> <p><code>[bc.raw](bc.raw.qmd)</code>: operations that take in arrays of type <code>raw</code> and return an array of type <code>raw</code>;
+</p>
+</li>
+<li> <p><code>[bc.bit](bc.bit.qmd)</code>: BIT-WISE operations, supporting the <code>raw</code> and <code>integer</code> types;
+</p>
+</li>
+<li> <p><code>[bc.list](bc.list.qmd)</code>: apply any 'R' function to 2 recursive arrays with broadcasting. <br /> <br />
+</p>
+</li></ul>
+
+<p>Note that the <code>[bc.rel](bc.rel.qmd)</code> method is the primary method for relational operators
+(==, !=, &lt;, &gt;, &lt;=, &gt;=),
+and provides what most user usually need in relational operators.<br />
+The various other <code>bc.</code> methods have specialized relational operators available for very specialised needs. <br />
 <br />
 </p>
 

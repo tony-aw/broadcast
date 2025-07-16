@@ -47,8 +47,8 @@ For \code{hier2dim()}: \cr
 An integer vector,
 giving the dimensions \code{x} would have,
 if casted by \code{cast_hier2dim()}. \cr
-The names of the output indicates if padding is required ("padding"),
-or no padding is required ("no padding") for that dimension; \cr
+The names of the output indicates if padding is required (name "padding"),
+or no padding is required (no name) for that dimension; \cr
 Padding will be required if not all list-elements at a certain depth have the same length. \cr
 \cr
 For \code{cast_hier2dim()}: \cr
@@ -265,7 +265,7 @@ x2 <- cast_hier2dim(x, in2out = FALSE, padding = list(~ "this is padding"))
 dimnames(x2) <- list( # notice the order here is reversed, because in2out = FALSE
   c("group1", "group2"),
   c("class1", "class2", "class3"),
-  c("sex", "weight", "height")
+  c("height", "weight", "sex")
   
 )
 print(x2)

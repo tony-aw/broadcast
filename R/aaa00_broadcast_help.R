@@ -32,21 +32,24 @@
 #' 
 #' @section Functions:
 #' 
-#' \bold{Functions for broadcasted element-wise binary operations} \cr
-#' 'broadcast' provides a set of functions for broadcasted element-wise binary operations
-#' with broadcasting. \cr
-#' These functions use an API similar to the \link[base]{outer} function. \cr
+#' \bold{Broadcasted Operators} \cr
+#' Base 'R' comes with relational (==, !=, etc.),
+#' arithmetic (+, -, *, /, etc.), and logical/bit-wise (&, |) operators. \cr
+#' 'broadcast' provides 2 ways to use these operators with broadcasting. \cr
 #' \cr
-#' The following functions for simple operations are available:
-#' 
-#'  * \link{bc.b}: Boolean (i.e. logical) operations;
-#'  * \link{bc.i}: integer arithmetic and relational operations;
-#'  * \link{bc.d}: decimal arithmetic and relational operations;
-#'  * \link{bc.cplx}: complex arithmetic and (in)equality operations;
-#'  * \link{bc.str}: string (in)equality, concatenation, and distance operations;
-#'  * \link{bc.raw}: byte- and relational operations for vectors/arrays of type `raw`;
-#'  * \link{bc.bit}: BIT-WISE operations, supporting the `raw` and `integer` types;
-#'  * \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
+#' The first (and simple) way is to use the \link{broadcaster} class,
+#' which comes with it's own method dispatch for the above mentioned operators. \cr
+#' This method support operator precedence, and for the average 'R' user,
+#' this is sufficient. \cr
+#' \cr
+#' The second way is to use the large set of `bc.`- functions. \cr
+#' These offer much greater control and more operators than the previous method,
+#' and has less risk of running into conflicting methods. \cr
+#' But it does not support operator precedence. \cr
+#' \cr
+#' More information about both methods can be found here: \cr
+#' \link{broadcast_operators}. \cr
+#' \cr
 #' 
 #' 
 #' \bold{\code{bind_array()}} \cr
@@ -74,29 +77,19 @@
 #'  but will give an error instead. \cr
 #'  This saves computation time and prevents unexpected results.
 #'  - `bind_array()` has more streamlined naming options,
-#'  compared to \code{abind::abind}. \cr \cr
+#'  compared to \code{abind::abind}. \cr
+#' 
+#' See \link{bind_array}. \cr\cr
+#' 
 #'  
 #' \bold{Casting Functions} \cr
 #' 'broadcast' provides several "casting" functions. \cr
 #' These can facility complex forms of broadcasting that would normally not be possible. \cr
 #' But these "casting" functions also have their own merit, beside empowering complex broadcasting. \cr
 #' \cr
-#' The following casting functions are available:
-#' 
-#'  - \link{acast}: \cr
-#'  casts group-based subset of an array into a new dimension. \cr
-#'  Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
-#'  - \link{cast_hier2dim}: \cr
-#'  casts a nested/hierarchical list into a dimensional list (i.e. recursive array). \cr
-#'  Useful because one cannot broadcast through nesting, but one \bold{can} broadcast along dimensions.
-#'  - \link{cast_dim2hier}: \cr
-#'  casts a dimensional list into a nested/hierarchical list; the opposite of \link{cast_hier2dim}. \cr
-#'  - \link{cast_dim2flat}: \cr
-#'  casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. \cr
-#'  Mostly useful for printing or summarizing dimensional lists.
-#'  - \link{dropnests}: \cr
-#'  drop redundant nesting in lists; mostly used for facilitating the above casting functions. \cr \cr
-#' 
+#' More information about both methods can be found here: \cr
+#' \link{broadcast_casting}. \cr
+#' \cr
 #' 
 #' \bold{General functions} \cr
 #' 'broadcast' also comes with 2 general broadcasted functions:
@@ -115,17 +108,6 @@
 #' \cr
 #' And 'broadcast' comes with some helper functions: \cr
 #' \link{bc_dim}, \link{ndim}, \link{lst.ndim}, \link{rep_dim}. \cr \cr
-#' 
-#' 
-#' 
-#' @section Overloading:
-#' Sometimes broadcasting is needed in a large mathematical expression,
-#' involving multiple variables,
-#' where precedence is of importance. \cr
-#' For example in an expression like `x + y / z^y`. \cr
-#' For such cases, you may want to overload the base operators. \cr
-#' To that end, the 'broadcast' package provides the \link{broadcaster} class attribute,
-#' which comes with its own method dispatch for the base operators. \cr \cr
 #' 
 #' 
 #' @section Supported Structures:

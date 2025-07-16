@@ -1,6 +1,13 @@
 
 #' @keywords internal
 #' @noRd
+.op_rel <- function() {
+  return(c("==", "!=", "<", ">", "<=", ">="))
+}
+
+
+#' @keywords internal
+#' @noRd
 .op_dec_math <- function() {
   return(c("+", "-", "*", "/", "^", "pmin", "pmax"))
 }
@@ -63,7 +70,9 @@
 
 #' @keywords internal
 #' @noRd
-.op_raw_rel <- .op_int_rel
+.op_byte <- function() {
+  return(c("&", "|", "xor", "nand", "both", "==", "!=", "<", ">", "<=", ">="))
+}
 
 
 #' @keywords internal
@@ -76,5 +85,5 @@
 #' @keywords internal
 #' @noRd
 .op_raw_byte <- function() {
-  return(c("pmin", "pmax", "diff"))
+  return(c("==", "!=", "<", ">", "<=", ">=", "&", "|", "xor", "nand", "both", "pmin", "pmax", "diff"))
 }

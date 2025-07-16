@@ -179,7 +179,7 @@ for(typeX in seq_along(datagens)) {
 
 # type errors - Boolean ====
 pattern <- "unsupported types given"
-good_type <- broadcast:::.is_boolable
+good_type <- \(x) broadcast:::.is_boolable(x) || is.numeric(x)
 # bx.i & bc.d
 for(typeX in seq_along(datagens)) {
   for(typeY in seq_along(datagens)) {
@@ -348,4 +348,16 @@ for(typeX in seq_along(datagens)) {
     }
   }
 }
+
+
+# type errors - general relational operators ====
+expect_error(
+  bc.rel(as.list(1:10), as.list(1:10), "=="),
+  pattern = "only atomic arrays supported for general relational operators"
+)
+expect_error(
+  bc.rel(1:10, 1:10, "+"),
+  pattern = "given operator not supported in the given context"
+)
+enumerate <- enumerate + 1L
 

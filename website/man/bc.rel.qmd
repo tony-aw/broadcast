@@ -1,0 +1,68 @@
+---
+title: bc.rel
+---
+## Broadcasted General Relational Operators {.unnumbered}
+
+
+### Description
+
+The <code>bc.rel()</code> function
+performs broadcasted general relational operations on 2 arrays. <br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>bc.rel(x, y, op, ...)
+
+## S4 method for signature 'ANY'
+bc.rel(x, y, op)
+</code></pre>
+
+
+### Arguments
+
+<table>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code>, <code id="y">y</code></td>
+<td>
+conformable arrays of any atomic type.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
+<td>
+a single string, giving the relational operator. <br />
+Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
+</td></tr>
+</table>
+
+
+### Value
+
+A logical array as a result of the broadcasted general relational operation. <br /> <br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+
+x.dim <- c(4:2)
+x.len <- prod(x.dim)
+x.data <- sample(c(NA, 1.1:1000.1), x.len, TRUE)
+x <- array(x.data, x.dim)
+y <- array(1:50, c(4,1,1))
+
+
+bc.rel(x, y, "==")
+bc.rel(x, y, "!=")
+bc.rel(x, y, "<")
+bc.rel(x, y, ">")
+bc.rel(x, y, "<=")
+bc.rel(x, y, ">=")
+
+
+```

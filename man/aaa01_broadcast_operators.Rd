@@ -5,11 +5,22 @@
 \alias{broadcast_operators}
 \title{Details on Broadcasted Operators}
 \description{
-This help page gives some additional information on the properties of
-the \code{bc.} functions and the overloaded operators. \cr
+Base 'R' comes with relational (==, !=, etc.),
+arithmetic (+, -, *, /, etc.), and logical/bit-wise (&, |) operators. \cr
+'broadcast' provides 2 ways to use these operators with broadcasting. \cr
+\cr
+The first (and simple) way is to use the \link{broadcaster} class,
+which comes with it's own method dispatch for the above mentioned operators. \cr
+This approach supports operator precedence, and for the average 'R' user,
+this is sufficient. \cr
+\cr
+The second way is to use the large set of \code{bc.}- functions. \cr
+These offer much greater control and more operators than the previous method,
+and has less risk of running into conflicting methods. \cr
+But it does not support operator precedence. \cr
 \cr
 }
-\section{Available Overloads}{
+\section{Available Overloaded Operators}{
 
 Sometimes broadcasting is needed in large mathematical expression,
 involving multiple variables,
@@ -21,13 +32,41 @@ To that end, the 'broadcast' package provides the \link{broadcaster} class,
 which comes with its own method dispatch for the base operators. \cr
 If at least one of the 2 arguments of the base operators has the \code{broadcaster} class attribute,
 and no other class (like \code{bit64}) interferes,
-broadcasting will occur in the same manner as used in the various \code{bc.} - functions. \cr
+broadcasting will be used. \cr
 \cr
 The following arithmetic operators have a 'broadcaster' method:
 +, -, *, /, ^, \%\%, \%/\% \cr
 The following relational operators have a 'broadcaster' method:
 ==, !=, <, >, <=, >= \cr
 And finally, the & and | operators also have a 'broadcaster' method. \cr
+\cr
+See also the Examples section below. \cr
+\cr
+}
+
+\section{Available \code{bc.} functions}{
+
+'broadcast' provides a set of functions for broadcasted element-wise binary operations
+with broadcasting. \cr
+These functions use an API similar to the \link[base]{outer} function. \cr
+\cr
+The following functions for simple operations are available:
+\itemize{
+\item \link{bc.rel}: General relational operations.
+\item \link{bc.b}: Boolean (i.e. logical) operations;
+\item \link{bc.i}: integer arithmetic operations;
+\item \link{bc.d}: decimal arithmetic operations;
+\item \link{bc.cplx}: complex arithmetic operations;
+\item \link{bc.str}: string (in)equality, concatenation, and distance operations;
+\item \link{bc.raw}: operations that take in arrays of type \code{raw} and return an array of type \code{raw};
+\item \link{bc.bit}: BIT-WISE operations, supporting the \code{raw} and \code{integer} types;
+\item \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
+}
+
+Note that the \link{bc.rel} method is the primary method for relational operators
+(==, !=, <, >, <=, >=),
+and provides what most user usually need in relational operators.\cr
+The various other \code{bc.} methods have specialized relational operators available for very specialised needs. \cr
 \cr
 }
 

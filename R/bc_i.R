@@ -9,6 +9,7 @@
 #' Therefore, something like `bc.i(1, 1.5, "==")` returns `TRUE`,
 #' because `trunc(1.5)` equals `1`. \cr
 #' \cr
+#' For regular relational operators, see \link{bc.rel}. \cr \cr
 #' 
 #' @param x,y conformable logical or numeric arrays.
 #' @param op a single string, giving the operator. \cr

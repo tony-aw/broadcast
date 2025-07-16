@@ -1,14 +1,14 @@
-x.dim <- c(4:2)
-x.len <- prod(x.dim)
-x.data <- as.raw(0:10)
-y.data <- as.raw(10:0)
-x <- array(x.data, x.dim)
-y <- array(y.data, c(4,1,1))
 
-bc.raw(x, y, "==")
-bc.raw(x, y, "!=")
-bc.raw(x, y, "<")
-bc.raw(x, y, ">")
-bc.raw(x, y, "<=")
-bc.raw(x, y, ">=")
+x <- array(
+  sample(as.raw(1:100)), c(5, 3, 2)
+)
+y <- array(
+  sample(as.raw(1:100)), c(5, 1, 1)
+)
+
+cond <- bc.raw(x, y, "!=")
+print(cond)
+
+bc_ifelse(cond, yes = x, no = y)
+
 

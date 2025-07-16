@@ -1,0 +1,183 @@
+---
+title: "Additional Details"
+format:
+  html:
+    number-sections: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE, eval=TRUE}
+library(broadcast) |> suppressMessages()
+library(fontawesome) |> suppressWarnings()
+```
+
+
+&nbsp;
+
+&nbsp;
+
+# Overload method tables
+
+The overloaded operators from the 'broadcast' package attempts to mimic the base `r fa("r-project")` operators accurately, except that broadcasting is used (obviously).
+
+The following tables overview the behaviour of the operators.
+
+&nbsp;
+
+## Regular Arithmetic operators
+
+If both sides of the operators given here are numeric or logical, the following holds:
+
+```{r echo=FALSE, eval=TRUE}
+
+ops <- c("+", "-", "*", "/", "^", "%/%", "%%")
+action <- c("add", "substract", "multiply", "divide", "raise to power", "floored integer divide", "modulo")
+bc <- c(rep("bc.d", 5), "bc.i", "bc.i")
+
+df <- data.frame(
+  operator = ops,
+  action = action,
+  `functions like` = bc,
+  check.names = FALSE
+)
+
+tinytable::tt(df)
+
+```
+
+&nbsp;
+
+## Complex Arithmetic operators
+
+If at least one of the arguments of the operators given here are complex, the following holds:
+
+
+```{r echo=FALSE, eval=TRUE}
+
+ops <- c("+", "-", "*", "/")
+action <- c("add", "substract", "multiply", "divide")
+bc <- c(rep("bc.cplx", 4))
+
+df <- data.frame(
+  operator = ops,
+  action = action,
+  `functions like` = bc,
+  check.names = FALSE
+)
+
+tinytable::tt(df)
+
+```
+
+&nbsp;
+
+## Logical Operators
+
+If both sides of the operators given here are complex, numeric or logical, the following holds:
+
+```{r echo=FALSE, eval=TRUE}
+
+ops <- c("&", "|")
+action <- c("and", "or")
+bc <- c(rep("bc.b", 2))
+
+df <- data.frame(
+  operator = ops,
+  action = action,
+  `functions like` = bc,
+  check.names = FALSE
+)
+
+tinytable::tt(df)
+```
+
+&nbsp;
+
+## Bit-wise operators
+
+
+If both sides of the operators given here are type of raw, the following holds:
+
+
+```{r echo=FALSE, eval=TRUE}
+
+ops <- c("&", "|")
+action <- c("bit-wise and", "bit-wise or")
+bc <- c(rep("bc.bit", 2))
+
+df <- data.frame(
+  operator = ops,
+  action = action,
+  `functions like` = bc,
+  check.names = FALSE
+)
+
+tinytable::tt(df)
+```
+
+&nbsp;
+
+## Relational operators
+
+For relational operators, 'broadcast' first finds the "highest" (or most complex) atomic type of both sides, coerces both sides to said type, and then performs the broadcasted relational operation. Recursive types are not supported.
+
+The types, from complex to simple, are: `character`, `complex`, `numeric` (also known as `double`), `integer`, `logical`, and `raw`.
+
+&nbsp;
+
+# Compatibility with Custom Methods
+
+Consider a classed vector like the following:
+
+```{r}
+x <- 1:10
+class(x) <- "someclass"
+print(class(x))
+```
+
+
+Setting a vector or array as a "broadcaster" using the `broadcaster()<-` function, will add the "broadcaster" class attribute;  
+but note that the "broadcaster" class will be placed **last** in the class attribute:
+
+```{r}
+broadcaster(x) <- TRUE
+print(class(x))
+```
+
+Notice how the "broadcaster" class comes after the "someclass" class.
+
+Let's make a quick 'n dirty (and not at all smart) `+` method for "somceclass", which will just print some text:
+
+```{r}
+`+.someclass` <- function(e1, e2) {print("someclass method called")}
+```
+
+What will happen? Will the `+` method for the broadcaster be called, or the `+` method for "someclass"?  
+Well, since the "broadcaster" class is intentionally placed last, operator methods for the overriding classes will always "win" over the "broadcaster" class. In this case, if there are methods for the base operators (such as `+`, `-`, etc.) for the "someclass" class, the method for "someclass" will be called, rather than the broadcaster method:
+
+```{r}
+y <- array(1:10, c(1, 10))
+class(y) <- "someclass"
+broadcaster(y) <- TRUE
+x + y
+```
+
+Notice how the `+` method for "someclass" is called, rather than the `+` method for the broadcaster.
+
+This ensures compatibility with custom classes.  
+After all, some classes may not be intended to be broadcasted, or they may not be compatible with the base 'R' way of arithmetic (which is what 'broadcast' mimics), or they may need careful handling of attributes.
+
+Authors of these custom classes can make their methods use broadcasting if a broadcaster vector/array is detected, if they so choose; only they know what is appropriate for their classes and what isn't.
+
+
+&nbsp;
+
+
+
+

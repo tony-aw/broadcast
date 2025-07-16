@@ -42,6 +42,7 @@ and will efficiently truncate when necessary. \cr
 Therefore, something like \code{bc.i(1, 1.5, "==")} returns \code{TRUE},
 because \code{trunc(1.5)} equals \code{1}. \cr
 \cr
+For regular relational operators, see \link{bc.rel}. \cr \cr
 }
 \examples{
 x.dim <- c(4:2)

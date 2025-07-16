@@ -45,7 +45,8 @@ Please read the [Broadcasting explained](https://tony-aw.github.io/broadcast/vig
 
 At its core, the 'broadcast' package provides the following functionalities, all related to "broadcasting":
 
-1.  Functions for broadcasted element-wise operations between any 2 arrays. They support a large set of relational-, arithmetic-, Boolean-, string-, and bit-wise operations.
+1.  Broadcasted Infix Operators.  
+They support a large set of relational-, arithmetic-, Boolean-, string-, and bit-wise operations.
 2.  The [bind_array()](/man/bind_array.qmd) function for binding arrays along any arbitrary dimension. Similar to the fantastic `abind::abind()` function, but with a few key differences:
     -   [bind_array()](/man/bind_array.qmd) is faster and more memory efficient;
     -   [bind_array()](/man/bind_array.qmd) supports broadcasting;
@@ -133,18 +134,16 @@ x + y[rep(1L, 4L),]
 ... but this becomes an issue when `x` and/or `y` become very large, as the above operation involves replicating/copying `y` several times - which costs memory, reduces speed, and the code is not easily scalable for arrays with different dimensions.
 
 The 'broadcast' package performs "broadcasting", which can do the above, but **faster**, **without unnecessary copies**, and scalable to arrays of any size (up to 16 dimensions).  
+
 Like so:
 
 ```{r}
-bc.d(x, y, "+")
-```
 
-or like so:
-
-```{r}
 broadcaster(x) <- TRUE
 broadcaster(y) <- TRUE
+
 x + y
+
 ```
 
 

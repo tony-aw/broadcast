@@ -89,3 +89,8 @@ The other is the `broadcaster` class which comes with method dispatch for said o
 * Added more tests.
 
 
+# broadcast 0.0.0.9015
+* The `bc.raw()` method now **always** returns an array of type `raw`;
+This is more consistent with the rest of the `bc.` functions, and also more memory efficient.
+* Added the `bc.rel()` function for the user's convenience.
+* Simplified and re-organized the documentation.

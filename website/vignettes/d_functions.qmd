@@ -1,6 +1,8 @@
 ---
 title: "Functions Overview"
-format: html
+format:
+  html:
+    number-sections: true
 ---
 
 ```{r, include = FALSE}
@@ -21,7 +23,7 @@ library(fontawesome) |> suppressWarnings()
 
 The 'broadcast' package provides 6 main functionalities:
 
- - functions to perform broadcasted element-wise binary operations
+ - Broadcasted Infix Operators
  - broadcasted dimensional binding of arrays
  - casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.
  - broadcasted generic pair-wise functions
@@ -33,14 +35,36 @@ This guide gives a brief overview of the functions provided by the 'broadcast' `
 
 &nbsp;
 
-# Functions for broadcasted element-wise binary operations
+# Broadcasted Infix Operators
 
+Base 'R' comes with relational (==, !=, etc.), arithmetic (+, -, *, /, etc.), and logical (&, |) operators.
+'broadcast' provides 2 ways to use these operators with broadcasting.
+
+The first (and simple) way is to use the [broadcaster()](/man/broadcaster.qmd) class, which comes with it's own method dispatch for the above mentioned operators.
+This approach supports operator precedence, and for the average 'R' user, this is sufficient.
+
+The second way is to use the large set of` bc.` - functions.
+These offer much greater control and more operators than the previous method, and has less risk of running into conflicting methods.
+But it does not support operator precedence.
+
+&nbsp;
+
+## Overloaded operators
+
+The following arithmetic operators have a 'broadcaster' method: +, -, *, /, ^, %%, %/%.  
+The following relational operators have a 'broadcaster' method: ==, !=, <, >, <=, >=.  
+And finally, the & and | operators also have a 'broadcaster' method.  
+
+&nbsp;
+
+## `bc.` - functions
 
 The 'broadcast' package provides functions that perform broadcasted element-wise binary operations.
 These functions use an API similar to the `outer()` function.
 
 The functions are the following:
 
+ - [bc.rel()](/man/bc.rel.qmd): General Relational operations.  
  - [bc.b()](/man/bc.b.qmd): Broadcasted Boolean operations.  
  Includes the &, |, xor, nand, operations, and logical relational operations.
  - [bc.i()](/man/bc.i.qmd) Broadcasted Integer Numeric operations.  
@@ -51,7 +75,7 @@ The functions are the following:
  Includes (in)equality operations, and basic arithmetic operations.
  - [bc.str()](/man/bc.str.qmd): Broadcasted String operations.  
  Includes operations for (in)equality, concatenation, and string distance (Levenshtein) calculation.
- - [bc.raw()](/man/bc.raw.qmd): Broadcasted operations on arrays of type `raw`.
+ - [bc.raw()](/man/bc.raw.qmd): operations that take in arrays of type `raw` and return an array of type `raw`;
  - [bc.bit()](/man/bc.bit.qmd): Broadcasted bit-wise operations. Supports vectors/arrays of types `raw` and `integer`.
  - [bc.list()](/man/bc.list.qmd): Broadcasted operations on Recursive arrays.  
  
@@ -68,20 +92,6 @@ This is intentional, as it is quite difficult to reason about broadcasting when 
 :::
 
 
-&nbsp;
-
-## Overloaded operators
-
-Sometimes broadcasting is needed in a large mathematical expression, involving multiple variables, where precedence is of importance.
-For example in an expression like this:  
-
-`x / (y + z) + a`
-
-Using the `bc.*` functions for that, while possible, may be inconvenient. It may be more convenient to use the base operators directly, whilst still keeping the broadcasting property.  
-
-To this end, the 'broadcast' package provides the [broadcaster](/man/broadcaster.qmd) class, which comes with its own method dispatch for the base operators.
-  
- 
 &nbsp;
 
 # Binding arrays

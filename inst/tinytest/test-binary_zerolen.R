@@ -31,7 +31,7 @@ datagens <- list(
 
 expected <- logical(0L)
 counter <- 1L
-for(i in 1:6) {
+for(i in 1:5) {
   for(xLen in c(10, 0)) {
     for(yLen in c(0, 10)) {
       
@@ -49,6 +49,7 @@ for(i in 1:6) {
         x <- x[0L]
         y <- y[0L]
       }
+      
       
       expect_equal(
         funs[[i]](x, y, "=="),

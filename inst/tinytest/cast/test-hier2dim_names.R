@@ -46,12 +46,12 @@ hier2dim(x)
 
 expect_equal(
   hier2dim(x),
-  c(padding = 3, padding = 3, `no padding` = 2)
+  c(padding = 3, padding = 3, 2)
 )
 
 expect_equal(
   hier2dim(x, in2out = FALSE),
-  c(`no padding` = 2, padding = 3, padding = 3)
+  c(2, padding = 3, padding = 3)
 )
 
 enumerate <- enumerate + 2L
@@ -92,12 +92,12 @@ x <- list(
 
 expect_equal(
   hier2dim(x),
-  c(`no padding` = 3, padding = 3, `no padding` = 2)
+  c(3, padding = 3, 2)
 )
 
 expect_equal(
   hier2dim(x, in2out = FALSE),
-  c(`no padding` = 2, padding = 3, `no padding` = 3)
+  c(2, padding = 3, 3)
 )
 
 enumerate <- enumerate + 2L

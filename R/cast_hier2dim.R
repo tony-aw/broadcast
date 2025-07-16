@@ -30,8 +30,8 @@
 #' An integer vector,
 #' giving the dimensions `x` would have,
 #' if casted by `cast_hier2dim()`. \cr
-#' The names of the output indicates if padding is required ("padding"),
-#' or no padding is required ("no padding") for that dimension; \cr
+#' The names of the output indicates if padding is required (name "padding"),
+#' or no padding is required (no name) for that dimension; \cr
 #' Padding will be required if not all list-elements at a certain depth have the same length. \cr
 #' \cr
 #' For `cast_hier2dim()`: \cr

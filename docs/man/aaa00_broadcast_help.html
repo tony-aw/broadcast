@@ -133,13 +133,31 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
+            <a href="../man/aaa01_broadcast_operators.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Operators</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/aaa01_broadcast_operators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">broadcast_operators</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/broadcaster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">broadcaster</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc.rel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.rel</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
@@ -188,18 +206,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">bc.list</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/broadcaster.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">broadcaster</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/aaa01_broadcast_operators.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">broadcast_operators</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item">
@@ -210,13 +216,19 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../man/acast.html" class="sidebar-item-text sidebar-link">
+            <a href="../man/aaa02_broadcast_casting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Casting</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/aaa02_broadcast_casting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">broadcast_casting</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/acast.html" class="sidebar-item-text sidebar-link">
@@ -245,12 +257,6 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../man/dropnests.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">dropnests</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/aaa02_broadcast_casting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">broadcast_casting</span></a>
   </div>
 </li>
       </ul>
@@ -323,7 +329,6 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description">Description</a></li>
   <li><a href="#links-to-get-started" id="toc-links-to-get-started" class="nav-link" data-scroll-target="#links-to-get-started">Links to Get Started</a></li>
   <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions">Functions</a></li>
-  <li><a href="#overloading" id="toc-overloading" class="nav-link" data-scroll-target="#overloading">Overloading</a></li>
   <li><a href="#supported-structures" id="toc-supported-structures" class="nav-link" data-scroll-target="#supported-structures">Supported Structures</a></li>
   <li><a href="#authors" id="toc-authors" class="nav-link" data-scroll-target="#authors">Author(s)</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -346,7 +351,7 @@ ul.task-list li input[type="checkbox"] {
 <p>The implementations available in ‘broadcast’ include, but are not limited to, the following:</p>
 <ol>
 <li>
-<p>Broadcasted element-wise operations on any 2 arrays; they support a large set of relational, arithmetic, Boolean, string, bit-wise operations.</p>
+<p>Broadcasted element-wise operations on any 2 arrays; they support a large set of relational, arithmetic, Boolean, string, and bit-wise operations.</p>
 </li>
 <li>
 <p>A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.</p>
@@ -380,33 +385,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="functions" class="level3">
 <h3 class="anchored" data-anchor-id="functions">Functions</h3>
-<p><b>Functions for broadcasted element-wise binary operations</b> <br> ‘broadcast’ provides a set of functions for broadcasted element-wise binary operations with broadcasting. <br> These functions use an API similar to the outer function. <br> <br> The following functions for simple operations are available:</p>
-<ul>
-<li>
-<p><a href="../man/bc.b.html">bc.b</a>: Boolean (i.e.&nbsp;logical) operations;</p>
-</li>
-<li>
-<p><a href="../man/bc.i.html">bc.i</a>: integer arithmetic and relational operations;</p>
-</li>
-<li>
-<p><a href="../man/bc.d.html">bc.d</a>: decimal arithmetic and relational operations;</p>
-</li>
-<li>
-<p><a href="../man/bc.cplx.html">bc.cplx</a>: complex arithmetic and (in)equality operations;</p>
-</li>
-<li>
-<p><a href="../man/bc.str.html">bc.str</a>: string (in)equality, concatenation, and distance operations;</p>
-</li>
-<li>
-<p><a href="../man/bc.raw.html">bc.raw</a>: byte- and relational operations for vectors/arrays of type <code>raw</code>;</p>
-</li>
-<li>
-<p><a href="../man/bc.bit.html">bc.bit</a>: BIT-WISE operations, supporting the <code>raw</code> and <code>integer</code> types;</p>
-</li>
-<li>
-<p><a href="../man/bc.list.html">bc.list</a>: apply any ‘R’ function to 2 recursive arrays with broadcasting. <br> <br></p>
-</li>
-</ul>
+<p><b>Broadcasted Operators</b> <br> Base ‘R’ comes with relational (==, !=, etc.), arithmetic (+, -, *, /, etc.), and logical/bit-wise (&amp;, |) operators. <br> ‘broadcast’ provides 2 ways to use these operators with broadcasting. <br> <br> The first (and simple) way is to use the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with it’s own method dispatch for the above mentioned operators. <br> This method support operator precedence, and for the average ‘R’ user, this is sufficient. <br> <br> The second way is to use the large set of <code>bc.</code>- functions. <br> These offer much greater control and more operators than the previous method, and has less risk of running into conflicting methods. <br> But it does not support operator precedence. <br> <br> More information about both methods can be found here: <br> <a href="../man/aaa01_broadcast_operators.html">broadcast_operators</a>. <br> <br></p>
 <p><b><code>bind_array()</code></b> <br> ‘broadcast’ provides the <a href="../man/bind_array.html">bind_array</a> function, to bind arrays along an arbitrary dimension, with support for broadcasting. <br> <br> The API of <code>bind_array()</code> is inspired by the fantastic <code>abind::abind()</code> function by Tony Plare &amp; Richard Heiberger (2016). <br> But <code>bind_array()</code> differs considerably from <code>abind::abind</code> in the following ways:</p>
 <ul>
 <li>
@@ -422,27 +401,11 @@ ul.task-list li input[type="checkbox"] {
 <p>unlike <code>abind::abind</code>, <code>bind_array()</code> only binds (atomic/recursive) arrays and matrices. <br> <code>bind_array()</code>does not attempt to convert things to arrays when they are not arrays, but will give an error instead. <br> This saves computation time and prevents unexpected results.</p>
 </li>
 <li>
-<p><code>bind_array()</code> has more streamlined naming options, compared to <code>abind::abind</code>. <br> <br></p>
+<p><code>bind_array()</code> has more streamlined naming options, compared to <code>abind::abind</code>. <br></p>
 </li>
 </ul>
-<p><b>Casting Functions</b> <br> ‘broadcast’ provides several "casting" functions. <br> These can facility complex forms of broadcasting that would normally not be possible. <br> But these "casting" functions also have their own merit, beside empowering complex broadcasting. <br> <br> The following casting functions are available:</p>
-<ul>
-<li>
-<p><a href="../man/acast.html">acast</a>: <br> casts group-based subset of an array into a new dimension. <br> Useful for, for example, computing <b>grouped</b> broadcasted operations. <br></p>
-</li>
-<li>
-<p><a href="../man/cast_hier2dim.html">cast_hier2dim</a>: <br> casts a nested/hierarchical list into a dimensional list (i.e.&nbsp;recursive array). <br> Useful because one cannot broadcast through nesting, but one <b>can</b> broadcast along dimensions.</p>
-</li>
-<li>
-<p><a href="../man/cast_dim2hier.html">cast_dim2hier</a>: <br> casts a dimensional list into a nested/hierarchical list; the opposite of <a href="../man/cast_hier2dim.html">cast_hier2dim</a>. <br></p>
-</li>
-<li>
-<p><a href="../man/cast_dim2flat.html">cast_dim2flat</a>: <br> casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. <br> Mostly useful for printing or summarizing dimensional lists.</p>
-</li>
-<li>
-<p><a href="../man/dropnests.html">dropnests</a>: <br> drop redundant nesting in lists; mostly used for facilitating the above casting functions. <br> <br></p>
-</li>
-</ul>
+<p>See <a href="../man/bind_array.html">bind_array</a>. <br><br></p>
+<p><b>Casting Functions</b> <br> ‘broadcast’ provides several "casting" functions. <br> These can facility complex forms of broadcasting that would normally not be possible. <br> But these "casting" functions also have their own merit, beside empowering complex broadcasting. <br> <br> More information about both methods can be found here: <br> <a href="../man/aaa02_broadcast_casting.html">broadcast_casting</a>. <br> <br></p>
 <p><b>General functions</b> <br> ‘broadcast’ also comes with 2 general broadcasted functions:</p>
 <ul>
 <li>
@@ -453,10 +416,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
 </ul>
 <p><b>Other functions</b> <br> ‘broadcast’ provides <a href="../man/typecast.html">type-casting</a> functions, which preserve names and dimensions - convenient for arrays. <br> <br> ‘broadcast’ also provides <a href="../man/linear_algebra_stats.html">simple linear algebra functions for statistics</a>. <br> <br> And ‘broadcast’ comes with some helper functions: <br> <a href="../man/bc_dim.html">bc_dim</a>, <a href="../man/ndim.html">ndim</a>, <a href="../man/ndim.html">lst.ndim</a>, <a href="../man/rep_dim.html">rep_dim</a>. <br> <br></p>
-</section>
-<section id="overloading" class="level3">
-<h3 class="anchored" data-anchor-id="overloading">Overloading</h3>
-<p>Sometimes broadcasting is needed in a large mathematical expression, involving multiple variables, where precedence is of importance. <br> For example in an expression like <code>x + y / z^y</code>. <br> For such cases, you may want to overload the base operators. <br> To that end, the ‘broadcast’ package provides the <a href="../man/broadcaster.html">broadcaster</a> class attribute, which comes with its own method dispatch for the base operators. <br> <br></p>
 </section>
 <section id="supported-structures" class="level3">
 <h3 class="anchored" data-anchor-id="supported-structures">Supported Structures</h3>

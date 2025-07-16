@@ -146,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/acast.html">Casting</a></li><li class="breadcrumb-item"><a href="../man/aaa02_broadcast_casting.html">broadcast_casting</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/aaa02_broadcast_casting.html">Casting</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -169,13 +169,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
+            <a href="../man/aaa01_broadcast_operators.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Operators</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/aaa01_broadcast_operators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">broadcast_operators</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/broadcaster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">broadcaster</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc.rel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc.rel</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc.b.html" class="sidebar-item-text sidebar-link">
@@ -224,18 +242,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">bc.list</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/broadcaster.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">broadcaster</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/aaa01_broadcast_operators.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">broadcast_operators</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item">
@@ -246,13 +252,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../man/acast.html" class="sidebar-item-text sidebar-link">
+            <a href="../man/aaa02_broadcast_casting.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Casting</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/aaa02_broadcast_casting.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">broadcast_casting</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/acast.html" class="sidebar-item-text sidebar-link">
@@ -281,12 +293,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/dropnests.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">dropnests</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/aaa02_broadcast_casting.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">broadcast_casting</span></a>
   </div>
 </li>
       </ul>
@@ -357,8 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#details-on-casting-functions" id="toc-details-on-casting-functions" class="nav-link active" data-scroll-target="#details-on-casting-functions">Details on Casting Functions</a>
   <ul class="collapse">
   <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description">Description</a></li>
-  <li><a href="#argument-in2out-true" id="toc-argument-in2out-true" class="nav-link" data-scroll-target="#argument-in2out-true">Argument <code>in2out = TRUE</code></a></li>
-  <li><a href="#argument-in2out-false" id="toc-argument-in2out-false" class="nav-link" data-scroll-target="#argument-in2out-false">Argument <code>in2out = FALSE</code></a></li>
+  <li><a href="#shared-argument-in2out" id="toc-shared-argument-in2out" class="nav-link" data-scroll-target="#shared-argument-in2out">Shared Argument <code>in2out</code></a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul></li>
   </ul>
@@ -373,15 +378,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="details-on-casting-functions">Details on Casting Functions</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>This help page gives some additional information on the casting functions provided by the ‘broadcast’ package. <br> <br></p>
+<p>‘broadcast’ provides several "casting" functions. <br> These can facility complex forms of broadcasting that would normally not be possible. <br> But these "casting" functions also have their own merit, beside empowering complex broadcasting. <br> <br> The following casting functions are available:</p>
+<ul>
+<li>
+<p><a href="../man/acast.html">acast</a>: <br> casts group-based subset of an array into a new dimension. <br> Useful for, for example, computing <b>grouped</b> broadcasted operations. <br></p>
+</li>
+<li>
+<p><a href="../man/cast_hier2dim.html">cast_hier2dim</a>: <br> casts a nested/hierarchical list into a dimensional list (i.e.&nbsp;recursive array). <br> Useful because one cannot broadcast through nesting, but one <b>can</b> broadcast along dimensions.</p>
+</li>
+<li>
+<p><a href="../man/cast_dim2hier.html">cast_dim2hier</a>: <br> casts a dimensional list into a nested/hierarchical list; the opposite of <a href="../man/cast_hier2dim.html">cast_hier2dim</a>. <br></p>
+</li>
+<li>
+<p><a href="../man/cast_dim2flat.html">cast_dim2flat</a>: <br> casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. <br> Mostly useful for printing or summarizing dimensional lists.</p>
+</li>
+<li>
+<p><a href="../man/dropnests.html">dropnests</a>: <br> drop redundant nesting in lists; mostly used for facilitating the above casting functions. <br> <br></p>
+</li>
+</ul>
 </section>
-<section id="argument-in2out-true" class="level3">
-<h3 class="anchored" data-anchor-id="argument-in2out-true">Argument <code>in2out = TRUE</code></h3>
-<p>The <a href="../man/cast_hier2dim.html">hier2dim</a>, <a href="../man/cast_hier2dim.html">cast_hier2dim</a>, and <a href="../man/cast_dim2hier.html">cast_dim2hier</a> methods all have the <code>in2out</code> argument. <br> By default <code>in2out</code> is <code>TRUE</code>. <br> This means the call <br> <code>y &lt;- cast_hier2dim(x)</code> <br> will cast the elements of the deepest valid depth of <code>x</code> to the rows of <code>y</code>, and elements of the depth above that to the columns of <code>y</code>, and so on until the surface-level elements of <code>x</code> are cast to the last dimension of <code>y</code>. <br> <br> Similarly, the call <br> <code>x &lt;- cast_dim2hier(y)</code> <br> will cast the rows of <code>y</code> to the inner most elements of <code>x</code>, and the columns of <code>y</code> to one depth above that, and so on until the last dimension of <code>y</code> is cast to the surface-level elements of <code>x</code>. <br> <br> Consider the nested list <code>x</code> with a depth of <code>3</code>, and the recursive array <code>y</code> with 3 dimensions, where their relationship can described as the following code: <br> <code>x &lt;- cast_hier2dim(y)</code> <br> <code>y &lt;- cast_dim2hier(x)</code>. <br> Then it holds that: <br> <code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[k, j, i]]</code>, <br> <span class="math inline">\(\forall\)</span>(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br> <br></p>
-</section>
-<section id="argument-in2out-false" class="level3">
-<h3 class="anchored" data-anchor-id="argument-in2out-false">Argument <code>in2out = FALSE</code></h3>
-<p>The <a href="../man/cast_hier2dim.html">hier2dim</a>, <a href="../man/cast_hier2dim.html">cast_hier2dim</a>, and <a href="../man/cast_dim2hier.html">cast_dim2hier</a> methods all have the <code>in2out</code> argument. <br> If <code>in2out = FALSE</code>, the call <br> <code>y &lt;- cast_hier2dim(x, in2out = FALSE)</code> <br> will cast the surface-level elements of <code>x</code> to the rows of <code>y</code>, and elements of the depth below that to the columns of <code>y</code>, and so on until the elements of the deepest valid depth of <code>x</code> are cast to the last dimension of <code>y</code>. <br> <br> Similarly, the call <br> <code>x &lt;- cast_dim2hier(y, in2out = FALSE)</code> <br> will cast the rows of <code>y</code> to the surface-level elements of <code>x</code>, and the columns of <code>y</code> to one depth below that, and so on until the last dimension of <code>y</code> is cast to the inner most elements of <code>x</code>. <br> <br> Consider the nested list <code>x</code> with a depth of <code>3</code>, and the recursive array <code>y</code> with 3 dimensions, where their relationship can described with the following code: <br> <code>x &lt;- cast_hier2dim(y, in2out = FALSE)</code> <br> <code>y &lt;- cast_dim2hier(x, in2out = FALSE)</code>. <br> Then it holds that : <br> <code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[i, j, k]]</code>, <br> <span class="math inline">\(\forall\)</span>(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br> <br></p>
+<section id="shared-argument-in2out" class="level3">
+<h3 class="anchored" data-anchor-id="shared-argument-in2out">Shared Argument <code>in2out</code></h3>
+<p>The <a href="../man/cast_hier2dim.html">hier2dim</a>, <a href="../man/cast_hier2dim.html">cast_hier2dim</a>, and <a href="../man/cast_dim2hier.html">cast_dim2hier</a> methods all have the <code>in2out</code> argument. <br> <br> <br> <b><code>in2out = TRUE</code></b> <br> By default <code>in2out</code> is <code>TRUE</code>. <br> This means the call <br> <code>y &lt;- cast_hier2dim(x)</code> <br> will cast the elements of the deepest valid depth of <code>x</code> to the rows of <code>y</code>, and elements of the depth above that to the columns of <code>y</code>, and so on until the surface-level elements of <code>x</code> are cast to the last dimension of <code>y</code>. <br> <br> Similarly, the call <br> <code>x &lt;- cast_dim2hier(y)</code> <br> will cast the rows of <code>y</code> to the inner most elements of <code>x</code>, and the columns of <code>y</code> to one depth above that, and so on until the last dimension of <code>y</code> is cast to the surface-level elements of <code>x</code>. <br> <br> Consider the nested list <code>x</code> with a depth of <code>3</code>, and the recursive array <code>y</code> with 3 dimensions, where their relationship can described as the following code: <br> <code>x &lt;- cast_hier2dim(y)</code> <br> <code>y &lt;- cast_dim2hier(x)</code>. <br> Then it holds that: <br> <code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[k, j, i]]</code>, <br> <span class="math inline">\(\forall\)</span>(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br> <br> <br> <b><code>in2out = FALSE</code></b> <br> If <code>in2out = FALSE</code>, the call <br> <code>y &lt;- cast_hier2dim(x, in2out = FALSE)</code> <br> will cast the surface-level elements of <code>x</code> to the rows of <code>y</code>, and elements of the depth below that to the columns of <code>y</code>, and so on until the elements of the deepest valid depth of <code>x</code> are cast to the last dimension of <code>y</code>. <br> <br> Similarly, the call <br> <code>x &lt;- cast_dim2hier(y, in2out = FALSE)</code> <br> will cast the rows of <code>y</code> to the surface-level elements of <code>x</code>, and the columns of <code>y</code> to one depth below that, and so on until the last dimension of <code>y</code> is cast to the inner most elements of <code>x</code>. <br> <br> Consider the nested list <code>x</code> with a depth of <code>3</code>, and the recursive array <code>y</code> with 3 dimensions, where their relationship can described with the following code: <br> <code>x &lt;- cast_hier2dim(y, in2out = FALSE)</code> <br> <code>y &lt;- cast_dim2hier(x, in2out = FALSE)</code>. <br> Then it holds that : <br> <code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[i, j, k]]</code>, <br> <span class="math inline">\(\forall\)</span>(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br> <br></p>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>

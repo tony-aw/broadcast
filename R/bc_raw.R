@@ -1,29 +1,37 @@
-#' Broadcasted Byte and Relational Operations on Raw Arrays
+#' Broadcasted Operations that Take Raw Arrays and Return Raw Arrays
 #'
 #' @description
 #' The `bc.raw()` function
-#' performs broadcasted byte- and relational operations
-#' on arrays of type `raw`. \cr
+#' performs broadcasted operations
+#' on arrays of type `raw`, and the return type is \bold{always} `raw`. \cr
 #' \cr
 #' For bit-wise operations, use \link{bc.bit}. \cr
-#' For logical operations, use \link{bc.b} \cr
+#' For regular logical operations, use \link{bc.b}. \cr
+#' For relational operations with logical (`TRUE`/`FALSE`/`NA`) results, use \link{bc.rel}. \cr
 #' \cr
 #' 
 #' @param x,y conformable raw vectors or arrays.
 #' @param op a single string, giving the operator. \cr
-#' Supported byte operators: `r paste0(broadcast:::.op_raw_byte(), collapse = ", ")`. \cr
-#' The "diff" operator performs the byte equivalent of `abs(x - y)`. \cr
-#' Supported relational operators: `r paste0(broadcast:::.op_raw_rel(), collapse = ", ")`.
+#' Supported operators: `r paste0(broadcast:::.op_raw_byte(), collapse = ", ")`. \cr
+#' The logical and relational operators work the same as in \link{bc.b} and \link{bc.rel},
+#' respectively, but with the following difference: \cr
+#' a `TRUE` result is replaced with `01`,
+#' and a `FALSE` result is replaced with `00`. \cr
+#' The "both" operator checks if both `x` and `y` are
+#' `>= 01` (i.e. "true") or both are `00` (i.e. "false"). \cr
+#' The "diff" operator performs the byte equivalent of `abs(x - y)`.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
+#' 
+#' @details
+#' Each element of a `raw` vector only takes 1 byte (= 8 bits),
+#' making it useful in situations where minimizing memory usage as much as possible
+#' is absolutely vital. \cr \cr
+#'  
 #'
 #' @returns
-#' For the byte operators: \cr
-#' A array of type `raw`,
-#' as a result of the broadcasted byte operation. \cr
-#' \cr
-#' For relational operators: \cr
-#' A logical array as a result of the broadcasted relational comparison. \cr
+#' `bc.raw()` \bold{always} returns an array of type `raw`. \cr
+#' For the logical and relational operators, `01` codes for `TRUE`, and `00` codes for `FALSE`. \cr
 #' \cr
 #' 
 #' 
@@ -55,14 +63,10 @@ setMethod(
     
     
     # get operator:
-    op_bit <- which(.op_raw_byte() == op)
-    op_rel <- which(.op_raw_rel() == op)
+    op_byte <- which(.op_raw_byte() == op)
     
-    if(length(op_bit)) {
-      return(.bc_raw_byte(x, y, op_bit, sys.call()))
-    }
-    else if(length(op_rel)) {
-      return(.bc_raw_rel(x, y, op_rel, sys.call()))
+    if(length(op_byte)) {
+      return(.bc_raw_byte(x, y, op_byte, sys.call()))
     }
     else {
       stop("given operator not supported in the given context")

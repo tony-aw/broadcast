@@ -19,7 +19,7 @@ The implementations available in 'broadcast' include, but are not limited to, th
 \enumerate{
 \item Broadcasted element-wise operations on any 2 arrays;
 they support a large set of
-relational, arithmetic, Boolean, string, bit-wise operations.
+relational, arithmetic, Boolean, string, and bit-wise operations.
 \item A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.
 \item Broadcastede ifelse-like, and apply-like functions.
 \item Casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.
@@ -45,22 +45,24 @@ than R’s regular dimensions replication mechanism. \cr \cr
 \section{Functions}{
 
 
-\bold{Functions for broadcasted element-wise binary operations} \cr
-'broadcast' provides a set of functions for broadcasted element-wise binary operations
-with broadcasting. \cr
-These functions use an API similar to the \link[base]{outer} function. \cr
+\bold{Broadcasted Operators} \cr
+Base 'R' comes with relational (==, !=, etc.),
+arithmetic (+, -, *, /, etc.), and logical/bit-wise (&, |) operators. \cr
+'broadcast' provides 2 ways to use these operators with broadcasting. \cr
 \cr
-The following functions for simple operations are available:
-\itemize{
-\item \code{[bc.b](bc.b.qmd)}: Boolean (i.e. logical) operations;
-\item \code{[bc.i](bc.i.qmd)}: integer arithmetic and relational operations;
-\item \code{[bc.d](bc.d.qmd)}: decimal arithmetic and relational operations;
-\item \code{[bc.cplx](bc.cplx.qmd)}: complex arithmetic and (in)equality operations;
-\item \code{[bc.str](bc.str.qmd)}: string (in)equality, concatenation, and distance operations;
-\item \code{[bc.raw](bc.raw.qmd)}: byte- and relational operations for vectors/arrays of type \code{raw};
-\item \code{[bc.bit](bc.bit.qmd)}: BIT-WISE operations, supporting the \code{raw} and \code{integer} types;
-\item \code{[bc.list](bc.list.qmd)}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
-}
+The first (and simple) way is to use the \code{[broadcaster](broadcaster.qmd)} class,
+which comes with it's own method dispatch for the above mentioned operators. \cr
+This method support operator precedence, and for the average 'R' user,
+this is sufficient. \cr
+\cr
+The second way is to use the large set of \code{bc.}- functions. \cr
+These offer much greater control and more operators than the previous method,
+and has less risk of running into conflicting methods. \cr
+But it does not support operator precedence. \cr
+\cr
+More information about both methods can be found here: \cr
+\code{[broadcast_operators](aaa01_broadcast_operators.qmd)}. \cr
+\cr
 
 \bold{\code{bind_array()}} \cr
 'broadcast' provides the \code{[bind_array](bind_array.qmd)} function,
@@ -87,30 +89,19 @@ ruining the structure).
 but will give an error instead. \cr
 This saves computation time and prevents unexpected results.
 \item \code{bind_array()} has more streamlined naming options,
-compared to \code{abind::abind}. \cr \cr
+compared to \code{abind::abind}. \cr
 }
+
+See \code{[bind_array](bind_array.qmd)}. \cr\cr
 
 \bold{Casting Functions} \cr
 'broadcast' provides several "casting" functions. \cr
 These can facility complex forms of broadcasting that would normally not be possible. \cr
 But these "casting" functions also have their own merit, beside empowering complex broadcasting. \cr
 \cr
-The following casting functions are available:
-\itemize{
-\item \code{[acast](acast.qmd)}: \cr
-casts group-based subset of an array into a new dimension. \cr
-Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
-\item \code{[cast_hier2dim](cast_hier2dim.qmd)}: \cr
-casts a nested/hierarchical list into a dimensional list (i.e. recursive array). \cr
-Useful because one cannot broadcast through nesting, but one \bold{can} broadcast along dimensions.
-\item \code{[cast_dim2hier](cast_dim2hier.qmd)}: \cr
-casts a dimensional list into a nested/hierarchical list; the opposite of \code{[cast_hier2dim](cast_hier2dim.qmd)}. \cr
-\item \code{[cast_dim2flat](cast_dim2flat.qmd)}: \cr
-casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. \cr
-Mostly useful for printing or summarizing dimensional lists.
-\item \code{[dropnests](dropnests.qmd)}: \cr
-drop redundant nesting in lists; mostly used for facilitating the above casting functions. \cr \cr
-}
+More information about both methods can be found here: \cr
+\code{[broadcast_casting](aaa02_broadcast_casting.qmd)}. \cr
+\cr
 
 \bold{General functions} \cr
 'broadcast' also comes with 2 general broadcasted functions:
@@ -129,17 +120,6 @@ which preserve names and dimensions - convenient for arrays. \cr
 \cr
 And 'broadcast' comes with some helper functions: \cr
 \code{[bc_dim](bc_dim.qmd)}, \code{[ndim](ndim.qmd)}, \code{[lst.ndim](ndim.qmd)}, \code{[rep_dim](rep_dim.qmd)}. \cr \cr
-}
-
-\section{Overloading}{
-
-Sometimes broadcasting is needed in a large mathematical expression,
-involving multiple variables,
-where precedence is of importance. \cr
-For example in an expression like \code{x + y / z^y}. \cr
-For such cases, you may want to overload the base operators. \cr
-To that end, the 'broadcast' package provides the \code{[broadcaster](broadcaster.qmd)} class attribute,
-which comes with its own method dispatch for the base operators. \cr \cr
 }
 
 \section{Supported Structures}{

@@ -3,7 +3,7 @@
 \name{bc.raw}
 \alias{bc.raw}
 \alias{bc.raw,ANY-method}
-\title{Broadcasted Byte and Relational Operations on Raw Arrays}
+\title{Broadcasted Operations that Take Raw Arrays and Return Raw Arrays}
 \usage{
 bc.raw(x, y, op, ...)
 
@@ -13,43 +13,50 @@ bc.raw(x, y, op, ...)
 \item{x, y}{conformable raw vectors or arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported byte operators: pmin, pmax, diff. \cr
-The "diff" operator performs the byte equivalent of \code{abs(x - y)}. \cr
-Supported relational operators: ==, !=, <, >, <=, >=.}
+Supported operators: ==, !=, <, >, <=, >=, &, |, xor, nand, both, pmin, pmax, diff. \cr
+The logical and relational operators work the same as in \link{bc.b} and \link{bc.rel},
+respectively, but with the following difference: \cr
+a \code{TRUE} result is replaced with \code{01},
+and a \code{FALSE} result is replaced with \code{00}. \cr
+The "both" operator checks if both \code{x} and \code{y} are
+\verb{>= 01} (i.e. "true") or both are \code{00} (i.e. "false"). \cr
+The "diff" operator performs the byte equivalent of \code{abs(x - y)}.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
-For the byte operators: \cr
-A array of type \code{raw},
-as a result of the broadcasted byte operation. \cr
-\cr
-For relational operators: \cr
-A logical array as a result of the broadcasted relational comparison. \cr
+\code{bc.raw()} \bold{always} returns an array of type \code{raw}. \cr
+For the logical and relational operators, \code{01} codes for \code{TRUE}, and \code{00} codes for \code{FALSE}. \cr
 \cr
 }
 \description{
 The \code{bc.raw()} function
-performs broadcasted byte- and relational operations
-on arrays of type \code{raw}. \cr
+performs broadcasted operations
+on arrays of type \code{raw}, and the return type is \bold{always} \code{raw}. \cr
 \cr
 For bit-wise operations, use \link{bc.bit}. \cr
-For logical operations, use \link{bc.b} \cr
+For regular logical operations, use \link{bc.b}. \cr
+For relational operations with logical (\code{TRUE}/\code{FALSE}/\code{NA}) results, use \link{bc.rel}. \cr
 \cr
 }
+\details{
+Each element of a \code{raw} vector only takes 1 byte (= 8 bits),
+making it useful in situations where minimizing memory usage as much as possible
+is absolutely vital. \cr \cr
+}
 \examples{
-x.dim <- c(4:2)
-x.len <- prod(x.dim)
-x.data <- as.raw(0:10)
-y.data <- as.raw(10:0)
-x <- array(x.data, x.dim)
-y <- array(y.data, c(4,1,1))
 
-bc.raw(x, y, "==")
-bc.raw(x, y, "!=")
-bc.raw(x, y, "<")
-bc.raw(x, y, ">")
-bc.raw(x, y, "<=")
-bc.raw(x, y, ">=")
+x <- array(
+  sample(as.raw(1:100)), c(5, 3, 2)
+)
+y <- array(
+  sample(as.raw(1:100)), c(5, 1, 1)
+)
+
+cond <- bc.raw(x, y, "!=")
+print(cond)
+
+bc_ifelse(cond, yes = x, no = y)
+
 
 }

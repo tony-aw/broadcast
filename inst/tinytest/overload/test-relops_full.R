@@ -26,14 +26,17 @@ ab <- broadcast:::.as.broadcaster
 
 # equals ====
 nres <- 5 * 3 * 3 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+expected <- out1 <- out2 <- vector("list", nres)
 basefun <- function(x, y) {
   out <- x == y
 
   return(out)
 }
-testfun <- function(x, y) {
+testfun1 <- function(x, y) {
   ab(x) == ab(y)
+}
+testfun2 <- function(x, y) {
+  bc.rel(x, y, "==")
 }
 
 i <- 1L
@@ -80,27 +83,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- basefun((drop(x)), (drop(y)))
 
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- basefun(as.vector(x), as.vector(y))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- basefun(as.vector(x), rep_dim((y), tdim))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- basefun(rep_dim((x), tdim), as.vector(y))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           # END CASES
           
@@ -110,14 +113,14 @@ for(iSample in 1:5) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_missing(expected[[i]][ind.NaN])
-          ind.NaN <- is.nan(out[[i]])
-          out[[i]][ind.NaN] <- .return_missing(out[[i]][ind.NaN])
+          ind.NaN <- is.nan(out1[[i]])
+          out1[[i]][ind.NaN] <- .return_missing(out1[[i]][ind.NaN])
           
           dim(expected[[i]]) <- tdim
           
-          out[[i]] <- unclass(out[[i]]) # because broadcaster attribute is preserved
+          out1[[i]] <- unclass(out1[[i]]) # because broadcaster attribute is preserved
           
-          i <- i + 1L
+          i <- i + 2L
         }
       }
     }
@@ -126,21 +129,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
 enumerate <- enumerate + i # count number of tests
 # test results:
 expect_equal(
-  expected, out
+  expected, out1
+)
+expect_equal(
+  expected, out2
 )
 
 
 
 # unequals ====
 nres <- 5 * 3 * 3 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+expected <- out1 <- out2 <- vector("list", nres)
 basefun <- function(x, y) {
   out <- x != y
 
   return(out)
 }
-testfun <- function(x, y) {
+testfun1 <- function(x, y) {
   ab(x) != ab(y)
+}
+testfun2 <- function(x, y) {
+  bc.rel(x, y, "!=")
 }
 
 i <- 1L
@@ -187,27 +196,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- basefun((drop(x)), (drop(y)))
             
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- basefun(as.vector(x), as.vector(y))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- basefun(as.vector(x), rep_dim((y), tdim))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- basefun(rep_dim((x), tdim), as.vector(y))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           # END CASES
           
@@ -217,14 +226,14 @@ for(iSample in 1:5) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_missing(expected[[i]][ind.NaN])
-          ind.NaN <- is.nan(out[[i]])
-          out[[i]][ind.NaN] <- .return_missing(out[[i]][ind.NaN])
+          ind.NaN <- is.nan(out1[[i]])
+          out1[[i]][ind.NaN] <- .return_missing(out1[[i]][ind.NaN])
           
           dim(expected[[i]]) <- tdim
           
-          out[[i]] <- unclass(out[[i]]) # because broadcaster attribute is preserved
+          out1[[i]] <- unclass(out1[[i]]) # because broadcaster attribute is preserved
           
-          i <- i + 1L
+          i <- i + 2L
         }
       }
     }
@@ -233,7 +242,10 @@ for(iSample in 1:5) { # re-do tests with different random configurations
 enumerate <- enumerate + i # count number of tests
 # test results:
 expect_equal(
-  expected, out
+  expected, out1
+)
+expect_equal(
+  expected, out2
 )
 
 
@@ -241,14 +253,17 @@ expect_equal(
 
 # less than ====
 nres <- 5 * 3 * 3 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+expected <- out1 <- out2 <- vector("list", nres)
 basefun <- function(x, y) {
   out <- x < y
 
   return(out)
 }
-testfun <- function(x, y) {
+testfun1 <- function(x, y) {
   ab(x) < ab(y)
+}
+testfun2 <- function(x, y) {
+  bc.rel(x, y, "<")
 }
 
 i <- 1L
@@ -295,27 +310,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- basefun((drop(x)), (drop(y)))
             
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- basefun(as.vector(x), as.vector(y))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- basefun(as.vector(x), rep_dim((y), tdim))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- basefun(rep_dim((x), tdim), as.vector(y))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           # END CASES
           
@@ -325,14 +340,14 @@ for(iSample in 1:5) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_missing(expected[[i]][ind.NaN])
-          ind.NaN <- is.nan(out[[i]])
-          out[[i]][ind.NaN] <- .return_missing(out[[i]][ind.NaN])
+          ind.NaN <- is.nan(out1[[i]])
+          out1[[i]][ind.NaN] <- .return_missing(out1[[i]][ind.NaN])
           
           dim(expected[[i]]) <- tdim
           
-          out[[i]] <- unclass(out[[i]]) # because broadcaster attribute is preserved
+          out1[[i]] <- unclass(out1[[i]]) # because broadcaster attribute is preserved
           
-          i <- i + 1L
+          i <- i + 2L
         }
       }
     }
@@ -341,20 +356,26 @@ for(iSample in 1:5) { # re-do tests with different random configurations
 enumerate <- enumerate + i # count number of tests
 # test results:
 expect_equal(
-  expected, out
+  expected, out1
+)
+expect_equal(
+  expected, out2
 )
 
 
 # greater than ====
 nres <- 5 * 3 * 3 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+expected <- out1 <- out2 <- vector("list", nres)
 basefun <- function(x, y) {
   out <- x > y
 
   return(out)
 }
-testfun <- function(x, y) {
+testfun1 <- function(x, y) {
   ab(x) > ab(y)
+}
+testfun2 <- function(x, y) {
+  bc.rel(x, y, ">")
 }
 
 i <- 1L
@@ -401,27 +422,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- basefun((drop(x)), (drop(y)))
             
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- basefun(as.vector(x), as.vector(y))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- basefun(as.vector(x), rep_dim((y), tdim))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- basefun(rep_dim((x), tdim), as.vector(y))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           # END CASES
           
@@ -431,14 +452,14 @@ for(iSample in 1:5) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_missing(expected[[i]][ind.NaN])
-          ind.NaN <- is.nan(out[[i]])
-          out[[i]][ind.NaN] <- .return_missing(out[[i]][ind.NaN])
+          ind.NaN <- is.nan(out1[[i]])
+          out1[[i]][ind.NaN] <- .return_missing(out1[[i]][ind.NaN])
           
           dim(expected[[i]]) <- tdim
           
-          out[[i]] <- unclass(out[[i]]) # because broadcaster attribute is preserved
+          out1[[i]] <- unclass(out1[[i]]) # because broadcaster attribute is preserved
           
-          i <- i + 1L
+          i <- i + 2L
         }
       }
     }
@@ -447,21 +468,26 @@ for(iSample in 1:5) { # re-do tests with different random configurations
 enumerate <- enumerate + i # count number of tests
 # test results:
 expect_equal(
-  expected, out
+  expected, out1
 )
-
+expect_equal(
+  expected, out2
+)
 
 
 # le ====
 nres <- 5 * 3 * 3 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+expected <- out1 <- out2 <- vector("list", nres)
 basefun <- function(x, y) {
   out <- x <= y
 
   return(out)
 }
-testfun <- function(x, y) {
+testfun1 <- function(x, y) {
   ab(x) <= ab(y)
+}
+testfun2 <- function(x, y) {
+  bc.rel(x, y, "<=")
 }
 
 i <- 1L
@@ -508,27 +534,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- basefun((drop(x)), (drop(y)))
             
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- basefun(as.vector(x), as.vector(y))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- basefun(as.vector(x), rep_dim((y), tdim))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- basefun(rep_dim((x), tdim), as.vector(y))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           # END CASES
           
@@ -538,14 +564,14 @@ for(iSample in 1:5) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_missing(expected[[i]][ind.NaN])
-          ind.NaN <- is.nan(out[[i]])
-          out[[i]][ind.NaN] <- .return_missing(out[[i]][ind.NaN])
+          ind.NaN <- is.nan(out1[[i]])
+          out1[[i]][ind.NaN] <- .return_missing(out1[[i]][ind.NaN])
           
           dim(expected[[i]]) <- tdim
           
-          out[[i]] <- unclass(out[[i]]) # because broadcaster attribute is preserved
+          out1[[i]] <- unclass(out1[[i]]) # because broadcaster attribute is preserved
           
-          i <- i + 1L
+          i <- i + 2L
         }
       }
     }
@@ -554,19 +580,26 @@ for(iSample in 1:5) { # re-do tests with different random configurations
 enumerate <- enumerate + i # count number of tests
 # test results:
 expect_equal(
-  expected, out
+  expected, out1
 )
+expect_equal(
+  expected, out2
+)
+
 
 
 # ge ====
 nres <- 5 * 3 * 3 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+expected <- out1 <- out2 <- vector("list", nres)
 basefun <- function(x, y) {
   out <- x >= y
   return(out)
 }
-testfun <- function(x, y) {
+testfun1 <- function(x, y) {
   ab(x) >= ab(y)
+}
+testfun2 <- function(x, y) {
+  bc.rel(x, y, ">=")
 }
 
 i <- 1L
@@ -613,27 +646,27 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             expected[[i]] <- basefun((drop(x)), (drop(y)))
             
             # attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(y) == 1L && length(x) == 1L) {
             # CASE 2: x and y are both scalar arrays
             expected[[i]] <- basefun(as.vector(x), as.vector(y))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(x) == 1L && length(y) > 1L) {
             # CASE 3: x is scalar, y is not
             expected[[i]] <- basefun(as.vector(x), rep_dim((y), tdim))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else if(length(y) == 1L && length(x) > 1L) {
             # CASE 4: y is scalar, x is not
             expected[[i]] <- basefun(rep_dim((x), tdim), as.vector(y))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           else {
             # CASE 5: x and y are both non-reducible arrays
             expected[[i]] <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
-            out[[i]] <- testfun(x, y)
+            out1[[i]] <- testfun1(x, y); out2[[i]] <- testfun2(x, y)
           }
           # END CASES
           
@@ -643,14 +676,14 @@ for(iSample in 1:5) { # re-do tests with different random configurations
           # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
           ind.NaN <- is.nan(expected[[i]])
           expected[[i]][ind.NaN] <- .return_missing(expected[[i]][ind.NaN])
-          ind.NaN <- is.nan(out[[i]])
-          out[[i]][ind.NaN] <- .return_missing(out[[i]][ind.NaN])
+          ind.NaN <- is.nan(out1[[i]])
+          out1[[i]][ind.NaN] <- .return_missing(out1[[i]][ind.NaN])
           
           dim(expected[[i]]) <- tdim
           
-          out[[i]] <- unclass(out[[i]]) # because broadcaster attribute is preserved
+          out1[[i]] <- unclass(out1[[i]]) # because broadcaster attribute is preserved
           
-          i <- i + 1L
+          i <- i + 2L
         }
       }
     }
@@ -659,5 +692,9 @@ for(iSample in 1:5) { # re-do tests with different random configurations
 enumerate <- enumerate + i # count number of tests
 # test results:
 expect_equal(
-  expected, out
+  expected, out1
 )
+expect_equal(
+  expected, out2
+)
+

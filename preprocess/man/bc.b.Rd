@@ -10,7 +10,7 @@ bc.b(x, y, op, ...)
 \S4method{bc.b}{ANY}(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable arrays of type \code{logical}, \code{integer}(32 bit), or \code{raw}.}
+\item{x, y}{conformable arrays of type \code{logical}, \code{integer}(32 bit), \code{numeric}, or \code{raw}.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported Boolean  operators: &, |, xor, nand, ==, !=, <, >, <=, >=.}
@@ -28,6 +28,7 @@ Please note that these operations will treat the input as \code{logical}. \cr
 Therefore, something like \code{bc.b(1, 2, "==")} returns \code{TRUE},
 because both \code{1} and \code{2} are \code{TRUE} when treated as \code{logical}. \cr
 \cr
+For regular relational operators, see \code{[bc.rel](bc.rel.qmd)}. \cr \cr
 }
 \details{
 \code{bc.b()} efficiently casts the input to logical without making copies of the entire vectors/arrays. \cr

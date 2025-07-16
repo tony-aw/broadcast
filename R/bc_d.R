@@ -2,7 +2,9 @@
 #'
 #' @description
 #' The `bc.d()` function
-#' performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr \cr
+#' performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr
+#' \cr
+#' For regular relational operators, see \link{bc.rel}. \cr \cr
 #' 
 #' @param x,y conformable logical or numeric arrays.
 #' @param op a single string, giving the operator. \cr

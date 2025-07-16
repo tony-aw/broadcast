@@ -35,7 +35,9 @@ A logical array as a result of the broadcasted decimal relational comparison. \c
 }
 \description{
 The \code{bc.d()} function
-performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr \cr
+performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr
+\cr
+For regular relational operators, see \code{[bc.rel](bc.rel.qmd)}. \cr \cr
 }
 \examples{
 x.dim <- c(4:2)

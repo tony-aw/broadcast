@@ -127,7 +127,7 @@
 #' @noRd
 .hiercast_dims <- function(x, depth, in2out, recurse_classed, abortcall) {
   dims <- integer(depth)
-  names(dims) <- rep("no padding", depth)
+  names(dims) <- rep("", depth)
   dims[1] <- length(x)
   if(depth > 1) {
     for(i in 2:depth) {

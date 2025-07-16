@@ -5,14 +5,34 @@
 \alias{broadcast_casting}
 \title{Details on Casting Functions}
 \description{
-This help page gives some additional information on the casting functions
-provided by the 'broadcast' package. \cr
+'broadcast' provides several "casting" functions. \cr
+These can facility complex forms of broadcasting that would normally not be possible. \cr
+But these "casting" functions also have their own merit, beside empowering complex broadcasting. \cr
 \cr
+The following casting functions are available:
+\itemize{
+\item \code{[acast](acast.qmd)}: \cr
+casts group-based subset of an array into a new dimension. \cr
+Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
+\item \code{[cast_hier2dim](cast_hier2dim.qmd)}: \cr
+casts a nested/hierarchical list into a dimensional list (i.e. recursive array). \cr
+Useful because one cannot broadcast through nesting, but one \bold{can} broadcast along dimensions.
+\item \code{[cast_dim2hier](cast_dim2hier.qmd)}: \cr
+casts a dimensional list into a nested/hierarchical list; the opposite of \code{[cast_hier2dim](cast_hier2dim.qmd)}. \cr
+\item \code{[cast_dim2flat](cast_dim2flat.qmd)}: \cr
+casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. \cr
+Mostly useful for printing or summarizing dimensional lists.
+\item \code{[dropnests](dropnests.qmd)}: \cr
+drop redundant nesting in lists; mostly used for facilitating the above casting functions. \cr \cr
 }
-\section{Argument \code{in2out = TRUE}}{
+}
+\section{Shared Argument \code{in2out}}{
 
 The \code{[hier2dim](cast_hier2dim.qmd)}, \code{[cast_hier2dim](cast_hier2dim.qmd)}, and \code{[cast_dim2hier](cast_dim2hier.qmd)} methods
 all have the \code{in2out} argument. \cr
+\cr
+\cr
+\bold{\code{in2out = TRUE}} \cr
 By default \code{in2out} is \code{TRUE}. \cr
 This means the call \cr
 \code{y <- cast_hier2dim(x)} \cr
@@ -33,13 +53,10 @@ where their relationship can described as the following code: \cr
 \code{y <- cast_dim2hier(x)}. \cr
 Then it holds that: \cr
 \code{x[[i]][[j]][[k]]} corresponds to \code{y[[k, j, i]]}, \cr
-\eqn{\forall}(\code{i}, \code{j}, \code{k}) , provided \code{x[[i]][[j]][[k]]} exists. \cr \cr
-}
-
-\section{Argument \code{in2out = FALSE}}{
-
-The \code{[hier2dim](cast_hier2dim.qmd)}, \code{[cast_hier2dim](cast_hier2dim.qmd)}, and \code{[cast_dim2hier](cast_dim2hier.qmd)} methods
-all have the \code{in2out} argument. \cr
+\eqn{\forall}(\code{i}, \code{j}, \code{k}) , provided \code{x[[i]][[j]][[k]]} exists. \cr
+\cr
+\cr
+\bold{\code{in2out = FALSE}} \cr
 If \code{in2out = FALSE}, the call \cr
 \code{y <- cast_hier2dim(x, in2out = FALSE)} \cr
 will cast the surface-level elements of \code{x} to the rows of \code{y},

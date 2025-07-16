@@ -89,6 +89,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       
       # ensure correct dimensions:
       dim(expected[[i]]) <- tdim
+      expected[[i]] <- as_raw(expected[[i]])
       
       i <- i + 1L
     }
@@ -169,6 +170,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       
       # ensure correct dimensions:
       dim(expected[[i]]) <- tdim
+      expected[[i]] <- as_raw(expected[[i]])
       
       i <- i + 1L
     }
@@ -250,6 +252,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       
       # ensure correct dimensions:
       dim(expected[[i]]) <- tdim
+      expected[[i]] <- as_raw(expected[[i]])
       
       i <- i + 1L
     }
@@ -330,6 +333,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       
       # ensure correct dimensions:
       dim(expected[[i]]) <- tdim
+      expected[[i]] <- as_raw(expected[[i]])
       
       i <- i + 1L
     }
@@ -409,6 +413,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       
       # ensure correct dimensions:
       dim(expected[[i]]) <- tdim
+      expected[[i]] <- as_raw(expected[[i]])
       
       i <- i + 1L
     }
@@ -488,6 +493,7 @@ for(iSample in 1:10) { # re-do tests with different random configurations
       
       # ensure correct dimensions:
       dim(expected[[i]]) <- tdim
+      expected[[i]] <- as_raw(expected[[i]])
       
       i <- i + 1L
     }

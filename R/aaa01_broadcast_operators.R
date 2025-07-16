@@ -1,11 +1,24 @@
 #' Details on Broadcasted Operators
 #' 
 #' @description
-#' This help page gives some additional information on the properties of
-#' the `bc.` functions and the overloaded operators. \cr
+#' 
+#' Base 'R' comes with relational (==, !=, etc.),
+#' arithmetic (+, -, *, /, etc.), and logical/bit-wise (&, |) operators. \cr
+#' 'broadcast' provides 2 ways to use these operators with broadcasting. \cr
+#' \cr
+#' The first (and simple) way is to use the \link{broadcaster} class,
+#' which comes with it's own method dispatch for the above mentioned operators. \cr
+#' This approach supports operator precedence, and for the average 'R' user,
+#' this is sufficient. \cr
+#' \cr
+#' The second way is to use the large set of `bc.`- functions. \cr
+#' These offer much greater control and more operators than the previous method,
+#' and has less risk of running into conflicting methods. \cr
+#' But it does not support operator precedence. \cr
 #' \cr
 #' 
-#' @section Available Overloads: 
+#' 
+#' @section Available Overloaded Operators: 
 #' Sometimes broadcasting is needed in large mathematical expression,
 #' involving multiple variables,
 #' where precedence is of importance. \cr
@@ -16,14 +29,43 @@
 #' which comes with its own method dispatch for the base operators. \cr
 #' If at least one of the 2 arguments of the base operators has the `broadcaster` class attribute,
 #' and no other class (like `bit64`) interferes,
-#' broadcasting will occur in the same manner as used in the various `bc.` - functions. \cr
+#' broadcasting will be used. \cr
 #' \cr
 #' The following arithmetic operators have a 'broadcaster' method:
 #' +, -, *, /, ^, %%, %/% \cr
 #' The following relational operators have a 'broadcaster' method:
-#' ==, !=, <, >, <=, >= \cr
+#' `r paste0(broadcast:::.op_rel(), collapse = ", ")` \cr
 #' And finally, the & and | operators also have a 'broadcaster' method. \cr
 #' \cr
+#' See also the Examples section below. \cr
+#' \cr
+#' 
+#' 
+#' @section Available `bc.` functions: 
+#' 'broadcast' provides a set of functions for broadcasted element-wise binary operations
+#' with broadcasting. \cr
+#' These functions use an API similar to the \link[base]{outer} function. \cr
+#' \cr
+#' The following functions for simple operations are available:
+#' 
+#'  * \link{bc.rel}: General relational operations.
+#'  * \link{bc.b}: Boolean (i.e. logical) operations;
+#'  * \link{bc.i}: integer arithmetic operations;
+#'  * \link{bc.d}: decimal arithmetic operations;
+#'  * \link{bc.cplx}: complex arithmetic operations;
+#'  * \link{bc.str}: string (in)equality, concatenation, and distance operations;
+#'  * \link{bc.raw}: operations that take in arrays of type `raw` and return an array of type `raw`;
+#'  * \link{bc.bit}: BIT-WISE operations, supporting the `raw` and `integer` types;
+#'  * \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
+#' 
+#' 
+#' Note that the \link{bc.rel} method is the primary method for relational operators
+#' (`r paste0(broadcast:::.op_rel(), collapse = ", ")`),
+#' and provides what most user usually need in relational operators.\cr
+#' The various other `bc.` methods have specialized relational operators available for very specialised needs. \cr
+#' \cr
+#' 
+#' 
 #' 
 #' @section Attribute Handling: 
 #' The `bc.` functions and the overloaded operators generally do \bold{not}

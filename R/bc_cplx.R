@@ -6,6 +6,8 @@
 #' Note that `bc.cplx()` uses more strict `NA` checks than base 'R': \cr
 #' If for an element of either `x` or `y`, either the real or imaginary part is `NA` or `NaN`,
 #' than the result of the operation for that element is necessarily `NA`. \cr
+#' \cr
+#' For regular relational operators, see \link{bc.rel}. \cr \cr
 #' 
 #' @param x,y conformable atomic arrays of type `complex`.
 #' @param op a single string, giving the operator. \cr

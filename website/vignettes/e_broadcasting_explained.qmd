@@ -101,12 +101,14 @@ In the earlier example, we used:
 x + y[rep(1L, 4L),]
 ```
 
-To compute the element-wise addition using broadcasting through the 'broadcast' package, we can do the following:
+To compute the element-wise addition using broadcasting through the 'broadcast' package, one can set both `x` and `y` as "broadcaster", and then use the `+` operator, like so:
 
 ```{r}
-library(broadcast)
 
-bc.d(x, y, "+")
+broadcaster(x) <- TRUE
+broadcaster(y) <- TRUE
+
+x + y
 
 ```
 
@@ -127,6 +129,8 @@ Consider the following matrices
 ```{r}
 x <- array(1:12, c(4, 3))
 y <- array(1:5*10, c(1, 3))
+broadcaster(x) <- TRUE
+broadcaster(y) <- TRUE
 print(x)
 print(y)
 ```
@@ -134,7 +138,9 @@ print(y)
 Let's see what happens if we sum them together using broadcasting:
 
 ```{r}
-bc.d(x, y, "+")
+
+x + y
+
 ```
 
 What happens here is that `x` remains the same, but row vector `y` is **virtually** recycled 4 times, but without requiring 4 times more memory. This is also illustrated here:
@@ -167,6 +173,8 @@ We now take again 2 matrices `x` and `y`, but this time `x` is a column vector (
 ```{r}
 x <- array(1:3, c(3, 1))
 y <- array(1:3 * 10, c(1, 3))
+broadcaster(x) <- TRUE
+broadcaster(y) <- TRUE
 print(x)
 print(y)
 ```
@@ -175,7 +183,9 @@ print(y)
 Computing the broadcasted element-wise sum of `x` and `y` produces the following:
 
 ```{r}
-bc.d(x, y, "+")
+
+x + y
+
 ```
 
 
@@ -460,8 +470,10 @@ Earlier in this guide, we used the following computation:
 ```{r}
 x <- array(1:5, c(5, 1))
 y <- array(1:5*10, c(1, 5))
+broadcaster(x) <- TRUE
+broadcaster(y) <- TRUE
 
-bc.d(x, y, "+")
+x + y
 
 ```
 
@@ -477,7 +489,7 @@ As you can see, performing a broadcasted operation with a row-vector and a colum
 
 The `outer()` approach has the same problems as the `x[, rep(1L, 5L)] + y[rep(1L, 5L),]` approach: it consumes a lot of unnecessary memory, and is slow.
 
-Broadcasting can thus be used as a more efficient alternative to `outer()` in case of vector inputs, simply by making the inputs orthogonal. But please don't confuse outer computations with broadcasting: broadcasting is efficient array recycling for element-wise computations.
+Broadcasting can thus be used as a more efficient alternative to `outer()` in case of vector inputs, simply by making the inputs orthogonal vectors.
 
 &nbsp;
 
