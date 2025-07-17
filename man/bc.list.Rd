@@ -18,7 +18,7 @@ and \bold{returns} a result that can be stored in a single element of a list.}
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
-A recursive array. \cr
+A recursive array. \cr \cr
 }
 \description{
 The \code{bc.list()} function performs broadcasted operations on 2 Recursive arrays. \cr
@@ -37,4 +37,7 @@ bc.list(
   x, y,
   \(x, y)c(length(x) == length(y), typeof(x) == typeof(y))
 )
+}
+\seealso{
+\link{broadcast_operators} \cr
 }

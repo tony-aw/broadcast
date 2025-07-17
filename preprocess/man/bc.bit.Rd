@@ -63,3 +63,6 @@ bc.bit(x, y, "|")
 bc.bit(x, y, "xor")
 
 }
+\seealso{
+\code{[broadcast_operators](aaa01_broadcast_operators.qmd)} \cr
+}

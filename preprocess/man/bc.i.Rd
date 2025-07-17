@@ -64,3 +64,6 @@ bc.i(x, y, ">")
 bc.i(x, y, "<=")
 bc.i(x, y, ">=")
 }
+\seealso{
+\code{[broadcast_operators](aaa01_broadcast_operators.qmd)} \cr
+}

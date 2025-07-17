@@ -233,3 +233,6 @@ dimnames(x2) <- list( # notice the order here is reversed, because in2out = FALS
 print(x2)
 cast_dim2flat(x2[, , 1:2, drop = FALSE])
 }
+\seealso{
+\link{broadcast_casting} \cr
+}

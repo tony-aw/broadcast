@@ -13,13 +13,11 @@ bc.raw(x, y, op, ...)
 \item{x, y}{conformable raw vectors or arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported operators: ==, !=, <, >, <=, >=, &, |, xor, nand, both, pmin, pmax, diff. \cr
-The logical and relational operators work the same as in \link{bc.b} and \link{bc.rel},
-respectively, but with the following difference: \cr
+Supported operators: ==, !=, <, >, <=, >=, pmin, pmax, diff. \cr
+The relational operators work the same as in \link{bc.rel},
+but with the following difference: \cr
 a \code{TRUE} result is replaced with \code{01},
 and a \code{FALSE} result is replaced with \code{00}. \cr
-The "both" operator checks if both \code{x} and \code{y} are
-\verb{>= 01} (i.e. "true") or both are \code{00} (i.e. "false"). \cr
 The "diff" operator performs the byte equivalent of \code{abs(x - y)}.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
@@ -35,7 +33,6 @@ performs broadcasted operations
 on arrays of type \code{raw}, and the return type is \bold{always} \code{raw}. \cr
 \cr
 For bit-wise operations, use \link{bc.bit}. \cr
-For regular logical operations, use \link{bc.b}. \cr
 For relational operations with logical (\code{TRUE}/\code{FALSE}/\code{NA}) results, use \link{bc.rel}. \cr
 \cr
 }
@@ -59,4 +56,7 @@ print(cond)
 bc_ifelse(cond, yes = x, no = y)
 
 
+}
+\seealso{
+\link{broadcast_operators}
 }

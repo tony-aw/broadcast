@@ -68,12 +68,6 @@
   return(c("+", "-", "*", "/"))
 }
 
-#' @keywords internal
-#' @noRd
-.op_byte <- function() {
-  return(c("&", "|", "xor", "nand", "both", "==", "!=", "<", ">", "<=", ">="))
-}
-
 
 #' @keywords internal
 #' @noRd
@@ -85,5 +79,5 @@
 #' @keywords internal
 #' @noRd
 .op_raw_byte <- function() {
-  return(c("==", "!=", "<", ">", "<=", ">=", "&", "|", "xor", "nand", "both", "pmin", "pmax", "diff"))
+  return(c("==", "!=", "<", ">", "<=", ">=", "pmin", "pmax", "diff"))
 }

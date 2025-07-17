@@ -25,7 +25,8 @@
 #' A logical array as a result of the broadcasted relational comparison. \cr
 #' \cr
 #'
-#'
+#' 
+#' @seealso \link{broadcast_operators} \cr
 #' @example inst/examples/bc_cplx.R
 #' 
 

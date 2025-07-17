@@ -57,3 +57,6 @@ bc.b(x, y, "==")
 bc.b(x, y, "!=")
 
 }
+\seealso{
+\link{broadcast_operators} \cr
+}

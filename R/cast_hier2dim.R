@@ -45,6 +45,7 @@
 #' 
 #' 
 #'
+#' @seealso \link{broadcast_casting} \cr
 #' @example inst/examples/cast_hier2dim.R
 #' 
 #'

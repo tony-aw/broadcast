@@ -40,3 +40,6 @@ bc.rel(x, y, ">")
 bc.rel(x, y, "<=")
 bc.rel(x, y, ">=")
 }
+\seealso{
+\link{broadcast_operators} \cr
+}

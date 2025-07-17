@@ -49,3 +49,6 @@ head(x2, n = 2)
 x2 <- cast_dim2hier(x, in2out = FALSE, distr.names = TRUE)
 head(x2, n = 2)
 }
+\seealso{
+\link{broadcast_casting} \cr
+}

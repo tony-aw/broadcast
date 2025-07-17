@@ -64,3 +64,6 @@ bc.i(x, y, ">")
 bc.i(x, y, "<=")
 bc.i(x, y, ">=")
 }
+\seealso{
+\link{broadcast_operators} \cr
+}

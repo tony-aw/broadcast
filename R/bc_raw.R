@@ -6,19 +6,16 @@
 #' on arrays of type `raw`, and the return type is \bold{always} `raw`. \cr
 #' \cr
 #' For bit-wise operations, use \link{bc.bit}. \cr
-#' For regular logical operations, use \link{bc.b}. \cr
 #' For relational operations with logical (`TRUE`/`FALSE`/`NA`) results, use \link{bc.rel}. \cr
 #' \cr
 #' 
 #' @param x,y conformable raw vectors or arrays.
 #' @param op a single string, giving the operator. \cr
 #' Supported operators: `r paste0(broadcast:::.op_raw_byte(), collapse = ", ")`. \cr
-#' The logical and relational operators work the same as in \link{bc.b} and \link{bc.rel},
-#' respectively, but with the following difference: \cr
+#' The relational operators work the same as in \link{bc.rel},
+#' but with the following difference: \cr
 #' a `TRUE` result is replaced with `01`,
 #' and a `FALSE` result is replaced with `00`. \cr
-#' The "both" operator checks if both `x` and `y` are
-#' `>= 01` (i.e. "true") or both are `00` (i.e. "false"). \cr
 #' The "diff" operator performs the byte equivalent of `abs(x - y)`.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
@@ -34,12 +31,10 @@
 #' For the logical and relational operators, `01` codes for `TRUE`, and `00` codes for `FALSE`. \cr
 #' \cr
 #' 
-#' 
+#' @seealso \link{broadcast_operators}
 #'
 #' @example inst/examples/bc_raw.R
 #' 
-
-
 
 #' @rdname bc.raw
 #' @export
@@ -63,10 +58,10 @@ setMethod(
     
     
     # get operator:
-    op_byte <- which(.op_raw_byte() == op)
+    op <- which(.op_raw_byte() == op)
     
-    if(length(op_byte)) {
-      return(.bc_raw_byte(x, y, op_byte, sys.call()))
+    if(length(op)) {
+      return(.bc_raw_byte(x, y, op, sys.call()))
     }
     else {
       stop("given operator not supported in the given context")
@@ -175,4 +170,5 @@ setMethod(
   return(out)
   
 }
+
 

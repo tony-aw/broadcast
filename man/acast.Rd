@@ -105,3 +105,6 @@ margin <- 1L
 
 acast(x, margin, grp, fill = TRUE)
 }
+\seealso{
+\link{broadcast_casting} \cr
+}

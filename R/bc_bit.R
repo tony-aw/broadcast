@@ -39,7 +39,8 @@
 #' \cr
 #' 
 #' 
-#'
+#' 
+#' @seealso \link{broadcast_operators} \cr
 #' @example inst/examples/bc_bit.R
 #' 
 

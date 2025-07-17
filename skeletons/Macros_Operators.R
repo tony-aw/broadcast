@@ -812,7 +812,6 @@ macro_op_raw_rel <- "
 "
 
 
-
 macro_op_raw_byte <- "
 #define MACRO_OP_RAW_BYTE(DIMCODE) do {	\\
   switch(op) {	\\
@@ -861,53 +860,18 @@ macro_op_raw_byte <- "
     case 7:	\\
     {	\\
       DIMCODE(                                                          \\
-        pout[flatind_out] = px[flatind_x] && py[flatind_y]                \\
-      );                                                                \\
-      break;	\\
-    } \\
-    case 8:	\\
-    {	\\
-      DIMCODE(                                                          \\
-        pout[flatind_out] = px[flatind_x] || py[flatind_y]                \\
-      );                                                                \\
-      break;	\\
-    } \\
-    case 9:	\\
-    {	\\
-      DIMCODE(                                                          \\
-        pout[flatind_out] = (bool)px[flatind_x] != (bool)py[flatind_y]                \\
-      );                                                                \\
-      break;	\\
-    } \\
-    case 10:	\\
-    {	\\
-      DIMCODE(                                                          \\
-        pout[flatind_out] = !(bool)px[flatind_x] && !(bool)py[flatind_y]                \\
-      );                                                                \\
-      break;	\\
-    } \\
-    case 11:	\\
-    {	\\
-      DIMCODE(                                                          \\
-        pout[flatind_out] = (bool)px[flatind_x] == (bool)py[flatind_y]                \\
-      );                                                                \\
-      break;	\\
-    } \\
-    case 12:	\\
-    {	\\
-      DIMCODE(                                                          \\
         pout[flatind_out] = (px[flatind_x] < py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \\
       );                                                                \\
       break;	\\
     }	\\
-    case 13:	\\
+    case 8:	\\
     {	\\
       DIMCODE(                                                          \\
         pout[flatind_out] = (px[flatind_x] > py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \\
       );                                                                \\
       break;	\\
     }	\\
-    case 14:	\\
+    case 9:	\\
     {	\\
       DIMCODE(                                                          \\
         pout[flatind_out] = rcpp_raw_diff(px[flatind_x], py[flatind_y]) \\

@@ -59,3 +59,6 @@ bc.d(x, y, ">")
 bc.d(x, y, "<=")
 bc.d(x, y, ">=")
 }
+\seealso{
+\link{broadcast_operators} \cr
+}

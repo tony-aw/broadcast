@@ -105,3 +105,6 @@ margin <- 1L
 
 acast(x, margin, grp, fill = TRUE)
 }
+\seealso{
+\code{[broadcast_casting](aaa02_broadcast_casting.qmd)} \cr
+}

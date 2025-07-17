@@ -55,3 +55,6 @@ y <- gen() + gen() * -1i
 out <- bc.cplx(array(x), array(y), "*")
 cbind(x, y, x*y, out)
 }
+\seealso{
+\code{[broadcast_operators](aaa01_broadcast_operators.qmd)} \cr
+}

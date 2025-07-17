@@ -40,3 +40,6 @@ bc.rel(x, y, ">")
 bc.rel(x, y, "<=")
 bc.rel(x, y, ">=")
 }
+\seealso{
+\code{[broadcast_operators](aaa01_broadcast_operators.qmd)} \cr
+}

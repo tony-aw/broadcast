@@ -74,6 +74,7 @@
 #'  and `back` will have more missing values than `x`. \cr \cr
 #' 
 #'
+#' @seealso \link{broadcast_casting} \cr
 #' @example inst/examples/acast.R
 #' 
 #'  

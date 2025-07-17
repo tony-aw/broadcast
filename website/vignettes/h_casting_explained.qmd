@@ -37,7 +37,7 @@ This Vignette explains the functions 'broadcast' provides to cast between nested
 &nbsp;
 
 
-# Cast Nested List to Dimensional List
+# Cast Hierarchical List to Dimensional List
 
 ## Introduction
 
@@ -262,7 +262,7 @@ x2 <- cast_hier2dim(x)
 print(x2)
 ```
 
-Subset `x2[1, , 2]` is filled with `NULL`; this is the place where `x$group1$class2` was in Example 1, but since it's not there, we need to fill **something**.
+Subset `x2[, 2, 1]` is filled with `NULL`; this is the place where `x$group1$class2` was in Example 1, but since it's not there, we need to fill **something**.
 
 To make it make obvious, let's give the array proper `dimnames`:
 
@@ -278,7 +278,7 @@ print(x2)
 Again, element "class2" is missing from element "group1", but not from "group2", and so padded with `NULL` when the list is casted as dimensional.
 
 Sometimes, a different value than `NULL` is desired for padding.  
-So let's change the padding with something REALLY obvious, using the `padding` argument:
+So let's replace the padding value with something **really** obvious, using the `padding` argument:
 
 ```{r}
 x2 <- cast_hier2dim(x, padding = list(~ "this is padding!"))
@@ -290,7 +290,7 @@ dimnames(x2) <- list(
 print(x2)
 ```
 
-Once again, one can print or summarise `x2` less compactly by flattening it:
+Once again, one can print or present `x2` less compactly by flattening it:
 
 ```{r}
 cast_dim2flat(x2)

@@ -13,13 +13,11 @@ bc.raw(x, y, op, ...)
 \item{x, y}{conformable raw vectors or arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported operators: ==, !=, <, >, <=, >=, &, |, xor, nand, both, pmin, pmax, diff. \cr
-The logical and relational operators work the same as in \code{[bc.b](bc.b.qmd)} and \code{[bc.rel](bc.rel.qmd)},
-respectively, but with the following difference: \cr
+Supported operators: ==, !=, <, >, <=, >=, pmin, pmax, diff. \cr
+The relational operators work the same as in \code{[bc.rel](bc.rel.qmd)},
+but with the following difference: \cr
 a \code{TRUE} result is replaced with \code{01},
 and a \code{FALSE} result is replaced with \code{00}. \cr
-The "both" operator checks if both \code{x} and \code{y} are
-\verb{>= 01} (i.e. "true") or both are \code{00} (i.e. "false"). \cr
 The "diff" operator performs the byte equivalent of \code{abs(x - y)}.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
@@ -35,7 +33,6 @@ performs broadcasted operations
 on arrays of type \code{raw}, and the return type is \bold{always} \code{raw}. \cr
 \cr
 For bit-wise operations, use \code{[bc.bit](bc.bit.qmd)}. \cr
-For regular logical operations, use \code{[bc.b](bc.b.qmd)}. \cr
 For relational operations with logical (\code{TRUE}/\code{FALSE}/\code{NA}) results, use \code{[bc.rel](bc.rel.qmd)}. \cr
 \cr
 }
@@ -59,4 +56,7 @@ print(cond)
 bc_ifelse(cond, yes = x, no = y)
 
 
+}
+\seealso{
+\code{[broadcast_operators](aaa01_broadcast_operators.qmd)}
 }

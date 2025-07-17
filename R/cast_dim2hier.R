@@ -20,6 +20,7 @@
 #' \cr
 #' 
 #'
+#' @seealso \link{broadcast_casting} \cr
 #' @example inst/examples/cast_dim2hier.R
 #' 
 #'

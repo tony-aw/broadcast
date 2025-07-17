@@ -11,9 +11,9 @@
 #' 
 #'
 #' @returns
-#' A recursive array. \cr
+#' A recursive array. \cr \cr
 #'
-#'
+#' @seealso \link{broadcast_operators} \cr
 #' @example inst/examples/bc_list.R
 #' 
 

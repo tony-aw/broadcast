@@ -58,3 +58,6 @@ print(out)
 The 'C++' code for the Levenshtein edit string distance is based on the code found in
 \url{https://rosettacode.org/wiki/Levenshtein_distance#C++}
 }
+\seealso{
+\code{[broadcast_operators](aaa01_broadcast_operators.qmd)} \cr
+}

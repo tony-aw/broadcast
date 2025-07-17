@@ -12,7 +12,7 @@
 #' @returns
 #' A logical array as a result of the broadcasted general relational operation. \cr \cr
 #'
-#'
+#' @seealso \link{broadcast_operators} \cr
 #' @example inst/examples/bc_rel.R
 #' 
 

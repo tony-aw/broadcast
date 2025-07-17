@@ -63,3 +63,6 @@ bc.bit(x, y, "|")
 bc.bit(x, y, "xor")
 
 }
+\seealso{
+\link{broadcast_operators} \cr
+}

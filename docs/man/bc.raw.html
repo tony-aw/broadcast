@@ -365,6 +365,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
   <li><a href="#details" id="toc-details" class="nav-link" data-scroll-target="#details">Details</a></li>
   <li><a href="#value" id="toc-value" class="nav-link" data-scroll-target="#value">Value</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul></li>
   </ul>
@@ -394,7 +395,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="broadcasted-operations-that-take-raw-arrays-and-return-raw-arrays">Broadcasted Operations that Take Raw Arrays and Return Raw Arrays</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>The <code>bc.raw()</code> function performs broadcasted operations on arrays of type <code>raw</code>, and the return type is <b>always</b> <code>raw</code>. <br> <br> For bit-wise operations, use <a href="../man/bc.bit.html">bc.bit</a>. <br> For regular logical operations, use <a href="../man/bc.b.html">bc.b</a>. <br> For relational operations with logical (<code>TRUE</code>/<code>FALSE</code>/<code>NA</code>) results, use <a href="../man/bc.rel.html">bc.rel</a>. <br> <br></p>
+<p>The <code>bc.raw()</code> function performs broadcasted operations on arrays of type <code>raw</code>, and the return type is <b>always</b> <code>raw</code>. <br> <br> For bit-wise operations, use <a href="../man/bc.bit.html">bc.bit</a>. <br> For relational operations with logical (<code>TRUE</code>/<code>FALSE</code>/<code>NA</code>) results, use <a href="../man/bc.rel.html">bc.rel</a>. <br> <br></p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -421,7 +422,7 @@ conformable raw vectors or arrays.
 <code id="op">op</code>
 </td>
 <td>
-a single string, giving the operator. <br> Supported operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, &amp;, |, xor, nand, both, pmin, pmax, diff. <br> The logical and relational operators work the same as in <a href="../man/bc.b.html">bc.b</a> and <a href="../man/bc.rel.html">bc.rel</a>, respectively, but with the following difference: <br> a <code>TRUE</code> result is replaced with <code>01</code>, and a <code>FALSE</code> result is replaced with <code>00</code>. <br> The "both" operator checks if both <code>x</code> and <code>y</code> are <code style="white-space: pre;">&gt;= 01</code> (i.e.&nbsp;"true") or both are <code>00</code> (i.e.&nbsp;"false"). <br> The "diff" operator performs the byte equivalent of <code>abs(x - y)</code>.
+a single string, giving the operator. <br> Supported operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, pmin, pmax, diff. <br> The relational operators work the same as in <a href="../man/bc.rel.html">bc.rel</a>, but with the following difference: <br> a <code>TRUE</code> result is replaced with <code>01</code>, and a <code>FALSE</code> result is replaced with <code>00</code>. <br> The "diff" operator performs the byte equivalent of <code>abs(x - y)</code>.
 </td>
 </tr>
 <tr>
@@ -442,6 +443,10 @@ further arguments passed to or from methods. <br> <br>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
 <p><code>bc.raw()</code> <b>always</b> returns an array of type <code>raw</code>. <br> For the logical and relational operators, <code>01</code> codes for <code>TRUE</code>, and <code>00</code> codes for <code>FALSE</code>. <br> <br></p>
+</section>
+<section id="see-also" class="level3">
+<h3 class="anchored" data-anchor-id="see-also">See Also</h3>
+<p><a href="../man/aaa01_broadcast_operators.html">broadcast_operators</a></p>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
@@ -480,20 +485,20 @@ further arguments passed to or from methods. <br> <br>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 1</span></span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1] [,2] [,3]</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]   4f   03   4d</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]   09   1a   2c</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]   3f   35   2e</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,]   51   3d   60</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,]   2d   0b   06</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]   35   53   38</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]   08   04   10</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]   63   14   33</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,]   62   59   42</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,]   39   5d   0a</span></span>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 2</span></span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1] [,2] [,3]</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]   10   63   41</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]   01   02   04</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]   0a   3a   43</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,]   5d   3c   29</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,]   30   26   61</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]   24   4a   37</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]   3f   1c   21</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]   23   61   01</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,]   05   3e   12</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,]   56   5a   40</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
