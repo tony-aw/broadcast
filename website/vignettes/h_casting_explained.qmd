@@ -216,6 +216,7 @@ cast_dim2flat(x2["group1", 1, , drop = FALSE])
 
 &nbsp;
 
+
 ## Example 3: Padding
 
 For Example 3, we take the same list as before, but remove `x$group1$class2`:
@@ -296,6 +297,101 @@ Once again, one can print or present `x2` less compactly by flattening it:
 cast_dim2flat(x2)
 ```
 
+&nbsp;
+
+## Example 4: Comparing `in2out` with padding
+
+In this example, the same nested list as from the previous example is used, to demonstrate the difference between `in2out = TRUE` (which is the default), and `in2out = FALSE`.
+
+On the left side the original nested list is shown.  
+On the right side, the list casted as dimensional list (using the default `in2out = TRUE`), with the proper names assigned, is shown:
+
+:::{layout-ncol="2"}
+
+```{r}
+x <- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+
+```
+
+```{r}
+x2 <- cast_hier2dim(x)
+dimnames(x2) <- list(
+  c("height", "weight", "sex"),
+  c("class1", "class2"),
+  c("group1", "group2")
+)
+print(x2)
+```
+
+:::
+
+
+&nbsp;
+
+Now we do the same, but with `in2out = FALSE`.  
+On the left side the original nested list is shown.  
+On the right side, the list casted as dimensional list - using `in2out = FALSE`, with the proper names assigned, is shown:
+
+:::{layout-ncol="2"}
+
+```{r}
+x <- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+
+```
+
+```{r}
+x2 <- cast_hier2dim(x, in2out = FALSE)
+dimnames(x2) <- list(
+  c("group1", "group2"),
+  c("class1", "class2"),
+  c("height", "weight", "sex")
+)
+print(x2)
+```
+
+:::
 
 &nbsp;
 
@@ -319,27 +415,37 @@ print(x)
 ```
 
 
-Casting it to a nested list gives the following:
+Like [cast_hier2dim()](/man/cast_hier2dim.qmd), [cast_dim2hier()](/man/cast_dim2hier.qmd) also has the `in2out` argument, which (again) defaults to `TRUE`.  
+Let's cast the above dimensional list to a nested list, and compare the results when using `in2out = TRUE` (on the left) versus `in2out = FALSE` (on the right):
+
+
+:::{layout-ncol="2"}
 
 ```{r}
 
-x2 <- cast_dim2hier(x, distr.names = TRUE)
-print(x2)
+x2 <- cast_dim2hier(
+  x, distr.names = TRUE
+)
+lobstr::tree(x2)
            
 ```
 
-The added `distr.names = TRUE` argument will distribute the `dimnames` in a logical way over the nested elements.
-
-Like [cast_hier2dim()](/man/cast_hier2dim.qmd), `castdim2hier()` has the `in2out` argument, which (again) defaults to `TRUE`.  
-As show above, the array `x`, with dimensions `c(4, 3, 2)`, became the nested list `x2`, where `length(x2)` is `2`, `length(x2[[i]])` is `3` for every `i`, and `length(x2[[i]][[j]])` is `4` for every `i` & `j`.  
-Setting `in2out = FALSE` will cast in the opposite manner:
 
 ```{r}
-x2 <- cast_dim2hier(x, in2out = FALSE, distr.names = TRUE)
-print(x2)
+
+x2 <- cast_dim2hier(
+  x, in2out = FALSE, distr.names = TRUE
+)
+lobstr::tree(x2)
+           
 ```
 
-Now `length(x2)` is `4`, and the length of `length(x2[[i]][[j]])` is `2` for every `i` & `j`. 
+:::
+
+
+The added `distr.names = TRUE` argument will distribute the `dimnames` in a logical way over the nested elements.
+
+
 
 &nbsp;
 

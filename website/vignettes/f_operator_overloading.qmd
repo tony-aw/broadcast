@@ -64,7 +64,11 @@ bc.d(y, z, "/") |> bc.d(x, "+")
 
 ...but as the mathematical expression involves more and more variables with a greater variety of operators, it comes more and more taxing to keep track of the operator precedence.
 
-Instead, one can designate all arrays as a "broadcaster"; all base operators that involve a broadcaster will use the overloaded variant provided by the 'broadcast' package - like so:
+Instead, one can designate the arrays as a "broadcaster".  
+All base infix operators that have a broadcaster array at either side of the operator, will use the overloaded variant provided by the 'broadcast' package.  
+Overloaded arithmetic operations that involve a broadcaster, will result in a broadcaster also, allowing the user easily to chain together multiple broadcasted operations.
+
+Like so:
 
 ```{r}
 broadcaster(x) <- TRUE
@@ -75,11 +79,11 @@ x + y / z
 ```
 
 
-Actually, not *all* arrays necessarily need to be a broadcaster.  
+As you may have guessed, not *all* arrays necessarily need to be a broadcaster.  
 Overloaded arithmetic operations that involve a broadcaster, will result in a broadcaster.  
 So technically, one could just make the array that is used first - according to the mathematical rules of precedence - as a broadcaster, and broadcasting will continue to be used.  
 In this case, the mathematically first preceding array is `y`.  
-To demonstrate, we'll un-set `x` and `z` as broadcaster, and you'll see broadcasting still occurs:
+To demonstrate, we'll *un-set* `x` and `z` as broadcasters, and you'll see broadcasting still occurs:
 
 ```{r}
 

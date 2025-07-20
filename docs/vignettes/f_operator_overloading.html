@@ -310,7 +310,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 9.882353 23.38462 45.33333 96.00000 520.0000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>…but as the mathematical expression involves more and more variables with a greater variety of operators, it comes more and more taxing to keep track of the operator precedence.</p>
-<p>Instead, one can designate all arrays as a “broadcaster”; all base operators that involve a broadcaster will use the overloaded variant provided by the ‘broadcast’ package - like so:</p>
+<p>Instead, one can designate the arrays as a “broadcaster”.<br>
+All base infix operators that have a broadcaster array at either side of the operator, will use the overloaded variant provided by the ‘broadcast’ package.<br>
+Overloaded arithmetic operations that involve a broadcaster, will result in a broadcaster also, allowing the user easily to chain together multiple broadcasted operations.</p>
+<p>Like so:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(x) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(y) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
@@ -323,11 +326,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 9.882353 23.38462 45.33333 96.00000 520.0000</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Actually, not <em>all</em> arrays necessarily need to be a broadcaster.<br>
+<p>As you may have guessed, not <em>all</em> arrays necessarily need to be a broadcaster.<br>
 Overloaded arithmetic operations that involve a broadcaster, will result in a broadcaster.<br>
 So technically, one could just make the array that is used first - according to the mathematical rules of precedence - as a broadcaster, and broadcasting will continue to be used.<br>
 In this case, the mathematically first preceding array is <code>y</code>.<br>
-To demonstrate, we’ll un-set <code>x</code> and <code>z</code> as broadcaster, and you’ll see broadcasting still occurs:</p>
+To demonstrate, we’ll <em>un-set</em> <code>x</code> and <code>z</code> as broadcasters, and you’ll see broadcasting still occurs:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(x) <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
