@@ -7,7 +7,7 @@ title: bc.b
 ### Description
 
 The <code>bc.b()</code> function
-performs broadcasted Boolean operations on 2 arrays. <br />
+performs broadcasted logical (or Boolean) operations on 2 arrays. <br />
 <br />
 Please note that these operations will treat the input as <code>logical</code>. <br />
 Therefore, something like <code>bc.b(1, 2, "==")</code> returns <code>TRUE</code>,
@@ -31,7 +31,7 @@ bc.b(x, y, op)
 <table>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code>, <code id="y">y</code></td>
 <td>
-conformable arrays of type <code>logical</code>, <code>integer</code>(32 bit), <code>numeric</code>, or <code>raw</code>.
+conformable arrays of type <code>logical</code>, <code>numeric</code>, or <code>raw</code>.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
@@ -47,7 +47,7 @@ further arguments passed to or from methods. <br /> <br />
 
 ### Details
 
-<code>bc.b()</code> efficiently casts the input to logical without making copies of the entire vectors/arrays. <br />
+<code>bc.b()</code> efficiently casts the input to logical. <br />
 Since the input is treated as logical, the following equalities hold for <code>bc.b()</code>:
 
 

@@ -10,7 +10,8 @@ bc_dim(x, y)
 \item{x, y}{an atomic or recursive array.}
 }
 \value{
-Returns an integer vector giving the broadcasted dimension sizes.
+Returns an integer vector giving the broadcasted dimension sizes of the result,
+or the length of the result if its dimensions will be \code{NULL}. \cr \cr
 }
 \description{
 \code{bc_dim(x, y)} gives the dimensions an array would have,

@@ -1,6 +1,6 @@
 
 vc <- datasets::ability.cov$cov
-X <- matrix(rnorm(1000), 1000, ncol(vc))
+X <- matrix(rnorm(100), 100, ncol(vc))
 
 solve(vc)
 cinv(vc) # faster than `solve()`, but only works on positive definite matrices

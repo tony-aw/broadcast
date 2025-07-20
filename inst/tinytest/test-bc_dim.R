@@ -22,8 +22,8 @@ test_make_dims <- function(n) {
 .return_missing <- broadcast:::.return_missing
 
 
-# and ====
-nres <- 10 * 5 * 5 # number of tests performed here
+# main ====
+nres <- 10 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 x.data <- sample(c(-10:10, NA), 100, TRUE)
 y.data <- sample(c(-10:10, NA), 100, TRUE)
@@ -36,11 +36,29 @@ for(iSample in 1:10) { # re-do tests with different random configurations
     for(iDimY in sample(1:8, 3L)) { # different dimensions for y
       y.dim <- test_make_dims(iDimY)
       y.len <- prod(y.dim)
+      
       x <- array(x.data[1:x.len], dim = x.dim)
       y <- array(y.data[1:y.len], dim = y.dim)
       
-      expected[[i]] <- dim(bc.b(x, y, "&"))
+      for(iSimplify in c(0, 1, 2)) {
+        if(length(x.dim) == 1 && iSimplify %in% c(0, 2)) {
+          dim(x) <- NULL
+        }
+        if(length(y.dim) == 1 && iSimplify %in% c(1, 2)) {
+          dim(y) <- NULL
+        }
+      }
+      
+      res <- bc.b(x, y, "&")
+      expected[[i]] <- dim(res)
+      if(is.null(dim(res))) expected[[i]] <- length(res)
+      
       out[[i]] <- bc_dim(x, y)
+      
+      expect_equal(
+        expected[[i]], out[[i]]
+      ) |> errorfun()
+      
       i <- i + 1L
     }
   }

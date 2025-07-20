@@ -63,9 +63,9 @@
 #' @section Back transformation: 
 #' 
 #' From the casted array, \cr
-#' `out = acast(x, margin, grp)`, \cr
+#' `out <- acast(x, margin, grp)`, \cr
 #' one can get the original `x` back by using \cr
-#' `back = asplit(out, ndim(out)) |> bind_array(along = margin)`. \cr
+#' `back <- asplit(out, ndim(out)) |> bind_array(along = margin)`. \cr
 #' Note, however, the following about the back-transformed array `back`: 
 #' 
 #'  - `back` will be ordered by `grp` along dimension `margin`;

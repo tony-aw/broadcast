@@ -19,16 +19,12 @@
 #' The "diff" operator performs the byte equivalent of `abs(x - y)`.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
-#' 
-#' @details
-#' Each element of a `raw` vector only takes 1 byte (= 8 bits),
-#' making it useful in situations where minimizing memory usage as much as possible
-#' is absolutely vital. \cr \cr
-#'  
 #'
 #' @returns
 #' `bc.raw()` \bold{always} returns an array of type `raw`. \cr
-#' For the logical and relational operators, `01` codes for `TRUE`, and `00` codes for `FALSE`. \cr
+#' For the relational operators,
+#' `01` codes for `TRUE` results,
+#' and `00` codes for `FALSE` results. \cr
 #' \cr
 #' 
 #' @seealso \link{broadcast_operators}

@@ -24,7 +24,9 @@ The "diff" operator performs the byte equivalent of \code{abs(x - y)}.}
 }
 \value{
 \code{bc.raw()} \bold{always} returns an array of type \code{raw}. \cr
-For the logical and relational operators, \code{01} codes for \code{TRUE}, and \code{00} codes for \code{FALSE}. \cr
+For the relational operators,
+\code{01} codes for \code{TRUE} results,
+and \code{00} codes for \code{FALSE} results. \cr
 \cr
 }
 \description{
@@ -35,11 +37,6 @@ on arrays of type \code{raw}, and the return type is \bold{always} \code{raw}. \
 For bit-wise operations, use \link{bc.bit}. \cr
 For relational operations with logical (\code{TRUE}/\code{FALSE}/\code{NA}) results, use \link{bc.rel}. \cr
 \cr
-}
-\details{
-Each element of a \code{raw} vector only takes 1 byte (= 8 bits),
-making it useful in situations where minimizing memory usage as much as possible
-is absolutely vital. \cr \cr
 }
 \examples{
 

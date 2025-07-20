@@ -55,7 +55,6 @@ An array. \cr  \cr
 }
 \description{
 \code{bind_array()} binds (atomic/recursive) arrays and (atomic/recursive) matrices. \cr
-Returns an array. \cr
 Allows for broadcasting. \cr \cr
 }
 \examples{

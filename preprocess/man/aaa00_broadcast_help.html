@@ -21,11 +21,11 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>broadcast: <br />
-'Numpy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. <br /> <br />
+'NumPy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. <br /> <br />
 </p>
 <p>Implements efficient broadcasted operations for atomic and recursive arrays.
 </p>
-<p>Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;
+<p>Besides linking to 'Rcpp', 'broadcast' does not use any external libraries in any way;
 'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 </p>
 <p>The implementations available in 'broadcast' include, but are not limited to, the following:
@@ -40,7 +40,7 @@ relational, arithmetic, Boolean, string, and bit-wise operations.
 <li><p> A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.
 </p>
 </li>
-<li><p> Broadcastede ifelse-like, and apply-like functions.
+<li><p> Broadcasted ifelse-like, and apply-like functions.
 </p>
 </li>
 <li><p> Casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.
@@ -96,7 +96,7 @@ More information about both methods can be found here: <br />
 <code>[broadcast_operators](aaa01_broadcast_operators.qmd)</code>. <br />
 <br />
 </p>
-<p><b><code>bind_array()</code></b> <br />
+<p><b>Binding Arrays</b> <br />
 'broadcast' provides the <code>[bind_array](bind_array.qmd)</code> function,
 to bind arrays along an arbitrary dimension,
 with support for broadcasting. <br />
@@ -113,7 +113,7 @@ in the following ways:
 while <code>abind::abind</code> does not support broadcasting.
 </p>
 </li>
-<li> <p><code>bind_array()</code> is generally faster than <code>abind::abind</code>,
+<li> <p><code>bind_array()</code> is generally faster and more memory-efficient than <code>abind::abind</code>,
 as <code>bind_array()</code> relies heavily on 'C' and 'C++' code.
 </p>
 </li>
@@ -142,7 +142,7 @@ compared to <code>abind::abind</code>. <br />
 These can facility complex forms of broadcasting that would normally not be possible. <br />
 But these &quot;casting&quot; functions also have their own merit, beside empowering complex broadcasting. <br />
 <br />
-More information about both methods can be found here: <br />
+More information about the casting functions can be found here: <br />
 <code>[broadcast_casting](aaa02_broadcast_casting.qmd)</code>. <br />
 <br />
 </p>
@@ -175,6 +175,8 @@ And 'broadcast' comes with some helper functions: <br />
 
 <p>'broadcast' supports atomic/recursive arrays (up to 16 dimensions),
 and atomic/recursive vectors. <br />
+As in standard Linear Algebra Convention,
+dimensionless vectors are interpreted as column-vectors in broadcasted array operations. <br />
 <br />
 </p>
 

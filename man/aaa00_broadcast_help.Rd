@@ -8,11 +8,11 @@
 \title{broadcast Package Overview}
 \description{
 broadcast: \cr
-'Numpy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
+'NumPy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
 
 Implements efficient broadcasted operations for atomic and recursive arrays.
 
-Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries;
+Besides linking to 'Rcpp', 'broadcast' does not use any external libraries in any way;
 'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 
 The implementations available in 'broadcast' include, but are not limited to, the following:
@@ -21,7 +21,7 @@ The implementations available in 'broadcast' include, but are not limited to, th
 they support a large set of
 relational, arithmetic, Boolean, string, and bit-wise operations.
 \item A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.
-\item Broadcastede ifelse-like, and apply-like functions.
+\item Broadcasted ifelse-like, and apply-like functions.
 \item Casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.
 \item A few linear algebra functions for statistics.
 }
@@ -64,7 +64,7 @@ More information about both methods can be found here: \cr
 \link{broadcast_operators}. \cr
 \cr
 
-\bold{\code{bind_array()}} \cr
+\bold{Binding Arrays} \cr
 'broadcast' provides the \link{bind_array} function,
 to bind arrays along an arbitrary dimension,
 with support for broadcasting. \cr
@@ -77,7 +77,7 @@ in the following ways:
 \itemize{
 \item \code{bind_array()} allows for broadcasting,
 while \code{abind::abind} does not support broadcasting.
-\item \code{bind_array()} is generally faster than \code{abind::abind},
+\item \code{bind_array()} is generally faster and more memory-efficient than \code{abind::abind},
 as \code{bind_array()} relies heavily on 'C' and 'C++' code.
 \item \code{bind_array()} differs from \code{abind::abind}
 in that it can handle recursive arrays properly \cr
@@ -99,7 +99,7 @@ See \link{bind_array}. \cr\cr
 These can facility complex forms of broadcasting that would normally not be possible. \cr
 But these "casting" functions also have their own merit, beside empowering complex broadcasting. \cr
 \cr
-More information about both methods can be found here: \cr
+More information about the casting functions can be found here: \cr
 \link{broadcast_casting}. \cr
 \cr
 
@@ -126,6 +126,8 @@ And 'broadcast' comes with some helper functions: \cr
 
 'broadcast' supports atomic/recursive arrays (up to 16 dimensions),
 and atomic/recursive vectors. \cr
+As in standard Linear Algebra Convention,
+dimensionless vectors are interpreted as column-vectors in broadcasted array operations. \cr
 \cr
 }
 

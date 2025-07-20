@@ -32,8 +32,7 @@ The \code{bc.cplx()} function performs broadcasted complex numeric operations on
 Note that \code{bc.cplx()} uses more strict \code{NA} checks than base 'R': \cr
 If for an element of either \code{x} or \code{y}, either the real or imaginary part is \code{NA} or \code{NaN},
 than the result of the operation for that element is necessarily \code{NA}. \cr
-\cr
-For regular relational operators, see \code{[bc.rel](bc.rel.qmd)}. \cr \cr
+\cr \cr
 }
 \examples{
 x.dim <- c(4:2)

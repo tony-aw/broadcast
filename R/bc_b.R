@@ -2,7 +2,7 @@
 #'
 #' @description
 #' The `bc.b()` function
-#' performs broadcasted Boolean operations on 2 arrays. \cr
+#' performs broadcasted logical (or Boolean) operations on 2 arrays. \cr
 #' \cr
 #' Please note that these operations will treat the input as `logical`. \cr
 #' Therefore, something like `bc.b(1, 2, "==")` returns `TRUE`,
@@ -10,13 +10,13 @@
 #' \cr
 #' For regular relational operators, see \link{bc.rel}. \cr \cr
 #' 
-#' @param x,y conformable arrays of type `logical`, `integer`(32 bit), `numeric`, or `raw`.
+#' @param x,y conformable arrays of type `logical`, `numeric`, or `raw`.
 #' @param op a single string, giving the operator. \cr
 #' Supported Boolean  operators: `r paste0(broadcast:::.op_b(), collapse = ", ")`.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #'
 #' @details
-#' `bc.b()` efficiently casts the input to logical without making copies of the entire vectors/arrays. \cr
+#' `bc.b()` efficiently casts the input to logical. \cr
 #' Since the input is treated as logical, the following equalities hold for `bc.b()`:
 #' 
 #'  - "==" is equivalent to `(x & y) | (!x & !y)`, but faster;
@@ -51,8 +51,8 @@ setMethod(
     
     # checks:
     .binary_stop_general(x, y, op, sys.call())
-    if(is.double(x))  x <- as.integer(x)
-    if(is.double(y)) y <- as.integer(y)
+    if(is.double(x)) x <- as_int(x)
+    if(is.double(y)) y <- as_int(y)
     if(!.is_boolable(x) || !.is_boolable(y)) {
       stop("unsupported types given")
     }

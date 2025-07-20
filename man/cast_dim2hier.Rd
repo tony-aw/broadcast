@@ -32,11 +32,11 @@ into a hierarchical/nested list. \cr
 \examples{
 
 
-x <- array(c(as.list(1:34), as.list(letters)), 5:3)
+x <- array(c(as.list(1:24), as.list(letters)), 4:2)
 dimnames(x) <- list(
-  letters[1:5],
-  LETTERS[1:4],
-  month.abb[1:3]
+  letters[1:4],
+  LETTERS[1:3],
+  month.abb[1:2]
 )
 print(x)
 

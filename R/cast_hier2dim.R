@@ -20,7 +20,10 @@
 #' indicating if the function should also recurse through classed lists within `x`,
 #' like data.frames.
 #' @param padding a list of length `1`,
-#' giving the padding value to use when padding is required.
+#' giving the padding value to use when padding is required. \cr
+#' Padding is used to ensure every all slices of the same dimension in the output
+#' have equal number of elements
+#' (for example, all rows must have the same number of columns).
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' 
@@ -38,9 +41,7 @@
 #' An array of type `list`, with the dimensions given by `hier2dim()`. \cr
 #' If the output needs padding (indicated by `hier2dim()`),
 #' the output will have more elements than `x`,
-#' filled with `NULL` as padding,
-#' to ensure every all slices of the same dimension have equal number of elements
-#' (for example, all rows must have the same number of columns). \cr
+#' filled with a padding value (as specified in the `padding` argument). \cr
 #' \cr
 #' 
 #' 

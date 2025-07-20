@@ -1,7 +1,7 @@
 
 x <- list(
-  list(list(list(list(1:10)))),
-  list(1:10)
+  a = list(list(list(list(1:10)))),
+  b = list(1:10)
 )
 print(x)
 
@@ -11,9 +11,9 @@ dropnests(x)
 
 # recurse_classed demonstration ====
 x <- list(
-  list(list(list(list(1:10)))),
-  data.frame(month.abb, month.name),
-  data.frame(month.abb)
+  a = list(list(list(list(1:10)))),
+  b = data.frame(month.abb, month.name),
+  c = data.frame(month.abb)
 )
 
 
@@ -24,8 +24,8 @@ dropnests(x, recurse_classed = TRUE)
 
 # maxdepth demonstration ====
 x <- list(
-  list(list(list(list(1:10)))),
-  list(1:10)
+  a = list(list(list(list(1:10)))),
+  b = list(1:10)
 )
 print(x)
 

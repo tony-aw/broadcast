@@ -140,9 +140,9 @@ to get a good idea on how this function casts an array. <br /> <br />
 <h3>Back transformation</h3>
 
 <p>From the casted array, <br />
-<code>out = acast(x, margin, grp)</code>, <br />
+<code>out &lt;- acast(x, margin, grp)</code>, <br />
 one can get the original <code>x</code> back by using <br />
-<code>back = asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br />
+<code>back &lt;- asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br />
 Note, however, the following about the back-transformed array <code>back</code>:
 </p>
 

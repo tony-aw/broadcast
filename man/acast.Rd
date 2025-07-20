@@ -82,9 +82,9 @@ to get a good idea on how this function casts an array. \cr \cr
 
 
 From the casted array, \cr
-\code{out = acast(x, margin, grp)}, \cr
+\code{out <- acast(x, margin, grp)}, \cr
 one can get the original \code{x} back by using \cr
-\code{back = asplit(out, ndim(out)) |> bind_array(along = margin)}. \cr
+\code{back <- asplit(out, ndim(out)) |> bind_array(along = margin)}. \cr
 Note, however, the following about the back-transformed array \code{back}:
 \itemize{
 \item \code{back} will be ordered by \code{grp} along dimension \code{margin};

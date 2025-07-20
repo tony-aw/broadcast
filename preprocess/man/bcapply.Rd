@@ -42,8 +42,8 @@ x.len <- prod(x.dim)
 gen <- function(n) sample(list(letters, month.abb, 1:10), n, TRUE)
 
 x <- array(gen(10), x.dim)
-y <- array(gen(10), c(5, 1, 1))
+y <- array(1:5, c(5, 1, 1))
 
-f <- function(x, y) paste(x, y)
+f <- function(x, y) strrep(x, y)
 bcapply(x, y, f, v = "character")
 }

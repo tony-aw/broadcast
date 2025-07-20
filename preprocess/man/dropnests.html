@@ -21,7 +21,7 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p><code>dropnests()</code> drops redundant nesting of a list. <br />
-It is the hierarchical equivalent to the dimensional drop function. <br />
+It is the hierarchical equivalent to the dimensional <code>base::drop()</code> function. <br />
 <br />
 </p>
 
@@ -74,8 +74,8 @@ Attributes are preserved. <br />
 
 <pre><code class='language-R'>
 x &lt;- list(
-  list(list(list(list(1:10)))),
-  list(1:10)
+  a = list(list(list(list(1:10)))),
+  b = list(1:10)
 )
 print(x)
 
@@ -85,9 +85,9 @@ dropnests(x)
 
 # recurse_classed demonstration ====
 x &lt;- list(
-  list(list(list(list(1:10)))),
-  data.frame(month.abb, month.name),
-  data.frame(month.abb)
+  a = list(list(list(list(1:10)))),
+  b = data.frame(month.abb, month.name),
+  c = data.frame(month.abb)
 )
 
 
@@ -98,8 +98,8 @@ dropnests(x, recurse_classed = TRUE)
 
 # maxdepth demonstration ====
 x &lt;- list(
-  list(list(list(list(1:10)))),
-  list(1:10)
+  a = list(list(list(list(1:10)))),
+  b = list(1:10)
 )
 print(x)
 

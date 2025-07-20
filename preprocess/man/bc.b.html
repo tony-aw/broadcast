@@ -21,7 +21,7 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>The <code>bc.b()</code> function
-performs broadcasted Boolean operations on 2 arrays. <br />
+performs broadcasted logical (or Boolean) operations on 2 arrays. <br />
 <br />
 Please note that these operations will treat the input as <code>logical</code>. <br />
 Therefore, something like <code>bc.b(1, 2, "==")</code> returns <code>TRUE</code>,
@@ -45,7 +45,7 @@ bc.b(x, y, op)
 <table>
 <tr><td><code id="x">x</code>, <code id="y">y</code></td>
 <td>
-<p>conformable arrays of type <code>logical</code>, <code>integer</code>(32 bit), <code>numeric</code>, or <code>raw</code>.</p>
+<p>conformable arrays of type <code>logical</code>, <code>numeric</code>, or <code>raw</code>.</p>
 </td></tr>
 <tr><td><code id="op">op</code></td>
 <td>
@@ -61,7 +61,7 @@ Supported Boolean  operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &g
 
 <h3>Details</h3>
 
-<p><code>bc.b()</code> efficiently casts the input to logical without making copies of the entire vectors/arrays. <br />
+<p><code>bc.b()</code> efficiently casts the input to logical. <br />
 Since the input is treated as logical, the following equalities hold for <code>bc.b()</code>:
 </p>
 

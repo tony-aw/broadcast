@@ -2,7 +2,7 @@
 #' 
 #' @description
 #' broadcast: \cr
-#' 'Numpy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
+#' 'NumPy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
 #' 
 #' 
 #' ```{r echo = FALSE, eval = TRUE, results = 'asis'}
@@ -52,7 +52,7 @@
 #' \cr
 #' 
 #' 
-#' \bold{\code{bind_array()}} \cr
+#' \bold{Binding Arrays} \cr
 #' 'broadcast' provides the \link{bind_array} function,
 #' to bind arrays along an arbitrary dimension,
 #' with support for broadcasting. \cr
@@ -65,7 +65,7 @@
 #'  
 #'  - `bind_array()` allows for broadcasting,
 #'  while \code{abind::abind} does not support broadcasting.
-#'   - `bind_array()` is generally faster than \code{abind::abind},
+#'   - `bind_array()` is generally faster and more memory-efficient than \code{abind::abind},
 #'  as `bind_array()` relies heavily on 'C' and 'C++' code.
 #'  - `bind_array()` differs from \code{abind::abind}
 #'  in that it can handle recursive arrays properly \cr
@@ -87,7 +87,7 @@
 #' These can facility complex forms of broadcasting that would normally not be possible. \cr
 #' But these "casting" functions also have their own merit, beside empowering complex broadcasting. \cr
 #' \cr
-#' More information about both methods can be found here: \cr
+#' More information about the casting functions can be found here: \cr
 #' \link{broadcast_casting}. \cr
 #' \cr
 #' 
@@ -113,6 +113,8 @@
 #' @section Supported Structures:
 #' 'broadcast' supports atomic/recursive arrays (up to 16 dimensions),
 #' and atomic/recursive vectors. \cr
+#' As in standard Linear Algebra Convention,
+#' dimensionless vectors are interpreted as column-vectors in broadcasted array operations. \cr
 #' \cr
 #' 
 #' 

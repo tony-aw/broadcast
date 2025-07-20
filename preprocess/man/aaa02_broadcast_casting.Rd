@@ -12,10 +12,10 @@ But these "casting" functions also have their own merit, beside empowering compl
 The following casting functions are available:
 \itemize{
 \item \code{[acast](acast.qmd)}: \cr
-casts group-based subset of an array into a new dimension. \cr
-Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
+casts group-based subsets of an array into a new dimension. \cr
+Useful for, for example, performing \bold{grouped} broadcasted operations. \cr
 \item \code{[cast_hier2dim](cast_hier2dim.qmd)}: \cr
-casts a nested/hierarchical list into a dimensional list (i.e. recursive array). \cr
+casts a nested/hierarchical list into a dimensional list (i.e. array of type \code{list}). \cr
 Useful because one cannot broadcast through nesting, but one \bold{can} broadcast along dimensions.
 \item \code{[cast_dim2hier](cast_dim2hier.qmd)}: \cr
 casts a dimensional list into a nested/hierarchical list; the opposite of \code{[cast_hier2dim](cast_hier2dim.qmd)}. \cr
@@ -49,8 +49,8 @@ and so on until the last dimension of \code{y} is cast to the surface-level elem
 Consider the nested list \code{x} with a depth of \code{3},
 and the recursive array \code{y} with 3 dimensions,
 where their relationship can described as the following code: \cr
-\code{x <- cast_hier2dim(y)} \cr
-\code{y <- cast_dim2hier(x)}. \cr
+\code{y <- cast_hier2dim(x)} \cr
+\code{x <- cast_dim2hier(y)}. \cr
 Then it holds that: \cr
 \code{x[[i]][[j]][[k]]} corresponds to \code{y[[k, j, i]]}, \cr
 \eqn{\forall}(\code{i}, \code{j}, \code{k}) , provided \code{x[[i]][[j]][[k]]} exists. \cr
@@ -72,93 +72,10 @@ and so on until the last dimension of \code{y} is cast to the inner most element
 Consider the nested list \code{x} with a depth of \code{3},
 and the recursive array \code{y} with 3 dimensions,
 where their relationship can described with the following code: \cr
-\code{x <- cast_hier2dim(y, in2out = FALSE)} \cr
-\code{y <- cast_dim2hier(x, in2out = FALSE)}. \cr
+\code{y <- cast_hier2dim(x, in2out = FALSE)} \cr
+\code{x <- cast_dim2hier(y, in2out = FALSE)}. \cr
 Then it holds that : \cr
 \code{x[[i]][[j]][[k]]} corresponds to \code{y[[i, j, k]]}, \cr
 \eqn{\forall}(\code{i}, \code{j}, \code{k}) , provided \code{x[[i]][[j]][[k]]} exists. \cr \cr
 }
 
-\examples{
-
-
-# evenly nested list ====
-x <- list(
-  group1 = list(
-    class1 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class2 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class3 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    )
-  ),
-  group2 = list(
-    class1 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class2 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class3 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    )
-  )
-)
-
-# the above list is an evenly nested list.
-
-
-
-# unevenly nested list ====
-
-# this list is UNEVENLY nested:
-x <- list(
-  group1 = list(
-    class1 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class2 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    )
-  ),
-  group2 = list(
-    class1 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class2 = list(
-      height = rnorm(10, 170),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class3 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    )
-  )
-)
-# here `x` is UNEVENLY nested because:
-# -> not all groups (surface level, or depth = 1) have the same number of classes.
-# -> not all classes (depth = 2) have the same number of variables:
-#     x$group2$class2 is missing variable "weight".
-}

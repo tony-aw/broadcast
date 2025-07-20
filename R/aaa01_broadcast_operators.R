@@ -18,7 +18,7 @@
 #' \cr
 #' 
 #' 
-#' @section Available Overloaded Operators: 
+#' @section Operators Overloaded via Broadcaster Class: 
 #' Sometimes broadcasting is needed in large mathematical expression,
 #' involving multiple variables,
 #' where precedence is of importance. \cr

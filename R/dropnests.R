@@ -2,7 +2,7 @@
 #'
 #' @description
 #' `dropnests()` drops redundant nesting of a list. \cr
-#' It is the hierarchical equivalent to the dimensional \link[base]{drop} function. \cr
+#' It is the hierarchical equivalent to the dimensional \code{base::drop()} function. \cr
 #' \cr
 #' 
 #' 

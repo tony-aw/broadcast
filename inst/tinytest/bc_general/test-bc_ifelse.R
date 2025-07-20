@@ -30,16 +30,11 @@ datagens <- list(
 )
 
 
+# main test ====
 i <- 1L
 
 op <- function(x, y) {
   c(length(x) == length(y), typeof(x) == typeof(y))
-}
-basefun <- function(x, y) {
-  # using for-loop, because mapply really does not function properly here
-  out <- mapply(op, x, y, SIMPLIFY = FALSE, USE.NAMES = FALSE)
-  dim(out) <- bc_dim(x, y)
-  return(out)
 }
 
 nres <- 5 * 3 * length(datagens)^2 * 4 * 4
@@ -129,9 +124,18 @@ expect_equivalent( # equivalent instead of equal because ifelse() is a bit slopp
 enumerate <- enumerate + i # count number of tests
 
 
+# numeric types leniancy ====
+x <- array(sample(1:100), c(1, 100)) |> as_int()
+y <- array(sample(1:100), c(100, 1)) |> as_int()
+test <- bc.d(x, y, ">")
+expect_equal(
+  bc_ifelse(test, as_dbl(x), y),
+  bc_ifelse(test, x, as_dbl(y))
+)
+enumerate <- enumerate + 1L
+
 
 # dimnames ====
-# don't take dimnames:
 x <- array(1:10)
 y <- array(1:10, c(1, 10))
 test <- bc.d(x, y, ">")

@@ -361,7 +361,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#details-on-broadcasted-operators" id="toc-details-on-broadcasted-operators" class="nav-link active" data-scroll-target="#details-on-broadcasted-operators">Details on Broadcasted Operators</a>
   <ul class="collapse">
   <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description">Description</a></li>
-  <li><a href="#available-overloaded-operators" id="toc-available-overloaded-operators" class="nav-link" data-scroll-target="#available-overloaded-operators">Available Overloaded Operators</a></li>
+  <li><a href="#operators-overloaded-via-broadcaster-class" id="toc-operators-overloaded-via-broadcaster-class" class="nav-link" data-scroll-target="#operators-overloaded-via-broadcaster-class">Operators Overloaded via Broadcaster Class</a></li>
   <li><a href="#available-bc.-functions" id="toc-available-bc.-functions" class="nav-link" data-scroll-target="#available-bc.-functions">Available <code>bc.</code> functions</a></li>
   <li><a href="#attribute-handling" id="toc-attribute-handling" class="nav-link" data-scroll-target="#attribute-handling">Attribute Handling</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
@@ -380,8 +380,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="description">Description</h3>
 <p>Base ‘R’ comes with relational (==, !=, etc.), arithmetic (+, -, *, /, etc.), and logical/bit-wise (&amp;, |) operators. <br> ‘broadcast’ provides 2 ways to use these operators with broadcasting. <br> <br> The first (and simple) way is to use the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with it’s own method dispatch for the above mentioned operators. <br> This approach supports operator precedence, and for the average ‘R’ user, this is sufficient. <br> <br> The second way is to use the large set of <code>bc.</code>- functions. <br> These offer much greater control and more operators than the previous method, and has less risk of running into conflicting methods. <br> But it does not support operator precedence. <br> <br></p>
 </section>
-<section id="available-overloaded-operators" class="level3">
-<h3 class="anchored" data-anchor-id="available-overloaded-operators">Available Overloaded Operators</h3>
+<section id="operators-overloaded-via-broadcaster-class" class="level3">
+<h3 class="anchored" data-anchor-id="operators-overloaded-via-broadcaster-class">Operators Overloaded via Broadcaster Class</h3>
 <p>Sometimes broadcasting is needed in large mathematical expression, involving multiple variables, where precedence is of importance. <br> For example in an expression like <code>x + y / z^y</code>. <br> For such cases, you may want to overload the base operators. <br> <br> To that end, the ‘broadcast’ package provides the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators. <br> If at least one of the 2 arguments of the base operators has the <code>broadcaster</code> class attribute, and no other class (like <code>bit64</code>) interferes, broadcasting will be used. <br> <br> The following arithmetic operators have a ‘broadcaster’ method: +, -, *, /, ^, %%, %/% <br> The following relational operators have a ‘broadcaster’ method: ==, !=, &lt;, &gt;, &lt;=, &gt;= <br> And finally, the &amp; and | operators also have a ‘broadcaster’ method. <br> <br> See also the Examples section below. <br> <br></p>
 </section>
 <section id="available-bc.-functions" class="level3">

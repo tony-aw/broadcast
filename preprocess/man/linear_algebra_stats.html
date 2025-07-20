@@ -120,7 +120,7 @@ A vector of standard deviations.
 
 <pre><code class='language-R'>
 vc &lt;- datasets::ability.cov$cov
-X &lt;- matrix(rnorm(1000), 1000, ncol(vc))
+X &lt;- matrix(rnorm(100), 100, ncol(vc))
 
 solve(vc)
 cinv(vc) # faster than `solve()`, but only works on positive definite matrices

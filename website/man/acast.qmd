@@ -126,9 +126,9 @@ An array with the following properties:
 ### Back transformation
 
 From the casted array, <br />
-<code>out = acast(x, margin, grp)</code>, <br />
+<code>out &lt;- acast(x, margin, grp)</code>, <br />
 one can get the original <code>x</code> back by using <br />
-<code>back = asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br />
+<code>back &lt;- asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br />
 Note, however, the following about the back-transformed array <code>back</code>:
 
 

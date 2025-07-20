@@ -8,7 +8,8 @@
 #' @param x,y an atomic or recursive array.
 #' 
 #' @returns
-#' Returns an integer vector giving the broadcasted dimension sizes.
+#' Returns an integer vector giving the broadcasted dimension sizes of the result,
+#' or the length of the result if its dimensions will be `NULL`. \cr \cr
 #'
 #'
 #' @example inst/examples/bc_dim.R
@@ -20,25 +21,11 @@ bc_dim <- function(
     x, y
 ) {
   
-  if(!is.array(x)) {
-    x.dim <- length(x)
-  }
-  else {
-    x.dim <- dim(x)
-  }
-  
-  if(!is.array(y)) {
-    y.dim <- length(y)
-  }
-  else {
-    y.dim <- dim(y)
-  }
-  
-  
-  prep <- .binary_normalize_dims(x.dim, y.dim)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
- 
-  out.dim <- .binary_determine_out.dim(x.dim, y.dim, sys.call())
-  return(out.dim)
+  .binary_stop_general(x, y, "", sys.call())
+  prep <- .binary_prep(x, y, sys.call())
+  out <- prep$out.dimorig
+  if(is.null(out)) out <- prep$out.len
+  return(out)
 }
+
+

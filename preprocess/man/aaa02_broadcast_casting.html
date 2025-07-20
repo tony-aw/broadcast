@@ -29,12 +29,12 @@ The following casting functions are available:
 
 <ul>
 <li> <p><code>[acast](acast.qmd)</code>: <br />
-casts group-based subset of an array into a new dimension. <br />
-Useful for, for example, computing <b>grouped</b> broadcasted operations. <br />
+casts group-based subsets of an array into a new dimension. <br />
+Useful for, for example, performing <b>grouped</b> broadcasted operations. <br />
 </p>
 </li>
 <li> <p><code>[cast_hier2dim](cast_hier2dim.qmd)</code>: <br />
-casts a nested/hierarchical list into a dimensional list (i.e. recursive array). <br />
+casts a nested/hierarchical list into a dimensional list (i.e. array of type <code>list</code>). <br />
 Useful because one cannot broadcast through nesting, but one <b>can</b> broadcast along dimensions.
 </p>
 </li>
@@ -77,8 +77,8 @@ and so on until the last dimension of <code>y</code> is cast to the surface-leve
 Consider the nested list <code>x</code> with a depth of <code>3</code>,
 and the recursive array <code>y</code> with 3 dimensions,
 where their relationship can described as the following code: <br />
-<code>x &lt;- cast_hier2dim(y)</code> <br />
-<code>y &lt;- cast_dim2hier(x)</code>. <br />
+<code>y &lt;- cast_hier2dim(x)</code> <br />
+<code>x &lt;- cast_dim2hier(y)</code>. <br />
 Then it holds that: <br />
 <code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[k, j, i]]</code>, <br />
 <code class="reqn">\forall</code>(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br />
@@ -100,98 +100,12 @@ and so on until the last dimension of <code>y</code> is cast to the inner most e
 Consider the nested list <code>x</code> with a depth of <code>3</code>,
 and the recursive array <code>y</code> with 3 dimensions,
 where their relationship can described with the following code: <br />
-<code>x &lt;- cast_hier2dim(y, in2out = FALSE)</code> <br />
-<code>y &lt;- cast_dim2hier(x, in2out = FALSE)</code>. <br />
+<code>y &lt;- cast_hier2dim(x, in2out = FALSE)</code> <br />
+<code>x &lt;- cast_dim2hier(y, in2out = FALSE)</code>. <br />
 Then it holds that : <br />
 <code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[i, j, k]]</code>, <br />
 <code class="reqn">\forall</code>(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br /> <br />
 </p>
-
-
-<h3>Examples</h3>
-
-<pre><code class='language-R'>
-
-# evenly nested list ====
-x &lt;- list(
-  group1 = list(
-    class1 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class2 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class3 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    )
-  ),
-  group2 = list(
-    class1 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class2 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class3 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    )
-  )
-)
-
-# the above list is an evenly nested list.
-
-
-
-# unevenly nested list ====
-
-# this list is UNEVENLY nested:
-x &lt;- list(
-  group1 = list(
-    class1 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class2 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    )
-  ),
-  group2 = list(
-    class1 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class2 = list(
-      height = rnorm(10, 170),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    ),
-    class3 = list(
-      height = rnorm(10, 170),
-      weight = rnorm(10, 80),
-      sex = sample(c("M", "F", NA), 10, TRUE)
-    )
-  )
-)
-# here `x` is UNEVENLY nested because:
-# -&gt; not all groups (surface level, or depth = 1) have the same number of classes.
-# -&gt; not all classes (depth = 2) have the same number of variables:
-#     x$group2$class2 is missing variable "weight".
-</code></pre>
 
 </main>
 

@@ -8,10 +8,10 @@
 #' The following casting functions are available:
 #' 
 #'  - \link{acast}: \cr
-#'  casts group-based subset of an array into a new dimension. \cr
-#'  Useful for, for example, computing \bold{grouped} broadcasted operations. \cr
+#'  casts group-based subsets of an array into a new dimension. \cr
+#'  Useful for, for example, performing \bold{grouped} broadcasted operations. \cr
 #'  - \link{cast_hier2dim}: \cr
-#'  casts a nested/hierarchical list into a dimensional list (i.e. recursive array). \cr
+#'  casts a nested/hierarchical list into a dimensional list (i.e. array of type `list`). \cr
 #'  Useful because one cannot broadcast through nesting, but one \bold{can} broadcast along dimensions.
 #'  - \link{cast_dim2hier}: \cr
 #'  casts a dimensional list into a nested/hierarchical list; the opposite of \link{cast_hier2dim}. \cr
@@ -44,8 +44,8 @@
 #' Consider the nested list `x` with a depth of `3`,
 #' and the recursive array `y` with 3 dimensions,
 #' where their relationship can described as the following code: \cr
-#' `x <- cast_hier2dim(y)` \cr
-#' `y <- cast_dim2hier(x)`. \cr
+#' `y <- cast_hier2dim(x)` \cr
+#' `x <- cast_dim2hier(y)`. \cr
 #' Then it holds that: \cr
 #' `x[[i]][[j]][[k]]` corresponds to `y[[k, j, i]]`, \cr
 #' \eqn{\forall}(`i`, `j`, `k`) , provided `x[[i]][[j]][[k]]` exists. \cr
@@ -67,14 +67,13 @@
 #' Consider the nested list `x` with a depth of `3`,
 #' and the recursive array `y` with 3 dimensions,
 #' where their relationship can described with the following code: \cr
-#' `x <- cast_hier2dim(y, in2out = FALSE)` \cr
-#' `y <- cast_dim2hier(x, in2out = FALSE)`. \cr
+#' `y <- cast_hier2dim(x, in2out = FALSE)` \cr
+#' `x <- cast_dim2hier(y, in2out = FALSE)`. \cr
 #' Then it holds that : \cr
 #' `x[[i]][[j]][[k]]` corresponds to `y[[i, j, k]]`, \cr
 #' \eqn{\forall}(`i`, `j`, `k`) , provided `x[[i]][[j]][[k]]` exists. \cr \cr
 #' 
 #' 
-#' @example inst/examples/aaa_broadcast_casting.R
 #' 
 #' @name aaa02_broadcast_casting
 #' @rdname aaa02_broadcast_casting

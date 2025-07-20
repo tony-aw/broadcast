@@ -10,7 +10,7 @@ bc.b(x, y, op, ...)
 \S4method{bc.b}{ANY}(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable arrays of type \code{logical}, \code{integer}(32 bit), \code{numeric}, or \code{raw}.}
+\item{x, y}{conformable arrays of type \code{logical}, \code{numeric}, or \code{raw}.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported Boolean  operators: &, |, xor, nand, ==, !=, <, >, <=, >=.}
@@ -22,7 +22,7 @@ A logical array as a result of the broadcasted Boolean operation. \cr \cr
 }
 \description{
 The \code{bc.b()} function
-performs broadcasted Boolean operations on 2 arrays. \cr
+performs broadcasted logical (or Boolean) operations on 2 arrays. \cr
 \cr
 Please note that these operations will treat the input as \code{logical}. \cr
 Therefore, something like \code{bc.b(1, 2, "==")} returns \code{TRUE},
@@ -31,7 +31,7 @@ because both \code{1} and \code{2} are \code{TRUE} when treated as \code{logical
 For regular relational operators, see \link{bc.rel}. \cr \cr
 }
 \details{
-\code{bc.b()} efficiently casts the input to logical without making copies of the entire vectors/arrays. \cr
+\code{bc.b()} efficiently casts the input to logical. \cr
 Since the input is treated as logical, the following equalities hold for \code{bc.b()}:
 \itemize{
 \item "==" is equivalent to \code{(x & y) | (!x & !y)}, but faster;

@@ -49,7 +49,7 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
     "broadcast", testdir = file.path("tinytest", "cast")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "othercast")
+    "broadcast", testdir = file.path("tinytest", "typecast")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "overload")

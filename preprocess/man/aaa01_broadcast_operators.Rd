@@ -20,7 +20,7 @@ and has less risk of running into conflicting methods. \cr
 But it does not support operator precedence. \cr
 \cr
 }
-\section{Available Overloaded Operators}{
+\section{Operators Overloaded via Broadcaster Class}{
 
 Sometimes broadcasting is needed in large mathematical expression,
 involving multiple variables,
