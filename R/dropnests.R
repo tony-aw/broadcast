@@ -23,7 +23,8 @@
 #' Attributes are preserved. \cr
 #' \cr
 #' 
-#'
+#' @seealso \link{broadcast_casting} \cr
+#' 
 #' @example inst/examples/dropnests.R
 #' 
 #'
@@ -38,7 +39,7 @@ dropnests <- function(x, ...) {
 
 #' @rdname dropnests
 #' @export
-dropnests.default <- function(x, maxdepth = 32L, recurse_classed = FALSE, ...) {
+dropnests.default <- function(x, maxdepth = 16L, recurse_classed = FALSE, ...) {
   .depth_check(x, maxdepth, recurse_classed, sys.call())
   
   if(maxdepth == 1L) {

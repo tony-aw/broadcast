@@ -22,7 +22,7 @@ SEXP rcpp_make_dimnames2(
   ) {
   
   
-    int n = Rf_xlength(outdim);
+    int n = Rf_length(outdim);
     SEXP out = PROTECT(Rf_allocVector(VECSXP, n));
     int *poutdim = INTEGER(outdim);
     bool checkx;
@@ -35,8 +35,8 @@ SEXP rcpp_make_dimnames2(
     
       SEXP tempx = rcpp_vector_elt(xdimnames, i, lenx);
       SEXP tempy = rcpp_vector_elt(ydimnames, i, leny);
-      checkx = tempx != R_NilValue && Rf_length(tempx) == poutdim[i];
-      checky = tempy != R_NilValue && Rf_length(tempy) == poutdim[i];
+      checkx = Rf_length(tempx) == poutdim[i];
+      checky = Rf_length(tempy) == poutdim[i];
       
       
       if(!checkx && !checky) {

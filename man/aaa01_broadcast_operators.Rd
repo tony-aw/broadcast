@@ -73,7 +73,8 @@ The various other \code{bc.} methods have specialized relational operators avail
 \section{Attribute Handling}{
 
 The \code{bc.} functions and the overloaded operators generally do \bold{not}
-preserve attributes, unlike the base 'R' operators, except for (dim)names. \cr
+preserve attributes, unlike the base 'R' operators,
+except for (dim)names and the \link{broadcaster} class attribute (and related attributes). \cr
 \cr
 Broadcasting often results in an object with more dimensions, larger dimensions,
 and/or larger length than the original objects. \cr

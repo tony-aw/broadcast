@@ -30,7 +30,7 @@ x <- list(
 print(x)
 
 
-dropnests(x) # by default, maxdepth = 32
+dropnests(x) # by default, maxdepth = 16
 
 dropnests(x, maxdepth = 3L)
 

@@ -17,7 +17,7 @@ It is the hierarchical equivalent to the dimensional <code>base::drop()</code> f
 <pre><code class='language-R'>dropnests(x, ...)
 
 ## Default S3 method:
-dropnests(x, maxdepth = 32L, recurse_classed = FALSE, ...)
+dropnests(x, maxdepth = 16L, recurse_classed = FALSE, ...)
 </code></pre>
 
 
@@ -53,6 +53,12 @@ like data.frames.
 A list without redundant nesting. <br />
 Attributes are preserved. <br />
 <br />
+
+
+
+### See Also
+
+[broadcast_casting](aaa02_broadcast_casting.qmd) <br />
 
 
 
@@ -92,7 +98,7 @@ x <- list(
 print(x)
 
 
-dropnests(x) # by default, maxdepth = 32
+dropnests(x) # by default, maxdepth = 16
 
 dropnests(x, maxdepth = 3L)
 

@@ -7,7 +7,7 @@
 \usage{
 dropnests(x, ...)
 
-\method{dropnests}{default}(x, maxdepth = 32L, recurse_classed = FALSE, ...)
+\method{dropnests}{default}(x, maxdepth = 16L, recurse_classed = FALSE, ...)
 }
 \arguments{
 \item{x}{a list}
@@ -66,10 +66,13 @@ x <- list(
 print(x)
 
 
-dropnests(x) # by default, maxdepth = 32
+dropnests(x) # by default, maxdepth = 16
 
 dropnests(x, maxdepth = 3L)
 
 dropnests(x, maxdepth = 1L) # returns `x` unchanged
 
+}
+\seealso{
+\code{[broadcast_casting](aaa02_broadcast_casting.qmd)} \cr
 }
