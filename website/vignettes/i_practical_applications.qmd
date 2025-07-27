@@ -189,11 +189,13 @@ codes[1] |> print()
 
 # Perform computation on all possible pairs
 
-Suppose you have 2 vectors of strings, and you want to find concatenate every possible pair strings.
+Suppose you have 2 vectors of character strings, and you want to concatenate all possible pairs of these strings.
 
 In base R, this would require a either a loop (which is slow), or repeating the vectors several times (which requires more memory).
 
-The 'broadcasted way to do this, is to make the vectors orthogonal, and concatenate the strings of the orthogonal vectors, using the following code:
+The 'broadcasted way to do this, is to make the vectors orthogonal, and concatenate the strings of the orthogonal vectors - this is both fast and memory efficient.
+
+For example:
 
 ```{r}
 x <- array(letters[1:10], c(10, 1))

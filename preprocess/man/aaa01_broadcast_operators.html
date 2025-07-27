@@ -111,22 +111,18 @@ The various other <code>bc.</code> methods have specialized relational operators
 <h3>Attribute Handling</h3>
 
 <p>The <code>bc.</code> functions and the overloaded operators generally do <b>not</b>
-preserve attributes, unlike the base 'R' operators. <br />
+preserve attributes, unlike the base 'R' operators, except for (dim)names. <br />
 <br />
 Broadcasting often results in an object with more dimensions, larger dimensions,
 and/or larger length than the original objects. <br />
-Therefore, the <code>names</code>, <code>dimnames</code>, and <code>dim</code> attributes often no longer fit the new object. <br />
-Moreover, some classes are only appropriate for certain dimensions or lengths. <br />
+This is relevant as some class-specific attributes are only appropriate for certain dimensions or lengths. <br />
 Custom matrix classes, for example, presumes an object to have exactly 2 dimensions. <br />
 And the various classes provided by the 'bit' package have length-related attributes. <br />
-So even class attributes cannot be guaranteed to hold for the resulting objects. <br />
+So class attributes cannot be guaranteed to hold for the resulting objects when broadcasting is involved. <br />
 <br />
-However, the <code>bc.</code> functions and the overloaded operators
+The <code>bc.</code> functions and the overloaded operators
 <b>always</b> preserve the &quot;broadcaster&quot; attribute,
 as this is necessary to chain together broadcasted operations. <br />
-Notice that this contrats with base 'R' in the following sense: <br />
-In base 'R', logical (&amp;, |) and relational (==, !=, etc.) operators never preserve attributes,
-whereas the broadcasted equivalents do preserve the &quot;broadcaster&quot; attribute. <br />
 <br />
 Almost all functions provided by 'broadcast' are S3 or S4 generics; <br />
 methods can be written for them for specific classes,

@@ -122,7 +122,7 @@ setMethod(
       .rcpp_set_class(out, "broadcaster")
     }
     
-    .binary_set_ma(out, yes, no)
+    .binary_set_attr(out, yes, no)
     
     return(out)
     

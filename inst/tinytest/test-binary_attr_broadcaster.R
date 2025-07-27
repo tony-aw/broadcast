@@ -11,18 +11,20 @@ funs <- list(
   bc.d,
   bc.cplx,
   bc.str,
-  bc.raw
+  bc.raw,
+  bc.list
 )
 datagens <- list(
   \() sample(c(-10L:10L, NA_integer_)),
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)),
   \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)) + sample(c(rnorm(10), NA, NaN, Inf, -Inf)) * -1i,
   \() sample(c(letters, NA)),
-  \() as.raw(sample(1:10))
+  \() as.raw(sample(1:10)),
+  \() as.list(sample(-10:10))
 )
 
 
-ops <- c(rep("+", 4), "diff")
+ops <- c(rep(list("+"), 4), list("diff"), \(x, y)length(x)==length(y))
 
 for(i in seq_along(funs)) {
   for(xBC in c(TRUE, FALSE)) {
@@ -34,7 +36,7 @@ for(i in seq_along(funs)) {
       broadcaster(x) <- xBC
       broadcaster(y) <- yBC
       
-      out <- funs[[i]](x, y, ops[i])
+      out <- funs[[i]](x, y, ops[[i]])
       
       expect_equal(
         broadcaster(out),

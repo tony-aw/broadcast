@@ -103,8 +103,8 @@ More information about the casting functions can be found here: \cr
 \code{[broadcast_casting](aaa02_broadcast_casting.qmd)}. \cr
 \cr
 
-\bold{General functions} \cr
-'broadcast' also comes with 2 general broadcasted functions:
+\bold{General Pairwise Broadcasted Functions} \cr
+'broadcast' also comes with 2 general pairwise broadcasted functions:
 \itemize{
 \item \code{[bc_ifelse](bc_ifelse.qmd)}: Broadcasted version of \link[base]{ifelse}.
 \item \code{[bcapply](bcapply.qmd)}: Broadcasted apply-like function. \cr \cr

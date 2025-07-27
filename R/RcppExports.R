@@ -459,6 +459,18 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
+.rcpp_make_dimnames2 <- function(xdimnames, ydimnames, outdim, pref) {
+    .Call(`_broadcast_rcpp_make_dimnames2`, xdimnames, ydimnames, outdim, pref)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_make_dimnames1 <- function(y_dimnames, ydim, outdim) {
+    .Call(`_broadcast_rcpp_make_dimnames1`, y_dimnames, ydim, outdim)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_mergedims_output <- function(x, y, len) {
     .Call(`_broadcast_rcpp_mergedims_output`, x, y, len)
 }
@@ -491,6 +503,12 @@ rcpp_str_dist_led <- function(x, y) {
 #' @noRd
 .rcpp_normalize_dims <- function(dims_old, start, max_ndim) {
     .Call(`_broadcast_rcpp_normalize_dims_regular`, dims_old, start, max_ndim)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_set_attr <- function(x, name, value) {
+    invisible(.Call(`_broadcast_rcpp_set_attr`, x, name, value))
 }
 
 #' @keywords internal

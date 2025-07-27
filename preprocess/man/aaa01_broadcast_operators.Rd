@@ -73,22 +73,18 @@ The various other \code{bc.} methods have specialized relational operators avail
 \section{Attribute Handling}{
 
 The \code{bc.} functions and the overloaded operators generally do \bold{not}
-preserve attributes, unlike the base 'R' operators. \cr
+preserve attributes, unlike the base 'R' operators, except for (dim)names. \cr
 \cr
 Broadcasting often results in an object with more dimensions, larger dimensions,
 and/or larger length than the original objects. \cr
-Therefore, the \code{names}, \code{dimnames}, and \code{dim} attributes often no longer fit the new object. \cr
-Moreover, some classes are only appropriate for certain dimensions or lengths. \cr
+This is relevant as some class-specific attributes are only appropriate for certain dimensions or lengths. \cr
 Custom matrix classes, for example, presumes an object to have exactly 2 dimensions. \cr
 And the various classes provided by the 'bit' package have length-related attributes. \cr
-So even class attributes cannot be guaranteed to hold for the resulting objects. \cr
+So class attributes cannot be guaranteed to hold for the resulting objects when broadcasting is involved. \cr
 \cr
-However, the \code{bc.} functions and the overloaded operators
+The \code{bc.} functions and the overloaded operators
 \bold{always} preserve the "broadcaster" attribute,
 as this is necessary to chain together broadcasted operations. \cr
-Notice that this contrats with base 'R' in the following sense: \cr
-In base 'R', logical (&, |) and relational (==, !=, etc.) operators never preserve attributes,
-whereas the broadcasted equivalents do preserve the "broadcaster" attribute. \cr
 \cr
 Almost all functions provided by 'broadcast' are S3 or S4 generics; \cr
 methods can be written for them for specific classes,

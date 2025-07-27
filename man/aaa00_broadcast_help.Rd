@@ -103,8 +103,8 @@ More information about the casting functions can be found here: \cr
 \link{broadcast_casting}. \cr
 \cr
 
-\bold{General functions} \cr
-'broadcast' also comes with 2 general broadcasted functions:
+\bold{General Pairwise Broadcasted Functions} \cr
+'broadcast' also comes with 2 general pairwise broadcasted functions:
 \itemize{
 \item \link{bc_ifelse}: Broadcasted version of \link[base]{ifelse}.
 \item \link{bcapply}: Broadcasted apply-like function. \cr \cr

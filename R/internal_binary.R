@@ -96,7 +96,7 @@
   if(x.len == 1L || y.len == 1L) { # x and/or y are/is scalar(s)
     return(1L)
   }
-  else if(is.null(x.dim) || is.null(y.dim)) { # x and/or y are/is vector(s)
+  else if(length(x.dim) <= 1L || length(y.dim) <= 1L) { # x and/or y are/is vectors or 1d array(s)
     return(1L)
   }
   else if(.C_dims_all_equal(x.dim, y.dim)) { # x & y have same dimensions, thus same ordering as output
@@ -176,8 +176,6 @@
   return(list(x.dim, y.dim))
   
 }
-
-
 
 #' @keywords internal
 #' @noRd
@@ -260,10 +258,12 @@
 
 #' @keywords internal
 #' @noRd
-.binary_set_ma <- function(out, x, y) {
+.binary_set_attr <- function(out, x, y) {
   if(inherits(x, "mutatomic") || inherits(y, "mutatomic")) {
     .rcpp_set_ma(out, c("mutatomic", oldClass(out)))
   }
+  
+  .binames_set(x, y, out)
   
 }
 

@@ -158,4 +158,3 @@ List rcpp_bindhelper_get_dimnames(
   }
   return out;
 }
-

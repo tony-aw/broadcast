@@ -1154,6 +1154,33 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_make_dimnames2
+SEXP rcpp_make_dimnames2(SEXP xdimnames, SEXP ydimnames, SEXP outdim, int pref);
+RcppExport SEXP _broadcast_rcpp_make_dimnames2(SEXP xdimnamesSEXP, SEXP ydimnamesSEXP, SEXP outdimSEXP, SEXP prefSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type xdimnames(xdimnamesSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type ydimnames(ydimnamesSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type outdim(outdimSEXP);
+    Rcpp::traits::input_parameter< int >::type pref(prefSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_make_dimnames2(xdimnames, ydimnames, outdim, pref));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_make_dimnames1
+SEXP rcpp_make_dimnames1(SEXP y_dimnames, SEXP ydim, SEXP outdim);
+RcppExport SEXP _broadcast_rcpp_make_dimnames1(SEXP y_dimnamesSEXP, SEXP ydimSEXP, SEXP outdimSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type y_dimnames(y_dimnamesSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type ydim(ydimSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type outdim(outdimSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_make_dimnames1(y_dimnames, ydim, outdim));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_mergedims_output
 SEXP rcpp_mergedims_output(SEXP x, SEXP y, int len);
 RcppExport SEXP _broadcast_rcpp_mergedims_output(SEXP xSEXP, SEXP ySEXP, SEXP lenSEXP) {
@@ -1230,6 +1257,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_set_attr
+void rcpp_set_attr(RObject x, String name, RObject value);
+RcppExport SEXP _broadcast_rcpp_set_attr(SEXP xSEXP, SEXP nameSEXP, SEXP valueSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    Rcpp::traits::input_parameter< String >::type name(nameSEXP);
+    Rcpp::traits::input_parameter< RObject >::type value(valueSEXP);
+    rcpp_set_attr(x, name, value);
+    return R_NilValue;
+END_RCPP
+}
 // rcpp_set_vind_32_atomic
 void rcpp_set_vind_32_atomic(SEXP x, const SEXP ind, const SEXP rp);
 RcppExport SEXP _broadcast_rcpp_set_vind_32_atomic(SEXP xSEXP, SEXP indSEXP, SEXP rpSEXP) {
@@ -1256,6 +1295,7 @@ END_RCPP
 }
 
 RcppExport SEXP C_any_nonNULL(SEXP);
+RcppExport SEXP C_binames_consider_dim(SEXP, SEXP, SEXP);
 RcppExport SEXP C_bind_which_comdims(SEXP, SEXP, SEXP);
 RcppExport SEXP C_check_conf_dim(SEXP, SEXP);
 RcppExport SEXP C_dims_all_equal(SEXP, SEXP);
@@ -1347,28 +1387,32 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_lenrange_atdepth", (DL_FUNC) &_broadcast_rcpp_lenrange_atdepth, 3},
     {"_broadcast_rcpp_hier2dim_surface_OK", (DL_FUNC) &_broadcast_rcpp_hier2dim_surface_OK, 2},
     {"_broadcast_rcpp_dropnests", (DL_FUNC) &_broadcast_rcpp_dropnests, 3},
+    {"_broadcast_rcpp_make_dimnames2", (DL_FUNC) &_broadcast_rcpp_make_dimnames2, 4},
+    {"_broadcast_rcpp_make_dimnames1", (DL_FUNC) &_broadcast_rcpp_make_dimnames1, 3},
     {"_broadcast_rcpp_mergedims_output", (DL_FUNC) &_broadcast_rcpp_mergedims_output, 3},
     {"_broadcast_rcpp_mergedims_prod", (DL_FUNC) &_broadcast_rcpp_mergedims_prod, 3},
     {"_broadcast_rcpp_is_mergeable_with_prev", (DL_FUNC) &_broadcast_rcpp_is_mergeable_with_prev, 2},
     {"_broadcast_rcpp_mergedims", (DL_FUNC) &_broadcast_rcpp_mergedims, 3},
     {"_broadcast_rcpp_rep_new_int", (DL_FUNC) &_broadcast_rcpp_rep_new_int, 2},
     {"_broadcast_rcpp_normalize_dims_regular", (DL_FUNC) &_broadcast_rcpp_normalize_dims_regular, 3},
+    {"_broadcast_rcpp_set_attr", (DL_FUNC) &_broadcast_rcpp_set_attr, 3},
     {"_broadcast_rcpp_set_vind_32_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_32_atomic, 3},
     {"_broadcast_rcpp_set_vind_64_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_64_atomic, 3},
-    {"C_any_nonNULL",         (DL_FUNC) &C_any_nonNULL,         1},
-    {"C_bind_which_comdims",  (DL_FUNC) &C_bind_which_comdims,  3},
-    {"C_check_conf_dim",      (DL_FUNC) &C_check_conf_dim,      2},
-    {"C_dims_all_equal",      (DL_FUNC) &C_dims_all_equal,      2},
-    {"C_dims_all_orthogonal", (DL_FUNC) &C_dims_all_orthogonal, 2},
-    {"C_dropdims_count",      (DL_FUNC) &C_dropdims_count,      2},
-    {"C_dropdims_which",      (DL_FUNC) &C_dropdims_which,      3},
-    {"C_lst_ndims",           (DL_FUNC) &C_lst_ndims,           1},
-    {"C_make_by",             (DL_FUNC) &C_make_by,             1},
-    {"C_make_dcp",            (DL_FUNC) &C_make_dcp,            1},
-    {"C_pmax",                (DL_FUNC) &C_pmax,                2},
-    {"C_recycle_seq_dim",     (DL_FUNC) &C_recycle_seq_dim,     2},
-    {"C_sd_lc",               (DL_FUNC) &C_sd_lc,               6},
-    {"C_seq_Clen",            (DL_FUNC) &C_seq_Clen,            2},
+    {"C_any_nonNULL",          (DL_FUNC) &C_any_nonNULL,          1},
+    {"C_binames_consider_dim", (DL_FUNC) &C_binames_consider_dim, 3},
+    {"C_bind_which_comdims",   (DL_FUNC) &C_bind_which_comdims,   3},
+    {"C_check_conf_dim",       (DL_FUNC) &C_check_conf_dim,       2},
+    {"C_dims_all_equal",       (DL_FUNC) &C_dims_all_equal,       2},
+    {"C_dims_all_orthogonal",  (DL_FUNC) &C_dims_all_orthogonal,  2},
+    {"C_dropdims_count",       (DL_FUNC) &C_dropdims_count,       2},
+    {"C_dropdims_which",       (DL_FUNC) &C_dropdims_which,       3},
+    {"C_lst_ndims",            (DL_FUNC) &C_lst_ndims,            1},
+    {"C_make_by",              (DL_FUNC) &C_make_by,              1},
+    {"C_make_dcp",             (DL_FUNC) &C_make_dcp,             1},
+    {"C_pmax",                 (DL_FUNC) &C_pmax,                 2},
+    {"C_recycle_seq_dim",      (DL_FUNC) &C_recycle_seq_dim,      2},
+    {"C_sd_lc",                (DL_FUNC) &C_sd_lc,                6},
+    {"C_seq_Clen",             (DL_FUNC) &C_seq_Clen,             2},
     {NULL, NULL, 0}
 };
 

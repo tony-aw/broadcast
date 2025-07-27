@@ -2039,22 +2039,24 @@
 //  2) ortho-vector broadcasting
 //  3) regular broadcasting
 // 
+// The dimensions of both arrays are first SIMPLIFIED and NORMALIZED (see 'R' code),
+// before determining which technique to use.
+// 
 // 'vector broadcasting' occurs when at least one of the following is true:
 //  - x and/or y is a scalar (i.e. length of 1)
 //  - x and/or y is a vector and/or 1d array (i.e. ndims() <= 1L)
 //  - x and y have the exact same dimensions
 // 
-// when vector broadcasting does not hold,
+// When vector broadcasting does not hold,
 // ortho-vector broadcasting occurs when the following is true:
 //  - x is a row-vector and y is a column-vector, or vice-versa
 // 
-// when none of the above techniques hold, The regular broadcasting technique is used.
-// 
-// The MACROs were written for every 2 dimensions, from 2 to 16.
+// When none of the above techniques hold, The regular broadcasting technique is used.
+// The MACROs for regular broadcasting were written for every 2 dimensions, from 2 to 16.
 // i.e. 2, 4, 6, ..., 16.
-// 
-// The regular broadcasting MACROs were written via a simple 'R' script,
+// These MACROs were written via a simple 'R' script,
 // to minimize the risk of human error.
+// 
 // 
 // ********************************************************************************
 // 
@@ -2090,12 +2092,11 @@
     }                                                               \
   }                                                                 \
   for(R_xlen_t flatind_out = 0; flatind_out < nout; ++flatind_out) {  \
-      DOCODE;                                                       \
-      flatind_x = flatind_x + by_x;                                 \
-      flatind_y = flatind_y + by_y;                                 \
-                                                                    \
-    }                                                               \
-                                                                    \
+    DOCODE;                                                           \
+    flatind_x = flatind_x + by_x;                                     \
+    flatind_y = flatind_y + by_y;                                     \
+  }                                                                   \
+                                                                      \
 } while(0)
 
 

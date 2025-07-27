@@ -108,12 +108,10 @@ There is also no overload for the %d==%, %d!=%, etc. operators, as they too are 
 
 Although the operators overloaded by 'broadcast' attempt to mimic the base `r fa("r-project")` operators accurately, the are a few differences.
 
-Most notably, the broadcasted operators do not preserve attributes.  
+Most notably, the broadcasted operators do not preserve attributes, except names and the `broadcaster` class attribute.  
 Broadcasting often results in an object with more dimensions, larger dimensions, and/or larger length than the original objects.  
-Therefore, the `names`, `dimnames`, and `dim` attributes often no longer fit the new object.  
-Moreover, class attributes are related to dimensions or length.  
-For example, the `matrix` class presumes the object to have 2 dimensions, and the various classes from the 'bit' package use length-related attributes for their functionality.  
-So even class attributes cannot be guaranteed to hold for the resulting objects.  
+Some class specific attributes, for example, may be related to dimensions or length.  
+For example, custom matrix classes presumes the object to have 2 dimensions, and the various classes from the 'bit' package use length-related attributes for their functionality.    
 Only some class attributes, like the 'broadcaster' class (and related) attributes, will be preserved, if present.
 
 &nbsp;

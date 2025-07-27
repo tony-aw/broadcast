@@ -87,6 +87,12 @@
 
 #' @keywords Internal
 #' @noRd
+.C_binames_consider_dim <- function(outdim, xdim, xdimnames) {
+  .Call("C_binames_consider_dim", outdim, xdim, xdimnames)
+}
+
+#' @keywords Internal
+#' @noRd
 .C_recycle_seq_dim <- function(x, y) {
   .Call("C_recycle_seq_dim", as.integer(x), as.integer(y))
 }

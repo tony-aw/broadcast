@@ -100,3 +100,7 @@ This is more consistent with the rest of the `bc.` functions, and also more memo
 * Fixed some mistakes in the examples and the documentation.
 
 
+# broadcast 0.0.0.9017
+* The overloaded operators and the `bc.`-functions now intelligently preserve (dim)names when possible.
+* Re-ran the benchmarks involving the `bc.*` functions, as these functions have changed since the last benchmarking.
+

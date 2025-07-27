@@ -68,7 +68,7 @@ The value of `n`, so the size of each dimension, varied as follows:
  - For 6-dimensional arrays, `n` goes from 3 to 21, with step size 2.
  - For 7-dimensional arrays, `n` goes from 2 to 14, with step size 1.
 
-These values `n` were chosen as follows. The maximum `n` was specified such that the broadcasted element-wise addition of `x` and `y` resulted in an array with between 90 to 100 million elements. The minimum `n` was chosen to be (approximately) one-seventh of the maximum `n` value. And the step size was set to a value such that the sequence had a length between 10 and 15
+These values `n` were chosen as follows. The maximum `n` was specified such that the broadcasted element-wise addition of `x` and `y` resulted in an array with between 90 to 105 million elements. The minimum `n` was chosen to be (approximately) one-seventh of the maximum `n` value. And the step size was set to a value such that the sequence had a length between 10 and 15
 
 For each pair of arrays, the element-wise addition was computed using 'broadcast' and 'Numpy'. This computation was repeated 100 times (though see some technical details about this in the next sub-section). The first 10 were then treated as warm-up iterations, and thus discarded, leaving 90 benchmarks.  From these 90 benchmarks, the median, first quartile, and third quartiles were computed. After the benchmarks for a particular dimension, the garbage collector was called manually to clean up any lingering memory.
 
@@ -94,6 +94,9 @@ Since only benchmarks with no and level 0 garbage collection calls were used for
 
 
 Operations like power (`^`) and division (`/`) need to handle special cases (like when the right-hand side of the operation is 0). The plus (`+`) operator, however, has no such special cases. Therefore, to keep things fair, the comparisons on this page only involve addition. Addition also has the nice property of being commutative, while subtraction is not (this avoids any discussion regarding the influence of the order of elements on the benchmarks in `x + y` versus `y + x`, if the order of arrays even has any influence on the benchmarks).
+
+
+`r fa("r-project")` supports named dimensions, while 'Numpy' does not support labelled axes. Therefore, all arrays used in the `r fa("r-project")` benchmarks did not have any names. 
 
 &nbsp;
 
