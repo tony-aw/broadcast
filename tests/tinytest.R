@@ -4,28 +4,28 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
     "broadcast", testdir = "tinytest"
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "internal")
-  )
-  tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bc_b")
-  )
-  tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "bc_num")
-  )
-  tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "bc_cplx")
-  )
-  tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "bc_str")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bc_bytes")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "bc_list")
+    "broadcast", testdir = file.path("tinytest", "bc_cplx")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bc_general")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "bc_list")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "bc_num")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "binary_names")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "bc_str")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bind_array_1_basic")
@@ -49,19 +49,19 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
     "broadcast", testdir = file.path("tinytest", "cast")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "typecast")
+    "broadcast", testdir = file.path("tinytest", "class")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "internal")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "linear_algebra")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "overload")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "class")
-  )
-  tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "binary_names")
-  )
-  tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "linear_algebra")
+    "broadcast", testdir = file.path("tinytest", "typecast")
   )
 }
 

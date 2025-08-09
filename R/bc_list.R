@@ -62,12 +62,10 @@ setMethod(
   prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
-  # x.len <- prep[[3L]]
-  # y.len <- prep[[4L]]
-  out.dimorig <- prep[[5L]]
-  out.dimsimp <- prep[[6L]]
-  out.len <- prep[[7L]]
-  dimmode <- prep[[8L]]
+  out.dimorig <- prep[[3L]]
+  out.dimsimp <- prep[[4L]]
+  out.len <- prep[[5L]]
+  dimmode <- prep[[6L]]
   
   if(dimmode == 1L) { # vector mode
     out <- .rcpp_bc_list_v(x, y, out.len, f)

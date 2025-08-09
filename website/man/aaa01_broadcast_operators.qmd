@@ -22,13 +22,7 @@ But it does not support operator precedence. <br />
 
 ### Operators Overloaded via Broadcaster Class
 
-Sometimes broadcasting is needed in large mathematical expression,
-involving multiple variables,
-where precedence is of importance. <br />
-For example in an expression like <code>x + y / z^y</code>. <br />
-For such cases, you may want to overload the base operators. <br />
-<br />
-To that end, the 'broadcast' package provides the [broadcaster](broadcaster.qmd) class,
+The 'broadcast' package provides the [broadcaster](broadcaster.qmd) class,
 which comes with its own method dispatch for the base operators. <br />
 If at least one of the 2 arguments of the base operators has the <code>broadcaster</code> class attribute,
 and no other class (like <code>bit64</code>) interferes,
@@ -39,6 +33,9 @@ The following arithmetic operators have a 'broadcaster' method:
 The following relational operators have a 'broadcaster' method:
 ==, !=, &lt;, &gt;, &lt;=, &gt;= <br />
 And finally, the &amp; and | operators also have a 'broadcaster' method. <br />
+<br />
+As the <code>broadcaster</code> operator methods simply overload the base operators,
+operator precedence rules are preserved for the <code>broadcaster</code> operator methods. <br />
 <br />
 See also the Examples section below. <br />
 <br />

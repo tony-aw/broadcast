@@ -72,6 +72,56 @@ SEXP rcpp_make_dimnames2(
   }
 
 
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_make_dimnames_between)]]
+SEXP rcpp_make_dimnames_between(
+    SEXP adimnames, SEXP vnames, SEXP outdim
+) {
+
+
+  int n = Rf_length(outdim);
+  SEXP out = PROTECT(Rf_allocVector(VECSXP, n));
+  int *poutdim = INTEGER(outdim);
+  bool checka, checkv;
+  int lena = Rf_length(adimnames);
+  
+  
+  // rows:
+  checkv = Rf_length(vnames) == poutdim[0];
+  SEXP tempa = VECTOR_ELT(adimnames, 0);
+  checka = Rf_length(tempa) == poutdim[0];
+  if(checka && checkv) {
+    SET_VECTOR_ELT(out, 0, tempa);
+  }
+  else if(checka) {
+    SET_VECTOR_ELT(out, 0, tempa);
+  }
+  else if(checkv) {
+    SET_VECTOR_ELT(out, 0, vnames);
+  }
+  
+  
+  // other dims:
+  if(lena == 1) {
+    UNPROTECT(1);
+    return out;
+  }
+  for(int i = 0; i < lena; ++i) {
+    SEXP tempa = VECTOR_ELT(adimnames, i);
+    checka = Rf_length(tempa) == poutdim[i];
+    if(checka) {
+      SET_VECTOR_ELT(out, i, tempa);
+    }
+  }
+  
+  UNPROTECT(1);
+  return out;
+  
+}
+
+
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_make_dimnames1)]]

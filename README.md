@@ -35,7 +35,7 @@ mechanism.
 
 Please read the [Broadcasting
 explained](https://tony-aw.github.io/broadcast/vignettes/d_broadcasting_explained.html)
-page for a more complete explanation of what “broadcasting” is.
+page for more details on “broadcasting”.
 
  
 

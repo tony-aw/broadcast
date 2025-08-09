@@ -77,7 +77,7 @@ datagens <- c(datagens, datagens)
 
 
 # tests - x and y distinct ===
-res <- logical(length(funs) * 5 * 5 * 2 * 2 * 5)
+res <- rep(FALSE, length(funs) * 5 * 5 * 2 * 2 * 5)
 counter <- 1L
 
 for(i in seq_along(funs)) {
@@ -122,7 +122,7 @@ expect_true(
 
 
 # tests - x and y dimnames share (some) references ====
-res <- logical(length(funs) * 5 * 2 * 2 * 5)
+res <- rep(FALSE, length(funs) * 5 * 2 * 2 * 5)
 counter <- 1L
 
 for(i in seq_along(funs)) {

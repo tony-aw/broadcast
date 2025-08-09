@@ -104,3 +104,10 @@ This is more consistent with the rest of the `bc.` functions, and also more memo
 * The overloaded operators and the `bc.`-functions now intelligently preserve (dim)names when possible.
 * Re-ran the benchmarks involving the `bc.*` functions, as these functions have changed since the last benchmarking.
 * The `maxdepth` argument now consistently has the default argument `16` in all methods that use it.
+
+
+# broadcast 0.0.0.9018
+* Small performance improvements (re-ran the benchmarks again).
+* Proof-read the documentation, and made some tweaks.
+* Started preparations for CRAN release in the near future.
+

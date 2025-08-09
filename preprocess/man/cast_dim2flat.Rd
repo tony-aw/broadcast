@@ -69,10 +69,11 @@ x2 <- cast_hier2dim(x) # cast as dimensional
 # since the original list uses the same names for all elements within the same depth,
 # dimnames can be set easily:
 dimnames(x2) <- list( # go from deep names to surface names
-  names( x[[1]][[1]] ),
-  names( x[[1]] ),
-  names( x )
+  c("height", "weight", "sex"),
+  c("class1", "class2"),
+  c("group1", "group2")
 )
+
 print(x2) # very compact, maybe too compact...?
 
 # print a small portion of the list, but less compact:
@@ -118,11 +119,12 @@ x2 <- cast_hier2dim(x, in2out = FALSE) # cast as dimensional
 # since the original list uses the same names for all elements within the same depth,
 # dimnames can be set easily:
 # because in2out = FALSE, go from the shallow names to the deeper names:
-dimnames(x2) <- list(
-  names( x ),
-  names( x[[1]] ),
-  names( x[[1]][[1]] )
+dimnames(x2) <- list( # notice the order here is reversed, because in2out = FALSE
+  c("group1", "group2"),
+  c("class1", "class2"),
+  c("height", "weight", "sex")
 )
+
 print(x2) # very compact, maybe too compact...?
 
 # print a small portion of the list, but less compact:
@@ -170,20 +172,6 @@ print(x2)
 x2 <- cast_hier2dim(x, padding = list(~ "this is padding"))
 print(x2)
 
-# because `x2` needs padding, there is no guarantee you can set dimnames using `x` properly:
-if(requireNamespace("tinytest")) {
-  tinytest::expect_error(
-    dimnames(x2) <- list(
-      names( x[[1]][[1]] ),
-      names( x[[1]] ),
-      names( x )
-    ),
-    pattern = "length of 'dimnames' [2] not equal to array extent", # error message
-    fixed = TRUE
-  )
-}
-
-# in this case I know what the dimnames should be, so I can try like so:
 dimnames(x2) <- list(
   c("height", "weight", "sex"),
   c("class1", "class2"),

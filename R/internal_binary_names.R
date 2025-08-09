@@ -31,6 +31,11 @@
   }
   else if(length(out.dim) == 1L) {
     .binames_set_1d(x, y, out)
+    return(invisible(NULL))
+  }
+  else if(is.null(dim(x)) != is.null(dim(y))) {
+    .binames_set_between(x, y, out, out.dim)
+    return(invisible(NULL))
   }
   else {
     .binames_set_dim(x, y, out, out.dim)
@@ -44,44 +49,13 @@
 #' @noRd
 .binames_set_dim <- function(x, y, out, out.dim) {
   
-  # QUICK EJECTION:
-  x.names <- names(x)
-  x.dimnames <- dimnames(x)
-  y.names <- names(y)
-  y.dimnames <- dimnames(y)
-  ejx <- is.null(x.names) && is.null(x.dimnames)
-  ejy <- is.null(y.names) && is.null(y.dimnames)
-  ej <-  ejx && ejy
-  if(ej) {
-    return(invisible(NULL))
-  }
-  
-  
   # PREP:
-  checkx <- !ejx
-  checky <- !ejy
-  if(checkx) {
-    if(is.null(dim(x))) {
-      x.dim <- length(x)
-      x.dimnames <- list(x.names)
-    }
-    else {
-      x.dim <- dim(x)
-      x.dimnames <- x.dimnames
-    }
-    checkx <- .binames_consider_dim(x.dimnames, x.dim, out.dim)
-  }
-  if(checky) {
-    if(is.null(dim(y))) {
-      y.dim <- length(y)
-      y.dimnames <- list(y.names)
-    }
-    else {
-      y.dim <- dim(y)
-      y.dimnames <- y.dimnames
-    }
-    checky <- .binames_consider_dim(y.dimnames, y.dim, out.dim)
-  }
+  x.dimnames <- dimnames(x)
+  y.dimnames <- dimnames(y)
+  x.dim <- dim(x)
+  y.dim <- dim(y)
+  checkx <- .binames_consider_dim(x.dimnames, x.dim, out.dim)
+  checky <- .binames_consider_dim(y.dimnames, y.dim, out.dim)
   
   
   # CONTINUE MAIN FUNCTION:
@@ -125,6 +99,66 @@
   return(invisible(NULL))
   
 }
+
+
+#' @keywords internal
+#' @noRd
+.binames_set_between <- function(x, y, out, out.dim) {
+  
+  # PREP:
+  if(is.null(dim(x))) {
+    v <- x
+    a <- y
+  }
+  else {
+    v <- y
+    a <- x
+  }
+  v.names <- names(v)
+  a.dimnames <- dimnames(a)
+  
+  # MAIN FUNCTION:
+  a.dim <- dim(a)
+  checkv <- !is.null(v.names) && length(v) == nrow(out)
+  checka <- .binames_consider_dim(a.dimnames, a.dim, out.dim)
+  
+  
+  # CONTINUE MAIN FUNCTION:
+  if(!checkv && !checka) {
+    return(invisible(NULL))
+  }
+  
+  if(checkv && checka) {
+    # consider both `v` and `a`
+    out.dimnames <- .rcpp_make_dimnames_between(a.dimnames, v.names, out.dim)
+    .rcpp_set_attr(out, "dimnames", out.dimnames)
+    return(invisible(NULL))
+    
+  } # end consider both `a` and `v`
+  
+  
+  if(checkv) {
+    # consider only `v`
+    out.dimnames <- vector("list", length(out.dim))
+    out.dimnames[[1L]] <- v.names
+    .rcpp_set_attr(out, "dimnames", out.dimnames)
+    return(invisible(NULL))
+  } # end consider only `v`
+  
+  
+  if(checka) {
+    # consider only `a`
+    out.dimnames <- .rcpp_make_dimnames1(a.dimnames, a.dim, out.dim)
+    .rcpp_set_attr(out, "dimnames", out.dimnames)
+    return(invisible(NULL))
+  } # end consider only `a`
+  
+  
+  # else:
+  return(invisible(NULL))
+  
+}
+
 
 
 #' @keywords internal

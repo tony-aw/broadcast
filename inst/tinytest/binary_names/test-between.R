@@ -74,7 +74,7 @@ datagens <- c(datagens, datagens)
 
 
 # tests ===
-res <- logical(length(funs) * 2 * 5 * 2 * 2 * 5)
+res <- rep(FALSE, length(funs) * 2 * 5 * 2 * 2 * 5)
 counter <- 1L
 
 for(i in seq_along(funs)) {
@@ -103,6 +103,7 @@ for(i in seq_along(funs)) {
            else{
              res[counter] <- is.null(dimnames(out))
            }
+           
            enumerate <- enumerate + 1L
            counter <- counter + 1L
          }
@@ -117,7 +118,8 @@ expect_true(
 )
 
 
-
+res <- rep(FALSE, length(funs) * 2 * 5 * 2 * 2 * 5)
+counter <- 1L
 for(i in seq_along(funs)) {
   for(iLenX in c(1, 5)) {
     for(iDimY in 1:5) {
@@ -144,6 +146,7 @@ for(i in seq_along(funs)) {
             else{
               res[counter] <- is.null(dimnames(out))
             }
+            
             enumerate <- enumerate + 1L
             counter <- counter + 1L
           }

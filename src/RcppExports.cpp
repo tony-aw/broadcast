@@ -1168,6 +1168,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_make_dimnames_between
+SEXP rcpp_make_dimnames_between(SEXP adimnames, SEXP vnames, SEXP outdim);
+RcppExport SEXP _broadcast_rcpp_make_dimnames_between(SEXP adimnamesSEXP, SEXP vnamesSEXP, SEXP outdimSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type adimnames(adimnamesSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type vnames(vnamesSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type outdim(outdimSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_make_dimnames_between(adimnames, vnames, outdim));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_make_dimnames1
 SEXP rcpp_make_dimnames1(SEXP y_dimnames, SEXP ydim, SEXP outdim);
 RcppExport SEXP _broadcast_rcpp_make_dimnames1(SEXP y_dimnamesSEXP, SEXP ydimSEXP, SEXP outdimSEXP) {
@@ -1388,6 +1401,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_hier2dim_surface_OK", (DL_FUNC) &_broadcast_rcpp_hier2dim_surface_OK, 2},
     {"_broadcast_rcpp_dropnests", (DL_FUNC) &_broadcast_rcpp_dropnests, 3},
     {"_broadcast_rcpp_make_dimnames2", (DL_FUNC) &_broadcast_rcpp_make_dimnames2, 4},
+    {"_broadcast_rcpp_make_dimnames_between", (DL_FUNC) &_broadcast_rcpp_make_dimnames_between, 3},
     {"_broadcast_rcpp_make_dimnames1", (DL_FUNC) &_broadcast_rcpp_make_dimnames1, 3},
     {"_broadcast_rcpp_mergedims_output", (DL_FUNC) &_broadcast_rcpp_mergedims_output, 3},
     {"_broadcast_rcpp_mergedims_prod", (DL_FUNC) &_broadcast_rcpp_mergedims_prod, 3},

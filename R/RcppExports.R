@@ -465,6 +465,12 @@ rcpp_str_dist_led <- function(x, y) {
 
 #' @keywords internal
 #' @noRd
+.rcpp_make_dimnames_between <- function(adimnames, vnames, outdim) {
+    .Call(`_broadcast_rcpp_make_dimnames_between`, adimnames, vnames, outdim)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_make_dimnames1 <- function(y_dimnames, ydim, outdim) {
     .Call(`_broadcast_rcpp_make_dimnames1`, y_dimnames, ydim, outdim)
 }

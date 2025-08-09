@@ -19,13 +19,7 @@
 #' 
 #' 
 #' @section Operators Overloaded via Broadcaster Class: 
-#' Sometimes broadcasting is needed in large mathematical expression,
-#' involving multiple variables,
-#' where precedence is of importance. \cr
-#' For example in an expression like `x + y / z^y`. \cr
-#' For such cases, you may want to overload the base operators. \cr
-#' \cr
-#' To that end, the 'broadcast' package provides the \link{broadcaster} class,
+#' The 'broadcast' package provides the \link{broadcaster} class,
 #' which comes with its own method dispatch for the base operators. \cr
 #' If at least one of the 2 arguments of the base operators has the `broadcaster` class attribute,
 #' and no other class (like `bit64`) interferes,
@@ -36,6 +30,9 @@
 #' The following relational operators have a 'broadcaster' method:
 #' `r paste0(broadcast:::.op_rel(), collapse = ", ")` \cr
 #' And finally, the & and | operators also have a 'broadcaster' method. \cr
+#' \cr
+#' As the `broadcaster` operator methods simply overload the base operators,
+#' operator precedence rules are preserved for the `broadcaster` operator methods. \cr
 #' \cr
 #' See also the Examples section below. \cr
 #' \cr
