@@ -36,7 +36,7 @@ than R’s regular dimensions replication mechanism. \cr \cr
 \section{Links to Get Started}{
 
 \itemize{
-\item On-line Vignettes: \url{https://tony-aw.github.io/broadcast/vignettes/a_readme.html}
+\item Online Vignettes: \url{https://tony-aw.github.io/broadcast/vignettes/a_readme.html}
 \item GitHub main page: \url{https://github.com/tony-aw/broadcast}
 \item Reporting Issues or Giving Suggestions: \url{https://github.com/tony-aw/broadcast/issues} \cr \cr
 }

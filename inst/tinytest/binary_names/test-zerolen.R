@@ -22,6 +22,7 @@ funs <- list(
   bc.bit,
   bc.list
 )
+funs <- c(funs, funs)
 ops1 <- c(
   rep(list("=="), 7L),
   \(x, y) length(x)==length(y)
@@ -42,41 +43,40 @@ datagens <- list(
   \() as.raw(sample(0:255, 10)),
   \() sample(list(letters, month.abb, 1:10))
 )
+datagens <- c(datagens, datagens)
 
 
 for(i in seq_along(funs)) {
-  for(iOps in c("act", "rel")) {
-    if(iOps == "rel") op <- ops[[i]]
-    if(iOps == "act") op <- ops[[i + length(ops1)]]
-    
-    mydimnames <- list(
-      letters[1:3],
-      LETTERS[1:3],
-      c("x", "y", "z")
-    )
-    x <- array(datagens[[i]](), c(3,3,3), mydimnames)
-    y <- datagens[[i]]()[0L]
-    
-    expect_equal(
-      funs[[i]](x, y, op) |> dimnames(),
-      NULL
-    ) |> errorfun()
-    expect_equal(
-      funs[[i]](y, x, op) |> dimnames(),
-      NULL
-    ) |> errorfun()
-    
-    dim(x) <- NULL
-    expect_equal(
-      funs[[i]](x, y, op) |> names(),
-      NULL
-    ) |> errorfun()
-    expect_equal(
-      funs[[i]](y, x, op) |> names(),
-      NULL
-    ) |> errorfun()
-    
-    enumerate <- enumerate + 4L
-  }
+  
+  op <- ops[[i]]
+  
+  mydimnames <- list(
+    letters[1:3],
+    LETTERS[1:3],
+    c("x", "y", "z")
+  )
+  x <- array(datagens[[i]](), c(3,3,3), mydimnames)
+  y <- datagens[[i]]()[0L]
+  
+  expect_equal(
+    funs[[i]](x, y, op) |> dimnames(),
+    NULL
+  ) |> errorfun()
+  expect_equal(
+    funs[[i]](y, x, op) |> dimnames(),
+    NULL
+  ) |> errorfun()
+  
+  dim(x) <- NULL
+  expect_equal(
+    funs[[i]](x, y, op) |> names(),
+    NULL
+  ) |> errorfun()
+  expect_equal(
+    funs[[i]](y, x, op) |> names(),
+    NULL
+  ) |> errorfun()
+  
+  enumerate <- enumerate + 4L
   
 }

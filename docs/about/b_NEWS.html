@@ -178,24 +178,8 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#broadcast-0.0.0.9000" id="toc-broadcast-0.0.0.9000" class="nav-link active" data-scroll-target="#broadcast-0.0.0.9000">broadcast 0.0.0.9000</a></li>
-  <li><a href="#broadcast-0.0.0.9001" id="toc-broadcast-0.0.0.9001" class="nav-link" data-scroll-target="#broadcast-0.0.0.9001">broadcast 0.0.0.9001</a></li>
-  <li><a href="#broadcast-0.0.0.9002" id="toc-broadcast-0.0.0.9002" class="nav-link" data-scroll-target="#broadcast-0.0.0.9002">broadcast 0.0.0.9002</a></li>
-  <li><a href="#broadcast-0.0.0.9003" id="toc-broadcast-0.0.0.9003" class="nav-link" data-scroll-target="#broadcast-0.0.0.9003">broadcast 0.0.0.9003</a></li>
-  <li><a href="#broadcast-0.0.0.9004" id="toc-broadcast-0.0.0.9004" class="nav-link" data-scroll-target="#broadcast-0.0.0.9004">broadcast 0.0.0.9004</a></li>
-  <li><a href="#broadcast-0.0.0.9005" id="toc-broadcast-0.0.0.9005" class="nav-link" data-scroll-target="#broadcast-0.0.0.9005">broadcast 0.0.0.9005</a></li>
-  <li><a href="#broadcast-0.0.0.9006" id="toc-broadcast-0.0.0.9006" class="nav-link" data-scroll-target="#broadcast-0.0.0.9006">broadcast 0.0.0.9006</a></li>
-  <li><a href="#broadcast-0.0.0.9007" id="toc-broadcast-0.0.0.9007" class="nav-link" data-scroll-target="#broadcast-0.0.0.9007">broadcast 0.0.0.9007</a></li>
-  <li><a href="#broadcast-0.0.0.9008" id="toc-broadcast-0.0.0.9008" class="nav-link" data-scroll-target="#broadcast-0.0.0.9008">broadcast 0.0.0.9008</a></li>
-  <li><a href="#broadcast-0.0.0.9009" id="toc-broadcast-0.0.0.9009" class="nav-link" data-scroll-target="#broadcast-0.0.0.9009">broadcast 0.0.0.9009</a></li>
-  <li><a href="#broadcast-0.0.0.9010" id="toc-broadcast-0.0.0.9010" class="nav-link" data-scroll-target="#broadcast-0.0.0.9010">broadcast 0.0.0.9010</a></li>
-  <li><a href="#broadcast-0.0.0.9011" id="toc-broadcast-0.0.0.9011" class="nav-link" data-scroll-target="#broadcast-0.0.0.9011">broadcast 0.0.0.9011</a></li>
-  <li><a href="#broadcast-0.0.0.9012" id="toc-broadcast-0.0.0.9012" class="nav-link" data-scroll-target="#broadcast-0.0.0.9012">broadcast 0.0.0.9012</a></li>
-  <li><a href="#broadcast-0.0.0.9013" id="toc-broadcast-0.0.0.9013" class="nav-link" data-scroll-target="#broadcast-0.0.0.9013">broadcast 0.0.0.9013</a></li>
-  <li><a href="#broadcast-0.0.0.9014" id="toc-broadcast-0.0.0.9014" class="nav-link" data-scroll-target="#broadcast-0.0.0.9014">broadcast 0.0.0.9014</a></li>
-  <li><a href="#broadcast-0.0.0.9015" id="toc-broadcast-0.0.0.9015" class="nav-link" data-scroll-target="#broadcast-0.0.0.9015">broadcast 0.0.0.9015</a></li>
-  <li><a href="#broadcast-0.0.0.9016" id="toc-broadcast-0.0.0.9016" class="nav-link" data-scroll-target="#broadcast-0.0.0.9016">broadcast 0.0.0.9016</a></li>
-  <li><a href="#broadcast-0.0.0.9017" id="toc-broadcast-0.0.0.9017" class="nav-link" data-scroll-target="#broadcast-0.0.0.9017">broadcast 0.0.0.9017</a></li>
   <li><a href="#broadcast-0.0.0.9018" id="toc-broadcast-0.0.0.9018" class="nav-link" data-scroll-target="#broadcast-0.0.0.9018">broadcast 0.0.0.9018</a></li>
+  <li><a href="#broadcast-0.1" id="toc-broadcast-0.1" class="nav-link" data-scroll-target="#broadcast-0.1">broadcast 0.1</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -225,146 +209,18 @@ ul.task-list li input[type="checkbox"] {
 <li>Initial GitHub Publication</li>
 </ul>
 </section>
-<section id="broadcast-0.0.0.9001" class="level1">
-<h1>broadcast 0.0.0.9001</h1>
-<ul>
-<li>Provided 2 ways to overload the base maths (+, -, *, et.c) and logical (&amp;, |) operators. One is the <code>bc()</code> function to evaluate a maths expression. The other is the <code>broadcaster</code> class which comes with method dispatch for said operators.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9002" class="level1">
-<h1>broadcast 0.0.0.9002</h1>
-<ul>
-<li>Most broadcast functions and their overloaded counterparts now support zero-length input, and added tests for this.</li>
-<li>Added the <code>%/%</code> operator to <a href="../man/bc.i.html">bc.i()</a>, added overload support for <code>%/%</code>, and added tests for these also.</li>
-<li>Added <a href="../man/bc.raw.html">bc.raw()</a>, added overload support for bit-wise operators (<code>&amp;</code> <code>|</code>), and added tests for these also.</li>
-<li><a href="../man/bc_ifelse.html">bc_ifelse()</a> now takes the dimnames from the <code>test</code> argument if <code>dim(test)</code> is equal to <code>bc_dim(yes, no)</code>.</li>
-<li>Renamed <code>bc()</code> to <code>bc_chain()</code>.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9003" class="level1">
-<h1>broadcast 0.0.0.9003</h1>
-<ul>
-<li>Added overload support for the relational (==, !=, etc.) operators, and added tests for these also.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9004" class="level1">
-<h1>broadcast 0.0.0.9004</h1>
-<ul>
-<li>Overhauled the operators for <a href="../man/bc.raw.html">bc.raw()</a>.</li>
-<li>Added <a href="../man/bc.bit.html">bc.bit()</a>, for bit-wise operations.</li>
-<li>Small speed improvement for <a href="../man/acast.html">acast()</a>.</li>
-<li>Re-written some internal code in ‘C’.</li>
-<li><a href="../man/bc_ifelse.html">bc_ifelse()</a> can now also handle type of <code>raw</code> in its arguments.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9005" class="level1">
-<h1>broadcast 0.0.0.9005</h1>
-<ul>
-<li>Removed <code>bc_chain()</code>, and adjusted the documentation and tests accordingly.</li>
-<li>Added more tests.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9006" class="level1">
-<h1>broadcast 0.0.0.9006</h1>
-<ul>
-<li>Almost all functions are now S3 or S4 generics; methods can now be written for them.</li>
-<li>Removed the <code>bc.num</code> alias (documenting aliases of S4 generics seems problematic).</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9007" class="level1">
-<h1>broadcast 0.0.0.9007</h1>
-<ul>
-<li>Re-ran the benchmarks involving the <code>bc.*</code> functions, as these functions have changed since the last benchmarking.</li>
-<li>Added more tests.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9008" class="level1">
-<h1>broadcast 0.0.0.9008</h1>
-<ul>
-<li>Some minor tweaks in the compiled code.</li>
-<li>Improved the speed of the <a href="../man/bc.str.html">bc.str()</a> function.</li>
-<li>Improved some of the examples.</li>
-<li>Fixed some small mistakes in the documentation.</li>
-<li>Fixed incorrect links on the website.</li>
-<li>Registered the ‘broadcaster’ class to the S4 system.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9009" class="level1">
-<h1>broadcast 0.0.0.9009</h1>
-<ul>
-<li>Added an additional help page to the Reference Manual explaining the operator overloading.</li>
-<li>Added more examples</li>
-<li>Re-written some ‘C++’ code to ‘C’.</li>
-<li>Added simple linear algebra functions for statistics.</li>
-<li>Added more tests</li>
-<li>Default value for the <code>ndim2bc</code> argument in <a href="../man/bind_array.html">bind_array()</a> set to <code>16L</code>.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9010" class="level1">
-<h1>broadcast 0.0.0.9010</h1>
-<ul>
-<li>Improved the documentation a bit.</li>
-<li>Generalized <code>sd_gauss_lc()</code> to <a href="../man/linear_algebra_stats.html">sd_lc()</a></li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9011" class="level1">
-<h1>broadcast 0.0.0.9011</h1>
-<ul>
-<li><a href="../man/linear_algebra_stats.html">sd_lc()</a> now also accepts integer and logical types for argument <code>X</code>.</li>
-<li>Improved the speed of <a href="../man/linear_algebra_stats.html">sd_lc()</a> by using a slightly different mathematical formula.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9012" class="level1">
-<h1>broadcast 0.0.0.9012</h1>
-<ul>
-<li>Added new casting functions: <a href="../man/cast_hier2dim.html">hier2dim()</a>, <a href="../man/cast_dim2hier.html">cast_dim2hier()</a>, <a href="../man/dropnests.html">dropnests()</a>.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9013" class="level1">
-<h1>broadcast 0.0.0.9013</h1>
-<ul>
-<li>Reduced the amount of memory allocation required in the list casting functions.</li>
-<li>Added the <a href="../man/dropnests.html">depth_range()</a> method.</li>
-<li><a href="../man/cast_hier2dim.html">hier2dim()</a> now returns a <strong>named</strong> integer vector, where the names indicate if padding will be used when casting with <a href="../man/cast_hier2dim.html">cast_hier2dim()</a>.</li>
-<li>Improved the documentation.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9014" class="level1">
-<h1>broadcast 0.0.0.9014</h1>
-<ul>
-<li>Removed <code>depth_range()</code> method as it’s unnecessary.</li>
-<li>Added argument <code>paddding</code> to the <a href="../man/cast_hier2dim.html">cast_hier2dim()</a> method.</li>
-<li>Added more tests.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9015" class="level1">
-<h1>broadcast 0.0.0.9015</h1>
-<ul>
-<li>The <a href="../man/bc.raw.html">bc.raw()</a> method now <strong>always</strong> returns an array of type <code>raw</code>; This is more consistent with the rest of the <code>bc.</code> functions, and also more memory efficient.</li>
-<li>Added the <a href="../man/bc.rel.html">bc.rel()</a> function for the user’s convenience.</li>
-<li>Simplified and re-organized the documentation.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9016" class="level1">
-<h1>broadcast 0.0.0.9016</h1>
-<ul>
-<li>Fixed some mistakes in the examples and the documentation.</li>
-</ul>
-</section>
-<section id="broadcast-0.0.0.9017" class="level1">
-<h1>broadcast 0.0.0.9017</h1>
-<ul>
-<li>The overloaded operators and the <code>bc.</code>-functions now intelligently preserve (dim)names when possible.</li>
-<li>Re-ran the benchmarks involving the <code>bc.*</code> functions, as these functions have changed since the last benchmarking.</li>
-<li>The <code>maxdepth</code> argument now consistently has the default argument <code>16</code> in all methods that use it.</li>
-</ul>
-</section>
 <section id="broadcast-0.0.0.9018" class="level1">
 <h1>broadcast 0.0.0.9018</h1>
 <ul>
 <li>Small performance improvements (re-ran the benchmarks again).</li>
 <li>Proof-read the documentation, and made some tweaks.</li>
 <li>Started preparations for CRAN release in the near future.</li>
+</ul>
+</section>
+<section id="broadcast-0.1" class="level1">
+<h1>broadcast 0.1</h1>
+<ul>
+<li>Initial CRAN submission</li>
 </ul>
 
 

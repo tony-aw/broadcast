@@ -29,6 +29,8 @@ when unsure, leave \code{v} at its default value.}
 }
 \value{
 An atomic or recursive array with dimensions \code{bc_dim(x, y)}. \cr
+Preserves some of the attributes of \code{x} and \code{y} similar to broadcasted infix operators,
+as explained in \code{[broadcast_operators](aaa01_broadcast_operators.qmd)}. \cr \cr
 }
 \description{
 The \code{bcapply()} function

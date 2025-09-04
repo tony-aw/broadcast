@@ -25,7 +25,7 @@
 #' 
 #' @section Links to Get Started:
 #' 
-#'  - On-line Vignettes: \url{https://tony-aw.github.io/broadcast/vignettes/a_readme.html}
+#'  - Online Vignettes: \url{https://tony-aw.github.io/broadcast/vignettes/a_readme.html}
 #'  - GitHub main page: \url{https://github.com/tony-aw/broadcast}
 #'  - Reporting Issues or Giving Suggestions: \url{https://github.com/tony-aw/broadcast/issues} \cr \cr
 #' 

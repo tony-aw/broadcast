@@ -102,9 +102,11 @@ Operations like power (`^`) and division (`/`) need to handle special cases (lik
 
 ## Resources and Code
 
-The 'benchmark' package was used for measuring speed in `r fa("r-project")`, as this package can also be used to check and filter for garbage collector calls.
+The `bench::mark()` function from the 'benchmark' package was used for measuring the execution time in `r fa("r-project")`, as this package can also be used to check and filter for garbage collector calls.
 
-In 'Python', the `time.perf_counter()` function was used to accurately measure the time an operation takes. To ensure no time was wasted on printing the result in 'Python', the operation `a + b` was wrapped inside a function without a return statement.
+In 'Python', the `time.perf_counter()` function was used to accurately measure the execution time of an operation. To ensure no time was wasted on printing the result in 'Python', the operation `a + b` was wrapped inside a trivial function without a return statement.
+
+Thus both in `r fa("r-project")` and 'Python', execution time (AKA "runtime") was measured (instead of something like CPU time).
 
 The figures in the Results section were created using the 'tinyplot' package, to display the median, first quartile, and third quartile, of the computation times.
 

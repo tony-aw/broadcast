@@ -53,6 +53,58 @@ bind_array(list(x, y), 2)
 
 [bind_array()](/man/bind_array.qmd) is also considerably faster and more memory efficient than `abind()`.
 
+
+&nbsp;
+
+# Vector quantization
+
+Here is an example taken from Numpy's own online documentation.
+
+The basic operation in Vector Quantization (VQ) finds the closest point in a set of points, called codes in VQ jargon, to a given point, called the observation. In the very simple, two-dimensional case shown below, the values in observation describe the weight and height of an athlete to be classified. The codes represent different classes of athletes. Finding the closest point requires calculating the distance between observation and each of the codes. The shortest distance provides the best match. In this example, `codes[1]` is the closest class indicating that the athlete is likely a basketball player.
+
+```{r}
+
+observation <- array(c(111.0, 188.0), dim = c(1, 2))
+codes <- array(
+  c(102.0, 203.0,
+    132.0, 193.0,
+    45.0, 155.0,
+    57.0, 173.0),
+  dim = c(4, 2)
+)
+
+diff <- bc.d(codes, observation, "-") # broadcasting happens here
+dist <- matrixStats::colSums2(diff^2) |> sqrt()
+which.min(dist) |> print()
+codes[1] |> print()
+
+```
+
+
+&nbsp;
+
+
+# Perform computation on all possible pairs
+
+Suppose you have 2 vectors of character strings, and you want to concatenate all possible pairs of these strings.
+
+In base `r fa("r-project")`, this would require a either a loop (which is slow), or repeating the vectors several times (which requires more memory).
+
+The 'broadcasted way to do this, is to make the vectors orthogonal, and concatenate the strings of the orthogonal vectors - this is both fast and memory efficient.
+
+For example:
+
+```{r}
+x <- array(letters[1:10], c(10, 1))
+y <- array(letters[1:10], c(1, 10))
+
+out <- bc.str(x, y, "+")
+dimnames(out) <- list(x, y)
+print(out)
+
+```
+
+
 &nbsp;
 
 # Grouped Broadcasting
@@ -157,56 +209,121 @@ asplit(out, ndim(out)) |> bind_array(along = margin)
 ... but we do keep the missing values when the groups have an unequal number of elements.
 
 
+
 &nbsp;
 
-# Vector quantization
 
-Here is an example taken from Numpy's own online documentation.
+# Manually compute confidence/credible interval for a spline
 
-The basic operation in Vector Quantization (VQ) finds the closest point in a set of points, called codes in VQ jargon, to a given point, called the observation. In the very simple, two-dimensional case shown below, the values in observation describe the weight and height of an athlete to be classified. The codes represent different classes of athletes. Finding the closest point requires calculating the distance between observation and each of the codes. The shortest distance provides the best match. In this example, `codes[1]` is the closest class indicating that the athlete is likely a basketball player.
+The [sd_lc()](/man/linear_algebra_stats.qmd) function computes the standard deviation for a linear combination of random variables.  
+[sd_lc()](/man/linear_algebra_stats.qmd) has been tested against many possible combinations of a very large set of possible distributions the random variables may hold.  
+One notable use-case for [sd_lc()](/man/linear_algebra_stats.qmd) is to compute the confidence interval (or credible interval if you're going Bayesian) of a spline.
+
+Packages like 'mgcv' provides the user to plot and analyse the smoothers with confidence from a fitted GAM.  
+But not all `r fa("r-project")` packages are as user-friendly.
+So one practical application of [sd_lc()](/man/linear_algebra_stats.qmd) is computing confidence intervals of splines when a package does not provide that service in a user-friendly way.
+
+Please note that the [sd_lc()](/man/linear_algebra_stats.qmd) functions is just a linear algebra function, not specific to any type/class of model; so this function assumes you know what you're doing.
+
+For a demonstration of [sd_lc()](/man/linear_algebra_stats.qmd), the following will be done:
+
+ 1) a GAM model will be fitted using the 'mgcv' package. The model will consist of several low-rank thin-plate (lrtp) smoothers.
+ 2) One of these lrtp splines will be plotted with credible intervals using the `plot()` method provided by 'mgcv' itself.
+ 3) The [sd_lc()](/man/linear_algebra_stats.qmd) function will be used to re-create compute the credible intervals of the spline from step 2 and re-create the plot.
+ 
+For the sake of this demonstration, I'll forgo some crucially mandatory steps in statistical modelling - like data exploration, model diagnostics, and model interpretation.
+
+First, let's create some data, fit a GAM on it, and plot the spline for variable "x2":
+
+```{r}
+d <- mgcv::gamSim(7, n = 1000L, dist = "normal", scale = 2L)
+m <- mgcv::gam(y ~ s(x1) + s(x2) + s(x3), data = d)
+par(mfrow = c(1,1))
+plot(m, select = 2)
+```
+
+Now extract the required model parameters to recreate this plot:
 
 ```{r}
 
-observation <- array(c(111.0, 188.0), dim = c(1, 2))
-codes <- array(
-  c(102.0, 203.0,
-    132.0, 193.0,
-    45.0, 155.0,
-    57.0, 173.0),
-  dim = c(4, 2)
+# get names of relevant coefficients:
+coeffnames <- names(coef(m))
+coeffnames <- coeffnames[grepl("x2", coeffnames)]
+print(coeffnames)
+
+# get necessary model parameters (i.e. X, b, vc)
+# but only for relevant coefficients:
+b <- coef(m)[coeffnames]
+X <- predict(m, type="lpmatrix")[, coeffnames, drop = FALSE]
+vc <- vcov(m)[coeffnames, coeffnames, drop = FALSE]
+
+```
+
+Computing the means of the spline is trivial:
+
+```{r}
+means <- X %*% b
+```
+
+Computing the (\~ 95%) credible interval is a bit trickier - at least if you want to avoid unnecessary copies/memory-usage when you have a large dataset, and don't want to use a slow for-loop.  
+But using the [sd_lc()](/man/linear_algebra_stats.qmd) function it becomes relatively easy to compute it very memory-efficiently, even with a very large dataset:
+
+```{r}
+
+st.devs <- sd_lc(X, vc) # get standard deviations efficiently
+mult <- 2 # mgcv uses multiplier of 2; approx. 95% credible interval
+lower <- means - mult * st.devs
+upper <- means + mult * st.devs
+
+```
+
+Now let's plot the manually computed spline over the original one, and see how well our own estimate fits.  
+I'll use transparent green dots for the mean, and transparent red dots for the credible interval:
+
+```{r fig.width=8}
+# defines some colours:
+colour1 <- rgb(red = 0, green = 1, blue = 0, alpha = 0.15)
+colour2 <- rgb(red = 1, green = 0, blue = 0, alpha = 0.15)
+
+# original plot from the 'mgcv' R-package:
+par(mfrow = c(1,1))
+plot(m, select = 2)
+
+# our own re-creation plotted over it:
+lc <- data.frame(
+  x = d$x2,
+  means = means,
+  lower = lower,
+  upper = upper
+)
+lc <- lc[order(lc$x),]
+points(x = lc$x, y = lc$mean, col = colour1) # plot our means
+points(x = lc$x, y = lc$lower, col = colour2) # plot our lower bound
+points(x = lc$x, y = lc$upper, col = colour2) # plot our upper bound
+
+```
+
+Perfect fit.
+
+&nbsp;
+
+Since one can very easily re-create the plot using [sd_lc()](/man/linear_algebra_stats.qmd), one can also use a different plotting framework altogether.  
+Let's use the 'tinyplot' framework to compute the plot manually:
+
+```{r fig.width=8}
+library(tinyplot)
+tinytheme("clean")
+tinyplot( # plot confidence interval
+  x = lc$x, ymin = lc$lower, ymax = lc$upper, type = "ribbon",
+  xlab = "x2", ylab = "s(x2)",
+)
+tinyplot( # plot means over it
+  x = lc$x, y = lc$means, type = "l",
+  add = TRUE, col = "green"
 )
 
-diff <- bc.d(codes, observation, "-") # broadcasting happens here
-dist <- matrixStats::colSums2(diff^2) |> sqrt()
-which.min(dist) |> print()
-codes[1] |> print()
-
 ```
-
 
 &nbsp;
 
-
-# Perform computation on all possible pairs
-
-Suppose you have 2 vectors of character strings, and you want to concatenate all possible pairs of these strings.
-
-In base R, this would require a either a loop (which is slow), or repeating the vectors several times (which requires more memory).
-
-The 'broadcasted way to do this, is to make the vectors orthogonal, and concatenate the strings of the orthogonal vectors - this is both fast and memory efficient.
-
-For example:
-
-```{r}
-x <- array(letters[1:10], c(10, 1))
-y <- array(letters[1:10], c(1, 10))
-
-out <- bc.str(x, y, "+")
-dimnames(out) <- list(x, y)
-print(out)
-
-```
-
-
-&nbsp;
 &nbsp;

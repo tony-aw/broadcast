@@ -28,7 +28,7 @@ for(iMutX in c(TRUE, FALSE)) {
         broadcaster(x2) <- iBcX
         broadcaster(y2) <- iBcY
         
-        if(is.mutatomic(x2) ||is.mutatomic(y2)) {
+        if(is.mutatomic(x2) || is.mutatomic(y2)) {
           expect_true(
             is.mutatomic(x2 + y2)
           ) |> errorfun()

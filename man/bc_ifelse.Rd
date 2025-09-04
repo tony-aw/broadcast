@@ -26,6 +26,7 @@ The output, here referred to as \code{out},
 will be an array of the same type as \code{yes} and \code{no}. \cr
 If \code{test} has the same dimensions as \code{bc_dim(yes, no)},
 then \code{out} will also have the same dimnames as \code{test}. \cr
+If \code{test} is a \link{broadcaster}, then \code{out} will also be a \link{broadcaster}. \cr
 \cr
 After broadcasting \code{yes} against \code{no},
 given any element index \code{i},

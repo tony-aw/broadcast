@@ -238,7 +238,8 @@
 #' @keywords internal
 #' @noRd
 .binary_set_attr <- function(out, x, y) {
-  if(inherits(x, "mutatomic") || inherits(y, "mutatomic")) {
+  
+  if(is.atomic(out) && (inherits(x, "mutatomic") || inherits(y, "mutatomic"))) {
     .rcpp_set_ma(out, c("mutatomic", oldClass(out)))
   }
   

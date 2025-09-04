@@ -61,7 +61,6 @@ enumerate <- enumerate + 6L
 
 # dimensional tests ====
 
-# plus ====
 nres <- 5 * 5 # number of tests performed here
 expected <- out <- vector("list", nres)
 op <- "levenshtein"

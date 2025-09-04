@@ -1,0 +1,165 @@
+
+# set-up ===
+enumerate <- 0 # to count number of tests performed using iterations in loops
+loops <- 0 # to count number of loops
+errorfun <- function(tt) {
+  
+  if(isFALSE(tt)) stop(print(tt))
+}
+
+undim <- function(x) {
+  dim(x) <- NULL
+  return(x)
+}
+
+
+datagens <- list(
+  \() sample(c(TRUE, FALSE, NA), 10L, TRUE),
+  \() sample(c(-10L:10L, NA_integer_)),
+  \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)),
+  \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)) + sample(c(rnorm(10), NA, NaN, Inf, -Inf)) * -1i,
+  \() sample(c(letters, NA)),
+  \() as.raw(sample(0:255, 10))
+)
+
+
+# neither named ====
+
+for(i in seq_along(datagens)) {
+    for(iDimX in c(TRUE, FALSE)) {
+      for(iDimY in c(TRUE, FALSE)) {
+        
+        
+        x <- datagens[[i]]()
+        y <- datagens[[i]]()
+        if(iDimX) dim(x) <- length(x)
+        if(iDimY) dim(y) <- length(y)
+        
+        expect_equal(
+          bc.rel(x, y, "==") |> names(),
+          NULL
+        ) |> errorfun()
+        expect_equal(
+          bc.rel(y, x, "==") |> names(),
+          NULL
+        ) |> errorfun()
+        
+        enumerate <- enumerate + 2L
+      }
+    }
+    
+ 
+
+}
+
+
+
+# both sides reference same names ====
+
+for(i in seq_along(datagens)) {
+    for(iDimX in c(TRUE, FALSE)) {
+      for(iDimY in c(TRUE, FALSE)) {
+      
+      x <- datagens[[i]]()
+      y <- datagens[[i]]()
+      if(iDimX) dim(x) <- length(x)
+      if(iDimY) dim(y) <- length(y)
+      
+      nms <- sample(letters, length(x), TRUE)
+      names(x) <- nms
+      names(y) <- nms
+      
+      
+      expect_equal(
+        bc.rel(x, y, "==") |> names(),
+        nms
+      ) |> errorfun()
+      expect_equal(
+        bc.rel(y, x, "==") |> names(),
+        nms
+      ) |> errorfun()
+      
+      enumerate <- enumerate + 2L
+        
+    }
+  }
+  
+}
+
+
+# both sides have different names ====
+
+for(i in seq_along(datagens)) {
+  for(iDimX in c(TRUE, FALSE)) {
+    for(iDimY in c(TRUE, FALSE)) {
+      
+      
+      x <- datagens[[i]]()
+      y <- datagens[[i]]()
+      if(iDimX) dim(x) <- length(x)
+      if(iDimY) dim(y) <- length(y)
+      
+      names(x) <- sample(letters, length(x), TRUE)
+      names(y) <- sample(letters, length(y), TRUE)
+      
+      expect_equal(
+        bc.rel(x, y, "==") |> names(),
+        NULL
+      ) |> errorfun()
+      expect_equal(
+        bc.rel(y, x, "==") |> names(),
+        NULL
+      ) |> errorfun()
+      
+      enumerate <- enumerate + 2L
+    }
+  }
+  
+}
+
+
+# only one of the sides' names should be used ====
+
+for(i in seq_along(datagens)) {
+  for(iSameLen in c(TRUE, FALSE)) {
+    for(iNamed in c(TRUE, FALSE)) {
+      for(iDimX in c(TRUE, FALSE)) {
+        for(iDimY in c(TRUE, FALSE)) {
+              
+          
+          x <- datagens[[i]]()
+          y <- datagens[[i]]()
+          if(iDimX) dim(x) <- length(x)
+          if(iDimY) dim(y) <- length(y)
+          
+          if(iSameLen == FALSE) {
+            y <- y[1]
+          }
+          if(iNamed == TRUE) {
+            names(y) <- sample(letters, length(y), TRUE)
+          }
+          if(length(x) == length(y)) {
+            names(y) <- NULL
+          }
+          
+          nms <- sample(letters, length(x), TRUE)
+          names(x) <- nms
+          
+          
+          expect_equal(
+            bc.rel(x, y, "==") |> names(),
+            nms
+          ) |> errorfun()
+          expect_equal(
+            bc.rel(y, x, "==") |> names(),
+            nms
+          ) |> errorfun()
+          
+          enumerate <- enumerate + 2L
+        }
+      }
+    }
+  }
+}
+
+

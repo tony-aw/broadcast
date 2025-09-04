@@ -25,6 +25,9 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
     "broadcast", testdir = file.path("tinytest", "binary_names")
   )
   tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "bc_rel_attr")
+  )
+  tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bc_str")
   )
   tinytest::test_package(

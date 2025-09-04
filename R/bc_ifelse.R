@@ -20,6 +20,7 @@
 #' will be an array of the same type as `yes` and `no`. \cr
 #' If `test` has the same dimensions as `bc_dim(yes, no)`,
 #' then `out` will also have the same dimnames as `test`. \cr
+#' If `test` is a \link{broadcaster}, then `out` will also be a \link{broadcaster}. \cr
 #' \cr
 #' After broadcasting `yes` against `no`,
 #' given any element index `i`,
@@ -110,17 +111,22 @@ setMethod(
     }
     
     dim(out) <- out.dimorig
-    if(is.array(test)) {
-      if(ndim(out) > 1L && all(dim(test) == out.dimorig)) {
+    
+    if(ndim(test) <= 1L && ndim(out) <= 1L) {
+      names(out) <- names(test)
+    }
+    else if(is.array(test) && is.array(out)) {
+      if(all(dim(test) == out.dimorig)) {
         dimnames(out) <- dimnames(test)
       }
     }
     
-    if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
+    if(inherits(test, "broadcaster")) {
       .rcpp_set_class(out, "broadcaster")
     }
-    
-    .binary_set_attr(out, yes, no)
+    if(is.atomic(out) && inherits(test, "mutatomic")) {
+      .rcpp_set_ma(out, c("mutatomic", oldClass(out)))
+    }
     
     return(out)
     

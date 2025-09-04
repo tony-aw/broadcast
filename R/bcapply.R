@@ -22,6 +22,8 @@
 #'
 #' @returns
 #' An atomic or recursive array with dimensions `bc_dim(x, y)`. \cr
+#' Preserves some of the attributes of `x` and `y` similar to broadcasted infix operators,
+#' as explained in \link{broadcast_operators}. \cr \cr
 #'
 #'
 #' @example inst/examples/bcapply.R
@@ -107,6 +109,12 @@ setMethod(
     }
     
     dim(out) <- out.dimorig
+    
+    if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
+      .rcpp_set_class(out, "broadcaster")
+    }
+    
+    .binary_set_attr(out, x, y)
     
     return(out)
     
