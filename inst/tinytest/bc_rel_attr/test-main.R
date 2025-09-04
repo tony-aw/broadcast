@@ -5,3 +5,4 @@ expect_equal(
   1 + 1,
   2
 )
+enumerate <- 0L

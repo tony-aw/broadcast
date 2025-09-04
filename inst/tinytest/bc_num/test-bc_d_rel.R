@@ -106,7 +106,7 @@ test_numeric_x <- function(op, basefun) {
       }
     }
   }
-  return(list(expected, out, i))
+  return(list(expected = expected, out = out, i = i))
 }
 
 
@@ -186,7 +186,7 @@ test_numeric_y <- function(op, basefun) {
       }
     }
   }
-  return(list(expected, out, i))
+  return(list(expected = expected, out = out, i = i))
 }
 
 

@@ -64,6 +64,7 @@ for(iSubFolder in subfolders) {
     cat(stringi::stri_pad_right(basename(iFile), max.width), " -> ", enumerate,  "\n")
     enumerate_total <- enumerate_total + enumerate
   }
+  print(enumerate_total)
   rem <-  setdiff(ls(), c("SourceFileLocation", "enumerate", "enumerate_total", "max.width"))
   rm(list = rem)
   cat("\n")
