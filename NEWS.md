@@ -10,4 +10,9 @@
 
 
 # broadcast 0.1
-* Initial CRAN submission
+* Initial CRAN submission.
+
+
+# broadcast 0.1.1
+* Continuation of Initial CRAN submission.
+* Replaced abs function with labs function when using long integers in src/rcpp_bc_int.

@@ -1,7 +1,9 @@
 
 ## My Comments
 
-* This is a new release.
+* This is a continuation of my initial submission.
+* One warning was found on the Debian system regarding the usage of the 'abs()' function with long int input; I've fixed this.
+
 * As always, I want to sincerely thank you for taking your time to review R-packages!
 I appreciate your hard, voluntary work!
 * I have created thousands (sorry!) of tests, many using for-loops (to reduce the amount of repetitive coding/typing).

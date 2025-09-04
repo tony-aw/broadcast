@@ -195,7 +195,8 @@ x + y
 
 ## 📊Status
 
-‘broadcast’ is fully functional, but still experimental.
+‘broadcast’ has had its initial submission to CRAN, and is currently
+being reviewed.
 
 If you have any suggestions or feedback on the package, its
 documentation, or even the benchmarks, I encourage you to let me know
