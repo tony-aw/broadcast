@@ -215,9 +215,7 @@ asplit(out, ndim(out)) |> bind_array(along = margin)
 
 # Manually compute confidence/credible interval for a spline
 
-The [sd_lc()](/man/linear_algebra_stats.qmd) function computes the standard deviation for a linear combination of random variables.  
-[sd_lc()](/man/linear_algebra_stats.qmd) has been tested against many possible combinations of a very large set of possible distributions the random variables may hold.  
-One notable use-case for [sd_lc()](/man/linear_algebra_stats.qmd) is to compute the confidence interval (or credible interval if you're going Bayesian) of a spline.
+The [sd_lc()](/man/linear_algebra_stats.qmd) function computes the standard deviation for a linear combination of random variables. One of its notable use-cases is to compute the confidence interval (or credible interval if you're going Bayesian) of a spline.
 
 Packages like 'mgcv' provides the user to plot and analyse the smoothers with confidence from a fitted GAM.  
 But not all `r fa("r-project")` packages are as user-friendly.
