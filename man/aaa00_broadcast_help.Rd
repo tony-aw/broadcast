@@ -8,9 +8,9 @@
 \title{broadcast Package Overview}
 \description{
 broadcast: \cr
-'NumPy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
+Broadcasted Array Operations like 'NumPy' \cr \cr
 
-Implements efficient broadcasted operations for atomic and recursive arrays.
+Implements efficient 'NumPy'-like broadcasted operations for atomic and recursive arrays.
 
 Besides linking to 'Rcpp', 'broadcast' does not use any external libraries in any way;
 'broadcast' was essentially made from scratch and can be installed out-of-the-box.

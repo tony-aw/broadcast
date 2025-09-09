@@ -2,7 +2,10 @@
 ## My Comments
 
 * This is a continuation of my initial submission.
-* One warning was found on the Debian system regarding the usage of the 'abs()' function with long int input; I've fixed this.
+* There are no references describing the methods in my package.
+* I shortened the title of the package, as requested.
+* I removed the LICENSE file and its reference in the DESCRIPTION, as requested.
+
 
 * As always, I want to sincerely thank you for taking your time to review R-packages!
 I appreciate your hard, voluntary work!

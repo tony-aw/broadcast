@@ -2,7 +2,7 @@
 #' 
 #' @description
 #' broadcast: \cr
-#' 'NumPy'-Like Broadcasted Operations for Atomic and Recursive Arrays with Minimal Dependencies. \cr \cr
+#' Broadcasted Array Operations like 'NumPy' \cr \cr
 #' 
 #' 
 #' ```{r echo = FALSE, eval = TRUE, results = 'asis'}
