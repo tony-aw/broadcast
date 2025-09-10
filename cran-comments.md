@@ -3,8 +3,7 @@
 
 * This is a continuation of my initial submission.
 * There are no references describing the methods in my package.
-* I shortened the title of the package, as requested.
-* I removed the LICENSE file and its reference in the DESCRIPTION, as requested.
+* I fixed the title case of the package, as requested.
 
 
 * As always, I want to sincerely thank you for taking your time to review R-packages!

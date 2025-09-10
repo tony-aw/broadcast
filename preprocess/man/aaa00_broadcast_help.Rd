@@ -8,7 +8,7 @@
 \title{broadcast Package Overview}
 \description{
 broadcast: \cr
-Broadcasted Array Operations like 'NumPy' \cr \cr
+Broadcasted Array Operations Like 'NumPy' \cr \cr
 
 Implements efficient 'NumPy'-like broadcasted operations for atomic and recursive arrays.
 

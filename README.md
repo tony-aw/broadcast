@@ -3,8 +3,7 @@
 <img src="man/figures/broadcast.png" height="300"/>
 </p>
 <p align="center">
-‘NumPy’-like Broadcasted Operations for Atomic and Recursive Arrays with
-Minimal Dependencies in ‘R’
+‘R’-package: Broadcasted Array Operations Like ‘NumPy’
 </p>
 <!-- badges: start -->
 

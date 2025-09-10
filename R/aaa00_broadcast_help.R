@@ -2,7 +2,7 @@
 #' 
 #' @description
 #' broadcast: \cr
-#' Broadcasted Array Operations like 'NumPy' \cr \cr
+#' Broadcasted Array Operations Like 'NumPy' \cr \cr
 #' 
 #' 
 #' ```{r echo = FALSE, eval = TRUE, results = 'asis'}

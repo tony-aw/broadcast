@@ -17,8 +17,14 @@
 * Continuation of Initial CRAN submission.
 * Replaced abs function with labs function when using long integers in src/rcpp_bc_int.
 
+
 # broadcast 0.1.2
 * Continuation of Initial CRAN submission.
 * Shortened the title.
 * Removed the LICENSE file, and its reference in the Description.
+
+
+# broadcast 0.1.3
+* Continuation of Initial CRAN submission.
+* Fixed the title case.
 
