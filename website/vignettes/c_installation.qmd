@@ -36,7 +36,15 @@ Make sure you at least have basic knowledge of the following subjects in `r fa("
 
 # Installation
 
-To install 'broadcast' from GitHub, one may run the following code in `r fa("r-project")`:
+To install the current version of 'broadcast' from CRAN, run the following code in `r fa("r-project")`:
+
+```{r echo=TRUE, eval=FALSE}
+install.packages("broadcast")
+```
+
+
+
+To install the development verion of 'broadcast' from GitHub, one may run the following code in `r fa("r-project")`:
 
 ```{r echo=TRUE, eval=FALSE}
 
@@ -47,14 +55,13 @@ remotes::install_github("https://github.com/tony-aw/broadcast")
 
 'broadcast' is not a large package per-sé, but it does contain a large amount of compiled code ('C' and 'C++'). Compilation of the package may therefore be slow on some operating systems, especially Linux systems; please be patient. On an average PC running Windows 11, installation of the 'broadcast' package shouldn't take more than just a few minutes.
 
-If installation is too slow, one may try to speed up the installation using multi-threading, for example like so:
+If installation is too slow, one may try to speed up the installation using multi-threading, by running the following code before installing 'broadcast':
 
 ```{r echo=TRUE, eval=FALSE}
 
 nthreads <- 8L # specify number of threads
-Sys.setenv(MAKEFLAGS = paste0("-j", nthreads)) # may speed up installation
+Sys.setenv(MAKEFLAGS = paste0("-j", nthreads))
 
-remotes::install_github("https://github.com/tony-aw/broadcast")
 
 ```
 

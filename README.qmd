@@ -1,5 +1,6 @@
 ---
 format: gfm
+default-image-extension: ""
 ---
 
 <p align="center">
@@ -26,8 +27,7 @@ set.seed(1)
 
 <!-- badges: start -->
 
-`r badge_github_actions("tony-aw/broadcast")` `r badge_repostatus("WIP")` `r badge_lifecycle("experimental")` `r badge_custom("Author", "Tony Wilkes", "red")` `r badge_custom("ORCID", "0000-0001-9498-8379", "green", "https://orcid.org/0000-0001-9498-8379")`   
-
+`r badge_github_actions("tony-aw/broadcast")` `r badge_repostatus("Active")` `r badge_custom("Author", "Tony Wilkes", "red")` `r badge_custom("ORCID", "0000-0001-9498-8379", "green", "https://orcid.org/0000-0001-9498-8379")` `r badge_cran_release("broadcast")` [![Dependencies](https://tinyverse.netlify.app/badge/broadcast)](https://cran.r-project.org/package=broadcast)   
 <!-- badges: end -->
 
 
@@ -131,7 +131,7 @@ You *could* do the following....
 x + y[rep(1L, 4L),]
 ```
 
-... but this becomes an issue when `x` and/or `y` become very large, as the above operation involves replicating/copying `y` several times - which costs memory, reduces speed, and the code is not easily scalable for arrays with different dimensions.
+... but this becomes an issue when `x` and/or `y` become very large, as the above operation involves replicating `y` several times - which costs memory, reduces speed, and the code is not easily scalable for arrays with different dimensions.
 
 The 'broadcast' package performs "broadcasting", which can do the above, but **faster**, **without unnecessary copies**, and scalable to arrays of any size (up to 16 dimensions).  
 
@@ -151,7 +151,7 @@ x + y
 
 ## 📊Status
 
-'broadcast' has had its initial submission to CRAN, and is currently being reviewed.  
+'broadcast' is now available on CRAN! 🎉
 
 If you have any suggestions or feedback on the package, its documentation, or even the benchmarks, I encourage you to let me know (either as an [Issue](https://github.com/tony-aw/broadcast/issues) or a [Discussion](https://github.com/tony-aw/broadcast/discussions)).  
 I'm eager to read your input!

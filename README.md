@@ -9,13 +9,13 @@
 
 [![R build
 status](https://github.com/tony-aw/broadcast/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/broadcast/actions)
-[![Project Status: WIP - Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Project Status: Active - The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![](https://img.shields.io/badge/Author-Tony%20Wilkes-red.svg)
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
-
+[![](https://www.r-pkg.org/badges/version/broadcast)](https://cran.r-project.org/package=broadcast)
+[![Dependencies](https://tinyverse.netlify.app/badge/broadcast)](https://cran.r-project.org/package=broadcast)  
 <!-- badges: end -->
 
  
@@ -166,9 +166,9 @@ x + y[rep(1L, 4L),]
 ```
 
 … but this becomes an issue when `x` and/or `y` become very large, as
-the above operation involves replicating/copying `y` several times -
-which costs memory, reduces speed, and the code is not easily scalable
-for arrays with different dimensions.
+the above operation involves replicating `y` several times - which costs
+memory, reduces speed, and the code is not easily scalable for arrays
+with different dimensions.
 
 The ‘broadcast’ package performs “broadcasting”, which can do the above,
 but **faster**, **without unnecessary copies**, and scalable to arrays
@@ -194,8 +194,7 @@ x + y
 
 ## 📊Status
 
-‘broadcast’ has had its initial submission to CRAN, and is currently
-being reviewed.
+‘broadcast’ is now available on CRAN! 🎉
 
 If you have any suggestions or feedback on the package, its
 documentation, or even the benchmarks, I encourage you to let me know
