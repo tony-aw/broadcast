@@ -1,6 +1,7 @@
 ---
 title: "Benchmarks with Numpy"
 format: html
+bibliography: references.bib
 ---
 
 ```{r, include = FALSE}
@@ -24,7 +25,7 @@ library(tinyplot)
 
 In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions without allocating additional memory, which is considerably faster and more memory-efficient than R’s regular dimensions replication mechanism.
 
-Before the emergence of the 'broadcast' package, if `r fa("r-project")` users wished to employ broadcasting, they essentially had to use broadcasting as it existed in a different programming language. For example, they might use the broadcasting as available in the 'Python' module 'Numpy' (perhaps via the 'reticulate' package). Or perhaps they might use the 'C++' library 'xtensor' via the R-package of the same name (or an extension thereof, like 'rray').
+Before the emergence of the 'broadcast' `r fa("r-project")` package [@broadcast], if `r fa("r-project")` users wished to employ broadcasting, they essentially had to use broadcasting as it existed in a different programming language. For example, they might use the broadcasting as available in the 'Python' module 'Numpy' [@numpy] (perhaps via the 'reticulate' `r fa("r-project")` package [@reticulate]). Or perhaps they might use the 'C++' library 'xtensor' [@xtensor] via the `r fa("r-project")` package of the same name (or an extension thereof, like 'rray' [@rray]).
 
 With the emergence of the 'broadcast' `r fa("r-project")` package, users can now call broadcasted implementations without using external libraries, which spares the computing power needed for translating between object structures of different languages.
 
@@ -68,7 +69,7 @@ The value of `n`, so the size of each dimension, varied as follows:
  - For 6-dimensional arrays, `n` goes from 3 to 21, with step size 2.
  - For 7-dimensional arrays, `n` goes from 2 to 14, with step size 1.
 
-These values `n` were chosen as follows. The maximum `n` was specified such that the broadcasted element-wise addition of `x` and `y` resulted in an array with between 90 to 105 million elements. The minimum `n` was chosen to be (approximately) one-seventh of the maximum `n` value. And the step size was set to a value such that the sequence had a length between 10 and 15
+These values `n` were chosen as follows. The maximum `n` was specified such that the broadcasted element-wise addition of `x` and `y` resulted in an array with between 90 to 105 million elements. The minimum `n` was chosen to be (approximately) one-seventh of the maximum `n` value. And the step size was set to a value such that the sequence had a length between 10 and 15.
 
 For each pair of arrays, the element-wise addition was computed using 'broadcast' and 'Numpy'. This computation was repeated 100 times (though see some technical details about this in the next sub-section). The first 10 were then treated as warm-up iterations, and thus discarded, leaving 90 benchmarks.  From these 90 benchmarks, the median, first quartile, and third quartiles were computed. After the benchmarks for a particular dimension, the garbage collector was called manually to clean up any lingering memory.
 
@@ -102,19 +103,20 @@ Operations like power (`^`) and division (`/`) need to handle special cases (lik
 
 ## Resources and Code
 
-The `bench::mark()` function from the 'benchmark' package was used for measuring the execution time in `r fa("r-project")`, as this package can also be used to check and filter for garbage collector calls.
+The code used to run the benchmarks can be found at the bottom of this page. `r fa("r-project")` version 4.4.0 [@r] was used to run the `r fa("r-project")` code, and 'Python' version 3.12.0 [@python] with 'Numpy' version 2.2.1 [@numpy] was used to run the 'Python' code.
+
+The `r fa("r-project")` code was sourced from 'RStudio' (2024.12.1) [@rstudio] using `source()`, from a freshly started computer. The 'Python' code was run via 'Jupyter' Notebook [@jupyter], also from a freshly started computer.
+
+
+The `bench::mark()` function from the 'bench' [@bench] package was used for measuring the execution time in `r fa("r-project")`, as this package can also be used to check and filter for garbage collector calls.
 
 In 'Python', the `time.perf_counter()` function was used to accurately measure the execution time of an operation. To ensure no time was wasted on printing the result in 'Python', the operation `a + b` was wrapped inside a trivial function without a return statement.
 
 Thus both in `r fa("r-project")` and 'Python', execution time (AKA "runtime") was measured (instead of something like CPU time).
 
-The figures in the Results section were created using the 'tinyplot' package, to display the median, first quartile, and third quartile, of the computation times.
+The figures in the Results section were created using the 'tinyplot' `r fa("r-project")` package [@tinyplot], to display the median, first quartile, and third quartile, of the computation times.
 
 The benchmarks were all run on the same computer (processor: 12th Gen Intel(R) Core(TM) i5-12500H @ 2.50 GHz) with 32GB of RAM and running the Windows 11 OS (64 bit).
-
-The code used to run the benchmarks can be found at the bottom of this page. `r fa("r-project")` version 4.4.0 was used to run the `r fa("r-project")` code, and 'Python' version 3.12.0 with 'Numpy' version 2.2.1 was used to run the 'Python' code.
-
-The `r fa("r-project")` code was sourced from 'RStudio' (2024.12.1) using `source()`, from a freshly started computer. The 'Python' code was run via 'Jupyter', also from a freshly started computer.
 
 &nbsp;
 

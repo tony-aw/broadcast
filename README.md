@@ -12,7 +12,6 @@ status](https://github.com/tony-aw/broadcast/workflows/R-CMD-check/badge.svg)](h
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-![](https://img.shields.io/badge/Author-Tony%20Wilkes-red.svg)
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
 [![](https://www.r-pkg.org/badges/version/broadcast)](https://cran.r-project.org/package=broadcast)
 [![Dependencies](https://tinyverse.netlify.app/badge/broadcast)](https://cran.r-project.org/package=broadcast)  
