@@ -229,15 +229,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overload-method-tables" id="toc-overload-method-tables" class="nav-link active" data-scroll-target="#overload-method-tables"><span class="header-section-number">1</span> Overload method tables</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#overload-method-tables" id="toc-overload-method-tables" class="nav-link" data-scroll-target="#overload-method-tables"><span class="header-section-number">2</span> Overload method tables</a>
   <ul class="collapse">
-  <li><a href="#regular-arithmetic-operators" id="toc-regular-arithmetic-operators" class="nav-link" data-scroll-target="#regular-arithmetic-operators"><span class="header-section-number">1.1</span> Regular Arithmetic operators</a></li>
-  <li><a href="#complex-arithmetic-operators" id="toc-complex-arithmetic-operators" class="nav-link" data-scroll-target="#complex-arithmetic-operators"><span class="header-section-number">1.2</span> Complex Arithmetic operators</a></li>
-  <li><a href="#logical-operators" id="toc-logical-operators" class="nav-link" data-scroll-target="#logical-operators"><span class="header-section-number">1.3</span> Logical Operators</a></li>
-  <li><a href="#bit-wise-operators" id="toc-bit-wise-operators" class="nav-link" data-scroll-target="#bit-wise-operators"><span class="header-section-number">1.4</span> Bit-wise operators</a></li>
-  <li><a href="#relational-operators" id="toc-relational-operators" class="nav-link" data-scroll-target="#relational-operators"><span class="header-section-number">1.5</span> Relational operators</a></li>
+  <li><a href="#regular-arithmetic-operators" id="toc-regular-arithmetic-operators" class="nav-link" data-scroll-target="#regular-arithmetic-operators"><span class="header-section-number">2.1</span> Regular Arithmetic operators</a></li>
+  <li><a href="#complex-arithmetic-operators" id="toc-complex-arithmetic-operators" class="nav-link" data-scroll-target="#complex-arithmetic-operators"><span class="header-section-number">2.2</span> Complex Arithmetic operators</a></li>
+  <li><a href="#logical-operators" id="toc-logical-operators" class="nav-link" data-scroll-target="#logical-operators"><span class="header-section-number">2.3</span> Logical Operators</a></li>
+  <li><a href="#bit-wise-operators" id="toc-bit-wise-operators" class="nav-link" data-scroll-target="#bit-wise-operators"><span class="header-section-number">2.4</span> Bit-wise operators</a></li>
+  <li><a href="#relational-operators" id="toc-relational-operators" class="nav-link" data-scroll-target="#relational-operators"><span class="header-section-number">2.5</span> Relational operators</a></li>
   </ul></li>
-  <li><a href="#compatibility-with-custom-methods" id="toc-compatibility-with-custom-methods" class="nav-link" data-scroll-target="#compatibility-with-custom-methods"><span class="header-section-number">2</span> Compatibility with Custom Methods</a></li>
+  <li><a href="#compatibility-with-custom-methods" id="toc-compatibility-with-custom-methods" class="nav-link" data-scroll-target="#compatibility-with-custom-methods"><span class="header-section-number">3</span> Compatibility with Custom Methods</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -261,18 +262,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="cell">
-<pre><code>#&gt; Warning: package 'broadcast' was built under R version 4.4.3</code></pre>
-</div>
 <p>&nbsp;</p>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>This page gives some brief details on some of the more technical aspects of the broadcast package. This page will probably not be of much interest for must users, but this page is presented nonetheless for the sake of completeness and transparency.</p>
 <p>&nbsp;</p>
-<section id="overload-method-tables" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Overload method tables</h1>
+</section>
+<section id="overload-method-tables" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Overload method tables</h1>
 <p>The overloaded operators from the ‘broadcast’ package attempts to mimic the base <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> operators accurately, except that broadcasting is used (obviously).</p>
 <p>The following tables overview the behaviour of the operators.</p>
 <p>&nbsp;</p>
-<section id="regular-arithmetic-operators" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="regular-arithmetic-operators"><span class="header-section-number">1.1</span> Regular Arithmetic operators</h2>
+<section id="regular-arithmetic-operators" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="regular-arithmetic-operators"><span class="header-section-number">2.1</span> Regular Arithmetic operators</h2>
 <p>If both sides of the operators given here are numeric or logical, the following holds:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -281,8 +283,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
     <script>
 
-      function styleCell_gkvm9vpcmqq1szt8mocg(i, j, css_id) {
-          var table = document.getElementById("tinytable_gkvm9vpcmqq1szt8mocg");
+      function styleCell_yiqeoi4ob6r1ahk7ayrf(i, j, css_id) {
+          var table = document.getElementById("tinytable_yiqeoi4ob6r1ahk7ayrf");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -292,7 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_gkvm9vpcmqq1szt8mocg');
+        var table = document.getElementById('tinytable_yiqeoi4ob6r1ahk7ayrf');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -300,8 +302,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_gkvm9vpcmqq1szt8mocg(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_gkvm9vpcmqq1szt8mocg");
+      function spanCell_yiqeoi4ob6r1ahk7ayrf(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_yiqeoi4ob6r1ahk7ayrf");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -331,14 +333,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_ge1toxzuk4pup1c4z1j8',}, 
-          { positions: [ { i: 7, j: 0 }, { i: 7, j: 1 }, { i: 7, j: 2 },  ], css_id: 'tinytable_css_8xxce2nshwx9wdkcv9wl',}, 
+          { positions: [ { i: 7, j: 0 }, { i: 7, j: 1 }, { i: 7, j: 2 },  ], css_id: 'tinytable_css_gevifasiblkmq6qy0348',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_dei9gtjs48ap0x8ej49m',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_gkvm9vpcmqq1szt8mocg(cell.i, cell.j, group.css_id);
+                  styleCell_yiqeoi4ob6r1ahk7ayrf(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -346,11 +348,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_ge1toxzuk4pup1c4z1j8, .table th.tinytable_css_ge1toxzuk4pup1c4z1j8 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_8xxce2nshwx9wdkcv9wl, .table th.tinytable_css_8xxce2nshwx9wdkcv9wl { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_gevifasiblkmq6qy0348, .table th.tinytable_css_gevifasiblkmq6qy0348 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_dei9gtjs48ap0x8ej49m, .table th.tinytable_css_dei9gtjs48ap0x8ej49m { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_gkvm9vpcmqq1szt8mocg" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_yiqeoi4ob6r1ahk7ayrf" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -404,8 +406,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>&nbsp;</p>
 </section>
-<section id="complex-arithmetic-operators" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="complex-arithmetic-operators"><span class="header-section-number">1.2</span> Complex Arithmetic operators</h2>
+<section id="complex-arithmetic-operators" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="complex-arithmetic-operators"><span class="header-section-number">2.2</span> Complex Arithmetic operators</h2>
 <p>If at least one of the arguments of the operators given here are complex, the following holds:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -414,8 +416,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
     <script>
 
-      function styleCell_8mn4t65l7fqhvsyoo3oz(i, j, css_id) {
-          var table = document.getElementById("tinytable_8mn4t65l7fqhvsyoo3oz");
+      function styleCell_5nbln3624276e9wll77m(i, j, css_id) {
+          var table = document.getElementById("tinytable_5nbln3624276e9wll77m");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -425,7 +427,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_8mn4t65l7fqhvsyoo3oz');
+        var table = document.getElementById('tinytable_5nbln3624276e9wll77m');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -433,8 +435,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_8mn4t65l7fqhvsyoo3oz(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_8mn4t65l7fqhvsyoo3oz");
+      function spanCell_5nbln3624276e9wll77m(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_5nbln3624276e9wll77m");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -464,14 +466,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_feaw6ox23hqz1eo95ju9',}, 
-          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 },  ], css_id: 'tinytable_css_987dppztn0gbdzjdo1k1',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_a0p8rk8g0gpieqog6bk2',}, 
+          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 },  ], css_id: 'tinytable_css_9m5b6m16oguiah5y5se6',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_8mn4t65l7fqhvsyoo3oz(cell.i, cell.j, group.css_id);
+                  styleCell_5nbln3624276e9wll77m(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -479,11 +481,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_feaw6ox23hqz1eo95ju9, .table th.tinytable_css_feaw6ox23hqz1eo95ju9 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_987dppztn0gbdzjdo1k1, .table th.tinytable_css_987dppztn0gbdzjdo1k1 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_a0p8rk8g0gpieqog6bk2, .table th.tinytable_css_a0p8rk8g0gpieqog6bk2 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_9m5b6m16oguiah5y5se6, .table th.tinytable_css_9m5b6m16oguiah5y5se6 { border-bottom: solid #d3d8dc 0.1em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_8mn4t65l7fqhvsyoo3oz" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_5nbln3624276e9wll77m" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -522,8 +524,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>&nbsp;</p>
 </section>
-<section id="logical-operators" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="logical-operators"><span class="header-section-number">1.3</span> Logical Operators</h2>
+<section id="logical-operators" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="logical-operators"><span class="header-section-number">2.3</span> Logical Operators</h2>
 <p>If both sides of the operators given here are complex, numeric or logical, the following holds:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -532,8 +534,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
     <script>
 
-      function styleCell_1w60jyy0srkz58es87gt(i, j, css_id) {
-          var table = document.getElementById("tinytable_1w60jyy0srkz58es87gt");
+      function styleCell_e9if5j2cwgidp56296z6(i, j, css_id) {
+          var table = document.getElementById("tinytable_e9if5j2cwgidp56296z6");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -543,7 +545,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_1w60jyy0srkz58es87gt');
+        var table = document.getElementById('tinytable_e9if5j2cwgidp56296z6');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -551,8 +553,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_1w60jyy0srkz58es87gt(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_1w60jyy0srkz58es87gt");
+      function spanCell_e9if5j2cwgidp56296z6(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_e9if5j2cwgidp56296z6");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -582,14 +584,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_qj0ycvxpv62bkblimvkm',}, 
-          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_b9kbbcnijjd8zgrop0sj',}, 
+          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_vluj4ycnzfo48nvhpfbr',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_m7mn6t3gjejqtbgxumlj',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_1w60jyy0srkz58es87gt(cell.i, cell.j, group.css_id);
+                  styleCell_e9if5j2cwgidp56296z6(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -597,11 +599,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_qj0ycvxpv62bkblimvkm, .table th.tinytable_css_qj0ycvxpv62bkblimvkm { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_b9kbbcnijjd8zgrop0sj, .table th.tinytable_css_b9kbbcnijjd8zgrop0sj { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_vluj4ycnzfo48nvhpfbr, .table th.tinytable_css_vluj4ycnzfo48nvhpfbr { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_m7mn6t3gjejqtbgxumlj, .table th.tinytable_css_m7mn6t3gjejqtbgxumlj { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_1w60jyy0srkz58es87gt" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_e9if5j2cwgidp56296z6" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -630,8 +632,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>&nbsp;</p>
 </section>
-<section id="bit-wise-operators" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="bit-wise-operators"><span class="header-section-number">1.4</span> Bit-wise operators</h2>
+<section id="bit-wise-operators" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="bit-wise-operators"><span class="header-section-number">2.4</span> Bit-wise operators</h2>
 <p>If both sides of the operators given here are type of raw, the following holds:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -640,8 +642,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
     <script>
 
-      function styleCell_0vrgyrr83qtxtg2pfvoc(i, j, css_id) {
-          var table = document.getElementById("tinytable_0vrgyrr83qtxtg2pfvoc");
+      function styleCell_wcjvf9g8e62rwgum4u58(i, j, css_id) {
+          var table = document.getElementById("tinytable_wcjvf9g8e62rwgum4u58");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -651,7 +653,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_0vrgyrr83qtxtg2pfvoc');
+        var table = document.getElementById('tinytable_wcjvf9g8e62rwgum4u58');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -659,8 +661,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_0vrgyrr83qtxtg2pfvoc(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_0vrgyrr83qtxtg2pfvoc");
+      function spanCell_wcjvf9g8e62rwgum4u58(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_wcjvf9g8e62rwgum4u58");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -690,14 +692,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_nmjcc3o7migg200usw6p',}, 
-          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_jorfnu8jc7iuwa1y2dhc',}, 
+          { positions: [ { i: 2, j: 0 }, { i: 2, j: 1 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_hg590hlyfwvqa8k6b4mt',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_9s0zfawu0pnp6x6y30qz',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_0vrgyrr83qtxtg2pfvoc(cell.i, cell.j, group.css_id);
+                  styleCell_wcjvf9g8e62rwgum4u58(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -705,11 +707,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_nmjcc3o7migg200usw6p, .table th.tinytable_css_nmjcc3o7migg200usw6p { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_jorfnu8jc7iuwa1y2dhc, .table th.tinytable_css_jorfnu8jc7iuwa1y2dhc { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_hg590hlyfwvqa8k6b4mt, .table th.tinytable_css_hg590hlyfwvqa8k6b4mt { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_9s0zfawu0pnp6x6y30qz, .table th.tinytable_css_9s0zfawu0pnp6x6y30qz { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_0vrgyrr83qtxtg2pfvoc" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_wcjvf9g8e62rwgum4u58" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -738,43 +740,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>&nbsp;</p>
 </section>
-<section id="relational-operators" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="relational-operators"><span class="header-section-number">1.5</span> Relational operators</h2>
+<section id="relational-operators" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="relational-operators"><span class="header-section-number">2.5</span> Relational operators</h2>
 <p>For relational operators, ‘broadcast’ first finds the “highest” (or most complex) atomic type of both sides, coerces both sides to said type, and then performs the broadcasted relational operation. Recursive types are not supported.</p>
 <p>The types, from complex to simple, are: <code>character</code>, <code>complex</code>, <code>numeric</code> (also known as <code>double</code>), <code>integer</code>, <code>logical</code>, and <code>raw</code>.</p>
 <p>&nbsp;</p>
 </section>
 </section>
-<section id="compatibility-with-custom-methods" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Compatibility with Custom Methods</h1>
+<section id="compatibility-with-custom-methods" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Compatibility with Custom Methods</h1>
 <p>Consider a classed vector like the following:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x) <span class="ot">&lt;-</span> <span class="st">"someclass"</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">class</span>(x))</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "someclass"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x) <span class="ot">&lt;-</span> <span class="st">"someclass"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">class</span>(x))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "someclass"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Setting a vector or array as a “broadcaster” using the <code>broadcaster()&lt;-</code> function, will add the “broadcaster” class attribute;<br>
 but note that the “broadcaster” class will be placed <strong>last</strong> in the class attribute:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(x) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">class</span>(x))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "someclass"   "broadcaster"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(x) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">class</span>(x))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "someclass"   "broadcaster"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice how the “broadcaster” class comes after the “someclass” class.</p>
 <p>Let’s make a quick ’n dirty (and not at all smart) <code>+</code> method for “somceclass”, which will just print some text:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">+.someclass</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(e1, e2) {<span class="fu">print</span>(<span class="st">"someclass method called"</span>)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">+.someclass</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(e1, e2) {<span class="fu">print</span>(<span class="st">"someclass method called"</span>)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>What will happen? Will the <code>+</code> method for the broadcaster be called, or the <code>+</code> method for “someclass”?<br>
 Well, since the “broadcaster” class is intentionally placed last, operator methods for the overriding classes will always “win” over the “broadcaster” class. In this case, if there are methods for the base operators (such as <code>+</code>, <code>-</code>, etc.) for the “someclass” class, the method for “someclass” will be called, rather than the broadcaster method:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>))</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(y) <span class="ot">&lt;-</span> <span class="st">"someclass"</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(y) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "someclass method called"</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "someclass method called"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(y) <span class="ot">&lt;-</span> <span class="st">"someclass"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(y) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "someclass method called"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "someclass method called"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice how the <code>+</code> method for “someclass” is called, rather than the <code>+</code> method for the broadcaster.</p>
 <p>This ensures compatibility with custom classes.<br>

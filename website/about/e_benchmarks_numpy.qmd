@@ -25,9 +25,9 @@ library(tinyplot)
 
 In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions without allocating additional memory, which is considerably faster and more memory-efficient than R’s regular dimensions replication mechanism.
 
-Before the emergence of the 'broadcast' `r fa("r-project")` package [@broadcast], if `r fa("r-project")` users wished to employ broadcasting, they essentially had to use broadcasting as it existed in a different programming language. For example, they might use the broadcasting as available in the 'Python' module 'Numpy' [@numpy] (perhaps via the 'reticulate' `r fa("r-project")` package [@reticulate]). Or perhaps they might use the 'C++' library 'xtensor' [@xtensor] via the `r fa("r-project")` package of the same name (or an extension thereof, like 'rray' [@rray]).
+Before the emergence of the 'broadcast' `r fa("r-project")` package, if `r fa("r-project")` users wished to employ broadcasting, they essentially had to use broadcasting as it existed in a different programming language. For example, they might use the broadcasting as available in the 'Python' module 'Numpy' [@numpy] (perhaps via the 'reticulate' `r fa("r-project")` package [@reticulate]). Or perhaps they might use the 'C++' library 'xtensor' [@xtensor] via the `r fa("r-project")` package of the same name (or an extension thereof, like 'rray' [@rray]).
 
-With the emergence of the 'broadcast' `r fa("r-project")` package, users can now call broadcasted implementations without using external libraries, which spares the computing power needed for translating between object structures of different languages.
+With the emergence of the 'broadcast' `r fa("r-project")` package [@broadcast], users can now call broadcasted implementations without using external libraries, which spares the computing power needed for translating between object structures of different languages.
 
 The "broadcasting" implementation in the 'broadcast' package is conceptually inspired by the broadcasting employed by the 'Numpy' module for 'Python' - though 'broadcast' does not use/borrow any of 'Numpy' source code. 'Numpy' might have the first implementation of broadcasting. More importantly, 'Numpy' is remarkably fast, and the 'broadcast' `r fa("r-project")` package aims to be somewhat comparably fast.  
 

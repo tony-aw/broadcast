@@ -61,6 +61,77 @@ functionalities, all related to “broadcasting”:
 Additionally, ‘broadcast’ comes with a few linear algebra functions for
 statistics.
 
+**The Quick-Start Guide can be found
+[here](https://tony-aw.github.io/broadcast/vignettes/b_quickstart.html).**
+
+ 
+
+## 🚀Quick Example
+
+Consider the matrices `x` and `y`:
+
+``` r
+x <- array(1:20, c(4, 5))
+y <- array(1:5 * 100, c(1, 5))
+print(x)
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]    1    5    9   13   17
+#> [2,]    2    6   10   14   18
+#> [3,]    3    7   11   15   19
+#> [4,]    4    8   12   16   20
+print(y)
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]  100  200  300  400  500
+```
+
+Suppose one wishes to compute the element-wise addition of these 2
+arrays.
+
+This won’t work in base ‘R’:
+
+``` r
+x + y
+Error in x + y : non-conformable arrays
+```
+
+You *could* do the following….
+
+``` r
+x + y[rep(1L, 4L),]
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]  101  205  309  413  517
+#> [2,]  102  206  310  414  518
+#> [3,]  103  207  311  415  519
+#> [4,]  104  208  312  416  520
+```
+
+… but if `x` and/or `y` is very large, it will be slow and may even lead
+to an error:
+
+``` r
+Error: cannot allocate vector of size
+```
+
+The ‘broadcast’ package performs “broadcasting”, which can do the above,
+but **faster**, **without unnecessary copies**, and scalable to arrays
+of any size (up to 16 dimensions).
+
+Like so:
+
+``` r
+
+broadcaster(x) <- TRUE
+broadcaster(y) <- TRUE
+
+x + y
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]  101  205  309  413  517
+#> [2,]  102  206  310  414  518
+#> [3,]  103  207  311  415  519
+#> [4,]  104  208  312  416  520
+#> broadcaster
+```
+
  
 
 ## 🤷🏽Why use ‘broadcast’
@@ -122,72 +193,6 @@ are still very much possible. I encourage users who find bugs to report
 them promptly to the
 [issues](https://github.com/tony-aw/broadcast/issues) tab on the GitHub
 page, and I will fix them as soon as time permits.
-
- 
-
-## 🚀Quick Example
-
-Consider the matrices `x` and `y`:
-
-``` r
-x <- array(1:20, c(4, 5))
-y <- array(1:5 * 100, c(1, 5))
-print(x)
-#>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]    1    5    9   13   17
-#> [2,]    2    6   10   14   18
-#> [3,]    3    7   11   15   19
-#> [4,]    4    8   12   16   20
-print(y)
-#>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]  100  200  300  400  500
-```
-
-Suppose one wishes to compute the element-wise addition of these 2
-arrays.
-
-This won’t work in base ‘R’:
-
-``` r
-x + y
-Error in x + y : non-conformable arrays
-```
-
-You *could* do the following….
-
-``` r
-x + y[rep(1L, 4L),]
-#>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]  101  205  309  413  517
-#> [2,]  102  206  310  414  518
-#> [3,]  103  207  311  415  519
-#> [4,]  104  208  312  416  520
-```
-
-… but this becomes an issue when `x` and/or `y` become very large, as
-the above operation involves replicating `y` several times - which costs
-memory, reduces speed, and the code is not easily scalable for arrays
-with different dimensions.
-
-The ‘broadcast’ package performs “broadcasting”, which can do the above,
-but **faster**, **without unnecessary copies**, and scalable to arrays
-of any size (up to 16 dimensions).
-
-Like so:
-
-``` r
-
-broadcaster(x) <- TRUE
-broadcaster(y) <- TRUE
-
-x + y
-#>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]  101  205  309  413  517
-#> [2,]  102  206  310  414  518
-#> [3,]  103  207  311  415  519
-#> [4,]  104  208  312  416  520
-#> broadcaster
-```
 
  
 

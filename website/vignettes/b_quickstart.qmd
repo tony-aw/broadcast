@@ -41,19 +41,6 @@ install.packages("broadcast")
 
 In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory, which is considerably **faster** and **more memory-efficient** than R's regular dimensions replication mechanism.
 
-&nbsp;
-
-## Rules
-
-To paraphrase Numpy's own documentation, one can summarise how broadcasting behaves using 2 rules.
-
- 1) if the input arrays for an operation do not have the same number of dimensions, a `1` will be repeatedly appended to the end of the dimension of the smaller array, until the arrays have the same number of dimensions.
-
-2) arrays with a size of 1 for a particular dimension act as if they had the size of the array with the largest size for that dimension. This is done by vritually recycling said dimension without making copies.
-
-After application of these 2 broadcasting rules, the sizes of the input arrays must match.
-
-Please read the [Broadcasting explained](https://tony-aw.github.io/broadcast/vignettes/d_broadcasting_explained.html) page for a more complete explanation of what "broadcasting" is and how it works.
 
 &nbsp;
 
@@ -83,7 +70,12 @@ You *could* do the following....
 x + y[rep(1L, 4L),]
 ```
 
-... but this becomes an issue when `x` and/or `y` become very large, as the above operation involves replicating/copying `y` several times - which costs memory, reduces speed, and the code is not easily scalable for arrays with different dimensions.
+... but if `x` and/or `y` is very large, it will be slow and may even lead to an error:
+
+```{r eval=FALSE, echo=TRUE}
+Error: cannot allocate vector of size
+```
+
 
 The 'broadcast' package performs "broadcasting", which can do the above, but **faster**, **without unnecessary copies**, and scalable to arrays of any size (up to 16 dimensions).  
 
@@ -97,6 +89,20 @@ broadcaster(y) <- TRUE
 x + y
 
 ```
+
+&nbsp;
+
+## Rules
+
+To paraphrase Numpy's own documentation, one can summarise how broadcasting behaves using 2 rules.
+
+ 1) if the input arrays for an operation do not have the same number of dimensions, a `1` will be repeatedly appended to the end of the dimension of the smaller array, until the arrays have the same number of dimensions.
+
+2) arrays with a size of 1 for a particular dimension act as if they had the size of the array with the largest size for that dimension. This is done by vritually recycling said dimension without making copies.
+
+After application of these 2 broadcasting rules, the sizes of the input arrays must match.
+
+Please read the [Broadcasting explained](https://tony-aw.github.io/broadcast/vignettes/d_broadcasting_explained.html) page for a more complete explanation of what "broadcasting" is and how it works.
 
 &nbsp;
 
@@ -183,6 +189,8 @@ bind_array(list(x, y), 2L)
 
 # Casting
 
+## Overview
+
 'broadcast' provides several "casting" functions.
 These can facility complex forms of broadcasting that would normally not be possible.  
 But these "casting" functions also have their own merit, beside empowering complex broadcasting.
@@ -202,6 +210,66 @@ Useful because one cannot broadcast through nesting, but one can broadcast along
 Mostly useful for printing or summarizing dimensional lists.
 
  - [dropnests()](/man/dropnests.qmd): drop redundant nesting in lists; mostly used for facilitating the above casting functions.
+
+
+&nbsp;
+
+## Example
+
+As an example, consider the following nested list:
+
+```{r}
+x <- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(5, 170) |> as.integer(),
+      weight = rnorm(5, 80)  |> as.integer(),
+      sex = sample(c("M", "F", NA), 5, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(5, 170)  |> as.integer(),
+      weight = rnorm(5, 80) |> as.integer(),
+      sex = sample(c("M", "F", NA), 5, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(5, 170) |> as.integer(),
+      weight = rnorm(5, 80) |> as.integer(),
+      sex = sample(c("M", "F", NA), 5, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(5, 170) |> as.integer(),
+      weight = rnorm(5, 80) |> as.integer(),
+      sex = sample(c("M", "F", NA), 5, TRUE)
+    )
+  )
+)
+
+```
+
+
+One can turn the nested list into a dimensional list using [cast_hier2dim()](/man/cast_hier2dim.qmd) like so:
+
+```{r}
+x2 <- cast_hier2dim(x)
+dimnames(x2) <- list(
+  c("height", "weight", "sex"),
+  c("class1", "class2"),
+  c("group1", "group2")
+)
+print(x2)
+
+```
+
+And turn it back into a dimensional list using [cast_dim2hier()](/man/cast_dim2hier.qmd) like so:
+
+```{r}
+x3 <- cast_dim2hier(x2, distr.names = TRUE)
+lobstr::tree(x3)
+```
+
+
 
 &nbsp;
 
