@@ -230,9 +230,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">2</span> Example</a></li>
-  <li><a href="#derived-operators" id="toc-derived-operators" class="nav-link" data-scroll-target="#derived-operators"><span class="header-section-number">3</span> Derived operators</a></li>
-  <li><a href="#overloaded-operators-vs-bc.-functions" id="toc-overloaded-operators-vs-bc.-functions" class="nav-link" data-scroll-target="#overloaded-operators-vs-bc.-functions"><span class="header-section-number">4</span> Overloaded operators vs <code>bc.*</code> functions</a></li>
+  <li><a href="#derived-operators" id="toc-derived-operators" class="nav-link" data-scroll-target="#derived-operators"><span class="header-section-number">2</span> Derived operators</a></li>
+  <li><a href="#overloaded-operators-vs-bc.-functions" id="toc-overloaded-operators-vs-bc.-functions" class="nav-link" data-scroll-target="#overloaded-operators-vs-bc.-functions"><span class="header-section-number">3</span> Overloaded operators vs <code>bc.*</code> functions</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -259,101 +258,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>&nbsp;</p>
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>Sometimes broadcasting is needed in a large mathematical expression, involving multiple variables, where precedence is of importance. For example in an expression like this:</p>
-<p><code>x / (y + z) + a</code></p>
-<p>Using the <code>bc.*</code> functions for that, while possible, may be inconvenient. It may be more convenient to use the base operators directly, whilst still keeping the broadcasting property.</p>
-<p>To this end, the ‘broadcast’ package provides the <a href="../man/broadcaster.html">broadcaster</a> class, which comes with its own method dispatch for the base operators.</p>
-<p>&nbsp;</p>
-</section>
-<section id="example" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Example</h1>
-<p>Consider the matrices <code>x</code>, <code>y</code> and <code>z</code>:</p>
+<p>Base ‘R’ comes with relational (==, !=, etc.), arithmetic (+, -, *, /, etc.), logical (&amp;, |) and bit-wise (&amp;, |) operators. ‘broadcast’ provides 2 ways to use these operators with broadcasting.</p>
+<p>The first (and simple) way is to use the <a href="../man/broadcaster.html">broadcaster()</a> class, which comes with it’s own method dispatch for the above mentioned operators. This approach supports operator precedence, and for the average ‘R’ user, this is sufficient.</p>
+<p>For example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span> <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">20</span><span class="sc">:</span><span class="dv">1</span>, <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    5    9   13   17</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    2    6   10   14   18</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    3    7   11   15   19</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    4    8   12   16   20</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(y)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  100  200  300  400  500</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(z)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   20   16   12    8    4</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   19   15   11    7    3</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   18   14   10    6    2</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]   17   13    9    5    1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span> <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">20</span><span class="sc">:</span><span class="dv">1</span>, <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(x) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(y) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(z) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y <span class="sc">/</span> z</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 6.000000 17.50000 34.00000 63.00000 142.0000</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] 7.263158 19.33333 37.27273 71.14286 184.6667</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] 8.555556 21.28571 41.00000 81.66667 269.0000</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 9.882353 23.38462 45.33333 96.00000 520.0000</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Suppose we wish to compute <code>x + y / z</code>;</p>
-<p>The following is <strong>wrong</strong>:</p>
+<p>The second way is to use the large set of<code>bc.</code> - functions. These offer much greater control and more operators than the previous method, and has less risk of running into conflicting methods. But it does not support operator precedence.</p>
+<p>For example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.d</span>(x, y, <span class="st">"+"</span>) <span class="sc">|&gt;</span> <span class="fu">bc.d</span>(y, <span class="st">"/"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1]  [,2]     [,3]   [,4]  [,5]</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 1.01 1.025 1.030000 1.0325 1.034</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] 1.02 1.030 1.033333 1.0350 1.036</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] 1.03 1.035 1.036667 1.0375 1.038</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 1.04 1.040 1.040000 1.0400 1.040</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>…because division must come <strong>before</strong> addition, according to standard math precedence rules.</p>
-<p>We <em>could</em> do the following:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.d</span>(y, z, <span class="st">"/"</span>) <span class="sc">|&gt;</span> <span class="fu">bc.d</span>(x, <span class="st">"+"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 6.000000 17.50000 34.00000 63.00000 142.0000</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] 7.263158 19.33333 37.27273 71.14286 184.6667</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] 8.555556 21.28571 41.00000 81.66667 269.0000</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 9.882353 23.38462 45.33333 96.00000 520.0000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>…but as the mathematical expression involves more and more variables with a greater variety of operators, it comes more and more taxing to keep track of the operator precedence.</p>
-<p>Instead, one can designate the arrays as a “broadcaster”.<br>
-All base infix operators that have a broadcaster array at either side of the operator, will use the overloaded variant provided by the ‘broadcast’ package.<br>
-Overloaded arithmetic operations that involve a broadcaster, will result in a broadcaster also, allowing the user easily to chain together multiple broadcasted operations.</p>
-<p>Like so:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(x) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(y) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(z) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y <span class="sc">/</span> z</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 6.000000 17.50000 34.00000 63.00000 142.0000</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] 7.263158 19.33333 37.27273 71.14286 184.6667</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] 8.555556 21.28571 41.00000 81.66667 269.0000</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 9.882353 23.38462 45.33333 96.00000 520.0000</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>As you may have guessed, not <em>all</em> arrays necessarily need to be a broadcaster.<br>
-Overloaded arithmetic operations that involve a broadcaster, will result in a broadcaster.<br>
-So technically, one could just make the array that is used first - according to the mathematical rules of precedence - as a broadcaster, and broadcasting will continue to be used.<br>
-In this case, the mathematically first preceding array is <code>y</code>.<br>
-To demonstrate, we’ll <em>un-set</em> <code>x</code> and <code>z</code> as broadcasters, and you’ll see broadcasting still occurs:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(x) <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(z) <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y <span class="sc">/</span> z</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 6.000000 17.50000 34.00000 63.00000 142.0000</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] 7.263158 19.33333 37.27273 71.14286 184.6667</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] 8.555556 21.28571 41.00000 81.66667 269.0000</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 9.882353 23.38462 45.33333 96.00000 520.0000</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span> <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    5    9   13   17</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    2    6   10   14   18</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    3    7   11   15   19</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    4    8   12   16   20</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(y)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  100  200  300  400  500</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.i</span>(x, y, <span class="st">"gcd"</span>) <span class="co"># calculate the greatest common divisor between x and y</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    5    3    1    1</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    2    2   10    2    2</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    1    1    1    5    1</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    4    8   12   16   20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>&nbsp;</p>
 </section>
-<section id="derived-operators" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Derived operators</h1>
+<section id="derived-operators" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Derived operators</h1>
 <p>There is no overload for <code>xor()</code>, as <code>xor()</code> is defined using the existing base relational and logical (or bit-wise, for type of <code>raw</code>) operators.</p>
 <p>There is also no overload for the %d==%, %d!=%, etc. operators, as they too are defined using the existing base relational and logical operators.</p>
 <p>&nbsp;</p>
 </section>
-<section id="overloaded-operators-vs-bc.-functions" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Overloaded operators vs <code>bc.*</code> functions</h1>
-<p>Overloading the operators is primarily useful for encuring correct mathematical precedence, and to reduce the amount of typing.<br>
+<section id="overloaded-operators-vs-bc.-functions" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Overloaded operators vs <code>bc.*</code> functions</h1>
+<p>Overloading the operators is primarily useful for ensuring mathematically correct operator precedence, and to reduce the amount of typing.<br>
 However, the many <code>bc.*</code> functions provide much greater control than the simple operators can provide.</p>
 <p>For example:<br>
 The <code>&amp;</code> and <code>|</code> operators provide logical AND and OR, respectively for all atomic types except type <code>raw</code>; for type <code>raw</code>, the <code>&amp;</code> and <code>|</code> operators provide BIT-WISE AND and OR, respectively.<br>
@@ -362,6 +320,8 @@ When using the overloaded operators, using logical AND/OR for type <code>raw</co
 With the <code>bc.*()</code> functions, this is not necessary.<br>
 Want to use logical AND/OR? Use <a href="../man/bc.b.html">bc.b()</a>, it supports several types including <code>raw</code>.<br>
 Want to use bit-wise AND/OR? Use <a href="../man/bc.bit.html">bc.bit()</a>, it supports not only <code>raw</code>, but <code>integer</code> as well.</p>
+<p>The <code>bc.</code> functions also provides far more operations than the simple symbols can provide.<br>
+Like calculating the greatest common divisors between integers, string edit distance, and more.</p>
 <p>&nbsp;</p>
 
 

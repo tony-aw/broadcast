@@ -22,76 +22,45 @@ library(fontawesome) |> suppressWarnings()
 
 # Introduction
 
-Sometimes broadcasting is needed in a large mathematical expression, involving multiple variables, where precedence is of importance.
-For example in an expression like this:  
+Base 'R' comes with relational (==, !=, etc.), arithmetic (+, -, *, /, etc.), logical (&, |) and bit-wise (&, |) operators.
+'broadcast' provides 2 ways to use these operators with broadcasting.
 
-`x / (y + z) + a`
+The first (and simple) way is to use the [broadcaster()](/man/broadcaster.qmd) class, which comes with it's own method dispatch for the above mentioned operators.
+This approach supports operator precedence, and for the average 'R' user, this is sufficient.
 
-Using the `bc.*` functions for that, while possible, may be inconvenient. It may be more convenient to use the base operators directly, whilst still keeping the broadcasting property.  
+For example:
 
-To this end, the 'broadcast' package provides the [broadcaster](/man/broadcaster.qmd) class, which comes with its own method dispatch for the base operators.
+```{r}
 
-&nbsp;
+x <- array(1:20, c(4, 5))
+y <- array(1:5 * 100, c(1, 5))
+z <- array(20:1, c(4, 5))
 
-# Example
+broadcaster(x) <- TRUE
+broadcaster(y) <- TRUE
+broadcaster(z) <- TRUE
 
-Consider the matrices `x`, `y` and `z`:
+x + y / z
+
+```
+
+The second way is to use the large set of` bc.` - functions.
+These offer much greater control and more operators than the previous method, and has less risk of running into conflicting methods.
+But it does not support operator precedence.
+
+
+For example:
 
 ```{r}
 x <- array(1:20, c(4, 5))
 y <- array(1:5 * 100, c(1, 5))
-z <- array(20:1, c(4, 5))
 print(x)
 print(y)
-print(z)
-```
 
-Suppose we wish to compute `x + y / z`;
-
-The following is **wrong**:
-
-```{r}
-bc.d(x, y, "+") |> bc.d(y, "/")
-```
-
-...because division must come **before** addition, according to standard math precedence rules.
-
-We *could* do the following:
-
-```{r}
-bc.d(y, z, "/") |> bc.d(x, "+")
-```
-
-...but as the mathematical expression involves more and more variables with a greater variety of operators, it comes more and more taxing to keep track of the operator precedence.
-
-Instead, one can designate the arrays as a "broadcaster".  
-All base infix operators that have a broadcaster array at either side of the operator, will use the overloaded variant provided by the 'broadcast' package.  
-Overloaded arithmetic operations that involve a broadcaster, will result in a broadcaster also, allowing the user easily to chain together multiple broadcasted operations.
-
-Like so:
-
-```{r}
-broadcaster(x) <- TRUE
-broadcaster(y) <- TRUE
-broadcaster(z) <- TRUE
-x + y / z
+bc.i(x, y, "gcd") # calculate the greatest common divisor between x and y
 
 ```
 
-
-As you may have guessed, not *all* arrays necessarily need to be a broadcaster.  
-Overloaded arithmetic operations that involve a broadcaster, will result in a broadcaster.  
-So technically, one could just make the array that is used first - according to the mathematical rules of precedence - as a broadcaster, and broadcasting will continue to be used.  
-In this case, the mathematically first preceding array is `y`.  
-To demonstrate, we'll *un-set* `x` and `z` as broadcasters, and you'll see broadcasting still occurs:
-
-```{r}
-
-broadcaster(x) <- FALSE
-broadcaster(z) <- FALSE
-
-x + y / z
-```
 
 
 &nbsp;
@@ -107,7 +76,7 @@ There is also no overload for the %d==%, %d!=%, etc. operators, as they too are 
 
 # Overloaded operators vs `bc.*` functions
 
-Overloading the operators is primarily useful for encuring correct mathematical precedence, and to reduce the amount of typing.  
+Overloading the operators is primarily useful for ensuring mathematically correct operator precedence, and to reduce the amount of typing.  
 However, the many `bc.*` functions provide much greater control than the simple operators can provide.  
 
 For example:  
@@ -117,6 +86,9 @@ When using the overloaded operators, using logical AND/OR for type `raw` necessi
 With the `bc.*()` functions, this is not necessary.  
 Want to use logical AND/OR? Use [bc.b()](/man/bc.b.qmd), it supports several types including `raw`.  
 Want to use bit-wise AND/OR? Use [bc.bit()](/man/bc.bit.qmd), it supports not only `raw`, but `integer` as well.
+
+The `bc.` functions also provides far more operations than the simple symbols can provide.  
+Like calculating the greatest common divisors between integers, string edit distance, and more.
 
 &nbsp;
 

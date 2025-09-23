@@ -356,7 +356,7 @@ A very, very basic refresher for <svg aria-hidden="true" role="img" viewbox="0 0
 </section>
 <section id="broadcasted-infix-operators" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Broadcasted Infix Operators</h1>
-<p>Base ‘R’ comes with relational (==, !=, etc.), arithmetic (+, -, *, /, etc.), and logical (&amp;, |) operators. ‘broadcast’ provides 2 ways to use these operators with broadcasting.</p>
+<p>Base ‘R’ comes with relational (==, !=, etc.), arithmetic (+, -, *, /, etc.), logical (&amp;, |) and bit-wise (&amp;, |) operators. ‘broadcast’ provides 2 ways to use these operators with broadcasting.</p>
 <p>The first (and simple) way is to use the <a href="../man/broadcaster.html">broadcaster()</a> class, which comes with it’s own method dispatch for the above mentioned operators. This approach supports operator precedence, and for the average ‘R’ user, this is sufficient.</p>
 <p>For example:</p>
 <div class="cell">
@@ -392,12 +392,12 @@ A very, very basic refresher for <svg aria-hidden="true" role="img" viewbox="0 0
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  100  200  300  400  500</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.d</span>(x, y, <span class="st">"+"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.i</span>(x, y, <span class="st">"gcd"</span>) <span class="co"># calculate the greatest common divisor between x and y</span></span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  101  205  309  413  517</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  102  206  310  414  518</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]  103  207  311  415  519</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]  104  208  312  416  520</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    5    3    1    1</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    2    2   10    2    2</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    1    1    1    5    1</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    4    8   12   16   20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>&nbsp;</p>
 </section>
@@ -518,22 +518,22 @@ Mostly useful for printing or summarizing dimensional lists.</p></li>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;list&gt;</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├─group1: &lt;list&gt;</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ ├─class1: &lt;list&gt;</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─height&lt;int [5]&gt;: 170, 169, 171, 169, 169</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─weight&lt;int [5]&gt;: 81, 80, 79, 78, 80</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ └─sex&lt;chr [5]&gt;: "NA", "NA", "M", "F", "M"</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─height&lt;int [5]&gt;: 168, 172, 169, 170, 170</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─weight&lt;int [5]&gt;: 80, 80, 80, 81, 82</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ └─sex&lt;chr [5]&gt;: "NA", "M", "NA", "M", "NA"</span></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ └─class2: &lt;list&gt;</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─height&lt;int [5]&gt;: 170, 172, 169, 170, 169</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─weight&lt;int [5]&gt;: 81, 82, 79, 79, 80</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └─sex&lt;chr [5]&gt;: "F", "F", "NA", "M", "M"</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─height&lt;int [5]&gt;: 169, 169, 170, 170, 170</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─weight&lt;int [5]&gt;: 78, 80, 77, 80, 79</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └─sex&lt;chr [5]&gt;: "M", "NA", "F", "F", "M"</span></span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; └─group2: &lt;list&gt;</span></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ├─class1: &lt;list&gt;</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─height&lt;int [5]&gt;: 170, 169, 170, 169, 172</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─weight&lt;int [5]&gt;: 79, 79, 80, 81, 79</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ └─sex&lt;chr [5]&gt;: "F", "NA", "NA", "NA", "M"</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─height&lt;int [5]&gt;: 169, 169, 170, 171, 169</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─weight&lt;int [5]&gt;: 79, 79, 80, 81, 81</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ └─sex&lt;chr [5]&gt;: "NA", "F", "F", "M", "F"</span></span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   └─class2: &lt;list&gt;</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─height&lt;int [5]&gt;: 171, 169, 170, 172, 169</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─weight&lt;int [5]&gt;: 78, 79, 79, 80, 81</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └─sex&lt;chr [5]&gt;: "M", "F", "M", "F", "NA"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─height&lt;int [5]&gt;: 169, 170, 170, 169, 168</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─weight&lt;int [5]&gt;: 80, 77, 77, 78, 82</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └─sex&lt;chr [5]&gt;: "M", "NA", "M", "NA", "NA"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>&nbsp;</p>
 </section>

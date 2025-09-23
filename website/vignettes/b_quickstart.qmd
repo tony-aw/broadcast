@@ -108,7 +108,7 @@ Please read the [Broadcasting explained](https://tony-aw.github.io/broadcast/vig
 
 # Broadcasted Infix Operators
 
-Base 'R' comes with relational (==, !=, etc.), arithmetic (+, -, *, /, etc.), and logical (&, |) operators.
+Base 'R' comes with relational (==, !=, etc.), arithmetic (+, -, *, /, etc.), logical (&, |) and bit-wise (&, |) operators.
 'broadcast' provides 2 ways to use these operators with broadcasting.
 
 The first (and simple) way is to use the [broadcaster()](/man/broadcaster.qmd) class, which comes with it's own method dispatch for the above mentioned operators.
@@ -143,7 +143,7 @@ y <- array(1:5 * 100, c(1, 5))
 print(x)
 print(y)
 
-bc.d(x, y, "+")
+bc.i(x, y, "gcd") # calculate the greatest common divisor between x and y
 
 ```
 
