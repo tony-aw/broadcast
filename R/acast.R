@@ -92,6 +92,7 @@ acast.default <- function(
 ) {
   
   # first checks:
+  .ellipsis(list(...), sys.call())
   if(is.null(fill_val)) fill_val <- list(NULL)
   .acast_stop_margin(margin, x, sys.call())
   margin <- as.integer(margin)

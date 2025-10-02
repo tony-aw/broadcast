@@ -57,7 +57,7 @@ expect_equal(
 
 x <- list(list(list(list(data.frame(letters)))))
 expect_equal(
-  .rcpp_depth_range(x, 32L, recurse_classed = TRUE),
+  .rcpp_depth_range(x, 32L, recurse_all = TRUE),
   c(5L, 5L)
 )
 
@@ -79,7 +79,7 @@ expect_equal(
   c(1L, 5L)
 )
 expect_equal(
-  .rcpp_depth_range(x, 32L, recurse_classed = TRUE),
+  .rcpp_depth_range(x, 32L, recurse_all = TRUE),
   c(2L, 5L)
 )
 
@@ -102,7 +102,7 @@ expect_equal(
   c(1L, 5L)
 )
 expect_equal(
-  .rcpp_depth_range(x, 32L, recurse_classed = TRUE),
+  .rcpp_depth_range(x, 32L, recurse_all = TRUE),
   c(2L, 5L)
 )
 

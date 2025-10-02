@@ -8,7 +8,7 @@
 #' with the type `logical`, `integer`, or `raw`,
 #' and a length equal to `prod(bc_dim(yes, no))`. \cr
 #' If `yes` / `no` are of type `raw`, `test` is not allowed to contain any `NA`s.
-#' @param yes,no conformable arrays of the same type. \cr
+#' @param yes,no conformable vectors/arrays of the same type. \cr
 #' All \link[base]{atomic} types are supported. \cr
 #' Recursive arrays of type \link[base]{list} are also supported.
 #' @param ... further arguments passed to or from methods. \cr \cr

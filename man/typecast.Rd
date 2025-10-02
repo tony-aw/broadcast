@@ -41,7 +41,8 @@ The converted object. \cr \cr
 }
 \description{
 Type casting usually strips away attributes of objects. \cr
-The functions provided here preserve dimensions, dimnames, and names,
+The functions provided here preserve dimensions, dimnames, names,
+and \link{broadcaster} attributes,
 which may be more convenient for arrays and array-like objects. \cr
 \cr
 The functions are as follows: \cr

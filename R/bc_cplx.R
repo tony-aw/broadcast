@@ -8,7 +8,7 @@
 #' than the result of the operation for that element is necessarily `NA`. \cr
 #' \cr \cr
 #' 
-#' @param x,y conformable atomic arrays of type `complex`.
+#' @param x,y conformable vectors/arrays of type `complex`.
 #' @param op a single string, giving the operator. \cr
 #' Supported arithmetic operators: `r paste0(broadcast:::.op_cplx_math(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_cplx_rel(), collapse = ", ")`.

@@ -6,33 +6,46 @@
 \title{Details on Casting Functions}
 \description{
 'broadcast' provides several "casting" functions. \cr
-These can facility complex forms of broadcasting that would normally not be possible. \cr
+These can facilitate complex forms of broadcasting that would normally not be possible. \cr
 But these "casting" functions also have their own merit, beside empowering complex broadcasting. \cr
 \cr
 The following casting functions are available:
 \itemize{
 \item \link{acast}: \cr
-casts group-based subsets of an array into a new dimension. \cr
+Casts group-based subsets of an array into a new dimension. \cr
 Useful for, for example, performing \bold{grouped} broadcasted operations. \cr
 \item \link{cast_hier2dim}: \cr
-casts a nested/hierarchical list into a dimensional list (i.e. array of type \code{list}). \cr
+Casts a nested/hierarchical list into a dimensional list (i.e. array of type \code{list}). \cr
 Useful because one cannot broadcast through nesting, but one \bold{can} broadcast along dimensions.
+\item \link{hier2dim}, \link{hiernames2dimnames}: \cr
+Helper functions for \link{cast_hier2dim}.
 \item \link{cast_dim2hier}: \cr
-casts a dimensional list into a nested/hierarchical list; the opposite of \link{cast_hier2dim}. \cr
+Casts a dimensional list into a nested/hierarchical list; the opposite of \link{cast_hier2dim}. \cr
 \item \link{cast_dim2flat}: \cr
-casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. \cr
+Casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. \cr
 Mostly useful for printing or summarizing dimensional lists.
 \item \link{dropnests}: \cr
-drop redundant nesting in lists; mostly used for facilitating the above casting functions. \cr \cr
+Drop redundant nesting in lists; mostly used for facilitating the above casting functions. \cr \cr
 }
 }
+\section{Shared argument \code{recurse_all}}{
+
+The \link{dropnests}, \link{hier2dim}, \link{hiernames2dimnames}, and \link{cast_hier2dim} methods
+all have the \code{recurse_all} argument. \cr
+By default \code{recurse_all = FALSE},
+meaning these methods do not recurse through dimensional or classed lists (like data.frames). \cr
+Setting \code{recurse_all = TRUE}
+allows these methods to recurse through all list objects, even if they are dimensional and/or classed. \cr
+\cr
+}
+
 \section{Shared Argument \code{in2out}}{
 
-The \link{hier2dim}, \link{cast_hier2dim}, and \link{cast_dim2hier} methods
+The \link{hier2dim}, \link{hiernames2dimnames}, \link{cast_hier2dim}, and \link{cast_dim2hier} methods
 all have the \code{in2out} argument. \cr
 \cr
 \cr
-\bold{\code{in2out = TRUE}} \cr
+\ifelse{html}{\figure{in2out-TRUE-green.svg}{options: alt='[TRUE]'}}{\link[=broadcast_casting]{in2out}: TRUE; } \cr
 By default \code{in2out} is \code{TRUE}. \cr
 This means the call \cr
 \code{y <- cast_hier2dim(x)} \cr
@@ -56,7 +69,7 @@ Then it holds that: \cr
 \eqn{\forall}(\code{i}, \code{j}, \code{k}) , provided \code{x[[i]][[j]][[k]]} exists. \cr
 \cr
 \cr
-\bold{\code{in2out = FALSE}} \cr
+\ifelse{html}{\figure{in2out-FALSE-red.svg}{options: alt='[FALSE]'}}{\link[=broadcast_casting]{in2out}: FALSE; } \cr
 If \code{in2out = FALSE}, the call \cr
 \code{y <- cast_hier2dim(x, in2out = FALSE)} \cr
 will cast the surface-level elements of \code{x} to the rows of \code{y},
@@ -79,3 +92,49 @@ Then it holds that : \cr
 \eqn{\forall}(\code{i}, \code{j}, \code{k}) , provided \code{x[[i]][[j]][[k]]} exists. \cr \cr
 }
 
+\examples{
+
+x <- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+# predict dimensions x would have if casted as dimensional:
+hier2dim(x, in2out = FALSE)
+
+# cast x to dimensional list:
+x2 <- cast_hier2dim(x, in2out = FALSE)
+
+# set dimnames of dimensionally casted list:
+dimnames(x2) <- hiernames2dimnames(x, in2out = FALSE)
+
+# print result:
+print(x2) # very compact
+cast_dim2flat(x2) |> print() # less compact
+
+# cast dimensional list back to nested/hierarchical list:
+x3 <- cast_dim2hier(x2, in2out = FALSE, distr.names = TRUE)
+print(x3)
+}

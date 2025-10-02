@@ -10,7 +10,7 @@ bc.d(x, y, op, ...)
 \S4method{bc.d}{ANY}(x, y, op, tol = sqrt(.Machine$double.eps))
 }
 \arguments{
-\item{x, y}{conformable logical or numeric arrays.}
+\item{x, y}{conformable vectors/arrays of type logical or numeric.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. \cr

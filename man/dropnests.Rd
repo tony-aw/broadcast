@@ -7,7 +7,7 @@
 \usage{
 dropnests(x, ...)
 
-\method{dropnests}{default}(x, maxdepth = 16L, recurse_classed = FALSE, ...)
+\method{dropnests}{default}(x, maxdepth = 16L, recurse_all = FALSE, ...)
 }
 \arguments{
 \item{x}{a list}
@@ -19,9 +19,7 @@ giving the maximum depth to recurse into the list. \cr
 The surface-level elements of a list is depth 1. \cr
 \code{dropnests(x, maxdepth = 1)} will return \code{x} unchanged.}
 
-\item{recurse_classed}{\code{TRUE} or \code{FALSE},
-indicating if the function should also recurse through classed lists within \code{x},
-like data.frames.}
+\item{recurse_all}{see \link{broadcast_casting}.}
 }
 \value{
 A list without redundant nesting. \cr
@@ -39,23 +37,22 @@ x <- list(
   a = list(list(list(list(1:10)))),
   b = list(1:10)
 )
-print(x)
 
+print(x)
 
 dropnests(x)
 
 
-# recurse_classed demonstration ====
+# recurse_all demonstration ====
 x <- list(
   a = list(list(list(list(1:10)))),
   b = data.frame(month.abb, month.name),
   c = data.frame(month.abb)
 )
 
+dropnests(x) # by default, recurse_all = FALSE
 
-dropnests(x) # by default, recurse_classed = FALSE
-
-dropnests(x, recurse_classed = TRUE)
+dropnests(x, recurse_all = TRUE)
 
 
 # maxdepth demonstration ====
@@ -64,7 +61,6 @@ x <- list(
   b = list(1:10)
 )
 print(x)
-
 
 dropnests(x) # by default, maxdepth = 16
 

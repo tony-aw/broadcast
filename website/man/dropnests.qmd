@@ -17,7 +17,7 @@ It is the hierarchical equivalent to the dimensional <code>base::drop()</code> f
 <pre><code class='language-R'>dropnests(x, ...)
 
 ## Default S3 method:
-dropnests(x, maxdepth = 16L, recurse_classed = FALSE, ...)
+dropnests(x, maxdepth = 16L, recurse_all = FALSE, ...)
 </code></pre>
 
 
@@ -39,11 +39,9 @@ giving the maximum depth to recurse into the list. <br />
 The surface-level elements of a list is depth 1. <br />
 <code>dropnests(x, maxdepth = 1)</code> will return <code>x</code> unchanged.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="recurse_classed">recurse_classed</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="recurse_all">recurse_all</code></td>
 <td>
-<code>TRUE</code> or <code>FALSE</code>,
-indicating if the function should also recurse through classed lists within <code>x</code>,
-like data.frames.
+see [broadcast_casting](aaa02_broadcast_casting.qmd).
 </td></tr>
 </table>
 
@@ -71,23 +69,22 @@ x <- list(
   a = list(list(list(list(1:10)))),
   b = list(1:10)
 )
-print(x)
 
+print(x)
 
 dropnests(x)
 
 
-# recurse_classed demonstration ====
+# recurse_all demonstration ====
 x <- list(
   a = list(list(list(list(1:10)))),
   b = data.frame(month.abb, month.name),
   c = data.frame(month.abb)
 )
 
+dropnests(x) # by default, recurse_all = FALSE
 
-dropnests(x) # by default, recurse_classed = FALSE
-
-dropnests(x, recurse_classed = TRUE)
+dropnests(x, recurse_all = TRUE)
 
 
 # maxdepth demonstration ====
@@ -96,7 +93,6 @@ x <- list(
   b = list(1:10)
 )
 print(x)
-
 
 dropnests(x) # by default, maxdepth = 16
 

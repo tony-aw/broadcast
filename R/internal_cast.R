@@ -109,9 +109,9 @@
 
 #' @keywords internal
 #' @noRd
-.hiercast_depth <- function(x, maxdepth, recurse_classed = FALSE, abortcall) {
+.hiercast_depth <- function(x, maxdepth, recurse_all = FALSE, abortcall) {
   
-  out <- min(.rcpp_depth_range(x, maxdepth, recurse_classed))
+  out <- min(.rcpp_depth_range(x, maxdepth, recurse_all))
   if(out == 1) {
     stop(simpleError(
       "not all elements have valid nested elements",
@@ -125,13 +125,13 @@
 
 #' @keywords internal
 #' @noRd
-.hiercast_dims <- function(x, depth, in2out, recurse_classed, abortcall) {
+.hiercast_dims <- function(x, depth, in2out, recurse_all, abortcall) {
   dims <- integer(depth)
   names(dims) <- rep("", depth)
   dims[1] <- length(x)
   if(depth > 1) {
     for(i in 2:depth) {
-      range <- .rcpp_lenrange_atdepth(x, i - 1L, recurse_classed)
+      range <- .rcpp_lenrange_atdepth(x, i - 1L, recurse_all)
       dims[i] <- range[2L]
       if(range[1L] != range[2L]) {
         names(dims)[i] <- "padding"

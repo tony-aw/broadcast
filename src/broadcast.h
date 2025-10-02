@@ -651,22 +651,22 @@
   if(rcpp_is_lgl(x) && rcpp_is_lgl(y)) {            \
     const int *px = INTEGER_RO(x);                  \
     const int *py = INTEGER_RO(y);                  \
-    MACRO_OP_B_MATH(DIMCODE);              \
+    MACRO_OP_B_MAIN(DIMCODE);              \
   }                                                 \
   else if(rcpp_is_lgl(x) && TYPEOF(y) == RAWSXP) {  \
     const int *px = INTEGER_RO(x);                  \
     const Rbyte *py = RAW_RO(y);                    \
-    MACRO_OP_B_MATH(DIMCODE);              \
+    MACRO_OP_B_MAIN(DIMCODE);              \
   }                                                 \
   else if(TYPEOF(x) == RAWSXP && rcpp_is_lgl(y)) {  \
     const Rbyte *px = RAW_RO(x);                    \
     const int *py = INTEGER_RO(y);                  \
-    MACRO_OP_B_MATH(DIMCODE);              \
+    MACRO_OP_B_MAIN(DIMCODE);              \
   }                                                 \
   else if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) { \
     const Rbyte *px = RAW_RO(x);                    \
     const Rbyte *py = RAW_RO(y);                    \
-    MACRO_OP_B_MATH(DIMCODE);              \
+    MACRO_OP_B_RAW(DIMCODE);              \
   }                                                 \
   else {                                              \
     stop("unsupported combination of types given");	\
@@ -1087,7 +1087,7 @@
 } while(0)
 
 
-#define MACRO_OP_B_MATH(DIMCODE) do {	\
+#define MACRO_OP_B_MAIN(DIMCODE) do {	\
   switch(op) {	\
     case 1:	\
     {	\
@@ -1203,6 +1203,86 @@
           MACRO_ASSIGN_C((bool)px[flatind_x] >= (bool)py[flatind_y])  \
         )                                                       \
       );                                                        \
+      break;	\
+    }	\
+    default:	\
+    {	\
+      stop("given operator not supported in the given context");	\
+    }	\
+  }	\
+} while(0)
+
+
+#define MACRO_OP_B_RAW(DIMCODE) do {	\
+  switch(op) {	\
+    case 1:	\
+    {	\
+      DIMCODE(                      \
+        MACRO_ASSIGN_C((bool)px[flatind_x] && (bool)py[flatind_y])  \
+      );                                                       \
+      break;	\
+    }	\
+    case 2:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ASSIGN_C((bool)px[flatind_x] || (bool)py[flatind_y])  \
+      );                                                        \
+      break;	\
+    }	\
+    case 3:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \
+      );                                                                \
+      break;	\
+    }	\
+    case 4:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ASSIGN_C(!(bool)px[flatind_x] && !(bool)py[flatind_y])  \
+      );                                                        \
+      break;	\
+    }	\
+    case 5:	\
+    {	\
+      DIMCODE(                      \
+        MACRO_ASSIGN_C((bool)px[flatind_x] == (bool)py[flatind_y])  \
+      );                                                   \
+      break;	\
+    }	\
+    case 6:	\
+    {	\
+      DIMCODE(                      \
+        MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \
+      );                                                     \
+      break;	\
+    }	\
+    case 7:	\
+    { \
+      DIMCODE(                      \
+        MACRO_ASSIGN_C((bool)px[flatind_x] < (bool)py[flatind_y])  \
+      );                                                     \
+        break;	\
+    }	\
+    case 8:	\
+    {	\
+      DIMCODE(                      \
+        MACRO_ASSIGN_C((bool)px[flatind_x] > (bool)py[flatind_y])  \
+      );                                                      \
+      break;	\
+    }	\
+    case 9:	\
+    {	\
+      DIMCODE(                      \
+        MACRO_ASSIGN_C((bool)px[flatind_x] <= (bool)py[flatind_y])  \
+      );                                                     \
+      break;	\
+    }	\
+    case 10:	\
+    {	\
+      DIMCODE(                      \
+        MACRO_ASSIGN_C((bool)px[flatind_x] >= (bool)py[flatind_y])  \
+      );                                                    \
       break;	\
     }	\
     default:	\

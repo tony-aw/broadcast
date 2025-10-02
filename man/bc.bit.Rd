@@ -10,7 +10,7 @@ bc.bit(x, y, op, ...)
 \S4method{bc.bit}{ANY}(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable raw or integer (32 bit) vectors or arrays.}
+\item{x, y}{conformable raw or integer (32 bit) vectors/arrays.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported bit-wise operators: &, |, xor, nand, ==, !=, <, >, <=, >=, <<, >>.}

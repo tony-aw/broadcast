@@ -6,7 +6,7 @@
 #' on pairs of arrays, where both arrays are of type `raw` or both arrays are of type `integer`. \cr
 #' \cr
 #' 
-#' @param x,y conformable raw or integer (32 bit) vectors or arrays.
+#' @param x,y conformable raw or integer (32 bit) vectors/arrays.
 #' @param op a single string, giving the operator. \cr
 #' Supported bit-wise operators: `r paste0(broadcast:::.op_bit(), collapse = ", ")`.
 #' @param ... further arguments passed to or from methods. \cr \cr

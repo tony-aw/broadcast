@@ -1,0 +1,414 @@
+---
+title: "List Casting Overview"
+format:
+  html:
+    number-sections: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE, eval=TRUE}
+library(broadcast) |> suppressMessages()
+library(fontawesome) |> suppressWarnings()
+```
+
+# Introduction
+
+Hierarchical data is surprisingly common, and are commonly represented in `r fa("r-project")` by nested lists.
+
+Broadcasted operations can be performed over dimensions, but not through nesting or hierarchies.  
+Therefore, it is useful to be able to cast nested lists into dimensional lists.  
+The 'broadcast' package provides the [cast_hier2dim()](/man/cast_hier2dim.qmd) function, to cast nested lists into dimensional lists, and the [cast_dim2hier()](/man/cast_dim2hier.qmd) to cast dimensional lists back to nested lists.
+
+Casting between nested and dimensional lists is not only useful for broadcasting, however.  
+Casting nested lists to dimensional lists has its own merits, as dimensional lists have some advantages over nested lists beside the broadcasting, such as the following:
+
+ - Performing sub-set operations on **multiple** recursive subsets (using the `[[` and `[[<-` operators) requires a (potentially slow) loop, whereas multi-dimensional subsets (using operator forms like `[..., ...]` and `[..., ...]<-`) are vectorized and generally much faster.
+ - Re-organizing dimensions of a recursive array is generally much easier, faster, and more straight-forward than re-organizing hierarchies of a nested list.
+ 
+ 
+This Vignette gives an overview of the functions 'broadcast' provides to cast between nested and dimensional lists.
+
+&nbsp;
+
+
+# Cast Hierarchical List to Dimensional List
+
+## Introduction
+
+The [cast_hier2dim()](/man/cast_hier2dim.qmd) function casts a nested list into a dimensional list.  
+This section gently introduces the properties of this function through a series of examples, where each subsequent example builds on the previous one.  
+Familiarity with nested lists and dimensional lists (i.e. arrays of type `list`) is essential to follow these examples.
+
+&nbsp;
+
+## Example 1: Basics
+
+For a first example, consider the following list:
+
+```{r}
+x <- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+```
+
+
+Before actually casting `x` into a dimensional list, one may want to know what the dimensions will become when casted as a dimensional list;  
+The [hier2dim()](/man/hier2dim.qmd) function shows you that:
+
+```{r}
+hier2dim(x)
+```
+
+It returns the dimensions `c(3, 2, 2)`.  
+
+Let's now cast `x` as a dimensional list:
+
+```{r}
+x2 <- cast_hier2dim(x) # actually cast nested list into dimensional list
+print(x2)
+```
+
+Using the default arguments, element `x[[i]][[j]][[k]]` corresponds to element `x2[k, j, i]` (for all `i`, `j`, and `k`).  
+This can be changed, as will be shown in a later example.
+
+
+As shown in the results above, [cast_hier2dim()](/man/cast_hier2dim.qmd) will obviously not preserve names.  
+It is trivially easy to set the `dimnames` of `x2`, using `hiernames2dimnames` (available from version `0.1.5`):
+
+```{r}
+dimnames(x2) <- hiernames2dimnames(x)
+print(x2)
+```
+
+There, the names are now correct.
+
+As shown above, `r fa("r-project")` will display a dimensional list more compactly than a nested list.  
+Depending on the situation this may be either be desirable or undesirable.  
+
+One can print `x2` less compactly without much effort by flattening it, using the [cast_dim2flat()](/man/cast_dim2flat.qmd) function.  
+We only need to see a portion of the list in detail, so let's look at class1 from group 1 in the flattened form:
+
+```{r}
+cast_dim2flat(x2[, 1, "group1", drop = FALSE])
+```
+
+
+Dimensional lists can be easier to work with than hierarchical lists.  
+Consider, for example, printing the height of the first class of every group in a list - let's compare how to do this in a nested list vs a dimensional list:
+
+```{r}
+
+# nested list:
+for(i in seq_along(x)) {
+  print(names(x)[i])
+  x[[i]][[1]][["height"]] |> print() # slow for-loop, messy code
+}
+
+# dimensional list:
+x2["height", 1L, ] |> print() # fast vectorized operator, sleek code
+x2["height", 1L, , drop = FALSE] |> cast_dim2flat() # same but more informative
+
+```
+
+It is also easier to re-arrange dimensions - for example using `aperm()` - than it is to re-arrange hierarchies.
+
+&nbsp;
+
+## Example 2: Cast from outside to inside
+
+
+In Example 1, the default arguments were used for [cast_hier2dim()](/man/cast_hier2dim.qmd).  
+One of these arguments is `in2out`, which defaults to `TRUE`.
+
+Consider a nested list `x` with a depth of 3, and a dimensional list `X2` with 3 dimensions, where the relationship between `x` and `x2` can be expressed as `x2 <- cast_hier2dim(x, ...)`.  
+Given this, the following can be stated about `in2out`:
+
+ - If `in2out = TRUE`, which is the default and used in Example 1, element `x[[i]][[j]][[k]]` corresponds to element `x2[k, j, i]` (for all `i`, `j`, and `k`).  
+ - If `in2out = FALSE`, element `x[[i]][[j]][[k]]` corresponds to element `x2[i, j, k]` (for all `i`, `j`, and `k`).  
+
+The default of `in2out = TRUE` was chosen, because elements in subsequent rows are close to each other, while elements in subsequent layers (third dimension) are generally not close to each other, and the default of `in2out = TRUE` attempts to retain that behaviour.
+
+For this example, the same list will be used as in Example 1:
+
+```{r}
+x <- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+```
+
+
+Let's once again cast this list to a dimensional list, but this time use `in2out = FALSE`:
+
+
+```{r}
+hier2dim(x, in2out = FALSE) # check once again the dimensions
+x2 <- cast_hier2dim(x, in2out = FALSE) # actually cast nested list into dimensional list
+print(x2)
+```
+
+`x2` is the casted list.
+Since `in2out = FALSE`, element `x[[i]][[j]][[k]]` corresponds to element `x2[i, j, k]` (for all `i`, `j`, and `k`).
+
+
+Once again it is trivially easy to set the `dimnames` of `x2`, using `hiernames2dimnames` (available from version `0.1.5`):
+
+```{r}
+# this time, in2out = FALSE
+# so we go from the surface names to the deepest names
+dimnames(x2) <- hiernames2dimnames(x, in2out = FALSE)
+print(x2)
+```
+
+There, the names are now correct.
+
+One can print `x2` less compactly without much effort by flattening it, again using the [cast_dim2flat()](/man/cast_dim2flat.qmd) function.  
+We only need to see a portion of the list in detail, so let's look at class1 from group 1 in the flattened form:
+
+```{r}
+cast_dim2flat(x2["group1", 1, , drop = FALSE])
+```
+
+&nbsp;
+
+
+
+## Example 3: Padding
+
+For Example 3, we take the same list as before, but remove `x$group1$class2`:
+
+```{r}
+x <- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+
+```
+
+Let's first check what dimensions it will get when casted using [hier2dim()](/man/hier2dim.qmd):
+
+```{r}
+hier2dim(x)
+```
+
+The dimensions are the same as in Example 1: `c(3, 2, 2)`.  
+But notice the **names** of the output are different: the second element has the name "padding"; this indicates that some columns won't have enough elements to completely fill the column, and so additional elements will be added as padding.
+
+So let's cast this list as dimensional:
+
+```{r}
+x2 <- cast_hier2dim(x)
+print(x2)
+```
+
+Subset `x2[, 2, 1]` is filled with `NULL`; this is the place where `x$group1$class2` was in Example 1, but since it's not there, we need to fill **something**.
+
+To make it make obvious, let's give the array proper `dimnames`:
+
+```{r}
+dimnames(x2) <- hiernames2dimnames(x)
+print(x2)
+```
+
+Again, element "class2" is missing from element "group1", but not from "group2", and so padded with `NULL` when the list is casted as dimensional.
+
+Sometimes, a different value than `NULL` is desired for padding.  
+So let's replace the padding value with something **really** obvious, using the `padding` argument:
+
+```{r}
+x2 <- cast_hier2dim(x, padding = list(~ "this is padding!"))
+dimnames(x2) <- hiernames2dimnames(x)
+print(x2)
+```
+
+Once again, one can print or present `x2` less compactly by flattening it:
+
+```{r}
+cast_dim2flat(x2)
+```
+
+&nbsp;
+
+## Example 4: Comparing `in2out` with padding
+
+In this example, the same nested list as from the previous example is used, to demonstrate the difference between `in2out = TRUE` (which is the default), and `in2out = FALSE`.
+
+Consider first the original list again:
+
+```{r}
+
+x <- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+```
+
+
+
+On the left side the list is casted as dimensional using the default of `in2out = TRUE`, with proper names assigned.  
+On the right side the list is casted as dimensional using `in2out = FALSE`, again with proper names assigned.
+
+:::{layout-ncol="2"}
+
+```{r}
+x2 <- cast_hier2dim(x)
+dimnames(x2) <- hiernames2dimnames(x)
+print(x2)
+
+```
+
+```{r}
+x2 <- cast_hier2dim(x, in2out = FALSE)
+dimnames(x2) <- hiernames2dimnames(x, in2out = FALSE)
+print(x2)
+```
+
+:::
+
+
+&nbsp;
+
+# Cast Dimensional List to Hierarchical list
+
+'broadcast' provides the [cast_dim2hier()](/man/cast_dim2hier.qmd):  
+[cast_dim2hier()](/man/cast_dim2hier.qmd) takes a dimensional list (i.e. an array of type `list`), and casts it to a nested list.
+
+Consider the following recursive array as an example:
+
+```{r}
+
+x <- array(c(as.list(1:11), ~hello, as.list(month.abb)), c(4:2))
+dimnames(x) <- list(
+  letters[1:4],
+  LETTERS[1:3],
+  c("group1", "group2")
+)
+print(x)
+
+```
+
+
+Like [cast_hier2dim()](/man/cast_hier2dim.qmd), [cast_dim2hier()](/man/cast_dim2hier.qmd) also has the `in2out` argument, which (again) defaults to `TRUE`.  
+Let's cast the above dimensional list to a nested list, and compare the results when using `in2out = TRUE` (on the left) versus `in2out = FALSE` (on the right):
+
+
+:::{layout-ncol="2"}
+
+```{r}
+
+x2 <- cast_dim2hier(
+  x, distr.names = TRUE
+)
+lobstr::tree(x2)
+           
+```
+
+
+```{r}
+
+x2 <- cast_dim2hier(
+  x, in2out = FALSE, distr.names = TRUE
+)
+lobstr::tree(x2)
+           
+```
+
+:::
+
+
+The added `distr.names = TRUE` argument will distribute the `dimnames` in a logical way over the nested elements.
+
+
+&nbsp;
+
+&nbsp;
+

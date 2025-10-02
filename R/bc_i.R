@@ -11,7 +11,7 @@
 #' \cr
 #' For regular relational operators, see \link{bc.rel}. \cr \cr
 #' 
-#' @param x,y conformable logical or numeric arrays.
+#' @param x,y conformable vectors/arrays of type logical or numeric.
 #' @param op a single string, giving the operator. \cr
 #' Supported arithmetic operators: `r paste0(broadcast:::.op_int_math(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_int_rel(), collapse = ", ")`. \cr

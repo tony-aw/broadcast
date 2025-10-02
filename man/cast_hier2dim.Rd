@@ -2,25 +2,19 @@
 % Please edit documentation in R/cast_hier2dim.R
 \name{cast_hier2dim}
 \alias{cast_hier2dim}
-\alias{hier2dim}
 \alias{cast_hier2dim.default}
-\alias{hier2dim.default}
 \title{Cast Hierarchical List into Dimensional list}
 \usage{
 cast_hier2dim(x, ...)
-
-hier2dim(x, ...)
 
 \method{cast_hier2dim}{default}(
   x,
   in2out = TRUE,
   maxdepth = 16L,
-  recurse_classed = FALSE,
+  recurse_all = FALSE,
   padding = list(NULL),
   ...
 )
-
-\method{hier2dim}{default}(x, in2out = TRUE, maxdepth = 16L, recurse_classed = FALSE, ...)
 }
 \arguments{
 \item{x}{a nested list. \cr
@@ -29,15 +23,11 @@ it is advisable (though not necessary) to reduce the redundant nesting using \li
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 
-\item{in2out}{see \link{broadcast_casting}.}
+\item{in2out, recurse_all}{see \link{broadcast_casting}.}
 
 \item{maxdepth}{a single, positive integer,
 giving the maximum depth to recurse into the list. \cr
 The surface-level elements of a list is depth 1. \cr}
-
-\item{recurse_classed}{\code{TRUE} or \code{FALSE},
-indicating if the function should also recurse through classed lists within \code{x},
-like data.frames.}
 
 \item{padding}{a list of length \code{1},
 giving the padding value to use when padding is required. \cr
@@ -46,28 +36,21 @@ have equal number of elements
 (for example, all rows must have the same number of columns).}
 }
 \value{
-For \code{hier2dim()}: \cr
-An integer vector,
-giving the dimensions \code{x} would have,
-if casted by \code{cast_hier2dim()}. \cr
-The names of the output indicates if padding is required (name "padding"),
-or no padding is required (no name) for that dimension; \cr
-Padding will be required if not all list-elements at a certain depth have the same length. \cr
-\cr
-For \code{cast_hier2dim()}: \cr
-An array of type \code{list}, with the dimensions given by \code{hier2dim()}. \cr
-If the output needs padding (indicated by \code{hier2dim()}),
+An array of type \code{list}, with the dimensions given by \link{hier2dim}. \cr
+If the output needs padding (indicated by \link{hier2dim}),
 the output will have more elements than \code{x},
 filled with a padding value (as specified in the \code{padding} argument). \cr
+\cr
+The array will not have \code{dimnames}; use \code{hiernames2dimnames} to find appropriate \code{dimnames}. \cr
 \cr
 }
 \description{
 \code{cast_hier2dim()} casts a hierarchical/nested list into a dimensional list
 (i.e. an array of type \code{list}). \cr
-\code{hier2dim()} takes a hierarchical/nested list,
-and predicts what dimensions the list would have,
-if casted by the \code{cast_hier2dim()} function. \cr
 \cr
+This method comes with 2 helper functions: \cr
+\link{hier2dim} and \link{hiernames2dimnames} methods. \cr
+See their help page for details. \cr \cr
 }
 \examples{
 
@@ -107,16 +90,9 @@ x2 <- cast_hier2dim(x) # cast as dimensional
 
 # since the original list uses the same names for all elements within the same depth,
 # dimnames can be set easily:
-dimnames(x2) <- list( # go from deep names to surface names
-  c("height", "weight", "sex"),
-  c("class1", "class2"),
-  c("group1", "group2")
-)
+dimnames(x2) <- hiernames2dimnames(x)
 
-print(x2) # very compact, maybe too compact...?
-
-# print a small portion of the list, but less compact:
-cast_dim2flat(x2[, 1:2, "group1", drop = FALSE])
+print(x2)
 
 
 # Example 2: Cast from outside to inside ====
@@ -158,16 +134,9 @@ x2 <- cast_hier2dim(x, in2out = FALSE) # cast as dimensional
 # since the original list uses the same names for all elements within the same depth,
 # dimnames can be set easily:
 # because in2out = FALSE, go from the shallow names to the deeper names:
-dimnames(x2) <- list( # notice the order here is reversed, because in2out = FALSE
-  c("group1", "group2"),
-  c("class1", "class2"),
-  c("height", "weight", "sex")
-)
+dimnames(x2) <- hiernames2dimnames(x, in2out = FALSE)
 
-print(x2) # very compact, maybe too compact...?
-
-# print a small portion of the list, but less compact:
-cast_dim2flat(x2["group1", 1:2, , drop = FALSE])
+print(x2)
 
 
 
@@ -211,29 +180,18 @@ print(x2)
 x2 <- cast_hier2dim(x, padding = list(~ "this is padding"))
 print(x2)
 
-dimnames(x2) <- list(
-  c("height", "weight", "sex"),
-  c("class1", "class2"),
-  c("group1", "group2")
-)
+dimnames(x2) <- hiernames2dimnames(x)
 
 print(x2)
 
-cast_dim2flat(x2[1:2, , , drop = FALSE])
 
 # we can also use in2out = FALSE:
 x2 <- cast_hier2dim(x, in2out = FALSE, padding = list(~ "this is padding"))
-dimnames(x2) <- list( # notice the order here is reversed, because in2out = FALSE
-  c("group1", "group2"),
-  c("class1", "class2"),
-  c("height", "weight", "sex")
-  
-)
+dimnames(x2) <- hiernames2dimnames(x, in2out = FALSE)
 print(x2)
 
-cast_dim2flat(x2[, , 1:2, drop = FALSE])
 
 }
 \seealso{
-\link{broadcast_casting} \cr
+\link{broadcast_casting}, \link{hier2dim}, \link{hiernames2dimnames} \cr
 }

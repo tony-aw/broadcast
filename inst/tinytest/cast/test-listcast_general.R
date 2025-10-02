@@ -162,6 +162,9 @@ expect_silent(
   hier2dim(x)
 )
 expect_silent(
+  hiernames2dimnames(x)
+)
+expect_silent(
   cast_hier2dim(x)
 )
 

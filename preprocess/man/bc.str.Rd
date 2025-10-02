@@ -10,7 +10,7 @@ bc.str(x, y, op, ...)
 \S4method{bc.str}{ANY}(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable atomic arrays of type \code{character}.}
+\item{x, y}{conformable vectors/arrays of type \code{character}.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported concatenation operators: +. \cr

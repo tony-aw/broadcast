@@ -57,6 +57,30 @@ An array. \cr  \cr
 \code{bind_array()} binds (atomic/recursive) arrays and (atomic/recursive) matrices. \cr
 Allows for broadcasting. \cr \cr
 }
+\details{
+The API of \code{bind_array()} is inspired by the fantastic
+\code{abind::abind()} function
+by Tony Plare & Richard Heiberger (2016). \cr
+But \code{bind_array()} differs considerably from \code{abind::abind}
+in the following ways:
+\itemize{
+\item \code{bind_array()} allows for broadcasting,
+while \code{abind::abind} does not support broadcasting.
+\item \code{bind_array()} is generally faster and more memory-efficient than \code{abind::abind},
+as \code{bind_array()} relies heavily on 'C' and 'C++' code.
+\item \code{bind_array()} differs from \code{abind::abind}
+in that it can handle recursive arrays properly \cr
+(the \code{abind::abind} function would unlist everything to atomic arrays,
+ruining the structure).
+\item unlike \code{abind::abind},
+\code{bind_array()} only binds (atomic/recursive) arrays and matrices. \cr
+\code{bind_array()}does not attempt to convert things to arrays when they are not arrays,
+but will give an error instead. \cr
+This saves computation time and prevents unexpected results.
+\item \code{bind_array()} has more streamlined naming options,
+compared to \code{abind::abind}. \cr
+}
+}
 \examples{
 
 # Simple example ====
@@ -139,4 +163,7 @@ names(input) <- c("", NA, "")
 bind_array(input, 2L)
 
 
+}
+\references{
+Plate T, Heiberger R (2016). \emph{abind: Combine Multidimensional Arrays}. R package version 1.4-5, \url{https://CRAN.R-project.org/package=abind}.
 }

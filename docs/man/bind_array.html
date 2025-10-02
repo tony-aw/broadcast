@@ -277,6 +277,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/hier2dim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">hier2dim</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/cast_dim2hier.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">cast_dim2hier</span></a>
   </div>
@@ -363,7 +369,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description">Description</a></li>
   <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
+  <li><a href="#details" id="toc-details" class="nav-link" data-scroll-target="#details">Details</a></li>
   <li><a href="#value" id="toc-value" class="nav-link" data-scroll-target="#value">Value</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul></li>
   </ul>
@@ -462,9 +470,34 @@ either an integer scalar or <code>NULL</code>. <br> Indicates which object in <c
 
 </tbody></table>
 </section>
+<section id="details" class="level3">
+<h3 class="anchored" data-anchor-id="details">Details</h3>
+<p>The API of <code>bind_array()</code> is inspired by the fantastic <code>abind::abind()</code> function by Tony Plare &amp; Richard Heiberger (2016). <br> But <code>bind_array()</code> differs considerably from <code>abind::abind</code> in the following ways:</p>
+<ul>
+<li>
+<p><code>bind_array()</code> allows for broadcasting, while <code>abind::abind</code> does not support broadcasting.</p>
+</li>
+<li>
+<p><code>bind_array()</code> is generally faster and more memory-efficient than <code>abind::abind</code>, as <code>bind_array()</code> relies heavily on ‘C’ and ‘C++’ code.</p>
+</li>
+<li>
+<p><code>bind_array()</code> differs from <code>abind::abind</code> in that it can handle recursive arrays properly <br> (the <code>abind::abind</code> function would unlist everything to atomic arrays, ruining the structure).</p>
+</li>
+<li>
+<p>unlike <code>abind::abind</code>, <code>bind_array()</code> only binds (atomic/recursive) arrays and matrices. <br> <code>bind_array()</code>does not attempt to convert things to arrays when they are not arrays, but will give an error instead. <br> This saves computation time and prevents unexpected results.</p>
+</li>
+<li>
+<p><code>bind_array()</code> has more streamlined naming options, compared to <code>abind::abind</code>. <br></p>
+</li>
+</ul>
+</section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
 <p>An array. <br> <br></p>
+</section>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<p>Plate T, Heiberger R (2016). <em>abind: Combine Multidimensional Arrays</em>. R package version 1.4-5, <a href="https://CRAN.R-project.org/package=abind">https://CRAN.R-project.org/package=abind</a>.</p>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>

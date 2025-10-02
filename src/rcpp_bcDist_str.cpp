@@ -7,12 +7,7 @@ using namespace Rcpp;
 
 
 
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(rcpp_str_dist_led)]]
-int rcpp_str_dist_led(String x, String y) {
+inline int rcpp_str_dist_led(String x, String y) {
   
   if(x == NA_STRING || y == NA_STRING) {
      return NA_INTEGER;
@@ -22,10 +17,10 @@ int rcpp_str_dist_led(String x, String y) {
   std::string s2 = y;
   
   // Number of elements
-  int n = s1.size();
-  int m = s2.size();
-  int nrow = n + 1;
-  int ncol = m + 1;
+  const int n = s1.size();
+  const int m = s2.size();
+  const int nrow = n + 1;
+  const int ncol = m + 1;
   std::vector<int> d(nrow * ncol, 0);
 
   if (n == 0){
@@ -70,6 +65,7 @@ int rcpp_str_dist_led(String x, String y) {
 
   return d[n + nrow * m];
 }
+
 
 
 

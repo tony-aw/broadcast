@@ -48,10 +48,7 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 txt0 <- "
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(rcpp_str_dist_led)]]
-int rcpp_str_dist_led(String x, String y) {
+inlinee int rcpp_str_dist_led(String x, String y) {
   
   if(x == NA_STRING || y == NA_STRING) {
      return NA_INTEGER;

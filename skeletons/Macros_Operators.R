@@ -467,8 +467,8 @@ macro_op_int_rel <- "
 #
 
 
-macro_op_bool_math <- "
-#define MACRO_OP_B_MATH(DIMCODE) do {	\\
+macro_op_bool_main <- "
+#define MACRO_OP_B_MAIN(DIMCODE) do {	\\
   switch(op) {	\\
     case 1:	\\
     {	\\
@@ -584,6 +584,88 @@ macro_op_bool_math <- "
           MACRO_ASSIGN_C((bool)px[flatind_x] >= (bool)py[flatind_y])  \\
         )                                                       \\
       );                                                        \\
+      break;	\\
+    }	\\
+    default:	\\
+    {	\\
+      stop(\"given operator not supported in the given context\");	\\
+    }	\\
+  }	\\
+} while(0)
+"
+
+
+macro_op_bool_raw <- "
+#define MACRO_OP_B_RAW(DIMCODE) do {	\\
+  switch(op) {	\\
+    case 1:	\\
+    {	\\
+      DIMCODE(                      \\
+        MACRO_ASSIGN_C((bool)px[flatind_x] && (bool)py[flatind_y])  \\
+      );                                                       \\
+      break;	\\
+    }	\\
+    case 2:	\\
+    {	\\
+      DIMCODE(                                                          \\\
+        MACRO_ASSIGN_C((bool)px[flatind_x] || (bool)py[flatind_y])  \\
+      );                                                        \\
+      break;	\\
+    }	\\
+    case 3:	\\
+    {	\\
+      DIMCODE(                                                          \\\
+        MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 4:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        MACRO_ASSIGN_C(!(bool)px[flatind_x] && !(bool)py[flatind_y])  \\
+      );                                                        \\
+      break;	\\
+    }	\\
+    case 5:	\\
+    {	\\
+      DIMCODE(                      \\
+        MACRO_ASSIGN_C((bool)px[flatind_x] == (bool)py[flatind_y])  \\
+      );                                                   \\
+      break;	\\
+    }	\\
+    case 6:	\\
+    {	\\
+      DIMCODE(                      \\
+        MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \\
+      );                                                     \\
+      break;	\\
+    }	\\
+    case 7:	\\
+    { \\
+      DIMCODE(                      \\
+        MACRO_ASSIGN_C((bool)px[flatind_x] < (bool)py[flatind_y])  \\
+      );                                                     \\
+        break;	\\
+    }	\\
+    case 8:	\\
+    {	\\
+      DIMCODE(                      \\
+        MACRO_ASSIGN_C((bool)px[flatind_x] > (bool)py[flatind_y])  \\
+      );                                                      \\
+      break;	\\
+    }	\\
+    case 9:	\\
+    {	\\
+      DIMCODE(                      \\
+        MACRO_ASSIGN_C((bool)px[flatind_x] <= (bool)py[flatind_y])  \\
+      );                                                     \\
+      break;	\\
+    }	\\
+    case 10:	\\
+    {	\\
+      DIMCODE(                      \\
+        MACRO_ASSIGN_C((bool)px[flatind_x] >= (bool)py[flatind_y])  \\
+      );                                                    \\
       break;	\\
     }	\\
     default:	\\
@@ -1483,7 +1565,9 @@ macro_op <- stri_c(
   "\n",
   macro_op_int_rel,
   "\n",
-  macro_op_bool_math,
+  macro_op_bool_main,
+  "\n",
+  macro_op_bool_raw,
   "\n",
   macro_op_cplx_math,
   "\n",

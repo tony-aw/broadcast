@@ -22,10 +22,10 @@ function processMathHTML() {
 
 <p><code>cast_hier2dim()</code> casts a hierarchical/nested list into a dimensional list
 (i.e. an array of type <code>list</code>). <br />
-<code>hier2dim()</code> takes a hierarchical/nested list,
-and predicts what dimensions the list would have,
-if casted by the <code>cast_hier2dim()</code> function. <br />
 <br />
+This method comes with 2 helper functions: <br />
+<code>[hier2dim](hier2dim.qmd)</code> and <code>[hiernames2dimnames](hier2dim.qmd)</code> methods. <br />
+See their help page for details. <br /> <br />
 </p>
 
 
@@ -33,20 +33,15 @@ if casted by the <code>cast_hier2dim()</code> function. <br />
 
 <pre><code class='language-R'>cast_hier2dim(x, ...)
 
-hier2dim(x, ...)
-
 ## Default S3 method:
 cast_hier2dim(
   x,
   in2out = TRUE,
   maxdepth = 16L,
-  recurse_classed = FALSE,
+  recurse_all = FALSE,
   padding = list(NULL),
   ...
 )
-
-## Default S3 method:
-hier2dim(x, in2out = TRUE, maxdepth = 16L, recurse_classed = FALSE, ...)
 </code></pre>
 
 
@@ -63,7 +58,7 @@ it is advisable (though not necessary) to reduce the redundant nesting using <co
 <td>
 <p>further arguments passed to or from methods. <br /> <br /></p>
 </td></tr>
-<tr><td><code id="in2out">in2out</code></td>
+<tr><td><code id="in2out">in2out</code>, <code id="recurse_all">recurse_all</code></td>
 <td>
 <p>see <code>[broadcast_casting](aaa02_broadcast_casting.qmd)</code>.</p>
 </td></tr>
@@ -72,12 +67,6 @@ it is advisable (though not necessary) to reduce the redundant nesting using <co
 <p>a single, positive integer,
 giving the maximum depth to recurse into the list. <br />
 The surface-level elements of a list is depth 1. <br /></p>
-</td></tr>
-<tr><td><code id="recurse_classed">recurse_classed</code></td>
-<td>
-<p><code>TRUE</code> or <code>FALSE</code>,
-indicating if the function should also recurse through classed lists within <code>x</code>,
-like data.frames.</p>
 </td></tr>
 <tr><td><code id="padding">padding</code></td>
 <td>
@@ -92,26 +81,19 @@ have equal number of elements
 
 <h3>Value</h3>
 
-<p>For <code>hier2dim()</code>: <br />
-An integer vector,
-giving the dimensions <code>x</code> would have,
-if casted by <code>cast_hier2dim()</code>. <br />
-The names of the output indicates if padding is required (name &quot;padding&quot;),
-or no padding is required (no name) for that dimension; <br />
-Padding will be required if not all list-elements at a certain depth have the same length. <br />
-<br />
-For <code>cast_hier2dim()</code>: <br />
-An array of type <code>list</code>, with the dimensions given by <code>hier2dim()</code>. <br />
-If the output needs padding (indicated by <code>hier2dim()</code>),
+<p>An array of type <code>list</code>, with the dimensions given by <code>[hier2dim](hier2dim.qmd)</code>. <br />
+If the output needs padding (indicated by <code>[hier2dim](hier2dim.qmd)</code>),
 the output will have more elements than <code>x</code>,
 filled with a padding value (as specified in the <code>padding</code> argument). <br />
+<br />
+The array will not have <code>dimnames</code>; use <code>hiernames2dimnames</code> to find appropriate <code>dimnames</code>. <br />
 <br />
 </p>
 
 
 <h3>See Also</h3>
 
-<p><code>[broadcast_casting](aaa02_broadcast_casting.qmd)</code> <br />
+<p><code>[broadcast_casting](aaa02_broadcast_casting.qmd)</code>, <code>[hier2dim](hier2dim.qmd)</code>, <code>[hiernames2dimnames](hier2dim.qmd)</code> <br />
 </p>
 
 
@@ -154,16 +136,9 @@ x2 &lt;- cast_hier2dim(x) # cast as dimensional
 
 # since the original list uses the same names for all elements within the same depth,
 # dimnames can be set easily:
-dimnames(x2) &lt;- list( # go from deep names to surface names
-  c("height", "weight", "sex"),
-  c("class1", "class2"),
-  c("group1", "group2")
-)
+dimnames(x2) &lt;- hiernames2dimnames(x)
 
-print(x2) # very compact, maybe too compact...?
-
-# print a small portion of the list, but less compact:
-cast_dim2flat(x2[, 1:2, "group1", drop = FALSE])
+print(x2)
 
 
 # Example 2: Cast from outside to inside ====
@@ -205,16 +180,9 @@ x2 &lt;- cast_hier2dim(x, in2out = FALSE) # cast as dimensional
 # since the original list uses the same names for all elements within the same depth,
 # dimnames can be set easily:
 # because in2out = FALSE, go from the shallow names to the deeper names:
-dimnames(x2) &lt;- list( # notice the order here is reversed, because in2out = FALSE
-  c("group1", "group2"),
-  c("class1", "class2"),
-  c("height", "weight", "sex")
-)
+dimnames(x2) &lt;- hiernames2dimnames(x, in2out = FALSE)
 
-print(x2) # very compact, maybe too compact...?
-
-# print a small portion of the list, but less compact:
-cast_dim2flat(x2["group1", 1:2, , drop = FALSE])
+print(x2)
 
 
 
@@ -258,27 +226,16 @@ print(x2)
 x2 &lt;- cast_hier2dim(x, padding = list(~ "this is padding"))
 print(x2)
 
-dimnames(x2) &lt;- list(
-  c("height", "weight", "sex"),
-  c("class1", "class2"),
-  c("group1", "group2")
-)
+dimnames(x2) &lt;- hiernames2dimnames(x)
 
 print(x2)
 
-cast_dim2flat(x2[1:2, , , drop = FALSE])
 
 # we can also use in2out = FALSE:
 x2 &lt;- cast_hier2dim(x, in2out = FALSE, padding = list(~ "this is padding"))
-dimnames(x2) &lt;- list( # notice the order here is reversed, because in2out = FALSE
-  c("group1", "group2"),
-  c("class1", "class2"),
-  c("height", "weight", "sex")
-  
-)
+dimnames(x2) &lt;- hiernames2dimnames(x, in2out = FALSE)
 print(x2)
 
-cast_dim2flat(x2[, , 1:2, drop = FALSE])
 
 </code></pre>
 

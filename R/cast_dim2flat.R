@@ -24,7 +24,7 @@
 #' 
 #'
 #' @seealso \link{broadcast_casting} \cr
-#' @example inst/examples/cast_hier2dim.R
+#' @example inst/examples/cast_dim2flat.R
 #' 
 #'
 #'
@@ -39,6 +39,7 @@ cast_dim2flat <- function(x, ...) {
 #' @export
 cast_dim2flat.default <- function(x, ...) {
   
+  .ellipsis(list(...), sys.call())
   .hiercast_check_dims(x, sys.call())
   
   x.dimnames <- dimnames(x)

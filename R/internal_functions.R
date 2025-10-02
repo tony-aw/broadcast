@@ -67,3 +67,11 @@
   if(is.na(x)) return(FALSE)
   return(TRUE)
 }
+
+#' @keywords internal
+#' @noRd
+.ellipsis <- function(ellipsis, abortcall) {
+  if(length(ellipsis)) {
+    stop(simpleError("unkown arguments given", call = abortcall))
+  }
+}

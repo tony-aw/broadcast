@@ -10,7 +10,7 @@ bc.raw(x, y, op, ...)
 \S4method{bc.raw}{ANY}(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable raw vectors or arrays.}
+\item{x, y}{conformable vectors/arrays of type raw.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported operators: ==, !=, <, >, <=, >=, pmin, pmax, diff. \cr

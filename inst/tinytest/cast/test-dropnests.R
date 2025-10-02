@@ -64,19 +64,31 @@ expect_equal(
   list(NULL)
 )
 
-x <- list(list(list(list(data.frame(letters, LETTERS)))))
+x <- list(list(list(list(data.frame(LETTERS)))))
 expect_equal(
   dropnests(x),
-  list(data.frame(letters, LETTERS))
+  list(data.frame(LETTERS))
 )
 
 x <- list(list(list(list(data.frame(letters)))))
 expect_equal(
-  dropnests(x, recurse_classed = TRUE),
+  dropnests(x, recurse_all = TRUE),
   list(letters)
 )
 
-enumerate <- enumerate + 3L
+x <- list(list(list(list(array(list(LETTERS))))))
+expect_equal(
+  dropnests(x),
+  list(array(list(LETTERS)))
+)
+
+x <- list(list(list(list(array(list(letters))))))
+expect_equal(
+  dropnests(x, recurse_all = TRUE),
+  list(letters)
+)
+
+enumerate <- enumerate + 5L
 
 
 # recursive vector ====
@@ -119,7 +131,7 @@ names(expected) <- names(x)
 attr(expected, "test") <- "test"
 
 expect_equal(
-  dropnests(x, recurse_classed = TRUE),
+  dropnests(x, recurse_all = TRUE),
   expected
 )
 
@@ -168,7 +180,7 @@ dim(expected) <- dim(x)
 dimnames(expected) <- dimnames(x)
 attr(expected, "test") <- "test"
 expect_equal(
-  dropnests(x, recurse_classed = TRUE),
+  dropnests(x, recurse_all = TRUE),
   expected
 )
 
@@ -234,16 +246,16 @@ expect_error(
   pattern = "`maxdepth` must be a single integer >= 1"
 )
 expect_error(
-  dropnests(as.list(1:10), recurse_classed = NA),
-  pattern = "`recurse_classed` must be `TRUE` or `FALSE`"
+  dropnests(as.list(1:10), recurse_all = NA),
+  pattern = "`recurse_all` must be `TRUE` or `FALSE`"
 )
 expect_error(
-  dropnests(as.list(1:10), recurse_classed = c(TRUE, FALSE)),
-  pattern = "`recurse_classed` must be `TRUE` or `FALSE`"
+  dropnests(as.list(1:10), recurse_all = c(TRUE, FALSE)),
+  pattern = "`recurse_all` must be `TRUE` or `FALSE`"
 )
 expect_error(
   dropnests(data.frame(letters, LETTERS)),
-  pattern = "if `recurse_classed` is `FALSE`, `x` cannot be a classed list"
+  pattern = "if `recurse_all` is `FALSE`, `x` cannot be a classed list"
 )
 enumerate <- enumerate + 6L
 

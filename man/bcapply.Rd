@@ -10,7 +10,7 @@ bcapply(x, y, f, ...)
 \S4method{bcapply}{ANY}(x, y, f, v = NULL)
 }
 \arguments{
-\item{x, y}{conformable atomic or recursive arrays.}
+\item{x, y}{conformable atomic or recursive vectors/arrays.}
 
 \item{f}{a function that takes in exactly \bold{2} arguments,
 and \bold{returns} a result

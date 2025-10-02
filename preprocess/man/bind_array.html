@@ -92,9 +92,53 @@ Using <code>comnames_from = 10</code> will then result in <code>bind_array()</co
 </table>
 
 
+<h3>Details</h3>
+
+<p>The API of <code>bind_array()</code> is inspired by the fantastic
+<code>abind::abind()</code> function
+by Tony Plare &amp; Richard Heiberger (2016). <br />
+But <code>bind_array()</code> differs considerably from <code>abind::abind</code>
+in the following ways:
+</p>
+
+<ul>
+<li> <p><code>bind_array()</code> allows for broadcasting,
+while <code>abind::abind</code> does not support broadcasting.
+</p>
+</li>
+<li> <p><code>bind_array()</code> is generally faster and more memory-efficient than <code>abind::abind</code>,
+as <code>bind_array()</code> relies heavily on 'C' and 'C++' code.
+</p>
+</li>
+<li> <p><code>bind_array()</code> differs from <code>abind::abind</code>
+in that it can handle recursive arrays properly <br />
+(the <code>abind::abind</code> function would unlist everything to atomic arrays,
+ruining the structure).
+</p>
+</li>
+<li><p> unlike <code>abind::abind</code>,
+<code>bind_array()</code> only binds (atomic/recursive) arrays and matrices. <br />
+<code>bind_array()</code>does not attempt to convert things to arrays when they are not arrays,
+but will give an error instead. <br />
+This saves computation time and prevents unexpected results.
+</p>
+</li>
+<li> <p><code>bind_array()</code> has more streamlined naming options,
+compared to <code>abind::abind</code>. <br />
+</p>
+</li></ul>
+
+
+
 <h3>Value</h3>
 
 <p>An array. <br />  <br />
+</p>
+
+
+<h3>References</h3>
+
+<p>Plate T, Heiberger R (2016). <em>abind: Combine Multidimensional Arrays</em>. R package version 1.4-5, <a href="https://CRAN.R-project.org/package=abind">https://CRAN.R-project.org/package=abind</a>.
 </p>
 
 

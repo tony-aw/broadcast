@@ -175,12 +175,12 @@ expect_equal(
 
 expect_equal(
   basefun3(y),
-  cast_hier2dim(y, recurse_classed = TRUE)
+  cast_hier2dim(y, recurse_all = TRUE)
 )
 
 expect_equal(
   basefun3(y, FALSE),
-  cast_hier2dim(y, FALSE, recurse_classed = TRUE)
+  cast_hier2dim(y, FALSE, recurse_all = TRUE)
 )
 enumerate <- enumerate + 6L
 
@@ -218,6 +218,10 @@ expect_error(
   pattern = "not all surface elements have valid nested elements"
 )
 expect_error(
+  cast_hier2dim(c(x, array(list(letters, LETTERS)))),
+  pattern = "not all surface elements have valid nested elements"
+)
+expect_error(
   cast_hier2dim(rep(list(NULL), 10)),
   pattern = "not all surface elements have valid nested elements"
 )
@@ -234,8 +238,8 @@ expect_error(
   pattern = "`in2out` must be `TRUE` or `FALSE`"
 )
 expect_error(
-  cast_hier2dim(x, recurse_classed = NA),
-  pattern = "`recurse_classed` must be `TRUE` or `FALSE`"
+  cast_hier2dim(x, recurse_all = NA),
+  pattern = "`recurse_all` must be `TRUE` or `FALSE`"
 )
 expect_error(
   hier2dim(matrix(as.list(1:10))),
@@ -256,5 +260,5 @@ expect_error(
 )
 
 
-enumerate <- enumerate + 10L
+enumerate <- enumerate + 11L
 

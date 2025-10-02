@@ -10,7 +10,7 @@ bc.b(x, y, op, ...)
 \S4method{bc.b}{ANY}(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable arrays of type \code{logical}, \code{numeric}, or \code{raw}.}
+\item{x, y}{conformable vectors/arrays of type \code{logical}, \code{numeric}, or \code{raw}.}
 
 \item{op}{a single string, giving the operator. \cr
 Supported Boolean  operators: &, |, xor, nand, ==, !=, <, >, <=, >=.}
@@ -18,7 +18,12 @@ Supported Boolean  operators: &, |, xor, nand, ==, !=, <, >, <=, >=.}
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
-A logical array as a result of the broadcasted Boolean operation. \cr \cr
+Normally; \cr
+A logical array/vector as a result of the broadcasted Boolean operation. \cr
+\cr
+If both \code{x} and \code{y} are type of raw: \cr
+A raw array/vector as a result of the broadcasted Boolean operation,
+where \code{01} codes for \code{TRUE} and \code{00} codes for \code{FALSE}. \cr \cr
 }
 \description{
 The \code{bc.b()} function

@@ -70,11 +70,6 @@ for(i in lst.files) {
 # Process Vignettes, Index page ====
 #
 
-# copy & render intro template ====
-from <- "intro_template.qmd"
-to <- file.path("website", "vignettes", "a_readme.qmd")
-file.copy(from, to, overwrite = TRUE)
-
 
 # clear any present links in vignettes ====
 funs <- getNamespaceExports("broadcast")
@@ -104,11 +99,6 @@ for(i in lst.files) {
   )
   writeLines(temp, file.path("website", "vignettes", i))
 }
-
-# copy readme vignette to index page ====
-from <- file.path("website", "vignettes", "a_readme.qmd")
-to <- file.path("website", "index.qmd")
-file.copy(from, to, overwrite = TRUE)
 
 
 

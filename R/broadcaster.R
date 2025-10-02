@@ -31,7 +31,8 @@
 #' or removes (if right hand side is `FALSE`)
 #' the "broadcaster" class attribute. \cr \cr
 #'
-#'
+#' @seealso \link{broadcast_operators} \cr
+#' 
 #' @example inst/examples/broadcaster.R
 #' 
 

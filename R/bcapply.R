@@ -4,7 +4,7 @@
 #' The `bcapply()` function
 #' applies a function to 2 arrays element-wise with broadcasting. \cr
 #' 
-#' @param x,y conformable atomic or recursive arrays.
+#' @param x,y conformable atomic or recursive vectors/arrays.
 #' @param f a function that takes in exactly \bold{2} arguments,
 #' and \bold{returns} a result
 #' that can be stored in a single element of a recursive or atomic array.

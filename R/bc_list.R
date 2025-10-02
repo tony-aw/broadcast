@@ -3,7 +3,7 @@
 #' @description
 #' The `bc.list()` function performs broadcasted operations on 2 Recursive arrays. \cr
 #' 
-#' @param x,y conformable Recursive arrays (i.e. arrays of type `list`).
+#' @param x,y conformable Recursive vectors/arrays (i.e. vectors/arrays of type `list`).
 #' @param f a function that takes in exactly \bold{2} arguments,
 #' and \bold{returns} a result that can be stored in a single element of a list.
 #' @param ... further arguments passed to or from methods. \cr \cr

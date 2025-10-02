@@ -4,7 +4,7 @@
 #' The `bc.str()` function
 #' performs broadcasted string operations on pairs of arrays. \cr \cr
 #' 
-#' @param x,y conformable atomic arrays of type `character`.
+#' @param x,y conformable vectors/arrays of type `character`.
 #' @param op a single string, giving the operator. \cr
 #' Supported concatenation operators: `r paste0(broadcast:::.op_str_conc(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_str_rel(), collapse = ", ")`. \cr

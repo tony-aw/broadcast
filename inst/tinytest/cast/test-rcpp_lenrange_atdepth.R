@@ -80,7 +80,7 @@ expect_equal(
   c(1L, 10L)
 )
 expect_equal(
-  .rcpp_lenrange_atdepth(x, 2L, recurse_classed = TRUE),
+  .rcpp_lenrange_atdepth(x, 2L, recurse_all = TRUE),
   c(1L, 1L)
 )
 

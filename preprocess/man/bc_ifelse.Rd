@@ -15,7 +15,7 @@ with the type \code{logical}, \code{integer}, or \code{raw},
 and a length equal to \code{prod(bc_dim(yes, no))}. \cr
 If \code{yes} / \code{no} are of type \code{raw}, \code{test} is not allowed to contain any \code{NA}s.}
 
-\item{yes, no}{conformable arrays of the same type. \cr
+\item{yes, no}{conformable vectors/arrays of the same type. \cr
 All \link[base]{atomic} types are supported. \cr
 Recursive arrays of type \link[base]{list} are also supported.}
 

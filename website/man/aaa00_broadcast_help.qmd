@@ -9,6 +9,8 @@ Broadcasted Array Operations Like 'NumPy' <br /> <br />
 
 Implements efficient 'NumPy'-like broadcasted operations for atomic and recursive arrays.
 
+In the context of operations involving 2 (or more) arrays, “broadcasting” refers to efficiently recycling array dimensions without allocating additional memory.
+
 Besides linking to 'Rcpp', 'broadcast' does not use any external libraries in any way;
 'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 
@@ -34,12 +36,7 @@ relational, arithmetic, Boolean, string, and bit-wise operations.
 
 </li></ol>
 
-The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just good for efficient computing, but also for the environment).<br /> <br />
-
-In the context of operations involving 2 (or more) arrays,
-“broadcasting” refers to recycling array dimensions without allocating additional memory,
-which is considerably faster and more memory-efficient
-than R’s regular dimensions replication mechanism. <br /> <br />
+The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just better for efficient computing, but also for the environment).<br /> <br />
 
 
 
@@ -47,7 +44,7 @@ than R’s regular dimensions replication mechanism. <br /> <br />
 
 
 <ul>
-<li> Online Vignettes: <a href="https://tony-aw.github.io/broadcast/vignettes/a_readme.html">https://tony-aw.github.io/broadcast/vignettes/a_readme.html</a>
+<li> The Quick-Start Guide, Vignettes, Benchmarks, and more can be found on the <a href="https://tony-aw.github.io/broadcast/">website</a>.
 
 </li>
 <li> GitHub main page: <a href="https://github.com/tony-aw/broadcast">https://github.com/tony-aw/broadcast</a>
@@ -84,41 +81,6 @@ More information about both methods can be found here: <br />
 'broadcast' provides the [bind_array](bind_array.qmd) function,
 to bind arrays along an arbitrary dimension,
 with support for broadcasting. <br />
-<br />
-The API of <code>bind_array()</code> is inspired by the fantastic
-<code>abind::abind()</code> function
-by Tony Plare &amp; Richard Heiberger (2016). <br />
-But <code>bind_array()</code> differs considerably from <code>abind::abind</code>
-in the following ways:
-
-
-<ul>
-<li> <code>bind_array()</code> allows for broadcasting,
-while <code>abind::abind</code> does not support broadcasting.
-
-</li>
-<li> <code>bind_array()</code> is generally faster and more memory-efficient than <code>abind::abind</code>,
-as <code>bind_array()</code> relies heavily on 'C' and 'C++' code.
-
-</li>
-<li> <code>bind_array()</code> differs from <code>abind::abind</code>
-in that it can handle recursive arrays properly <br />
-(the <code>abind::abind</code> function would unlist everything to atomic arrays,
-ruining the structure).
-
-</li>
-<li> unlike <code>abind::abind</code>,
-<code>bind_array()</code> only binds (atomic/recursive) arrays and matrices. <br />
-<code>bind_array()</code>does not attempt to convert things to arrays when they are not arrays,
-but will give an error instead. <br />
-This saves computation time and prevents unexpected results.
-
-</li>
-<li> <code>bind_array()</code> has more streamlined naming options,
-compared to <code>abind::abind</code>. <br />
-
-</li></ul>
-
 See [bind_array](bind_array.qmd). <br /><br />
 
 <b>Casting Functions</b> <br />
@@ -159,7 +121,7 @@ And 'broadcast' comes with some helper functions: <br />
 
 'broadcast' supports atomic/recursive arrays (up to 16 dimensions),
 and atomic/recursive vectors. <br />
-As in standard Linear Algebra Convention,
+As in standard Linear Algebra convention,
 dimensionless vectors are interpreted as column-vectors in broadcasted array operations. <br />
 <br />
 
@@ -172,8 +134,6 @@ dimensionless vectors are interpreted as column-vectors in broadcasted array ope
 
 
 ### References
-
-Plate T, Heiberger R (2016). <em>abind: Combine Multidimensional Arrays</em>. R package version 1.4-5, <a href="https://CRAN.R-project.org/package=abind">https://CRAN.R-project.org/package=abind</a>.
 
 Harris, C.R., Millman, K.J., van der Walt, S.J. et al. <em>Array programming with NumPy</em>. Nature 585, 357–362 (2020). [doi:10.1038/s41586-020-2649-2](https://doi.org/10.1038/s41586-020-2649-2). (<a href="https://www.nature.com/articles/s41586-020-2649-2">Publisher link</a>).
 

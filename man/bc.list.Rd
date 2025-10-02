@@ -10,7 +10,7 @@ bc.list(x, y, f, ...)
 \S4method{bc.list}{ANY}(x, y, f)
 }
 \arguments{
-\item{x, y}{conformable Recursive arrays (i.e. arrays of type \code{list}).}
+\item{x, y}{conformable Recursive vectors/arrays (i.e. vectors/arrays of type \code{list}).}
 
 \item{f}{a function that takes in exactly \bold{2} arguments,
 and \bold{returns} a result that can be stored in a single element of a list.}

@@ -21,7 +21,7 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>'broadcast' provides several &quot;casting&quot; functions. <br />
-These can facility complex forms of broadcasting that would normally not be possible. <br />
+These can facilitate complex forms of broadcasting that would normally not be possible. <br />
 But these &quot;casting&quot; functions also have their own merit, beside empowering complex broadcasting. <br />
 <br />
 The following casting functions are available:
@@ -29,38 +29,54 @@ The following casting functions are available:
 
 <ul>
 <li> <p><code>[acast](acast.qmd)</code>: <br />
-casts group-based subsets of an array into a new dimension. <br />
+Casts group-based subsets of an array into a new dimension. <br />
 Useful for, for example, performing <b>grouped</b> broadcasted operations. <br />
 </p>
 </li>
 <li> <p><code>[cast_hier2dim](cast_hier2dim.qmd)</code>: <br />
-casts a nested/hierarchical list into a dimensional list (i.e. array of type <code>list</code>). <br />
+Casts a nested/hierarchical list into a dimensional list (i.e. array of type <code>list</code>). <br />
 Useful because one cannot broadcast through nesting, but one <b>can</b> broadcast along dimensions.
 </p>
 </li>
+<li> <p><code>[hier2dim](hier2dim.qmd)</code>, <code>[hiernames2dimnames](hier2dim.qmd)</code>: <br />
+Helper functions for <code>[cast_hier2dim](cast_hier2dim.qmd)</code>.
+</p>
+</li>
 <li> <p><code>[cast_dim2hier](cast_dim2hier.qmd)</code>: <br />
-casts a dimensional list into a nested/hierarchical list; the opposite of <code>[cast_hier2dim](cast_hier2dim.qmd)</code>. <br />
+Casts a dimensional list into a nested/hierarchical list; the opposite of <code>[cast_hier2dim](cast_hier2dim.qmd)</code>. <br />
 </p>
 </li>
 <li> <p><code>[cast_dim2flat](cast_dim2flat.qmd)</code>: <br />
-casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. <br />
+Casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. <br />
 Mostly useful for printing or summarizing dimensional lists.
 </p>
 </li>
 <li> <p><code>[dropnests](dropnests.qmd)</code>: <br />
-drop redundant nesting in lists; mostly used for facilitating the above casting functions. <br /> <br />
+Drop redundant nesting in lists; mostly used for facilitating the above casting functions. <br /> <br />
 </p>
 </li></ul>
 
 
 
+<h3>Shared argument <code>recurse_all</code></h3>
+
+<p>The <code>[dropnests](dropnests.qmd)</code>, <code>[hier2dim](hier2dim.qmd)</code>, <code>[hiernames2dimnames](hier2dim.qmd)</code>, and <code>[cast_hier2dim](cast_hier2dim.qmd)</code> methods
+all have the <code>recurse_all</code> argument. <br />
+By default <code>recurse_all = FALSE</code>,
+meaning these methods do not recurse through dimensional or classed lists (like data.frames). <br />
+Setting <code>recurse_all = TRUE</code>
+allows these methods to recurse through all list objects, even if they are dimensional and/or classed. <br />
+<br />
+</p>
+
+
 <h3>Shared Argument <code>in2out</code></h3>
 
-<p>The <code>[hier2dim](cast_hier2dim.qmd)</code>, <code>[cast_hier2dim](cast_hier2dim.qmd)</code>, and <code>[cast_dim2hier](cast_dim2hier.qmd)</code> methods
+<p>The <code>[hier2dim](hier2dim.qmd)</code>, <code>[hiernames2dimnames](hier2dim.qmd)</code>, <code>[cast_hier2dim](cast_hier2dim.qmd)</code>, and <code>[cast_dim2hier](cast_dim2hier.qmd)</code> methods
 all have the <code>in2out</code> argument. <br />
 <br />
 <br />
-<b><code>in2out = TRUE</code></b> <br />
+<img src="../help/figures/in2out-TRUE-green.svg" alt='[TRUE]' /> <br />
 By default <code>in2out</code> is <code>TRUE</code>. <br />
 This means the call <br />
 <code>y &lt;- cast_hier2dim(x)</code> <br />
@@ -84,7 +100,7 @@ Then it holds that: <br />
 <code class="reqn">\forall</code>(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br />
 <br />
 <br />
-<b><code>in2out = FALSE</code></b> <br />
+<img src="../help/figures/in2out-FALSE-red.svg" alt='[FALSE]' /> <br />
 If <code>in2out = FALSE</code>, the call <br />
 <code>y &lt;- cast_hier2dim(x, in2out = FALSE)</code> <br />
 will cast the surface-level elements of <code>x</code> to the rows of <code>y</code>,
@@ -106,6 +122,55 @@ Then it holds that : <br />
 <code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[i, j, k]]</code>, <br />
 <code class="reqn">\forall</code>(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br /> <br />
 </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+x &lt;- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+# predict dimensions x would have if casted as dimensional:
+hier2dim(x, in2out = FALSE)
+
+# cast x to dimensional list:
+x2 &lt;- cast_hier2dim(x, in2out = FALSE)
+
+# set dimnames of dimensionally casted list:
+dimnames(x2) &lt;- hiernames2dimnames(x, in2out = FALSE)
+
+# print result:
+print(x2) # very compact
+cast_dim2flat(x2) |&gt; print() # less compact
+
+# cast dimensional list back to nested/hierarchical list:
+x3 &lt;- cast_dim2hier(x2, in2out = FALSE, distr.names = TRUE)
+print(x3)
+</code></pre>
 
 </main>
 

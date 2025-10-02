@@ -38,6 +38,7 @@ cast_dim2hier <- function(x, ...) {
 cast_dim2hier.default <- function(x, in2out = TRUE, distr.names = FALSE, ...) {
   
   # checks:
+  .ellipsis(list(...), sys.call())
   if(!is.list(x)) {
     stop("`x` must be a list")
   }

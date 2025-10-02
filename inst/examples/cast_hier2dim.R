@@ -35,16 +35,9 @@ x2 <- cast_hier2dim(x) # cast as dimensional
 
 # since the original list uses the same names for all elements within the same depth,
 # dimnames can be set easily:
-dimnames(x2) <- list( # go from deep names to surface names
-  c("height", "weight", "sex"),
-  c("class1", "class2"),
-  c("group1", "group2")
-)
+dimnames(x2) <- hiernames2dimnames(x)
 
-print(x2) # very compact, maybe too compact...?
-
-# print a small portion of the list, but less compact:
-cast_dim2flat(x2[, 1:2, "group1", drop = FALSE])
+print(x2)
 
 
 # Example 2: Cast from outside to inside ====
@@ -86,16 +79,9 @@ x2 <- cast_hier2dim(x, in2out = FALSE) # cast as dimensional
 # since the original list uses the same names for all elements within the same depth,
 # dimnames can be set easily:
 # because in2out = FALSE, go from the shallow names to the deeper names:
-dimnames(x2) <- list( # notice the order here is reversed, because in2out = FALSE
-  c("group1", "group2"),
-  c("class1", "class2"),
-  c("height", "weight", "sex")
-)
+dimnames(x2) <- hiernames2dimnames(x, in2out = FALSE)
 
-print(x2) # very compact, maybe too compact...?
-
-# print a small portion of the list, but less compact:
-cast_dim2flat(x2["group1", 1:2, , drop = FALSE])
+print(x2)
 
 
 
@@ -139,25 +125,14 @@ print(x2)
 x2 <- cast_hier2dim(x, padding = list(~ "this is padding"))
 print(x2)
 
-dimnames(x2) <- list(
-  c("height", "weight", "sex"),
-  c("class1", "class2"),
-  c("group1", "group2")
-)
+dimnames(x2) <- hiernames2dimnames(x)
 
 print(x2)
 
-cast_dim2flat(x2[1:2, , , drop = FALSE])
 
 # we can also use in2out = FALSE:
 x2 <- cast_hier2dim(x, in2out = FALSE, padding = list(~ "this is padding"))
-dimnames(x2) <- list( # notice the order here is reversed, because in2out = FALSE
-  c("group1", "group2"),
-  c("class1", "class2"),
-  c("height", "weight", "sex")
-  
-)
+dimnames(x2) <- hiernames2dimnames(x, in2out = FALSE)
 print(x2)
 
-cast_dim2flat(x2[, , 1:2, drop = FALSE])
 

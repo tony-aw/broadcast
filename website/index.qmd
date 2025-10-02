@@ -114,8 +114,9 @@ x + y
 
 **Efficiency**
 
-Broadcasting dimensions is faster and more memory efficient than replicating dimensions.\
-Efficient programs use less energy and resources, and is thus better for the environment.\
+Broadcasting as implemented in the 'broadcasting' package is about as fast as - and sometimes even faster than - NUmPy.  
+The implementations in the 'broadcast' package are also much faster and much more memory efficient than using base 'R' solutions like `sweep()`.  
+Efficient programs use less energy and resources, and is thus better for the environment.  
 Benchmarks can be found in the "About" section on the website.
 
  
@@ -127,6 +128,7 @@ Have you ever been bothered by any of the following while programming in `r fa("
 -   Receiving the "non-conformable arrays" error message in a simple array operation, when it intuitively should work?
 -   Receiving the "cannot allocate vector of size..." error message because `r fa("r-project")` unnecessarily allocated too much memory in array operations?
 -   `abind::abind()` being too slow, or ruining the structure of recursive arrays?
+-   The `sweep()` and `outer()` functions being too slow or too limiting?
 -   that there is no array analogy to `data.table::dcast()`?
 -   difficulties in handling nested lists?
 -   that certain 'Numpy' operations have no equivalent operation in `r fa("r-project")`?
@@ -150,7 +152,7 @@ Not using external libraries brings a number of advantages:
 
 **Tested**
 
-The 'broadcast' package is frequently checked using a large suite of unit tests via the [tinytest](https://github.com/markvanderloo/tinytest) package. These tests have a coverage of over 90%. So the chance of a function from this package breaking completely is relatively low.
+The 'broadcast' package is frequently checked using a large suite of unit tests via the [tinytest](https://github.com/markvanderloo/tinytest) package. These tests have a [coverage](https://tony-aw.github.io/broadcast/about/g_unit_test_covr.html) of over 90%. So the chance of a function from this package breaking completely is relatively low.
 
 'broadcast' is still relatively new package, however, so (small) bugs are still very much possible. I encourage users who find bugs to report them promptly to the [issues](https://github.com/tony-aw/broadcast/issues) tab on the GitHub page, and I will fix them as soon as time permits.
 

@@ -2,6 +2,44 @@
 title: Changelog
 ---
 
+# broadcast 0.1.5 (Under Development)
+
+Update of first CRAN release.
+
+**Argument Changes:**
+
+The `recurse_classed` argument in the casting methods has been replaced with the `recurse_all` argument.  
+Before, the argument `recurse_classed` controlled if the casting methods recurse through classed lists.  
+Now, `recurse_all`, controls if the casting methods recurse through classed **and/or dimensional** lists.
+
+Moreover, the S3 methods in this package now check for unknown arguments given through the ellipsis (`...`).
+
+**Behavioural Changes:**
+
+* The `as_*` functions now also preserve the `broadcaster` class attribute. 
+* If both `x` and `y` in the [bc.b()](/man/bc.b.qmd) will return type of `raw`.
+
+**New Methods:**
+
+* Added the [hiernames2dimnames()](/man/hier2dim.qmd).
+
+
+**Documentation Improvements**:
+
+* Added on-attach package start-up message.
+* Fixed some spelling errors that went under the radar.
+* Fixed some inconsistent usage of Title Case in the titles of the help pages.
+* Shortened the main help page.
+* Fixed some "See Also" sections in some of the help pages.
+* Improved the "Examples" sections in some of the help pages.
+
+**More tests:**
+
+* Added and adapted the unit tests for the above changes.
+* Re-ran the unit tests coverage report shown on the website.
+
+
+
 
 # broadcast 0.1.3
 * Continuation of Initial CRAN submission.

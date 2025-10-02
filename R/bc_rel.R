@@ -4,7 +4,7 @@
 #' The `bc.rel()` function
 #' performs broadcasted general relational operations on 2 arrays. \cr
 #' 
-#' @param x,y conformable arrays of any atomic type.
+#' @param x,y conformable vectors/arrays of any atomic type.
 #' @param op a single string, giving the relational operator. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_rel(), collapse = ", ")`.
 #' @param ... further arguments passed to or from methods. \cr \cr

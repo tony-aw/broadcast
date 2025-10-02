@@ -40,14 +40,24 @@ SEXP rcpp_bc_b_v(
 int tempout;
 
 int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
 
-MACRO_TYPESWITCH_BOOL(MACRO_DIM_VECTOR);
+if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
+   SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
+   Rbyte *pout;
+   pout = RAW(out);
+   MACRO_TYPESWITCH_BOOL(MACRO_DIM_VECTOR);
+   UNPROTECT(1);
+   return out;
+}
+else {
+   SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
+   int *pout;
+   pout = LOGICAL(out); 
+   MACRO_TYPESWITCH_BOOL(MACRO_DIM_VECTOR);
+   UNPROTECT(1);
+   return out;
+}
 
-UNPROTECT(1);
-return out;
 
 }
 
@@ -65,14 +75,22 @@ SEXP rcpp_bc_b_ov(
 int tempout;
 
 int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
-
-MACRO_TYPESWITCH_BOOL(MACRO_DIM_ORTHOVECTOR);
-
-UNPROTECT(1);
-return out;
+if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
+   SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
+   Rbyte *pout;
+   pout = RAW(out);
+   MACRO_TYPESWITCH_BOOL(MACRO_DIM_ORTHOVECTOR);
+   UNPROTECT(1);
+   return out;
+}
+else {
+   SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
+   int *pout;
+   pout = LOGICAL(out); 
+   MACRO_TYPESWITCH_BOOL(MACRO_DIM_ORTHOVECTOR);
+   UNPROTECT(1);
+   return out;
+}
 
 }
 
@@ -92,15 +110,24 @@ SEXP rcpp_bc_b_d(
 
 int tempout;
 int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
 
-MACRO_TYPESWITCH_BOOL(MACRO_DIM_DOCALL);
+if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
+   SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
+   Rbyte *pout;
+   pout = RAW(out);
+   MACRO_TYPESWITCH_BOOL(MACRO_DIM_DOCALL);
+   UNPROTECT(1);
+   return out;
+}
+else {
+   SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
+   int *pout;
+   pout = LOGICAL(out); 
+   MACRO_TYPESWITCH_BOOL(MACRO_DIM_DOCALL);
+   UNPROTECT(1);
+   return out;
+}
 
-
-UNPROTECT(1);
-return out;
 
 }
 

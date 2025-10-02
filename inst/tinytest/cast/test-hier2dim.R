@@ -74,6 +74,10 @@ expect_error(
   pattern = "not all surface elements have valid nested elements"
 )
 expect_error(
+  hier2dim(c(x, array(list(letters, LETTERS)))),
+  pattern = "not all surface elements have valid nested elements"
+)
+expect_error(
   hier2dim(rep(list(NULL), 10)),
   pattern = "not all surface elements have valid nested elements"
 )
@@ -90,8 +94,8 @@ expect_error(
   pattern = "`in2out` must be `TRUE` or `FALSE`"
 )
 expect_error(
-  hier2dim(x, recurse_classed = NA),
-  pattern = "`recurse_classed` must be `TRUE` or `FALSE`"
+  hier2dim(x, recurse_all = NA),
+  pattern = "`recurse_all` must be `TRUE` or `FALSE`"
 )
 expect_error(
   hier2dim(matrix(as.list(1:10))),
@@ -116,5 +120,5 @@ expect_equal(
   rep(2, 16) # 16, NOT 18, BECAUSE I DON'T ALLOW GOING ANY DEEPER THAN 16
 )
 
-enumerate <- enumerate + 10L
+enumerate <- enumerate + 11L
 

@@ -11,9 +11,7 @@
 #' giving the maximum depth to recurse into the list. \cr
 #' The surface-level elements of a list is depth 1. \cr
 #' `dropnests(x, maxdepth = 1)` will return `x` unchanged.
-#' @param recurse_classed `TRUE` or `FALSE`,
-#' indicating if the function should also recurse through classed lists within `x`,
-#' like data.frames.
+#' @param recurse_all see \link{broadcast_casting}.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' 
@@ -39,14 +37,17 @@ dropnests <- function(x, ...) {
 
 #' @rdname dropnests
 #' @export
-dropnests.default <- function(x, maxdepth = 16L, recurse_classed = FALSE, ...) {
-  .depth_check(x, maxdepth, recurse_classed, sys.call())
+dropnests.default <- function(x, maxdepth = 16L, recurse_all = FALSE, ...) {
+  
+  .recurse_classed(list(...), sys.call())
+  
+  .depth_check(x, maxdepth, recurse_all, sys.call())
   
   if(maxdepth == 1L) {
     return(x)
   }
   
-  out <- .rcpp_dropnests(x, maxdepth, recurse_classed)
+  out <- .rcpp_dropnests(x, maxdepth, recurse_all)
   mostattributes(out) <- attributes(x)
   return(out)
 }
@@ -54,7 +55,7 @@ dropnests.default <- function(x, maxdepth = 16L, recurse_classed = FALSE, ...) {
 
 #' @keywords internal
 #' @noRd
-.depth_check <- function(x, maxdepth, recurse_classed, abortcall) {
+.depth_check <- function(x, maxdepth, recurse_all, abortcall) {
   
   if(!is.list(x)) {
     stop(simpleError("`x` must be a list", call = abortcall))
@@ -64,15 +65,16 @@ dropnests.default <- function(x, maxdepth = 16L, recurse_classed = FALSE, ...) {
     stop(simpleError("`maxdepth` must be a single integer >= 1",
                      call = abortcall))
   }
-  if(!isTRUE(recurse_classed) && !isFALSE(recurse_classed)) {
-    stop(simpleError("`recurse_classed` must be `TRUE` or `FALSE`",
+  if(!isTRUE(recurse_all) && !isFALSE(recurse_all)) {
+    stop(simpleError("`recurse_all` must be `TRUE` or `FALSE`",
                      call = abortcall))
   }
-  if(!recurse_classed && !is.null(attr(x, "class"))) {
+  if(!recurse_all && !is.null(attr(x, "class"))) {
     stop(simpleError(
-      "if `recurse_classed` is `FALSE`, `x` cannot be a classed list",
+      "if `recurse_all` is `FALSE`, `x` cannot be a classed list",
       call = abortcall
     ))
   }
 }
+
 

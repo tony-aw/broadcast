@@ -31,7 +31,7 @@ bc.b(x, y, op)
 <table role = "presentation">
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code>, <code id="y">y</code></td>
 <td>
-conformable arrays of type <code>logical</code>, <code>numeric</code>, or <code>raw</code>.
+conformable vectors/arrays of type <code>logical</code>, <code>numeric</code>, or <code>raw</code>.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
@@ -75,7 +75,12 @@ Since the input is treated as logical, the following equalities hold for <code>b
 
 ### Value
 
-A logical array as a result of the broadcasted Boolean operation. <br /> <br />
+Normally; <br />
+A logical array/vector as a result of the broadcasted Boolean operation. <br />
+<br />
+If both <code>x</code> and <code>y</code> are type of raw: <br />
+A raw array/vector as a result of the broadcasted Boolean operation,
+where <code>01</code> codes for <code>TRUE</code> and <code>00</code> codes for <code>FALSE</code>. <br /> <br />
 
 
 

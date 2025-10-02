@@ -9,7 +9,7 @@
 #' For relational operations with logical (`TRUE`/`FALSE`/`NA`) results, use \link{bc.rel}. \cr
 #' \cr
 #' 
-#' @param x,y conformable raw vectors or arrays.
+#' @param x,y conformable vectors/arrays of type raw.
 #' @param op a single string, giving the operator. \cr
 #' Supported operators: `r paste0(broadcast:::.op_raw_byte(), collapse = ", ")`. \cr
 #' The relational operators work the same as in \link{bc.rel},

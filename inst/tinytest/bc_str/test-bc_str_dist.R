@@ -59,6 +59,22 @@ expect_equal(
 enumerate <- enumerate + 6L
 
 
+# NA tests ====
+expect_equal(
+  bc.str(month.abb, rep(NA_character_, 12), "levenshtein"),
+  rep(NA_integer_, 12)
+)
+expect_equal(
+  bc.str(rep(NA_character_, 12), month.abb, "levenshtein"),
+  rep(NA_integer_, 12)
+)
+expect_equal(
+  bc.str(rep(NA_character_, 26), rep(NA_character_, 26), "levenshtein"),
+  rep(NA_integer_, 26)
+)
+enumerate <- enumerate + 3L
+
+
 # dimensional tests ====
 
 nres <- 5 * 5 # number of tests performed here

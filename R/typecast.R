@@ -4,9 +4,7 @@
 as_bool <- function(x, ...) {
   
   out <- as.logical(x, ...)
-  dim(out) <- dim(x)
-  dimnames(out) <- dimnames(x)
-  names(out) <- names(x)
+  .typecast(out) <- x
   return(out)
 }
 
@@ -16,9 +14,7 @@ as_bool <- function(x, ...) {
 as_int <- function(x, ...) {
   
   out <- as.integer(x, ...)
-  dim(out) <- dim(x)
-  dimnames(out) <- dimnames(x)
-  names(out) <- names(x)
+  .typecast(out) <- x
   return(out)
 }
 
@@ -28,9 +24,7 @@ as_int <- function(x, ...) {
 as_dbl <- function(x, ...) {
   
   out <- as.double(x, ...)
-  dim(out) <- dim(x)
-  dimnames(out) <- dimnames(x)
-  names(out) <- names(x)
+  .typecast(out) <- x
   return(out)
 }
 
@@ -44,9 +38,7 @@ as_num <- as_dbl
 as_chr <- function(x, ...) {
   
   out <- as.character(x, ...)
-  dim(out) <- dim(x)
-  dimnames(out) <- dimnames(x)
-  names(out) <- names(x)
+  .typecast(out) <- x
   return(out)
 }
 
@@ -62,9 +54,7 @@ as_str <- as_chr
 as_cplx <- function(x, ...) {
   
   out <- as.complex(x, ...)
-  dim(out) <- dim(x)
-  dimnames(out) <- dimnames(x)
-  names(out) <- names(x)
+  .typecast(out) <- x
   return(out)
 }
 
@@ -73,9 +63,7 @@ as_cplx <- function(x, ...) {
 #' @export
 as_raw <- function(x, ...) {
   out <- as.raw(x, ...)
-  dim(out) <- dim(x)
-  dimnames(out) <- dimnames(x)
-  names(out) <- names(x)
+  .typecast(out) <- x
   return(out)
 }
 
@@ -84,8 +72,19 @@ as_raw <- function(x, ...) {
 #' @export
 as_list <- function(x, ...) {
   out <- as.list(x, ...)
-  dim(out) <- dim(x)
-  dimnames(out) <- dimnames(x)
-  names(out) <- names(x)
+  .typecast(out) <- x
   return(out)
+}
+
+
+#' @keywords internal
+#' @noRd
+`.typecast<-` <- function(x, value) {
+  if(length(value) == length(x)) {
+    dim(x) <- dim(value)
+    dimnames(x) <- dimnames(value)
+    names(x) <- names(value)
+    broadcaster(x) <- broadcaster(value)
+  }
+  x
 }

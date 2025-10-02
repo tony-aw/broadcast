@@ -30,7 +30,28 @@ suppressMessages(
 
 # Introduction
 
-This page benchmarks some of the functions from 'broadcast' with some near-equivalent functions from other packages. The code is given here also.
+This page benchmarks some of the functions from 'broadcast' with some near-equivalent functions from base `r fa("r-project")` and other packages. The code is given here also.
+
+Because all these benchmarks are within `r fa("r-project")`, not only speed but also memory usage is compared.
+
+&nbsp;
+
+## Why care about speed and memory usage?
+
+Faster code means less waiting for the user, which is less annoying. Moreover, faster code is (generally speaking) more efficient code - i.e. you don't have to run your computer overnight (or at least less hours) - which reduces electricity usage. Using less electricity is better for your wallet and better for the environment.
+
+Code that uses less memory when run means less resources (i.e. less memory) is required. And using less memory reduces the risk of running out of usable memory; when you run out of usable memory, your code may stop running with the following error:
+
+```{r eval=FALSE, echo=TRUE}
+Error: cannot allocate vector of size
+```
+
+You may want to prevent that. And without more memory-efficient code you'll be forced to buy more memory (which costs money).
+
+
+&nbsp;
+
+## Materials used
 
 The 'benchmark' package was used for measuring speed and memory usage, and for producing the figures showing the results.
 
@@ -40,11 +61,86 @@ The benchmarks were all run on the same computer (processor: 12th Gen Intel(R) C
 
 The various comparisons are split over several sections. The code used to run the benchmarks is given in each section, just before the results.
 
+
+&nbsp;
+
+
+# Base `r fa("r-project")` replication
+
+Here replicating array dimensions using base `r fa("r-project")` is benchmarked against broadcasting.
+
+The following code was used:
+
+```{r echo=TRUE, eval=FALSE}
+
+n <- 450
+x <- array(rnorm(10), c(1, n, 1))
+y <- array(rnorm(10), c(n, 1, n))
+
+gc()
+bm_base <- bench::mark(
+  base = x[rep(1, n), , rep(1, n)] + y[, rep(1, n), ],
+  broadcast = bc.d(x, y, "+"),
+  min_iterations = 100
+)
+summary(bm_base)
+plot(bm_base)
+
+```
+
+
+And here are the results:
+
+```{r fig.width=8, echo=FALSE}
+load("benchmarks/bm_base.RData")
+summary(bm_base)
+plot(bm_base)
+```
+
+
+'broadcasting' is **5 to 5.5** times (!!!) faster than replicating array dimensions, and uses approximately 2 times less memory.
+
+&nbsp;
+
+# `sweep()`
+
+Here the `sweep()` function from base `r fa("r-project")` is benchmarked against broadcasting.
+
+The following code was used:
+
+```{r echo=TRUE, eval=FALSE}
+
+n <- 2000
+x <- matrix(rnorm(n), n, n)
+cm <- array(colMeans(x), c(1, n))
+
+gc()
+bm_sweep <- bench::mark(
+  sweep = sweep(x, 2, cm, "=="),
+  broadcast = bc.d(x, cm, "=="),
+  min_iterations = 100
+)
+summary(bm_sweep)
+plot(bm_sweep)
+```
+
+
+And here are the results:
+
+```{r fig.width=8, echo=FALSE}
+load("benchmarks/bm_sweep.RData")
+summary(bm_sweep)
+plot(bm_sweep)
+```
+
+
+'broadcasting' is about **3** (!) times faster than using `sweep()`, and uses approximately **5** (!!!) times less memory.
+
 &nbsp;
 
 # `abind::abind()`
 
-In this section, te performance of the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is compared to the performance of the `abind()` function from the 'abind' package.
+In this section, the performance of the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is compared to the performance of the `abind()` function from the 'abind' package.
 
 &nbsp;
 
@@ -87,7 +183,11 @@ Clearly, the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is ab
 
 # `Rfast::Outer()`
 
-An outer computation is a special case of broadcasting, namely a broadcasting computation between a row-vector and a column-vector. The `outer()` function from base 'R' is too slow and consumes too much memory to provide any meaningful benchmark. But the 'Rfast' package provides a very fast implementation of the `outer()` function. It may be interesting how broadcasted operations hold up to the famously fast 'Rfast' package.
+An outer computation is a special case of broadcasting, namely a broadcasting computation between a row-vector and a column-vector.
+
+Base `r fa("r-project")` has the `outer()` function to perform outer computations. But the `outer()` function from base `r fa("r-project")` uses **soo much memory**, that no meaningful benchmark can be made against the methods provided  by the 'broadcast' package.
+
+The 'Rfast' package, however, provides a very fast and memory-efficient implementation of the `outer()` function. It may be interesting how broadcasted operations hold up to the famously fast 'Rfast' package.
 
 Here the outer-sum between a row-vector `x` and column-vector `y` (both have 9000 elements) is computed using `Rfast::outer()` and `broadcast::bc.d()`, and their speeds and memory consumption are compared.
 
@@ -165,39 +265,4 @@ The 'collapse' package is slightly faster than 'broadcast' in this case. This do
 
 &nbsp;
 
-
-# Base 'R' replication
-
-Here replicating array dimensions using base 'R' is benchmarked against broadcasting.
-
-The following code was used:
-
-```{r echo=TRUE, eval=FALSE}
-
-n <- 450
-x <- array(rnorm(10), c(1, n, 1))
-y <- array(rnorm(10), c(n, 1, n))
-
-gc()
-bm_base <- bench::mark(
-  base = x[rep(1, n), , rep(1, n)] + y[, rep(1, n), ],
-  broadcast = bc.d(x, y, "+"),
-  min_iterations = 100
-)
-summary(bm_base)
-plot(bm_base)
-
-```
-
-
-And here are the results:
-
-```{r fig.width=8, echo=FALSE}
-load("benchmarks/bm_base.RData")
-summary(bm_base)
-plot(bm_base)
-```
-
-
-'broadcasting' is 5 to 5.5 times (!) faster than replicating array dimensions, and uses approximately 2 times less memory.
 

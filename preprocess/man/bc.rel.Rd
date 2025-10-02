@@ -10,7 +10,7 @@ bc.rel(x, y, op, ...)
 \S4method{bc.rel}{ANY}(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable arrays of any atomic type.}
+\item{x, y}{conformable vectors/arrays of any atomic type.}
 
 \item{op}{a single string, giving the relational operator. \cr
 Supported relational operators: ==, !=, <, >, <=, >=.}

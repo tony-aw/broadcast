@@ -39,7 +39,7 @@ install.packages("broadcast")
 
 ## Introduction
 
-In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory, which is considerably **faster** and **more memory-efficient** than R's regular dimensions replication mechanism.
+In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory, which is considerably **faster** and **more memory-efficient** than `r fa("r-project")`'s regular dimensions replication mechanism.
 
 
 &nbsp;
@@ -98,21 +98,19 @@ To paraphrase Numpy's own documentation, one can summarise how broadcasting beha
 
  1) if the input arrays for an operation do not have the same number of dimensions, a `1` will be repeatedly appended to the end of the dimension of the smaller array, until the arrays have the same number of dimensions.
 
-2) arrays with a size of 1 for a particular dimension act as if they had the size of the array with the largest size for that dimension. This is done by vritually recycling said dimension without making copies.
+2) arrays with a size of 1 for a particular dimension act as if they had the size of the array with the largest size for that dimension. This is done by virtually recycling said dimension without making copies.
 
 After application of these 2 broadcasting rules, the sizes of the input arrays must match.
-
-Please read the [Broadcasting explained](https://tony-aw.github.io/broadcast/vignettes/d_broadcasting_explained.html) page for a more complete explanation of what "broadcasting" is and how it works.
 
 &nbsp;
 
 # Broadcasted Infix Operators
 
-Base 'R' comes with relational (==, !=, etc.), arithmetic (+, -, *, /, etc.), logical (&, |) and bit-wise (&, |) operators.
+Base `r fa("r-project")` comes with relational (==, !=, etc.), arithmetic (+, -, *, /, etc.), logical (&, |) and bit-wise (&, |) operators.
 'broadcast' provides 2 ways to use these operators with broadcasting.
 
 The first (and simple) way is to use the [broadcaster()](/man/broadcaster.qmd) class, which comes with it's own method dispatch for the above mentioned operators.
-This approach supports operator precedence, and for the average 'R' user, this is sufficient.
+This approach supports operator precedence, and for the average `r fa("r-project")` user, this is sufficient.
 
 For example:
 
@@ -143,7 +141,7 @@ y <- array(1:5 * 100, c(1, 5))
 print(x)
 print(y)
 
-bc.i(x, y, "gcd") # calculate the greatest common divisor between x and y
+bc.i(x, y, "gcd") # calculate greatest common divisor between x and y
 
 ```
 
@@ -253,11 +251,7 @@ One can turn the nested list into a dimensional list using [cast_hier2dim()](/ma
 
 ```{r}
 x2 <- cast_hier2dim(x)
-dimnames(x2) <- list(
-  c("height", "weight", "sex"),
-  c("class1", "class2"),
-  c("group1", "group2")
-)
+dimnames(x2) <- hiernames2dimnames(x)
 print(x2)
 
 ```
@@ -282,9 +276,21 @@ lobstr::tree(x3)
 
 'broadcast' provides a small set of simple linear algebra functions for usage in statistics. See [linear_algebra_stats](/man/linear_algebra_stats.qmd).
 
-'broadcast' offers type-casting functions. Unlike base R's type-casting functions (`as.logical()`, `as.integer()`, etc.), the type-casting functions from 'broadcast' preserve names and dimensions. See [typecast](/man/typecast.qmd).
+'broadcast' offers type-casting functions. Unlike base `r fa("r-project")`'s type-casting functions (`as.logical()`, `as.integer()`, etc.), the type-casting functions from 'broadcast' preserve names and dimensions. See [typecast](/man/typecast.qmd).
 
 &nbsp;
 
 
+# Why use 'broadcast'?
 
+To keep it very short:
+
+ - using broadcasting is several times faster and uses several times less memory than using base `r fa("r-project")` alternative approaches like using `sweep()`, `outer()`, or manual replication of dimensions.  
+ See the [benchmarks](/about/f_benchmarks_other.qmd).
+ - 'broadcast' provides [bind_array()](/man/bind_array.qmd), which is an `abind()`-like function that can bind arrays along any arbitrary dimension.  
+ The difference with `abind()` is that [bind_array()](/man/bind_array.qmd) supports broadcasting, supports recursive arrays, and is faster & more memory-efficient.
+ - 'broadcast' can perform (admittedly niche but still useful) forms of manipulations on arrays and hierarchical lists not found (to my knowledge) in other packages.
+
+&nbsp;
+
+&nbsp;

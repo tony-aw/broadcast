@@ -10,7 +10,7 @@
 #' \cr
 #' For regular relational operators, see \link{bc.rel}. \cr \cr
 #' 
-#' @param x,y conformable arrays of type `logical`, `numeric`, or `raw`.
+#' @param x,y conformable vectors/arrays of type `logical`, `numeric`, or `raw`.
 #' @param op a single string, giving the operator. \cr
 #' Supported Boolean  operators: `r paste0(broadcast:::.op_b(), collapse = ", ")`.
 #' @param ... further arguments passed to or from methods. \cr \cr
@@ -28,7 +28,12 @@
 #'
 #'
 #' @returns
-#' A logical array as a result of the broadcasted Boolean operation. \cr \cr
+#' Normally; \cr
+#' A logical array/vector as a result of the broadcasted Boolean operation. \cr
+#' \cr
+#' If both `x` and `y` are type of raw: \cr
+#' A raw array/vector as a result of the broadcasted Boolean operation,
+#' where `01` codes for `TRUE` and `00` codes for `FALSE`. \cr \cr
 #'
 #' @seealso \link{broadcast_operators} \cr
 #' @example inst/examples/bc_b.R

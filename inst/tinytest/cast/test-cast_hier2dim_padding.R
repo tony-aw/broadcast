@@ -166,12 +166,12 @@ expect_equal(
 
 expect_equal(
   basefun3(y),
-  cast_hier2dim(y, recurse_classed = TRUE)
+  cast_hier2dim(y, recurse_all = TRUE)
 )
 
 expect_equal(
   basefun3(y, FALSE),
-  cast_hier2dim(y, FALSE, recurse_classed = TRUE)
+  cast_hier2dim(y, FALSE, recurse_all = TRUE)
 )
 enumerate <- enumerate + 6L
 
@@ -204,12 +204,12 @@ expect_equal(
 
 expect_equal(
   basefun3(y, padding = list(~ "this is padding")),
-  cast_hier2dim(y, recurse_classed = TRUE, padding = list(~ "this is padding"))
+  cast_hier2dim(y, recurse_all = TRUE, padding = list(~ "this is padding"))
 )
 
 expect_equal(
   basefun3(y, FALSE, padding = list(~ "this is padding")),
-  cast_hier2dim(y, FALSE, recurse_classed = TRUE, padding = list(~ "this is padding"))
+  cast_hier2dim(y, FALSE, recurse_all = TRUE, padding = list(~ "this is padding"))
 )
 enumerate <- enumerate + 6L
 
