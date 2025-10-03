@@ -94,17 +94,6 @@
 }
 
 
-#' @keywords internal
-#' @noRd
-.acast_get_dimchunksize <- function(x.ndim) {
-  if(!.is.even(x.ndim)) {
-    return(x.ndim + 1L)
-  }
-  else {
-    return(x.ndim)
-  }
-}
-
 
 
 #' @keywords internal

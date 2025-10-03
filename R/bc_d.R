@@ -47,10 +47,12 @@ setMethod(
   "bc.d", c(x = "ANY", y = "ANY"),
   function(x, y, op, tol = sqrt(.Machine$double.eps)) {
     
+    mycall <- "bc.d"
+    
     # checks:
-    .binary_stop_general(x, y, op, sys.call())
+    .binary_stop_general(x, y, op, mycall)
     if(!.is_numeric_like(x) || !.is_numeric_like(y)) {
-      stop("`x` and `y` must be numeric or logical arrays or vectors")
+      stop(simpleError("`x` and `y` must be numeric or logical arrays or vectors", call = mycall))
     }
     
     # get operator:
@@ -58,13 +60,13 @@ setMethod(
     op_rel <- which(.op_dec_rel() == op)
     
     if(length(op_math)) {
-      return(.bc_dec_math(x, y, op_math, sys.call()))
+      return(.bc_dec_math(x, y, op_math, mycall))
     }
     else if(length(op_rel)) {
-      return(.bc_dec_rel(x, y, op_rel, tol, sys.call()))
+      return(.bc_dec_rel(x, y, op_rel, tol, mycall))
     }
     else {
-      stop("given operator not supported in the given context")
+      stop(simpleError("given operator not supported in the given context", call = mycall))
     }
     
     

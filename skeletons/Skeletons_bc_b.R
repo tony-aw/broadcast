@@ -45,6 +45,8 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 
 
 txt0 <- "
+
+
 inline bool rcpp_isTRUE(
   int x
 ) {
@@ -62,10 +64,10 @@ inline bool rcpp_is_lgl(
 ) {
   return(TYPEOF(x) == INTSXP || TYPEOF(x) == LGLSXP);
 }
-
-
-
 "
+
+
+
 
 txt1 <- "
 
@@ -80,20 +82,29 @@ SEXP rcpp_bc_b_v(
 int tempout;
 
 int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
 
-MACRO_TYPESWITCH_BOOL(MACRO_DIM_VECTOR);
-
-UNPROTECT(1);
-return out;
-
+if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
+   const Rbyte *px = RAW_RO(x);
+   const Rbyte *py = RAW_RO(y);
+   SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
+   Rbyte *pout;
+   pout = RAW(out);
+   MACRO_OP_B_RAW(MACRO_DIM_VECTOR);
+   UNPROTECT(1);
+   return out;
+}
+else {
+   SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
+   int *pout;
+   pout = LOGICAL(out); 
+   MACRO_TYPESWITCH_BOOL(MACRO_DIM_VECTOR);
+   UNPROTECT(1);
+   return out;
 }
 
 
+}
 "
-
 
 
 txt2 <- "
@@ -109,20 +120,28 @@ SEXP rcpp_bc_b_ov(
 int tempout;
 
 int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
-
-MACRO_TYPESWITCH_BOOL(MACRO_DIM_ORTHOVECTOR);
-
-UNPROTECT(1);
-return out;
+if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
+   const Rbyte *px = RAW_RO(x);
+   const Rbyte *py = RAW_RO(y);
+   SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
+   Rbyte *pout;
+   pout = RAW(out);
+   MACRO_OP_B_RAW(MACRO_DIM_ORTHOVECTOR);
+   UNPROTECT(1);
+   return out;
 
 }
+else {
+   SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
+   int *pout;
+   pout = LOGICAL(out); 
+   MACRO_TYPESWITCH_BOOL(MACRO_DIM_ORTHOVECTOR);
+   UNPROTECT(1);
+   return out;
+}
 
-
+}
 "
-
 
 txt3 <- "
 
@@ -139,15 +158,26 @@ SEXP rcpp_bc_b_d(
 
 int tempout;
 int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
 
-MACRO_TYPESWITCH_BOOL(MACRO_DIM_DOCALL);
+if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
+   const Rbyte *px = RAW_RO(x);
+   const Rbyte *py = RAW_RO(y);
+   SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
+   Rbyte *pout;
+   pout = RAW(out);
+   MACRO_OP_B_RAW(MACRO_DIM_DOCALL);
+   UNPROTECT(1);
+   return out;
+}
+else {
+   SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
+   int *pout;
+   pout = LOGICAL(out); 
+   MACRO_TYPESWITCH_BOOL(MACRO_DIM_DOCALL);
+   UNPROTECT(1);
+   return out;
+}
 
-
-UNPROTECT(1);
-return out;
 
 }
 

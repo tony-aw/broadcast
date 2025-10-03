@@ -57,10 +57,13 @@ setGeneric(
 setMethod(
   "bc.i", c(x = "ANY", y = "ANY"),
   function(x, y, op) {
+    
+    mycall <- "bc.i"
+    
     # checks:
-    .binary_stop_general(x, y, op, sys.call())
+    .binary_stop_general(x, y, op, mycall)
     if(!.is_numeric_like(x) || !.is_numeric_like(y)) {
-      stop("`x` and `y` must be numeric or logical arrays or vectors")
+      stop(simpleError("`x` and `y` must be numeric or logical arrays or vectors", call = mycall))
     }
     
     # make x and y integer scalars if possible:
@@ -77,13 +80,13 @@ setMethod(
     op_rel <- which(.op_int_rel() == op)
     
     if(length(op_math)) {
-      return(.bc_int_math(x, y, op_math, sys.call()))
+      return(.bc_int_math(x, y, op_math, mycall))
     }
     else if(length(op_rel)) {
-      return(.bc_int_rel(x, y, op_rel, sys.call()))
+      return(.bc_int_rel(x, y, op_rel, mycall))
     }
     else {
-      stop("given operator not supported in the given context")
+      stop(simpleError("given operator not supported in the given context", call = mycall))
     }
     
     

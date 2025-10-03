@@ -539,11 +539,6 @@ macro_typeswitch_boolean <- "
     const int *py = INTEGER_RO(y);                  \\
     MACRO_OP_B_MAIN(DIMCODE);              \\
   }                                                 \\
-  else if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) { \\
-    const Rbyte *px = RAW_RO(x);                    \\
-    const Rbyte *py = RAW_RO(y);                    \\
-    MACRO_OP_B_RAW(DIMCODE);              \\
-  }                                                 \\
   else {                                              \\
     stop(\"unsupported combination of types given\");	\\
   }                                                   \\

@@ -44,10 +44,13 @@ setGeneric(
 setMethod(
   "bc.cplx", c(x = "ANY", y = "ANY"),
   function(x, y, op) {
+    
+    mycall <- "bc.cplx"
+    
     # checks:
-    .binary_stop_general(x, y, op, sys.call())
+    .binary_stop_general(x, y, op, mycall)
     if(!is.complex(x) || !is.complex(y)) {
-      stop("`x` and `y` must be complex arrays or vectors")
+      stop(simpleError("`x` and `y` must be complex arrays or vectors", call = mycall))
     }
     
     # get operator:
@@ -55,13 +58,13 @@ setMethod(
     op_rel <- which(.op_cplx_rel() == op)
     
     if(length(op_math)) {
-      return(.bc_cplx_math(x, y, op_math, sys.call()))
+      return(.bc_cplx_math(x, y, op_math, mycall))
     }
     else if(length(op_rel)) {
-      return(.bc_cplx_rel(x, y, op_rel, sys.call()))
+      return(.bc_cplx_rel(x, y, op_rel, mycall))
     }
     else {
-      stop("given operator not supported in the given context")
+      stop(simpleError("given operator not supported in the given context", call = mycall))
     }
     
     

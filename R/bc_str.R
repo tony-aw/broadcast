@@ -49,10 +49,13 @@ setGeneric(
 setMethod(
   "bc.str", c(x = "ANY", y = "ANY"),
   function(x, y, op) {
+    
+    mycall <- "bc.str"
+    
     # checks:
-    .binary_stop_general(x, y, op, sys.call())
+    .binary_stop_general(x, y, op, mycall)
     if(!is.character(x) || !is.character(y)) {
-      stop("`x` and `y` must be character/string arrays")
+      stop(simpleError("`x` and `y` must be character/string arrays", call = mycall))
     }
     
     encodings <- c(
@@ -62,7 +65,7 @@ setMethod(
       Encoding(y[length(y)])
     )
     if(length(unique(encodings)) > 1L) {
-      warning("difference in encoding detected between `x` and `y`")
+      warning(simpleWarning("difference in encoding detected between `x` and `y`", call = mycall))
     }
     
     
@@ -72,16 +75,16 @@ setMethod(
     op_dist <- which(.op_str_dist() == op)
     
     if(length(op_conc)) {
-      return(.bc_str_conc(x, y, op_conc, sys.call()))
+      return(.bc_str_conc(x, y, op_conc, mycall))
     }
     else if(length(op_rel)) {
-      return(.bc_str_rel(x, y, op_rel, sys.call()))
+      return(.bc_str_rel(x, y, op_rel, mycall))
     }
     else if(length(op_dist)) {
-      return(.bc_str_dist(x, y, op_dist, sys.call()))
+      return(.bc_str_dist(x, y, op_dist, mycall))
     }
     else {
-      stop("given operator not supported in the given context")
+      stop(simpleError("given operator not supported in the given context", call = mycall))
     }
     
   }

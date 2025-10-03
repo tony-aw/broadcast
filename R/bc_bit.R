@@ -59,20 +59,23 @@ setGeneric(
 setMethod(
   "bc.bit", c(x = "ANY", y = "ANY"),
   function(x, y, op) {
+    
+    mycall <- "bc.bit"
+    
     # checks:
-    .binary_stop_general(x, y, op, sys.call())
+    .binary_stop_general(x, y, op, mycall)
     
     if(is.double(x) || is.double(y)) {
-      stop("only 32-bit integers allowed, not 53-bit integers")
+      stop(simpleError("only 32-bit integers allowed, not 53-bit integers", call = mycall))
     }
     
     if(typeof(x) != typeof(y)) {
-      stop("`x` and `y` must be of the same type")
+      stop(simpleError("`x` and `y` must be of the same type", call = mycall))
     }
     check_raw <- is.raw(x) && is.raw(y)
     check_int <- is.integer(x) && is.integer(y)
     if(!check_raw && !check_int) {
-      stop("`x` and `y` must both be raw or integer arrays")
+      stop(simpleError("`x` and `y` must both be raw or integer arrays", call = mycall))
     }
     
     
@@ -80,10 +83,10 @@ setMethod(
     op_bit <- which(.op_bit() == op)
     
     if(length(op_bit)) {
-      return(.bc_bit(x, y, op_bit, sys.call()))
+      return(.bc_bit(x, y, op_bit, mycall))
     }
     else {
-      stop("given operator not supported in the given context")
+      stop(simpleError("given operator not supported in the given context", call = mycall))
     }
   }
 )

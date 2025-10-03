@@ -122,7 +122,7 @@ acast.default <- function(
   newdim <- x.ndim + 1L
   
   # determine dimchunksize:
-  dimchunksize <- .acast_get_dimchunksize(x.ndim + 1L)
+  dimchunksize <- 16L
   x.dimchunk <- c(x.dim, rep(1L, dimchunksize - x.ndim))
   
   

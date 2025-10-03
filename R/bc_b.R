@@ -54,22 +54,24 @@ setMethod(
   "bc.b", c(x = "ANY", y = "ANY"),
   function(x, y, op) {
     
+    mycall <- "bc.b"
+    
     # checks:
-    .binary_stop_general(x, y, op, sys.call())
+    .binary_stop_general(x, y, op, mycall)
     if(is.double(x)) x <- as_int(x)
     if(is.double(y)) y <- as_int(y)
     if(!.is_boolable(x) || !.is_boolable(y)) {
-      stop("unsupported types given")
+      stop(simpleError("unsupported types given", call = mycall))
     }
     
     # get operator:
     op <- which(.op_b() == op)
     
     if(length(op)) {
-      return(.bc_b(x, y, op, sys.call()))
+      return(.bc_b(x, y, op, mycall))
     }
     else {
-      stop("given operator not supported in the given context")
+      stop(simpleError("given operator not supported in the given context", call = mycall))
     }
   }
 )

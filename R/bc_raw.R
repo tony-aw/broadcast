@@ -46,10 +46,13 @@ setGeneric(
 setMethod(
   "bc.raw", c(x = "ANY", y = "ANY"),
   function(x, y, op) {
+    
+    mycall <- "bc.raw"
+    
     # checks:
-    .binary_stop_general(x, y, op, sys.call())
+    .binary_stop_general(x, y, op, mycall)
     if(!is.raw(x) || !is.raw(y)) {
-      stop("`x` and `y` must be raw arrays")
+      stop(simpleError("`x` and `y` must be raw arrays", call = mycall))
     }
     
     
@@ -57,10 +60,10 @@ setMethod(
     op <- which(.op_raw_byte() == op)
     
     if(length(op)) {
-      return(.bc_raw_byte(x, y, op, sys.call()))
+      return(.bc_raw_byte(x, y, op, mycall))
     }
     else {
-      stop("given operator not supported in the given context")
+      stop(simpleError("given operator not supported in the given context", call = mycall))
     }
   }
 )

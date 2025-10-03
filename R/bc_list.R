@@ -33,7 +33,10 @@ setGeneric(
 setMethod(
   "bc.list", c(x = "ANY", y = "ANY"),
   function(x, y, f) {
-    .bc.list(x, y, f, sys.call())
+    
+    mycall <- "bc.list"
+    
+    return(.bc.list(x, y, f, mycall))
   }
 )
 
@@ -45,16 +48,16 @@ setMethod(
   # checks:
   .binary_stop_general(x, y, "", abortcall)
   if(!is.list(x) || !is.list(y)) {
-    stop("`x` and `y` must be recursive arrays")
+    stop(simpleError("`x` and `y` must be recursive arrays", abortcall))
   }
   if(length(x) == 0L || length(y) == 0L) {
     return(vector("list", 0L))
   }
   if(!is.function(f)) {
-    stop("`f` must be a function")
+    stop(simpleError("`f` must be a function", abortcall))
   }
   if(.n_args(f) != 2L) {
-    stop("`f` must be a function that takes in exactly 2 arguments")
+    stop(simpleError("`f` must be a function that takes in exactly 2 arguments", abortcall))
   }
   
   
