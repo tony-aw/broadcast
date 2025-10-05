@@ -103,7 +103,7 @@ This can be changed, as will be shown in a later example.
 
 
 As shown in the results above, [cast_hier2dim()](/man/cast_hier2dim.qmd) will obviously not preserve names.  
-It is trivially easy to set the `dimnames` of `x2`, using `hiernames2dimnames` (available from version `0.1.5`):
+It is trivially easy to set the `dimnames` of `x2`, using [hiernames2dimnames()](/man/hier2dim.qmd) (available from version `0.1.5`):
 
 ```{r}
 dimnames(x2) <- hiernames2dimnames(x)
@@ -122,20 +122,28 @@ We only need to see a portion of the list in detail, so let's look at class1 fro
 cast_dim2flat(x2[, 1, "group1", drop = FALSE])
 ```
 
+&nbsp;
 
 Dimensional lists can be easier to work with than hierarchical lists.  
-Consider, for example, printing the height of the first class of every group in a list - let's compare how to do this in a nested list vs a dimensional list:
+Consider, for example, printing the height of the first class of every group in a list - let's compare how to do this in a nested list vs a dimensional list.
+
+With a nested list, doing this takes a slow, messy for-loop:
 
 ```{r}
 
-# nested list:
 for(i in seq_along(x)) {
   print(names(x)[i])
   x[[i]][[1]][["height"]] |> print() # slow for-loop, messy code
 }
 
-# dimensional list:
-x2["height", 1L, ] |> print() # fast vectorized operator, sleek code
+```
+
+With a dimensional list, the very same thing can be done with sleek, vectorized code; no messy loop needed:
+
+```{r}
+
+x2["height", 1L, ] |> print()
+
 x2["height", 1L, , drop = FALSE] |> cast_dim2flat() # same but more informative
 
 ```
@@ -204,7 +212,7 @@ print(x2)
 Since `in2out = FALSE`, element `x[[i]][[j]][[k]]` corresponds to element `x2[i, j, k]` (for all `i`, `j`, and `k`).
 
 
-Once again it is trivially easy to set the `dimnames` of `x2`, using `hiernames2dimnames` (available from version `0.1.5`):
+Once again it is trivially easy to set the `dimnames` of `x2`, using [hiernames2dimnames()](/man/hier2dim.qmd) (available from version `0.1.5`):
 
 ```{r}
 # this time, in2out = FALSE
