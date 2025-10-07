@@ -55,10 +55,10 @@
   else if(is.numeric(e1) || is.numeric(e2)) {
     if(!is.double(e1)) e1 <- as_dbl(e1)
     if(!is.double(e2)) e2 <- as_dbl(e2)
-    return(.bc_dec_rel(e1, e2, op, 0, abortcall))
+    return(.bc_dec_rel(e1, e2, op, abortcall))
   }
   else if(is.logical(e1) || is.logical(e2)) {
-    return(.bc_b(e1, e2, op + 4L, abortcall))
+    return(.bc_b_rel(e1, e2, op, abortcall))
   }
   else if(is.raw(e1) && is.raw(e2)) {
     return(.bc_raw_rel(e1, e2, op, abortcall))
@@ -77,10 +77,10 @@
   if(is.numeric(e1) || is.numeric(e2)) {
     if(!is.double(e1)) e1 <- as_dbl(e1)
     if(!is.double(e2)) e2 <- as_dbl(e2)
-    return(.bc_dec_rel(e1, e2, op, 0, abortcall))
+    return(.bc_dec_rel(e1, e2, op, abortcall))
   }
   else if(is.logical(e1) || is.logical(e2)) {
-    return(.bc_b(e1, e2, op + 4L))
+    return(.bc_b_rel(e1, e2, op))
   }
   else if(is.raw(e1) && is.raw(e2)) {
     return(.bc_raw_rel(e1, e2, op, abortcall))

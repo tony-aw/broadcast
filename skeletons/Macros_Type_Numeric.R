@@ -93,9 +93,9 @@ macro_typeswitch_decimal_special <- "
 "
 
 
-macro_typeswitch_decimal_rel <- "
+macro_typeswitch_decimal_dist <- "
 
-#define MACRO_TYPESWITCH_DECIMAL_REL(DIMCODE, NACODE1, DOCODE1, NACODE2, DOCODE2) do {      \\
+#define MACRO_TYPESWITCH_DECIMAL_DIST(DIMCODE, NACODE1, DOCODE1, NACODE2, DOCODE2) do {      \\
     const double *px = REAL_RO(x);                              \\
     const double *py = REAL_RO(y);                              \\
     DIMCODE(                                                    \\
@@ -290,13 +290,6 @@ macro_typeswitch_integer_gcd <- "
 
 
 
-################################################################################
-# Boolean ====
-#
-
-
-
-
 
 ################################################################################
 # Save ====
@@ -315,7 +308,7 @@ macro_typeswitch_numeric <- stri_c(
   "\n",
   macro_typeswitch_decimal_special,
   "\n",
-  macro_typeswitch_decimal_rel,
+  macro_typeswitch_decimal_dist,
   "\n",
   macro_typeswitch_integer_unguarded,
   "\n",

@@ -27,6 +27,24 @@
 
 #' @keywords internal
 #' @noRd
+.rcpp_bcDist_dec_v <- function(x, y, nout, op, prec) {
+    .Call(`_broadcast_rcpp_bcDist_dec_v`, x, y, nout, op, prec)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcDist_dec_ov <- function(x, y, RxC, out_dim, nout, op, prec) {
+    .Call(`_broadcast_rcpp_bcDist_dec_ov`, x, y, RxC, out_dim, nout, op, prec)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcDist_dec_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op, prec) {
+    .Call(`_broadcast_rcpp_bcDist_dec_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op, prec)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_bcDist_str_v <- function(x, y, nout, op) {
     .Call(`_broadcast_rcpp_bcDist_str_v`, x, y, nout, op)
 }
@@ -41,6 +59,60 @@
 #' @noRd
 .rcpp_bcDist_str_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
     .Call(`_broadcast_rcpp_bcDist_str_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcFact_int_v <- function(x, y, nout, op) {
+    .Call(`_broadcast_rcpp_bcFact_int_v`, x, y, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcFact_int_ov <- function(x, y, RxC, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bcFact_int_ov`, x, y, RxC, out_dim, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcFact_int_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bcFact_int_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcRel_b_v <- function(x, y, nout, op) {
+    .Call(`_broadcast_rcpp_bcRel_b_v`, x, y, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcRel_b_ov <- function(x, y, RxC, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bcRel_b_ov`, x, y, RxC, out_dim, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcRel_b_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bcRel_b_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcRel_bit_v <- function(x, y, nout, op) {
+    .Call(`_broadcast_rcpp_bcRel_bit_v`, x, y, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcRel_bit_ov <- function(x, y, RxC, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bcRel_bit_ov`, x, y, RxC, out_dim, nout, op)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_bcRel_bit_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bcRel_bit_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
 }
 
 #' @keywords internal
@@ -63,20 +135,20 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_bcRel_dec_v <- function(x, y, nout, op, prec) {
-    .Call(`_broadcast_rcpp_bcRel_dec_v`, x, y, nout, op, prec)
+.rcpp_bcRel_dec_v <- function(x, y, nout, op) {
+    .Call(`_broadcast_rcpp_bcRel_dec_v`, x, y, nout, op)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bcRel_dec_ov <- function(x, y, RxC, out_dim, nout, op, prec) {
-    .Call(`_broadcast_rcpp_bcRel_dec_ov`, x, y, RxC, out_dim, nout, op, prec)
+.rcpp_bcRel_dec_ov <- function(x, y, RxC, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bcRel_dec_ov`, x, y, RxC, out_dim, nout, op)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bcRel_dec_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op, prec) {
-    .Call(`_broadcast_rcpp_bcRel_dec_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op, prec)
+.rcpp_bcRel_dec_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
+    .Call(`_broadcast_rcpp_bcRel_dec_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
 }
 
 #' @keywords internal
@@ -227,18 +299,6 @@
 #' @noRd
 .rcpp_bc_ifelse_d <- function(cond, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout) {
     .Call(`_broadcast_rcpp_bc_ifelse_d`, cond, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_int53_gcd_rec <- function(x, y) {
-    .Call(`_broadcast_rcpp_int53_gcd_rec`, x, y)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_int53_gcd <- function(x, y) {
-    .Call(`_broadcast_rcpp_int53_gcd`, x, y)
 }
 
 #' @keywords internal

@@ -67,6 +67,58 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_bcDist_dec_v
+SEXP rcpp_bcDist_dec_v(SEXP x, SEXP y, R_xlen_t nout, int op, double prec);
+RcppExport SEXP _broadcast_rcpp_bcDist_dec_v(SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP, SEXP opSEXP, SEXP precSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    Rcpp::traits::input_parameter< double >::type prec(precSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcDist_dec_v(x, y, nout, op, prec));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bcDist_dec_ov
+SEXP rcpp_bcDist_dec_ov(SEXP x, SEXP y, bool RxC, SEXP out_dim, R_xlen_t nout, int op, double prec);
+RcppExport SEXP _broadcast_rcpp_bcDist_dec_ov(SEXP xSEXP, SEXP ySEXP, SEXP RxCSEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP, SEXP precSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< bool >::type RxC(RxCSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    Rcpp::traits::input_parameter< double >::type prec(precSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcDist_dec_ov(x, y, RxC, out_dim, nout, op, prec));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bcDist_dec_d
+SEXP rcpp_bcDist_dec_d(SEXP x, SEXP y, SEXP by_x, SEXP by_y, SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op, double prec);
+RcppExport SEXP _broadcast_rcpp_bcDist_dec_d(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP dcp_xSEXP, SEXP dcp_ySEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP, SEXP precSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type by_x(by_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type by_y(by_ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp_x(dcp_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp_y(dcp_ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    Rcpp::traits::input_parameter< double >::type prec(precSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcDist_dec_d(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op, prec));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_bcDist_str_v
 SEXP rcpp_bcDist_str_v(SEXP x, SEXP y, R_xlen_t nout, int op);
 RcppExport SEXP _broadcast_rcpp_bcDist_str_v(SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP, SEXP opSEXP) {
@@ -113,6 +165,153 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
     Rcpp::traits::input_parameter< int >::type op(opSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_bcDist_str_d(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bcFact_int_v
+SEXP rcpp_bcFact_int_v(SEXP x, SEXP y, R_xlen_t nout, int op);
+RcppExport SEXP _broadcast_rcpp_bcFact_int_v(SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcFact_int_v(x, y, nout, op));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bcFact_int_ov
+SEXP rcpp_bcFact_int_ov(SEXP x, SEXP y, bool RxC, SEXP out_dim, R_xlen_t nout, int op);
+RcppExport SEXP _broadcast_rcpp_bcFact_int_ov(SEXP xSEXP, SEXP ySEXP, SEXP RxCSEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< bool >::type RxC(RxCSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcFact_int_ov(x, y, RxC, out_dim, nout, op));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bcFact_int_d
+SEXP rcpp_bcFact_int_d(SEXP x, SEXP y, SEXP by_x, SEXP by_y, SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op);
+RcppExport SEXP _broadcast_rcpp_bcFact_int_d(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP dcp_xSEXP, SEXP dcp_ySEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type by_x(by_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type by_y(by_ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp_x(dcp_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp_y(dcp_ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcFact_int_d(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bcRel_b_v
+SEXP rcpp_bcRel_b_v(SEXP x, SEXP y, R_xlen_t nout, int op);
+RcppExport SEXP _broadcast_rcpp_bcRel_b_v(SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcRel_b_v(x, y, nout, op));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bcRel_b_ov
+SEXP rcpp_bcRel_b_ov(SEXP x, SEXP y, bool RxC, SEXP out_dim, R_xlen_t nout, int op);
+RcppExport SEXP _broadcast_rcpp_bcRel_b_ov(SEXP xSEXP, SEXP ySEXP, SEXP RxCSEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< bool >::type RxC(RxCSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcRel_b_ov(x, y, RxC, out_dim, nout, op));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bcRel_b_d
+SEXP rcpp_bcRel_b_d(SEXP x, SEXP y, SEXP by_x, SEXP by_y, SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op);
+RcppExport SEXP _broadcast_rcpp_bcRel_b_d(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP dcp_xSEXP, SEXP dcp_ySEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type by_x(by_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type by_y(by_ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp_x(dcp_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp_y(dcp_ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcRel_b_d(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bcRel_bit_v
+SEXP rcpp_bcRel_bit_v(SEXP x, SEXP y, R_xlen_t nout, int op);
+RcppExport SEXP _broadcast_rcpp_bcRel_bit_v(SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcRel_bit_v(x, y, nout, op));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bcRel_bit_ov
+SEXP rcpp_bcRel_bit_ov(SEXP x, SEXP y, bool RxC, SEXP out_dim, R_xlen_t nout, int op);
+RcppExport SEXP _broadcast_rcpp_bcRel_bit_ov(SEXP xSEXP, SEXP ySEXP, SEXP RxCSEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< bool >::type RxC(RxCSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcRel_bit_ov(x, y, RxC, out_dim, nout, op));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bcRel_bit_d
+SEXP rcpp_bcRel_bit_d(SEXP x, SEXP y, SEXP by_x, SEXP by_y, SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op);
+RcppExport SEXP _broadcast_rcpp_bcRel_bit_d(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP dcp_xSEXP, SEXP dcp_ySEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type by_x(by_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type by_y(by_ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp_x(dcp_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp_y(dcp_ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcRel_bit_d(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -166,8 +365,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_bcRel_dec_v
-SEXP rcpp_bcRel_dec_v(SEXP x, SEXP y, R_xlen_t nout, int op, double prec);
-RcppExport SEXP _broadcast_rcpp_bcRel_dec_v(SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP, SEXP opSEXP, SEXP precSEXP) {
+SEXP rcpp_bcRel_dec_v(SEXP x, SEXP y, R_xlen_t nout, int op);
+RcppExport SEXP _broadcast_rcpp_bcRel_dec_v(SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP, SEXP opSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -175,14 +374,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
     Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
     Rcpp::traits::input_parameter< int >::type op(opSEXP);
-    Rcpp::traits::input_parameter< double >::type prec(precSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bcRel_dec_v(x, y, nout, op, prec));
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcRel_dec_v(x, y, nout, op));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_bcRel_dec_ov
-SEXP rcpp_bcRel_dec_ov(SEXP x, SEXP y, bool RxC, SEXP out_dim, R_xlen_t nout, int op, double prec);
-RcppExport SEXP _broadcast_rcpp_bcRel_dec_ov(SEXP xSEXP, SEXP ySEXP, SEXP RxCSEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP, SEXP precSEXP) {
+SEXP rcpp_bcRel_dec_ov(SEXP x, SEXP y, bool RxC, SEXP out_dim, R_xlen_t nout, int op);
+RcppExport SEXP _broadcast_rcpp_bcRel_dec_ov(SEXP xSEXP, SEXP ySEXP, SEXP RxCSEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -192,14 +390,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
     Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
     Rcpp::traits::input_parameter< int >::type op(opSEXP);
-    Rcpp::traits::input_parameter< double >::type prec(precSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bcRel_dec_ov(x, y, RxC, out_dim, nout, op, prec));
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcRel_dec_ov(x, y, RxC, out_dim, nout, op));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_bcRel_dec_d
-SEXP rcpp_bcRel_dec_d(SEXP x, SEXP y, SEXP by_x, SEXP by_y, SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op, double prec);
-RcppExport SEXP _broadcast_rcpp_bcRel_dec_d(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP dcp_xSEXP, SEXP dcp_ySEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP, SEXP precSEXP) {
+SEXP rcpp_bcRel_dec_d(SEXP x, SEXP y, SEXP by_x, SEXP by_y, SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op);
+RcppExport SEXP _broadcast_rcpp_bcRel_dec_d(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP dcp_xSEXP, SEXP dcp_ySEXP, SEXP out_dimSEXP, SEXP noutSEXP, SEXP opSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -212,8 +409,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
     Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
     Rcpp::traits::input_parameter< int >::type op(opSEXP);
-    Rcpp::traits::input_parameter< double >::type prec(precSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bcRel_dec_d(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op, prec));
+    rcpp_result_gen = Rcpp::wrap(rcpp_bcRel_dec_d(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -623,30 +819,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type out_dim(out_dimSEXP);
     Rcpp::traits::input_parameter< R_xlen_t >::type nout(noutSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_bc_ifelse_d(cond, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_int53_gcd_rec
-long long rcpp_int53_gcd_rec(long long x, long long y);
-RcppExport SEXP _broadcast_rcpp_int53_gcd_rec(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< long long >::type x(xSEXP);
-    Rcpp::traits::input_parameter< long long >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_int53_gcd_rec(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_int53_gcd
-double rcpp_int53_gcd(double x, double y);
-RcppExport SEXP _broadcast_rcpp_int53_gcd(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_int53_gcd(x, y));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1300,15 +1472,27 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_factor_which", (DL_FUNC) &_broadcast_rcpp_factor_which, 3},
     {"_broadcast_rcpp_acast", (DL_FUNC) &_broadcast_rcpp_acast, 12},
     {"_broadcast_rcpp_address", (DL_FUNC) &_broadcast_rcpp_address, 1},
+    {"_broadcast_rcpp_bcDist_dec_v", (DL_FUNC) &_broadcast_rcpp_bcDist_dec_v, 5},
+    {"_broadcast_rcpp_bcDist_dec_ov", (DL_FUNC) &_broadcast_rcpp_bcDist_dec_ov, 7},
+    {"_broadcast_rcpp_bcDist_dec_d", (DL_FUNC) &_broadcast_rcpp_bcDist_dec_d, 10},
     {"_broadcast_rcpp_bcDist_str_v", (DL_FUNC) &_broadcast_rcpp_bcDist_str_v, 4},
     {"_broadcast_rcpp_bcDist_str_ov", (DL_FUNC) &_broadcast_rcpp_bcDist_str_ov, 6},
     {"_broadcast_rcpp_bcDist_str_d", (DL_FUNC) &_broadcast_rcpp_bcDist_str_d, 9},
+    {"_broadcast_rcpp_bcFact_int_v", (DL_FUNC) &_broadcast_rcpp_bcFact_int_v, 4},
+    {"_broadcast_rcpp_bcFact_int_ov", (DL_FUNC) &_broadcast_rcpp_bcFact_int_ov, 6},
+    {"_broadcast_rcpp_bcFact_int_d", (DL_FUNC) &_broadcast_rcpp_bcFact_int_d, 9},
+    {"_broadcast_rcpp_bcRel_b_v", (DL_FUNC) &_broadcast_rcpp_bcRel_b_v, 4},
+    {"_broadcast_rcpp_bcRel_b_ov", (DL_FUNC) &_broadcast_rcpp_bcRel_b_ov, 6},
+    {"_broadcast_rcpp_bcRel_b_d", (DL_FUNC) &_broadcast_rcpp_bcRel_b_d, 9},
+    {"_broadcast_rcpp_bcRel_bit_v", (DL_FUNC) &_broadcast_rcpp_bcRel_bit_v, 4},
+    {"_broadcast_rcpp_bcRel_bit_ov", (DL_FUNC) &_broadcast_rcpp_bcRel_bit_ov, 6},
+    {"_broadcast_rcpp_bcRel_bit_d", (DL_FUNC) &_broadcast_rcpp_bcRel_bit_d, 9},
     {"_broadcast_rcpp_bcRel_cplx_v", (DL_FUNC) &_broadcast_rcpp_bcRel_cplx_v, 4},
     {"_broadcast_rcpp_bcRel_cplx_ov", (DL_FUNC) &_broadcast_rcpp_bcRel_cplx_ov, 6},
     {"_broadcast_rcpp_bcRel_cplx_d", (DL_FUNC) &_broadcast_rcpp_bcRel_cplx_d, 9},
-    {"_broadcast_rcpp_bcRel_dec_v", (DL_FUNC) &_broadcast_rcpp_bcRel_dec_v, 5},
-    {"_broadcast_rcpp_bcRel_dec_ov", (DL_FUNC) &_broadcast_rcpp_bcRel_dec_ov, 7},
-    {"_broadcast_rcpp_bcRel_dec_d", (DL_FUNC) &_broadcast_rcpp_bcRel_dec_d, 10},
+    {"_broadcast_rcpp_bcRel_dec_v", (DL_FUNC) &_broadcast_rcpp_bcRel_dec_v, 4},
+    {"_broadcast_rcpp_bcRel_dec_ov", (DL_FUNC) &_broadcast_rcpp_bcRel_dec_ov, 6},
+    {"_broadcast_rcpp_bcRel_dec_d", (DL_FUNC) &_broadcast_rcpp_bcRel_dec_d, 9},
     {"_broadcast_rcpp_bcRel_int_v", (DL_FUNC) &_broadcast_rcpp_bcRel_int_v, 4},
     {"_broadcast_rcpp_bcRel_int_ov", (DL_FUNC) &_broadcast_rcpp_bcRel_int_ov, 6},
     {"_broadcast_rcpp_bcRel_int_d", (DL_FUNC) &_broadcast_rcpp_bcRel_int_d, 9},
@@ -1334,8 +1518,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bc_ifelse_v", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_v, 4},
     {"_broadcast_rcpp_bc_ifelse_ov", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_ov, 6},
     {"_broadcast_rcpp_bc_ifelse_d", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_d, 9},
-    {"_broadcast_rcpp_int53_gcd_rec", (DL_FUNC) &_broadcast_rcpp_int53_gcd_rec, 2},
-    {"_broadcast_rcpp_int53_gcd", (DL_FUNC) &_broadcast_rcpp_int53_gcd, 2},
     {"_broadcast_rcpp_bc_int_v", (DL_FUNC) &_broadcast_rcpp_bc_int_v, 4},
     {"_broadcast_rcpp_bc_int_ov", (DL_FUNC) &_broadcast_rcpp_bc_int_ov, 6},
     {"_broadcast_rcpp_bc_int_d", (DL_FUNC) &_broadcast_rcpp_bc_int_d, 9},

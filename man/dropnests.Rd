@@ -47,7 +47,8 @@ dropnests(x)
 x <- list(
   a = list(list(list(list(1:10)))),
   b = data.frame(month.abb, month.name),
-  c = data.frame(month.abb)
+  c = data.frame(month.abb),
+  d = array(list(1), c(1,1,1))
 )
 
 dropnests(x) # by default, recurse_all = FALSE

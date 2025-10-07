@@ -13,7 +13,7 @@ bc.bit(x, y, op, ...)
 \item{x, y}{conformable raw or integer (32 bit) vectors/arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported bit-wise operators: &, |, xor, nand, ==, !=, <, >, <=, >=, <<, >>.}
+Supported bit-wise operators: &, |, xor, nand, <<, >>, ==, !=, <, >, <=, >=.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }

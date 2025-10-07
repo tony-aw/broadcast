@@ -1,3 +1,4 @@
+
 # set-up ====
 enumerate <- 0 # to count number of tests performed using iterations in loops
 errorfun <- function(tt) {
@@ -202,19 +203,19 @@ y <- c(
 ) |> as.array()
 
 expect_error(
-  bc.d(x, y, "==", tol = 1),
+  bc.d(x, y, "d==", tol = 1),
   pattern = "`tol` must be >= 0 and <= 0.1",
   fixed = TRUE
 )
 
 expect_error(
-  bc.d(x, y, "==", tol = rep(1e-5, 10)),
+  bc.d(x, y, "d==", tol = rep(1e-5, 10)),
   pattern = "`tol` must be a single decimal number",
   fixed = TRUE
 )
 
 expect_error(
-  bc.d(x, y, "==", tol = "0.01"),
+  bc.d(x, y, "d==", tol = "0.01"),
   pattern = "`tol` must be a single decimal number",
   fixed = TRUE
 )

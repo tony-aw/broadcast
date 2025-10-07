@@ -52,10 +52,9 @@ txt1 <- "
 // [[Rcpp::export(.rcpp_bcRel_dec_v)]]
 SEXP rcpp_bcRel_dec_v(
   SEXP x, SEXP y,
-  R_xlen_t nout, int op, double prec
+  R_xlen_t nout, int op
 ) {
 
-double tempcalc;
 int tempout;
 
 SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
@@ -82,10 +81,9 @@ txt2 <- "
 // [[Rcpp::export(.rcpp_bcRel_dec_ov)]]
 SEXP rcpp_bcRel_dec_ov(
   SEXP x, SEXP y, bool RxC, SEXP out_dim,
-  R_xlen_t nout, int op, double prec
+  R_xlen_t nout, int op
 ) {
 
-double tempcalc;
 int tempout;
 
 SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
@@ -112,11 +110,10 @@ SEXP rcpp_bcRel_dec_d(
   SEXP x, SEXP y,
   SEXP by_x,
   SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op, double prec
+  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op
 ) {
 
 
-double tempcalc;
 int tempout;
 
 SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));

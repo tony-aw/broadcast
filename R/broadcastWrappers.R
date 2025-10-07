@@ -121,3 +121,4 @@
 .C_bindhelper_max_type <- function(x) {
   .Call("C_bindhelper_max_type", x)
 }
+

@@ -8,23 +8,6 @@ using namespace Rcpp;
 
 
 
-inline Rbyte rcpp_bit_se_raw(Rbyte x, Rbyte y) {
-  return (~x & y) | (x & y) | (~x & ~y);
-}
-
-inline Rbyte rcpp_bit_ge_raw(Rbyte x, Rbyte y) {
-  return (x & ~y) | (x & y) | (~x & ~y);
-}
-
-inline int rcpp_bit_se_int(int x, int y) {
-  return (~x & y) | (x & y) | (~x & ~y);
-}
-
-inline int rcpp_bit_ge_int(int x, int y) {
-  return (x & ~y) | (x & y) | (~x & ~y);
-}
-
-
 inline Rbyte rcpp_bit_ls(Rbyte x, Rbyte y) {
   if(y > 8) {
     stop("shift cannot be larger than 8");
@@ -61,7 +44,7 @@ SEXP rcpp_bc_bit_v(
     const Rbyte *px = RAW(x);
     const Rbyte *py = RAW(y);
     
-    MACRO_OP_BIT_RAW(MACRO_DIM_VECTOR);
+    MACRO_OP_BIT_ANDOR_RAW(MACRO_DIM_VECTOR);
     
     UNPROTECT(1);
     return out;
@@ -72,7 +55,7 @@ SEXP rcpp_bc_bit_v(
     const int *px = INTEGER_RO(x);
     const int *py = INTEGER_RO(y);
     
-    MACRO_OP_BIT_INT(MACRO_DIM_VECTOR);
+    MACRO_OP_BIT_ANDOR_INT(MACRO_DIM_VECTOR);
     
     UNPROTECT(1);
     return out;
@@ -102,7 +85,7 @@ SEXP rcpp_bc_bit_ov(
     const Rbyte *px = RAW(x);
     const Rbyte *py = RAW(y);
     
-    MACRO_OP_BIT_RAW(MACRO_DIM_ORTHOVECTOR);
+    MACRO_OP_BIT_ANDOR_RAW(MACRO_DIM_ORTHOVECTOR);
     
     UNPROTECT(1);
     return out;
@@ -113,7 +96,7 @@ SEXP rcpp_bc_bit_ov(
     const int *px = INTEGER_RO(x);
     const int *py = INTEGER_RO(y);
     
-    MACRO_OP_BIT_INT(MACRO_DIM_ORTHOVECTOR);
+    MACRO_OP_BIT_ANDOR_INT(MACRO_DIM_ORTHOVECTOR);
     
     UNPROTECT(1);
     return out;
@@ -147,7 +130,7 @@ SEXP rcpp_bc_bit_d(
     const Rbyte *px = RAW(x);
     const Rbyte *py = RAW(y);
     
-    MACRO_OP_BIT_RAW(MACRO_DIM_DOCALL);
+    MACRO_OP_BIT_ANDOR_RAW(MACRO_DIM_DOCALL);
     
     UNPROTECT(1);
     return out;
@@ -158,7 +141,7 @@ SEXP rcpp_bc_bit_d(
     const int *px = INTEGER_RO(x);
     const int *py = INTEGER_RO(y);
     
-    MACRO_OP_BIT_INT(MACRO_DIM_DOCALL);
+    MACRO_OP_BIT_ANDOR_INT(MACRO_DIM_DOCALL);
     
     UNPROTECT(1);
     return out;

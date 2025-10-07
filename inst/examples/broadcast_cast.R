@@ -1,4 +1,19 @@
 
+# recurse_all demonstration ====
+x <- list(
+  a = list(list(list(list(1:10)))),
+  b = data.frame(month.abb, month.name),
+  c = data.frame(month.abb),
+  d = array(list(1), c(1,1,1))
+)
+
+dropnests(x) # by default, recurse_all = FALSE
+
+dropnests(x, recurse_all = TRUE) # recurse_all = TRUE
+
+
+
+# in2out demonstration ====
 x <- list(
   group1 = list(
     class1 = list(
@@ -26,19 +41,15 @@ x <- list(
   )
 )
 
-# predict dimensions x would have if casted as dimensional:
-hier2dim(x, in2out = FALSE)
+# in2out = TRUE (default):
+x2 <- cast_hier2dim(x)
+dimnames(x2) <- hiernames2dimnames(x)
+print(x2)
+cast_dim2flat(x2[1,1,,drop = FALSE])
 
-# cast x to dimensional list:
+# in2out = FALSE:
 x2 <- cast_hier2dim(x, in2out = FALSE)
-
-# set dimnames of dimensionally casted list:
 dimnames(x2) <- hiernames2dimnames(x, in2out = FALSE)
+print(x2)
+cast_dim2flat(x2[1,1,,drop = FALSE])
 
-# print result:
-print(x2) # very compact
-cast_dim2flat(x2) |> print() # less compact
-
-# cast dimensional list back to nested/hierarchical list:
-x3 <- cast_dim2hier(x2, in2out = FALSE, distr.names = TRUE)
-print(x3)

@@ -15,14 +15,26 @@
 #' @keywords internal
 #' @noRd
 .op_dec_rel <- function() {
-  return(c("==", "!=", "<", ">", "<=", ">=", "d==", "d!=", "d<", "d>", "d<=", "d>="))
+  return(c("==", "!=", "<", ">", "<=", ">="))
+}
+
+#' @keywords internal
+#' @noRd
+.op_dec_dist <- function() {
+  return(c("d==", "d!=", "d<", "d>", "d<=", "d>="))
 }
 
 
 #' @keywords internal
 #' @noRd
 .op_int_math <- function() {
-  return(c("+", "-", "*", "gcd", "%%", "%/%", "^", "pmin", "pmax"))
+  return(c("+", "-", "*", "^", "pmin", "pmax"))
+}
+
+#' @keywords internal
+#' @noRd
+.op_int_fact <- function() {
+  return(c("gcd", "%%", "%/%"))
 }
 
 #' @keywords internal
@@ -35,7 +47,7 @@
 #' @keywords internal
 #' @noRd
 .op_b <- function() {
-  return(c("&", "|", "xor", "nand", "==", "!=", "<", ">", "<=", ">="))
+  return(c("&", "|", "xor", "nand"))
 }
 
 #' @keywords internal
@@ -73,7 +85,7 @@
 #' @keywords internal
 #' @noRd
 .op_bit <- function() {
-  return(c("&", "|", "xor", "nand", "==", "!=", "<", ">", "<=", ">=", "<<", ">>"))
+  return(c("&", "|", "xor", "nand", "<<", ">>"))
 }
 
 

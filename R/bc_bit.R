@@ -8,7 +8,7 @@
 #' 
 #' @param x,y conformable raw or integer (32 bit) vectors/arrays.
 #' @param op a single string, giving the operator. \cr
-#' Supported bit-wise operators: `r paste0(broadcast:::.op_bit(), collapse = ", ")`.
+#' Supported bit-wise operators: `r paste0(c(broadcast:::.op_bit(), broadcast:::.op_rel()), collapse = ", ")`.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' @details
@@ -80,10 +80,14 @@ setMethod(
     
     
     # get operator:
-    op_bit <- which(.op_bit() == op)
+    op_andor <- which(.op_bit() == op)
+    op_rel <- which(.op_rel() == op)
     
-    if(length(op_bit)) {
-      return(.bc_bit(x, y, op_bit, mycall))
+    if(length(op_andor)) {
+      return(.bc_bit_andor(x, y, op_andor, mycall))
+    }
+    else if(length(op_rel)) {
+      return(.bc_bit_rel(x, y, op_rel, mycall))
     }
     else {
       stop(simpleError("given operator not supported in the given context", call = mycall))
@@ -94,7 +98,7 @@ setMethod(
 
 #' @keywords internal
 #' @noRd
-.bc_bit <- function(x, y, op, abortcall) {
+.bc_bit_andor <- function(x, y, op, abortcall) {
   
   if(length(x) == 0L || length(y) == 0L) {
     return(raw(0L))
@@ -123,6 +127,52 @@ setMethod(
     dcp_y <- .C_make_dcp(y.dim)
     
     out <- .rcpp_bc_bit_d(
+      x, y, by_x, by_y,
+      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
+    )
+  }
+  
+  dim(out) <- out.dimorig
+  
+  .binary_set_attr(out, x, y)
+  
+  return(out)
+  
+}
+
+
+
+#' @keywords internal
+#' @noRd
+.bc_bit_rel <- function(x, y, op, abortcall) {
+  
+  if(length(x) == 0L || length(y) == 0L) {
+    return(raw(0L))
+  }
+  
+  prep <- .binary_prep(x, y, abortcall)
+  x.dim <- prep[[1L]]
+  y.dim <- prep[[2L]]
+  out.dimorig <- prep[[3L]]
+  out.dimsimp <- prep[[4L]]
+  out.len <- prep[[5L]]
+  dimmode <- prep[[6L]]
+  
+  if(dimmode == 1L) { # vector mode
+    out <- .rcpp_bcRel_bit_v(x, y, out.len, op)
+  }
+  else if(dimmode == 2L) { # orthogonal vector mode
+    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
+    out <- .rcpp_bcRel_bit_ov(x, y, RxC, out.dimsimp, out.len, op)
+  }
+  else if(dimmode == 3L) { # general mode
+    
+    by_x <- .C_make_by(x.dim)
+    by_y <- .C_make_by(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
+    
+    out <- .rcpp_bcRel_bit_d(
       x, y, by_x, by_y,
       dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
     )

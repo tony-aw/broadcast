@@ -129,7 +129,7 @@
     stop("`%%` operator not supported for type `complex`")
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
-    out <- .bc_int_math(e1, e2, 5L, sys.call())
+    out <- .bc_int_fact(e1, e2, 2L, sys.call())
   }
   else {
     stop("non-numeric argument to binary operator")
@@ -148,7 +148,7 @@
     stop("`%/%` operator not supported for type `complex`")
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
-    out <- .bc_int_math(e1, e2, 6L, sys.call())
+    out <- .bc_int_fact(e1, e2, 3L, sys.call())
   }
   else {
     stop("non-numeric argument to binary operator")

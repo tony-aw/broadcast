@@ -12,7 +12,7 @@
 #' 
 #' @param x,y conformable vectors/arrays of type `logical`, `numeric`, or `raw`.
 #' @param op a single string, giving the operator. \cr
-#' Supported Boolean  operators: `r paste0(broadcast:::.op_b(), collapse = ", ")`.
+#' Supported Boolean  operators: `r paste0(c(broadcast:::.op_b(), broadcast:::.op_rel()), collapse = ", ")`.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #'
 #' @details
@@ -65,10 +65,14 @@ setMethod(
     }
     
     # get operator:
-    op <- which(.op_b() == op)
+    op_andor <- which(.op_b() == op)
+    op_rel <- which(.op_rel() == op)
     
-    if(length(op)) {
-      return(.bc_b(x, y, op, mycall))
+    if(length(op_andor)) {
+      return(.bc_b_andor(x, y, op_andor, mycall))
+    }
+    else if(length(op_rel)) {
+      return(.bc_b_rel(x, y, op_rel, mycall))
     }
     else {
       stop(simpleError("given operator not supported in the given context", call = mycall))
@@ -81,7 +85,7 @@ setMethod(
 
 #' @keywords internal
 #' @noRd
-.bc_b <- function(x, y, op, abortcall) {
+.bc_b_andor <- function(x, y, op, abortcall) {
   
   if(length(x) == 0L || length(y) == 0L) {
     return(logical(0L))
@@ -127,4 +131,55 @@ setMethod(
   return(out)
   
 }
+
+
+#' @keywords internal
+#' @noRd
+.bc_b_rel <- function(x, y, op, abortcall) {
+  
+  if(length(x) == 0L || length(y) == 0L) {
+    return(logical(0L))
+  }
+  
+  if(is.logical(x) || is.integer(x) || is.logical(y) || is.integer(y)) {
+    if(!is.integer(x)) x <- as_int(x)
+    if(!is.integer(y)) y <- as_int(y)
+  }
+  
+  prep <- .binary_prep(x, y, abortcall)
+  x.dim <- prep[[1L]]
+  y.dim <- prep[[2L]]
+  out.dimorig <- prep[[3L]]
+  out.dimsimp <- prep[[4L]]
+  out.len <- prep[[5L]]
+  dimmode <- prep[[6L]]
+  
+  if(dimmode == 1L) { # vector mode
+    out <- .rcpp_bcRel_b_v(x, y, out.len, op)
+  }
+  else if(dimmode == 2L) { # orthogonal vector mode
+    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
+    out <- .rcpp_bcRel_b_ov(x, y, RxC, out.dimsimp, out.len, op)
+  }
+  else if(dimmode == 3L) { # general mode
+    
+    by_x <- .C_make_by(x.dim)
+    by_y <- .C_make_by(y.dim)
+    dcp_x <- .C_make_dcp(x.dim)
+    dcp_y <- .C_make_dcp(y.dim)
+    
+    out <- .rcpp_bcRel_b_d(
+      x, y, by_x, by_y,
+      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
+    )
+  }
+  
+  dim(out) <- out.dimorig
+  
+  .binary_set_attr(out, x, y)
+  
+  return(out)
+  
+}
+
 

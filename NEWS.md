@@ -2,7 +2,7 @@
 
 # broadcast 0.1.5.2
 
-* Reduced the installation size of the compiled library, with almost no performance loss.
+* Reduced the installation time and size of the compiled library, with almost no performance loss.
 
 
 # broadcast 0.1.5

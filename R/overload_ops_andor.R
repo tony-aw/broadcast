@@ -13,10 +13,10 @@
   }
   
   if(.is_int32(e1) && .is_int32(e2)) {
-    out <- .bc_b(e1, e2, 1L, sys.call())
+    out <- .bc_b_andor(e1, e2, 1L, sys.call())
   }
   else if(is.raw(e1) && is.raw(e2)) {
-    out <- .bc_bit(e1, e2, 1L, sys.call())
+    out <- .bc_bit_andor(e1, e2, 1L, sys.call())
   }
   else {
     stop("operations are possible only for numeric, logical or complex types")
@@ -39,10 +39,10 @@
   }
   
   if(.is_int32(e1) && .is_int32(e2)) {
-    out <- .bc_b(e1, e2, 2L, sys.call())
+    out <- .bc_b_andor(e1, e2, 2L, sys.call())
   }
   else if(is.raw(e1) && is.raw(e2)) {
-    out <- .bc_bit(e1, e2, 2L, sys.call())
+    out <- .bc_bit_andor(e1, e2, 2L, sys.call())
   }
   else {
     stop("operations are possible only for numeric, logical or complex types")

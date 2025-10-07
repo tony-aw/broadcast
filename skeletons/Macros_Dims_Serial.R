@@ -38,8 +38,7 @@ ortho-vector broadcasting occurs when the following is true:
  - x is a row-vector and y is a column-vector, or vice-versa
 
 When none of the above techniques hold, The regular broadcasting technique is used.
-The MACROs for regular broadcasting were written for every 2 dimensions, from 2 to 16.
-i.e. 2, 4, 6, ..., 16.
+The MACROs for regular broadcasting were written for 2, 4, 8, and 16 dimensions.
 These MACROs were written via a simple 'R' script,
 to minimize the risk of human error.
 
@@ -294,8 +293,7 @@ MACROs for the binding implementation
 
 The following MACROs define the loops used for broadcasted binding.
 
-The MACROs were written for every 2 dimensions, from 2 to 16.
-i.e. 2, 4, 6, ..., 16
+The MACROs were written for 2, 4, 8, and 16 dimensions.
 
 ********************************************************************************
 

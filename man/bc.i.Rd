@@ -13,9 +13,10 @@ bc.i(x, y, op, ...)
 \item{x, y}{conformable vectors/arrays of type logical or numeric.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported arithmetic operators: +, -, *, gcd, \%\%, \%/\%, ^, pmin, pmax. \cr
+Supported simple arithmetic operators: +, -, *, ^, pmin, pmax. \cr
+Supported factorizing arithmetic operators: gcd, \%\%, \%/\%. \cr
 Supported relational operators: ==, !=, <, >, <=, >=. \cr
-The "gcd" operator performs the Greatest Common Divisor" operation,
+The "gcd" operator performs the "Greatest Common Divisor" operation,
 using the Euclidean algorithm.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
