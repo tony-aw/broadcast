@@ -198,7 +198,7 @@ macro_op_dec_rel <- "
       tempcalc = NA_REAL,	\\
       tempcalc = fabs((double)px[flatind_x] - (double)py[flatind_y]), \\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
-      MACRO_ASSIGN_C(tempcalc < prec)  \\
+      MACRO_ASSIGN_C(tempcalc <= prec)  \\
     );	\\
     break;	\\
   }	\\
@@ -209,7 +209,7 @@ macro_op_dec_rel <- "
       tempcalc = NA_REAL,	\\
       tempcalc = fabs((double)px[flatind_x] - (double)py[flatind_y]),	\\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
-      MACRO_ASSIGN_C(tempcalc >= prec)  \\
+      MACRO_ASSIGN_C(tempcalc > prec)  \\
     );	\\
     break;	\\
   }	\\
@@ -220,7 +220,7 @@ macro_op_dec_rel <- "
       tempcalc = NA_REAL,	\\
       tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),  \\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
-      MACRO_ASSIGN_C(tempcalc <= -prec)  \\
+      MACRO_ASSIGN_C(tempcalc < -prec)  \\
     );	\\
     break;	\\
   }	\\
@@ -231,7 +231,7 @@ macro_op_dec_rel <- "
       tempcalc = NA_REAL,	\\
       tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),  \\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
-      MACRO_ASSIGN_C(tempcalc >= prec)  \\
+      MACRO_ASSIGN_C(tempcalc > prec)  \\
     );	\\
     break;	\\
   }	\\
@@ -242,7 +242,7 @@ macro_op_dec_rel <- "
       tempcalc = NA_REAL,	\\
       tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),  \\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
-      MACRO_ASSIGN_C(tempcalc < prec)  \\
+      MACRO_ASSIGN_C(tempcalc <= prec)  \\
     );	\\
     break;	\\
   }	\\
@@ -253,7 +253,7 @@ macro_op_dec_rel <- "
       tempcalc = NA_REAL,	\\
       tempcalc = ((double)px[flatind_x] - (double)py[flatind_y]),	\\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
-      MACRO_ASSIGN_C(tempcalc > -prec)  \\
+      MACRO_ASSIGN_C(tempcalc >= -prec)  \\
     );	\\
     break;	\\
   }	\\
@@ -279,7 +279,7 @@ macro_op_int_math <- "
     case 1:	\\
     {	\\
       if(!rcpp_int53_need_guard1(x, y)) {    \\
-        MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
+        MACRO_TYPESWITCH_INTEGER_UNGUARDED(	\\
           DIMCODE,	\\
           MACRO_ASSIGN_C(NA_REAL),	\\
           MACRO_ASSIGN_C((double)px[flatind_x] + (double)py[flatind_y])	\\
@@ -297,7 +297,7 @@ macro_op_int_math <- "
     case 2:	\\
     {	\\
       if(!rcpp_int53_need_guard1(x, y)) {    \\
-        MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
+        MACRO_TYPESWITCH_INTEGER_UNGUARDED(	\\
           DIMCODE,	\\
           MACRO_ASSIGN_C(NA_REAL),	\\
           MACRO_ASSIGN_C((double)px[flatind_x] - (double)py[flatind_y])	\\
@@ -315,7 +315,7 @@ macro_op_int_math <- "
     case 3:	\\
     {	\\
       if(!rcpp_int53_need_guard2(x, y)) {    \\
-        MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
+        MACRO_TYPESWITCH_INTEGER_UNGUARDED(	\\
           DIMCODE,	\\
           MACRO_ASSIGN_C(NA_REAL),	\\
           MACRO_ASSIGN_C((double)px[flatind_x] * (double)py[flatind_y])	\\
@@ -1200,32 +1200,12 @@ macro_op_ifelse_int <- "
 #define MACRO_OP_IFELSE_INT(DIMCODE) do {       \\
   switch(TYPEOF(x)) {	\\
     case LGLSXP:	\\
-    {	\\
-      const int *px = LOGICAL_RO(x);	\\
-      const int *py = LOGICAL_RO(y);	\\
-      	\\
-      SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));	\\
-      int *pout;	\\
-      pout = LOGICAL(out);	\\
-      	\\
-      DIMCODE(	\\
-        MACRO_ACTION2(	\\
-          pcond[flatind_out] == NA_INTEGER,	\\
-          pout[flatind_out] = NA_LOGICAL,	\\
-          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\\
-        )	\\
-      );	\\
-      	\\
-      UNPROTECT(1);	\\
-      return out;	\\
-      	\\
-    }	\\
     case INTSXP:	\\
     {	\\
       const int *px = INTEGER_RO(x);	\\
       const int *py = INTEGER_RO(y);	\\
       	\\
-      SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));	\\
+      SEXP out = PROTECT(Rf_allocVector(TYPEOF(x), nout));	\\
       int *pout;	\\
       pout = INTEGER(out);	\\
       	\\

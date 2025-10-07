@@ -110,10 +110,6 @@ setMethod(
   
   dim(out) <- out.dimorig
   
-  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
-    .rcpp_set_class(out, "broadcaster")
-  }
-  
   .binary_set_attr(out, x, y)
   
   return(out)
@@ -159,10 +155,6 @@ setMethod(
   }
   
   dim(out) <- out.dimorig
-  
-  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
-    .rcpp_set_class(out, "broadcaster")
-  }
   
   .binary_set_attr(out, x, y)
   

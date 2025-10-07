@@ -54,13 +54,27 @@ For <code>lst.ndim()</code>: an integer vector, with the same length, names and 
 <h3>Examples</h3>
 
 <pre><code class='language-R'>
-# matrix example ====
+x &lt;- array(1:24, 2:4)
+ndim(x)
+
 x &lt;- list(
   array(1:10, 10),
   array(1:10, c(2, 5)),
   array(c(letters, NA), c(3,3,3))
 )
 lst.ndim(x)
+
+x &lt;- list(
+  1:10,
+  array(1:10, 10),
+  matrix(1:10, 2, 5),
+  array(c(letters, NA), c(3,3,3))
+)
+dim(x) &lt;- c(2,2)
+dimnames(x) &lt;- list(c("a", "b"), c("x", "y"))
+lst.ndim(x)
+
+
 </code></pre>
 
 </main>

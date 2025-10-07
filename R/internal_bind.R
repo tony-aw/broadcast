@@ -116,7 +116,7 @@
   input <- input[lengths(input) > 0L] 
   
   # make input.dims:
-  input.dims <- .rcpp_bindhelper_vdims(input)
+  input.dims <- .C_bindhelper_vdims(input)
   dimlens <- lengths(input.dims)
   
   
@@ -159,20 +159,20 @@
     ))
   }
   
+  # determine original out.dim:
+  out.dimorig <- do.call(pmax, input.dims)
   
   # chunkify input.dims:
-  need_pad <- round(max_ndims/2L) != (max_ndims /2L)
-  if(need_pad) {
-    input.dims <- lapply(input.dims, \(x)c(x, 1L))
-    dimlens <- lengths(input.dims)
-  }
+  input.dims <- lapply(input.dims, .chunkify_dims)
+  dimlens <- lengths(input.dims)
   max_ndims <- max(dimlens)
   
-  
   # determine out.dim (padded):
-  size_along <- .rcpp_bindhelper_sum_along(input.dims, along - 1L)
+  size_along <- .C_bindhelper_sum_along(input.dims, along - 1L)
   out.dim <- do.call(pmax, input.dims)
   out.dim[along] <- size_along
+  out.dimorig[along] <- size_along # original dimensions
+  out.dim
   out.dim <- as.integer(out.dim)
   out.len <- prod(out.dim)
   if(any(out.dim > INTMAX) || anyNA(out.dim) || out.len > LONGMAX) {
@@ -194,7 +194,7 @@
   }
   
   # determine "highest" type:
-  out.type <- .rcpp_bindhelper_max_type(input)
+  out.type <- .C_bindhelper_max_type(input)
   out.type <- .types()[out.type]
   if(out.type == "unknown") {
     stop(simpleError("unknown type of array given", call = abortcall))
@@ -202,13 +202,7 @@
   
   # allocate output:
   out <- vector(out.type, out.len)
-  if(need_pad) {
-    # keep out.dim padded, but don't pad the actual dim(out)
-    dim(out) <- out.dim[-length(out.dim)]
-  }
-  else {
-    dim(out) <- out.dim
-  }
+  dim(out) <- out.dimorig
   
   
   # alias coercion function:

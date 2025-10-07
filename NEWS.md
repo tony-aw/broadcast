@@ -1,8 +1,8 @@
 
 
-# broadcast 0.1.5.1
+# broadcast 0.1.5.2
 
-* Reduced compiled size of rcpp_bc_b; this should fix the CRAN Error on `r-devel-linux-x86_64-fedora-clang`.
+* Reduced the installation size of the compiled library, with almost no performance loss.
 
 
 # broadcast 0.1.5

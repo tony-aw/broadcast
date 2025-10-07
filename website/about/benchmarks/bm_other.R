@@ -129,3 +129,17 @@ summary(bm_cinv)
 plot(bm_cinv)
 save(bm_cinv, file = "bm_cinv.RData")
 
+
+# nested vs dimensional list ====
+x <- lapply(1:200, function(x) sample(1:200))
+x <- rep(list(x), 200)
+x2 <- cast_hier2dim(x)
+bm_hier_vs_dim <- bench::mark(
+  for(i in 1:length(x)) x[[i]][[1L]],
+  x2[1L, , drop = FALSE],
+  min_iterations = 200,
+  check = FALSE
+)
+summary(bm_hier_vs_dim)
+plot(bm_hier_vs_dim)
+save(bm_hier_vs_dim, file = "bm_hier_vs_dim.RData")

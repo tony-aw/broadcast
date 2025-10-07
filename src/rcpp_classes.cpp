@@ -92,15 +92,3 @@ void rcpp_set_ma(
    x.attr("serial") = rcpp_serial(x);
   
 }
-
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_set_class)]]
-void rcpp_set_class(
-  RObject x, CharacterVector newclass
-) {
-   x.attr("class") = newclass;  
-}
-

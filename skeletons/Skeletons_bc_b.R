@@ -94,10 +94,12 @@ if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
    return out;
 }
 else {
+   const int *px = INTEGER_RO(x);
+   const int *py = INTEGER_RO(y);
    SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
    int *pout;
    pout = LOGICAL(out); 
-   MACRO_TYPESWITCH_BOOL(MACRO_DIM_VECTOR);
+   MACRO_OP_B_MAIN(MACRO_DIM_VECTOR);
    UNPROTECT(1);
    return out;
 }
@@ -132,10 +134,12 @@ if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
 
 }
 else {
+   const int *px = INTEGER_RO(x);
+   const int *py = INTEGER_RO(y);
    SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
    int *pout;
    pout = LOGICAL(out); 
-   MACRO_TYPESWITCH_BOOL(MACRO_DIM_ORTHOVECTOR);
+   MACRO_OP_B_MAIN(MACRO_DIM_ORTHOVECTOR);
    UNPROTECT(1);
    return out;
 }
@@ -170,10 +174,12 @@ if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
    return out;
 }
 else {
+   const int *px = INTEGER_RO(x);
+   const int *py = INTEGER_RO(y);
    SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
    int *pout;
    pout = LOGICAL(out); 
-   MACRO_TYPESWITCH_BOOL(MACRO_DIM_DOCALL);
+   MACRO_OP_B_MAIN(MACRO_DIM_DOCALL);
    UNPROTECT(1);
    return out;
 }

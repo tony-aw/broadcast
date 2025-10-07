@@ -1,4 +1,3 @@
-
 # set-up ====
 enumerate <- 0 # to count number of tests performed using iterations in loops
 errorfun <- function(tt) {
@@ -220,4 +219,3 @@ expect_error(
   fixed = TRUE
 )
 enumerate <- enumerate + 3L
-

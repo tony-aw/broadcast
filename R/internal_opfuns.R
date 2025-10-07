@@ -18,6 +18,7 @@
   return(c("==", "!=", "<", ">", "<=", ">=", "d==", "d!=", "d<", "d>", "d<=", "d>="))
 }
 
+
 #' @keywords internal
 #' @noRd
 .op_int_math <- function() {

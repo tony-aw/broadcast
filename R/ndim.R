@@ -33,5 +33,6 @@ lst.ndim <- function(x) {
   dim(out) <- dim(x)
   dimnames(out) <- dimnames(x)
   names(out) <- names(x)
+  broadcaster(out) <- broadcaster(x)
   return(out)
 }

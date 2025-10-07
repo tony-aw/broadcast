@@ -221,6 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#abindabind" id="toc-abindabind" class="nav-link" data-scroll-target="#abindabind"><code>abind::abind()</code></a></li>
   <li><a href="#rfastouter" id="toc-rfastouter" class="nav-link" data-scroll-target="#rfastouter"><code>Rfast::Outer()</code></a></li>
   <li><a href="#r-operator-from-collapse" id="toc-r-operator-from-collapse" class="nav-link" data-scroll-target="#r-operator-from-collapse"><code>%r+%</code> operator from ‘collapse’</a></li>
+  <li><a href="#sub-setting-with-nested-list-vs-dimensional-list" id="toc-sub-setting-with-nested-list-vs-dimensional-list" class="nav-link" data-scroll-target="#sub-setting-with-nested-list-vs-dimensional-list">Sub-setting with nested list vs dimensional list</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -443,6 +444,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The ‘collapse’ package is slightly faster than ‘broadcast’ in this case. This does show how super fast ‘collapse’ truly is.</p>
+<p>&nbsp;</p>
+</section>
+<section id="sub-setting-with-nested-list-vs-dimensional-list" class="level1">
+<h1>Sub-setting with nested list vs dimensional list</h1>
+<p>Performing tasks with dimensional lists is often faster and more convenient with dimensional list than with nested lists.</p>
+<p>One example is sub-setting.<br>
+In the benchmarks below, 2 equivalent sub-set operations are compared:</p>
+<ul>
+<li>selecting <code>x[[i]][[1L]]</code> for <code>i = 1:length(x)</code> in a nested list (this requires a for-loop).</li>
+<li>selecting <code>x2[1L, ]</code> in a dimensional list (this is a vectorized operation).</li>
+</ul>
+<p>where <code>x2 = cast_hier2dim(x)</code>.</p>
+<p>The following code is used:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>, <span class="cf">function</span>(x) <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">list</span>(x), <span class="dv">200</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>bm_hier_vs_dim <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)) x[[i]][[1L]],</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  x2[1L, , <span class="at">drop =</span> <span class="cn">FALSE</span>],</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_iterations =</span> <span class="dv">200</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">check =</span> <span class="cn">FALSE</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bm_hier_vs_dim)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bm_hier_vs_dim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<pre><code>#&gt; # A tibble: 2 × 6
+#&gt;   expression                            min  median `itr/sec` mem_alloc `gc/sec`
+#&gt;   &lt;bch:expr&gt;                          &lt;bch&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
+#&gt; 1 for (i in 1:length(x)) x[[i]][[1L]] 764µs 856.4µs     1131.   14.02KB     13.2
+#&gt; 2 x2[1L, , drop = FALSE]                1µs   1.3µs   525762.    2.44KB      0</code></pre>
+<div class="cell-output-display">
+<p><img src="f_benchmarks_other_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p>As shown in the benchmarks, sub-setting with a dimensional list is <strong>hundreds of times</strong> faster than doing the equivalent sub-setting operation in a nested list.</p>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 
 

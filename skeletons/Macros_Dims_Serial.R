@@ -2,8 +2,8 @@
 
 library(stringi)
 
-DTYPES <- seq(2, 16, 2)
-
+DTYPES <- 2^c(1:4)
+BINDTYPES <- 2^c(1:4)
 
 
 ################################################################################
@@ -313,7 +313,6 @@ cat(introcomments2)
 
 # Remember my MISTAKE: cannot use the same iterations for `x` and `out`!!!
 
-BINDTYPES <- seq(2, 16, 2)
 
 all_for <- sprintf(
   "\t for(int iter%d = pstart[%d]; iter%d <= pend[%d]; ++iter%d) {\t\\",

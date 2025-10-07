@@ -907,38 +907,16 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// rcpp_bindhelper_max_type
-int rcpp_bindhelper_max_type(SEXP x);
-RcppExport SEXP _broadcast_rcpp_bindhelper_max_type(SEXP xSEXP) {
+// rcpp_bindhelper_setnames
+void rcpp_bindhelper_setnames(SEXP x, const SEXP ind, SEXP rp);
+RcppExport SEXP _broadcast_rcpp_bindhelper_setnames(SEXP xSEXP, SEXP indSEXP, SEXP rpSEXP) {
 BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_max_type(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_bindhelper_vdims
-SEXP rcpp_bindhelper_vdims(SEXP x);
-RcppExport SEXP _broadcast_rcpp_bindhelper_vdims(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_vdims(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_bindhelper_sum_along
-R_xlen_t rcpp_bindhelper_sum_along(SEXP lst_dims, int along);
-RcppExport SEXP _broadcast_rcpp_bindhelper_sum_along(SEXP lst_dimsSEXP, SEXP alongSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type lst_dims(lst_dimsSEXP);
-    Rcpp::traits::input_parameter< int >::type along(alongSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_sum_along(lst_dims, along));
-    return rcpp_result_gen;
+    Rcpp::traits::input_parameter< const SEXP >::type ind(indSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type rp(rpSEXP);
+    rcpp_bindhelper_setnames(x, ind, rp);
+    return R_NilValue;
 END_RCPP
 }
 // rcpp_bindhelper_conf_dims_2
@@ -1036,6 +1014,29 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// rcpp_chunk_size
+int rcpp_chunk_size(int ndim, SEXP chunks);
+RcppExport SEXP _broadcast_rcpp_chunk_size(SEXP ndimSEXP, SEXP chunksSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type ndim(ndimSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type chunks(chunksSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_chunk_size(ndim, chunks));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_chunk_set
+void rcpp_chunk_set(SEXP dimsold, SEXP dimsnew);
+RcppExport SEXP _broadcast_rcpp_chunk_set(SEXP dimsoldSEXP, SEXP dimsnewSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type dimsold(dimsoldSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dimsnew(dimsnewSEXP);
+    rcpp_chunk_set(dimsold, dimsnew);
+    return R_NilValue;
+END_RCPP
+}
 // rcpp_serial
 SEXP rcpp_serial(SEXP x);
 RcppExport SEXP _broadcast_rcpp_serial(SEXP xSEXP) {
@@ -1066,17 +1067,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type newclass(newclassSEXP);
     rcpp_set_ma(x, newclass);
-    return R_NilValue;
-END_RCPP
-}
-// rcpp_set_class
-void rcpp_set_class(RObject x, CharacterVector newclass);
-RcppExport SEXP _broadcast_rcpp_set_class(SEXP xSEXP, SEXP newclassSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type newclass(newclassSEXP);
-    rcpp_set_class(x, newclass);
     return R_NilValue;
 END_RCPP
 }
@@ -1285,34 +1275,13 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// rcpp_set_vind_32_atomic
-void rcpp_set_vind_32_atomic(SEXP x, const SEXP ind, const SEXP rp);
-RcppExport SEXP _broadcast_rcpp_set_vind_32_atomic(SEXP xSEXP, SEXP indSEXP, SEXP rpSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const SEXP >::type ind(indSEXP);
-    Rcpp::traits::input_parameter< const SEXP >::type rp(rpSEXP);
-    rcpp_set_vind_32_atomic(x, ind, rp);
-    return R_NilValue;
-END_RCPP
-}
-// rcpp_set_vind_64_atomic
-void rcpp_set_vind_64_atomic(SEXP x, const SEXP ind, const SEXP rp);
-RcppExport SEXP _broadcast_rcpp_set_vind_64_atomic(SEXP xSEXP, SEXP indSEXP, SEXP rpSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const SEXP >::type ind(indSEXP);
-    Rcpp::traits::input_parameter< const SEXP >::type rp(rpSEXP);
-    rcpp_set_vind_64_atomic(x, ind, rp);
-    return R_NilValue;
-END_RCPP
-}
 
 RcppExport SEXP C_any_nonNULL(SEXP);
 RcppExport SEXP C_binames_consider_dim(SEXP, SEXP, SEXP);
 RcppExport SEXP C_bind_which_comdims(SEXP, SEXP, SEXP);
+RcppExport SEXP C_bindhelper_max_type(SEXP);
+RcppExport SEXP C_bindhelper_sum_along(SEXP, SEXP);
+RcppExport SEXP C_bindhelper_vdims(SEXP);
 RcppExport SEXP C_check_conf_dim(SEXP, SEXP);
 RcppExport SEXP C_dims_all_equal(SEXP, SEXP);
 RcppExport SEXP C_dims_all_orthogonal(SEXP, SEXP);
@@ -1383,9 +1352,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bcapply_v", (DL_FUNC) &_broadcast_rcpp_bcapply_v, 5},
     {"_broadcast_rcpp_bcapply_ov", (DL_FUNC) &_broadcast_rcpp_bcapply_ov, 7},
     {"_broadcast_rcpp_bcapply_d", (DL_FUNC) &_broadcast_rcpp_bcapply_d, 10},
-    {"_broadcast_rcpp_bindhelper_max_type", (DL_FUNC) &_broadcast_rcpp_bindhelper_max_type, 1},
-    {"_broadcast_rcpp_bindhelper_vdims", (DL_FUNC) &_broadcast_rcpp_bindhelper_vdims, 1},
-    {"_broadcast_rcpp_bindhelper_sum_along", (DL_FUNC) &_broadcast_rcpp_bindhelper_sum_along, 2},
+    {"_broadcast_rcpp_bindhelper_setnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_setnames, 3},
     {"_broadcast_rcpp_bindhelper_conf_dims_2", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_2, 4},
     {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 4},
     {"_broadcast_rcpp_bindhelper_get_dimnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_get_dimnames, 2},
@@ -1393,10 +1360,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_rec_dim2hier", (DL_FUNC) &_broadcast_rcpp_rec_dim2hier, 6},
     {"_broadcast_rcpp_rec_dim2hier_names", (DL_FUNC) &_broadcast_rcpp_rec_dim2hier_names, 4},
     {"_broadcast_rcpp_rec_cast_hier2dim", (DL_FUNC) &_broadcast_rcpp_rec_cast_hier2dim, 6},
+    {"_broadcast_rcpp_chunk_size", (DL_FUNC) &_broadcast_rcpp_chunk_size, 2},
+    {"_broadcast_rcpp_chunk_set", (DL_FUNC) &_broadcast_rcpp_chunk_set, 2},
     {"_broadcast_rcpp_serial", (DL_FUNC) &_broadcast_rcpp_serial, 1},
     {"_broadcast_rcpp_is_ma", (DL_FUNC) &_broadcast_rcpp_is_ma, 1},
     {"_broadcast_rcpp_set_ma", (DL_FUNC) &_broadcast_rcpp_set_ma, 2},
-    {"_broadcast_rcpp_set_class", (DL_FUNC) &_broadcast_rcpp_set_class, 2},
     {"_broadcast_rcpp_clone", (DL_FUNC) &_broadcast_rcpp_clone, 1},
     {"_broadcast_rcpp_depth_range", (DL_FUNC) &_broadcast_rcpp_depth_range, 3},
     {"_broadcast_rcpp_lenrange_atdepth", (DL_FUNC) &_broadcast_rcpp_lenrange_atdepth, 3},
@@ -1413,11 +1381,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_rep_new_int", (DL_FUNC) &_broadcast_rcpp_rep_new_int, 2},
     {"_broadcast_rcpp_normalize_dims_regular", (DL_FUNC) &_broadcast_rcpp_normalize_dims_regular, 3},
     {"_broadcast_rcpp_set_attr", (DL_FUNC) &_broadcast_rcpp_set_attr, 3},
-    {"_broadcast_rcpp_set_vind_32_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_32_atomic, 3},
-    {"_broadcast_rcpp_set_vind_64_atomic", (DL_FUNC) &_broadcast_rcpp_set_vind_64_atomic, 3},
     {"C_any_nonNULL",          (DL_FUNC) &C_any_nonNULL,          1},
     {"C_binames_consider_dim", (DL_FUNC) &C_binames_consider_dim, 3},
     {"C_bind_which_comdims",   (DL_FUNC) &C_bind_which_comdims,   3},
+    {"C_bindhelper_max_type",  (DL_FUNC) &C_bindhelper_max_type,  1},
+    {"C_bindhelper_sum_along", (DL_FUNC) &C_bindhelper_sum_along, 2},
+    {"C_bindhelper_vdims",     (DL_FUNC) &C_bindhelper_vdims,     1},
     {"C_check_conf_dim",       (DL_FUNC) &C_check_conf_dim,       2},
     {"C_dims_all_equal",       (DL_FUNC) &C_dims_all_equal,       2},
     {"C_dims_all_orthogonal",  (DL_FUNC) &C_dims_all_orthogonal,  2},

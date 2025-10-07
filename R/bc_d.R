@@ -9,7 +9,7 @@
 #' @param op a single string, giving the operator. \cr
 #' Supported arithmetic operators: `r paste0(broadcast:::.op_dec_math(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_dec_rel(), collapse = ", ")`. \cr
-#' @param tol a single number between 0 and 0.1, giving the machine tolerance to use. \cr
+#' @param tol a single number between 0 and 0.1, giving the machine tolerance to use for the relational operators. \cr
 #' Only relevant for the following operators: \cr
 #' `r paste0(broadcast:::.op_dec_rel()[7:12], collapse = ", ")` \cr
 #' See the
@@ -82,6 +82,9 @@ setMethod(
     return(numeric(0L))
   }
   
+  if(!is.double(x)) x <- as_dbl(x)
+  if(!is.double(y)) y <- as_dbl(y)
+  
   prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
@@ -112,10 +115,6 @@ setMethod(
   
   dim(out) <- out.dimorig
   
-  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
-    .rcpp_set_class(out, "broadcaster")
-  }
-  
   .binary_set_attr(out, x, y)
   
   return(out)
@@ -140,6 +139,9 @@ setMethod(
   if(length(x) == 0L || length(y) == 0L) {
     return(logical(0L))
   }
+  
+  if(!is.double(x)) x <- as_dbl(x)
+  if(!is.double(y)) y <- as_dbl(y)
   
   prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
@@ -173,10 +175,6 @@ setMethod(
   }
   
   dim(out) <- out.dimorig
-  
-  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
-    .rcpp_set_class(out, "broadcaster")
-  }
   
   .binary_set_attr(out, x, y)
   

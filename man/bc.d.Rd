@@ -18,7 +18,7 @@ Supported relational operators: ==, !=, <, >, <=, >=, d==, d!=, d<, d>, d<=, d>=
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 
-\item{tol}{a single number between 0 and 0.1, giving the machine tolerance to use. \cr
+\item{tol}{a single number between 0 and 0.1, giving the machine tolerance to use for the relational operators. \cr
 Only relevant for the following operators: \cr
 d==, d!=, d<, d>, d<=, d>= \cr
 See the

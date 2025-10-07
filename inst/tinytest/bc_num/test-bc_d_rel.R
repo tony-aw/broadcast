@@ -31,7 +31,7 @@ prec <- sqrt(.Machine$double.eps)
 
 
 test_numeric_x <- function(op, basefun) {
-
+  
   i <- 1L
   x.data <- sample(c(sample(-10.5:10.5), NA, NaN, Inf, -Inf), 100, TRUE)
   
@@ -430,6 +430,3 @@ enumerate <- enumerate + tests$i # count number of tests
 expect_equal(
   tests$expected, tests$out
 )
-
-
-

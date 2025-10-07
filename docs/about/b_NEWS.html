@@ -177,7 +177,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#broadcast-0.1.5.1" id="toc-broadcast-0.1.5.1" class="nav-link active" data-scroll-target="#broadcast-0.1.5.1">broadcast 0.1.5.1</a></li>
+  <li><a href="#broadcast-0.1.5.2-under-development" id="toc-broadcast-0.1.5.2-under-development" class="nav-link active" data-scroll-target="#broadcast-0.1.5.2-under-development">broadcast 0.1.5.2 (Under Development)</a></li>
   <li><a href="#broadcast-0.1.5" id="toc-broadcast-0.1.5" class="nav-link" data-scroll-target="#broadcast-0.1.5">broadcast 0.1.5</a></li>
   <li><a href="#broadcast-0.1.3" id="toc-broadcast-0.1.3" class="nav-link" data-scroll-target="#broadcast-0.1.3">broadcast 0.1.3</a></li>
   <li><a href="#broadcast-0.1.2" id="toc-broadcast-0.1.2" class="nav-link" data-scroll-target="#broadcast-0.1.2">broadcast 0.1.2</a></li>
@@ -208,10 +208,10 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="broadcast-0.1.5.1" class="level1">
-<h1>broadcast 0.1.5.1</h1>
+<section id="broadcast-0.1.5.2-under-development" class="level1">
+<h1>broadcast 0.1.5.2 (Under Development)</h1>
 <ul>
-<li>Reduced compiled size of rcpp_bc_b; this should fix the CRAN Error on <code>r-devel-linux-x86_64-fedora-clang</code>.</li>
+<li>Reduced the installation size of the compiled library, with almost no performance loss.</li>
 </ul>
 </section>
 <section id="broadcast-0.1.5" class="level1">
@@ -225,11 +225,11 @@ Now, <code>recurse_all</code>, controls if the casting methods recurse through c
 <p><strong>Behavioural Changes:</strong></p>
 <ul>
 <li>The <code>as_*</code> functions now also preserve the <code>broadcaster</code> class attribute.</li>
-<li>If both <code>x</code> and <code>y</code> in the <a href="../man/bc.b.html">bc.b()</a> will return type of <code>raw</code>.</li>
+<li>If both <code>x</code> and <code>y</code> in the <a href="../man/bc.b.html">bc.b()</a> method are of type <code>raw</code>, <a href="../man/bc.b.html">bc.b()</a> will return type of <code>raw</code>.</li>
 </ul>
 <p><strong>New Methods:</strong></p>
 <ul>
-<li>Added the <a href="../man/hier2dim.html">hiernames2dimnames()</a>.</li>
+<li>Added the <a href="../man/hier2dim.html">hiernames2dimnames()</a> method, to make it easier to compose <code>dimnames</code> for the result of <a href="../man/cast_hier2dim.html">cast_hier2dim()</a>.</li>
 </ul>
 <p><strong>Documentation Improvements</strong>:</p>
 <ul>

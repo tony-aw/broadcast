@@ -110,15 +110,8 @@
   # chunkification allows reduction of the amount of required compiled code,
   # thus reducing compilation & installation time of the package
   if(length(x.dim) > 2L && length(y.dim) > 2L) {
-    xndim <- length(x.dim)
-    yndim <- length(y.dim)
-    
-    if(!.is.even(xndim)) {
-      x.dim <- c(x.dim, 1L)
-    }
-    if(!.is.even(yndim)) {
-      y.dim <- c(y.dim, 1L)
-    }
+    x.dim <- .chunkify_dims(x.dim)
+    y.dim <- .chunkify_dims(y.dim)
   } # end chunkification
   
   out.dimsimp <- .binary_determine_out.dim(x.dim, y.dim, abortcall)
@@ -238,6 +231,10 @@
 #' @keywords internal
 #' @noRd
 .binary_set_attr <- function(out, x, y) {
+  
+  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
+    .rcpp_set_attr(out, "class", "broadcaster")
+  }
   
   if(is.atomic(out) && (inherits(x, "mutatomic") || inherits(y, "mutatomic"))) {
     .rcpp_set_ma(out, c("mutatomic", oldClass(out)))

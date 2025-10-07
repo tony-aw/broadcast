@@ -87,6 +87,11 @@ setMethod(
     return(logical(0L))
   }
   
+  if(is.logical(x) || is.integer(x) || is.logical(y) || is.integer(y)) {
+    if(!is.integer(x)) x <- as_int(x)
+    if(!is.integer(y)) y <- as_int(y)
+  }
+  
   prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
@@ -116,10 +121,6 @@ setMethod(
   }
   
   dim(out) <- out.dimorig
-  
-  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
-    .rcpp_set_class(out, "broadcaster")
-  }
   
   .binary_set_attr(out, x, y)
   

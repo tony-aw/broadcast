@@ -133,7 +133,7 @@ setMethod(
   }
   
   if(inherits(test, "broadcaster")) {
-    .rcpp_set_class(out, "broadcaster")
+    .rcpp_set_attr(out, "class", "broadcaster")
   }
   if(is.atomic(out) && inherits(test, "mutatomic")) {
     .rcpp_set_ma(out, c("mutatomic", oldClass(out)))

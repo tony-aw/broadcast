@@ -2,85 +2,29 @@
 #include <Rcpp/Lightest>
 using namespace Rcpp;
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bindhelper_max_type)]]
-int rcpp_bindhelper_max_type(
-    SEXP x
-) {
-  int n = Rf_length(x);
-  SEXP tempout;
-  int out = 1;
-  for(int i = 0; i < n; ++i) {
-    tempout = VECTOR_ELT(x, i);
-    if(TYPEOF(tempout) == VECSXP) {
-      out = 8;
-    }
-    else if(TYPEOF(tempout) == STRSXP && out < 8) {
-      out = 7;
-    }
-    else if(TYPEOF(tempout) == CPLXSXP && out < 7) {
-      out = 6;
-    }
-    else if(TYPEOF(tempout) == REALSXP && out < 6) {
-      out = 5;
-    }
-    else if(TYPEOF(tempout) == INTSXP && out < 5) {
-      out = 4;
-    }
-    else if(TYPEOF(tempout) == LGLSXP && out < 4) {
-      out = 3;
-    }
-    else if(TYPEOF(tempout) == RAWSXP && out < 3) {
-      out = 2;
-    }
-    else if(out < 2){
-      out = 1;
-    }
-  }
-  
-  return out;
-}
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bindhelper_vdims)]]
-SEXP rcpp_bindhelper_vdims(
-    SEXP x
+// [[Rcpp::export(.rcpp_bindhelper_setnames)]]
+void rcpp_bindhelper_setnames(
+  SEXP x, const SEXP ind, SEXP rp
 ) {
-  int n = Rf_length(x);
-  SEXP tempout;
-  SEXP tempdim;
+  R_xlen_t n = Rf_xlength(ind);
   
-  SEXP out = PROTECT(Rf_allocVector(VECSXP, n));
+  const int *pind = INTEGER_RO(ind);
+  const SEXP *prp = STRING_PTR_RO(rp);
   
-  for(int i = 0; i < n; ++i) {
-    tempout = VECTOR_ELT(x, i);
-    tempdim = Rf_getAttrib(tempout, R_DimSymbol);
-    SET_VECTOR_ELT(out, i, tempdim);
+  if(Rf_xlength(rp) == n) {
+    for(R_xlen_t i = 0; i < n; ++i) {
+      SET_STRING_ELT(x, pind[i] - 1, prp[i]);
+    }
   }
-  
-  UNPROTECT(1);
-  return out;
-}
-
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bindhelper_sum_along)]]
-R_xlen_t rcpp_bindhelper_sum_along(
-    SEXP lst_dims, int along
-) {
-  int n = Rf_length(lst_dims);
-  SEXP tempdim;
-  R_xlen_t out = 0;
-  for(int i = 0; i < n; ++i) {
-    tempdim = VECTOR_ELT(lst_dims, i);
-    out += INTEGER(tempdim)[along];
+  else if(Rf_xlength(rp) == 1) {
+    for(R_xlen_t i = 0; i < n; ++i) {
+      SET_STRING_ELT(x, pind[i] - 1, prp[0]);
+    }
   }
-  
-  return out;
+  else stop("recycling not allowed");
 }
 
 

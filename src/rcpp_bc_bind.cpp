@@ -1,6 +1,6 @@
 
 
-#include <Rcpp.h>
+#include <Rcpp/Lightest>
 #include "broadcast.h"
 
 using namespace Rcpp;
@@ -27,12 +27,6 @@ void rcpp_bc_bind(
       break;
     }
     case LGLSXP:
-    {
-      int *pout = LOGICAL(out);
-      int *px = LOGICAL(x);
-      MACRO_DIM_BIND_DOCALL(pout[flatind_out] = px[flatind_x]);
-      break;
-    }
     case INTSXP:
     {
       int *pout = INTEGER(out);

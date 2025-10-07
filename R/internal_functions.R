@@ -12,6 +12,20 @@
 
 #' @keywords internal
 #' @noRd
+.chunkify_dims <- function(dims) {
+  dims <- as.integer(dims)
+  chunks <- as.integer(2^(1:4))
+  
+  chunksize <- .rcpp_chunk_size(length(dims), chunks)
+  new <- rep(1L, chunksize)
+  .rcpp_chunk_set(dims, new)
+  
+  return(new)
+}
+
+
+#' @keywords internal
+#' @noRd
 .transform_function <- function(f) {
   
   # this function is used for `bcapply()`

@@ -265,4 +265,45 @@ The 'collapse' package is slightly faster than 'broadcast' in this case. This do
 
 &nbsp;
 
+# Sub-setting with nested list vs dimensional list
 
+Performing tasks with dimensional lists is often faster and more convenient with dimensional list than with nested lists.
+
+One example is sub-setting.  
+In the benchmarks below, 2 equivalent sub-set operations are compared:
+
+ - selecting `x[[i]][[1L]]` for `i = 1:length(x)` in a nested list (this requires a for-loop).
+ - selecting `x2[1L, ]` in a dimensional list (this is a vectorized operation).
+
+where `x2 = cast_hier2dim(x)`.
+
+The following code is used:
+
+```{r echo=TRUE, eval=FALSE}
+
+x <- lapply(1:200, function(x) sample(1:200))
+x <- rep(list(x), 200)
+x2 <- cast_hier2dim(x)
+bm_hier_vs_dim <- bench::mark(
+  for(i in 1:length(x)) x[[i]][[1L]],
+  x2[1L, , drop = FALSE],
+  min_iterations = 200,
+  check = FALSE
+)
+summary(bm_hier_vs_dim)
+plot(bm_hier_vs_dim)
+
+```
+
+
+```{r fig.width=8, echo=FALSE}
+load("benchmarks/bm_hier_vs_dim.RData")
+summary(bm_hier_vs_dim)
+plot(bm_hier_vs_dim)
+```
+
+As shown in the benchmarks, sub-setting with a dimensional list is **hundreds of times** faster than doing the equivalent sub-setting operation in a nested list.
+
+&nbsp;
+
+&nbsp;

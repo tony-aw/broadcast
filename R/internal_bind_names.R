@@ -70,7 +70,7 @@
     marginlen <- arg.marginlen[i]
     indx <- .C_seq_Clen(start.pos, marginlen)
     temp.dimnames <- .bind_getnames(arg.dimnames[[i]], arg.names[i], marginlen) # NOTE: arg.names[i] works, even if arg.names is NULL...
-    .rcpp_set_vind_32(name_along, as.integer(indx - 1L), temp.dimnames)
+    .rcpp_bindhelper_setnames(name_along, indx, temp.dimnames)
     start.pos <- start.pos + marginlen
   }
   

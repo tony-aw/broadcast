@@ -15,8 +15,8 @@ ortho <- broadcast:::.rcpp_bc_dec_ov
 
 x.dim <- c(100, 1)
 y.dim <- c(1, 100)
-x <- array(sample(1:100), dim = x.dim)
-y <- array(sample(1:100), dim = y.dim)
+x <- array(rnorm(100), dim = x.dim)
+y <- array(rnorm(100), dim = y.dim)
 out.dim <- pmax(x.dim, y.dim) |> as.integer()
 out.len <- prod(out.dim)
 
@@ -40,8 +40,8 @@ enumerate <- enumerate + 2L
 
 x.dim <- c(1, 100)
 y.dim <- c(100, 1)
-x <- array(sample(1:100), dim = x.dim)
-y <- array(sample(1:100), dim = y.dim)
+x <- array(rnorm(100), dim = x.dim)
+y <- array(rnorm(100), dim = y.dim)
 out.dim <- pmax(x.dim, y.dim) |> as.integer()
 out.len <- prod(out.dim)
 

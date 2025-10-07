@@ -1,6 +1,10 @@
 # set-up ===
 enumerate <- 0 # to count number of tests performed using iterations in loops
 
+expect_equal(
+  ndim(array(1:24, 2:4)),
+  3L
+)
 
 x <- list(
   array(c(TRUE, FALSE, NA), c(10)),
@@ -23,6 +27,13 @@ expect_equal(
   out
 )
 
-enumerate <- enumerate + 1L
+broadcaster(x) <- TRUE
+attributes(out) <- attributes(x)
+expect_equal(
+  lst.ndim(x),
+  out
+)
+
+enumerate <- enumerate + 3L
 
 
