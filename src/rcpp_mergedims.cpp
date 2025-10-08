@@ -2,10 +2,7 @@
 using namespace Rcpp;
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_mergedims_output)]]
-SEXP rcpp_mergedims_output(
+inline SEXP rcpp_mergedims_output(
   SEXP x, SEXP y, int len
 ) {
   
@@ -33,10 +30,7 @@ SEXP rcpp_mergedims_output(
 }
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_mergedims_prod)]]
-double rcpp_mergedims_prod(
+inline double rcpp_mergedims_prod(
   SEXP x, SEXP mergeable, int pos
 ) {
   
@@ -54,6 +48,7 @@ double rcpp_mergedims_prod(
   return res;
   
 }
+
 
 //' @keywords internal
 //' @noRd

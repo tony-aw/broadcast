@@ -29,10 +29,7 @@ void rcpp_bindhelper_setnames(
 
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bindhelper_conf_dims_2)]]
-int rcpp_bindhelper_conf_dims_2(
+inline int rcpp_bindhelper_conf_dims_2(
   SEXP x, SEXP y, int along, int max_bc
 ) {
   if(Rf_length(x) != Rf_length(y)) {

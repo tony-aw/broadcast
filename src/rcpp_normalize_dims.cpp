@@ -2,10 +2,7 @@
 using namespace Rcpp;
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_rep_new_int)]]
-SEXP rcpp_rep_new_int(
+inline SEXP rcpp_rep_new_int(
   int n, int val
 ) {
   

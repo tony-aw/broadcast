@@ -10,31 +10,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// rcpp_factor_count
-int rcpp_factor_count(SEXP grp, int j);
-RcppExport SEXP _broadcast_rcpp_factor_count(SEXP grpSEXP, SEXP jSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type grp(grpSEXP);
-    Rcpp::traits::input_parameter< int >::type j(jSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_factor_count(grp, j));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_factor_which
-SEXP rcpp_factor_which(SEXP grp, int j, int size);
-RcppExport SEXP _broadcast_rcpp_factor_which(SEXP grpSEXP, SEXP jSEXP, SEXP sizeSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type grp(grpSEXP);
-    Rcpp::traits::input_parameter< int >::type j(jSEXP);
-    Rcpp::traits::input_parameter< int >::type size(sizeSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_factor_which(grp, j, size));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_acast
 void rcpp_acast(SEXP out, SEXP y, const SEXP starts, const SEXP lens, const SEXP subs, const SEXP out_dim, const SEXP dcp_out, const SEXP dcp_y, SEXP grp, int grp_n, int margin, int newdim);
 RcppExport SEXP _broadcast_rcpp_acast(SEXP outSEXP, SEXP ySEXP, SEXP startsSEXP, SEXP lensSEXP, SEXP subsSEXP, SEXP out_dimSEXP, SEXP dcp_outSEXP, SEXP dcp_ySEXP, SEXP grpSEXP, SEXP grp_nSEXP, SEXP marginSEXP, SEXP newdimSEXP) {
@@ -969,18 +944,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_string_plus
-String rcpp_string_plus(String x, String y);
-RcppExport SEXP _broadcast_rcpp_string_plus(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< String >::type x(xSEXP);
-    Rcpp::traits::input_parameter< String >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_string_plus(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_bc_str_v
 SEXP rcpp_bc_str_v(SEXP x, SEXP y, R_xlen_t nout, int op);
 RcppExport SEXP _broadcast_rcpp_bc_str_v(SEXP xSEXP, SEXP ySEXP, SEXP noutSEXP, SEXP opSEXP) {
@@ -1091,20 +1054,6 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// rcpp_bindhelper_conf_dims_2
-int rcpp_bindhelper_conf_dims_2(SEXP x, SEXP y, int along, int max_bc);
-RcppExport SEXP _broadcast_rcpp_bindhelper_conf_dims_2(SEXP xSEXP, SEXP ySEXP, SEXP alongSEXP, SEXP max_bcSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
-    Rcpp::traits::input_parameter< int >::type along(alongSEXP);
-    Rcpp::traits::input_parameter< int >::type max_bc(max_bcSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_conf_dims_2(x, y, along, max_bc));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_bindhelper_conf_dims_all
 int rcpp_bindhelper_conf_dims_all(SEXP lst_dims, SEXP target, int along, int max_bc);
 RcppExport SEXP _broadcast_rcpp_bindhelper_conf_dims_all(SEXP lst_dimsSEXP, SEXP targetSEXP, SEXP alongSEXP, SEXP max_bcSEXP) {
@@ -1207,17 +1156,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type dimsnew(dimsnewSEXP);
     rcpp_chunk_set(dimsold, dimsnew);
     return R_NilValue;
-END_RCPP
-}
-// rcpp_serial
-SEXP rcpp_serial(SEXP x);
-RcppExport SEXP _broadcast_rcpp_serial(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_serial(x));
-    return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_is_ma
@@ -1359,32 +1297,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_mergedims_output
-SEXP rcpp_mergedims_output(SEXP x, SEXP y, int len);
-RcppExport SEXP _broadcast_rcpp_mergedims_output(SEXP xSEXP, SEXP ySEXP, SEXP lenSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
-    Rcpp::traits::input_parameter< int >::type len(lenSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_mergedims_output(x, y, len));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_mergedims_prod
-double rcpp_mergedims_prod(SEXP x, SEXP mergeable, int pos);
-RcppExport SEXP _broadcast_rcpp_mergedims_prod(SEXP xSEXP, SEXP mergeableSEXP, SEXP posSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type mergeable(mergeableSEXP);
-    Rcpp::traits::input_parameter< int >::type pos(posSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_mergedims_prod(x, mergeable, pos));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_is_mergeable_with_prev
 SEXP rcpp_is_mergeable_with_prev(SEXP xB, SEXP yB);
 RcppExport SEXP _broadcast_rcpp_is_mergeable_with_prev(SEXP xBSEXP, SEXP yBSEXP) {
@@ -1407,18 +1319,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type yD(yDSEXP);
     Rcpp::traits::input_parameter< SEXP >::type mergeable(mergeableSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_mergedims(xD, yD, mergeable));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_rep_new_int
-SEXP rcpp_rep_new_int(int n, int val);
-RcppExport SEXP _broadcast_rcpp_rep_new_int(SEXP nSEXP, SEXP valSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    Rcpp::traits::input_parameter< int >::type val(valSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_rep_new_int(n, val));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1468,8 +1368,6 @@ RcppExport SEXP C_sd_lc(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 RcppExport SEXP C_seq_Clen(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_broadcast_rcpp_factor_count", (DL_FUNC) &_broadcast_rcpp_factor_count, 2},
-    {"_broadcast_rcpp_factor_which", (DL_FUNC) &_broadcast_rcpp_factor_which, 3},
     {"_broadcast_rcpp_acast", (DL_FUNC) &_broadcast_rcpp_acast, 12},
     {"_broadcast_rcpp_address", (DL_FUNC) &_broadcast_rcpp_address, 1},
     {"_broadcast_rcpp_bcDist_dec_v", (DL_FUNC) &_broadcast_rcpp_bcDist_dec_v, 5},
@@ -1527,7 +1425,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bc_raw_v", (DL_FUNC) &_broadcast_rcpp_bc_raw_v, 4},
     {"_broadcast_rcpp_bc_raw_ov", (DL_FUNC) &_broadcast_rcpp_bc_raw_ov, 6},
     {"_broadcast_rcpp_bc_raw_d", (DL_FUNC) &_broadcast_rcpp_bc_raw_d, 9},
-    {"_broadcast_rcpp_string_plus", (DL_FUNC) &_broadcast_rcpp_string_plus, 2},
     {"_broadcast_rcpp_bc_str_v", (DL_FUNC) &_broadcast_rcpp_bc_str_v, 4},
     {"_broadcast_rcpp_bc_str_ov", (DL_FUNC) &_broadcast_rcpp_bc_str_ov, 6},
     {"_broadcast_rcpp_bc_str_d", (DL_FUNC) &_broadcast_rcpp_bc_str_d, 9},
@@ -1535,7 +1432,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bcapply_ov", (DL_FUNC) &_broadcast_rcpp_bcapply_ov, 7},
     {"_broadcast_rcpp_bcapply_d", (DL_FUNC) &_broadcast_rcpp_bcapply_d, 10},
     {"_broadcast_rcpp_bindhelper_setnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_setnames, 3},
-    {"_broadcast_rcpp_bindhelper_conf_dims_2", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_2, 4},
     {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 4},
     {"_broadcast_rcpp_bindhelper_get_dimnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_get_dimnames, 2},
     {"_broadcast_rcpp_allocate_nestedlist", (DL_FUNC) &_broadcast_rcpp_allocate_nestedlist, 2},
@@ -1544,7 +1440,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_rec_cast_hier2dim", (DL_FUNC) &_broadcast_rcpp_rec_cast_hier2dim, 6},
     {"_broadcast_rcpp_chunk_size", (DL_FUNC) &_broadcast_rcpp_chunk_size, 2},
     {"_broadcast_rcpp_chunk_set", (DL_FUNC) &_broadcast_rcpp_chunk_set, 2},
-    {"_broadcast_rcpp_serial", (DL_FUNC) &_broadcast_rcpp_serial, 1},
     {"_broadcast_rcpp_is_ma", (DL_FUNC) &_broadcast_rcpp_is_ma, 1},
     {"_broadcast_rcpp_set_ma", (DL_FUNC) &_broadcast_rcpp_set_ma, 2},
     {"_broadcast_rcpp_clone", (DL_FUNC) &_broadcast_rcpp_clone, 1},
@@ -1556,11 +1451,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_make_dimnames2", (DL_FUNC) &_broadcast_rcpp_make_dimnames2, 4},
     {"_broadcast_rcpp_make_dimnames_between", (DL_FUNC) &_broadcast_rcpp_make_dimnames_between, 3},
     {"_broadcast_rcpp_make_dimnames1", (DL_FUNC) &_broadcast_rcpp_make_dimnames1, 3},
-    {"_broadcast_rcpp_mergedims_output", (DL_FUNC) &_broadcast_rcpp_mergedims_output, 3},
-    {"_broadcast_rcpp_mergedims_prod", (DL_FUNC) &_broadcast_rcpp_mergedims_prod, 3},
     {"_broadcast_rcpp_is_mergeable_with_prev", (DL_FUNC) &_broadcast_rcpp_is_mergeable_with_prev, 2},
     {"_broadcast_rcpp_mergedims", (DL_FUNC) &_broadcast_rcpp_mergedims, 3},
-    {"_broadcast_rcpp_rep_new_int", (DL_FUNC) &_broadcast_rcpp_rep_new_int, 2},
     {"_broadcast_rcpp_normalize_dims_regular", (DL_FUNC) &_broadcast_rcpp_normalize_dims_regular, 3},
     {"_broadcast_rcpp_set_attr", (DL_FUNC) &_broadcast_rcpp_set_attr, 3},
     {"C_any_nonNULL",          (DL_FUNC) &C_any_nonNULL,          1},

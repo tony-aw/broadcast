@@ -3,18 +3,6 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_factor_count <- function(grp, j) {
-    .Call(`_broadcast_rcpp_factor_count`, grp, j)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_factor_which <- function(grp, j, size) {
-    .Call(`_broadcast_rcpp_factor_which`, grp, j, size)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_acast <- function(out, y, starts, lens, subs, out_dim, dcp_out, dcp_y, grp, grp_n, margin, newdim) {
     invisible(.Call(`_broadcast_rcpp_acast`, out, y, starts, lens, subs, out_dim, dcp_out, dcp_y, grp, grp_n, margin, newdim))
 }
@@ -357,12 +345,6 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_string_plus <- function(x, y) {
-    .Call(`_broadcast_rcpp_string_plus`, x, y)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_bc_str_v <- function(x, y, nout, op) {
     .Call(`_broadcast_rcpp_bc_str_v`, x, y, nout, op)
 }
@@ -401,12 +383,6 @@
 #' @noRd
 .rcpp_bindhelper_setnames <- function(x, ind, rp) {
     invisible(.Call(`_broadcast_rcpp_bindhelper_setnames`, x, ind, rp))
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bindhelper_conf_dims_2 <- function(x, y, along, max_bc) {
-    .Call(`_broadcast_rcpp_bindhelper_conf_dims_2`, x, y, along, max_bc)
 }
 
 #' @keywords internal
@@ -455,12 +431,6 @@
 #' @noRd
 .rcpp_chunk_set <- function(dimsold, dimsnew) {
     invisible(.Call(`_broadcast_rcpp_chunk_set`, dimsold, dimsnew))
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_serial <- function(x) {
-    .Call(`_broadcast_rcpp_serial`, x)
 }
 
 #' @keywords internal
@@ -531,18 +501,6 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_mergedims_output <- function(x, y, len) {
-    .Call(`_broadcast_rcpp_mergedims_output`, x, y, len)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_mergedims_prod <- function(x, mergeable, pos) {
-    .Call(`_broadcast_rcpp_mergedims_prod`, x, mergeable, pos)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_is_mergeable_with_prev <- function(xB, yB) {
     .Call(`_broadcast_rcpp_is_mergeable_with_prev`, xB, yB)
 }
@@ -551,12 +509,6 @@
 #' @noRd
 .rcpp_mergedims <- function(xD, yD, mergeable) {
     .Call(`_broadcast_rcpp_mergedims`, xD, yD, mergeable)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_rep_new_int <- function(n, val) {
-    .Call(`_broadcast_rcpp_rep_new_int`, n, val)
 }
 
 #' @keywords internal

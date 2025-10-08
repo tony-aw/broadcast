@@ -7,10 +7,7 @@ using namespace Rcpp;
 
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_string_plus)]]
-String rcpp_string_plus(
+inline String rcpp_string_plus(
     String x, String y
   ) {
     if(x == NA_STRING || y == NA_STRING) {

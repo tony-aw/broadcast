@@ -7,11 +7,7 @@ using namespace Rcpp;
 
 
 
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_factor_count)]]
-int rcpp_factor_count(
+inline int rcpp_factor_count(
   SEXP grp, int j
 ) {
   const int *pgrp = INTEGER_RO(grp);
@@ -26,10 +22,7 @@ int rcpp_factor_count(
 }
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_factor_which)]]
-SEXP rcpp_factor_which(
+inline SEXP rcpp_factor_which(
   SEXP grp, int j, int size
 ) {
   SEXP out = PROTECT(Rf_allocVector(INTSXP, size));

@@ -3,10 +3,7 @@
 using namespace Rcpp;
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_serial)]]
-SEXP rcpp_serial(
+inline SEXP rcpp_serial(
   SEXP x
 ) {
   
