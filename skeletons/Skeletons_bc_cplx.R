@@ -43,6 +43,64 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 # Functions ====
 #
 
+# 
+# test <- "
+# Rcomplex rcpp_cplx_pow(std::complex<double> x, std::complex<double> y) {
+#   
+#   double yr = std::real(y);
+#   double yi = std::imag(y);
+#   int k = (int) yr;
+#   
+#   if (x == 0.0) {
+# 	  if (yi == 0.0) {
+# 	    Rcomplex Z;
+# 	    Z.r = R_pow(0.0, yr);
+# 	    Z.i = 0.0;
+# 	    return Z;
+# 	  } else {
+# 	    Rcomplex Z;
+# 	    Z.r = R_NaN;
+# 	    Z.i = R_NaN;
+# 	    return Z;
+# 	  }
+#   }
+#   else {
+#     std::complex<double> W;
+#     W = std::pow(x, y);
+#     Rcomplex Z;
+#     Z.r = std::real(W);
+#     Z.i = std::imag(W);
+#     return Z;
+#   }
+# }
+# 
+# "
+# 
+# Rcpp::cppFunction(test)
+# 
+# xr <- sample(c(rnorm(5), -Inf, Inf, NA, NaN))
+# xi <- sample(c(rnorm(5), -Inf, Inf, NA, NaN))
+# yr <- sample(c(rnorm(5), -Inf, Inf, NA, NaN))
+# yi <- sample(c(rnorm(5), -Inf, Inf, NA, NaN))
+# 
+# errorfun
+# 
+# for(xri in xr) {
+#   for(xii in xi) {
+#     for(yri in yr) {
+#       for(yii in yi) {
+#         x <- xri + xii * 1i
+#         y <- yri + yii * 1i
+#         expected <- x^y
+#         out <- rcpp_cplx_pow(x, y)
+#         expect_equal(
+#           expected, out
+#         ) |> print()
+#       }
+#     }
+#   }
+# }
+
 
 txt0 <- "
 
@@ -126,6 +184,10 @@ inline Rcomplex rcpp_cplx_div( const Rcomplex& x, const Rcomplex& y) {
   return out ;
 
 }
+
+
+
+
 "
 
 txt1 <- "

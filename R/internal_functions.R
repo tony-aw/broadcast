@@ -13,14 +13,8 @@
 #' @keywords internal
 #' @noRd
 .chunkify_dims <- function(dims) {
-  dims <- as.integer(dims)
-  chunks <- as.integer(2^(1:4))
-  
-  chunksize <- .rcpp_chunk_size(length(dims), chunks)
-  new <- rep(1L, chunksize)
-  .rcpp_chunk_set(dims, new)
-  
-  return(new)
+  chunks <- c(2L, 4L, 8L, 16L)
+  return(.C_chunkify_dims(dims, chunks))
 }
 
 

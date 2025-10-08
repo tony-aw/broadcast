@@ -1135,29 +1135,6 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// rcpp_chunk_size
-int rcpp_chunk_size(int ndim, SEXP chunks);
-RcppExport SEXP _broadcast_rcpp_chunk_size(SEXP ndimSEXP, SEXP chunksSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type ndim(ndimSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type chunks(chunksSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_chunk_size(ndim, chunks));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_chunk_set
-void rcpp_chunk_set(SEXP dimsold, SEXP dimsnew);
-RcppExport SEXP _broadcast_rcpp_chunk_set(SEXP dimsoldSEXP, SEXP dimsnewSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type dimsold(dimsoldSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type dimsnew(dimsnewSEXP);
-    rcpp_chunk_set(dimsold, dimsnew);
-    return R_NilValue;
-END_RCPP
-}
 // rcpp_is_ma
 bool rcpp_is_ma(RObject x);
 RcppExport SEXP _broadcast_rcpp_is_ma(SEXP xSEXP) {
@@ -1355,6 +1332,7 @@ RcppExport SEXP C_bindhelper_max_type(SEXP);
 RcppExport SEXP C_bindhelper_sum_along(SEXP, SEXP);
 RcppExport SEXP C_bindhelper_vdims(SEXP);
 RcppExport SEXP C_check_conf_dim(SEXP, SEXP);
+RcppExport SEXP C_chunkify_dims(SEXP, SEXP);
 RcppExport SEXP C_dims_all_equal(SEXP, SEXP);
 RcppExport SEXP C_dims_all_orthogonal(SEXP, SEXP);
 RcppExport SEXP C_dropdims_count(SEXP, SEXP);
@@ -1438,8 +1416,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_rec_dim2hier", (DL_FUNC) &_broadcast_rcpp_rec_dim2hier, 6},
     {"_broadcast_rcpp_rec_dim2hier_names", (DL_FUNC) &_broadcast_rcpp_rec_dim2hier_names, 4},
     {"_broadcast_rcpp_rec_cast_hier2dim", (DL_FUNC) &_broadcast_rcpp_rec_cast_hier2dim, 6},
-    {"_broadcast_rcpp_chunk_size", (DL_FUNC) &_broadcast_rcpp_chunk_size, 2},
-    {"_broadcast_rcpp_chunk_set", (DL_FUNC) &_broadcast_rcpp_chunk_set, 2},
     {"_broadcast_rcpp_is_ma", (DL_FUNC) &_broadcast_rcpp_is_ma, 1},
     {"_broadcast_rcpp_set_ma", (DL_FUNC) &_broadcast_rcpp_set_ma, 2},
     {"_broadcast_rcpp_clone", (DL_FUNC) &_broadcast_rcpp_clone, 1},
@@ -1462,6 +1438,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"C_bindhelper_sum_along", (DL_FUNC) &C_bindhelper_sum_along, 2},
     {"C_bindhelper_vdims",     (DL_FUNC) &C_bindhelper_vdims,     1},
     {"C_check_conf_dim",       (DL_FUNC) &C_check_conf_dim,       2},
+    {"C_chunkify_dims",        (DL_FUNC) &C_chunkify_dims,        2},
     {"C_dims_all_equal",       (DL_FUNC) &C_dims_all_equal,       2},
     {"C_dims_all_orthogonal",  (DL_FUNC) &C_dims_all_orthogonal,  2},
     {"C_dropdims_count",       (DL_FUNC) &C_dropdims_count,       2},

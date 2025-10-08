@@ -163,7 +163,7 @@
   out.dimorig <- do.call(pmax, input.dims)
   
   # chunkify input.dims:
-  input.dims <- lapply(input.dims, .chunkify_dims)
+  input.dims <- lapply(input.dims, .C_chunkify_dims, chunks = c(2L, 4L, 8L, 16L))
   dimlens <- lengths(input.dims)
   max_ndims <- max(dimlens)
   

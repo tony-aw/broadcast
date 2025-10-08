@@ -423,18 +423,6 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_chunk_size <- function(ndim, chunks) {
-    .Call(`_broadcast_rcpp_chunk_size`, ndim, chunks)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_chunk_set <- function(dimsold, dimsnew) {
-    invisible(.Call(`_broadcast_rcpp_chunk_set`, dimsold, dimsnew))
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_is_ma <- function(x) {
     .Call(`_broadcast_rcpp_is_ma`, x)
 }

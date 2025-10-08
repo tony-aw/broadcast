@@ -122,3 +122,10 @@
   .Call("C_bindhelper_max_type", x)
 }
 
+
+#' @keywords Internal
+#' @noRd
+.C_chunkify_dims <- function(dims, chunks) {
+  .Call("C_chunkify_dims", as.integer(dims), as.integer(chunks))
+}
+
