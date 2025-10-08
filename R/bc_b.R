@@ -28,12 +28,13 @@
 #'
 #'
 #' @returns
-#' Normally; \cr
+#' Normally: \cr
 #' A logical array/vector as a result of the broadcasted Boolean operation. \cr
 #' \cr
 #' If both `x` and `y` are type of raw: \cr
 #' A raw array/vector as a result of the broadcasted Boolean operation,
-#' where `01` codes for `TRUE` and `00` codes for `FALSE`. \cr \cr
+#' where `01` codes for `TRUE` and `00` codes for `FALSE`. \cr
+#' This is convenient as `raw` requires less memory space than `logical`. \cr \cr
 #'
 #' @seealso \link{broadcast_operators} \cr
 #' @example inst/examples/bc_b.R

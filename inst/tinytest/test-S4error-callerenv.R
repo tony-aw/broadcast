@@ -27,7 +27,7 @@ ops <- c(
 )
 
 for(i in seq_along(funs)) {
-  output <- tryCatch(funs[[i]](1:10, 1:11, "&"), error = function(e)print(e))
+  output <- tryCatch(funs[[i]](1:10, 1:11, "&"), error = function(e) return(e))
   expect_equal(
     output$call,
     names(funs)[i]

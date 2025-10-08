@@ -14,7 +14,7 @@ bc.i(x, y, op, ...)
 
 \item{op}{a single string, giving the operator. \cr
 Supported simple arithmetic operators: +, -, *, ^, pmin, pmax. \cr
-Supported factorizing arithmetic operators: gcd, \%\%, \%/\%. \cr
+Supported special division arithmetic operators: gcd, \%\%, \%/\%. \cr
 Supported relational operators: ==, !=, <, >, <=, >=. \cr
 The "gcd" operator performs the "Greatest Common Divisor" operation,
 using the Euclidean algorithm.}

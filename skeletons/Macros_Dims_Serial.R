@@ -82,9 +82,6 @@ macro_dim_vector <- "
       by_x = 1;                                                     \\
       by_y = 0;                                                     \\
     }                                                               \\
-    else {                                                          \\
-      stop(\"unequal length\");                                     \\
-    }                                                               \\
   }                                                                 \\
   for(R_xlen_t flatind_out = 0; flatind_out < nout; ++flatind_out) {  \\
     DOCODE;                                                           \\

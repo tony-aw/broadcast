@@ -1,9 +1,7 @@
 
 ## My Comments
 
-Reduced the installation size of the compiled code.
-This should hopefully make the installation faster in Fedora clang, provided CRAN fixed their clang compiler.
-
+I've done what I can. I REALLY hope it passes fedora clang this time.
 
 
 ## R CMD check results

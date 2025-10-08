@@ -18,12 +18,13 @@ Supported Boolean  operators: &, |, xor, nand, ==, !=, <, >, <=, >=.}
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
-Normally; \cr
+Normally: \cr
 A logical array/vector as a result of the broadcasted Boolean operation. \cr
 \cr
 If both \code{x} and \code{y} are type of raw: \cr
 A raw array/vector as a result of the broadcasted Boolean operation,
-where \code{01} codes for \code{TRUE} and \code{00} codes for \code{FALSE}. \cr \cr
+where \code{01} codes for \code{TRUE} and \code{00} codes for \code{FALSE}. \cr
+This is convenient as \code{raw} requires less memory space than \code{logical}. \cr \cr
 }
 \description{
 The \code{bc.b()} function

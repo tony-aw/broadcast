@@ -14,7 +14,7 @@
 #' @param x,y conformable vectors/arrays of type logical or numeric.
 #' @param op a single string, giving the operator. \cr
 #' Supported simple arithmetic operators: `r paste0(broadcast:::.op_int_math(), collapse = ", ")`. \cr
-#' Supported factorizing arithmetic operators: `r paste0(broadcast:::.op_int_fact(), collapse = ", ")`. \cr
+#' Supported special division arithmetic operators: `r paste0(broadcast:::.op_int_fact(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_int_rel(), collapse = ", ")`. \cr
 #' The "gcd" operator performs the "Greatest Common Divisor" operation,
 #' using the Euclidean algorithm.

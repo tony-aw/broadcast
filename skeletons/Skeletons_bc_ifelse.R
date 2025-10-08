@@ -179,4 +179,3 @@ txt <- stringi::stri_c(
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bc_ifelse.cpp")
-
