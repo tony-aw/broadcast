@@ -1,4 +1,8 @@
 
+# broadcast 0.1.5.3
+
+* Replaced `abs` function with `labs` function when using long integers in src/rcpp_bcFact_int.
+
 
 # broadcast 0.1.5.2
 
@@ -56,7 +60,7 @@ Moreover, the S3 methods in this package now check for unknown arguments given t
 
 # broadcast 0.1.1
 * Continuation of Initial CRAN submission.
-* Replaced abs function with labs function when using long integers in src/rcpp_bc_int.
+* Replaced `abs` function with `labs` function when using long integers in src/rcpp_bc_int.
 
 
 # broadcast 0.1

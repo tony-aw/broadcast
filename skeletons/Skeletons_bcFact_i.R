@@ -51,8 +51,8 @@ inline long long rcpp_int53_gcd_rec(
   long long x, long long y
 ) {
 
-  long long a = abs(x);
-  long long b = abs(y);
+  long long a = labs(x);
+  long long b = labs(y);
   
   if (a == 0) {
     return b;
