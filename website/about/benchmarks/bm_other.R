@@ -143,3 +143,4 @@ bm_hier_vs_dim <- bench::mark(
 summary(bm_hier_vs_dim)
 plot(bm_hier_vs_dim)
 save(bm_hier_vs_dim, file = "bm_hier_vs_dim.RData")
+
