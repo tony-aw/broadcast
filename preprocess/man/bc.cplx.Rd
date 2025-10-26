@@ -13,7 +13,7 @@ bc.cplx(x, y, op, ...)
 \item{x, y}{conformable vectors/arrays of type \code{complex}.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported arithmetic operators: +, -, *, /, ^. \cr
+Supported arithmetic operators: +, -, *, /. \cr
 Supported relational operators: ==, !=.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
