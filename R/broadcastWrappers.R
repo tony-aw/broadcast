@@ -1,8 +1,8 @@
 
 #' @keywords Internal
 #' @noRd
-.C_check_conf_dim <- function(x, y) {
-  .Call("C_check_conf_dim", x = as.integer(x), y = as.integer(y))
+.C_check_conf_dim <- function(xdim, ydim, xlen, ylen) {
+  .Call("C_check_conf_dim", xdim, ydim, xlen, ylen)
 }
 
 #' @keywords Internal
@@ -11,12 +11,6 @@
   .Call("C_pmax", x = as.integer(x), y = as.integer(y))
 }
 
-
-#' @keywords Internal
-#' @noRd
-.C_dims_all_orthogonal <- function(xdim, ydim) {
-  .Call("C_dims_all_orthogonal", xdim = as.integer(xdim), ydim = as.integer(ydim))
-}
 
 
 #' @keywords Internal
@@ -79,10 +73,11 @@
   .Call("C_dropdims_which", xdim, ydim, size)
 }
 
+
 #' @keywords Internal
 #' @noRd
-.C_dims_all_equal <- function(xdim, ydim) {
-  .Call("C_dims_all_equal", xdim, ydim)
+.C_dims_allge <- function(xdim, ydim) {
+  .Call("C_dims_allge", xdim, ydim)
 }
 
 #' @keywords Internal
@@ -103,6 +98,7 @@
 .C_sd_lc <- function(w, vc, nobs, nvars, bad_rp) {
   .Call("C_sd_lc", w, diag(vc), vc, as.integer(nobs), as.integer(nvars), as.double(bad_rp))
 }
+
 
 #' @keywords Internal
 #' @noRd
@@ -129,3 +125,14 @@
   .Call("C_chunkify_dims", as.integer(dims), as.integer(chunks))
 }
 
+#' @keywords Internal
+#' @noRd
+.C_unlisthelper_maxlen <- function(x) {
+  .Call("C_unlisthelper_maxlen", x)
+}
+
+#' @keywords Internal
+#' @noRd
+.C_determine_dimmode <- function(xdim, ydim, xlen, ylen) {
+  .Call("C_determine_dimmode", xdim, ydim, xlen, ylen)
+}

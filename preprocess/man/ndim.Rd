@@ -3,11 +3,14 @@
 \name{ndim}
 \alias{ndim}
 \alias{lst.ndim}
+\alias{undim}
 \title{Get the Number of Dimensions of an Array}
 \usage{
 ndim(x)
 
 lst.ndim(x)
+
+undim(x)
 }
 \arguments{
 \item{x}{a vector or array (for \code{ndim()}), or a list of vectors/arrays (for \code{lst.ndim()}). \cr}
@@ -15,10 +18,13 @@ lst.ndim(x)
 \value{
 For \code{ndim()}: an integer scalar. \cr
 For \code{lst.ndim()}: an integer vector, with the same length, names and dimensions as \code{x}. \cr
+For \code{undim()}: the original object, but without dimensions. \cr \cr
 }
 \description{
 \code{ndim()} returns the number of dimensions of an object. \cr
 \code{lst.ndim()} returns the number of dimensions of every list-element. \cr
+\code{undim()} returns a copy of an object, but with its dimensions removed
+(it somewhat like the dimensional version of \code{unlist()}). \cr
 \cr
 }
 \examples{

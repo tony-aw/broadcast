@@ -47,7 +47,7 @@ txt1 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bcRel_raw_v)]]
+// [[Rcpp::export(.rcpp_bcRel_raw_v, rng = false)]]
 SEXP rcpp_bcRel_raw_v(
   SEXP x, SEXP y,
   R_xlen_t nout, int op
@@ -75,7 +75,7 @@ txt2 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bcRel_raw_ov)]]
+// [[Rcpp::export(.rcpp_bcRel_raw_ov, rng = false)]]
 SEXP rcpp_bcRel_raw_ov(
   SEXP x, SEXP y, bool RxC, SEXP out_dim,
   R_xlen_t nout, int op
@@ -98,11 +98,38 @@ return out;
 "
 
 
+
 txt3 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bcRel_raw_d)]]
+// [[Rcpp::export(.rcpp_bcRel_raw_bv, rng = false)]]
+SEXP rcpp_bcRel_raw_bv(
+  SEXP x, SEXP y, bool bigx, SEXP out_dim,
+  R_xlen_t nout, int op
+) {
+
+
+SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
+int *pout = LOGICAL(out);
+Rbyte *px = RAW(x);
+Rbyte *py = RAW(y);
+
+MACRO_OP_RAW_REL(MACRO_DIM_BIG2VECTOR);
+
+UNPROTECT(1);
+return out;
+
+}
+
+
+"
+
+txt4 <- "
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bcRel_raw_d, rng = false)]]
 SEXP rcpp_bcRel_raw_d(
   SEXP x, SEXP y,
   SEXP by_x,
@@ -131,19 +158,18 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt1, txt2, txt3,
+  txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 
 Rcpp::sourceCpp(code = txt)
 
 
+setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt1, txt2, txt3,
+  txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
-
-setwd("..")
 readr::write_file(txt, "src/rcpp_bcRel_raw.cpp")
 

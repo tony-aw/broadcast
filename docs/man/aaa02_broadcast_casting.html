@@ -297,6 +297,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/cast_shallow2atomic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cast_shallow2atomic</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/dropnests.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">dropnests</span></a>
   </div>
@@ -313,6 +319,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/bcapply.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bcapply</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc_strrep.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc_strrep</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -398,6 +410,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
 <li>
 <p><a href="../man/cast_dim2hier.html">cast_dim2hier</a>: <br> Casts a dimensional list into a nested/hierarchical list; the opposite of <a href="../man/cast_hier2dim.html">cast_hier2dim</a>. <br></p>
+</li>
+<li>
+<p><a href="../man/cast_shallow2atomic.html">cast_shallow2atomic</a>: <br> Casts a (dimensional) shallow (i.e.&nbsp;non-nested) list into an atomic vector or array. <br> Useful because atomic vectors/arrays have access to many vectorized (broadcasted) operations that may not be available for vectors/arrays of type <code>list</code>.</p>
 </li>
 <li>
 <p><a href="../man/cast_dim2flat.html">cast_dim2flat</a>: <br> Casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. <br> Mostly useful for printing or summarizing dimensional lists.</p>
@@ -543,12 +558,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="do">## sex    character,10 character,10</span></span>
 <span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[<span class="dv">1</span>,<span class="dv">1</span>,,<span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
 <span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['height', 'class1', 'group1']`</span></span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.1979 170.1691 170.9511 169.7518 170.1009 171.0424 170.1111 170.3537</span></span>
-<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.5832 169.8207</span></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.9975 170.2875 168.3387 170.0503 169.7746 170.7997 170.2784 170.2988</span></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 171.6872 166.8759</span></span>
 <span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['height', 'class1', 'group2']`</span></span>
-<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 170.8777 170.5379 169.3218 171.2310 170.1091 169.5946 170.1662 169.9747</span></span>
-<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 168.6412 171.0415</span></span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.2043 170.2367 169.1663 170.7450 168.3521 168.1021 170.1282 169.3804</span></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.1730 170.7866</span></span>
 <span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="co"># in2out = FALSE:</span></span>
 <span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x, <span class="at">in2out =</span> <span class="cn">FALSE</span>)</span>
@@ -573,15 +588,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a><span class="do">## group2 character,10 character,10</span></span>
 <span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[<span class="dv">1</span>,<span class="dv">1</span>,,<span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
 <span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class1', 'height']`</span></span>
-<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.1979 170.1691 170.9511 169.7518 170.1009 171.0424 170.1111 170.3537</span></span>
-<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 170.5832 169.8207</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 169.9975 170.2875 168.3387 170.0503 169.7746 170.7997 170.2784 170.2988</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 171.6872 166.8759</span></span>
 <span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class1', 'weight']`</span></span>
-<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 78.13227 80.89536 79.33075 79.50988 79.15391 80.09498 79.31008 80.65317</span></span>
-<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 79.23567 79.87250</span></span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 80.07645 79.30484 79.64897 81.01102 79.61497 80.15215 79.84742 78.61108</span></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] 79.90674 79.14386</span></span>
 <span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a><span class="do">## $`['group1', 'class1', 'sex']`</span></span>
-<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] NA  "F" NA  "M" "F" NA  "M" NA  "M" NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] NA  NA  NA  "F" "M" "F" "F" "M" "M" "M"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

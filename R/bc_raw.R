@@ -93,7 +93,11 @@ setMethod(
     RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
     out <- .rcpp_bc_raw_ov(x, y, RxC, out.dimsimp, out.len, op)
   }
-  else if(dimmode == 3L) { # general mode
+  else if(dimmode == 3L) {
+    bigx <- .C_dims_allge(x.dim, y.dim)
+    out <- .rcpp_bc_raw_bv(x, y, bigx, out.dimsimp, out.len, op)
+  }
+  else if(dimmode == 4L) { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

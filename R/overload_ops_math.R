@@ -106,7 +106,9 @@
   
   
   if(is.complex(e1) || is.complex(e2)) {
-    stop("`^` operator not (yet) supported for type `complex`")
+    if(!is.complex(e1)) e1 <- as_cplx(e1)
+    if(!is.complex(e2)) e2 <- as_cplx(e2)
+    out <- .bc_cplx_math(e1, e2, 5L, sys.call())
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
     out <- .bc_dec_math(e1, e2, 5L, sys.call())
@@ -129,7 +131,7 @@
     stop("`%%` operator not supported for type `complex`")
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
-    out <- .bc_int_fact(e1, e2, 2L, sys.call())
+    out <- .bc_int_d(e1, e2, 2L, sys.call())
   }
   else {
     stop("non-numeric argument to binary operator")
@@ -148,7 +150,7 @@
     stop("`%/%` operator not supported for type `complex`")
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
-    out <- .bc_int_fact(e1, e2, 3L, sys.call())
+    out <- .bc_int_d(e1, e2, 3L, sys.call())
   }
   else {
     stop("non-numeric argument to binary operator")

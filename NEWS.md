@@ -1,4 +1,15 @@
 
+# broadcast 0.1.6
+
+* Small speed improvement for all broadcasted operations.
+* Small speed improvement for `sd_lc()`.
+* Added the power ("^") operator for `bc.cplx()` and for `broadcaster` of type complex.
+* Added the `cast_shallow2atomic()` casting method.
+* Added the `bc_strrep()` method.
+* Added the `undim()` function.
+* Added more tests.
+
+
 # broadcast 0.1.5.3
 
 * Replaced `abs` function with `labs` function when using long integers in src/rcpp_bcFact_int.

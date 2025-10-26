@@ -10,32 +10,7 @@ undim <- function(x) {
   dim(x) <- NULL
   return(x)
 }
-
-funs <- list(
-  bc.b,
-  bc.i,
-  bc.d,
-  bc.cplx,
-  bc.str,
-  bc.raw,
-  bc.bit,
-  bc.list
-)
-ops <- c(
-  rep(list("=="), 7L),
-  \(x, y) length(x)==length(y)
-)
-
-datagens <- list(
-  \() sample(c(TRUE, FALSE, NA), 10L, TRUE),
-  \() sample(c(-10L:10L, NA_integer_)),
-  \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)),
-  \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)) + sample(c(rnorm(10), NA, NaN, Inf, -Inf)) * -1i,
-  \() sample(c(letters, NA)),
-  \() as.raw(sample(0:255, 10)),
-  \() as.raw(sample(0:255, 10)),
-  \() sample(list(letters, month.abb, 1:10))
-)
+source(file.path(getwd(), "source.R"))
 
 for(i in seq_along(funs)) {
   x <- array(datagens[[i]](), c(10, 1))

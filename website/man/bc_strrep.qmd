@@ -1,0 +1,61 @@
+---
+title: bc_strrep
+---
+## Broadcasted strrep {.unnumbered}
+
+
+### Description
+
+The <code>bc_strrep()</code> method
+is a broadcasted form of strrep. <br /> <br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>bc_strrep(x, y, ...)
+
+## S4 method for signature 'ANY'
+bc_strrep(x, y)
+</code></pre>
+
+
+### Arguments
+
+<table role = "presentation">
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<td>
+vector/array of type <code>character</code>.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="y">y</code></td>
+<td>
+vector/array of type <code>integer</code>.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
+</td></tr>
+</table>
+
+
+### Value
+
+A character array as a result of the broadcasted repetition operation. <br /> <br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+
+x <- array(sample(month.abb), c(10, 2))
+y <- array(sample(1:10), c(10, 2, 3))
+
+print(x)
+print(y)
+
+bc_strrep(x, y)
+
+
+```

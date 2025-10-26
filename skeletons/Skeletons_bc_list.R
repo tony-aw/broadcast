@@ -48,7 +48,7 @@ txt1 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_list_v)]]
+// [[Rcpp::export(.rcpp_bc_list_v, rng = false)]]
 SEXP rcpp_bc_list_v(
   List x, List y, 
   R_xlen_t nout, Function f
@@ -75,7 +75,7 @@ txt2 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_list_ov)]]
+// [[Rcpp::export(.rcpp_bc_list_ov, rng = false)]]
 SEXP rcpp_bc_list_ov(
   List x, List y,  bool RxC, SEXP out_dim,
   R_xlen_t nout, Function f
@@ -97,11 +97,40 @@ return out;
 "
 
 
+
 txt3 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_list_d)]]
+// [[Rcpp::export(.rcpp_bc_list_bv, rng = false)]]
+SEXP rcpp_bc_list_bv(
+  List x, List y,  bool bigx, SEXP out_dim,
+  R_xlen_t nout, Function f
+) {
+
+List out(nout);
+
+MACRO_DIM_BIG2VECTOR(
+  out[flatind_out] = f(x[flatind_x], y[flatind_y])
+);
+
+
+
+return out;
+
+}
+
+
+"
+
+
+
+
+txt4 <- "
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bc_list_d, rng = false)]]
 SEXP rcpp_bc_list_d(
   List x, List y, 
   SEXP by_x,
@@ -127,7 +156,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt1, txt2, txt3,
+  txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 
@@ -137,7 +166,7 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt1, txt2, txt3,
+  txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bc_list.cpp")

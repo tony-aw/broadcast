@@ -35,15 +35,17 @@ all_ind_pointer <- sprintf("const int *pind%d = INTEGER_RO(ind%d);\t\\", 1:16, 1
 all_for <- c(
   sprintf("\t for(int iter%d = 0; iter%d < N%d; ++iter%d) {\t\\", 1:16, 1:16, 1:16, 1:16)
 )
-forout <- sprintf("i_out%d = (pstarts[%d] + iter%d) * pdcp_out[%d];\t\\", 1:16, 0:15, 1:16, 0:15)
-fory <- sprintf("i_y%d = (pind%d[iter%d] - 1) * pdcp_y[%d];\t\\", 1:16, 1:16, 1:16, 0:15)
+forout <- sprintf(
+  "i_out%d = (pstarts[%d] + iter%d) * pdcp_out[%d] + i_out%d;\t\\",
+  1:16, 0:15, 1:16, 0:15, 2:17
+)
+fory <- sprintf(
+  "i_y%d = (pind%d[iter%d] - 1) * pdcp_y[%d] + i_y%d;\t\\",
+  1:16, 1:16, 1:16, 0:15, 2:17
+)
 all_for <- stri_c(all_for, forout, fory, sep = "\n")
 cat(all_for[1])
 cat(all_for[16])
-
-
-all_parts_out <-  sprintf("i_out%d", 1:16)
-all_parts_y <-  sprintf("i_y%d", 1:16)
 
 
 all_out_decl <- sprintf("i_out%d", 1:16)
@@ -70,8 +72,8 @@ temp <- "
   R_xlen_t <all_out_decl>; \\
   R_xlen_t <all_y_decl>; \\
   <startfor>
-        flatind_out = <main_out>;       \\
-        flatind_y = <main_y>;     \\
+        flatind_out = i_out1;       \\
+        flatind_y = i_y1;     \\
                                                                     \\
         DOCODE;                                                          \\
   	                                                                \\
@@ -93,8 +95,10 @@ for(i in DTYPES) {
   current_out_decl <- stri_c(all_out_decl[1:(i)], collapse = ", ")
   current_y_decl <- stri_c(all_y_decl[1:(i)], collapse = ", ")
   current_for <- stri_c(all_for[i:1], collapse = "\n")
-  current_main_out <- stri_c(all_parts_out[1:i], collapse = " + ")
-  current_main_y <- stri_c(all_parts_y[1:i], collapse = " + ")
+  find <- sprintf(c(" + i_y%d", " + i_out%d"), i + 1)
+  current_for <- stri_replace_all(
+    current_for, c("", ""), fixed = find, vectorise_all = FALSE
+  )
   current_end <- stri_c(rep("\t }\t\\", i), collapse = "\n")
   
   current_fixed <- c(
@@ -105,8 +109,6 @@ for(i in DTYPES) {
     "<all_out_decl>",
     "<all_y_decl>",
     "<startfor>",
-    "<main_out>",
-    "<main_y>",
     "<endfor>"
   )
   current_replacement <- c(
@@ -117,8 +119,6 @@ for(i in DTYPES) {
     current_out_decl,
     current_y_decl,
     current_for,
-    current_main_out,
-    current_main_y,
     current_end
   )
   

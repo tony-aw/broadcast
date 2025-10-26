@@ -14,7 +14,7 @@ SEXP C_sd_lc(
   const double *pvc = REAL_RO(vc);
   const double *pvcdiag = REAL_RO(vcdiag);
   double var, covar;
-  R_xlen_t index, i_t_nvars;
+  R_xlen_t i_t_nvars;
   
   SEXP out = PROTECT(Rf_allocVector(REALSXP, nobs));
   double *pout = REAL(out);
@@ -24,24 +24,17 @@ SEXP C_sd_lc(
     double weight;
     for(int k = 0; k < nobs; ++k) {
       
-      // variance:
       var = 0.0;
+      covar = 0.0;
       for(int i = 0; i < nvars; ++i) {
         weight = pw[k + i * nobs];
-        var += pvcdiag[i] * weight * weight;
-      }
-      
-      // covariance:
-      covar = 0;
-      for(int i = 0; i < (nvars - 1); ++i) {
-        index = k + i * nobs;
         i_t_nvars = i * nvars;
+        var += pvcdiag[i] * weight * weight;
         for(int j = (i + 1); j < nvars; ++j) {
-          covar += pw[k + j * nobs] * pw[index] * pvc[j + i_t_nvars];
+          covar += pw[k + j * nobs] * weight * pvc[j + i_t_nvars];
         }
       }
-      
-      // combine:
+            
       var = var + 2 * covar;
       if(var < 0) {
         pout[k] = bad_rp;
@@ -69,28 +62,21 @@ SEXP C_sd_lc(
         }
       }
       if(isNA) {
-        // return NaN
+        // return NA
         pout[k] = NA_REAL;
       }
       else { // start regular integer computation
-        // variance:
         var = 0.0;
+        covar = 0.0;
         for(int i = 0; i < nvars; ++i) {
           weight = pw[k + i * nobs];
-          var += pvcdiag[i] * weight * weight;
-        }
-        
-        // covariance:
-        covar = 0;
-        for(int i = 0; i < (nvars - 1); ++i) {
-          index = k + i * nobs;
           i_t_nvars = i * nvars;
+          var += pvcdiag[i] * weight * weight;
           for(int j = (i + 1); j < nvars; ++j) {
-            covar += pw[k + j * nobs] * pw[index] * pvc[j + i_t_nvars];
+            covar += pw[k + j * nobs] * weight * pvc[j + i_t_nvars];
           }
         }
-        
-        // combine:
+
         var = var + 2 * covar;
         if(var < 0) {
           pout[k] = bad_rp;

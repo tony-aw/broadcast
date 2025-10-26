@@ -19,7 +19,8 @@ funs <- list(
   bc.rel = bc.rel,
   bc.list = bc.list,
   bc_ifelse = bc_ifelse,
-  bcapply = bcapply
+  bcapply = bcapply,
+  bc_strrep = \(x, y, op) { bc_strrep(x, y) }
 )
 ops <- c(
   rep(list("=="), 7L),

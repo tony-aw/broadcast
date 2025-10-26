@@ -229,6 +229,37 @@ macro_action_vapply <- "
 
 
 
+################################################################################
+# Casting MACROS  ====
+#
+
+macro_casting <- "
+
+
+# define MACRO_UNLIST_DEEP(POINTERCODE, DOCODE) do {         \\
+  for(int i = 0; i < Rf_length(input); ++i) {     \\
+    SEXP tempin = VECTOR_ELT(input, i);           \\
+    POINTERCODE;                                  \\
+    for(int j = 0; j < Rf_length(tempin); ++j) {  \\
+      flatind = i + nrow * j;                     \\
+      DOCODE;                                     \\
+    }                                             \\
+  }                                               \\
+} while(0);
+
+
+# define MACRO_UNLIST_DOWN(POINTERCODE, DOCODE) do {          \\
+  for(int i = 0; i < Rf_length(input); ++i) {     \\
+    SEXP tempin = VECTOR_ELT(input, i);           \\
+    POINTERCODE;                                  \\
+    for(int j = 0; j < Rf_length(tempin); ++j) {  \\
+      flatind = j + nrow * i;                     \\
+      DOCODE;                                     \\
+    }                                             \\
+  }                                               \\
+} while(0);
+
+"
 
 
 ################################################################################
@@ -264,6 +295,8 @@ macro_action <- stri_c(
   macro_doublepass,
   "\n",
   macro_action_vapply,
+  "\n",
+  macro_casting,
   "\n"
 )
 

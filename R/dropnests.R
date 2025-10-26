@@ -39,7 +39,7 @@ dropnests <- function(x, ...) {
 #' @export
 dropnests.default <- function(x, maxdepth = 16L, recurse_all = FALSE, ...) {
   
-  .recurse_classed(list(...), sys.call())
+  .ellipsis(list(...), sys.call())
   
   .depth_check(x, maxdepth, recurse_all, sys.call())
   

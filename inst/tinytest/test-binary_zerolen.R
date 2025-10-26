@@ -5,27 +5,7 @@ errorfun <- function(tt) {
   
   if(isFALSE(tt)) stop(print(tt))
 }
-
-funs <- list(
-  bc.b,
-  bc.i,
-  bc.d,
-  bc.cplx,
-  bc.str,
-  bc.raw,
-  bc.bit
-)
-
-datagens <- list(
-  \() sample(c(TRUE, FALSE, NA), 10L, TRUE),
-  \() sample(c(-10L:10L, NA_integer_)),
-  \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)),
-  \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)) + sample(c(rnorm(10), NA, NaN, Inf, -Inf)) * -1i,
-  \() sample(c(letters, NA)),
-  \() as.raw(sample(0:255, 10)),
-  \() as.raw(sample(0:255, 10))
-)
-
+source(file.path(getwd(), "source.R"))
 
 # relational operators ====
 
@@ -68,7 +48,7 @@ ops <- c(
   "&", rep("+", 4), "diff", "&"
 )
 
-for(i in seq_along(funs)) {
+for(i in seq_along(ops)) {
   for(xLen in c(10, 0)) {
     for(yLen in c(0, 10)) {
       

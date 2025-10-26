@@ -1,7 +1,7 @@
 #' Dimensional Binding of Arrays with Broadcasting
 #'
 #' @description
-#' `bind_array()` binds (atomic/recursive) arrays and (atomic/recursive) matrices. \cr
+#' `bind_array()` binds (atomic/recursive) arrays and (atomic/recursive) matrices along a dimension. \cr
 #' Allows for broadcasting. \cr \cr
 #' 
 #' 
@@ -53,7 +53,7 @@
 #'  ruining the structure).
 #'  - unlike \code{abind::abind},
 #'  `bind_array()` only binds (atomic/recursive) arrays and matrices. \cr
-#'  `bind_array()`does not attempt to convert things to arrays when they are not arrays,
+#'  `bind_array()` does not attempt to convert things to arrays when they are not arrays,
 #'  but will give an error instead. \cr
 #'  This saves computation time and prevents unexpected results.
 #'  - `bind_array()` has more streamlined naming options,
@@ -61,7 +61,12 @@
 #' 
 #' 
 #' @returns
-#' An array. \cr  \cr
+#' An array as a result from the (broadcasted) binding. \cr
+#' \cr
+#' The type of the result is determined from the highest type of any of the inputs. \cr
+#' The hierarchy of types is: \cr
+#' raw < logical < integer < double < complex < character < list . \cr
+#' \cr
 #' 
 #' 
 #' @references Plate T, Heiberger R (2016). \emph{abind: Combine Multidimensional Arrays}. R package version 1.4-5, \url{https://CRAN.R-project.org/package=abind}.

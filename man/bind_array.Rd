@@ -51,10 +51,15 @@ Using \code{comnames_from = 10} will then result in \code{bind_array()} using
 \code{rownames(input[[10]])} for the rownames of the output. \cr \cr}
 }
 \value{
-An array. \cr  \cr
+An array as a result from the (broadcasted) binding. \cr
+\cr
+The type of the result is determined from the highest type of any of the inputs. \cr
+The hierarchy of types is: \cr
+raw < logical < integer < double < complex < character < list . \cr
+\cr
 }
 \description{
-\code{bind_array()} binds (atomic/recursive) arrays and (atomic/recursive) matrices. \cr
+\code{bind_array()} binds (atomic/recursive) arrays and (atomic/recursive) matrices along a dimension. \cr
 Allows for broadcasting. \cr \cr
 }
 \details{
@@ -74,7 +79,7 @@ in that it can handle recursive arrays properly \cr
 ruining the structure).
 \item unlike \code{abind::abind},
 \code{bind_array()} only binds (atomic/recursive) arrays and matrices. \cr
-\code{bind_array()}does not attempt to convert things to arrays when they are not arrays,
+\code{bind_array()} does not attempt to convert things to arrays when they are not arrays,
 but will give an error instead. \cr
 This saves computation time and prevents unexpected results.
 \item \code{bind_array()} has more streamlined naming options,

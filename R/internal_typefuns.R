@@ -42,6 +42,12 @@
   return(good_form && good_S3)
 }
 
+#' @keywords internal
+#' @noRd
+.is_list <- function(x) {
+  return(is.list(x) && !is.pairlist(x))
+}
+
 
 #' @keywords internal
 #' @noRd
@@ -57,7 +63,7 @@
 #' @keywords internal
 #' @noRd
 .types <- function() {
-  return(c("unknown", "raw", "logical", "integer", "double", "complex", "character", "list"))
+  return(c("unknown", "raw", "logical", "integer", "double", "complex", "character", "list", "expression"))
 }
 
 
@@ -99,6 +105,36 @@
   }
   else if(out.type == "raw") {
     coerce <- as.raw
+  }
+  else {
+    stop(simpleError("unknown type", call = abortcall))
+  }
+  return(coerce)
+}
+
+#' @keywords internal
+#' @noRd
+.type_alias_coerce2 <- function(out.type, abortcall) {
+  if(out.type == "list") {
+    coerce <- as_list
+  }
+  else if(out.type == "character") {
+    coerce <- as_chr
+  }
+  else if(out.type == "complex") {
+    coerce <- as_cplx
+  }
+  else if(out.type == "double") {
+    coerce <- as_dbl
+  }
+  else if(out.type == "integer") {
+    coerce <- as_int
+  }
+  else if(out.type == "logical") {
+    coerce <- as_bool
+  }
+  else if(out.type == "raw") {
+    coerce <- as_raw
   }
   else {
     stop(simpleError("unknown type", call = abortcall))

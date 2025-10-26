@@ -52,9 +52,9 @@ cast_hier2dim <- function(x, ...) {
 #' @export
 cast_hier2dim.default <- function(x, in2out = TRUE, maxdepth = 16L, recurse_all = FALSE, padding = list(NULL), ...) {
   
-  .recurse_classed(list(...), sys.call())
+  .ellipsis(list(...), sys.call())
   
-  if(!is.list(padding) || length(padding) > 1L) {
+  if(!.is_list(padding) || length(padding) > 1L) {
     stop("`padding` must be a list of length 1")
   }
   

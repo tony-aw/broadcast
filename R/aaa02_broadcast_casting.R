@@ -17,6 +17,9 @@
 #'  Helper functions for \link{cast_hier2dim}.
 #'  - \link{cast_dim2hier}: \cr
 #'  Casts a dimensional list into a nested/hierarchical list; the opposite of \link{cast_hier2dim}. \cr
+#'  - \link{cast_shallow2atomic}: \cr
+#'  Casts a (dimensional) shallow (i.e. non-nested) list into an atomic vector or array. \cr
+#'  Useful because atomic vectors/arrays have access to many vectorized (broadcasted) operations that may not be available for vectors/arrays of type `list`.
 #'  - \link{cast_dim2flat}: \cr
 #'  Casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. \cr
 #'  Mostly useful for printing or summarizing dimensional lists.
@@ -29,7 +32,8 @@
 #' By default `recurse_all = FALSE`,
 #' meaning these methods do not recurse through dimensional or classed lists (like data.frames). \cr
 #' Setting `recurse_all = TRUE`
-#' allows these methods to recurse through all list objects, even if they are dimensional and/or classed. \cr
+#' allows these methods to recurse through all list objects,
+#' even if they are dimensional and/or classed. \cr
 #' \cr
 #' 
 #' 

@@ -8,6 +8,8 @@ title: ndim
 
 <code>ndim()</code> returns the number of dimensions of an object. <br />
 <code>lst.ndim()</code> returns the number of dimensions of every list-element. <br />
+<code>undim()</code> returns a copy of an object, but with its dimensions removed
+(it somewhat like the dimensional version of <code>unlist()</code>). <br />
 <br />
 
 
@@ -17,6 +19,8 @@ title: ndim
 <pre><code class='language-R'>ndim(x)
 
 lst.ndim(x)
+
+undim(x)
 </code></pre>
 
 
@@ -34,6 +38,7 @@ a vector or array (for <code>ndim()</code>), or a list of vectors/arrays (for <c
 
 For <code>ndim()</code>: an integer scalar. <br />
 For <code>lst.ndim()</code>: an integer vector, with the same length, names and dimensions as <code>x</code>. <br />
+For <code>undim()</code>: the original object, but without dimensions. <br /> <br />
 
 
 

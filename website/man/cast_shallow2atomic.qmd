@@ -1,0 +1,164 @@
+---
+title: cast_shallow2atomic
+---
+## Cast Shallow List to Atomic Object {.unnumbered}
+
+
+### Description
+
+<code>cast_shallow2atomic()</code> casts a shallow (i.e. non-nested) list to an atomic object. <br />
+<br />
+
+
+
+### Usage
+
+<pre><code class='language-R'>cast_shallow2atomic(x, ...)
+
+## Default S3 method:
+cast_shallow2atomic(x, arrangement = 0L, padding = NA, comnames_from = 1L, ...)
+</code></pre>
+
+
+### Arguments
+
+<table role = "presentation">
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<td>
+a shallow (i.e. non-nested) list. <br />
+The attributes of the objects inside the list will be ignored, except for <code>names</code>.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods. <br /> <br />
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="arrangement">arrangement</code></td>
+<td>
+see the <code>Details</code> and <code>Examples</code> sections.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="padding">padding</code></td>
+<td>
+an atomic scalar, and only relevant if <code>arrangement</code> is 1 or -1. <br />
+This gives the padding value to use when padding is required. <br />
+Padding is used to ensure every all slices of the same dimension in the output
+have equal number of elements
+(for example, all rows must have the same number of columns).
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="comnames_from">comnames_from</code></td>
+<td>
+an integer scalar or <code>NULL</code>, and only relevant if <code>arrangement</code> is 1 or -1. <br />
+This gives which element of <code>x</code> to use for the communal names. <br />
+If <code>NULL</code>, no communal names will be given. <br />
+For example: <br />
+If <code>x</code> is a 1d (or dimensionless) list,
+<code>cast_shallow2atomic(x, 1)</code> will produce an atomic matrix. <br />
+The column names of the matrix will be <code>names(x)</code>. <br />
+The row names, however, will be taken from <code>names(x[[comnames_from]])</code>,
+provided that <code>x[[comnames_from]]</code> has the proper length. <br />
+See also the <code>Examples</code> section.
+</td></tr>
+</table>
+
+
+### Details
+
+If <code>arrangement = 0L</code>, <br />
+<code>cast_shallow2atomic()</code> works like <code>unlist()</code>,
+except that <code>cast_shallow2atomic()</code> guarantees an atomic vector result. <br />
+<br />
+If <code>arrangement = 1L</code>, <br />
+<code>cast_shallow2atomic()</code> will produce an atomic array,
+with the elements arranged such that the dimensions are <code>c(max(lengths(x)), dim(x))</code>. <br />
+If <code>x</code> has no dimensions, <code>dim(x)</code> is replaced with <code>length(x)</code>, thus treating <code>x</code> as an 1d array. <br />
+This will therefore always produce an atomic array with at least 2 dimensions. <br />
+<br />
+If <code>arrangement = -1L</code>, <br />
+<code>cast_shallow2atomic()</code> will produce an atomic array,
+with the elements arranged such that the dimensions are <code>c(dim(x), max(lengths(x)))</code>. <br />
+If <code>x</code> has no dimensions, <code>dim(x)</code> is replaced with <code>length(x)</code>, thus treating <code>x</code> as an 1d array. <br />
+This will therefore always produce an atomic array with at least 2 dimensions. <br />
+<br />
+
+
+
+### Value
+
+If <code>arrangement = 0L</code>: <br />
+An atomic vector without dimensions. <br />
+<br />
+If <code>arrangement = 1L</code>: <br />
+An atomic array with dimensions <code>c(max(lengths(x)), dim(x))</code>. <br />
+The dimnames, if possible to construct, will be <code>c(names(x[[comnames_from]]), dimnames(x))</code>, provided
+If <code>x</code> has no dimensions, <code>dim(x)</code> is replaced with <code>length(x)</code>. <br />
+<br />
+If <code>arrangement = -1L</code>: <br />
+An atomic array with dimensions <code>c(dim(x), max(lengths(x)))</code>. <br />
+If <code>x</code> has no dimensions, <code>dim(x)</code> is replaced with <code>length(x)</code>. <br />
+<br />
+
+
+
+### Back transformation
+
+From the casted atomic object, <br />
+<code>out &lt;- cast_shallow2atomic(x, ...)</code>, <br />
+one can get an <em>approximation</em> of the original shallow list back using just base 'R' functions. <br />
+This section describes how to do so. <br />
+<br />
+<b><code>arrangement = 0L</code></b> <br />
+If <code>arrangement = 0L</code>, one can transform an atomic object <code>out</code> back to a shallow list using: <br />
+<code>back &lt;- as.list(out)</code> <br />
+<code>names(back) &lt;- names(out)</code> <br />
+<br />
+
+<b><code>arrangement = 1L</code></b> <br />
+If <code>arrangement = 1L</code>, one can transform an atomic object <code>out</code> back to a shallow list using: <br />
+<code>asplit(out, seq(2, ndim(out)))</code> <br />
+<br />
+
+<b><code>arrangement = -1L</code></b> <br />
+If <code>arrangement = -1L</code>, one can transform an atomic object <code>out</code> back to a shallow list using: <br />
+<code>asplit(out, seq(1, ndim(out) - 1L))</code> <br />
+<br />
+<br />
+
+
+
+### See Also
+
+[broadcast_casting](aaa02_broadcast_casting.qmd) <br />
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+library("broadcast")
+
+
+# recursive vector ====
+x <- list(
+  setNames(1:11, letters[1:11]), 1:10, 1:9, 1:8, 1:7, 1:6, 1:5, 1:4, 1:3, 1:2, 1L, integer(0L)
+)
+names(x) <- month.abb
+print(x)
+
+cast_shallow2atomic(x, 0L)
+cast_shallow2atomic(x, 1L, comnames_from = 1L)
+cast_shallow2atomic(x, -1L, comnames_from = 1L)
+
+
+# recursive matrix ====
+x <- list(
+  setNames(1:11, letters[1:11]), 1:10, 1:9, 1:8, 1:7, 1:6, 1:5, 1:4, 1:3, 1:2, 1L, integer(0L)
+) |> rev()
+dim(x) <- c(3, 4)
+dimnames(x) <- list(month.abb[1:3], month.name[1:4])
+print(x)
+
+cast_shallow2atomic(x, 0L)
+cast_shallow2atomic(x, 1L, comnames_from = length(x))
+cast_shallow2atomic(x, -1L, comnames_from = length(x))
+
+
+
+```

@@ -20,7 +20,7 @@ test_make_dims <- function(n) {
   return(out)
 }
 .return_missing <- broadcast:::.return_missing
-gen <- function(n) sample(list(letters, month.abb, 1:10), n, TRUE)
+gen <- function(n) sample(list(letters, month.abb, 1:10, NULL), n, TRUE)
 
 
 i <- 1L

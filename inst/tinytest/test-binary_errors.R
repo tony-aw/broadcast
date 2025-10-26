@@ -6,35 +6,7 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 
-
-
-funs <- list(
-  bc.b = bc.b,
-  bc.i = bc.i,
-  bc.d = bc.d,
-  bc.cplx = bc.cplx,
-  bc.str = bc.str,
-  bc.raw = bc.raw,
-  bc.bit = bc.bit,
-  bc.rel = bc.rel,
-  bc.list = bc.list
-)
-ops <- c(
-  rep(list("=="), 8L),
-  \(x, y) x == y
-)
-
-datagens <- list(
-  \() sample(c(TRUE, FALSE, NA), 10L, TRUE),
-  \() sample(c(-10L:10L, NA_integer_)),
-  \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)),
-  \() sample(c(rnorm(10), NA, NaN, Inf, -Inf)) + sample(c(rnorm(10), NA, NaN, Inf, -Inf)) * -1i,
-  \() sample(c(letters, NA)),
-  \() as.raw(sample(1:10)),
-  \() as.raw(sample(1:10)),
-  \() sample(c(-10L:10L, NA_integer_)),
-  \() sample(list(letters, month.abb, 1:10))
-)
+source(file.path(getwd(), "source.R"))
 
 # too many dimensions error ====
 message <- "arrays with more than 16 dimensions are not supported"
@@ -143,7 +115,7 @@ for(i in 1:7) {
 # type errors - numeric ====
 pattern <- "`x` and `y` must be "
 good_type <- broadcast:::.is_numeric_like
-# bx.i & bc.d
+
 for(typeX in seq_along(datagens)) {
   for(typeY in seq_along(datagens)) {
     
@@ -182,7 +154,7 @@ for(typeX in seq_along(datagens)) {
 # type errors - Boolean ====
 pattern <- "unsupported types given"
 good_type <- \(x) broadcast:::.is_boolable(x) || is.numeric(x)
-# bx.i & bc.d
+
 for(typeX in seq_along(datagens)) {
   for(typeY in seq_along(datagens)) {
     
@@ -211,7 +183,7 @@ for(typeX in seq_along(datagens)) {
 # type errors - complex ====
 pattern <- "`x` and `y` must be "
 good_type <- is.complex
-# bx.i & bc.d
+
 for(typeX in seq_along(datagens)) {
   for(typeY in seq_along(datagens)) {
     
@@ -241,7 +213,7 @@ for(typeX in seq_along(datagens)) {
 # type errors - character ====
 pattern <- "`x` and `y` must be "
 good_type <- is.character
-# bx.i & bc.d
+
 for(typeX in seq_along(datagens)) {
   for(typeY in seq_along(datagens)) {
     
@@ -259,8 +231,13 @@ for(typeX in seq_along(datagens)) {
         pattern = pattern,
         fixed = TRUE
       ) |> errorfun()
+      expect_error(
+        bc.str(x, y, "levenshtein"),
+        pattern = pattern,
+        fixed = TRUE
+      ) |> errorfun()
       
-      enumerate <- enumerate + 2L
+      enumerate <- enumerate + 3L
       
     }
   }
@@ -270,7 +247,6 @@ for(typeX in seq_along(datagens)) {
 # type errors - raw ====
 pattern <- "`x` and `y` must be "
 good_type <- is.raw
-# bx.i & bc.d
 for(typeX in seq_along(datagens)) {
   for(typeY in seq_along(datagens)) {
     
@@ -279,17 +255,12 @@ for(typeX in seq_along(datagens)) {
     
     if(!good_type(x) || !good_type(y)) {
       expect_error(
-        bc.raw(x, y, "&"),
-        pattern = pattern,
-        fixed = TRUE
-      ) |> errorfun()
-      expect_error(
         bc.raw(x, y, "=="),
         pattern = pattern,
         fixed = TRUE
       ) |> errorfun()
       
-      enumerate <- enumerate + 2L
+      enumerate <- enumerate + 1L
       
     }
   }
@@ -299,30 +270,42 @@ for(typeX in seq_along(datagens)) {
 
 
 # type errors - bits ====
-pattern <- "`x` and `y` must be "
+pattern <- "`x` and `y` must both be "
 good_type <- \(x) is.raw(x) || is.integer(x)
-# bx.i & bc.d
+
 for(typeX in seq_along(datagens)) {
-  for(typeY in seq_along(datagens)) {
     
-    x <- array(datagens[[typeX]]())
-    y <- array(datagens[[typeY]]())
+  x <- array(datagens[[typeX]]())
+  y <- array(datagens[[typeX]]())
+  
+  if(is.double(x)) {
+    expect_error(
+      bc.bit(x, y, "&"),
+      pattern = "only 32-bit integers allowed, not 53-bit integers",
+      fixed = TRUE
+    ) |> errorfun()
+    expect_error(
+      bc.bit(x, y, "=="),
+      pattern = "only 32-bit integers allowed, not 53-bit integers",
+      fixed = TRUE
+    ) |> errorfun()
+    enumerate <- enumerate + 2L
+  }
+  
+  if(!good_type(x) && !is.double(x)) {
+    expect_error(
+      bc.bit(x, y, "&"),
+      pattern = pattern,
+      fixed = TRUE
+    ) |> errorfun()
+    expect_error(
+      bc.bit(x, y, "=="),
+      pattern = pattern,
+      fixed = TRUE
+    ) |> errorfun()
     
-    if(!good_type(x) || !good_type(y)) {
-      expect_error(
-        bc.raw(x, y, "&"),
-        pattern = pattern,
-        fixed = TRUE
-      ) |> errorfun()
-      expect_error(
-        bc.raw(x, y, "=="),
-        pattern = pattern,
-        fixed = TRUE
-      ) |> errorfun()
-      
-      enumerate <- enumerate + 2L
-      
-    }
+    enumerate <- enumerate + 2L
+    
   }
 }
 
@@ -331,7 +314,7 @@ for(typeX in seq_along(datagens)) {
 # type errors - list ====
 pattern <- "`x` and `y` must be "
 good_type <- is.list
-# bx.i & bc.d
+
 for(typeX in seq_along(datagens)) {
   for(typeY in seq_along(datagens)) {
     

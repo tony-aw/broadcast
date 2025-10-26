@@ -23,7 +23,7 @@ Hierarchical data is surprisingly common, and are commonly represented in `r fa(
 
 Broadcasted operations can be performed over dimensions, but not through nesting or hierarchies.  
 Therefore, it is useful to be able to cast nested lists into dimensional lists.  
-The 'broadcast' package provides the [cast_hier2dim()](/man/cast_hier2dim.qmd) function, to cast nested lists into dimensional lists, and the [cast_dim2hier()](/man/cast_dim2hier.qmd) to cast dimensional lists back to nested lists.
+The 'broadcast' package provides the [cast_hier2dim()](/man/cast_hier2dim.qmd) to cast dimensional lists back to nested lists.
 
 Casting between nested and dimensional lists is not only useful for broadcasting, however.  
 Casting nested lists to dimensional lists has its own merits, as dimensional lists have some advantages over nested lists beside the broadcasting, such as the following:
@@ -385,7 +385,7 @@ print(x)
 ```
 
 
-Like [cast_hier2dim()](/man/cast_hier2dim.qmd), [cast_dim2hier()](/man/cast_dim2hier.qmd) also has the `in2out` argument, which (again) defaults to `TRUE`.  
+Like [cast_hier2dim()](/man/cast_hier2dim.qmd) also has the `in2out` argument, which (again) defaults to `TRUE`.  
 Let's cast the above dimensional list to a nested list, and compare the results when using `in2out = TRUE` (on the left) versus `in2out = FALSE` (on the right):
 
 

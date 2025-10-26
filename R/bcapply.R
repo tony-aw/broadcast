@@ -1,7 +1,7 @@
 #' Apply Function to Pair of Arrays with Broadcasting
 #'
 #' @description
-#' The `bcapply()` function
+#' The `bcapply()` method
 #' applies a function to 2 arrays element-wise with broadcasting. \cr
 #' 
 #' @param x,y conformable atomic or recursive vectors/arrays.
@@ -107,7 +107,11 @@ setMethod(
     RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
     .rcpp_bcapply_ov(out, x, y, RxC, out.dimsimp, out.len, fnew)
   }
-  else if(dimmode == 3L) { # general mode
+  else if(dimmode == 3L) {
+    bigx <- .C_dims_allge(x.dim, y.dim)
+    .rcpp_bcapply_bv(out, x, y, bigx, out.dimsimp, out.len, fnew)
+  }
+  else if(dimmode == 4L) { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

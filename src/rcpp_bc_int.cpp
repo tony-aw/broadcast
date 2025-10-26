@@ -51,7 +51,7 @@ inline double rcpp_int53_guard(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_int_v)]]
+// [[Rcpp::export(.rcpp_bc_int_v, rng = false)]]
 SEXP rcpp_bc_int_v(
   SEXP x, SEXP y,
   R_xlen_t nout, int op
@@ -75,7 +75,7 @@ return out;
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_int_ov)]]
+// [[Rcpp::export(.rcpp_bc_int_ov, rng = false)]]
 SEXP rcpp_bc_int_ov(
   SEXP x, SEXP y, bool RxC, SEXP out_dim,
   R_xlen_t nout, int op
@@ -99,7 +99,31 @@ return out;
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_int_d)]]
+// [[Rcpp::export(.rcpp_bc_int_bv, rng = false)]]
+SEXP rcpp_bc_int_bv(
+  SEXP x, SEXP y, bool bigx, SEXP out_dim,
+  R_xlen_t nout, int op
+) {
+
+double tempout;
+
+SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
+double *pout;
+pout = REAL(out);
+
+MACRO_OP_INT_MATH(MACRO_DIM_BIG2VECTOR);
+
+UNPROTECT(1);
+return out;
+
+}
+
+
+
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bc_int_d, rng = false)]]
 SEXP rcpp_bc_int_d(
   SEXP x, SEXP y,
   SEXP by_x,

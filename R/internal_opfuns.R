@@ -33,7 +33,7 @@
 
 #' @keywords internal
 #' @noRd
-.op_int_fact <- function() {
+.op_int_d <- function() {
   return(c("gcd", "%%", "%/%"))
 }
 
@@ -78,7 +78,7 @@
 #' @keywords internal
 #' @noRd
 .op_cplx_math <- function() {
-  return(c("+", "-", "*", "/"))
+  return(c("+", "-", "*", "/", "^"))
 }
 
 

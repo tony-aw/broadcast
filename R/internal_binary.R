@@ -30,6 +30,8 @@
     if(is.null(y.dim)) y.dim <- y.len
   }
   
+  
+  
   ##############################################################################
   # normalize dimensions ====
   if(!is.null(x.dim) && !is.null(y.dim)) {
@@ -44,6 +46,7 @@
   }
   
   
+  
   ##############################################################################
   # Check & determine dimensions to return====
   .binary_stop_conf_dim(x.dim, y.dim, x.len, y.len, abortcall)
@@ -51,16 +54,20 @@
   out.len <- .binary_determine_out.len(x.dim, y.dim, x.len, y.len, out.dimorig)
   
   
+  
   ##############################################################################
   # Simplify array dimensions, to reduce broadcast load ====
+  # Note that all of this is done AFTER Normalization (see few sections above)
   
-  # drop dimensions for vectors and scalars:
+  # drop dimensions for scalars:
   if(x.len == 1L) {
     x.dim <- NULL
   }
   if(y.len == 1L) {
     y.dim <- NULL
   }
+  
+  # drop dimensions for vectors under certain conditions:
   if(length(x.dim) <= 1L && length(y.dim) <= 1L) {
     # if both are 1d arrays or vectors, drop dimensions
     # if only one is a 1d array, DON'T drop dimensions,
@@ -92,11 +99,11 @@
   # x.dim[1:2] can be merged to become 1 and y.dim[1:2] to become 6 (= prod(c(2, 3))).
   # But if x.dim[1:3] = c(1, 9, 1) and y.dim = c(8, 1, 8),
   # x.dim[1:3] is auto-orthogonal, and so is y.dim[1:3], and thus they CANNOT be merged.
-  # Merging reduces the number of nested loops required,
-  # and prevents unnecessary broadcasting,
-  # which in turn makes the actual broadcasting more efficient and more environnmentally friendly.
+  # Merging prevents unnecessary broadcasting,
+  # which in turn makes the actual broadcasting more efficient.
   
   if(length(x.dim) > 2L && length(y.dim) > 2L) {
+    # NOT relevant if ndim <= 2L !!!
     mergeable <- .rcpp_is_mergeable_with_prev(x.dim == 1L, y.dim == 1L)
     if(any(mergeable)) {
       mergedims <- .rcpp_mergedims(x.dim, y.dim, mergeable)
@@ -105,21 +112,41 @@
     }
     
   }
-  
-  # chunkify dimensions of arrays:
-  # chunkification allows reduction of the amount of required compiled code,
-  # thus reducing compilation & installation time of the package
-  if(length(x.dim) > 2L && length(y.dim) > 2L) {
-    x.dim <- .chunkify_dims(x.dim)
-    y.dim <- .chunkify_dims(y.dim)
-  } # end chunkification
-  
+  ndim <- length(x.dim)
   out.dimsimp <- .binary_determine_out.dim(x.dim, y.dim, abortcall)
+  
   
   
   ##############################################################################
   # Determine type of dimensional relationship for broadcasting ====
-  dimmode <- .binary_determine_dimmode(x.dim, y.dim, x.len, y.len, out.dimsimp, abortcall)
+  
+  dimmode <- .C_determine_dimmode(x.dim, y.dim, x.len, y.len)
+  
+  
+  
+  ##############################################################################
+  # Chunkify Dimensions ====
+  
+  if(dimmode == 3L && ndim == 2L) { # sandwichify dimensions so that they fit the B2V MACRO
+    if(x.dim[1L] > 1L && y.dim[1L] > 1L) { # vector dims = (n, 1)
+      x.dim <- c(1L, x.dim)
+      y.dim <- c(1L, y.dim)
+      out.dimsimp <- .C_pmax(x.dim, y.dim)
+      ndim <- length(x.dim)
+    }
+    else if(x.dim[2L] > 1L && x.dim[2L] > 1L) { # vector dims = (1, n)
+      x.dim <- c(x.dim, 1L)
+      y.dim <- c(y.dim, 1L)
+      out.dimsimp <- .C_pmax(x.dim, y.dim)
+      ndim <- length(x.dim)
+    }
+  }
+  if(dimmode == 4L && ndim < 16L) { # make dimensions of length 16 so that they fit the general MACRO
+    x.dim <- .chunkify_dims(x.dim)
+    y.dim <-  .chunkify_dims(y.dim)
+    out.dimsimp <- .C_pmax(x.dim, y.dim)
+    ndim <- 16L
+  }
   
   
   ##############################################################################
@@ -139,49 +166,17 @@
 
 
 
+
 #' @keywords internal
 #' @noRd
 .binary_stop_conf_dim <- function(x.dim, y.dim, x.len, y.len, abortcall) {
   
-  if(is.null(x.dim) || is.null(y.dim)) {
-    if(x.len != y.len) {
-      if(x.len != 1 && y.len != 1) {
-        stop(simpleError("`x` and `y` are not conformable", call = abortcall))
-      }
-    }
-  }
-  else {
-    out <- .C_check_conf_dim(x.dim, y.dim)
-    if(!out) {
-      stop(simpleError("`x` and `y` are not conformable", call = abortcall))
-    }
+  out <- .C_check_conf_dim(x.dim, y.dim, x.len, y.len)
+  if(!out) {
+    stop(simpleError("`x` and `y` are not conformable", call = abortcall))
   }
 }
 
-#' @keywords internal
-#' @noRd
-.binary_determine_dimmode <- function(x.dim, y.dim, x.len, y.len, out.dim, abortcall) {
-  
-  # use vector mode:
-  if(x.len == 1L || y.len == 1L) { # x and/or y are/is scalar(s)
-    return(1L)
-  }
-  else if(length(x.dim) <= 1L || length(y.dim) <= 1L) { # x and/or y are/is vectors or 1d array(s)
-    return(1L)
-  }
-  else if(.C_dims_all_equal(x.dim, y.dim)) { # x & y have same dimensions, thus same ordering as output
-    return(1L)
-  }
-  
-  # use orthogonal vectors mode:
-  if(length(x.dim) <= 2L && length(y.dim) <= 2 && .C_dims_all_orthogonal(x.dim, y.dim)) {
-    return(2L)
-  }
-  
-  # use general mode:
-  return(3L)
-  
-}
 
 
 #' @keywords internal

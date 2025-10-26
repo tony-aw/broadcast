@@ -40,29 +40,34 @@ expect_error(
   pattern = "unkown arguments given"
 )
 
-enumerate <- enumerate + 7L
+expect_error(
+  cast_shallow2atomic(x, foo = TRUE),
+  pattern = "unkown arguments given"
+)
+
+enumerate <- enumerate + 8
 
 
 # recurse_classed tests ====
 
 expect_error(
   hier2dim(x, recurse_classed = TRUE),
-  pattern = "`recurse_classed` has been replaced with `recurse_all`"
+  pattern = "unkown arguments given"
 )
 
 expect_error(
   hiernames2dimnames(x, recurse_classed = TRUE),
-  pattern = "`recurse_classed` has been replaced with `recurse_all`"
+  pattern = "unkown arguments given"
 )
 
 expect_error(
   cast_hier2dim(x, recurse_classed = TRUE),
-  pattern = "`recurse_classed` has been replaced with `recurse_all`"
+  pattern = "unkown arguments given"
 )
 
 expect_error(
   dropnests(x, recurse_classed = TRUE),
-  pattern = "`recurse_classed` has been replaced with `recurse_all`"
+  pattern = "unkown arguments given"
 )
 
 enumerate <- enumerate + 4L

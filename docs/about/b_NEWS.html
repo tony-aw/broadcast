@@ -177,7 +177,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#broadcast-0.1.5.3" id="toc-broadcast-0.1.5.3" class="nav-link active" data-scroll-target="#broadcast-0.1.5.3">broadcast 0.1.5.3</a></li>
+  <li><a href="#broadcast-0.1.6-under-development" id="toc-broadcast-0.1.6-under-development" class="nav-link active" data-scroll-target="#broadcast-0.1.6-under-development">broadcast 0.1.6 (Under Development)</a></li>
+  <li><a href="#broadcast-0.1.5.3" id="toc-broadcast-0.1.5.3" class="nav-link" data-scroll-target="#broadcast-0.1.5.3">broadcast 0.1.5.3</a></li>
   <li><a href="#broadcast-0.1.5.2" id="toc-broadcast-0.1.5.2" class="nav-link" data-scroll-target="#broadcast-0.1.5.2">broadcast 0.1.5.2</a></li>
   <li><a href="#broadcast-0.1.5" id="toc-broadcast-0.1.5" class="nav-link" data-scroll-target="#broadcast-0.1.5">broadcast 0.1.5</a></li>
   <li><a href="#broadcast-0.1.3" id="toc-broadcast-0.1.3" class="nav-link" data-scroll-target="#broadcast-0.1.3">broadcast 0.1.3</a></li>
@@ -209,6 +210,18 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="broadcast-0.1.6-under-development" class="level1">
+<h1>broadcast 0.1.6 (Under Development)</h1>
+<ul>
+<li>Small speed improvement for all broadcasted operations.</li>
+<li>Small speed improvement for <a href="../man/linear_algebra_stats.html">sd_lc()</a>.</li>
+<li>Added the power (“^”) operator for <a href="../man/bc.cplx.html">bc.cplx()</a> and for <code>broadcaster</code> of type complex.</li>
+<li>Added the <a href="../man/cast_shallow2atomic.html">cast_shallow2atomic()</a> casting method.</li>
+<li>Added the <a href="../man/bc_strrep.html">bc_strrep()</a> method.</li>
+<li>Added the <a href="../man/ndim.html">undim()</a> function.</li>
+<li>Added more tests.</li>
+</ul>
+</section>
 <section id="broadcast-0.1.5.3" class="level1">
 <h1>broadcast 0.1.5.3</h1>
 <ul>
@@ -232,11 +245,11 @@ Now, <code>recurse_all</code>, controls if the casting methods recurse through c
 <p><strong>Behavioural Changes:</strong></p>
 <ul>
 <li>The <code>as_*</code> functions now also preserve the <code>broadcaster</code> class attribute.</li>
-<li>If both <code>x</code> and <code>y</code> in the <code>bc.b()</code> method are of type <code>raw</code>, <code>bc.b()</code> will return type of <code>raw</code>.</li>
+<li>If both <code>x</code> and <code>y</code> in the <a href="../man/bc.b.html">bc.b()</a> will return type of <code>raw</code>.</li>
 </ul>
 <p><strong>New Methods:</strong></p>
 <ul>
-<li>Added the <code>hiernames2dimnames()</code> method, to make it easier to compose <code>dimnames</code> for the result of <code>cast_hier2dim()</code>.</li>
+<li>Added the <a href="../man/hier2dim.html">hiernames2dimnames()</a>.</li>
 </ul>
 <p><strong>Documentation Improvements</strong>:</p>
 <ul>

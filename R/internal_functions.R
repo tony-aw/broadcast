@@ -13,7 +13,7 @@
 #' @keywords internal
 #' @noRd
 .chunkify_dims <- function(dims) {
-  chunks <- c(2L, 4L, 8L, 16L)
+  chunks <- c(4L, 16L)
   return(.C_chunkify_dims(dims, chunks))
 }
 

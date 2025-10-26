@@ -43,64 +43,6 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 # Functions ====
 #
 
-# 
-# test <- "
-# Rcomplex rcpp_cplx_pow(std::complex<double> x, std::complex<double> y) {
-#   
-#   double yr = std::real(y);
-#   double yi = std::imag(y);
-#   int k = (int) yr;
-#   
-#   if (x == 0.0) {
-# 	  if (yi == 0.0) {
-# 	    Rcomplex Z;
-# 	    Z.r = R_pow(0.0, yr);
-# 	    Z.i = 0.0;
-# 	    return Z;
-# 	  } else {
-# 	    Rcomplex Z;
-# 	    Z.r = R_NaN;
-# 	    Z.i = R_NaN;
-# 	    return Z;
-# 	  }
-#   }
-#   else {
-#     std::complex<double> W;
-#     W = std::pow(x, y);
-#     Rcomplex Z;
-#     Z.r = std::real(W);
-#     Z.i = std::imag(W);
-#     return Z;
-#   }
-# }
-# 
-# "
-# 
-# Rcpp::cppFunction(test)
-# 
-# xr <- sample(c(rnorm(5), -Inf, Inf, NA, NaN))
-# xi <- sample(c(rnorm(5), -Inf, Inf, NA, NaN))
-# yr <- sample(c(rnorm(5), -Inf, Inf, NA, NaN))
-# yi <- sample(c(rnorm(5), -Inf, Inf, NA, NaN))
-# 
-# errorfun
-# 
-# for(xri in xr) {
-#   for(xii in xi) {
-#     for(yri in yr) {
-#       for(yii in yi) {
-#         x <- xri + xii * 1i
-#         y <- yri + yii * 1i
-#         expected <- x^y
-#         out <- rcpp_cplx_pow(x, y)
-#         expect_equal(
-#           expected, out
-#         ) |> print()
-#       }
-#     }
-#   }
-# }
-
 
 txt0 <- "
 
@@ -186,6 +128,48 @@ inline Rcomplex rcpp_cplx_div( const Rcomplex& x, const Rcomplex& y) {
 }
 
 
+inline Rcomplex rcpp_cplx_pow(Rcomplex x, Rcomplex y) {
+  
+  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
+    Rcomplex out;
+    out.r = NA_REAL;
+    out.i = NA_REAL;
+    return out;
+  }
+  if(!R_FINITE(x.r) || !R_FINITE(x.i) || !R_FINITE(y.r) || !R_FINITE(y.i)) {
+    Rcomplex out;
+    out.r = R_NaN;
+    out.i = R_NaN;
+    return out;
+  }
+  
+  double yr = y.r;
+  double yi = y.i;
+
+  if (x.i == 0.0 && x.r == 0.0) {
+	  if (yi == 0.0) {
+	    Rcomplex Z;
+	    Z.r = R_pow(0.0, yr);
+	    Z.i = 0.0;
+	    return Z;
+	  } else {
+	    Rcomplex Z;
+	    Z.r = R_NaN;
+	    Z.i = R_NaN;
+	    return Z;
+	  }
+  }
+  else {
+    std::complex<double> W;
+    std::complex<double> x2(x.r, x.i);
+    std::complex<double> y2(y.r, y.i);
+    W = std::pow(x2, y2);
+    Rcomplex Z;
+    Z.r = std::real(W);
+    Z.i = std::imag(W);
+    return Z;
+  }
+}
 
 
 "
@@ -194,7 +178,7 @@ txt1 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_cplx_v)]]
+// [[Rcpp::export(.rcpp_bc_cplx_v, rng = false)]]
 SEXP rcpp_bc_cplx_v(
   SEXP x, SEXP y,
   R_xlen_t nout, int op
@@ -208,9 +192,7 @@ pout = COMPLEX(out);
 const Rcomplex *px = COMPLEX(x);
 const Rcomplex *py = COMPLEX(y);
 
-MACRO_OP_CPLX_MATH(
-  MACRO_DIM_VECTOR
-);
+MACRO_OP_CPLX_MATH(MACRO_DIM_VECTOR);
 
 UNPROTECT(1);
 return out;
@@ -226,7 +208,7 @@ txt2 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_cplx_ov)]]
+// [[Rcpp::export(.rcpp_bc_cplx_ov, rng = false)]]
 SEXP rcpp_bc_cplx_ov(
   SEXP x, SEXP y, bool RxC, SEXP out_dim,
   R_xlen_t nout, int op
@@ -240,9 +222,7 @@ const Rcomplex *px = COMPLEX(x);
 const Rcomplex *py = COMPLEX(y);
 
 
-MACRO_OP_CPLX_MATH(
-  MACRO_DIM_ORTHOVECTOR
-);
+MACRO_OP_CPLX_MATH(MACRO_DIM_ORTHOVECTOR);
 
 UNPROTECT(1);
 return out;
@@ -253,11 +233,40 @@ return out;
 "
 
 
+
 txt3 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_cplx_d)]]
+// [[Rcpp::export(.rcpp_bc_cplx_bv, rng = false)]]
+SEXP rcpp_bc_cplx_bv(
+  SEXP x, SEXP y, bool bigx, SEXP out_dim,
+  R_xlen_t nout, int op
+) {
+
+SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));
+Rcomplex *pout;
+pout = COMPLEX(out);
+
+const Rcomplex *px = COMPLEX(x);
+const Rcomplex *py = COMPLEX(y);
+
+
+MACRO_OP_CPLX_MATH(MACRO_DIM_BIG2VECTOR);
+
+UNPROTECT(1);
+return out;
+
+}
+
+
+"
+
+txt4 <- "
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bc_cplx_d, rng = false)]]
 SEXP rcpp_bc_cplx_d(
   SEXP x, SEXP y,
   SEXP by_x,
@@ -289,7 +298,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2, txt3,
+  txt0, txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 
@@ -299,7 +308,7 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2, txt3,
+  txt0, txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bc_cplx.cpp")

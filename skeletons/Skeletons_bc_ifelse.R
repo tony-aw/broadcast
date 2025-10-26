@@ -55,7 +55,7 @@ txt1 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_ifelse_v)]]
+// [[Rcpp::export(.rcpp_bc_ifelse_v, rng = false)]]
 SEXP rcpp_bc_ifelse_v(
   SEXP cond, SEXP x, SEXP y,
   R_xlen_t nout
@@ -92,7 +92,7 @@ txt2 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_ifelse_ov)]]
+// [[Rcpp::export(.rcpp_bc_ifelse_ov, rng = false)]]
 SEXP rcpp_bc_ifelse_ov(
   SEXP cond, SEXP x, SEXP y, bool RxC, SEXP out_dim,
   R_xlen_t nout
@@ -123,11 +123,48 @@ SEXP rcpp_bc_ifelse_ov(
 "
 
 
+
+
 txt3 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_ifelse_d)]]
+// [[Rcpp::export(.rcpp_bc_ifelse_bv, rng = false)]]
+SEXP rcpp_bc_ifelse_bv(
+  SEXP cond, SEXP x, SEXP y, bool bigx, SEXP out_dim,
+  R_xlen_t nout
+) {
+
+
+  if(TYPEOF(cond) == LGLSXP || TYPEOF(cond) == INTSXP) {
+    const int *pcond = INTEGER_RO(cond);
+    
+    MACRO_OP_IFELSE_INT(
+      MACRO_DIM_BIG2VECTOR
+    );
+  }
+  else if(TYPEOF(cond) == RAWSXP) {
+    const Rbyte *pcond = RAW_RO(cond);
+    
+    MACRO_OP_IFELSE_RAW(
+      MACRO_DIM_BIG2VECTOR
+    );
+  }
+  else {
+    stop(\"unsupported type given\");
+  }
+
+}
+
+
+"
+
+
+txt4 <- "
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bc_ifelse_d, rng = false)]]
 SEXP rcpp_bc_ifelse_d(
   SEXP cond, SEXP x, SEXP y,
   SEXP by_x,
@@ -163,7 +200,7 @@ SEXP rcpp_bc_ifelse_d(
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2, txt3,
+  txt0, txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 
@@ -175,7 +212,7 @@ setwd("..")
 
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2, txt3,
+  txt0, txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bc_ifelse.cpp")

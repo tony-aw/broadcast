@@ -295,6 +295,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/cast_shallow2atomic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cast_shallow2atomic</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/dropnests.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">dropnests</span></a>
   </div>
@@ -311,6 +317,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/bcapply.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bcapply</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc_strrep.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc_strrep</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -399,13 +411,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="get-the-number-of-dimensions-of-an-array">Get the Number of Dimensions of an Array</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p><code>ndim()</code> returns the number of dimensions of an object. <br> <code>lst.ndim()</code> returns the number of dimensions of every list-element. <br> <br></p>
+<p><code>ndim()</code> returns the number of dimensions of an object. <br> <code>lst.ndim()</code> returns the number of dimensions of every list-element. <br> <code>undim()</code> returns a copy of an object, but with its dimensions removed (it somewhat like the dimensional version of <code>unlist()</code>). <br> <br></p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
 <pre><code class="language-R">ndim(x)
 
 lst.ndim(x)
+
+undim(x)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -425,7 +439,7 @@ a vector or array (for <code>ndim()</code>), or a list of vectors/arrays (for <c
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>For <code>ndim()</code>: an integer scalar. <br> For <code>lst.ndim()</code>: an integer vector, with the same length, names and dimensions as <code>x</code>. <br></p>
+<p>For <code>ndim()</code>: an integer scalar. <br> For <code>lst.ndim()</code>: an integer vector, with the same length, names and dimensions as <code>x</code>. <br> For <code>undim()</code>: the original object, but without dimensions. <br> <br></p>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>

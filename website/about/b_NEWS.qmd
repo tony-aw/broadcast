@@ -2,6 +2,15 @@
 title: Changelog
 ---
 
+# broadcast 0.1.6 (Under Development)
+
+* Small speed improvement for all broadcasted operations.
+* Small speed improvement for [sd_lc()](/man/linear_algebra_stats.qmd).
+* Added the power ("^") operator for [bc.cplx()](/man/bc.cplx.qmd) and for `broadcaster` of type complex.
+* Added the [cast_shallow2atomic()](/man/cast_shallow2atomic.qmd) casting method.
+* Added the [bc_strrep()](/man/bc_strrep.qmd) method.
+* Added the [undim()](/man/ndim.qmd) function.
+* Added more tests.
 
 
 # broadcast 0.1.5.3
@@ -29,11 +38,11 @@ Moreover, the S3 methods in this package now check for unknown arguments given t
 **Behavioural Changes:**
 
 * The `as_*` functions now also preserve the `broadcaster` class attribute. 
-* If both `x` and `y` in the `bc.b()` method are of type `raw`, `bc.b()` will return type of `raw`.
+* If both `x` and `y` in the [bc.b()](/man/bc.b.qmd) will return type of `raw`.
 
 **New Methods:**
 
-* Added the `hiernames2dimnames()` method, to make it easier to compose `dimnames` for the result of `cast_hier2dim()`.
+* Added the [hiernames2dimnames()](/man/hier2dim.qmd).
 
 
 **Documentation Improvements**:

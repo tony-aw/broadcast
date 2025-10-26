@@ -22,6 +22,8 @@ function processMathHTML() {
 
 <p><code>ndim()</code> returns the number of dimensions of an object. <br />
 <code>lst.ndim()</code> returns the number of dimensions of every list-element. <br />
+<code>undim()</code> returns a copy of an object, but with its dimensions removed
+(it somewhat like the dimensional version of <code>unlist()</code>). <br />
 <br />
 </p>
 
@@ -31,6 +33,8 @@ function processMathHTML() {
 <pre><code class='language-R'>ndim(x)
 
 lst.ndim(x)
+
+undim(x)
 </code></pre>
 
 
@@ -48,6 +52,7 @@ lst.ndim(x)
 
 <p>For <code>ndim()</code>: an integer scalar. <br />
 For <code>lst.ndim()</code>: an integer vector, with the same length, names and dimensions as <code>x</code>. <br />
+For <code>undim()</code>: the original object, but without dimensions. <br /> <br />
 </p>
 
 

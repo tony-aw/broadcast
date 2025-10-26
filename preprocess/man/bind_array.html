@@ -20,7 +20,7 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p><code>bind_array()</code> binds (atomic/recursive) arrays and (atomic/recursive) matrices. <br />
+<p><code>bind_array()</code> binds (atomic/recursive) arrays and (atomic/recursive) matrices along a dimension. <br />
 Allows for broadcasting. <br /> <br />
 </p>
 
@@ -118,7 +118,7 @@ ruining the structure).
 </li>
 <li><p> unlike <code>abind::abind</code>,
 <code>bind_array()</code> only binds (atomic/recursive) arrays and matrices. <br />
-<code>bind_array()</code>does not attempt to convert things to arrays when they are not arrays,
+<code>bind_array()</code> does not attempt to convert things to arrays when they are not arrays,
 but will give an error instead. <br />
 This saves computation time and prevents unexpected results.
 </p>
@@ -132,7 +132,12 @@ compared to <code>abind::abind</code>. <br />
 
 <h3>Value</h3>
 
-<p>An array. <br />  <br />
+<p>An array as a result from the (broadcasted) binding. <br />
+<br />
+The type of the result is determined from the highest type of any of the inputs. <br />
+The hierarchy of types is: <br />
+raw &lt; logical &lt; integer &lt; double &lt; complex &lt; character &lt; list . <br />
+<br />
 </p>
 
 

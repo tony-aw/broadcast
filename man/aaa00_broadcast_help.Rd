@@ -77,10 +77,11 @@ More information about the casting functions can be found here: \cr
 \cr
 
 \bold{General Pairwise Broadcasted Functions} \cr
-'broadcast' also comes with 2 general pairwise broadcasted functions:
+'broadcast' also comes with a few general pairwise broadcasted functions:
 \itemize{
 \item \link{bc_ifelse}: Broadcasted version of \link[base]{ifelse}.
-\item \link{bcapply}: Broadcasted apply-like function. \cr \cr
+\item \link{bcapply}: Broadcasted apply-like function.
+\item \link{bc_strrep}: Broadcasted version of \link[base]{strrep}. \cr \cr
 }
 
 \bold{Other functions} \cr

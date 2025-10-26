@@ -79,7 +79,7 @@ txt1 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bcRel_cplx_v)]]
+// [[Rcpp::export(.rcpp_bcRel_cplx_v, rng = false)]]
 SEXP rcpp_bcRel_cplx_v(
   SEXP x, SEXP y,
   R_xlen_t nout, int op
@@ -112,7 +112,7 @@ txt2 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bcRel_cplx_ov)]]
+// [[Rcpp::export(.rcpp_bcRel_cplx_ov, rng = false)]]
 SEXP rcpp_bcRel_cplx_ov(
   SEXP x, SEXP y, bool RxC, SEXP out_dim,
   R_xlen_t nout, int op
@@ -144,7 +144,38 @@ txt3 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bcRel_cplx_d)]]
+// [[Rcpp::export(.rcpp_bcRel_cplx_bv, rng = false)]]
+SEXP rcpp_bcRel_cplx_bv(
+  SEXP x, SEXP y, bool bigx, SEXP out_dim,
+  R_xlen_t nout, int op
+) {
+
+
+
+
+const Rcomplex *px = COMPLEX(x);
+const Rcomplex *py = COMPLEX(y);
+
+SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
+int *pout;
+pout = LOGICAL(out);
+
+MACRO_OP_CPLX_REL(MACRO_DIM_BIG2VECTOR);
+
+UNPROTECT(1);
+return out;
+
+}
+
+
+"
+
+
+txt4 <- "
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bcRel_cplx_d, rng = false)]]
 SEXP rcpp_bcRel_cplx_d(
   SEXP x, SEXP y,
   SEXP by_x,
@@ -177,7 +208,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2, txt3,
+  txt0, txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 
@@ -186,7 +217,7 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2, txt3,
+  txt0, txt1, txt2, txt3, txt4,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bcRel_cplx.cpp")

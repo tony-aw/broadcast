@@ -30,7 +30,10 @@ sd_lc <- function(
   if(!check_dims) {
     stop("`X` and `vc` do not have correctly corresponding dimensions!")
   }
+  
   return(.C_sd_lc(X, vc, nrow(X), ncol(X), bad_rp))
+  
+  
 }
 
 

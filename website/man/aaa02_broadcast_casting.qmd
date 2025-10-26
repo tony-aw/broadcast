@@ -29,6 +29,11 @@ Helper functions for [cast_hier2dim](cast_hier2dim.qmd).
 Casts a dimensional list into a nested/hierarchical list; the opposite of [cast_hier2dim](cast_hier2dim.qmd). <br />
 
 </li>
+<li> [cast_shallow2atomic](cast_shallow2atomic.qmd): <br />
+Casts a (dimensional) shallow (i.e. non-nested) list into an atomic vector or array. <br />
+Useful because atomic vectors/arrays have access to many vectorized (broadcasted) operations that may not be available for vectors/arrays of type <code>list</code>.
+
+</li>
 <li> [cast_dim2flat](cast_dim2flat.qmd): <br />
 Casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. <br />
 Mostly useful for printing or summarizing dimensional lists.
@@ -48,7 +53,8 @@ all have the <code>recurse_all</code> argument. <br />
 By default <code>recurse_all = FALSE</code>,
 meaning these methods do not recurse through dimensional or classed lists (like data.frames). <br />
 Setting <code>recurse_all = TRUE</code>
-allows these methods to recurse through all list objects, even if they are dimensional and/or classed. <br />
+allows these methods to recurse through all list objects,
+even if they are dimensional and/or classed. <br />
 <br />
 
 

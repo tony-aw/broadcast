@@ -61,7 +61,7 @@ hiernames2dimnames <- function(x, ...) {
 #' @export
 hier2dim.default <- function(x, in2out = TRUE, maxdepth = 16L, recurse_all = FALSE, ...) {
   
-  .recurse_classed(list(...), sys.call())
+  .ellipsis(list(...), sys.call())
   return(.hier2dim(x, in2out, maxdepth, recurse_all, sys.call()))
   
 }
@@ -71,9 +71,9 @@ hier2dim.default <- function(x, in2out = TRUE, maxdepth = 16L, recurse_all = FAL
 #' @export
 hiernames2dimnames.default <- function(x, in2out = TRUE, maxdepth = 16L, recurse_all = FALSE, direction = 1, ...) {
   
-  .recurse_classed(list(...), sys.call())
+  .ellipsis(list(...), sys.call())
   
-  if(length(direction) != 1L || !is.numeric(direction)) {
+  if(length(direction) != 1L || !is.numeric(direction) || is.na(direction)) {
     stop("`direction` must be 1 or -1")
   }
   if(!direction %in% c(1, -1)) {
@@ -107,7 +107,7 @@ hiernames2dimnames.default <- function(x, in2out = TRUE, maxdepth = 16L, recurse
 .hier2dim <- function(x, in2out, maxdepth, recurse_all, abortcall) {
   
   # check `x`:
-  if(!is.list(x)) {
+  if(!.is_list(x)) {
    stop(simpleError("`x` must be a list", call = abortcall))
   }
   if(length(x) == 0L) {

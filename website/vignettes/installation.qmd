@@ -32,18 +32,21 @@ Make sure you at least have basic knowledge of the following subjects in `r fa("
 'broadcast' requires `r fa("r-project")` version 4.2.0 or later; you can download `r fa("r-project")` from [https://cran.r-project.org/mirrors.html](https://cran.r-project.org/mirrors.html).  
 'broadcast' has only one dependency: 'Rcpp' version 1.0.14 or later. To install 'Rcpp', run `install.packages("Rcpp")` in `r fa("r-project")`.  
 
+Those using the Windows Operating System also need 'RTools'. You can download 'RTools' from [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/).
 
 &nbsp;
 
 # Installation
 
+## Basic Instructions
+
 To install the current version of 'broadcast' from CRAN, run the following code in `r fa("r-project")`:
 
 ```{r echo=TRUE, eval=FALSE}
-install.packages("broadcast")
+install.packages("broadcast", type = "source")
 ```
 
-It is possible that you may be asked if you want to install from sources that require compilation; select "Yes"; note that this requires 'RTools'. You can download 'RTools' from [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/).  
+It is possible that you may be asked if you want to install from sources that require compilation; select "Yes"; note that this requires 'RTools'. 
 
 
 To install the development version of 'broadcast' from GitHub, one may run the following code in `r fa("r-project")`:
@@ -55,8 +58,15 @@ remotes::install_github("https://github.com/tony-aw/broadcast")
 ```
 
 
-'broadcast' is not a large package per-sé, but it does contain a large amount of compiled code ('C' and 'C++' code). Compilation of the package may therefore be slow on some operating systems, especially Linux systems; please be patient. On an average PC running Windows 11, installation of the 'broadcast' package shouldn't take more than just a few minutes.
+&nbsp;
 
+## Additional Information for Advanced Users.
+
+The following instructions are only for advanced users.
+
+First, 'broadcast' will be compiled as instructed by the user's own 'Makevars' / 'Makevars.win' file. It might be possible to make the methods and functions of the 'broadcast' package *faster* by adding the `CXXFLAGS` compiler flag `-O3` to your 'Makevars' / 'Makevars.win' file, which enables more aggressive optimization during installation.
+
+Second, 'broadcast' is not a large package per-sé, but it does contain a large amount of compiled code ('C' and 'C++' code). Compilation of the package, especially with `-O3`, may therefore be slow on some operating systems, especially Linux systems; please be patient. On an average PC running Windows 11, installation of the 'broadcast' package shouldn't take more than just a few minutes.  
 If installation is too slow, one may try to speed up the installation using multi-threading, by running the following code before installing 'broadcast':
 
 ```{r echo=TRUE, eval=FALSE}
@@ -70,7 +80,9 @@ Sys.setenv(MAKEFLAGS = paste0("-j", nthreads))
 
 &nbsp;
 
-To attach the package - thus expose its functions to the namespace - please use the following:
+# Start using the package
+
+To attach the 'broadcast' package - thus expose its functions to the namespace - please use the following:
 
 ```{r echo=TRUE, eval=FALSE}
 

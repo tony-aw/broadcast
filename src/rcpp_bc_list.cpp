@@ -10,7 +10,7 @@ using namespace Rcpp;
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_list_v)]]
+// [[Rcpp::export(.rcpp_bc_list_v, rng = false)]]
 SEXP rcpp_bc_list_v(
   List x, List y, 
   R_xlen_t nout, Function f
@@ -33,7 +33,7 @@ return out;
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_list_ov)]]
+// [[Rcpp::export(.rcpp_bc_list_ov, rng = false)]]
 SEXP rcpp_bc_list_ov(
   List x, List y,  bool RxC, SEXP out_dim,
   R_xlen_t nout, Function f
@@ -56,7 +56,30 @@ return out;
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_list_d)]]
+// [[Rcpp::export(.rcpp_bc_list_bv, rng = false)]]
+SEXP rcpp_bc_list_bv(
+  List x, List y,  bool bigx, SEXP out_dim,
+  R_xlen_t nout, Function f
+) {
+
+List out(nout);
+
+MACRO_DIM_BIG2VECTOR(
+  out[flatind_out] = f(x[flatind_x], y[flatind_y])
+);
+
+
+
+return out;
+
+}
+
+
+
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bc_list_d, rng = false)]]
 SEXP rcpp_bc_list_d(
   List x, List y, 
   SEXP by_x,

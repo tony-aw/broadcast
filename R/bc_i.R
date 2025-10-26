@@ -14,7 +14,7 @@
 #' @param x,y conformable vectors/arrays of type logical or numeric.
 #' @param op a single string, giving the operator. \cr
 #' Supported simple arithmetic operators: `r paste0(broadcast:::.op_int_math(), collapse = ", ")`. \cr
-#' Supported special division arithmetic operators: `r paste0(broadcast:::.op_int_fact(), collapse = ", ")`. \cr
+#' Supported special division arithmetic operators: `r paste0(broadcast:::.op_int_d(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_int_rel(), collapse = ", ")`. \cr
 #' The "gcd" operator performs the "Greatest Common Divisor" operation,
 #' using the Euclidean algorithm.
@@ -79,13 +79,13 @@ setMethod(
     # get operator:
     op_math <- which(.op_int_math() == op)
     op_rel <- which(.op_int_rel() == op)
-    op_fact <- which(.op_int_fact() == op)
+    op_d <- which(.op_int_d() == op)
     
     if(length(op_math)) {
       return(.bc_int_math(x, y, op_math, mycall))
     }
-    else if(length(op_fact)) {
-      return(.bc_int_fact(x, y, op_fact, mycall))
+    else if(length(op_d)) {
+      return(.bc_int_d(x, y, op_d, mycall))
     }
     else if(length(op_rel)) {
       return(.bc_int_rel(x, y, op_rel, mycall))
@@ -129,7 +129,11 @@ setMethod(
     RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
     out <- .rcpp_bc_int_ov(x, y, RxC, out.dimsimp, out.len, op)
   }
-  else if(dimmode == 3L) { # general mode
+  else if(dimmode == 3L) { # big-vector mode
+    bigx <- .C_dims_allge(x.dim, y.dim)
+    out <- .rcpp_bc_int_bv(x, y, bigx, out.dimsimp, out.len, op)
+  }
+  else if(dimmode == 4L) { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
@@ -154,7 +158,7 @@ setMethod(
 
 #' @keywords internal
 #' @noRd
-.bc_int_fact <- function(x, y, op, abortcall) {
+.bc_int_d <- function(x, y, op, abortcall) {
   
   if(length(x) == 0L || length(y) == 0L) {
     return(numeric(0L))
@@ -176,20 +180,24 @@ setMethod(
   dimmode <- prep[[6L]]
   
   if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bcFact_int_v(x, y, out.len, op)
+    out <- .rcpp_bcD_int_v(x, y, out.len, op)
   }
   else if(dimmode == 2L) { # orthogonal vector mode
     RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bcFact_int_ov(x, y, RxC, out.dimsimp, out.len, op)
+    out <- .rcpp_bcD_int_ov(x, y, RxC, out.dimsimp, out.len, op)
   }
-  else if(dimmode == 3L) { # general mode
+  else if(dimmode == 3L) { # orthogonal vector mode
+    bigx <- .C_dims_allge(x.dim, y.dim)
+    out <- .rcpp_bcD_int_bv(x, y, bigx, out.dimsimp, out.len, op)
+  }
+  else if(dimmode == 4L) { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
     dcp_x <- .C_make_dcp(x.dim)
     dcp_y <- .C_make_dcp(y.dim)
     
-    out <- .rcpp_bcFact_int_d(
+    out <- .rcpp_bcD_int_d(
       x, y, by_x, by_y,
       dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
     )
@@ -232,7 +240,11 @@ setMethod(
     RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
     out <- .rcpp_bcRel_int_ov(x, y, RxC, out.dimsimp, out.len, op)
   }
-  else if(dimmode == 3L) { # general mode
+  else if(dimmode == 3L) { # orthogonal vector mode
+    bigx <- .C_dims_allge(x.dim, y.dim)
+    out <- .rcpp_bcRel_int_bv(x, y, bigx, out.dimsimp, out.len, op)
+  }
+  else if(dimmode == 4L) { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

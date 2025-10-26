@@ -21,6 +21,9 @@ Useful because one cannot broadcast through nesting, but one \bold{can} broadcas
 Helper functions for \code{[cast_hier2dim](cast_hier2dim.qmd)}.
 \item \code{[cast_dim2hier](cast_dim2hier.qmd)}: \cr
 Casts a dimensional list into a nested/hierarchical list; the opposite of \code{[cast_hier2dim](cast_hier2dim.qmd)}. \cr
+\item \code{[cast_shallow2atomic](cast_shallow2atomic.qmd)}: \cr
+Casts a (dimensional) shallow (i.e. non-nested) list into an atomic vector or array. \cr
+Useful because atomic vectors/arrays have access to many vectorized (broadcasted) operations that may not be available for vectors/arrays of type \code{list}.
 \item \code{[cast_dim2flat](cast_dim2flat.qmd)}: \cr
 Casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. \cr
 Mostly useful for printing or summarizing dimensional lists.
@@ -35,7 +38,8 @@ all have the \code{recurse_all} argument. \cr
 By default \code{recurse_all = FALSE},
 meaning these methods do not recurse through dimensional or classed lists (like data.frames). \cr
 Setting \code{recurse_all = TRUE}
-allows these methods to recurse through all list objects, even if they are dimensional and/or classed. \cr
+allows these methods to recurse through all list objects,
+even if they are dimensional and/or classed. \cr
 \cr
 }
 

@@ -55,7 +55,7 @@ Given the linear combination \code{X \%*\% b}, where:
 computes the standard deviations for the linear combination \code{X \%*\% b},
 without making needless copies. \cr
 \code{sd_lc(X, vc)} will use \bold{much} less memory than a base 'R' approach. \cr
-\code{sd_lc(X, vc)} may possibly, but not necessarily, be faster than a base 'R' approach
+\code{sd_lc(X, vc)} will \emph{usually} be faster than a base 'R' approach
 (depending on the Linear Algebra Library used for base 'R'). \cr
 \cr
 \cr

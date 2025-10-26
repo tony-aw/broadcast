@@ -33,7 +33,7 @@ Preserves some of the attributes of \code{x} and \code{y} similar to broadcasted
 as explained in \code{[broadcast_operators](aaa01_broadcast_operators.qmd)}. \cr \cr
 }
 \description{
-The \code{bcapply()} function
+The \code{bcapply()} method
 applies a function to 2 arrays element-wise with broadcasting. \cr
 }
 \examples{

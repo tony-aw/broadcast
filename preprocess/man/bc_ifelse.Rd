@@ -40,8 +40,8 @@ and \code{out[i]} is \code{list(NULL)} when \code{yes} and \code{no} are recursi
 }
 }
 \description{
-The \code{bc_ifelse()} function
-performs a broadcasted form of \code{ifelse()}. \cr
+The \code{bc_ifelse()} method
+performs a broadcasted form of \link[base]{ifelse}. \cr
 }
 \examples{
 
