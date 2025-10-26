@@ -78,7 +78,7 @@
 #' @keywords internal
 #' @noRd
 .op_cplx_math <- function() {
-  return(c("+", "-", "*", "/", "^"))
+  return(c("+", "-", "*", "/"))
 }
 
 

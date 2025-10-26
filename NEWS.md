@@ -3,7 +3,6 @@
 
 * Small speed improvement for all broadcasted operations.
 * Small speed improvement for `sd_lc()`.
-* Added the power ("^") operator for `bc.cplx()` and for `broadcaster` of type complex.
 * Added the `cast_shallow2atomic()` casting method.
 * Added the `bc_strrep()` method.
 * Added the `undim()` function.

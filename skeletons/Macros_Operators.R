@@ -832,13 +832,6 @@ macro_op_cplx_math <- "
     );                                                                \\
     break;	\\
   }	\\
-   case 5:	\\
-  {	\\
-    DIMCODE(                                                          \\
-      pout[flatind_out] = rcpp_cplx_pow(px[flatind_x], py[flatind_y])   \\
-    );                                                                \\
-    break;	\\
-  }	\\
   default:	\\
   {	\\
     stop(\"given operator not supported in the given context\");	\\

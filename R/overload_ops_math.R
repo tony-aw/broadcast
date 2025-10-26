@@ -106,9 +106,7 @@
   
   
   if(is.complex(e1) || is.complex(e2)) {
-    if(!is.complex(e1)) e1 <- as_cplx(e1)
-    if(!is.complex(e2)) e2 <- as_cplx(e2)
-    out <- .bc_cplx_math(e1, e2, 5L, sys.call())
+    stop("operator not defined for complex numbers")
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
     out <- .bc_dec_math(e1, e2, 5L, sys.call())

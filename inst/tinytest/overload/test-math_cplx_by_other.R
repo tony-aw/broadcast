@@ -111,25 +111,3 @@ expect_equal(
 )
 
 
-
-# pow ====
-bc.fun <- function(x, y) {
-  broadcaster(x) <- broadcaster(y) <- TRUE
-  out <- round(x^y, 6) # power in complex is sensitive to rounding errors
-  return(unclass(out))
-}
-base.fun <- function(x, y) {
-  out <- round(x^y, 6) # power in complex is sensitive to rounding errors
-  out[is.na(x)|is.na(y)] <- NA
-  dim(out) <- bc_dim(x, y)
-  return(out)
-}
-# not doing complex by other, 'cause that one's REALLY weird
-res <- .test_binary(bc.fun, base.fun, types, "complex")
-enumerate <- enumerate + res$i # count number of tests
-# test results:
-expect_equal(
-  res$expected, res$out
-)
-
-

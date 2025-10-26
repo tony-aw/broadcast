@@ -90,18 +90,3 @@ expect_equal(
 )
 
 
-# pow ====
-bc.fun <- function(x, y) bc.cplx(x, y, "^")
-base.fun <- function(x, y) {
-  out <- as_cplx(x) ^ as_cplx(y)
-  out[is.na(x) | is.na(y)] <- NA
-  return(out)
-}
-res <- .test_binary(bc.fun, base.fun, types, types)
-
-enumerate <- enumerate + res$i # count number of tests
-# test results:
-expect_equal(
-  res$expected, res$out
-)
-
