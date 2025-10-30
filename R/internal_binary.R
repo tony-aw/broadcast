@@ -187,14 +187,9 @@
   }
   else if(!is.null(x.dim) && !is.null(y.dim)) {
     out.dim <- .C_pmax(x.dim, y.dim)
-    maxint <- 2^31 - 1
-    if(any(out.dim >= maxint)) {
-      stop(simpleError("broadcasting will exceed maximum dimension size", call = abortcall))
-    }
     out.len <- prod(out.dim)
-    max_longvector <- 2^52 - 1
-    if(out.len >= max_longvector) {
-      stop(simpleError("broadcasting will exceed maximum vector size", call = abortcall))
+    if(.C_arraysize_overflow(out.dim, out.len)){
+      stop(simpleError("broadcasting will exceed maximum size", call = abortcall))
     }
     return(out.dim)
   }

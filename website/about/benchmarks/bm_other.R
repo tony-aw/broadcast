@@ -4,7 +4,8 @@ library(abind)
 library(broadcast)
 
 
-# bind ====
+
+# bind a few large arrays====
 n <- 110L
 nms <- function(n) sample(letters, n, TRUE)
 x <- array(as.double(1:25), c(n, n, n))
@@ -22,7 +23,23 @@ bm_abind <- bench::mark(
 )
 summary(bm_abind)
 ggplot2::autoplot(bm_abind)
-save(bm_abind, file = "bm_abind.RData")
+save(bm_abind, file = "bm_abind_arrays.RData")
+
+
+# bind many vectors ====
+input <- rep(list(array(1:1000, c(1, 1000))), 100)
+gc()
+bm_abind <- bench::mark(
+  abind = abind::abind(input, along = 2),
+  broadcast = bind_array(input, 2),
+  min_iterations = 100,
+  check = FALSE # because abind adds empty dimnames
+)
+summary(bm_abind)
+ggplot2::autoplot(bm_abind)
+save(bm_abind, file = "bm_abind_vectors.RData")
+
+
 
 
 # Rfast::outer====

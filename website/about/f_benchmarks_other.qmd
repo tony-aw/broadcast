@@ -30,7 +30,7 @@ suppressMessages(
 
 # Introduction
 
-This page benchmarks some of the functions from 'broadcast' with some near-equivalent functions from base `r fa("r-project")` and other packages. The code is given here also.
+This page benchmarks some of the functions from the latest version (0.1.6) of 'broadcast' with some near-equivalent functions from base `r fa("r-project")` and other packages. The code is given here also.
 
 Because all these benchmarks are within `r fa("r-project")`, not only speed but also memory usage is compared.
 
@@ -98,7 +98,7 @@ plot(bm_base)
 ```
 
 
-'broadcasting' is **5 to 5.5** times (!!!) faster than replicating array dimensions, and uses approximately 2 times less memory.
+'broadcasting' is **5 to 5.5** times (!) faster than replicating array dimensions, and uses approximately 2 times less memory.
 
 &nbsp;
 
@@ -134,13 +134,13 @@ plot(bm_sweep)
 ```
 
 
-'broadcasting' is about **3** (!) times faster than using `sweep()`, and uses approximately **5** (!!!) times less memory.
+'broadcasting' is about **3** (!) times faster than using `sweep()`, and uses approximately **5** (!) times less memory.
 
 &nbsp;
 
-# `abind::abind()`
+# `abind::abind()` - binding multi-dimensional arrays
 
-In this section, the performance of the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is compared to the performance of the `abind()` function from the 'abind' package.
+In this section, the performance of the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is compared to the performance of the `abind()` function from the 'abind' package, for binding 3 moderately sized multi-dimensional arrays.
 
 &nbsp;
 
@@ -171,13 +171,50 @@ plot(bm_abind)
 And here are the results:
 
 ```{r fig.width=8, echo=FALSE}
-load("benchmarks/bm_abind.RData")
+load("benchmarks/bm_abind_arrays.RData")
 summary(bm_abind)
 plot(bm_abind)
 ```
 
 
-Clearly, the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is about 2 to 3 times faster than the `abind()` function from the 'abind' package. It is also about 2 times more memory efficient.
+Clearly, the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is about about 5 times faster than the `abind()` function from the 'abind' package. It is also about 4 times more memory efficient.
+
+&nbsp;
+
+
+# `abind::abind()` - binding vectors
+
+In this section, the performance of the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is compared to the performance of the `abind()` function from the 'abind' package, for binding many (100) 1d arrays.
+
+&nbsp;
+
+The following code was used:
+
+
+```{r echo = TRUE, eval=FALSE}
+input <- rep(list(array(1:1000, c(1, 1000))), 100)
+gc()
+bm_abind <- bench::mark(
+  abind = abind::abind(input, along = 2),
+  broadcast = bind_array(input, 2),
+  min_iterations = 100,
+  check = FALSE # because abind adds empty dimnames
+)
+summary(bm_abind)
+ggplot2::autoplot(bm_abind)
+
+```
+
+And here are the results:
+
+```{r fig.width=8, echo=FALSE}
+load("benchmarks/bm_abind_vectors.RData")
+summary(bm_abind)
+plot(bm_abind)
+```
+
+
+Clearly, the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is about about **25** (!!!) times faster than the `abind()` function from the 'abind' package. It is also about **100** (!!!) times more memory efficient.
 
 &nbsp;
 

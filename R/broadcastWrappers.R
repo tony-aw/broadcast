@@ -22,6 +22,20 @@
 
 #' @keywords Internal
 #' @noRd
+.C_any_nonarray <- function(x) {
+  .Call("C_any_nonarray", x = x)
+}
+
+
+#' @keywords Internal
+#' @noRd
+.C_arraysize_overflow <- function(xdim, xlen) {
+  .Call("C_arraysize_overflow", xdim, xlen)
+}
+
+
+#' @keywords Internal
+#' @noRd
 .C_lst_ndims <- function(x) {
   .Call("C_lst_ndims", x = x)
 }
@@ -116,6 +130,19 @@
 #' @noRd
 .C_bindhelper_max_type <- function(x) {
   .Call("C_bindhelper_max_type", x)
+}
+
+#' @keywords Internal
+#' @noRd
+.C_bindhelper_get_alongdims <- function(lst, along) {
+  .Call("C_bindhelper_get_alongdims", lst, as.integer(along))
+}
+
+
+#' @keywords Internal
+#' @noRd
+.C_bindhelper_need_coerce <- function(lst, mytemplate) {
+  .Call("C_bindhelper_need_coerce", lst, mytemplate)
 }
 
 

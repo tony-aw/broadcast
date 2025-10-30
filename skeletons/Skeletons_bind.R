@@ -52,6 +52,57 @@ txt <- "
 
 //' @keywords internal
 //' @noRd
+// [[Rcpp::export(.rcpp_bc_bind_prep)]]
+void rcpp_bc_bind_prep(
+  SEXP starts, SEXP ends, SEXP by_x, SEXP dcp_x, SEXP dim_x, SEXP dim_out, int along, int size_along, int counter, int n
+) {
+
+  // get properties:
+  const int *pdim_out = INTEGER_RO(dim_out);
+  const int *pdim_x = INTEGER_RO(dim_x);
+  
+  
+  // starts:
+  int *pstart = INTEGER(starts);
+  for(int i = 0; i < n; ++i) {
+    pstart[i] = 0;
+  }
+  pstart[along] = counter;
+  
+  
+  // ends:
+  int *pend = INTEGER(ends);
+  for (int i = 0; i < n; ++i) {
+    pend[i] = pdim_out[i] - 1;
+  }
+  pend[along] = counter + size_along - 1;
+  
+  
+  // by_x:
+  int *pby_x = INTEGER(by_x);
+  for(int i = 0; i < n; ++i) {
+    pby_x[i] = pdim_x[i] > 1 ? 1 : 0;
+  }
+  pby_x[along] = 1;
+  
+  
+  // dcp_x:
+  double *pdcp_x = REAL(dcp_x);
+  double temp_prod = pdim_x[0];
+  pdcp_x[0] = 1;
+  pdcp_x[1] = pdim_x[0];
+  if((n+1) > 2) {
+    for(int i = 2; i < (n+1); ++i) {
+      temp_prod = temp_prod * pdim_x[i-1];
+      pdcp_x[i] = temp_prod;
+    }
+  }
+  
+  
+}
+
+//' @keywords internal
+//' @noRd
 // [[Rcpp::export(.rcpp_bc_bind)]]
 void rcpp_bc_bind(
   SEXP out, SEXP x,
@@ -125,81 +176,4 @@ txt_pkg <- stringi::stri_c(
 )
 setwd("..")
 readr::write_file(txt_pkg, "src/rcpp_bc_bind.cpp")
-
-
-################################################################################
-# perform tests ====
-#
-library(tinytest)
-
-# rbind:
-## make args and allocate output:
-margin <- 1L
-x <- matrix(as.double(1:4), ncol = 2)
-y <- matrix(5:6, ncol = 1)
-args <- list(x, y)
-out.dim <- do.call(pmax, lapply(args, dim))
-out.dim[margin] <- out.dim[margin] * length(args)
-out <- array(NA_real_, dim = out.dim)
-
-## make params:
-dcp_x <- c(1, cumprod(dim(x)))
-dcp_y <- c(1, cumprod(dim(y)))
-dcp_out <- c(1, cumprod(dim(out)))
-by_x <- ifelse(dim(x) > 1L, 1L, 0L)
-by_y <- ifelse(dim(y) > 1L, 1L, 0L)
-
-## do part 1:
-print(out)
-starts <- c(1L, 1L)
-ends <- c(nrow(x), ncol(out))
-rcpp_bc_bind(out, x, starts, ends, by_x, dcp_out, dcp_x, out.dim)
-print(out)
-
-
-# NOTE:
-# broadcasting in binding should NOT be the same as broadcasting in binary operations
-# For example:
-# given dim(x) = c(10, 10) and dim(y) = c(10, 1),
-# y would be broadcasted to dim(y) = c(10, 10).
-# but when cbinding, dim(y) should remain c(10, 1)
-# I think in general the case is,
-# that the dimension along which you bind should NOT broadcast...
-# In general, I conclude that broadcasting while binding is a bad idea...
-
-
-
-################################################################################
-# quick benchmark
-
-library(tinytest)
-library(broadcast)
-
-.internal_bind_array <- broadcast:::.internal_bind_array
-
-along <- 2L
-n <- 150L
-nms <- function(n) sample(letters, n, TRUE)
-x <- array(as.double(1:25), c(n, n, n))
-y <- array(as.double(-1:-25), c(n, n, n))
-dimnames(x) <- lapply(dim(x), nms)
-dimnames(y) <- lapply(dim(y), nms)
-input <- list(x, y)
-
-out1 <- abind::abind(input, along = along)
-out2 <- .internal_bind_array(input, along, 1L, TRUE, sys.call())
-expect_equivalent(
-  out1, out2
-)
-
-foo <- bench::mark(
-  abind = abind::abind(input, along = 2),
-  bc = bind_array(input, 2),
-  cbind = do.call(cbind, input),
-  min_iterations = 100,
-  check = FALSE # because abind adds empty dimnames
-)
-summary(foo)
-ggplot2::autoplot(foo)
-
 

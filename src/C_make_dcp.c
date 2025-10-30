@@ -17,10 +17,13 @@ double temp_prod = pxdim[0];
 pout[0] = 1;
 pout[1] = pxdim[0];
 
-for(int i = 2; i < (n+1); ++i) {
-  temp_prod = temp_prod * pxdim[i-1];
-  pout[i] = temp_prod;
+if((n+1) > 2) {
+  for(int i = 2; i < (n+1); ++i) {
+    temp_prod = temp_prod * pxdim[i-1];
+    pout[i] = temp_prod;
+  }
 }
+
 
 UNPROTECT(1);
 return out;

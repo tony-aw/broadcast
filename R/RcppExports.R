@@ -279,6 +279,12 @@
 
 #' @keywords internal
 #' @noRd
+.rcpp_bc_bind_prep <- function(starts, ends, by_x, dcp_x, dim_x, dim_out, along, size_along, counter, n) {
+    invisible(.Call(`_broadcast_rcpp_bc_bind_prep`, starts, ends, by_x, dcp_x, dim_x, dim_out, along, size_along, counter, n))
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_bc_bind <- function(out, x, starts, ends, by_x, dcp_out, dcp_x, out_dim) {
     invisible(.Call(`_broadcast_rcpp_bc_bind`, out, x, starts, ends, by_x, dcp_out, dcp_x, out_dim))
 }
@@ -656,7 +662,8 @@
 }
 
 #' @keywords internal
-#' @noRd
+NULL
+
 .rcpp_normalize_dims <- function(dims_old, start, max_ndim) {
     .Call(`_broadcast_rcpp_normalize_dims_regular`, dims_old, start, max_ndim)
 }

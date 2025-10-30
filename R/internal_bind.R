@@ -5,8 +5,7 @@
   if(!is.list(input)) {
     stop(simpleError("`input` must be a list", call = abortcall))
   }
-  all_arrays <- vapply(input, is.array, logical(1L)) |> all()
-  if(!all_arrays) {
+  if(.C_any_nonarray(input)) {
     stop(simpleError("can only bind arrays", call = abortcall))
   }
   if(length(input) < 2L) {
@@ -98,9 +97,6 @@
 #' @noRd
 .internal_bind_array <- function(input, along, ndim2bc, name_along, abortcall) {
   
-  INTMAX <- 2^31 - 1L
-  LONGMAX <- 2^52 - 1L
-  
   # check ndim2bc:
   if(!.is.integer_scalar(ndim2bc)) {
     stop(simpleError("`ndim2bc` must be an integer scalar", call = abortcall))
@@ -134,25 +130,20 @@
   
   # normalize input.dims:
   input.dims <- .bind_normalize_dims(input.dims, dimlens, along, max_ndims)
-  dimlens <- lengths(input.dims)
   if(along == 0L) along <- 1L
-  max_ndims <- max(dimlens)
+  max_ndims <- length(input.dims[[1L]])
   
   
   # get naming params - must do this AFTER normalizing dims!
   if(name_along && !extra_dimensional) {
     # note: dimension `along` never gets broadcasted, so no need to worry about that
     arg.dimnames <- .rcpp_bindhelper_get_dimnames(input, along)
-    arg.marginlen <- vapply(input.dims, \(x)(x)[along], integer(1L))
+    arg.marginlen <- .C_bindhelper_get_alongdims(input.dims, along - 1L)
     name_along <- .bind_name_along_reasonable(input, arg.dimnames)
   }
   
   
   # check dimlens:
-  if(length(unique(dimlens)) > 1L) {
-    stop("input malformed")
-  }
-  max_ndims <- max(dimlens)
   if(max_ndims > 16L) {
     stop(simpleError(
       "arrays with more than 16 dimensions are not supported", call = abortcall
@@ -164,18 +155,16 @@
   
   # chunkify input.dims:
   input.dims <- lapply(input.dims, .C_chunkify_dims, chunks = c(4L, 16L))
-  dimlens <- lengths(input.dims)
-  max_ndims <- max(dimlens)
+  max_ndims <- length(input.dims[[1L]])
   
   # determine out.dim (padded):
   size_along <- .C_bindhelper_sum_along(input.dims, along - 1L)
   out.dim <- do.call(pmax, input.dims)
   out.dim[along] <- size_along
   out.dimorig[along] <- size_along # original dimensions
-  out.dim
   out.dim <- as.integer(out.dim)
   out.len <- prod(out.dim)
-  if(any(out.dim > INTMAX) || anyNA(out.dim) || out.len > LONGMAX) {
+  if(.C_arraysize_overflow(out.dim, out.len)) {
     stop(simpleError("output will exceed maximum vector size", call = abortcall))
   }
   
@@ -207,38 +196,45 @@
   
   # alias coercion function:
   mycoerce <- .type_alias_coerce(out.type, abortcall)
+  need_coerce <- .C_bindhelper_need_coerce(input, out)
   
   
   # MAIN FUNCTION:
-  counter <- 1L
+  counter <- 0L
   max_ndims <- length(out.dim)
   dcp_out <- .C_make_dcp(out.dim)
+  starts <- .rcpp_clone(rep(0L, max_ndims))
+  ends <- .rcpp_clone(out.dim)
+  by_x <- vector("integer", max_ndims)
+  dcp_x <- vector("double", max_ndims+1)
+  size_along <- 0L
+  
   for(i in 1:length(input)) {
     
     # construct parameters:
     x <- input[[i]]
     x.dim <- input.dims[[i]]
     size_along <- x.dim[along]
-    starts <- rep(1L, max_ndims)
-    starts[along] <- counter
-    ends <- out.dim
-    ends[along] <- counter + size_along - 1L
-    by_x <- .C_make_by(x.dim)
-    by_x[along] <- 1L
-    dcp_x <- .C_make_dcp(x.dim)
+    
     
     # coerce input if necessary:
-    if(typeof(x) != typeof(out)) {
+    if(need_coerce[i]) {
       x <- mycoerce(x)
     }
     
+    
     # pass-by-reference modification:
-    .rcpp_bc_bind(out, x, starts - 1L, ends -1L, by_x, dcp_out, dcp_x, out.dim)
+    .rcpp_bc_bind_prep(
+      starts, ends, by_x, dcp_x, x.dim, out.dim, along - 1L, size_along, counter, max_ndims
+    )
+    
+    .rcpp_bc_bind(out, x, starts, ends, by_x, dcp_out, dcp_x, out.dim)
+    
     
     # set counter:
     counter <- counter + size_along
+    
   }
-  
   
   
   # name_along:

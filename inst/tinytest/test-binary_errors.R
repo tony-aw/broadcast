@@ -90,7 +90,7 @@ x <- array(as.raw(0:255), c(n, 1))
 y <- array(as.raw(0:255), c(1, n))
 expect_error(
   bc.raw(x, y, "diff"),
-  pattern = "broadcasting will exceed maximum vector size"
+  pattern = "broadcasting will exceed maximum size"
 )
 enumerate <- enumerate + 1L
 

@@ -717,6 +717,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_bc_bind_prep
+void rcpp_bc_bind_prep(SEXP starts, SEXP ends, SEXP by_x, SEXP dcp_x, SEXP dim_x, SEXP dim_out, int along, int size_along, int counter, int n);
+RcppExport SEXP _broadcast_rcpp_bc_bind_prep(SEXP startsSEXP, SEXP endsSEXP, SEXP by_xSEXP, SEXP dcp_xSEXP, SEXP dim_xSEXP, SEXP dim_outSEXP, SEXP alongSEXP, SEXP size_alongSEXP, SEXP counterSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type starts(startsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type ends(endsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type by_x(by_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dcp_x(dcp_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dim_x(dim_xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dim_out(dim_outSEXP);
+    Rcpp::traits::input_parameter< int >::type along(alongSEXP);
+    Rcpp::traits::input_parameter< int >::type size_along(size_alongSEXP);
+    Rcpp::traits::input_parameter< int >::type counter(counterSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_bc_bind_prep(starts, ends, by_x, dcp_x, dim_x, dim_out, along, size_along, counter, n);
+    return R_NilValue;
+END_RCPP
+}
 // rcpp_bc_bind
 void rcpp_bc_bind(SEXP out, SEXP x, SEXP starts, SEXP ends, SEXP by_x, SEXP dcp_out, SEXP dcp_x, SEXP out_dim);
 RcppExport SEXP _broadcast_rcpp_bc_bind(SEXP outSEXP, SEXP xSEXP, SEXP startsSEXP, SEXP endsSEXP, SEXP by_xSEXP, SEXP dcp_outSEXP, SEXP dcp_xSEXP, SEXP out_dimSEXP) {
@@ -1648,10 +1667,14 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP C_any_nonarray(SEXP);
 RcppExport SEXP C_any_nonNULL(SEXP);
+RcppExport SEXP C_arraysize_overflow(SEXP, SEXP);
 RcppExport SEXP C_binames_consider_dim(SEXP, SEXP, SEXP);
 RcppExport SEXP C_bind_which_comdims(SEXP, SEXP, SEXP);
+RcppExport SEXP C_bindhelper_get_alongdims(SEXP, SEXP);
 RcppExport SEXP C_bindhelper_max_type(SEXP);
+RcppExport SEXP C_bindhelper_need_coerce(SEXP, SEXP);
 RcppExport SEXP C_bindhelper_sum_along(SEXP, SEXP);
 RcppExport SEXP C_bindhelper_vdims(SEXP);
 RcppExport SEXP C_check_conf_dim(SEXP, SEXP, SEXP, SEXP);
@@ -1716,6 +1739,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bc_b_ov", (DL_FUNC) &_broadcast_rcpp_bc_b_ov, 6},
     {"_broadcast_rcpp_bc_b_bv", (DL_FUNC) &_broadcast_rcpp_bc_b_bv, 6},
     {"_broadcast_rcpp_bc_b_d", (DL_FUNC) &_broadcast_rcpp_bc_b_d, 9},
+    {"_broadcast_rcpp_bc_bind_prep", (DL_FUNC) &_broadcast_rcpp_bc_bind_prep, 10},
     {"_broadcast_rcpp_bc_bind", (DL_FUNC) &_broadcast_rcpp_bc_bind, 8},
     {"_broadcast_rcpp_bc_bit_v", (DL_FUNC) &_broadcast_rcpp_bc_bit_v, 4},
     {"_broadcast_rcpp_bc_bit_ov", (DL_FUNC) &_broadcast_rcpp_bc_bit_ov, 6},
@@ -1781,26 +1805,30 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_mergedims", (DL_FUNC) &_broadcast_rcpp_mergedims, 3},
     {"_broadcast_rcpp_normalize_dims_regular", (DL_FUNC) &_broadcast_rcpp_normalize_dims_regular, 3},
     {"_broadcast_rcpp_set_attr", (DL_FUNC) &_broadcast_rcpp_set_attr, 3},
-    {"C_any_nonNULL",          (DL_FUNC) &C_any_nonNULL,          1},
-    {"C_binames_consider_dim", (DL_FUNC) &C_binames_consider_dim, 3},
-    {"C_bind_which_comdims",   (DL_FUNC) &C_bind_which_comdims,   3},
-    {"C_bindhelper_max_type",  (DL_FUNC) &C_bindhelper_max_type,  1},
-    {"C_bindhelper_sum_along", (DL_FUNC) &C_bindhelper_sum_along, 2},
-    {"C_bindhelper_vdims",     (DL_FUNC) &C_bindhelper_vdims,     1},
-    {"C_check_conf_dim",       (DL_FUNC) &C_check_conf_dim,       4},
-    {"C_chunkify_dims",        (DL_FUNC) &C_chunkify_dims,        2},
-    {"C_determine_dimmode",    (DL_FUNC) &C_determine_dimmode,    4},
-    {"C_dims_allge",           (DL_FUNC) &C_dims_allge,           2},
-    {"C_dropdims_count",       (DL_FUNC) &C_dropdims_count,       2},
-    {"C_dropdims_which",       (DL_FUNC) &C_dropdims_which,       3},
-    {"C_lst_ndims",            (DL_FUNC) &C_lst_ndims,            1},
-    {"C_make_by",              (DL_FUNC) &C_make_by,              1},
-    {"C_make_dcp",             (DL_FUNC) &C_make_dcp,             1},
-    {"C_pmax",                 (DL_FUNC) &C_pmax,                 2},
-    {"C_recycle_seq_dim",      (DL_FUNC) &C_recycle_seq_dim,      2},
-    {"C_sd_lc",                (DL_FUNC) &C_sd_lc,                6},
-    {"C_seq_Clen",             (DL_FUNC) &C_seq_Clen,             2},
-    {"C_unlisthelper_maxlen",  (DL_FUNC) &C_unlisthelper_maxlen,  1},
+    {"C_any_nonarray",             (DL_FUNC) &C_any_nonarray,             1},
+    {"C_any_nonNULL",              (DL_FUNC) &C_any_nonNULL,              1},
+    {"C_arraysize_overflow",       (DL_FUNC) &C_arraysize_overflow,       2},
+    {"C_binames_consider_dim",     (DL_FUNC) &C_binames_consider_dim,     3},
+    {"C_bind_which_comdims",       (DL_FUNC) &C_bind_which_comdims,       3},
+    {"C_bindhelper_get_alongdims", (DL_FUNC) &C_bindhelper_get_alongdims, 2},
+    {"C_bindhelper_max_type",      (DL_FUNC) &C_bindhelper_max_type,      1},
+    {"C_bindhelper_need_coerce",   (DL_FUNC) &C_bindhelper_need_coerce,   2},
+    {"C_bindhelper_sum_along",     (DL_FUNC) &C_bindhelper_sum_along,     2},
+    {"C_bindhelper_vdims",         (DL_FUNC) &C_bindhelper_vdims,         1},
+    {"C_check_conf_dim",           (DL_FUNC) &C_check_conf_dim,           4},
+    {"C_chunkify_dims",            (DL_FUNC) &C_chunkify_dims,            2},
+    {"C_determine_dimmode",        (DL_FUNC) &C_determine_dimmode,        4},
+    {"C_dims_allge",               (DL_FUNC) &C_dims_allge,               2},
+    {"C_dropdims_count",           (DL_FUNC) &C_dropdims_count,           2},
+    {"C_dropdims_which",           (DL_FUNC) &C_dropdims_which,           3},
+    {"C_lst_ndims",                (DL_FUNC) &C_lst_ndims,                1},
+    {"C_make_by",                  (DL_FUNC) &C_make_by,                  1},
+    {"C_make_dcp",                 (DL_FUNC) &C_make_dcp,                 1},
+    {"C_pmax",                     (DL_FUNC) &C_pmax,                     2},
+    {"C_recycle_seq_dim",          (DL_FUNC) &C_recycle_seq_dim,          2},
+    {"C_sd_lc",                    (DL_FUNC) &C_sd_lc,                    6},
+    {"C_seq_Clen",                 (DL_FUNC) &C_seq_Clen,                 2},
+    {"C_unlisthelper_maxlen",      (DL_FUNC) &C_unlisthelper_maxlen,      1},
     {NULL, NULL, 0}
 };
 
