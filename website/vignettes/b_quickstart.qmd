@@ -253,8 +253,7 @@ x <- list(
 One can turn the nested list into a dimensional list using [cast_hier2dim()](/man/cast_hier2dim.qmd) like so:
 
 ```{r}
-x2 <- cast_hier2dim(x)
-dimnames(x2) <- hiernames2dimnames(x)
+x2 <- cast_hier2dim(x, direction.names = 1L)
 print(x2)
 
 ```
