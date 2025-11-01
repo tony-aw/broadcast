@@ -40,6 +40,7 @@
   .Call("C_lst_ndims", x = x)
 }
 
+
 #' @keywords Internal
 #' @noRd
 .C_make_by <- function(x) {
@@ -113,12 +114,6 @@
   .Call("C_sd_lc", w, diag(vc), vc, as.integer(nobs), as.integer(nvars), as.double(bad_rp))
 }
 
-
-#' @keywords Internal
-#' @noRd
-.C_bindhelper_vdims <- function(x) {
-  .Call("C_bindhelper_vdims", x)
-}
 
 #' @keywords Internal
 #' @noRd

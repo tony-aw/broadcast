@@ -27,13 +27,15 @@
 #' If `fill = TRUE`, an unbalanced `grp` factor is allowed,
 #' and missing values will be filled with `fill_val`. \cr
 #' If `fill = FALSE` (default), an unbalanced `grp` factor is not allowed,
-#' and providing an unbalanced factor for `grp` produces an error. \cr
-#' When `x` has type of `raw`, unbalanced `grp` is never allowed.
+#' and providing an unbalanced factor for `grp` produces an error.
 #' @param fill_val scalar of the same type of `x`,
 #' giving value to use to fill in the gaps when `fill = TRUE`. \cr
-#' The `fill_val` argument is ignored when `fill = FALSE`
-#' or when `x` has type of `raw`.
-#' @param ... further arguments passed to or from methods. \cr \cr
+#' The `fill_val` argument is ignored when `fill = FALSE`. \cr
+#' If `fill_val` is missing, it is specified as follows: \cr
+#'  - If `x` is of type `raw` and `fill = TRUE`, `fill_val` is not allowed to be missing, and an error is returned;
+#'  - If `x` is atomic but not `raw`, `fill_val` is set to `NA`;
+#'  - If `x` is of type `list`, `fill_val` is set to `list(NULL)`. \cr \cr
+#' @param ... further arguments passed to or from methods.
 #' 
 #' 
 #' @details
@@ -88,11 +90,24 @@ acast <- function(x, ...) {
 #' @rdname acast
 #' @export
 acast.default <- function(
-    x, margin, grp, fill = FALSE, fill_val = if(is.atomic(x)) NA else list(NULL), ...
+    x, margin, grp, fill = FALSE,
+    fill_val,
+    ...
 ) {
   
   # first checks:
   .ellipsis(list(...), sys.call())
+  if(missing(fill_val)) {
+    if(is.raw(x) && isTRUE(fill)) {
+      stop("if `x` is of type raw and `fill = TRUE`, `fill_val` must be specified explicitly")
+    }
+    else if(is.atomic(x)) {
+      fill_val <- NA
+    }
+    else if(is.list(x)) {
+      fill_val <- list(NULL)
+    }
+  }
   if(is.null(fill_val)) fill_val <- list(NULL)
   .acast_stop_margin(margin, x, sys.call())
   margin <- as.integer(margin)

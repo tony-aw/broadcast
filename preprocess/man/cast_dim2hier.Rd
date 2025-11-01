@@ -7,7 +7,7 @@
 \usage{
 cast_dim2hier(x, ...)
 
-\method{cast_dim2hier}{default}(x, in2out = TRUE, distr.names = FALSE, ...)
+\method{cast_dim2hier}{default}(x, in2out = TRUE, distr.names = TRUE, ...)
 }
 \arguments{
 \item{x}{an array of type \code{list}.}

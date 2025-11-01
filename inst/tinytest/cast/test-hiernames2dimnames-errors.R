@@ -78,11 +78,11 @@ expect_error(
 )
 expect_error(
   hiernames2dimnames(x, direction = NA),
-  pattern = "`direction` must be 1 or -1"
+  pattern = "`direction` must be 1, -1, or 0"
 )
 expect_error(
   hiernames2dimnames(x, direction = c(1, -1)),
-  pattern = "`direction` must be 1 or -1"
+  pattern = "`direction` must be 1, -1, or 0"
 )
 
 enumerate <- enumerate + 13L

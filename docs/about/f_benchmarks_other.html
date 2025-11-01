@@ -367,8 +367,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>#&gt; # A tibble: 2 × 6
 #&gt;   expression      min   median `itr/sec` mem_alloc `gc/sec`
 #&gt;   &lt;bch:expr&gt; &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
-#&gt; 1 abind       42.15ms   62.7ms      13.3   121.9MB     17.7
-#&gt; 2 broadcast    9.21ms   12.4ms      62.8    30.5MB     16.3</code></pre>
+#&gt; 1 abind        42.7ms  52.13ms      15.1   122.2MB     24.0
+#&gt; 2 broadcast    9.07ms   9.57ms      85.2    30.9MB     19.6</code></pre>
 <div class="cell-output-display">
 <p><img src="f_benchmarks_other_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="768"></p>
 </div>
@@ -485,18 +485,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 In the benchmarks below, 2 equivalent sub-set operations are compared:</p>
 <ul>
 <li>selecting <code>x[[i]][[1L]]</code> for <code>i = 1:length(x)</code> in a nested list (this requires a for-loop).</li>
-<li>selecting <code>x2[1L, ]</code> in a dimensional list (this is a vectorized operation).</li>
+<li>selecting <code>x2[, 1L]</code> in a dimensional list (this is a vectorized operation).</li>
 </ul>
-<p>where <code>x2 = cast_hier2dim(x)</code>.</p>
+<p>where <code>x2 = cast_hier2dim(x, in2out = FALSE)</code>.</p>
 <p>The following code is used:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>, <span class="cf">function</span>(x) <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>))</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">list</span>(x), <span class="dv">200</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x, <span class="at">in2out =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>bm_hier_vs_dim <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)) x[[i]][[1L]],</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  x2[1L, , <span class="at">drop =</span> <span class="cn">FALSE</span>],</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">nested =</span> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)) x[[i]][[1L]],</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimensional =</span> x2[, 1L , <span class="at">drop =</span> <span class="cn">FALSE</span>],</span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_iterations =</span> <span class="dv">200</span>,</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">check =</span> <span class="cn">FALSE</span></span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -505,10 +505,10 @@ In the benchmarks below, 2 equivalent sub-set operations are compared:</p>
 </div>
 <div class="cell">
 <pre><code>#&gt; # A tibble: 2 × 6
-#&gt;   expression                            min  median `itr/sec` mem_alloc `gc/sec`
-#&gt;   &lt;bch:expr&gt;                          &lt;bch&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
-#&gt; 1 for (i in 1:length(x)) x[[i]][[1L]] 764µs 856.4µs     1131.   14.02KB     13.2
-#&gt; 2 x2[1L, , drop = FALSE]                1µs   1.3µs   525762.    2.44KB      0</code></pre>
+#&gt;   expression       min   median `itr/sec` mem_alloc `gc/sec`
+#&gt;   &lt;bch:expr&gt;  &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
+#&gt; 1 nested         800µs   1.48ms      674.   35.54KB     28.3
+#&gt; 2 dimensional    1.3µs    2.1µs   296752.    2.44KB      0</code></pre>
 <div class="cell-output-display">
 <p><img src="f_benchmarks_other_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="768"></p>
 </div>

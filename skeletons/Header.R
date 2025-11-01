@@ -35,8 +35,8 @@ macro_acast,
 )
 
 cat(header)
-Rcpp::sourceCpp(code = header)
 readr::write_file(header, "header.txt")
+Rcpp::sourceCpp(code = header)
 setwd("..")
 readr::write_file(header, "src/broadcast.h")
 

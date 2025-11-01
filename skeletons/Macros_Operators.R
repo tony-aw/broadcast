@@ -62,37 +62,41 @@ macro_op_dec_math <- "
   switch(op) {	\\
     case 1:	\\
     {	\\
-      MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
+      MACRO_TYPESWITCH_DECIMAL_ARITH(	\\
         DIMCODE,	\\
-        MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C(px[flatind_x] + py[flatind_y])	\\
+        MACRO_ASSIGN_C(px[flatind_x] + py[flatind_y]),	\\
+        MACRO_ASSIGN_C((double)px[flatind_x] + (double)py[flatind_y]),  \\
+        MACRO_ASSIGN_C(NA_REAL) \\
       );	\\
       break;	\\
     }	\\
     case 2:	\\
     {	\\
-      MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
+      MACRO_TYPESWITCH_DECIMAL_ARITH(	\\
         DIMCODE,	\\
-        MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C(px[flatind_x] - py[flatind_y])	\\
+        MACRO_ASSIGN_C(px[flatind_x] - py[flatind_y]),	\\
+        MACRO_ASSIGN_C((double)px[flatind_x] - (double)py[flatind_y]),  \\
+        MACRO_ASSIGN_C(NA_REAL) \\
       );	\\
       break;	\\
     }	\\
     case 3:	\\
     {	\\
-      MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
+      MACRO_TYPESWITCH_DECIMAL_ARITH(	\\
         DIMCODE,	\\
-        MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C(px[flatind_x] * py[flatind_y])	\\
+        MACRO_ASSIGN_C(px[flatind_x] * py[flatind_y]),	\\
+        MACRO_ASSIGN_C((double)px[flatind_x] * (double)py[flatind_y]),  \\
+        MACRO_ASSIGN_C(NA_REAL) \\
       );	\\
       break;	\\
     }	\\
     case 4:	\\
     {	\\
-      MACRO_TYPESWITCH_DECIMAL_COMMON(	\\
+      MACRO_TYPESWITCH_DECIMAL_ARITH(	\\
         DIMCODE,	\\
-        MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C(px[flatind_x] / py[flatind_y])	\\
+        MACRO_ASSIGN_C(px[flatind_x] / py[flatind_y]),	\\
+        MACRO_ASSIGN_C((double)px[flatind_x] / (double)py[flatind_y]),  \\
+        MACRO_ASSIGN_C(NA_REAL) \\
       );	\\
       break;	\\
     }	\\
@@ -103,7 +107,7 @@ macro_op_dec_math <- "
         px[flatind_x] == 1 || py[flatind_y] == 0,	\\
         MACRO_ASSIGN_C(1),	\\
         MACRO_ASSIGN_C(NA_REAL),	\\
-        MACRO_ASSIGN_C(R_pow(px[flatind_x], py[flatind_y]))	\\
+        MACRO_ASSIGN_C(R_pow((double)px[flatind_x], (double)py[flatind_y]))	\\
       );	\\
       break;	\\
     }	\\

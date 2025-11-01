@@ -47,10 +47,7 @@ At its core, the 'broadcast' package provides the following functionalities, all
 
 1.  Broadcasted Infix Operators.  
 They support a large set of relational-, arithmetic-, Boolean-, string-, and bit-wise operations.
-2.  The [bind_array()](/man/bind_array.qmd) function for binding arrays along any arbitrary dimension. Similar to the fantastic `abind::abind()` function, but with a few key differences:
-    -   [bind_array()](/man/bind_array.qmd) is faster and more memory efficient;
-    -   [bind_array()](/man/bind_array.qmd) supports broadcasting;
-    -   [bind_array()](/man/bind_array.qmd) supports both atomic and recursive arrays (`abind()` only supports atomic arrays).
+2.  The [bind_array()](/man/bind_array.qmd) function for binding arrays along any arbitrary dimension. Similar to the fantastic `abind::abind()` function, but faster, more memory-efficient, supporting broadcasting, and supporting both atomic and recursive arrays.
 3.  'broadcast' provides several generic functions for broadcasting, namely [bcapply()](/man/bcapply.qmd) (broadcasted apply-like function) and [bc_ifelse()](/man/bc_ifelse.qmd) (broadcasted version of `ifelse()`).
 4.  casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.  
 These functions are useful for facilitating complex broadcasted operations, though they also have much merit beside broadcasting.
@@ -114,7 +111,7 @@ x + y
 
 **Efficiency**
 
-Broadcasting as implemented in the 'broadcasting' package is about as fast as - and sometimes even faster than - NUmPy.  
+Broadcasting as implemented in the 'broadcasting' package is about as fast as - and sometimes even faster than - NumPy.  
 The implementations in the 'broadcast' package are also much faster and much more memory efficient than using base 'R' solutions like `sweep()`.  
 Efficient programs use less energy and resources, and is thus better for the environment.  
 Benchmarks can be found in the "About" section on the website.

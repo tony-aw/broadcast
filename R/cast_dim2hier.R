@@ -35,7 +35,7 @@ cast_dim2hier <- function(x, ...) {
 
 #' @rdname cast_dim2hier
 #' @export
-cast_dim2hier.default <- function(x, in2out = TRUE, distr.names = FALSE, ...) {
+cast_dim2hier.default <- function(x, in2out = TRUE, distr.names = TRUE, ...) {
   
   # checks:
   .ellipsis(list(...), sys.call())

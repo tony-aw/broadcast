@@ -425,6 +425,7 @@ cast_hier2dim(
   maxdepth = 16L,
   recurse_all = FALSE,
   padding = list(NULL),
+  direction.names = 0L,
   ...
 )
 </code></pre>
@@ -473,12 +474,20 @@ a single, positive integer, giving the maximum depth to recurse into the list. <
 a list of length <code>1</code>, giving the padding value to use when padding is required. <br> Padding is used to ensure every all slices of the same dimension in the output have equal number of elements (for example, all rows must have the same number of columns).
 </td>
 </tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="direction.names">direction.names</code>
+</td>
+<td>
+see argument <code>direction</code> from the <a href="../man/hier2dim.html">hiernames2dimnames</a> method.
+</td>
+</tr>
 
 </tbody></table>
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>An array of type <code>list</code>, with the dimensions given by <a href="../man/hier2dim.html">hier2dim</a>. <br> If the output needs padding (indicated by <a href="../man/hier2dim.html">hier2dim</a>), the output will have more elements than <code>x</code>, filled with a padding value (as specified in the <code>padding</code> argument). <br> <br> The array will not have <code>dimnames</code>; use <code>hiernames2dimnames</code> to find appropriate <code>dimnames</code>. <br> <br></p>
+<p>An array of type <code>list</code>, with the dimensions given by <a href="../man/hier2dim.html">hier2dim</a>. <br> If the output needs padding (indicated by <a href="../man/hier2dim.html">hier2dim</a>), the output will have more elements than <code>x</code>, filled with a padding value (as specified in the <code>padding</code> argument). <br> <br></p>
 </section>
 <section id="see-also" class="level3">
 <h3 class="anchored" data-anchor-id="see-also">See Also</h3>

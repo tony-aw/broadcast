@@ -16,8 +16,9 @@
 #' @param maxdepth a single, positive integer,
 #' giving the maximum depth to recurse into the list. \cr
 #' The surface-level elements of a list is depth 1. \cr
-#' @param direction A single number, giving the direction in which to search for names.
-#' Must be either `1` (to search from start to end) or `-1` (to search from end to start).
+#' @param direction A single number, giving the direction in which to search for names. \cr
+#' Must be either `1` (to search from start to end) or `-1` (to search from end to start). \cr
+#' If set to `0`, the result will simply be `NULL`.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' 
@@ -34,7 +35,6 @@
 #' For `hiernames2dimnames()`: \cr
 #' A list of `dimnames`; these can be assigned to the `dimnames` of the result of \link{cast_hier2dim}. \cr
 #' \cr
-#' 
 #' 
 #'
 #' @seealso \link{broadcast_casting}, \link{cast_hier2dim} \cr
@@ -69,35 +69,15 @@ hier2dim.default <- function(x, in2out = TRUE, maxdepth = 16L, recurse_all = FAL
 
 #' @rdname hier2dim
 #' @export
-hiernames2dimnames.default <- function(x, in2out = TRUE, maxdepth = 16L, recurse_all = FALSE, direction = 1, ...) {
+hiernames2dimnames.default <- function(
+    x, in2out = TRUE, maxdepth = 16L, recurse_all = FALSE, direction = 1, ...
+) {
   
   .ellipsis(list(...), sys.call())
   
-  if(length(direction) != 1L || !is.numeric(direction) || is.na(direction)) {
-    stop("`direction` must be 1 or -1")
-  }
-  if(!direction %in% c(1, -1)) {
-    stop("`direction` must be 1 or -1")
-  }
-  dim <- .hier2dim(x, in2out, maxdepth, recurse_all, sys.call())
-  ndim <- length(dim)
-  
-  dimnames <- vector("list", ndim)
-  if(in2out) {
-    dimnames[ndim] <- list(names(x))
-    for(i in 1:(ndim - 1L)) {
-      depth <- ndim - i + 1
-      dimnames[i] <- .rcpp_names_atdepth(x, direction, dim[i], depth, recurse_all)
-    }
-  }
-  if(!in2out) {
-    dimnames[1] <- list(names(x))
-    for(i in 2:ndim) {
-      depth <- i
-      dimnames[i] <- .rcpp_names_atdepth(x, direction, dim[i], depth, recurse_all)
-    }
-  }
-  return(dimnames)
+  .check_direction.hiernames2dimnames(direction, "direction", sys.call())
+  out.dim <- .hier2dim(x, in2out, maxdepth, recurse_all, sys.call())
+  return(.hiernames2dimnames(x, out.dim, in2out, maxdepth, recurse_all, direction))
   
 }
 
@@ -159,4 +139,66 @@ hiernames2dimnames.default <- function(x, in2out = TRUE, maxdepth = 16L, recurse
   }
   
   return(out.dims)
+}
+
+
+#' @keywords internal
+#' @noRd
+.hiernames2dimnames <- function(
+    x, out.dim, in2out, maxdepth, recurse_all, direction, ...
+) {
+  
+  if(direction == 0L) {
+    return(NULL)
+  }
+  
+  out.ndim <- length(out.dim)
+  
+  out.dimnames <- vector("list", out.ndim)
+  if(in2out) {
+    out.dimnames[out.ndim] <- list(names(x))
+    for(i in 1:(out.ndim - 1L)) {
+      depth <- out.ndim - i + 1
+      out.dimnames[i] <- .rcpp_names_atdepth(x, direction, out.dim[i], depth, recurse_all)
+    }
+  }
+  if(!in2out) {
+    out.dimnames[1] <- list(names(x))
+    for(i in 2:out.ndim) {
+      depth <- i
+      out.dimnames[i] <- .rcpp_names_atdepth(x, direction, out.dim[i], depth, recurse_all)
+    }
+  }
+  
+  # extra safety:
+  if(length(out.dimnames) != out.ndim) {
+    return(NULL)
+  }
+  if(.C_any_nonNULL(out.dimnames)) {
+    ind <- !vapply(out.dimnames, is.null, logical(1L))
+    check <- all(lengths(out.dimnames)[ind] == out.dim[ind])
+    if(!check) {
+      return(NULL)
+    }
+  }
+  
+  
+  return(out.dimnames)
+  
+  
+}
+
+
+#' @keywords internal
+#' @noRd
+.check_direction.hiernames2dimnames <- function(direction, name, abortcall) {
+  
+  txt <- paste0("`", name, "` must be 1, -1, or 0")
+  
+  if(length(direction) != 1L || !is.numeric(direction) || is.na(direction)) {
+    stop(simpleError(txt, call = abortcall))
+  }
+  if(!direction %in% -1L:1L) {
+    stop(simpleError(txt, call = abortcall))
+  }
 }

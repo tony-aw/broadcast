@@ -18,6 +18,7 @@ void rcpp_bc_bind_prep(
   // get properties:
   const int *pdim_out = INTEGER_RO(dim_out);
   const int *pdim_x = INTEGER_RO(dim_x);
+  const int ndim_x = Rf_length(dim_x);
   
   
   // starts:
@@ -38,8 +39,13 @@ void rcpp_bc_bind_prep(
   
   // by_x:
   int *pby_x = INTEGER(by_x);
-  for(int i = 0; i < n; ++i) {
+  for(int i = 0; i < ndim_x; ++i) {
     pby_x[i] = pdim_x[i] > 1 ? 1 : 0;
+  }
+  if(n > ndim_x) {
+    for(int i = ndim_x; i < n; ++i) {
+      pby_x[i] = 0;
+    }
   }
   pby_x[along] = 1;
   
@@ -49,9 +55,14 @@ void rcpp_bc_bind_prep(
   double temp_prod = pdim_x[0];
   pdcp_x[0] = 1;
   pdcp_x[1] = pdim_x[0];
-  if((n+1) > 2) {
-    for(int i = 2; i < (n+1); ++i) {
+  if((ndim_x+1) > 2) {
+    for(int i = 2; i < (ndim_x+1); ++i) {
       temp_prod = temp_prod * pdim_x[i-1];
+      pdcp_x[i] = temp_prod;
+    }
+  }
+  if((n+1) > (ndim_x+1)) {
+    for(int i = (ndim_x+1); i < (n+1); ++i) {
       pdcp_x[i] = temp_prod;
     }
   }

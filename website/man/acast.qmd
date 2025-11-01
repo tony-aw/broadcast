@@ -31,14 +31,7 @@ instead of casting into new columns.
 <pre><code class='language-R'>acast(x, ...)
 
 ## Default S3 method:
-acast(
-  x,
-  margin,
-  grp,
-  fill = FALSE,
-  fill_val = if (is.atomic(x)) NA else list(NULL),
-  ...
-)
+acast(x, margin, grp, fill = FALSE, fill_val, ...)
 </code></pre>
 
 
@@ -51,7 +44,7 @@ an atomic or recursive array.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-further arguments passed to or from methods. <br /> <br />
+further arguments passed to or from methods.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="margin">margin</code></td>
 <td>
@@ -73,15 +66,26 @@ the result will be an array where some slices have missing values, which need to
 If <code>fill = TRUE</code>, an unbalanced <code>grp</code> factor is allowed,
 and missing values will be filled with <code>fill_val</code>. <br />
 If <code>fill = FALSE</code> (default), an unbalanced <code>grp</code> factor is not allowed,
-and providing an unbalanced factor for <code>grp</code> produces an error. <br />
-When <code>x</code> has type of <code>raw</code>, unbalanced <code>grp</code> is never allowed.
+and providing an unbalanced factor for <code>grp</code> produces an error.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="fill_val">fill_val</code></td>
 <td>
 scalar of the same type of <code>x</code>,
 giving value to use to fill in the gaps when <code>fill = TRUE</code>. <br />
-The <code>fill_val</code> argument is ignored when <code>fill = FALSE</code>
-or when <code>x</code> has type of <code>raw</code>.
+The <code>fill_val</code> argument is ignored when <code>fill = FALSE</code>. <br />
+If <code>fill_val</code> is missing, it is specified as follows: <br />
+
+
+<ul>
+<li> If <code>x</code> is of type <code>raw</code> and <code>fill = TRUE</code>, <code>fill_val</code> is not allowed to be missing, and an error is returned;
+
+</li>
+<li> If <code>x</code> is atomic but not <code>raw</code>, <code>fill_val</code> is set to <code>NA</code>;
+
+</li>
+<li> If <code>x</code> is of type <code>list</code>, <code>fill_val</code> is set to <code>list(NULL)</code>. <br /> <br />
+
+</li></ul>
 </td></tr>
 </table>
 

@@ -39,11 +39,8 @@ functionalities, all related to “broadcasting”:
     string-, and bit-wise operations.
 2.  The `bind_array()` function for binding arrays along any arbitrary
     dimension. Similar to the fantastic `abind::abind()` function, but
-    with a few key differences:
-    - `bind_array()` is faster and more memory efficient;
-    - `bind_array()` supports broadcasting;
-    - `bind_array()` supports both atomic and recursive arrays
-      (`abind()` only supports atomic arrays).
+    faster, more memory-efficient, supporting broadcasting, and
+    supporting both atomic and recursive arrays.
 3.  ‘broadcast’ provides several generic functions for broadcasting,
     namely `bcapply()` (broadcasted apply-like function) and
     `bc_ifelse()` (broadcasted version of `ifelse()`).

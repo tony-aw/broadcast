@@ -72,11 +72,6 @@
       "when `fill = FALSE`, all groups must have equal frequency", call = abortcall
     ))
   }
-  if(is.raw(x) && grp_uneven) {
-    stop(simpleError(
-      "typeof `raw` does not support NAs, so all groups must have equal frequency", call = abortcall
-    ))
-  }
 }
 
 

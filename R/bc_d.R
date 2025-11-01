@@ -86,8 +86,10 @@ setMethod(
     return(numeric(0L))
   }
   
-  if(!is.double(x)) x <- as_dbl(x)
-  if(!is.double(y)) y <- as_dbl(y)
+  if(is.double(x) || is.double(y)) {
+    if(!is.double(x)) x <- as_dbl(x)
+    if(!is.double(y)) y <- as_dbl(y)
+  }
   
   prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
@@ -140,8 +142,10 @@ setMethod(
     return(logical(0L))
   }
   
-  if(!is.double(x)) x <- as_dbl(x)
-  if(!is.double(y)) y <- as_dbl(y)
+  if(is.double(x) || is.double(y)) {
+    if(!is.double(x)) x <- as_dbl(x)
+    if(!is.double(y)) y <- as_dbl(y)
+  }
   
   prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]
@@ -206,8 +210,11 @@ setMethod(
     return(logical(0L))
   }
   
-  if(!is.double(x)) x <- as_dbl(x)
-  if(!is.double(y)) y <- as_dbl(y)
+  if(is.double(x) || is.double(y)) {
+    if(!is.double(x)) x <- as_dbl(x)
+    if(!is.double(y)) y <- as_dbl(y)
+  }
+  
   
   prep <- .binary_prep(x, y, abortcall)
   x.dim <- prep[[1L]]

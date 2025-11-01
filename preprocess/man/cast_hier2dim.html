@@ -40,6 +40,7 @@ cast_hier2dim(
   maxdepth = 16L,
   recurse_all = FALSE,
   padding = list(NULL),
+  direction.names = 0L,
   ...
 )
 </code></pre>
@@ -76,6 +77,10 @@ Padding is used to ensure every all slices of the same dimension in the output
 have equal number of elements
 (for example, all rows must have the same number of columns).</p>
 </td></tr>
+<tr><td><code id="direction.names">direction.names</code></td>
+<td>
+<p>see argument <code>direction</code> from the <code>[hiernames2dimnames](hier2dim.qmd)</code> method.</p>
+</td></tr>
 </table>
 
 
@@ -85,8 +90,6 @@ have equal number of elements
 If the output needs padding (indicated by <code>[hier2dim](hier2dim.qmd)</code>),
 the output will have more elements than <code>x</code>,
 filled with a padding value (as specified in the <code>padding</code> argument). <br />
-<br />
-The array will not have <code>dimnames</code>; use <code>hiernames2dimnames</code> to find appropriate <code>dimnames</code>. <br />
 <br />
 </p>
 

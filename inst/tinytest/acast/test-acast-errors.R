@@ -48,7 +48,7 @@ expect_error(
   fixed = TRUE
 )
 expect_error(
-  acast(array(as.raw(0L), rep(3L, 15)), 1L, as.factor(c(1:3)), TRUE),
+  acast(array(as.raw(0L), rep(3L, 15)), 1L, as.factor(c(1:3)), TRUE, fill_val = as.raw(0L)),
   pattern = "acasting would result in an array > 16 dimensions",
   fixed = TRUE
 )
@@ -133,7 +133,11 @@ expect_error(
 )
 expect_error(
   acast(as_raw(x), 1L, grp, TRUE),
-  pattern = "typeof `raw` does not support NAs, so all groups must have equal frequency"
+  pattern = "if `x` is of type raw and `fill = TRUE`, `fill_val` must be specified explicitly"
 )
-enumerate <- enumerate + 1L
+expect_warning(
+  acast(as_raw(x), 1L, grp, TRUE, NA),
+  pattern = "out-of-range values treated as 0 in coercion to raw"
+)
+enumerate <- enumerate + 3L
 

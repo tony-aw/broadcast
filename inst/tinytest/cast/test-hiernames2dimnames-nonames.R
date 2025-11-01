@@ -155,3 +155,27 @@ expect_equal(
 
 enumerate <- enumerate + 4L
 
+
+# names but direction = 0 ====
+
+x <- list(
+  y = list(
+    as.list(setNames(1:26, letters)),
+    as.list(setNames(1:25, LETTERS[1:25]))
+  ),
+  z = list(
+    as.list(setNames(1:25, letters[1:25])),
+    as.list(setNames(1:26, LETTERS))
+  ),
+  x = list(
+    as.list(setNames(1:25, letters[1:25])),
+    as.list(setNames(1:26, LETTERS))
+  )
+)
+
+expect_equal(
+  hiernames2dimnames(x, direction = 0),
+  NULL
+)
+
+enumerate <- enumerate + 1L

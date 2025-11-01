@@ -3,7 +3,7 @@
 library(stringi)
 
 DTYPES <- c(4L, 16L)
-BINDTYPES <- c(4L, 16L)
+BINDTYPES <- c(16L)
 
 
 ################################################################################
@@ -383,7 +383,7 @@ MACROs for the binding implementation
 
 The following MACROs define the loops used for broadcasted binding.
 
-The MACROs were written for 4 and 16 dimensions.
+The MACROs were written for 16 dimensions.
 These MACROs were written via a simple 'R' script,
 to minimize the risk of human error.
 
@@ -500,7 +500,7 @@ for(i in BINDTYPES) {
   counter <- counter + 1
 }
 
-cat(dMacro_skeletons[[2]])
+cat(dMacro_skeletons[[1]])
 
 
 macro_dim_bind <- stri_c(dMacro_skeletons, collapse = "\n")

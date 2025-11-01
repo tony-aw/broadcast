@@ -7,19 +7,12 @@
 \usage{
 acast(x, ...)
 
-\method{acast}{default}(
-  x,
-  margin,
-  grp,
-  fill = FALSE,
-  fill_val = if (is.atomic(x)) NA else list(NULL),
-  ...
-)
+\method{acast}{default}(x, margin, grp, fill = FALSE, fill_val, ...)
 }
 \arguments{
 \item{x}{an atomic or recursive array.}
 
-\item{...}{further arguments passed to or from methods. \cr \cr}
+\item{...}{further arguments passed to or from methods.}
 
 \item{margin}{a scalar integer, specifying the margin to cast from.}
 
@@ -35,13 +28,17 @@ the result will be an array where some slices have missing values, which need to
 If \code{fill = TRUE}, an unbalanced \code{grp} factor is allowed,
 and missing values will be filled with \code{fill_val}. \cr
 If \code{fill = FALSE} (default), an unbalanced \code{grp} factor is not allowed,
-and providing an unbalanced factor for \code{grp} produces an error. \cr
-When \code{x} has type of \code{raw}, unbalanced \code{grp} is never allowed.}
+and providing an unbalanced factor for \code{grp} produces an error.}
 
 \item{fill_val}{scalar of the same type of \code{x},
 giving value to use to fill in the gaps when \code{fill = TRUE}. \cr
-The \code{fill_val} argument is ignored when \code{fill = FALSE}
-or when \code{x} has type of \code{raw}.}
+The \code{fill_val} argument is ignored when \code{fill = FALSE}. \cr
+If \code{fill_val} is missing, it is specified as follows: \cr
+\itemize{
+\item If \code{x} is of type \code{raw} and \code{fill = TRUE}, \code{fill_val} is not allowed to be missing, and an error is returned;
+\item If \code{x} is atomic but not \code{raw}, \code{fill_val} is set to \code{NA};
+\item If \code{x} is of type \code{list}, \code{fill_val} is set to \code{list(NULL)}. \cr \cr
+}}
 }
 \value{
 An array with the following properties:

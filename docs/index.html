@@ -187,12 +187,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li>Broadcasted Infix Operators.<br>
 They support a large set of relational-, arithmetic-, Boolean-, string-, and bit-wise operations.</li>
-<li>The <a href="./man/bind_array.html">bind_array()</a> function for binding arrays along any arbitrary dimension. Similar to the fantastic <code>abind::abind()</code> function, but with a few key differences:
-<ul>
-<li><a href="./man/bind_array.html">bind_array()</a> is faster and more memory efficient;</li>
-<li><a href="./man/bind_array.html">bind_array()</a> supports broadcasting;</li>
-<li><a href="./man/bind_array.html">bind_array()</a> supports both atomic and recursive arrays (<code>abind()</code> only supports atomic arrays).</li>
-</ul></li>
+<li>The <a href="./man/bind_array.html">bind_array()</a> function for binding arrays along any arbitrary dimension. Similar to the fantastic <code>abind::abind()</code> function, but faster, more memory-efficient, supporting broadcasting, and supporting both atomic and recursive arrays.</li>
 <li>‘broadcast’ provides several generic functions for broadcasting, namely <a href="./man/bcapply.html">bcapply()</a> (broadcasted apply-like function) and <a href="./man/bc_ifelse.html">bc_ifelse()</a> (broadcasted version of <code>ifelse()</code>).</li>
 <li>casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.<br>
 These functions are useful for facilitating complex broadcasted operations, though they also have much merit beside broadcasting.</li>
@@ -256,7 +251,7 @@ These functions are useful for facilitating complex broadcasted operations, thou
 <section id="why-use-broadcast" class="level2">
 <h2 class="anchored" data-anchor-id="why-use-broadcast">🤷🏽Why use ‘broadcast’</h2>
 <p><strong>Efficiency</strong></p>
-<p>Broadcasting as implemented in the ‘broadcasting’ package is about as fast as - and sometimes even faster than - NUmPy.<br>
+<p>Broadcasting as implemented in the ‘broadcasting’ package is about as fast as - and sometimes even faster than - NumPy.<br>
 The implementations in the ‘broadcast’ package are also much faster and much more memory efficient than using base ‘R’ solutions like <code>sweep()</code>.<br>
 Efficient programs use less energy and resources, and is thus better for the environment.<br>
 Benchmarks can be found in the “About” section on the website.</p>

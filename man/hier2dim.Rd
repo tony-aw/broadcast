@@ -35,8 +35,9 @@ it is advisable (though not necessary) to reduce the redundant nesting using \li
 giving the maximum depth to recurse into the list. \cr
 The surface-level elements of a list is depth 1. \cr}
 
-\item{direction}{A single number, giving the direction in which to search for names.
-Must be either \code{1} (to search from start to end) or \code{-1} (to search from end to start).}
+\item{direction}{A single number, giving the direction in which to search for names. \cr
+Must be either \code{1} (to search from start to end) or \code{-1} (to search from end to start). \cr
+If set to \code{0}, the result will simply be \code{NULL}.}
 }
 \value{
 For \code{hier2dim()}: \cr

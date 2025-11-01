@@ -119,7 +119,7 @@ print(out)
 
 ## Casting with equal group sizes
 
-We have a list of points (ranging from 0 to 100) students (n = 3) have achieved in for 2 homework exercises:
+We have a matrix of points (ranging from 0 to 100) students (n = 3) have achieved in for 2 homework exercises:
 
 ```{r}
 x <- cbind(
@@ -225,6 +225,68 @@ asplit(out, ndim(out)) |> bind_array(along = margin)
 
 ... but we do keep the missing values when the groups have an unequal number of elements.
 
+&nbsp;
+
+# Nested broadcasting
+
+We have a class of students who scored certain amounts of points for homework exercises. The software used for collecting the points for these homework exercises produces on object that is read by `r fa("r-project")` as a nested list, like so:
+
+```{r}
+x <- list(
+  student1 = list(
+    homework1 = sample(0:100, 5),
+    homework2 = sample(0:100, 5),
+    homework3 = sample(0:100, 5)
+  ),
+  student2 = list(
+    homework1 = sample(0:100, 5),
+    homework2 = sample(0:100, 5),
+    homework3 = sample(0:100, 5)
+  ),
+  student3 = list(
+    homework1 = sample(0:100, 5),
+    homework2 = sample(0:100, 5),
+    homework3 = sample(0:100, 5)
+  )
+)
+```
+
+Since all values are numbers, the teacher would like the list to be turned in a numeric array, to make analysis easier.
+
+This can be done with the 'broadcast' package with the following steps.
+
+First, turn the nested list into a shallow dimensional list:
+
+```{r}
+x2 <- cast_hier2dim(x, in2out = FALSE, direction.names = 1L)
+print(x2)
+```
+
+Second, turn the dimensional list into an atomic array:
+
+```{r}
+x3 <- cast_shallow2atomic(x2, 1L)
+print(x3)
+```
+
+Now that we have a numeric array, broadcasted numeric operations can be performed on it. In this case, the teacher would like to multiply the scores of the second homework assignment by 2, as it was deemed much harder than the other 2 homework assignments.  
+This can be done like so:
+
+```{r}
+# creating multiplier array:
+multiplier <- array(
+  c(1, 2, 1), c(1, 1, 3), list(NULL, NULL, dimnames(x3)[[3L]])
+)
+broadcaster(multiplier) <- TRUE
+print(multiplier)
+
+# broadcasted multiply x3 with multiplier:
+broadcaster(x3) <- TRUE
+x3 * multiplier
+```
+
+Thus we started off with a nested list, through which one cannot broadcast and for which little to no vectorized operators are available.  
+By turning the nested list into a dimensional atomic array, broadcasted and vectorized operations could be used.
 
 
 &nbsp;

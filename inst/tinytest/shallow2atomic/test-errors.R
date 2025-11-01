@@ -8,7 +8,7 @@ expect_error(
   cast_shallow2atomic(x, foo = 1),
   pattern = "unkown arguments given"
 )
-enumerate <- enumerate + 4L
+enumerate <- enumerate + 1L
 
 
 # bad input list ====

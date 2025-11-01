@@ -1,9 +1,10 @@
 
 # broadcast 0.1.6
 
-* Small speed improvement for all broadcasted operations.
-* Small speed improvement for `sd_lc()`.
+* Small speed improvement for nearly all operations.
+* The `acast()` method now allows unequal groups even when `x` is of type `raw`.
 * Added the `cast_shallow2atomic()` casting method.
+* The `cast_hier2dim()` method can now set `dimnames` automatically by specifying the new `direction.names` argument.
 * Added the `bc_strrep()` method.
 * Added the `undim()` function.
 * Added more tests.

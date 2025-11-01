@@ -1397,6 +1397,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_bindhelper_make_input_dims
+SEXP rcpp_bindhelper_make_input_dims(SEXP dims_old, int start, int max_ndim);
+RcppExport SEXP _broadcast_rcpp_bindhelper_make_input_dims(SEXP dims_oldSEXP, SEXP startSEXP, SEXP max_ndimSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type dims_old(dims_oldSEXP);
+    Rcpp::traits::input_parameter< int >::type start(startSEXP);
+    Rcpp::traits::input_parameter< int >::type max_ndim(max_ndimSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_make_input_dims(dims_old, start, max_ndim));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_allocate_nestedlist
 List rcpp_allocate_nestedlist(NumericVector lens, int depth);
 RcppExport SEXP _broadcast_rcpp_allocate_nestedlist(SEXP lensSEXP, SEXP depthSEXP) {
@@ -1641,19 +1654,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_normalize_dims_regular
-SEXP rcpp_normalize_dims_regular(SEXP dims_old, int start, int max_ndim);
-RcppExport SEXP _broadcast_rcpp_normalize_dims_regular(SEXP dims_oldSEXP, SEXP startSEXP, SEXP max_ndimSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type dims_old(dims_oldSEXP);
-    Rcpp::traits::input_parameter< int >::type start(startSEXP);
-    Rcpp::traits::input_parameter< int >::type max_ndim(max_ndimSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_normalize_dims_regular(dims_old, start, max_ndim));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_set_attr
 void rcpp_set_attr(RObject x, String name, RObject value);
 RcppExport SEXP _broadcast_rcpp_set_attr(SEXP xSEXP, SEXP nameSEXP, SEXP valueSEXP) {
@@ -1676,7 +1676,6 @@ RcppExport SEXP C_bindhelper_get_alongdims(SEXP, SEXP);
 RcppExport SEXP C_bindhelper_max_type(SEXP);
 RcppExport SEXP C_bindhelper_need_coerce(SEXP, SEXP);
 RcppExport SEXP C_bindhelper_sum_along(SEXP, SEXP);
-RcppExport SEXP C_bindhelper_vdims(SEXP);
 RcppExport SEXP C_check_conf_dim(SEXP, SEXP, SEXP, SEXP);
 RcppExport SEXP C_chunkify_dims(SEXP, SEXP);
 RcppExport SEXP C_determine_dimmode(SEXP, SEXP, SEXP, SEXP);
@@ -1784,6 +1783,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bindhelper_setnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_setnames, 3},
     {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 4},
     {"_broadcast_rcpp_bindhelper_get_dimnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_get_dimnames, 2},
+    {"_broadcast_rcpp_bindhelper_make_input_dims", (DL_FUNC) &_broadcast_rcpp_bindhelper_make_input_dims, 3},
     {"_broadcast_rcpp_allocate_nestedlist", (DL_FUNC) &_broadcast_rcpp_allocate_nestedlist, 2},
     {"_broadcast_rcpp_rec_dim2hier", (DL_FUNC) &_broadcast_rcpp_rec_dim2hier, 6},
     {"_broadcast_rcpp_rec_dim2hier_names", (DL_FUNC) &_broadcast_rcpp_rec_dim2hier_names, 4},
@@ -1803,7 +1803,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_make_dimnames1", (DL_FUNC) &_broadcast_rcpp_make_dimnames1, 3},
     {"_broadcast_rcpp_is_mergeable_with_prev", (DL_FUNC) &_broadcast_rcpp_is_mergeable_with_prev, 2},
     {"_broadcast_rcpp_mergedims", (DL_FUNC) &_broadcast_rcpp_mergedims, 3},
-    {"_broadcast_rcpp_normalize_dims_regular", (DL_FUNC) &_broadcast_rcpp_normalize_dims_regular, 3},
     {"_broadcast_rcpp_set_attr", (DL_FUNC) &_broadcast_rcpp_set_attr, 3},
     {"C_any_nonarray",             (DL_FUNC) &C_any_nonarray,             1},
     {"C_any_nonNULL",              (DL_FUNC) &C_any_nonNULL,              1},
@@ -1814,7 +1813,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"C_bindhelper_max_type",      (DL_FUNC) &C_bindhelper_max_type,      1},
     {"C_bindhelper_need_coerce",   (DL_FUNC) &C_bindhelper_need_coerce,   2},
     {"C_bindhelper_sum_along",     (DL_FUNC) &C_bindhelper_sum_along,     2},
-    {"C_bindhelper_vdims",         (DL_FUNC) &C_bindhelper_vdims,         1},
     {"C_check_conf_dim",           (DL_FUNC) &C_check_conf_dim,           4},
     {"C_chunkify_dims",            (DL_FUNC) &C_chunkify_dims,            2},
     {"C_determine_dimmode",        (DL_FUNC) &C_determine_dimmode,        4},

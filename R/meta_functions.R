@@ -73,10 +73,10 @@
       list = sample(list(letters, month.abb, 1:10, NULL), datasize, TRUE)
     )[y.types]
     
-    for(iDimX in sample(1:8, ndims)) { # different dimensions for x
+    for(iDimX in sample(1:8, ndims)) { # number of dimensions for x
       x.dim <- .test_make_dims(iDimX)
       x.len <- prod(x.dim)
-      for(iDimY in sample(1:8, ndims)) { # different dimensions for y
+      for(iDimY in sample(1:8, ndims)) { # number of dimensions for y
         y.dim <- .test_make_dims(iDimY)
         y.len <- prod(y.dim)
         
