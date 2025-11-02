@@ -6,7 +6,7 @@
 * Added the `cast_shallow2atomic()` casting method.
 * The `cast_hier2dim()` method can now set `dimnames` automatically by specifying the new `direction.names` argument.
 * Added the `bc_strrep()` method.
-* Added the `undim()` function.
+* Added the `vector2array()` and `undim()` helper functions.
 * Added more tests.
 
 

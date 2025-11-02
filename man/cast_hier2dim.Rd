@@ -44,6 +44,9 @@ If the output needs padding (indicated by \link{hier2dim}),
 the output will have more elements than \code{x},
 filled with a padding value (as specified in the \code{padding} argument). \cr
 \cr
+If \code{direction.names = 0} (default), the result will not have any \code{dimnames}; \cr
+the \code{dimnames} can then still be constructed using \link{hiernames2dimnames}. \cr
+If \code{direction.names} is \code{1} or \code{-1}, the result \emph{will} have \code{dimnames}. \cr \cr
 }
 \description{
 \code{cast_hier2dim()} casts a hierarchical/nested list into a dimensional list

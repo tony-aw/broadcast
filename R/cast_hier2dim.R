@@ -32,6 +32,9 @@
 #' the output will have more elements than `x`,
 #' filled with a padding value (as specified in the `padding` argument). \cr
 #' \cr
+#' If `direction.names = 0` (default), the result will not have any `dimnames`; \cr
+#' the `dimnames` can then still be constructed using \link{hiernames2dimnames}. \cr
+#' If `direction.names` is `1` or `-1`, the result \emph{will} have `dimnames`. \cr \cr
 #' 
 #'
 #' @seealso \link{broadcast_casting}, \link{hier2dim}, \link{hiernames2dimnames} \cr

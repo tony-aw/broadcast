@@ -364,6 +364,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">ndim</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/vector2array.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">vector2array</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -487,7 +493,7 @@ see argument <code>direction</code> from the <a href="../man/hier2dim.html">hier
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>An array of type <code>list</code>, with the dimensions given by <a href="../man/hier2dim.html">hier2dim</a>. <br> If the output needs padding (indicated by <a href="../man/hier2dim.html">hier2dim</a>), the output will have more elements than <code>x</code>, filled with a padding value (as specified in the <code>padding</code> argument). <br> <br></p>
+<p>An array of type <code>list</code>, with the dimensions given by <a href="../man/hier2dim.html">hier2dim</a>. <br> If the output needs padding (indicated by <a href="../man/hier2dim.html">hier2dim</a>), the output will have more elements than <code>x</code>, filled with a padding value (as specified in the <code>padding</code> argument). <br> <br> If <code>direction.names = 0</code> (default), the result will not have any <code>dimnames</code>; <br> the <code>dimnames</code> can then still be constructed using <a href="../man/hier2dim.html">hiernames2dimnames</a>. <br> If <code>direction.names</code> is <code>1</code> or <code>-1</code>, the result <em>will</em> have <code>dimnames</code>. <br> <br></p>
 </section>
 <section id="see-also" class="level3">
 <h3 class="anchored" data-anchor-id="see-also">See Also</h3>

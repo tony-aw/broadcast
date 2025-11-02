@@ -79,7 +79,7 @@
 #' \link[=sd_lc]{simple linear algebra functions for statistics}. \cr
 #' \cr
 #' And 'broadcast' comes with some helper functions: \cr
-#' \link{bc_dim}, \link{ndim}, \link{lst.ndim}, \link{rep_dim}. \cr \cr
+#' \link{bc_dim}, \link{ndim}, \link{lst.ndim}, \link{rep_dim}, \link{vector2array}. \cr \cr
 #' 
 #' 
 #' @section Supported Structures:

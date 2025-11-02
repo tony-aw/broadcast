@@ -364,6 +364,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">ndim</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/vector2array.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">vector2array</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -436,7 +442,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <code id="input">input</code>
 </td>
 <td>
-a list of arrays; both atomic and recursive arrays are supported, and can be mixed. <br> If argument <code>input</code> has length <code>0</code>, or it contains exclusively objects where one or more dimensions are <code>0</code>, an error is returned. <br> If <code>input</code> has length <code>1</code>, <code>bind_array()</code> simply returns <code>input[[1L]]</code>. <br> <code>input</code> may not contain more than <code>2^16</code> objects.
+a list of arrays; both atomic and recursive arrays are supported, and can be mixed. <br> If argument <code>input</code> has length <code>0</code>, or it contains exclusively objects where one or more dimensions are <code>0</code>, an error is returned. <br> If <code>input</code> has length <code>1</code>, <code>bind_array()</code> simply returns <code>input[[1L]]</code>. <br> <code>input</code> may not contain more than <code>2^16</code> objects. <br> If the user wishes to include vectors to bind in <code>input</code>, the vectors must be turned into arrays; for example using <a href="../man/vector2array.html">vector2array</a>.
 </td>
 </tr>
 <tr>
@@ -749,7 +755,21 @@ either an integer scalar or <code>NULL</code>. <br> Indicates which object in <c
 <span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] 2  7 12 -2  -7 -12 -2  -7 -12</span></span>
 <span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] 3  8 13 -3  -8 -13 -3  -8 -13</span></span>
 <span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] 4  9 14 -4  -9 -14 -4  -9 -14</span></span>
-<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] 5 10 15 -5 -10 -15 -5 -10 -15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] 5 10 15 -5 -10 -15 -5 -10 -15</span></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a><span class="co"># binding vectors and arrays ====</span></span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]) <span class="sc">|&gt;</span> <span class="fu">vector2array</span>(<span class="at">direction =</span> 2L, <span class="at">ndim =</span> 2L)</span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>), <span class="fu">list</span>(<span class="cn">NULL</span>, LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
+<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">list</span>(x, y)</span>
+<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_array</span>(input, 1L, <span class="at">comnames_from =</span> 1L) <span class="co"># row-bind, with names from vector `x`</span></span>
+<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a><span class="do">##      a  b  c  d</span></span>
+<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,] 1  2  3  4</span></span>
+<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] 1  6 11 16</span></span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] 2  7 12 17</span></span>
+<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] 3  8 13 18</span></span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] 4  9 14 19</span></span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a><span class="do">## [6,] 5 10 15 20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

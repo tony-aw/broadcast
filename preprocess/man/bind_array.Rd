@@ -19,7 +19,9 @@ If argument \code{input} has length \code{0},
 or it contains exclusively objects where one or more dimensions are \code{0},
 an error is returned. \cr
 If \code{input} has length \code{1}, \code{bind_array()} simply returns \code{input[[1L]]}. \cr
-\code{input} may not contain more than \code{2^16} objects.}
+\code{input} may not contain more than \code{2^16} objects. \cr
+If the user wishes to include vectors to bind in \code{input},
+the vectors must be turned into arrays; for example using \code{[vector2array](vector2array.qmd)}.}
 
 \item{along}{a single integer,
 indicating the dimension along which to bind the dimensions. \cr
@@ -167,6 +169,12 @@ input <- list(x, y, z)
 names(input) <- c("", NA, "")
 bind_array(input, 2L)
 
+
+# binding vectors and arrays ====
+x <- setNames(1:4, letters[1:4]) |> vector2array(direction = 2L, ndim = 2L)
+y <- array(1:20, c(5, 4), list(NULL, LETTERS[1:4]))
+input <- list(x, y)
+bind_array(input, 1L, comnames_from = 1L) # row-bind, with names from vector `x`
 
 }
 \references{

@@ -58,6 +58,9 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
     "broadcast", testdir = file.path("tinytest", "class")
   )
   tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "helper")
+  )
+  tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "internal")
   )
   tinytest::test_package(
