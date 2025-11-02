@@ -207,6 +207,9 @@ Useful because one cannot broadcast through nesting, but one can broadcast along
 
  - [cast_dim2hier()](/man/cast_dim2hier.qmd): casts a dimensional list into a nested/hierarchical list; the opposite of cast_hier2dim.
 
+ - [cast_shallow2atomic()](/man/cast_shallow2atomic.qmd): casts a (dimensional) shallow (i.e. non-nested) list into an atomic vector or array.  
+Useful because atomic vectors/arrays have access to many vectorized (broadcasted) operations that may not be available for vectors/arrays of type list.
+
  - [cast_dim2flat()](/man/cast_dim2flat.qmd): casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions.  
 Mostly useful for printing or summarizing dimensional lists.
 

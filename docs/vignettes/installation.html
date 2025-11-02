@@ -192,20 +192,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../vignettes/operators.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Operator Overloading</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../vignettes/binding.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Binding Broadcasted</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../vignettes/casting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">List Casting Overview</span></a>
+  <a href="../vignettes/casting_explained.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List Casting Explained</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -302,7 +290,9 @@ A very basic refresher for <svg aria-hidden="true" role="img" viewbox="0 0 581 5
 <section id="additional-information-for-advanced-users." class="level2">
 <h2 class="anchored" data-anchor-id="additional-information-for-advanced-users.">Additional Information for Advanced Users.</h2>
 <p>The following instructions are only for advanced users.</p>
-<p>First, ‘broadcast’ will be compiled as instructed by the user’s own ‘Makevars’ / ‘Makevars.win’ file. It might be possible to make the methods and functions of the ‘broadcast’ package <em>faster</em> by adding the <code>CXXFLAGS</code> compiler flag <code>-O3</code> to your ‘Makevars’ / ‘Makevars.win’ file, which enables more aggressive optimization during installation.</p>
+<p>First, ‘broadcast’ will be compiled as instructed by the user’s own ‘Makevars’ / ‘Makevars.win’ file - if it exists. It might be possible to make the methods and functions of the ‘broadcast’ package <em>faster</em> by adding the <code>CXXFLAGS</code> compiler flag <code>-O3</code> to your ‘Makevars’ / ‘Makevars.win’ file, which enables more aggressive optimization during installation.<br>
+The Makevars file should be located/created in the <code>path.expand("~/.R")</code> directory.</p>
+<p>&nbsp;</p>
 <p>Second, ‘broadcast’ is not a large package per-sé, but it does contain a large amount of compiled code (‘C’ and ‘C++’ code). Compilation of the package, especially with <code>-O3</code>, may therefore be slow on some operating systems, especially Linux systems; please be patient. On an average PC running Windows 11, installation of the ‘broadcast’ package shouldn’t take more than just a few minutes.<br>
 If installation is too slow, one may try to speed up the installation using multi-threading, by running the following code before installing ‘broadcast’:</p>
 <div class="cell">

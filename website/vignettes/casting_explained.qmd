@@ -1,5 +1,5 @@
 ---
-title: "List Casting Overview"
+title: "List Casting Explained"
 format:
   html:
     number-sections: true
@@ -23,7 +23,7 @@ Hierarchical data is surprisingly common, and are commonly represented in `r fa(
 
 Broadcasted operations can be performed over dimensions, but not through nesting or hierarchies.  
 Therefore, it is useful to be able to cast nested lists into dimensional lists.  
-The 'broadcast' package provides the [cast_hier2dim()](/man/cast_hier2dim.qmd) to cast dimensional lists back to nested lists.
+The 'broadcast' package provides the [cast_hier2dim()](/man/cast_hier2dim.qmd) to cast a nested list into a dimensional list (AKA a recursive array).
 
 Casting between nested and dimensional lists is not only useful for broadcasting, however.  
 Casting nested lists to dimensional lists has its own merits, as dimensional lists have some advantages over nested lists beside the broadcasting, such as the following:
@@ -102,8 +102,8 @@ Using the default arguments, element `x[[i]][[j]][[k]]` corresponds to element `
 This can be changed, as will be shown in a later example.
 
 
-As shown in the results above, [cast_hier2dim()](/man/cast_hier2dim.qmd) will obviously not preserve names.  
-It is trivially easy to set the `dimnames` of `x2`, using [hiernames2dimnames()](/man/hier2dim.qmd) (available from version `0.1.5`):
+As shown in the results above, [cast_hier2dim()](/man/cast_hier2dim.qmd) will obviously not preserve names by default.  
+It is trivially easy to set the `dimnames` of `x2`, using [hiernames2dimnames()](/man/hier2dim.qmd):
 
 ```{r}
 dimnames(x2) <- hiernames2dimnames(x)
