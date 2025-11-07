@@ -419,7 +419,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="dimensional-binding-of-arrays-with-broadcasting">Dimensional Binding of Arrays with Broadcasting</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p><code>bind_array()</code> binds (atomic/recursive) arrays and (atomic/recursive) matrices along a dimension. <br> Allows for broadcasting. <br> <br></p>
+<p><code>bind_array()</code> binds (atomic/recursive) arrays along a dimension. <br> Allows for broadcasting. <br> <br></p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -482,7 +482,7 @@ Boolean, indicating if dimension <code>along</code> should be named. <br> Please
 <code id="comnames_from">comnames_from</code>
 </td>
 <td>
-either an integer scalar or <code>NULL</code>. <br> Indicates which object in <code>input</code> should be used for naming the shared dimension. <br> If <code>NULL</code>, no communal names will be given. <br> For example: <br> When binding columns of matrices, the matrices will share the same rownames. <br> Using <code>comnames_from = 10</code> will then result in <code>bind_array()</code> using <code>rownames(input[[10]])</code> for the rownames of the output. <br> <br>
+either an integer scalar or <code>NULL</code>. <br> Indicates which object in <code>input</code> should be used for naming the shared dimension. <br> If <code>NULL</code>, no communal names will be given. <br> For example: <br> When binding columns of matrices, the matrices will share the same rownames. <br> Using <code>comnames_from = 10</code> will then result in <code>bind_array()</code> using <code>rownames(input[[10]])</code> for the rownames of the output.
 </td>
 </tr>
 
@@ -511,7 +511,7 @@ either an integer scalar or <code>NULL</code>. <br> Indicates which object in <c
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>An array as a result from the (broadcasted) binding. <br> <br> The type of the result is determined from the highest type of any of the inputs. <br> The hierarchy of types is: <br> raw &lt; logical &lt; integer &lt; double &lt; complex &lt; character &lt; list . <br> <br></p>
+<p>An array as a result from the (broadcasted) binding. <br> <br> The type of the result is determined from the highest type of any of the inputs. <br> The hierarchy of types is: <br> raw &lt; logical &lt; integer &lt; double &lt; complex &lt; character &lt; list . <br> <br> If one of the input arrays is a <a href="../man/broadcaster.html">broadcaster</a>, the result will also be a <a href="../man/broadcaster.html">broadcaster</a>. <br> <br></p>
 </section>
 <section id="references" class="level3">
 <h3 class="anchored" data-anchor-id="references">References</h3>

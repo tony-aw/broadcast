@@ -20,7 +20,7 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p><code>bind_array()</code> binds (atomic/recursive) arrays and (atomic/recursive) matrices along a dimension. <br />
+<p><code>bind_array()</code> binds (atomic/recursive) arrays along a dimension. <br />
 Allows for broadcasting. <br /> <br />
 </p>
 
@@ -89,7 +89,7 @@ If <code>NULL</code>, no communal names will be given. <br />
 For example: <br />
 When binding columns of matrices, the matrices will share the same rownames. <br />
 Using <code>comnames_from = 10</code> will then result in <code>bind_array()</code> using
-<code>rownames(input[[10]])</code> for the rownames of the output. <br /> <br /></p>
+<code>rownames(input[[10]])</code> for the rownames of the output.</p>
 </td></tr>
 </table>
 
@@ -139,6 +139,8 @@ compared to <code>abind::abind</code>. <br />
 The type of the result is determined from the highest type of any of the inputs. <br />
 The hierarchy of types is: <br />
 raw &lt; logical &lt; integer &lt; double &lt; complex &lt; character &lt; list . <br />
+<br />
+If one of the input arrays is a <code>[broadcaster](broadcaster.qmd)</code>, the result will also be a <code>[broadcaster](broadcaster.qmd)</code>. <br />
 <br />
 </p>
 

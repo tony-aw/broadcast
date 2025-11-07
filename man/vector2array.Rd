@@ -6,14 +6,14 @@
 \alias{array2vector}
 \title{Turn Vector to Array and Vice-Versa}
 \usage{
-vector2array(x, direction, ndim)
+vector2array(x, direction, ndim = direction, broadcaster = NULL)
 
-undim(x)
+undim(x, broadcaster = NULL)
 
-array2vector(x)
+array2vector(x, broadcaster = NULL)
 }
 \arguments{
-\item{x}{an vector (for \code{vector2array()} or an array (for \code{undim()}). \cr
+\item{x}{an vector (for \code{vector2array()} or an array (for \code{undim()}/\code{array2vector()}). \cr
 All atomic types, and the recursive type \code{list}, are supported.}
 
 \item{direction}{a positive integer scalar, giving the direction of the vector. \cr
@@ -21,6 +21,9 @@ In other words: give here which dimension should have size \code{length(x)} - al
 
 \item{ndim}{the number of dimensions in total. \cr
 It must be the case that \code{ndim >= direction}, and \code{ndim <= 16L}.}
+
+\item{broadcaster}{\code{TRUE} or \code{FALSE}, indicating if the result should be a broadcaster. \cr
+If \code{NULL}, \code{broadcaster(x)} will be used. \cr}
 }
 \value{
 For \code{vector2array()}: \cr
@@ -30,8 +33,7 @@ Otherwise, given \code{out <- vector2array(x, direction, ndim)},
 \itemize{
 \item \code{ndim(out) == ndim};
 \item \code{dim(out)[direction] == length(x)}, and all other dimensions will be \code{1};
-\item \code{dimnames(out)[[direction]] == names(x)}, and all other \code{dimnames} will be \code{NULL};
-\item \code{broadcaster(out) == broadcaster(x)}. \cr \cr
+\item \code{dimnames(out)[[direction]] == names(x)}, and all other \code{dimnames} will be \code{NULL}. \cr \cr
 }
 
 For \code{undim()}: \cr
@@ -42,11 +44,12 @@ but keeping names and \link{broadcaster} attribute as far as possible. \cr \cr
 \description{
 \code{vector2array()} turns a vector into an array,
 with a specific vector direction,
-and turning the names into dimnames, and keeping the \link{broadcaster} attribute. \cr
+and turning the names into dimnames, and keeping (or forcing) \link{broadcaster} attribute. \cr
 \cr
 \code{undim()} returns a copy of an object, but with its dimensions removed,
 but still trying to keep the names if possible
 (it somewhat is like the dimensional version of \code{unlist()}). \cr
+\code{undim()} will also keep (or force) the \link{broadcaster} attribute
 \cr
 \code{array2vector()} is an alias for \code{undim()}. \cr \cr
 }

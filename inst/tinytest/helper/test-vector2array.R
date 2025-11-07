@@ -85,7 +85,20 @@ expect_equal(
   broadcaster(x)
 )
 
-enumerate <- enumerate + 2L
+x <- 1:10
+broadcaster(x) <- TRUE
+expect_equal(
+  vector2array(x, 1, 2, FALSE) |> broadcaster(),
+  FALSE
+)
+
+broadcaster(x) <- FALSE
+expect_equal(
+  vector2array(x, 1, 2, TRUE) |> broadcaster(),
+  TRUE
+)
+
+enumerate <- enumerate + 4L
 
 
 

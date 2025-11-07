@@ -1410,6 +1410,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_bindhelper_anyinput_hasclass
+bool rcpp_bindhelper_anyinput_hasclass(SEXP input, String class2check);
+RcppExport SEXP _broadcast_rcpp_bindhelper_anyinput_hasclass(SEXP inputSEXP, SEXP class2checkSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type input(inputSEXP);
+    Rcpp::traits::input_parameter< String >::type class2check(class2checkSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_anyinput_hasclass(input, class2check));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_allocate_nestedlist
 List rcpp_allocate_nestedlist(NumericVector lens, int depth);
 RcppExport SEXP _broadcast_rcpp_allocate_nestedlist(SEXP lensSEXP, SEXP depthSEXP) {
@@ -1784,6 +1796,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 4},
     {"_broadcast_rcpp_bindhelper_get_dimnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_get_dimnames, 2},
     {"_broadcast_rcpp_bindhelper_make_input_dims", (DL_FUNC) &_broadcast_rcpp_bindhelper_make_input_dims, 3},
+    {"_broadcast_rcpp_bindhelper_anyinput_hasclass", (DL_FUNC) &_broadcast_rcpp_bindhelper_anyinput_hasclass, 2},
     {"_broadcast_rcpp_allocate_nestedlist", (DL_FUNC) &_broadcast_rcpp_allocate_nestedlist, 2},
     {"_broadcast_rcpp_rec_dim2hier", (DL_FUNC) &_broadcast_rcpp_rec_dim2hier, 6},
     {"_broadcast_rcpp_rec_dim2hier_names", (DL_FUNC) &_broadcast_rcpp_rec_dim2hier_names, 4},

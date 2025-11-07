@@ -148,3 +148,35 @@ inline SEXP rcpp_rep_new_int(
    
    
  }
+
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bindhelper_anyinput_hasclass)]]
+bool rcpp_bindhelper_anyinput_hasclass(
+    SEXP input, String class2check
+) {
+  
+  
+  int n = Rf_length(input);
+  RObject temp;
+  
+  for(int i  = 0; i < n; ++i) {
+    temp = VECTOR_ELT(input, i);
+    if(temp.hasAttribute("class")) {
+      CharacterVector out_class = temp.attr("class");
+      for(int j = 0; j < out_class.length(); ++j) {
+        String current_class = out_class[j];
+        if(current_class == class2check) {
+          return true;
+        }
+      }
+    }
+    
+  }
+  
+  return false;
+  
+  
+}
+

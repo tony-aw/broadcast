@@ -1,8 +1,10 @@
 #' Check or Set if an Array is a Broadcaster
 #'
 #' @description
-#' `broadcaster()` checks if an array has the "broadcaster" attribute. \cr
-#' `broadcaster()<-` sets or un-sets the class attribute "broadcaster" on an array. \cr
+#' `broadcaster()` checks if an array or vector has the "broadcaster" attribute. \cr
+#' `bcr()` is a short-hand alias for `broadcaster()`. \cr
+#' \cr
+#' `broadcaster()<-` (or `bcr()<-`) sets or un-sets the class attribute "broadcaster" on an array or vector. \cr
 #' \cr
 #' The `broadcaster` class attribute exists purely to overload the
 #' arithmetic, Boolean, bit-wise, and relational infix operators,
@@ -74,6 +76,14 @@ broadcaster <- function(x) {
     stop("malformed object given")
   }
 }
+
+#' @rdname broadcaster
+#' @export
+bcr <- broadcaster
+
+#' @rdname broadcaster
+#' @export
+`bcr<-` <- `broadcaster<-`
 
 
 

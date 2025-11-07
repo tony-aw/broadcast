@@ -50,7 +50,7 @@ If \code{NULL}, no communal names will be given. \cr
 For example: \cr
 When binding columns of matrices, the matrices will share the same rownames. \cr
 Using \code{comnames_from = 10} will then result in \code{bind_array()} using
-\code{rownames(input[[10]])} for the rownames of the output. \cr \cr}
+\code{rownames(input[[10]])} for the rownames of the output.}
 }
 \value{
 An array as a result from the (broadcasted) binding. \cr
@@ -59,9 +59,11 @@ The type of the result is determined from the highest type of any of the inputs.
 The hierarchy of types is: \cr
 raw < logical < integer < double < complex < character < list . \cr
 \cr
+If one of the input arrays is a \link{broadcaster}, the result will also be a \link{broadcaster}. \cr
+\cr
 }
 \description{
-\code{bind_array()} binds (atomic/recursive) arrays and (atomic/recursive) matrices along a dimension. \cr
+\code{bind_array()} binds (atomic/recursive) arrays along a dimension. \cr
 Allows for broadcasting. \cr \cr
 }
 \details{

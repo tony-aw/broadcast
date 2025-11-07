@@ -20,8 +20,10 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p><code>broadcaster()</code> checks if an array has the &quot;broadcaster&quot; attribute. <br />
-<code style="white-space: pre;">&#8288;broadcaster()&lt;-&#8288;</code> sets or un-sets the class attribute &quot;broadcaster&quot; on an array. <br />
+<p><code>broadcaster()</code> checks if an array or vector has the &quot;broadcaster&quot; attribute. <br />
+<code>bcr()</code> is a short-hand alias for <code>broadcaster()</code>. <br />
+<br />
+<code style="white-space: pre;">&#8288;broadcaster()&lt;-&#8288;</code> (or <code style="white-space: pre;">&#8288;bcr()&lt;-&#8288;</code>) sets or un-sets the class attribute &quot;broadcaster&quot; on an array or vector. <br />
 <br />
 The <code>broadcaster</code> class attribute exists purely to overload the
 arithmetic, Boolean, bit-wise, and relational infix operators,
@@ -41,6 +43,10 @@ See <code>[broadcast_operators](aaa01_broadcast_operators.qmd)</code> for more i
 <pre><code class='language-R'>broadcaster(x)
 
 broadcaster(x) &lt;- value
+
+bcr(x)
+
+bcr(x) &lt;- value
 </code></pre>
 
 

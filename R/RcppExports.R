@@ -556,6 +556,12 @@ NULL
 
 #' @keywords internal
 #' @noRd
+.rcpp_bindhelper_anyinput_hasclass <- function(input, class2check) {
+    .Call(`_broadcast_rcpp_bindhelper_anyinput_hasclass`, input, class2check)
+}
+
+#' @keywords internal
+#' @noRd
 .rcpp_allocate_nestedlist <- function(lens, depth) {
     .Call(`_broadcast_rcpp_allocate_nestedlist`, lens, depth)
 }

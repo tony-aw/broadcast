@@ -3,11 +3,17 @@
 \name{broadcaster}
 \alias{broadcaster}
 \alias{broadcaster<-}
+\alias{bcr}
+\alias{bcr<-}
 \title{Check or Set if an Array is a Broadcaster}
 \usage{
 broadcaster(x)
 
 broadcaster(x) <- value
+
+bcr(x)
+
+bcr(x) <- value
 }
 \arguments{
 \item{x}{object to check or set. \cr
@@ -27,8 +33,10 @@ or removes (if right hand side is \code{FALSE})
 the "broadcaster" class attribute. \cr \cr
 }
 \description{
-\code{broadcaster()} checks if an array has the "broadcaster" attribute. \cr
-\verb{broadcaster()<-} sets or un-sets the class attribute "broadcaster" on an array. \cr
+\code{broadcaster()} checks if an array or vector has the "broadcaster" attribute. \cr
+\code{bcr()} is a short-hand alias for \code{broadcaster()}. \cr
+\cr
+\verb{broadcaster()<-} (or \verb{bcr()<-}) sets or un-sets the class attribute "broadcaster" on an array or vector. \cr
 \cr
 The \code{broadcaster} class attribute exists purely to overload the
 arithmetic, Boolean, bit-wise, and relational infix operators,

@@ -24,7 +24,8 @@ library(tinytable) |> suppressWarnings()
 
 # Introduction
 
-In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory or making needles copies. This is considerably **faster** and **more memory-efficient** than `r fa("r-project")`'s regular dimensions repetition (and similar) mechanisms.
+In the context of operations involving 2 (or more) arrays, “broadcasting” refers to efficiently recycling array dimensions, without making copies.  
+This is considerably **faster** and **more memory-efficient** than `r fa("r-project")`'s regular dimensions replication mechanism.
 
 This page explains the concept of "broadcasting" in more detail.
 A good understanding of atomic and recursive arrays in base `r fa("r-project")` is somewhat essential to follow this page.

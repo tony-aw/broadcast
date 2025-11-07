@@ -96,20 +96,33 @@ for(iType in seq_along(coercionfuns)) {
 
 
 # broadcaster ====
-x <- 1:10
+x <- array(1:10, c(5, 2))
 broadcaster(x) <- TRUE
 expect_equal(
-  vector2array(x, 1, 2) |> broadcaster(),
+  undim(x) |> broadcaster(),
   broadcaster(x)
 )
 
 broadcaster(x) <- FALSE
 expect_equal(
-  vector2array(x, 1, 2) |> broadcaster(),
+  undim(x) |> broadcaster(),
   broadcaster(x)
 )
 
-enumerate <- enumerate + 2L
+x <- array(1:10, c(5, 2))
+broadcaster(x) <- TRUE
+expect_equal(
+  undim(x, FALSE) |> broadcaster(),
+  FALSE
+)
+
+broadcaster(x) <- FALSE
+expect_equal(
+  undim(x, TRUE) |> broadcaster(),
+  TRUE
+)
+
+enumerate <- enumerate + 4L
 
 
 # errors ====

@@ -418,7 +418,7 @@ The added `distr.names = TRUE` argument will distribute the `dimnames` in a logi
 
 &nbsp;
 
-# Data Wrangling Example: Turning list inside out
+# Simple Data Wrangling Example: Turning list inside out
 
 The cast functions can be used to turn a list inside out.
 
@@ -456,18 +456,33 @@ x <- list(
 
 Turning this list inside out means manipulating this list such that height, weight and sex become the surface-level elements and the groups become the deepest levels.
 
-This can be done fast & easy with 'broadcast', by casting the nested list to dimensional with `in2out = TRUE`, and then casting the dimensional list back to nested using `in2out = FALSE`, like so:
+This can be done fast & easy with 'broadcast', by casting the nested list to dimensional with `in2out = TRUE`, and then casting the dimensional list back to nested using `in2out = FALSE`.
+
+&nbsp;
+
+First, cast nested list to dimensional list:
+
+```{r}
+x2 <- cast_hier2dim(x, direction.names = 1)
+print(x2)
+```
+
+The default value for `in2out` is `TRUE`, so we don't have to specify it here.  
+The `direction.names` argument (available from broadcast version `0.1.6`) in [cast_hier2dim()](/man/cast_hier2dim.qmd) will construct dimensional names for you, so you don't have to set them manually using [hiernames2dimnames()](/man/hier2dim.qmd).  
+
+
+Second, cast the newly created dimensional list back to a nested list, but this time use `in2out = FALSE`:
 
 ```{r}
 
-x2 <- cast_hier2dim(x)
-dimnames(x2) <- hiernames2dimnames(x)
+
 x3 <- cast_dim2hier(x2, in2out = FALSE, distr.names = TRUE)
 lobstr::tree(x3)
 
 ```
 
-Easy, right?
+We use `lobstr::tree()` to print the results more compactly;  
+as shown, the original nested list has now successfully been turned inside-out, with great ease.
 
 
 &nbsp;

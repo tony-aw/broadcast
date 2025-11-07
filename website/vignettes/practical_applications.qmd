@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 ```{r setup, echo=FALSE, eval=TRUE}
 library(broadcast) |> suppressMessages()
 library(fontawesome) |> suppressWarnings()
+set.seed(1L)
 ```
 
 
@@ -34,7 +35,7 @@ Consider for example the following matrix:
 
 ```{r}
 mat <- matrix(rnorm(20), nrow = 5)
-broadcaster(mat) <- TRUE
+bcr(mat) <- TRUE # `bcr` is short-hand for `broadcaster`
 print(mat)
 ```
 
@@ -53,7 +54,7 @@ But it can be done much faster and more memory-efficiently with broadcasting lik
 ```{r}
 means <- matrix(colMeans(mat), nrow = 1L)
 sds <- matrix(matrixStats::colSds(mat), nrow = 1L)
-broadcaster(means) <- broadcaster(sds) <- TRUE
+bcr(means) <- bcr(sds) <- TRUE
 scaled <- (mat - means) / sds
 print(scaled)
 ```
@@ -141,7 +142,7 @@ margin <- 1L # we cast from the rows, so margin = 1
 grp <- as.factor(x[, "homework"]) # factor to define which rows belongs to which group
 levels(grp) <- c("assignment 1", "assignment 2") # names for the new dimension
 out <- acast(x, margin, grp) # casting is performed here
-broadcaster(out) <- TRUE
+bcr(out) <- TRUE
 print(out)
 ```
 
@@ -165,7 +166,7 @@ mult <- array(
   )
 )
 mult[, "mult_points", c("assignment 1", "assignment 2")] <- c(1, 2)
-broadcaster(mult) <- TRUE
+bcr(mult) <- TRUE
 print(mult)
 
 # grouped broadcasted operation:
@@ -274,14 +275,12 @@ This can be done like so:
 
 ```{r}
 # creating multiplier array:
-multiplier <- array(
-  c(1, 2, 1), c(1, 1, 3), list(NULL, NULL, dimnames(x3)[[3L]])
-)
-broadcaster(multiplier) <- TRUE
+multiplier <- vector2array(c(1L, 2L, 1L), 3L, 3L, TRUE)
+dimnames(multiplier)[[3L]] <- dimnames(x3)[[3L]]
 print(multiplier)
 
 # broadcasted multiply x3 with multiplier:
-broadcaster(x3) <- TRUE
+bcr(x3) <- TRUE
 x3 * multiplier
 ```
 
@@ -331,7 +330,7 @@ print(coeffnames)
 # get necessary model parameters (i.e. X, b, vc)
 # but only for relevant coefficients:
 b <- coef(m)[coeffnames]
-X <- predict(m, type="lpmatrix")[, coeffnames, drop = FALSE]
+X <- predict(m, type = "lpmatrix")[, coeffnames, drop = FALSE]
 vc <- vcov(m)[coeffnames, coeffnames, drop = FALSE]
 
 ```

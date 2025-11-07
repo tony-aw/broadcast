@@ -8,7 +8,7 @@ errorfun <- function(tt) {
 
 library(squarebrackets)
 
-x <- 1:10
+x <- array(1:10, c(1, 10))
 y <- array(1:10, c(1, 10))
 
 for(iMutX in c(TRUE, FALSE)) {
@@ -32,13 +32,19 @@ for(iMutX in c(TRUE, FALSE)) {
           expect_true(
             is.mutatomic(x2 + y2)
           ) |> errorfun()
-          enumerate <- enumerate + 1L
+          expect_true(
+            is.mutatomic(bind_array(list(x2, y2), 1L))
+          ) |> errorfun()
+          enumerate <- enumerate + 2L
         }
         if(broadcaster(x2) || broadcaster(y2)) {
           expect_true(
             broadcaster(x2 + y2)
           ) |> errorfun()
-          enumerate <- enumerate + 1L
+          expect_true(
+            broadcaster(bind_array(list(x2, y2), 1L))
+            ) |> errorfun()
+          enumerate <- enumerate + 2L
         }
         
         

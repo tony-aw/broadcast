@@ -7,6 +7,8 @@
 * The `cast_hier2dim()` method can now set `dimnames` automatically by specifying the new `direction.names` argument.
 * Added the `bc_strrep()` method.
 * Added the `vector2array()` and `undim()` helper functions.
+* Added `bcr` as short-hand for `broadcaster`.
+* If one of the input arrays in `bind_array()` is a `broadcaster`, then the result will also be a `broadcaster`.
 * Added more tests.
 
 

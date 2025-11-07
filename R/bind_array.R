@@ -2,7 +2,8 @@
 #' @rdname bind_array
 #' @export
 bind_array <- function(
-    input, along, rev = FALSE, ndim2bc = 16L, name_along = TRUE, comnames_from = 1L
+    input, along, rev = FALSE, ndim2bc = 16L,
+    name_along = TRUE, comnames_from = 1L
 ) {
   
   if(!is.list(input) && is.array(along)) {
@@ -56,6 +57,14 @@ bind_array <- function(
       dimnames(out) <- NULL
     }
   }
+  
+  if(.rcpp_bindhelper_anyinput_hasclass(input, "broadcaster")) {
+    .rcpp_set_attr(out, "class", "broadcaster")
+  }
+  if(is.atomic(out) && .rcpp_bindhelper_anyinput_hasclass(input, "mutatomic")) {
+    .rcpp_set_ma(out, c("mutatomic", oldClass(out)))
+  }
+  
   
   # return output:
   return(out)

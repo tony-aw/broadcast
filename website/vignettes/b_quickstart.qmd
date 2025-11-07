@@ -42,7 +42,8 @@ library(broadcast)
 
 ## Introduction
 
-In the context of operations involving 2 (or more) arrays, "broadcasting" refers to recycling array dimensions **without** allocating additional memory, which is considerably **faster** and **more memory-efficient** than `r fa("r-project")`'s regular dimensions replication mechanism.
+In the context of operations involving 2 (or more) arrays, “broadcasting” refers to efficiently recycling array dimensions, without making copies.  
+This is considerably **faster** and **more memory-efficient** than `r fa("r-project")`'s regular dimensions replication mechanism.
 
 
 &nbsp;
@@ -275,9 +276,11 @@ lobstr::tree(x3)
 
 # Other Functions
 
-'broadcast' provides the [bcapply()](/man/bcapply.qmd) function, which is a broadcasted apply-like function that applies a function between 2 arrays with broadcasting.
 
-'broadcast' also provides the [bc_ifelse()](/man/bc_ifelse.qmd) function, which is a broadcasted version of `ifelse()`.
+'broadcast' provides the [bcapply()](/man/bcapply.qmd) method, which is a broadcasted apply-like function.  
+
+'broadcast' also provides the [bc_ifelse()](/man/bc_ifelse.qmd) and [bc_strrep()](/man/bc_strrep.qmd)methods, which are broadcasted versions of `ifelse()` and `strrep()`, respectively.
+
 
 'broadcast' provides a small set of simple linear algebra functions for usage in statistics. See [linear_algebra_stats](/man/linear_algebra_stats.qmd).
 

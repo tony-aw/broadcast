@@ -8,11 +8,12 @@ title: vector2array
 
 <code>vector2array()</code> turns a vector into an array,
 with a specific vector direction,
-and turning the names into dimnames, and keeping the [broadcaster](broadcaster.qmd) attribute. <br />
+and turning the names into dimnames, and keeping (or forcing) [broadcaster](broadcaster.qmd) attribute. <br />
 <br />
 <code>undim()</code> returns a copy of an object, but with its dimensions removed,
 but still trying to keep the names if possible
 (it somewhat is like the dimensional version of <code>unlist()</code>). <br />
+<code>undim()</code> will also keep (or force) the [broadcaster](broadcaster.qmd) attribute
 <br />
 <code>array2vector()</code> is an alias for <code>undim()</code>. <br /> <br />
 
@@ -20,11 +21,11 @@ but still trying to keep the names if possible
 
 ### Usage
 
-<pre><code class='language-R'>vector2array(x, direction, ndim)
+<pre><code class='language-R'>vector2array(x, direction, ndim = direction, broadcaster = NULL)
 
-undim(x)
+undim(x, broadcaster = NULL)
 
-array2vector(x)
+array2vector(x, broadcaster = NULL)
 </code></pre>
 
 
@@ -33,7 +34,7 @@ array2vector(x)
 <table role = "presentation">
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
 <td>
-an vector (for <code>vector2array()</code> or an array (for <code>undim()</code>). <br />
+an vector (for <code>vector2array()</code> or an array (for <code>undim()</code>/<code>array2vector()</code>). <br />
 All atomic types, and the recursive type <code>list</code>, are supported.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="direction">direction</code></td>
@@ -45,6 +46,11 @@ In other words: give here which dimension should have size <code>length(x)</code
 <td>
 the number of dimensions in total. <br />
 It must be the case that <code>ndim &gt;= direction</code>, and <code>ndim &lt;= 16L</code>.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="broadcaster">broadcaster</code></td>
+<td>
+<code>TRUE</code> or <code>FALSE</code>, indicating if the result should be a broadcaster. <br />
+If <code>NULL</code>, <code>broadcaster(x)</code> will be used. <br />
 </td></tr>
 </table>
 
@@ -64,10 +70,7 @@ Otherwise, given <code>out &lt;- vector2array(x, direction, ndim)</code>,
 <li> <code>dim(out)[direction] == length(x)</code>, and all other dimensions will be <code>1</code>;
 
 </li>
-<li> <code>dimnames(out)[[direction]] == names(x)</code>, and all other <code>dimnames</code> will be <code>NULL</code>;
-
-</li>
-<li> <code>broadcaster(out) == broadcaster(x)</code>. <br /> <br />
+<li> <code>dimnames(out)[[direction]] == names(x)</code>, and all other <code>dimnames</code> will be <code>NULL</code>. <br /> <br />
 
 </li></ul>
 

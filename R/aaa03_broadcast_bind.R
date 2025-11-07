@@ -1,7 +1,7 @@
 #' Dimensional Binding of Arrays with Broadcasting
 #'
 #' @description
-#' `bind_array()` binds (atomic/recursive) arrays and (atomic/recursive) matrices along a dimension. \cr
+#' `bind_array()` binds (atomic/recursive) arrays along a dimension. \cr
 #' Allows for broadcasting. \cr \cr
 #' 
 #' 
@@ -36,7 +36,8 @@
 #' For example: \cr
 #' When binding columns of matrices, the matrices will share the same rownames. \cr
 #' Using `comnames_from = 10` will then result in `bind_array()` using
-#' `rownames(input[[10]])` for the rownames of the output. \cr \cr
+#' `rownames(input[[10]])` for the rownames of the output.
+#' 
 #' 
 #' @details
 #' The API of `bind_array()` is inspired by the fantastic
@@ -68,6 +69,8 @@
 #' The type of the result is determined from the highest type of any of the inputs. \cr
 #' The hierarchy of types is: \cr
 #' raw < logical < integer < double < complex < character < list . \cr
+#' \cr
+#' If one of the input arrays is a \link{broadcaster}, the result will also be a \link{broadcaster}. \cr
 #' \cr
 #' 
 #' 

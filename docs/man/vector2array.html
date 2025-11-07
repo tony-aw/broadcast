@@ -417,15 +417,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="turn-vector-to-array-and-vice-versa">Turn Vector to Array and Vice-Versa</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p><code>vector2array()</code> turns a vector into an array, with a specific vector direction, and turning the names into dimnames, and keeping the <a href="../man/broadcaster.html">broadcaster</a> attribute. <br> <br> <code>undim()</code> returns a copy of an object, but with its dimensions removed, but still trying to keep the names if possible (it somewhat is like the dimensional version of <code>unlist()</code>). <br> <br> <code>array2vector()</code> is an alias for <code>undim()</code>. <br> <br></p>
+<p><code>vector2array()</code> turns a vector into an array, with a specific vector direction, and turning the names into dimnames, and keeping (or forcing) <a href="../man/broadcaster.html">broadcaster</a> attribute. <br> <br> <code>undim()</code> returns a copy of an object, but with its dimensions removed, but still trying to keep the names if possible (it somewhat is like the dimensional version of <code>unlist()</code>). <br> <code>undim()</code> will also keep (or force) the <a href="../man/broadcaster.html">broadcaster</a> attribute <br> <code>array2vector()</code> is an alias for <code>undim()</code>. <br> <br></p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-R">vector2array(x, direction, ndim)
+<pre><code class="language-R">vector2array(x, direction, ndim = direction, broadcaster = NULL)
 
-undim(x)
+undim(x, broadcaster = NULL)
 
-array2vector(x)
+array2vector(x, broadcaster = NULL)
 </code></pre>
 </section>
 <section id="arguments" class="level3">
@@ -437,7 +437,7 @@ array2vector(x)
 <code id="x">x</code>
 </td>
 <td>
-an vector (for <code>vector2array()</code> or an array (for <code>undim()</code>). <br> All atomic types, and the recursive type <code>list</code>, are supported.
+an vector (for <code>vector2array()</code> or an array (for <code>undim()</code>/<code>array2vector()</code>). <br> All atomic types, and the recursive type <code>list</code>, are supported.
 </td>
 </tr>
 <tr>
@@ -456,6 +456,14 @@ a positive integer scalar, giving the direction of the vector. <br> In other wor
 the number of dimensions in total. <br> It must be the case that <code>ndim &gt;= direction</code>, and <code>ndim &lt;= 16L</code>.
 </td>
 </tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="broadcaster">broadcaster</code>
+</td>
+<td>
+<code>TRUE</code> or <code>FALSE</code>, indicating if the result should be a broadcaster. <br> If <code>NULL</code>, <code>broadcaster(x)</code> will be used. <br>
+</td>
+</tr>
 
 </tbody></table>
 </section>
@@ -470,10 +478,7 @@ the number of dimensions in total. <br> It must be the case that <code>ndim &gt;
 <p><code>dim(out)[direction] == length(x)</code>, and all other dimensions will be <code>1</code>;</p>
 </li>
 <li>
-<p><code>dimnames(out)[[direction]] == names(x)</code>, and all other <code>dimnames</code> will be <code>NULL</code>;</p>
-</li>
-<li>
-<p><code>broadcaster(out) == broadcaster(x)</code>. <br> <br></p>
+<p><code>dimnames(out)[[direction]] == names(x)</code>, and all other <code>dimnames</code> will be <code>NULL</code>. <br> <br></p>
 </li>
 </ul>
 <p>For <code>undim()</code>: <br> If <code>x</code> is not an array, <code>x</code> is returned unchanged. <br> Otherwise, a copy of the original object, but without dimensions, but keeping names and <a href="../man/broadcaster.html">broadcaster</a> attribute as far as possible. <br> <br></p>

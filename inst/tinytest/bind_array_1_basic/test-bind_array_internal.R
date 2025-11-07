@@ -6,6 +6,7 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 
+# C funs ====
 
 .C_bind_which_comdims <- broadcast:::.C_bind_which_comdims
 
@@ -40,3 +41,32 @@ expect_equal(
 
 enumerate <- enumerate + 4L
 
+
+# rcpp funs ====
+.rcpp_bindhelper_anyinput_hasclass <- broadcast:::.rcpp_bindhelper_anyinput_hasclass
+
+x <- array(1:27, c(3,3,3))
+y <- array(1:27, c(3,3,3))
+z <- array(1:27, c(3,3,3))
+input <- list(x, y, z)
+
+expect_false(
+  .rcpp_bindhelper_anyinput_hasclass(input, "")
+)
+expect_false(
+  .rcpp_bindhelper_anyinput_hasclass(input, "broadcaster")
+)
+
+x <- array(1:27, c(3,3,3))
+y <- array(1:27, c(3,3,3))
+z <- array(1:27, c(3,3,3))
+bcr(x) <- TRUE
+input <- list(x, y, z, x, y, z)
+expect_true(
+  .rcpp_bindhelper_anyinput_hasclass(input, "broadcaster")
+)
+input <- sample(input)
+expect_true(
+  .rcpp_bindhelper_anyinput_hasclass(input, "broadcaster")
+)
+enumerate <- enumerate + 4L
