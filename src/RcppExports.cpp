@@ -1678,6 +1678,18 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// rcpp_dimnames_fit
+bool rcpp_dimnames_fit(RObject x, SEXP dimnames);
+RcppExport SEXP _broadcast_rcpp_dimnames_fit(SEXP xSEXP, SEXP dimnamesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type dimnames(dimnamesSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_dimnames_fit(x, dimnames));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 RcppExport SEXP C_any_nonarray(SEXP);
 RcppExport SEXP C_any_nonNULL(SEXP);
@@ -1817,6 +1829,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_is_mergeable_with_prev", (DL_FUNC) &_broadcast_rcpp_is_mergeable_with_prev, 2},
     {"_broadcast_rcpp_mergedims", (DL_FUNC) &_broadcast_rcpp_mergedims, 3},
     {"_broadcast_rcpp_set_attr", (DL_FUNC) &_broadcast_rcpp_set_attr, 3},
+    {"_broadcast_rcpp_dimnames_fit", (DL_FUNC) &_broadcast_rcpp_dimnames_fit, 2},
     {"C_any_nonarray",             (DL_FUNC) &C_any_nonarray,             1},
     {"C_any_nonNULL",              (DL_FUNC) &C_any_nonNULL,              1},
     {"C_arraysize_overflow",       (DL_FUNC) &C_arraysize_overflow,       2},

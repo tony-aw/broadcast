@@ -4,6 +4,15 @@ title: Changelog
 
 # broadcast 0.1.6 (Under Development)
 
+**Bug Fix**
+
+Fixed a bug in [acast()](/man/acast.qmd),
+where it would, under certain circumstances,
+incorrectly specify `dimnames` to the output, leading to an error.  
+This is now fixed.
+
+**Other Changes**
+
 * Small speed improvement for nearly all operations.
 * The [acast()](/man/acast.qmd) method now allows unequal groups even when `x` is of type `raw`.
 * Added the [cast_shallow2atomic()](/man/cast_shallow2atomic.qmd) casting method.
@@ -11,8 +20,11 @@ title: Changelog
 * Added the [bc_strrep()](/man/bc_strrep.qmd) method.
 * Added the [vector2array()](/man/vector2array.qmd) and [undim()](/man/vector2array.qmd) helper functions.
 * Added `bcr` as short-hand for `broadcaster`.
+* Added [mbroadcasters()](/man/broadcaster.qmd).
 * If one of the input arrays in [bind_array()](/man/bind_array.qmd) is a `broadcaster`, then the result will also be a `broadcaster`.
 * Added more tests.
+
+
 
 
 # broadcast 0.1.5.3

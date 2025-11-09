@@ -10,6 +10,36 @@ x <- array(1:64, c(4,4,4))
 grp <- as.factor(rep_len(1:3, 4))
 
 
+# x errors ====
+
+expect_error(
+  acast(1:10, 1),
+  "`x` must be an array"
+)
+expect_error(
+  acast(array(numeric(0L)), 1L, grp, TRUE),
+  pattern = "zero-length or singular `x` not supported",
+  fixed = TRUE
+)
+expect_error(
+  acast(array(numeric(1L)), 1L, grp, TRUE),
+  pattern = "zero-length or singular `x` not supported",
+  fixed = TRUE
+)
+expect_error(
+  acast(array(as.raw(0L), rep(3L, 15)), 1L, as.factor(c(1:3)), TRUE, fill_val = as.raw(0L)),
+  pattern = "acasting would result in an array > 16 dimensions",
+  fixed = TRUE
+)
+expect_error(
+  acast(array(NA, c(1:3)), 1L, as.factor(1L), TRUE),
+  pattern = "`dim(x)[margin]` must be >= 2",
+  fixed = TRUE
+)
+
+enumerate <- enumerate + 5L
+
+
 # margin errors ====
 expect_error(
   acast(x, 1:10, grp, TRUE),
@@ -34,30 +64,6 @@ expect_error(
 )
 enumerate <- enumerate + 5L
 
-
-
-# x errors ====
-expect_error(
-  acast(array(numeric(0L)), 1L, grp, TRUE),
-  pattern = "zero-length or singular `x` not supported",
-  fixed = TRUE
-)
-expect_error(
-  acast(array(numeric(1L)), 1L, grp, TRUE),
-  pattern = "zero-length or singular `x` not supported",
-  fixed = TRUE
-)
-expect_error(
-  acast(array(as.raw(0L), rep(3L, 15)), 1L, as.factor(c(1:3)), TRUE, fill_val = as.raw(0L)),
-  pattern = "acasting would result in an array > 16 dimensions",
-  fixed = TRUE
-)
-expect_error(
-  acast(array(NA, c(1:3)), 1L, as.factor(1L), TRUE),
-  pattern = "`dim(x)[margin]` must be >= 2",
-  fixed = TRUE
-)
-enumerate <- enumerate + 4L
 
 
 

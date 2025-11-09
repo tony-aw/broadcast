@@ -21,7 +21,6 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>The <code>acast()</code> function spreads subsets of an array margin over a new dimension. <br />
-Written in 'C' and 'C++' for high speed and memory efficiency. <br />
 <br />
 Roughly speaking, <code>acast()</code> can be thought of as the &quot;array&quot; analogy to
 <code>data.table::dcast()</code>. <br />
@@ -125,20 +124,8 @@ to get a good idea on how this function casts an array. <br /> <br />
 
 <h3>Value</h3>
 
-<p>An array with the following properties:
+<p>An array with dimensions <code style="white-space: pre;">&#8288;c(dim(x), max(tabulate(grp))&#8288;</code>. <br /> <br />
 </p>
-
-<ul>
-<li><p> the number of dimensions of the output array is equal to <code>ndim(x) + 1</code>;
-</p>
-</li>
-<li><p> the dimensions of the output array is equal to <code style="white-space: pre;">&#8288;c(dim(x), max(tabulate(grp))&#8288;</code>;
-</p>
-</li>
-<li><p> the <code>dimnames</code> of the output array is equal to <code>c(dimnames(x), list(levels(grp)))</code>. <br /> <br />
-</p>
-</li></ul>
-
 
 
 <h3>Back transformation</h3>

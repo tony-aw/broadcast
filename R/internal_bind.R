@@ -196,7 +196,7 @@
   
   # allocate output:
   out <- vector(out.type, out.len)
-  dim(out) <- out.dimorig
+  .rcpp_set_attr(out, "dim", out.dimorig)
   
   
   # determine which needs coercion:
@@ -244,18 +244,19 @@
   # name_along:
   if(name_along) {
     
-    dimnames(out) <- .bind_prep_dimnames(out)
+    out.dimnames <- .bind_prep_dimnames(out)
     
     if(!extra_dimensional) {
-      dimnames(out)[[along]] <- .bind_get_alongnames(out, along, input, arg.dimnames, arg.marginlen)
+      out.dimnames[[along]] <- .bind_get_alongnames(dim(out), along, input, arg.dimnames, arg.marginlen)
     }
     else if(extra_dimensional) {
       if(!is.null(names(input))) {
-        dimnames(out)[[along]] <- names(input)
+        out.dimnames[[along]] <- names(input)
       } else {
-        dimnames(out)[[along]] <- paste0("X", seq_len(dim(out)[along]))
+        out.dimnames[[along]] <- paste0("X", seq_len(dim(out)[along]))
       }
     }
+    .rcpp_set_attr(out, "dimnames", out.dimnames)
   }
   
   return(out)

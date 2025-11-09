@@ -6,7 +6,7 @@ x <- 1:10
 # main tests ====
 
 expect_error(
-  acast(x, 2L, foo = TRUE),
+  acast(as.array(x), 2L, foo = TRUE),
   pattern = "unkown arguments given"
 )
 

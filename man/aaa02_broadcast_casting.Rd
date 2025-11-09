@@ -13,14 +13,14 @@ The following casting functions are available:
 \itemize{
 \item \link{acast}: \cr
 Casts group-based subsets of an array into a new dimension. \cr
-Useful for, for example, performing \bold{grouped} broadcasted operations. \cr
+Useful for, for example, performing \bold{grouped} broadcasted operations.
 \item \link{cast_hier2dim}: \cr
 Casts a nested/hierarchical list into a dimensional list (i.e. array of type \code{list}). \cr
 Useful because one cannot broadcast through nesting, but one \bold{can} broadcast along dimensions.
 \item \link{hier2dim}, \link{hiernames2dimnames}: \cr
 Helper functions for \link{cast_hier2dim}.
 \item \link{cast_dim2hier}: \cr
-Casts a dimensional list into a nested/hierarchical list; the opposite of \link{cast_hier2dim}. \cr
+Casts a dimensional list into a nested/hierarchical list; the opposite of \link{cast_hier2dim}.
 \item \link{cast_shallow2atomic}: \cr
 Casts a (dimensional) shallow (i.e. non-nested) list into an atomic vector or array. \cr
 Useful because atomic vectors/arrays have access to many vectorized (broadcasted) operations that may not be available for vectors/arrays of type \code{list}.

@@ -83,3 +83,9 @@
     stop(simpleError("unkown arguments given", call = abortcall))
   }
 }
+
+.set_dimnames <- function(x, newdimnames) {
+  if(.rcpp_dimnames_fit(x, newdimnames)) {
+    .rcpp_set_attr(x, "dimnames", newdimnames)
+  }
+}

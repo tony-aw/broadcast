@@ -11,6 +11,8 @@ title: broadcaster
 <br />
 <code style="white-space: pre;">broadcaster()&lt;-</code> (or <code style="white-space: pre;">bcr()&lt;-</code>) sets or un-sets the class attribute &quot;broadcaster&quot; on an array or vector. <br />
 <br />
+<code>mbroadcasters()</code> sets or un-sets multiple objects in an environment as broadcaster. <br />
+<br />
 The <code>broadcaster</code> class attribute exists purely to overload the
 arithmetic, Boolean, bit-wise, and relational infix operators,
 to support broadcasting. <br />
@@ -29,6 +31,8 @@ See [broadcast_operators](aaa01_broadcast_operators.qmd) for more information. <
 <pre><code class='language-R'>broadcaster(x)
 
 broadcaster(x) &lt;- value
+
+mbroadcasters(nms, value, env = NULL)
 
 bcr(x)
 
@@ -49,6 +53,15 @@ Only S3 vectors and arrays are supported, and only up to 16 dimensions.
 set to <code>TRUE</code> to make an array a broadcaster,
 or <code>FALSE</code> to remove the broadcaster class attribute from an array.
 </td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="nms">nms</code></td>
+<td>
+a character vector of variable names.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="env">env</code></td>
+<td>
+the environment where to look for the variable names specified in <code>nms</code>. <br />
+If <code>NULL</code>, the environment from which the function was called is used. <br />
+</td></tr>
 </table>
 
 
@@ -61,7 +74,20 @@ For <code style="white-space: pre;">broadcaster()&lt;-</code>: <br />
 Returns nothing,
 but sets (if right hand side is <code>TRUE</code>)
 or removes (if right hand side is <code>FALSE</code>)
-the &quot;broadcaster&quot; class attribute. <br /> <br />
+the &quot;broadcaster&quot; class attribute. <br />
+<br />
+For <code>mbroadcasters()</code>: <br />
+Returns nothing,
+but sets (if <code>value = TRUE</code>)
+or removes (<code>value = FALSE</code>)
+the &quot;broadcaster&quot; class attribute. <br />
+If <code>value = TRUE</code>,
+objects that cannot become a broadcaster or are already a broadcaster
+will be ignored. <br />
+If <code>value = FALSE</code>,
+objects that are not broadcasters (according to <code>broadcaster()</code>)
+will be ignored. <br />
+<br />
 
 
 
@@ -105,6 +131,38 @@ x < y
 x > y
 x <= y
 x >= y
+
+
+
+
+# maths ====
+
+x <- sample(1:10)
+y <- sample(1:10)
+dim(x) <- c(10, 1)
+dim(y) <- c(1, 10)
+mbroadcasters(c("x", "y"), TRUE)
+
+
+
+x + y / x
+(x + y) / x
+
+(x + y) * x
+
+
+# relational operators ====
+x <- 1:10
+y <- array(1:10, c(1, 10))
+mbroadcasters(c("x", "y"), TRUE)
+
+x == y
+x != y
+x < y
+x > y
+x <= y
+x >= y
+
 
 
 

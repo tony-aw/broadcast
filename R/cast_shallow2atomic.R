@@ -201,7 +201,8 @@ cast_shallow2atomic.default <- function(x, arrangement = 0L, padding = NA, comna
   
   # make output:
   x <- lapply(x, mycoerce)
-  out <- array(padding, out.dim, out.dimnames)
+  out <- array(padding, out.dim)
+  .set_dimnames(out, out.dimnames)
   .rcpp_shallow2atomic(x, out, nrow, ncol, arrangement)
   return(out)
 }

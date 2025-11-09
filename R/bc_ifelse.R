@@ -125,14 +125,14 @@ setMethod(
     )
   }
   
-  dim(out) <- out.dimorig
+  .rcpp_set_attr(out, "dim", out.dimorig)
   
   if(ndim(test) <= 1L && ndim(out) <= 1L) {
-    names(out) <- names(test)
+    .rcpp_set_attr(out, "names", names(test))
   }
   else if(is.array(test) && is.array(out)) {
     if(all(dim(test) == out.dimorig)) {
-      dimnames(out) <- dimnames(test)
+      .set_dimnames(out, dimnames(test))
     }
   }
   

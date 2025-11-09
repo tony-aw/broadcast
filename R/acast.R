@@ -2,7 +2,6 @@
 #'
 #' @description
 #' The `acast()` function spreads subsets of an array margin over a new dimension. \cr
-#' Written in 'C' and 'C++' for high speed and memory efficiency. \cr
 #' \cr
 #' Roughly speaking, `acast()` can be thought of as the "array" analogy to
 #' \code{data.table::dcast()}. \cr
@@ -55,12 +54,7 @@
 #' 
 #' 
 #' @returns
-#' An array with the following properties:
-#'  
-#'  - the number of dimensions of the output array is equal to `ndim(x) + 1`;
-#'  - the dimensions of the output array is equal to `c(dim(x), max(tabulate(grp))`;
-#'  - the `dimnames` of the output array is equal to `c(dimnames(x), list(levels(grp)))`. \cr \cr
-#' 
+#' An array with dimensions `c(dim(x), max(tabulate(grp))`. \cr \cr
 #' 
 #' @section Back transformation: 
 #' 
@@ -96,6 +90,9 @@ acast.default <- function(
 ) {
   
   # first checks:
+  if(!is.array(x)) {
+    stop("`x` must be an array")
+  }
   .ellipsis(list(...), sys.call())
   if(missing(fill_val)) {
     if(is.raw(x) && isTRUE(fill)) {
@@ -153,7 +150,15 @@ acast.default <- function(
   
   .acast_stop_out(out.dim, sys.call())
   
+  out.dimnames <- rep(list(NULL), out.ndim)
+  out.dimnames[1:x.ndim] <- dimnames(x)
+  out.dimnames[margin] <- list(NULL)
+  out.dimnames[x.ndim+1L] <- list(grp_lvls) # safe, because I used droplevels()
+  
   out <- array(fillvalue, out.dim)
+  .set_dimnames(out, out.dimnames)
+  
+  
   
   
   # pre params:
@@ -167,12 +172,6 @@ acast.default <- function(
   # CORE function:
   .rcpp_acast(out, x, starts, lens, subs, out.dimchunk, dcp_out, dcp_x, grp, grp_n, margin, newdim)
   
-  
-  # make dimnames:
-  out.dimnames <- rep(list(NULL), out.ndim)
-  out.dimnames[1:x.ndim] <- dimnames(x)
-  out.dimnames[x.ndim+1L] <- list(grp_lvls) # safe, because I used droplevels()
-  dimnames(out) <- out.dimnames
   
   return(out)
   

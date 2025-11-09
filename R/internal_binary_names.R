@@ -73,7 +73,7 @@
     if(x.len > y.len && x.ndim > y.ndim) pref <- 1L
     if(y.len > x.len && y.ndim > x.ndim) pref <- 2L
     out.dimnames <- .rcpp_make_dimnames2(x.dimnames, y.dimnames, out.dim, pref)
-    .rcpp_set_attr(out, "dimnames", out.dimnames)
+    .set_dimnames(out, out.dimnames)
     return(invisible(NULL))
     
   } # end consider both `x` and `y`
@@ -82,7 +82,7 @@
   if(checkx) {
     # consider only `x`
     out.dimnames <- .rcpp_make_dimnames1(x.dimnames, x.dim, out.dim)
-    .rcpp_set_attr(out, "dimnames", out.dimnames)
+    .set_dimnames(out, out.dimnames)
     return(invisible(NULL))
   } # end consider only `x`
   
@@ -90,7 +90,7 @@
   if(checky) {
     # consider only `y`
     out.dimnames <- .rcpp_make_dimnames1(y.dimnames, y.dim, out.dim)
-    .rcpp_set_attr(out, "dimnames", out.dimnames)
+    .set_dimnames(out, out.dimnames)
     return(invisible(NULL))
   } # end consider only `y`
   
@@ -131,7 +131,7 @@
   if(checkv && checka) {
     # consider both `v` and `a`
     out.dimnames <- .rcpp_make_dimnames_between(a.dimnames, v.names, out.dim)
-    .rcpp_set_attr(out, "dimnames", out.dimnames)
+    .set_dimnames(out, out.dimnames)
     return(invisible(NULL))
     
   } # end consider both `a` and `v`
@@ -141,7 +141,7 @@
     # consider only `v`
     out.dimnames <- vector("list", length(out.dim))
     out.dimnames[[1L]] <- v.names
-    .rcpp_set_attr(out, "dimnames", out.dimnames)
+    .set_dimnames(out, out.dimnames)
     return(invisible(NULL))
   } # end consider only `v`
   
@@ -149,7 +149,7 @@
   if(checka) {
     # consider only `a`
     out.dimnames <- .rcpp_make_dimnames1(a.dimnames, a.dim, out.dim)
-    .rcpp_set_attr(out, "dimnames", out.dimnames)
+    .set_dimnames(out, out.dimnames)
     return(invisible(NULL))
   } # end consider only `a`
   
@@ -176,7 +176,7 @@
   if(checkx && checky) {
     # `x` and `y` conflict; only use if their names point to same vector
     if(.rcpp_address(names(x)) == .rcpp_address(names(y))) {
-      .rcpp_set_attr(out, "dimnames", list(names(x)))
+      .set_dimnames(out, list(names(x)))
       return(invisible(NULL))
     }
     else {
@@ -186,13 +186,13 @@
   }
   
   if(checkx) { # use `x`
-    .rcpp_set_attr(out, "dimnames", list(names(x)))
+    .set_dimnames(out, list(names(x)))
     return(invisible(NULL))
   }
   
   
   if(checky) { # use `y`
-    .rcpp_set_attr(out, "dimnames", list(names(y)))
+    .set_dimnames(out, list(names(y)))
     return(invisible(NULL))
   }
   

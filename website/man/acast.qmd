@@ -7,7 +7,6 @@ title: acast
 ### Description
 
 The <code>acast()</code> function spreads subsets of an array margin over a new dimension. <br />
-Written in 'C' and 'C++' for high speed and memory efficiency. <br />
 <br />
 Roughly speaking, <code>acast()</code> can be thought of as the &quot;array&quot; analogy to
 <code>data.table::dcast()</code>. <br />
@@ -111,19 +110,7 @@ to get a good idea on how this function casts an array. <br /> <br />
 
 ### Value
 
-An array with the following properties:
-
-
-<ul>
-<li> the number of dimensions of the output array is equal to <code>ndim(x) + 1</code>;
-
-</li>
-<li> the dimensions of the output array is equal to <code style="white-space: pre;">c(dim(x), max(tabulate(grp))</code>;
-
-</li>
-<li> the <code>dimnames</code> of the output array is equal to <code>c(dimnames(x), list(levels(grp)))</code>. <br /> <br />
-
-</li></ul>
+An array with dimensions <code style="white-space: pre;">c(dim(x), max(tabulate(grp))</code>. <br /> <br />
 
 
 

@@ -81,7 +81,7 @@ cast_hier2dim.default <- function(
   }
   else {
     out <- vector("list", out.len)
-    dim(out) <- unname(out.dims)
+    .rcpp_set_attr(out, "dim", unname(out.dims))
   }
   
   .rcpp_rec_cast_hier2dim(x, out, out.dcp, 0, 1.0, depth)
@@ -89,7 +89,7 @@ cast_hier2dim.default <- function(
   out.dimnames <- .hiernames2dimnames(x, out.dims, in2out, maxdepth, recurse_all, direction.names)
   
   if(!is.null(out.dimnames) && .C_any_nonNULL(out.dimnames)) {
-    dimnames(out) <- out.dimnames
+    .set_dimnames(out, out.dimnames)
   }
   
   

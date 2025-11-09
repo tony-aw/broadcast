@@ -45,13 +45,11 @@ setMethod(
 #' @keywords internal
 #' @noRd
 .bc.list <- function(x, y, f, abortcall) {
+  
   # checks:
   .binary_stop_general(x, y, "", abortcall)
   if(!is.list(x) || !is.list(y)) {
     stop(simpleError("`x` and `y` must be recursive arrays", abortcall))
-  }
-  if(length(x) == 0L || length(y) == 0L) {
-    return(vector("list", 0L))
   }
   if(!is.function(f)) {
     stop(simpleError("`f` must be a function", abortcall))
@@ -60,6 +58,9 @@ setMethod(
     stop(simpleError("`f` must be a function that takes in exactly 2 arguments", abortcall))
   }
   
+  if(length(x) == 0L || length(y) == 0L) {
+    return(vector("list", 0L))
+  }
   
   # general prep:
   prep <- .binary_prep(x, y, abortcall)
@@ -94,7 +95,7 @@ setMethod(
     )
   }
   
-  dim(out) <- out.dimorig
+  .rcpp_set_attr(out, "dim", out.dimorig)
   
   .binary_set_attr(out, x, y)
   

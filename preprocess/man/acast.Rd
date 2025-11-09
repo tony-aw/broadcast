@@ -41,16 +41,10 @@ If \code{fill_val} is missing, it is specified as follows: \cr
 }}
 }
 \value{
-An array with the following properties:
-\itemize{
-\item the number of dimensions of the output array is equal to \code{ndim(x) + 1};
-\item the dimensions of the output array is equal to \verb{c(dim(x), max(tabulate(grp))};
-\item the \code{dimnames} of the output array is equal to \code{c(dimnames(x), list(levels(grp)))}. \cr \cr
-}
+An array with dimensions \verb{c(dim(x), max(tabulate(grp))}. \cr \cr
 }
 \description{
 The \code{acast()} function spreads subsets of an array margin over a new dimension. \cr
-Written in 'C' and 'C++' for high speed and memory efficiency. \cr
 \cr
 Roughly speaking, \code{acast()} can be thought of as the "array" analogy to
 \code{data.table::dcast()}. \cr

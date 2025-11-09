@@ -166,6 +166,38 @@ x &gt; y
 x &lt;= y
 x &gt;= y
 
+
+
+
+# maths ====
+
+x &lt;- sample(1:10)
+y &lt;- sample(1:10)
+dim(x) &lt;- c(10, 1)
+dim(y) &lt;- c(1, 10)
+mbroadcasters(c("x", "y"), TRUE)
+
+
+
+x + y / x
+(x + y) / x
+
+(x + y) * x
+
+
+# relational operators ====
+x &lt;- 1:10
+y &lt;- array(1:10, c(1, 10))
+mbroadcasters(c("x", "y"), TRUE)
+
+x == y
+x != y
+x &lt; y
+x &gt; y
+x &lt;= y
+x &gt;= y
+
+
 </code></pre>
 
 </main>

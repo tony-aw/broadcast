@@ -47,13 +47,13 @@ for(iData in seq_along(x.data)) {
         broadcaster(y) <- FALSE
         expect_equal(
           x, y
-        )
+        ) |> errorfun() 
         expect_false(
           broadcaster(x)
-        )
+        ) |> errorfun() 
         expect_false(
           broadcaster(y)
-        )
+        ) |> errorfun() 
         enumerate <- enumerate + 3L
         
         # becomes true:
@@ -67,20 +67,20 @@ for(iData in seq_along(x.data)) {
         broadcaster(y) <- TRUE
         expect_equal(
           x, y
-        )
+        ) |> errorfun() 
         expect_true(
           broadcaster(x)
-        )
+        ) |> errorfun() 
         expect_true(
           broadcaster(y)
-        )
+        ) |> errorfun() 
         enumerate <- enumerate + 3L
         
         # false again:
         broadcaster(x) <- FALSE
         expect_false(
           broadcaster(x)
-        )
+        ) |> errorfun() 
         
         enumerate <- enumerate + 1L
         

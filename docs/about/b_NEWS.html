@@ -212,6 +212,10 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="broadcast-0.1.6-under-development" class="level1">
 <h1>broadcast 0.1.6 (Under Development)</h1>
+<p><strong>Bug Fix</strong></p>
+<p>Fixed a bug in <a href="../man/acast.html">acast()</a>, where it would, under certain circumstances, incorrectly specify <code>dimnames</code> to the output, leading to an error.<br>
+This is now fixed.</p>
+<p><strong>Other Changes</strong></p>
 <ul>
 <li>Small speed improvement for nearly all operations.</li>
 <li>The <a href="../man/acast.html">acast()</a> method now allows unequal groups even when <code>x</code> is of type <code>raw</code>.</li>
@@ -220,6 +224,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Added the <a href="../man/bc_strrep.html">bc_strrep()</a> method.</li>
 <li>Added the <a href="../man/vector2array.html">vector2array()</a> and <a href="../man/vector2array.html">undim()</a> helper functions.</li>
 <li>Added <code>bcr</code> as short-hand for <code>broadcaster</code>.</li>
+<li>Added <a href="../man/broadcaster.html">mbroadcasters()</a>.</li>
 <li>If one of the input arrays in <a href="../man/bind_array.html">bind_array()</a> is a <code>broadcaster</code>, then the result will also be a <code>broadcaster</code>.</li>
 <li>Added more tests.</li>
 </ul>

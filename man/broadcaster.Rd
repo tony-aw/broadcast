@@ -3,6 +3,7 @@
 \name{broadcaster}
 \alias{broadcaster}
 \alias{broadcaster<-}
+\alias{mbroadcasters}
 \alias{bcr}
 \alias{bcr<-}
 \title{Check or Set if an Array is a Broadcaster}
@@ -10,6 +11,8 @@
 broadcaster(x)
 
 broadcaster(x) <- value
+
+mbroadcasters(nms, value, env = NULL)
 
 bcr(x)
 
@@ -21,6 +24,11 @@ Only S3 vectors and arrays are supported, and only up to 16 dimensions.}
 
 \item{value}{set to \code{TRUE} to make an array a broadcaster,
 or \code{FALSE} to remove the broadcaster class attribute from an array.}
+
+\item{nms}{a character vector of variable names.}
+
+\item{env}{the environment where to look for the variable names specified in \code{nms}. \cr
+If \code{NULL}, the environment from which the function was called is used. \cr}
 }
 \value{
 For \code{broadcaster()}: \cr
@@ -30,13 +38,28 @@ For \verb{broadcaster()<-}: \cr
 Returns nothing,
 but sets (if right hand side is \code{TRUE})
 or removes (if right hand side is \code{FALSE})
-the "broadcaster" class attribute. \cr \cr
+the "broadcaster" class attribute. \cr
+\cr
+For \code{mbroadcasters()}: \cr
+Returns nothing,
+but sets (if \code{value = TRUE})
+or removes (\code{value = FALSE})
+the "broadcaster" class attribute. \cr
+If \code{value = TRUE},
+objects that cannot become a broadcaster or are already a broadcaster
+will be ignored. \cr
+If \code{value = FALSE},
+objects that are not broadcasters (according to \code{broadcaster()})
+will be ignored. \cr
+\cr
 }
 \description{
 \code{broadcaster()} checks if an array or vector has the "broadcaster" attribute. \cr
 \code{bcr()} is a short-hand alias for \code{broadcaster()}. \cr
 \cr
 \verb{broadcaster()<-} (or \verb{bcr()<-}) sets or un-sets the class attribute "broadcaster" on an array or vector. \cr
+\cr
+\code{mbroadcasters()} sets or un-sets multiple objects in an environment as broadcaster. \cr
 \cr
 The \code{broadcaster} class attribute exists purely to overload the
 arithmetic, Boolean, bit-wise, and relational infix operators,
@@ -80,6 +103,38 @@ x < y
 x > y
 x <= y
 x >= y
+
+
+
+
+# maths ====
+
+x <- sample(1:10)
+y <- sample(1:10)
+dim(x) <- c(10, 1)
+dim(y) <- c(1, 10)
+mbroadcasters(c("x", "y"), TRUE)
+
+
+
+x + y / x
+(x + y) / x
+
+(x + y) * x
+
+
+# relational operators ====
+x <- 1:10
+y <- array(1:10, c(1, 10))
+mbroadcasters(c("x", "y"), TRUE)
+
+x == y
+x != y
+x < y
+x > y
+x <= y
+x >= y
+
 
 }
 \seealso{

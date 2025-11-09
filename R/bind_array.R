@@ -43,8 +43,9 @@ bind_array <- function(
       obj.ind <- bindwhich[[2L]]
       
       if(!is.null(out.ind) && !is.null(obj.ind)) {
-        dimnames(out) <- .bind_prep_dimnames(out)
-        dimnames(out)[out.ind] <- dimnames(obj)[obj.ind]
+        out.dimnames <- .bind_prep_dimnames(out)
+        out.dimnames[out.ind] <- dimnames(obj)[obj.ind]
+        .set_dimnames(out, out.dimnames)
       }
     }
     
@@ -54,7 +55,7 @@ bind_array <- function(
   # remove dimnames if not necessary (probably not needed, but just in case)
   if(!is.null(dimnames(out))) {
     if(!.C_any_nonNULL(dimnames(out))) {
-      dimnames(out) <- NULL
+      .set_dimnames(out, NULL)
     }
   }
   

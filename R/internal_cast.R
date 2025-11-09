@@ -55,12 +55,15 @@
   if(!isTRUE(fill) && !isFALSE(fill)) {
     stop(simpleError("`fill` must be `TRUE` or `FALSE`", call = abortcall))
   }
-  if(length(fill_val) != 1L) {
-    stop(simpleError("`fill_val` must be a single scalar", call = abortcall))
+  if(isTRUE(fill)) {
+    if(length(fill_val) != 1L) {
+      stop(simpleError("`fill_val` must be a single scalar", call = abortcall))
+    }
+    if(is.atomic(fill_val) != is.atomic(x)) {
+      stop(simpleError("`is.atomic(fill_val)` must match `is.atomic(x)`", call = abortcall))
+    }
   }
-  if(is.atomic(fill_val) != is.atomic(x)) {
-    stop(simpleError("`is.atomic(fill_val)` must match `is.atomic(x)`", call = abortcall))
-  }
+  
 }
 
 

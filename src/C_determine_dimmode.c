@@ -97,7 +97,5 @@ SEXP C_determine_dimmode( SEXP xdim, SEXP ydim, SEXP xlen0, SEXP ylen0 ) {
   // Use General Mode ==========================================================
   return(Rf_ScalarInteger(4));
   
-  
-  warning("your C program does not return anything!");
-  return R_NilValue;
+
 }

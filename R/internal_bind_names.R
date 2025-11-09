@@ -57,13 +57,13 @@
 #' @keywords internal
 #' @noRd
 .bind_get_alongnames <- function(
-    out, along, input, arg.dimnames, arg.marginlen
+    out.dim, along, input, arg.dimnames, arg.marginlen
 ) {
   
   # this function is only run when:
   # along != 0 && along != (N+1) && .bind_name_along_reasonable(...) == TRUE
   
-  name_along <- vector(mode = "character", length = dim(out)[along])
+  name_along <- vector(mode = "character", length = out.dim[along])
   arg.names <- names(input)
   start.pos <- 1L
   for(i in seq_along(input)) {

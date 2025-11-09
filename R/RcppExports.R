@@ -675,8 +675,15 @@ NULL
 }
 
 #' @keywords internal
+NULL
+
+#' @keywords internal
 #' @noRd
 .rcpp_set_attr <- function(x, name, value) {
     invisible(.Call(`_broadcast_rcpp_set_attr`, x, name, value))
+}
+
+.rcpp_dimnames_fit <- function(x, dimnames) {
+    .Call(`_broadcast_rcpp_dimnames_fit`, x, dimnames)
 }
 

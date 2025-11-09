@@ -132,7 +132,7 @@ setMethod(
     )
   }
   
-  dim(out) <- out.dimorig
+  .rcpp_set_attr(out, "dim", out.dimorig)
   
   .binary_set_attr(out, x, y)
   
@@ -182,7 +182,7 @@ setMethod(
     )
   }
   
-  dim(out) <- out.dimorig
+  .rcpp_set_attr(out, "dim", out.dimorig)
   
   .binary_set_attr(out, x, y)
   
@@ -232,7 +232,7 @@ setMethod(
     )
   }
   
-  dim(out) <- out.dimorig
+  .rcpp_set_attr(out, "dim", out.dimorig)
   
   .binary_set_attr(out, x, y)
   
