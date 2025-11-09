@@ -101,7 +101,7 @@ broadcaster <- function(x) {
 mbroadcasters <- function(nms, value, env = NULL) {
   
   # checks:
-  if(!is.character(nms) && !length(nms)) {
+  if(!is.character(nms) || !length(nms)) {
     stop("`nms` must be a character vector")
   }
   if(!isTRUE(value) && !isFALSE(value)) {

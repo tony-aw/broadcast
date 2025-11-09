@@ -29,9 +29,10 @@ for(i in seq_along(dimsizes)) {
   y.dims <- c(1L, n)
   a <- array(runif(100), x.dims)
   b <- array(runif(100), y.dims)
+  broadcaster(a) <- broadcaster(b) <- TRUE
   
   res <- bench::mark(
-    broadcast = bc.d(a, b, "+"),
+    broadcast = a + b,
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -74,9 +75,10 @@ for(i in seq_along(dimsizes)) {
   
   a <- array(runif(100), x.dims)
   b <- array(runif(100), y.dims)
+  broadcaster(a) <- broadcaster(b) <- TRUE
   
   res <- bench::mark(
-    broadcast = bc.d(a, b, "+"),
+    broadcast = a + b,
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -120,9 +122,10 @@ for(i in seq_along(dimsizes)) {
   
   a <- array(runif(100), x.dims)
   b <- array(runif(100), y.dims)
+  broadcaster(a) <- broadcaster(b) <- TRUE
   
   res <- bench::mark(
-    broadcast = bc.d(a, b, "+"),
+    broadcast = a + b,
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -168,9 +171,10 @@ for(i in seq_along(dimsizes)) {
   
   a <- array(runif(100), x.dims)
   b <- array(runif(100), y.dims)
+  broadcaster(a) <- broadcaster(b) <- TRUE
   
   res <- bench::mark(
-    broadcast = bc.d(a, b, "+"),
+    broadcast = a + b,
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -216,9 +220,10 @@ for(i in seq_along(dimsizes)) {
   
   a <- array(runif(100), x.dims)
   b <- array(runif(100), y.dims)
+  broadcaster(a) <- broadcaster(b) <- TRUE
   
   res <- bench::mark(
-    broadcast = bc.d(a, b, "+"),
+    broadcast = a + b,
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -263,9 +268,10 @@ for(i in seq_along(dimsizes)) {
   
   a <- array(runif(100), x.dims)
   b <- array(runif(100), y.dims)
+  broadcaster(a) <- broadcaster(b) <- TRUE
   
   res <- bench::mark(
-    broadcast = bc.d(a, b, "+"),
+    broadcast = a + b,
     min_iterations = 200
   )
   bc_all <- get_times(res)

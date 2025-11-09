@@ -259,5 +259,7 @@ expect_error(
   pattern = "`maxdepth` must be a single integer between 2 and 16"
 )
 
+
+
 enumerate <- enumerate + 11L
 

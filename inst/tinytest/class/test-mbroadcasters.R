@@ -177,4 +177,34 @@ expect_false(
 enumerate <- enumerate + 4L
 
 
+# sub-environment usage ====
+env <- new.env()
+env$x <- 1:10
+mbroadcasters("x", TRUE, env)
+expect_true(
+  broadcaster(env$x)
+)
+mbroadcasters("x", FALSE, env)
+expect_false(
+  broadcaster(env$x)
+)
+enumerate <- enumerate + 2L
+
+
+# errors ====
+
+expect_error(
+  mbroadcasters(~ foo, TRUE),
+  pattern = "`nms` must be a character vector"
+)
+
+expect_error(
+  mbroadcasters(letters, NA),
+  pattern = "`value` must be `TRUE` or `FALSE`"
+)
+
+expect_error(
+  mbroadcasters(letters, TRUE, ~ foo),
+  "`env` must be an environment or `NULL`"
+)
 

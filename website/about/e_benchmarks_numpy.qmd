@@ -37,7 +37,7 @@ With the emergence of the 'broadcast' `r fa("r-project")` package [@broadcast], 
 
 The "broadcasting" implementation in the 'broadcast' package is conceptually inspired by the broadcasting employed by the 'Numpy' module for 'Python' - though 'broadcast' does not use/borrow any of 'Numpy' source code. 'Numpy' might have the first implementation of broadcasting. More importantly, 'Numpy' is remarkably fast, and the 'broadcast' `r fa("r-project")` package aims to be somewhat comparably fast.  
 
-This page presents the comparisons in the speed of broadcasted operations, between 'broadcast' and 'Numpy'. The operation that is compared is a simple, element-wise, broadcasted addition, given by the code `x + y` in the 'Numpy' module for 'Python', and `bc.d(x, y, "+")` in the 'broadcast' `r fa("r-project")` package.
+This page presents the comparisons in the speed of broadcasted operations, between 'broadcast' and 'Numpy'. The operation that is compared is a simple, element-wise, broadcasted addition. This given by the code `x + y` in the 'Numpy' module for 'Python', where `x` and `y` are NumPy arrays.  And it is given by the code `x + y` in the 'broadcast' `r fa("r-project")` package, where `x` and `y` arrays with the 'broadcaster' attribute (apart from that attribute, they are the same as regular arrays in base `r fa("r-project")`).
 
 Please bear in mind these are rough comparisons of speed. Since the comparisons involve 2 separate programming languages, `r fa("r-project")` and 'Python', "proper" speed comparison is rather difficult to do fairly.
 
@@ -59,8 +59,8 @@ Due to the above (and other) considerations, any form of benchmarks between `r f
 
 ## The Set-Up
 
-The operation that was bench-marked in this study, is the operation `x + y` in 'Numpy' and the equivalent `bc.d(x, y, "+")` in 'broadcast'.  
-Here `x` and `y` were both decimal numeric arrays (type of 64 bit `double` in `r fa("r-project")` and 64 bit `float` in 'Python'), and had the same number of dimensions.  
+The operation that was bench-marked in this study, is the operation `x + y` in 'Numpy' and the equivalent `x + y` in 'broadcast'.  
+Here `x` and `y` were both decimal numeric arrays (type of 64 bit `double` in `r fa("r-project")` and 64 bit `float` in 'Python'), and had the same number of dimensions.  For the Python code `x` and `y` are NumPy arrays, and for the `r fa("r-project")` code `x` and `y` are regular arrays with the 'broadcaster' attribute (apart from that attribute, they are the same as regular arrays in base `r fa("r-project")`).  
 This operation was run for pairs of arrays with different number of dimensions, going from 2 dimensional to 7 dimensional.  
 So we have `x + y` where both arrays were 2-dimensional (i.e. matrices), and `x + y` where both arrays were 3-dimensional, and so on up to 7-dimensional arrays.  
 
@@ -140,7 +140,7 @@ fig.cap.fun <- function(i) {
     "Figure ", i - 1, ": ",
     "Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays,
     comparing the code `x + y` in the 'Numpy' 'Python'-module,
-    against the code `bc.d(x, y,\"+\")` in the 'broadcast' 'R'-package. <br>",
+    against the code `x + y` in the 'broadcast' 'R'-package. <br>",
     "Both arrays are ", i, " - dimensional arrays. <br>",
     "The dimensions of `x` are {", x.dim, "}; <br>",
     "the dimensions of `y` are {", y.dim, "}. <br>", 
@@ -460,6 +460,7 @@ As stated earlier, comparing benchmarks between `r fa("r-project")` and 'Python'
 #| eval: false
 #| echo: true
 
+
 # set-up ====
 library(broadcast)
 get_times <- function(obj) {
@@ -490,9 +491,10 @@ for(i in seq_along(dimsizes)) {
   y.dims <- c(1L, n)
   a <- array(runif(100), x.dims)
   b <- array(runif(100), y.dims)
+  broadcaster(a) <- broadcaster(b) <- TRUE
   
   res <- bench::mark(
-    broadcast = bc.d(a, b, "+"),
+    broadcast = a + b,
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -514,7 +516,7 @@ q3_bc <- q3_bc * 1000
 
 save(
   dimsizes, median_bc, q1_bc, q3_bc,
-  file = "benchmarks/bm_bc_2d.RData"
+  file = "bm_bc_2d.RData"
 )
 
 
@@ -535,9 +537,10 @@ for(i in seq_along(dimsizes)) {
   
   a <- array(runif(100), x.dims)
   b <- array(runif(100), y.dims)
+  broadcaster(a) <- broadcaster(b) <- TRUE
   
   res <- bench::mark(
-    broadcast = bc.d(a, b, "+"),
+    broadcast = a + b,
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -561,7 +564,7 @@ q3_bc <- q3_bc * 1000
 
 save(
   dimsizes, median_bc, q1_bc, q3_bc,
-  file = "benchmarks/bm_bc_3d.RData"
+  file = "bm_bc_3d.RData"
 )
 
 
@@ -581,9 +584,10 @@ for(i in seq_along(dimsizes)) {
   
   a <- array(runif(100), x.dims)
   b <- array(runif(100), y.dims)
+  broadcaster(a) <- broadcaster(b) <- TRUE
   
   res <- bench::mark(
-    broadcast = bc.d(a, b, "+"),
+    broadcast = a + b,
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -607,7 +611,7 @@ q3_bc <- q3_bc * 1000
 
 save(
   dimsizes, median_bc, q1_bc, q3_bc,
-  file = "benchmarks/bm_bc_4d.RData"
+  file = "bm_bc_4d.RData"
 )
 
 
@@ -629,9 +633,10 @@ for(i in seq_along(dimsizes)) {
   
   a <- array(runif(100), x.dims)
   b <- array(runif(100), y.dims)
+  broadcaster(a) <- broadcaster(b) <- TRUE
   
   res <- bench::mark(
-    broadcast = bc.d(a, b, "+"),
+    broadcast = a + b,
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -656,7 +661,7 @@ q3_bc <- q3_bc * 1000
 
 save(
   dimsizes, median_bc, q1_bc, q3_bc,
-  file = "benchmarks/bm_bc_5d.RData"
+  file = "bm_bc_5d.RData"
 )
 
 
@@ -677,9 +682,10 @@ for(i in seq_along(dimsizes)) {
   
   a <- array(runif(100), x.dims)
   b <- array(runif(100), y.dims)
+  broadcaster(a) <- broadcaster(b) <- TRUE
   
   res <- bench::mark(
-    broadcast = bc.d(a, b, "+"),
+    broadcast = a + b,
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -704,7 +710,7 @@ q3_bc <- q3_bc * 1000
 
 save(
   dimsizes, median_bc, q1_bc, q3_bc,
-  file = "benchmarks/bm_bc_6d.RData"
+  file = "bm_bc_6d.RData"
 )
 
 
@@ -724,9 +730,10 @@ for(i in seq_along(dimsizes)) {
   
   a <- array(runif(100), x.dims)
   b <- array(runif(100), y.dims)
+  broadcaster(a) <- broadcaster(b) <- TRUE
   
   res <- bench::mark(
-    broadcast = bc.d(a, b, "+"),
+    broadcast = a + b,
     min_iterations = 200
   )
   bc_all <- get_times(res)
@@ -751,9 +758,10 @@ q3_bc <- q3_bc * 1000
 
 save(
   dimsizes, median_bc, q1_bc, q3_bc,
-  file = "benchmarks/bm_bc_7d.RData"
+  file = "bm_bc_7d.RData"
 )
 gc()
+
 
 
 ```

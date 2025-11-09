@@ -150,15 +150,8 @@ acast.default <- function(
   
   .acast_stop_out(out.dim, sys.call())
   
-  out.dimnames <- rep(list(NULL), out.ndim)
-  out.dimnames[1:x.ndim] <- dimnames(x)
-  out.dimnames[margin] <- list(NULL)
-  out.dimnames[x.ndim+1L] <- list(grp_lvls) # safe, because I used droplevels()
-  
   out <- array(fillvalue, out.dim)
-  .set_dimnames(out, out.dimnames)
-  
-  
+  .acast_set_dimnames(out, x, margin, grp_lvls)
   
   
   # pre params:

@@ -1,15 +1,7 @@
 
 # broadcast 0.1.6
 
-**Bug Fix**
-
-Fixed a bug in `acast()`,
-where it would, under certain circumstances,
-incorrectly specify `dimnames` to the output, leading to an error.  
-This is now fixed.
-
-**Other Changes**
-
+* **Bug fix:** There was a bug in `acast()`, where it would, under certain circumstances, incorrectly specify `dimnames` to the output, leading to an error. This is now fixed.
 * Small speed improvement for nearly all operations.
 * The `acast()` method now allows unequal groups even when `x` is of type `raw`.
 * Added the `cast_shallow2atomic()` casting method.
