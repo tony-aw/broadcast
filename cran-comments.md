@@ -1,6 +1,5 @@
-As always, I wish to thank CRAN for all their hard work.
-This is an update of the 'broadcast' package to version 0.1.6
-R CMD checks found no errors, warnings, or notes.
+Debbian is a difficult OS, isn't it?
+I have replaced ALL uses of `abs()`/ `fabs()` in my source code with `std::abs()`, in the hopes that Debian can actually handle it. 
 
 ## R CMD check results
 

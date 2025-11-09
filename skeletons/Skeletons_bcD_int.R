@@ -95,8 +95,8 @@ inline double rcpp_int53_mod(double x, double y, double intmin, double intmax) {
   if(MACRO_OVERFLOW(x)) {
     return R_NaN;
   }
-  if(MACRO_OVERFLOW(y) && fabs(x) <= fabs(y)) {
-    double out1 = (fabs(x) == fabs(y)) ? 0 :
+  if(MACRO_OVERFLOW(y) && std::abs(x) <= std::abs(y)) {
+    double out1 = (std::abs(x) == std::abs(y)) ? 0 :
 	    ((x < 0 && y > 0) ||
 	     (y < 0 && x > 0))
 	     ? x+y  // differing signs
@@ -119,7 +119,7 @@ inline double rcpp_int53_idiv(double x, double y, double intmin, double intmax) 
       return q;
     }
     
-    if(fabs(q) < 1) {
+    if(std::abs(q) < 1) {
       double z = (q < 0) ? -1
 	    : ((x < 0 && y > 0) ||
 	       (x > 0 && y < 0) // differing signs

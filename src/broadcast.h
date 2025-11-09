@@ -664,7 +664,7 @@
     MACRO_TYPESWITCH_DECIMAL_DIST(	\
       DIMCODE,	\
       tempcalc = NA_REAL,	\
-      tempcalc = fabs(px[flatind_x] - py[flatind_y]), \
+      tempcalc = std::abs(px[flatind_x] - py[flatind_y]), \
       MACRO_ASSIGN_C(NA_LOGICAL), \
       MACRO_ASSIGN_C(tempcalc <= prec)  \
     );	\
@@ -675,7 +675,7 @@
     MACRO_TYPESWITCH_DECIMAL_DIST(	\
       DIMCODE,	\
       tempcalc = NA_REAL,	\
-      tempcalc = fabs(px[flatind_x] - py[flatind_y]),	\
+      tempcalc = std::abs(px[flatind_x] - py[flatind_y]),	\
       MACRO_ASSIGN_C(NA_LOGICAL), \
       MACRO_ASSIGN_C(tempcalc > prec)  \
     );	\

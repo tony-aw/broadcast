@@ -1,4 +1,9 @@
 
+# broadcast 0.1.6.1
+
+* Replaced all uses of `abs()`/`fabs()` with `std::abs()`.
+
+
 # broadcast 0.1.6
 
 * **Bug fix:** There was a bug in `acast()`, where it would, under certain circumstances, incorrectly specify `dimnames` to the output, leading to an error. This is now fixed.
