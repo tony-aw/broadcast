@@ -256,7 +256,7 @@
         out.dimnames[[along]] <- paste0("X", seq_len(dim(out)[along]))
       }
     }
-    .rcpp_set_attr(out, "dimnames", out.dimnames)
+    .set_dimnames(out, out.dimnames)
   }
   
   return(out)

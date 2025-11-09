@@ -19,14 +19,14 @@ test_make_dims <- function(n) {
 }
 
 
-test_make_dimnames <- function(x.dim) {
-  out <- lapply(x.dim, \(n) sample(letters, n, TRUE))
-  if(length(out) > 1) {
-    out[sample(1:length(out), 1)] <- list(NULL)
+test_make_dimnames <- function(dims) {
+  out <- lapply(dims, \(n) sample(letters, n, TRUE))
+  if(length(out) > 2) {
+    indNULL <- sample(1:length(out), sample(1:length(out), 1L))
+    out[indNULL] <- list(NULL)
   }
   return(out)
 }
-
 
 test_make_fillval <- function(x) {
   if(is.raw(x)) {
