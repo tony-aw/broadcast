@@ -2,7 +2,13 @@
 title: Changelog
 ---
 
-# broadcast 0.1.6 (Under Development)
+# broadcast 0.1.6.1
+
+* Replaced all uses of `abs()`/`fabs()` with `std::abs()` in the internal source code.
+
+
+
+# broadcast 0.1.6
 
 * **Bug fix:** There was a bug in [acast()](/man/acast.qmd), where it would, under certain circumstances, incorrectly specify `dimnames` to the output, leading to an error. This is now fixed.
 * Small speed improvement for nearly all operations.

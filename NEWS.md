@@ -1,7 +1,7 @@
 
 # broadcast 0.1.6.1
 
-* Replaced all uses of `abs()`/`fabs()` with `std::abs()`.
+* Replaced all uses of `abs()`/`fabs()` with `std::abs()` in the internal source code.
 
 
 # broadcast 0.1.6

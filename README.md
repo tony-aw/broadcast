@@ -26,10 +26,10 @@ name suggests, performs “broadcasting” (similar to broadcasting in the
 ‘Numpy’ module for ‘Python’).
 
 In the context of operations involving 2 (or more) arrays,
-“broadcasting” refers to recycling array dimensions **without**
-allocating additional memory, which is considerably **faster** and
-**more memory-efficient** than R’s regular dimensions replication
-mechanism.
+“broadcasting” refers to efficiently recycling array dimensions, without
+making copies.  
+This is considerably **faster** and **more memory-efficient** than R’s
+regular dimensions replication mechanism.
 
 At its core, the ‘broadcast’ package provides the following
 functionalities, all related to “broadcasting”:
@@ -130,7 +130,7 @@ x + y
 **Efficiency**
 
 Broadcasting as implemented in the ‘broadcasting’ package is about as
-fast as - and sometimes even faster than - NUmPy.  
+fast as - and sometimes even faster than - NumPy.  
 The implementations in the ‘broadcast’ package are also much faster and
 much more memory efficient than using base ‘R’ solutions like
 `sweep()`.  

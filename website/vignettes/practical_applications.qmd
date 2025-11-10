@@ -113,6 +113,59 @@ print(out)
 
 ```
 
+&nbsp;
+
+# Modifying an Array Along a Dimension
+
+Consider the following array:
+
+```{r}
+x <- array(1:27, c(3,3,3))
+print(x)
+```
+
+Suppose one wishes to multiply all values of the second column with `2`, and all values of the third column with `3`.  
+This can be done with 'broadcast', by creating a multiplier vector whose dimensional direction is aligned with - in this case - the columns, and multiplying the array with said vector.  
+We don't want to change the first column, so we multiply the first column with `1`.  
+
+So we can do this as follows:
+
+```{r}
+multiplier <- array(c(1, 2, 3), c(1, 3))
+print(multiplier)
+bcr(x) <- bcr(multiplier) <- TRUE
+
+x * multiplier
+
+```
+
+Suppose that, instead of multiplying the 3 columns with 1, 2, and 3, we wish to multiply the rows with 1, 2, and 3.
+
+This again can by creating a multiplier vector - this time aligned with the rows.  
+Note that in the 'broadcast' package, a vector without dimensions is interpreted as a vector aligned with rows (confusingly called a "column vector" in mathematics).
+Like so:
+
+```{r}
+multiplier <- c(1, 2, 3) # effectively the same as array(c(1, 2, 3), c(3, 1))
+print(multiplier)
+bcr(x) <- bcr(multiplier) <- TRUE
+
+x * multiplier
+
+```
+
+As a final example, we want to multiply layers (3rd dimension) 2 and 3 of `x` with 2 and 3, respectively.  
+As you may have guessed, one can do so by creating a multiplier vector aligned with the layers, and multiplying that vector with the array, like so:
+
+```{r}
+multiplier <- array(c(1, 2, 3), c(1, 1, 3))
+print(multiplier)
+bcr(x) <- bcr(multiplier) <- TRUE
+
+x * multiplier
+
+```
+
 
 &nbsp;
 
@@ -263,7 +316,7 @@ x2 <- cast_hier2dim(x, in2out = FALSE, direction.names = 1L)
 print(x2)
 ```
 
-Second, turn the dimensional list into an atomic array:
+Second, turn the dimensional list into an atomic array using [cast_shallow2atomic()](/man/cast_shallow2atomic.qmd) (available from version `0.1.6` onward):
 
 ```{r}
 x3 <- cast_shallow2atomic(x2, 1L)
@@ -285,7 +338,7 @@ x3 * multiplier
 ```
 
 Thus we started off with a nested list, through which one cannot broadcast and for which little to no vectorized operators are available.  
-By turning the nested list into a dimensional atomic array, broadcasted and vectorized operations could be used.
+By turning the nested list into a dimensional atomic array, broadcasted and vectorized operations cann more easily be used.
 
 
 &nbsp;

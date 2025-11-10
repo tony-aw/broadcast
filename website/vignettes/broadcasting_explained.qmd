@@ -484,7 +484,7 @@ outer(as.vector(x), as.vector(y), "+")
 ```
 
 
-As you can see, performing a broadcasted operation with a row-vector and a column-vector (in that order) is equivalent to using `outer()` on 2 dimensionless vectors.
+As you can see, performing a broadcasted operation between a column- and row- vector (in that order) is equivalent to using `outer()` on 2 dimensionless vectors.
 
 The `outer()` approach has the same problems as the `x[, rep(1L, 5L)] + y[rep(1L, 5L),]` approach: it consumes a lot of unnecessary memory, and is slow.
 

@@ -177,7 +177,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#broadcast-0.1.6-under-development" id="toc-broadcast-0.1.6-under-development" class="nav-link active" data-scroll-target="#broadcast-0.1.6-under-development">broadcast 0.1.6 (Under Development)</a></li>
+  <li><a href="#broadcast-0.1.6.1" id="toc-broadcast-0.1.6.1" class="nav-link active" data-scroll-target="#broadcast-0.1.6.1">broadcast 0.1.6.1</a></li>
+  <li><a href="#broadcast-0.1.6" id="toc-broadcast-0.1.6" class="nav-link" data-scroll-target="#broadcast-0.1.6">broadcast 0.1.6</a></li>
   <li><a href="#broadcast-0.1.5.3" id="toc-broadcast-0.1.5.3" class="nav-link" data-scroll-target="#broadcast-0.1.5.3">broadcast 0.1.5.3</a></li>
   <li><a href="#broadcast-0.1.5.2" id="toc-broadcast-0.1.5.2" class="nav-link" data-scroll-target="#broadcast-0.1.5.2">broadcast 0.1.5.2</a></li>
   <li><a href="#broadcast-0.1.5" id="toc-broadcast-0.1.5" class="nav-link" data-scroll-target="#broadcast-0.1.5">broadcast 0.1.5</a></li>
@@ -210,8 +211,14 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="broadcast-0.1.6-under-development" class="level1">
-<h1>broadcast 0.1.6 (Under Development)</h1>
+<section id="broadcast-0.1.6.1" class="level1">
+<h1>broadcast 0.1.6.1</h1>
+<ul>
+<li>Replaced all uses of <code>abs()</code>/<code>fabs()</code> with <code>std::abs()</code> in the internal source code.</li>
+</ul>
+</section>
+<section id="broadcast-0.1.6" class="level1">
+<h1>broadcast 0.1.6</h1>
 <ul>
 <li><strong>Bug fix:</strong> There was a bug in <a href="../man/acast.html">acast()</a>, where it would, under certain circumstances, incorrectly specify <code>dimnames</code> to the output, leading to an error. This is now fixed.</li>
 <li>Small speed improvement for nearly all operations.</li>
