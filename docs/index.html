@@ -153,6 +153,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">🗺️Overview</a></li>
   <li><a href="#why-use-broadcast" id="toc-why-use-broadcast" class="nav-link" data-scroll-target="#why-use-broadcast">🤷🏽Why use ‘broadcast’</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">🔧Installation</a></li>
   <li><a href="#status" id="toc-status" class="nav-link" data-scroll-target="#status">📊Status</a></li>
   <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">📖Documentation</a></li>
   </ul></li>
@@ -182,10 +183,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>‘broadcast’ is an efficient ‘C’/‘C++’ - based ‘R’ package that, as the name suggests, performs “array broadcasting” (similar to broadcasting in the ‘Numpy’ module for ‘Python’).</p>
 <p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to efficiently recycling array dimensions, without making copies.<br>
 This is considerably <strong>faster</strong> and <strong>more memory-efficient</strong> than R’s regular dimensions replication mechanism.</p>
-<p>At its core, the ‘broadcast’ package provides the following functionalities, all related to “broadcasting”:</p>
+<p>At its core, the ‘broadcast’ package provides the following functionalities, all related to “broadcasting” (click on the 🔍 to show or hide):</p>
 <details>
 <summary>
-<b><a style="cursor: pointer;">BROADCASTED INFIX OPERATIONS (Click to expand) </a></b>
+<b><a style="cursor: pointer;">Broadcasted Infix Operators 🔍 </a></b>
 </summary>
 <p>Consider the matrices <code>x</code> and <code>y</code>:</p>
 <div class="cell">
@@ -239,7 +240,7 @@ This is considerably <strong>faster</strong> and <strong>more memory-efficient</
 </details>
 <details>
 <summary>
-<b><a style="cursor: pointer;">BROADCASTED ARRAY BINDING (Click to expand) </a></b>
+<b><a style="cursor: pointer;">Broadcasted Array Binding 🔍 </a></b>
 </summary>
 <p>Using broadcasting, <code>bind_array()</code> from the ‘broadcast’ package can bind arrays together in ways that cannot efficiently be done with <code>rbind()</code>, <code>cbind()</code>, or <code>abind::abind()</code>.</p>
 <p>Consider these matrices:</p>
@@ -280,13 +281,13 @@ This is considerably <strong>faster</strong> and <strong>more memory-efficient</
 </details>
 <details>
 <summary>
-<b><a style="cursor: pointer;">BROADCASTED GENERAL FUNCTIONS (Click to expand) </a></b>
+<b><a style="cursor: pointer;">Broadcasted General Functions 🔍 </a></b>
 </summary>
 <p>The idea of broadcasted infix operations and broadcasted array binding has been generalized to also include <code>bcapply()</code> (a broadcasted apply-like function), <code>bc_ifelse()</code> (broadcasted version of <code>ifelse()</code>), <code>bc_strrep()</code> (broadcasted version of <code>strrep()</code>).</p>
 </details>
 <details>
 <summary>
-<b><a style="cursor: pointer;">CASTING METHODS (Click to expand) </a></b>
+<b><a style="cursor: pointer;">Casting Methods 🔍 </a></b>
 </summary>
 <p>Broadcast provides casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.<br>
 These functions are useful for facilitating complex broadcasted operations, though they also have much merit beside broadcasting.</p>
@@ -354,7 +355,7 @@ These functions are useful for facilitating complex broadcasted operations, thou
 </details>
 <details>
 <summary>
-<b><a style="cursor: pointer;">LINEAR ALGEBRA FUNCTIONS FOR STATISTICS (Click to expand) </a></b>
+<b><a style="cursor: pointer;">A few Linear Algebra Functions for Statistics 🔍 </a></b>
 </summary>
 <p>‘broadcast’ comes with a few linear algebra functions for statistics. For example, the <code>sd_lc()</code> function to compute the standard deviation of a linear combination of variables - regardless of what the distribution of the variables is.</p>
 </details>
@@ -394,6 +395,15 @@ Benchmarks can be found in the “About” section on the website.</p>
 <p><strong>Tested</strong></p>
 <p>The ‘broadcast’ package is frequently checked using a large suite of unit tests via the <a href="https://github.com/markvanderloo/tinytest">tinytest</a> package. These tests have a <a href="https://tony-aw.github.io/broadcast/about/g_unit_test_covr.html">coverage</a> of over 90%. So the chance of a function from this package breaking completely is relatively low.</p>
 <p>‘broadcast’ is still relatively new package, however, so (small) bugs are still very much possible. I encourage users who find bugs to report them promptly to the <a href="https://github.com/tony-aw/broadcast/issues">issues</a> tab on the GitHub page, and I will fix them as soon as time permits.</p>
+<p>&nbsp;</p>
+</section>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">🔧Installation</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"broadcast"</span>, <span class="at">type =</span> <span class="st">"source"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 </section>
 <section id="status" class="level2">

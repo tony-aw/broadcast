@@ -19,7 +19,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
  
 
-# 🗺️Overview
+## 🗺️Overview
 
 ‘broadcast’ is an efficient ‘C’/‘C++’ - based ‘R’ package that, as the
 name suggests, performs “array broadcasting” (similar to broadcasting in
@@ -32,12 +32,12 @@ This is considerably **faster** and **more memory-efficient** than R’s
 regular dimensions replication mechanism.
 
 At its core, the ‘broadcast’ package provides the following
-functionalities, all related to “broadcasting”:
+functionalities, all related to “broadcasting” (click on the 🔍 to show
+or hide):
 
 <details>
 <summary>
-<b><a style="cursor: pointer;">BROADCASTED INFIX OPERATIONS (Click to
-expand) </a></b>
+<b><a style="cursor: pointer;">Broadcasted Infix Operators 🔍 </a></b>
 </summary>
 
 Consider the matrices `x` and `y`:
@@ -105,8 +105,7 @@ and more!
 </details>
 <details>
 <summary>
-<b><a style="cursor: pointer;">BROADCASTED ARRAY BINDING (Click to
-expand) </a></b>
+<b><a style="cursor: pointer;">Broadcasted Array Binding 🔍 </a></b>
 </summary>
 
 Using broadcasting, `bind_array()` from the ‘broadcast’ package can bind
@@ -165,8 +164,7 @@ than `abind()`. See the
 </details>
 <details>
 <summary>
-<b><a style="cursor: pointer;">BROADCASTED GENERAL FUNCTIONS (Click to
-expand) </a></b>
+<b><a style="cursor: pointer;">Broadcasted General Functions 🔍 </a></b>
 </summary>
 
 The idea of broadcasted infix operations and broadcasted array binding
@@ -177,8 +175,7 @@ apply-like function), `bc_ifelse()` (broadcasted version of `ifelse()`),
 </details>
 <details>
 <summary>
-<b><a style="cursor: pointer;">CASTING METHODS (Click to expand)
-</a></b>
+<b><a style="cursor: pointer;">Casting Methods 🔍 </a></b>
 </summary>
 
 Broadcast provides casting functions, that cast subset-groups of an
@@ -265,8 +262,8 @@ print(x3)
 </details>
 <details>
 <summary>
-<b><a style="cursor: pointer;">LINEAR ALGEBRA FUNCTIONS FOR STATISTICS
-(Click to expand) </a></b>
+<b><a style="cursor: pointer;">A few Linear Algebra Functions for
+Statistics 🔍 </a></b>
 </summary>
 
 ‘broadcast’ comes with a few linear algebra functions for statistics.
@@ -346,6 +343,17 @@ are still very much possible. I encourage users who find bugs to report
 them promptly to the
 [issues](https://github.com/tony-aw/broadcast/issues) tab on the GitHub
 page, and I will fix them as soon as time permits.
+
+ 
+
+## 🔧Installation
+
+``` r
+
+install.packages("broadcast", type = "source")
+```
+
+ 
 
  
 
