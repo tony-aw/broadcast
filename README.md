@@ -19,11 +19,11 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
  
 
-## 🗺️Overview
+# 🗺️Overview
 
 ‘broadcast’ is an efficient ‘C’/‘C++’ - based ‘R’ package that, as the
-name suggests, performs “broadcasting” (similar to broadcasting in the
-‘Numpy’ module for ‘Python’).
+name suggests, performs “array broadcasting” (similar to broadcasting in
+the ‘Numpy’ module for ‘Python’).
 
 In the context of operations involving 2 (or more) arrays,
 “broadcasting” refers to efficiently recycling array dimensions, without
@@ -34,30 +34,11 @@ regular dimensions replication mechanism.
 At its core, the ‘broadcast’ package provides the following
 functionalities, all related to “broadcasting”:
 
-1.  Broadcasted Infix Operators.  
-    They support a large set of relational-, arithmetic-, Boolean-,
-    string-, and bit-wise operations.
-2.  The `bind_array()` function for binding arrays along any arbitrary
-    dimension. Similar to the fantastic `abind::abind()` function, but
-    faster, more memory-efficient, supporting broadcasting, and
-    supporting both atomic and recursive arrays.
-3.  ‘broadcast’ provides several generic functions for broadcasting,
-    namely `bcapply()` (broadcasted apply-like function) and
-    `bc_ifelse()` (broadcasted version of `ifelse()`).
-4.  casting functions, that cast subset-groups of an array to a new
-    dimension, cast nested lists to dimensional lists, and vice-versa.  
-    These functions are useful for facilitating complex broadcasted
-    operations, though they also have much merit beside broadcasting.
-
-Additionally, ‘broadcast’ comes with a few linear algebra functions for
-statistics.
-
-**The Quick-Start Guide can be found
-[here](https://tony-aw.github.io/broadcast/vignettes/b_quickstart.html).**
-
- 
-
-## 🚀Quick Example
+<details>
+<summary>
+<b><a style="cursor: pointer;">BROADCASTED INFIX OPERATIONS (Click to
+expand) </a></b>
+</summary>
 
 Consider the matrices `x` and `y`:
 
@@ -83,23 +64,10 @@ This won’t work in base ‘R’:
 ``` r
 x + y
 Error in x + y : non-conformable arrays
-```
 
-You *could* do the following….
-
-``` r
+# You *could* do the following....
 x + y[rep(1L, 4L),]
-#>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]  101  205  309  413  517
-#> [2,]  102  206  310  414  518
-#> [3,]  103  207  311  415  519
-#> [4,]  104  208  312  416  520
-```
-
-… but if `x` and/or `y` is very large, it will be slow and may even lead
-to an error:
-
-``` r
+# ... but if `x` and/or `y` is very large, it will be slow and may even lead to an error:
 Error: cannot allocate vector of size
 ```
 
@@ -122,6 +90,194 @@ x + y
 #> [4,]  104  208  312  416  520
 #> broadcaster
 ```
+
+‘broadcast’ supports more than just addition (`+`); ‘broadcast’ supports
+a wide range of infix operators, including:
+
+- arithmetic operators (`+`, `-`, `*`, `/`, `^`, etc.)
+- relational operators (`==`, `!=`, etc.)
+- Boolean operators (`&`, `|`)
+- bit-wise operators (`&`, `|`)
+- string operators (string (in)equality, Levenshtein distance, and more)
+
+and more!
+
+</details>
+<details>
+<summary>
+<b><a style="cursor: pointer;">BROADCASTED ARRAY BINDING (Click to
+expand) </a></b>
+</summary>
+
+Using broadcasting, `bind_array()` from the ‘broadcast’ package can bind
+arrays together in ways that cannot efficiently be done with `rbind()`,
+`cbind()`, or `abind::abind()`.
+
+Consider these matrices:
+
+``` r
+x <- array(1:20, c(4, 5))
+y <- array(1:5 * 100, c(1, 5))
+print(x)
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]    1    5    9   13   17
+#> [2,]    2    6   10   14   18
+#> [3,]    3    7   11   15   19
+#> [4,]    4    8   12   16   20
+print(y)
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]  100  200  300  400  500
+```
+
+Suppose one wishes to compute the element-wise addition of these 2
+arrays.
+
+This won’t work in base ‘R’:
+
+``` r
+cbind(x, y)
+Error in cbind(x, y) : number of rows of matrices must match (see arg 2)
+# You *could* do the following....
+cbind(x, y[rep(1L, 4L),])
+# ... but if `x` and/or `y` is very large, it will be slow and may even lead to an error:
+Error: cannot allocate vector of size
+```
+
+The ‘broadcast’ package performs “broadcasting”, which can do the above,
+but **faster**, **without unnecessary copies**, and scalable to arrays
+of any size (up to 16 dimensions).
+
+Like so:
+
+``` r
+bind_array(list(x, y), along = 2L)
+#>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+#> [1,]    1    5    9   13   17  100  200  300  400   500
+#> [2,]    2    6   10   14   18  100  200  300  400   500
+#> [3,]    3    7   11   15   19  100  200  300  400   500
+#> [4,]    4    8   12   16   20  100  200  300  400   500
+```
+
+`bind_array()` is also considerably faster and more memory efficient
+than `abind()`. See the
+[benchmarks](https://tony-aw.github.io/broadcast/about/f_benchmarks_other.html).
+
+</details>
+<details>
+<summary>
+<b><a style="cursor: pointer;">BROADCASTED GENERAL FUNCTIONS (Click to
+expand) </a></b>
+</summary>
+
+The idea of broadcasted infix operations and broadcasted array binding
+has been generalized to also include `bcapply()` (a broadcasted
+apply-like function), `bc_ifelse()` (broadcasted version of `ifelse()`),
+`bc_strrep()` (broadcasted version of `strrep()`).
+
+</details>
+<details>
+<summary>
+<b><a style="cursor: pointer;">CASTING METHODS (Click to expand)
+</a></b>
+</summary>
+
+Broadcast provides casting functions, that cast subset-groups of an
+array to a new dimension, cast nested lists to dimensional lists, and
+vice-versa.  
+These functions are useful for facilitating complex broadcasted
+operations, though they also have much merit beside broadcasting.
+
+For example, you cannot broadcast through hierarchies of a list, but you
+**can** broadcast along dimensions. So suppose you have the following
+list:
+
+``` r
+x <- list(
+  student1 = list(
+    homework1 = sample(0:100, 5),
+    homework2 = sample(0:100, 5),
+    homework3 = sample(0:100, 5)
+  ),
+  student2 = list(
+    homework1 = sample(0:100, 5),
+    homework2 = sample(0:100, 5),
+    homework3 = sample(0:100, 5)
+  ),
+  student3 = list(
+    homework1 = sample(0:100, 5),
+    homework2 = sample(0:100, 5),
+    homework3 = sample(0:100, 5)
+  )
+)
+```
+
+Since all values in the list are numbers, you might want to turn this
+into a numeric array, to make mathematical computations and analyses on
+it easier.
+
+This can be done with the ‘broadcast’ package with the following steps.
+First, turn the nested list into a shallow, dimensional list using
+`cast_hier2dim()`:
+
+``` r
+x2 <- cast_hier2dim(x, in2out = FALSE, direction.names = 1L)
+print(x2)
+#>          homework1 homework2 homework3
+#> student1 integer,5 integer,5 integer,5
+#> student2 integer,5 integer,5 integer,5
+#> student3 integer,5 integer,5 integer,5
+```
+
+Second, turn the shallow, dimensional list into an atomic array using
+`cast_shallow2atomic()`:
+
+``` r
+x3 <- cast_shallow2atomic(x2, 1L)
+print(x3)
+#> , , homework1
+#> 
+#>      student1 student2 student3
+#> [1,]       67        6       73
+#> [2,]       38       72       41
+#> [3,]        0       78       37
+#> [4,]       33       84       19
+#> [5,]       86       36       27
+#> 
+#> , , homework2
+#> 
+#>      student1 student2 student3
+#> [1,]       42       88       19
+#> [2,]       13       36       43
+#> [3,]       81       33       86
+#> [4,]       58      100       69
+#> [5,]       50       43       39
+#> 
+#> , , homework3
+#> 
+#>      student1 student2 student3
+#> [1,]       96       78       43
+#> [2,]       84       32       24
+#> [3,]       20       83       69
+#> [4,]       53       34       38
+#> [5,]       73       69       50
+```
+
+</details>
+<details>
+<summary>
+<b><a style="cursor: pointer;">LINEAR ALGEBRA FUNCTIONS FOR STATISTICS
+(Click to expand) </a></b>
+</summary>
+
+‘broadcast’ comes with a few linear algebra functions for statistics.
+For example, the `sd_lc()` function to compute the standard deviation of
+a linear combination of variables - regardless of what the distribution
+of the variables is.
+
+</details>
+
+**The Quick-Start Guide can be found
+[here](https://tony-aw.github.io/broadcast/vignettes/b_quickstart.html).**
 
  
 
