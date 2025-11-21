@@ -36,7 +36,7 @@ set.seed(1)
 
 ## 🗺️Overview
 
-'broadcast' is an efficient 'C'/'C++' - based 'R' package that, as the name suggests, performs "array broadcasting" (similar to broadcasting in the 'Numpy' module for 'Python').
+'broadcast' is an efficient 'C'/'C++' - based `r fa("r-project")` package that, as the name suggests, performs "array broadcasting" (similar to broadcasting in the 'Numpy' module for 'Python').
 
 In the context of operations involving 2 (or more) arrays, “broadcasting” refers to efficiently recycling array dimensions, without making copies.  
 This is considerably **faster** and **more memory-efficient** than R's regular dimensions replication mechanism.
@@ -58,7 +58,7 @@ print(y)
 
 Suppose one wishes to compute the element-wise addition of these 2 arrays.
 
-This won't work in base 'R':
+This won't work in base `r fa("r-project")`:
 
 ```{r eval=FALSE, echo=TRUE}
 x + y
@@ -112,9 +112,9 @@ print(x)
 print(y)
 ```
 
-Suppose one wishes to compute the element-wise addition of these 2 arrays.
+Suppose one wishes to column-bind these 2 arrays.
 
-This won't work in base 'R':
+This won't work in base `r fa("r-project")`:
 
 ```{r eval=FALSE, echo=TRUE}
 cbind(x, y)
@@ -216,7 +216,7 @@ print(x3)
 **Efficiency**
 
 Broadcasting as implemented in the 'broadcasting' package is about as fast as - and sometimes even faster than - NumPy.  
-The implementations in the 'broadcast' package are also much faster and much more memory efficient than using base 'R' solutions like `sweep()`.  
+The implementations in the 'broadcast' package are also much faster and much more memory efficient than using base `r fa("r-project")` solutions like `sweep()`.  
 Efficient programs use less energy and resources, and is thus better for the environment.  
 Benchmarks can be found in the "About" section on the website.
 
@@ -224,17 +224,17 @@ Benchmarks can be found in the "About" section on the website.
 
 **Convenience**
 
-Have you ever been bothered by any of the following while programming in 'R':
+Have you ever been bothered by any of the following while programming in `r fa("r-project")`:
 
 -   Receiving the "non-conformable arrays" error message in a simple array operation, when it intuitively should work?
--   Receiving the "cannot allocate vector of size..." error message because 'R' unnecessarily allocated too much memory in array operations?
+-   Receiving the "cannot allocate vector of size..." error message because `r fa("r-project")` unnecessarily allocated too much memory in array operations?
 -   `abind::abind()` being too slow, or ruining the structure of recursive arrays?
 -   The `sweep()` and `outer()` functions being too slow or too limiting?
 -   that there is no array analogy to `data.table::dcast()`?
 -   difficulties in handling nested lists?
--   that certain 'Numpy' operations have no equivalent operation in 'R'?
+-   that certain 'Numpy' operations have no equivalent operation in `r fa("r-project")`?
 
-If you answered "YES" to any of the above, 'broadcast' may be the 'R' - package for you.
+If you answered "YES" to any of the above, 'broadcast' may be the `r fa("r-project")` - package for you.
 
  
 
@@ -246,7 +246,7 @@ Not using external libraries brings a number of advantages:
 
 -   Avoid dependency hell.
 -   Avoid wasting time, memory and computing resources for translating between language structures.
--   Ensure consistent behaviour with the rest of 'R'.
+-   Ensure consistent behaviour with the rest of `r fa("r-project")`.
 
  
 

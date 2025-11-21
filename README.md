@@ -128,8 +128,7 @@ print(y)
 #> [1,]  100  200  300  400  500
 ```
 
-Suppose one wishes to compute the element-wise addition of these 2
-arrays.
+Suppose one wishes to column-bind these 2 arrays.
 
 This won’t work in base ‘R’:
 
