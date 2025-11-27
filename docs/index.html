@@ -312,7 +312,7 @@ These functions are useful for facilitating complex broadcasted operations, thou
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Since all values in the list are numbers, you might want to turn this into a numeric array, to make mathematical computations and analyses on it easier.</p>
-<p>This can be done with the ‘broadcast’ package with the following steps. First, turn the nested list into a shallow, dimensional list using <code>cast_hier2dim()</code>:</p>
+<p>This can be done with the ‘broadcast’ package with the following steps. First, turn the nested list into a shallow (i.e.&nbsp;non-nested), dimensional list using <code>cast_hier2dim()</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x, <span class="at">in2out =</span> <span class="cn">FALSE</span>, <span class="at">direction.names =</span> 1L)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x2)</span>
@@ -321,7 +321,7 @@ These functions are useful for facilitating complex broadcasted operations, thou
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; student2 integer,5 integer,5 integer,5</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; student3 integer,5 integer,5 integer,5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Second, turn the shallow, dimensional list into an atomic array using <code>cast_shallow2atomic()</code>:</p>
+<p>Second, turn the shallow (i.e.&nbsp;non-nested), dimensional list into an atomic array using <code>cast_shallow2atomic()</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x3 <span class="ot">&lt;-</span> <span class="fu">cast_shallow2atomic</span>(x2, 1L)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x3)</span>

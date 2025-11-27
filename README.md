@@ -212,8 +212,8 @@ into a numeric array, to make mathematical computations and analyses on
 it easier.
 
 This can be done with the ‘broadcast’ package with the following steps.
-First, turn the nested list into a shallow, dimensional list using
-`cast_hier2dim()`:
+First, turn the nested list into a shallow (i.e. non-nested),
+dimensional list using `cast_hier2dim()`:
 
 ``` r
 x2 <- cast_hier2dim(x, in2out = FALSE, direction.names = 1L)
@@ -224,8 +224,8 @@ print(x2)
 #> student3 integer,5 integer,5 integer,5
 ```
 
-Second, turn the shallow, dimensional list into an atomic array using
-`cast_shallow2atomic()`:
+Second, turn the shallow (i.e. non-nested), dimensional list into an
+atomic array using `cast_shallow2atomic()`:
 
 ``` r
 x3 <- cast_shallow2atomic(x2, 1L)
