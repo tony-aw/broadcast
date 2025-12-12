@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>R-package: broadcast - Quickstart Guide</title>
+<title>package broadcast - Quickstart Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -63,7 +63,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../man/figures/flavicon.png" rel="icon" type="image/png">
+<link href="..//man/figures/r-project-brands-solid-full.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -106,7 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">R-package: broadcast</span>
+    <span class="navbar-title"><img src="../man/figures/r-project-brands-solid-full.svg" width="30" height="30"> package broadcast</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -507,22 +507,22 @@ Mostly useful for printing or summarizing dimensional lists.</p></li>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;list&gt;</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├─group1: &lt;list&gt;</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ ├─class1: &lt;list&gt;</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─height&lt;int [5]&gt;: 170, 168, 170, 169, 169</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─weight&lt;int [5]&gt;: 79, 80, 79, 78, 78</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ └─sex&lt;chr [5]&gt;: "M", "M", "F", "NA", "F"</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─height&lt;int [5]&gt;: 170, 171, 169, 170, 168</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─weight&lt;int [5]&gt;: 79, 80, 79, 80, 80</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ └─sex&lt;chr [5]&gt;: "NA", "NA", "F", "F", "F"</span></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ └─class2: &lt;list&gt;</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─height&lt;int [5]&gt;: 168, 170, 170, 169, 169</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─weight&lt;int [5]&gt;: 81, 78, 82, 82, 81</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └─sex&lt;chr [5]&gt;: "M", "M", "M", "F", "NA"</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─height&lt;int [5]&gt;: 171, 168, 170, 171, 169</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─weight&lt;int [5]&gt;: 79, 79, 79, 80, 79</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └─sex&lt;chr [5]&gt;: "NA", "F", "NA", "NA", "M"</span></span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; └─group2: &lt;list&gt;</span></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ├─class1: &lt;list&gt;</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─height&lt;int [5]&gt;: 171, 168, 170, 169, 169</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─weight&lt;int [5]&gt;: 80, 81, 79, 77, 81</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ └─sex&lt;chr [5]&gt;: "NA", "NA", "F", "F", "M"</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─height&lt;int [5]&gt;: 170, 170, 169, 170, 168</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─weight&lt;int [5]&gt;: 81, 78, 80, 80, 78</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ └─sex&lt;chr [5]&gt;: "NA", "M", "M", "F", "M"</span></span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   └─class2: &lt;list&gt;</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─height&lt;int [5]&gt;: 169, 170, 170, 170, 170</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─weight&lt;int [5]&gt;: 78, 80, 79, 79, 80</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └─sex&lt;chr [5]&gt;: "NA", "F", "F", "F", "F"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─height&lt;int [5]&gt;: 169, 170, 169, 169, 169</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─weight&lt;int [5]&gt;: 79, 78, 79, 78, 79</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └─sex&lt;chr [5]&gt;: "NA", "F", "NA", "NA", "NA"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>&nbsp;</p>
 </section>
