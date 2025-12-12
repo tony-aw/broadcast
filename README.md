@@ -3,7 +3,7 @@
 <img src="man/figures/broadcast.png" height="300"/>
 </p>
 <p align="center">
-‘R’-package: Broadcasted Array Operations Like ‘NumPy’
+‘R’-package ‘broadcast’: Broadcasted Array Operations Like ‘NumPy’
 </p>
 <!-- badges: start -->
 
@@ -40,67 +40,67 @@ or hide):
 <b><a style="cursor: pointer;">Broadcasted Infix Operators 🔍 </a></b>
 </summary>
 
-Consider the matrices `x` and `y`:
+Consider the arrays `x` and `y`:
 
 ``` r
-x <- array(1:20, c(4, 5))
-y <- array(1:5 * 100, c(1, 5))
-print(x)
+(x <- array(1:15, c(3, 5)))
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]    1    5    9   13   17
-#> [2,]    2    6   10   14   18
-#> [3,]    3    7   11   15   19
-#> [4,]    4    8   12   16   20
-print(y)
+#> [1,]    1    4    7   10   13
+#> [2,]    2    5    8   11   14
+#> [3,]    3    6    9   12   15
+(y <- array(1:5 * 100, c(1, 5)))
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]  100  200  300  400  500
 ```
 
 Suppose one wishes to compute the element-wise addition of these 2
-arrays.
+arrays.  
+As show in the table below, this cannot be done efficiently in base ‘R’;
+it **can** be done fast and memory-efficiently with the ‘broadcast’
+package:
 
-This won’t work in base ‘R’:
+<table>
+<tr>
+<td height="1">
+Base ‘R’
+</th>
+<td height="1">
+‘broadcast’ package
+</th>
+</tr>
+<tr>
+<td>
 
 ``` r
 x + y
 Error in x + y : non-conformable arrays
 
 # You *could* do the following....
-x + y[rep(1L, 4L),]
-# ... but if `x` and/or `y` is very large, it will be slow and may even lead to an error:
+x + y[rep(1L, 3L),]
+# ... but if x or y is very large: 
 Error: cannot allocate vector of size
 ```
 
-The ‘broadcast’ package performs “broadcasting”, which can do the above,
-but **faster**, **without unnecessary copies**, and scalable to arrays
-of any size (up to 16 dimensions).
-
-Like so:
+</td>
+<td>
 
 ``` r
-
-broadcaster(x) <- TRUE
-broadcaster(y) <- TRUE
-
+broadcaster(x) <- broadcaster(y) <- TRUE
 x + y
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]  101  205  309  413  517
-#> [2,]  102  206  310  414  518
-#> [3,]  103  207  311  415  519
-#> [4,]  104  208  312  416  520
+#> [1,]  101  204  307  410  513
+#> [2,]  102  205  308  411  514
+#> [3,]  103  206  309  412  515
 #> broadcaster
+# this does NOT make any copies of the original arrays :-)
 ```
 
-‘broadcast’ supports more than just addition (`+`); ‘broadcast’ supports
-a wide range of infix operators, including:
+</td>
+</tr>
+</table>
 
-- arithmetic operators (`+`, `-`, `*`, `/`, `^`, etc.)
-- relational operators (`==`, `!=`, etc.)
-- Boolean operators (`&`, `|`)
-- bit-wise operators (`&`, `|`)
-- string operators (string (in)equality, Levenshtein distance, and more)
-
-and more!
+‘broadcast’ supports a wide range of infix operators, including
+arithmetic-, relational-, Boolean- string- and bit-wise operators.
 
 </details>
 <details>
@@ -110,51 +110,61 @@ and more!
 
 Using broadcasting, `bind_array()` from the ‘broadcast’ package can bind
 arrays together in ways that cannot efficiently be done with `rbind()`,
-`cbind()`, or `abind::abind()`.
-
-Consider these matrices:
+`cbind()`, or `abind::abind()`. Let’s consider these arrays:
 
 ``` r
-x <- array(1:20, c(4, 5))
-y <- array(1:5 * 100, c(1, 5))
-print(x)
-#>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]    1    5    9   13   17
-#> [2,]    2    6   10   14   18
-#> [3,]    3    7   11   15   19
-#> [4,]    4    8   12   16   20
-print(y)
-#>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]  100  200  300  400  500
+(x <- array(1:12, c(3, 4)))
+#>      [,1] [,2] [,3] [,4]
+#> [1,]    1    4    7   10
+#> [2,]    2    5    8   11
+#> [3,]    3    6    9   12
+(y <- array(1:4 * 100, c(1, 4)))
+#>      [,1] [,2] [,3] [,4]
+#> [1,]  100  200  300  400
 ```
 
-Suppose one wishes to column-bind these 2 arrays.
+Suppose one wishes to column-bind these 2 arrays.  
+As show in the table below, this cannot be done efficiently in base ‘R’;
+it **can** be done fast and memory-efficiently with the ‘broadcast’
+package:
 
-This won’t work in base ‘R’:
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td>
+Base ‘R’
+</th>
+<td>
+‘broadcast’ package
+</th>
+</tr>
+<tr>
+<td>
 
 ``` r
 cbind(x, y)
-Error in cbind(x, y) : number of rows of matrices must match (see arg 2)
+Error in cbind(x, y) :
+  number of rows of matrices must match (see arg 2)
+
 # You *could* do the following....
-cbind(x, y[rep(1L, 4L),])
-# ... but if `x` and/or `y` is very large, it will be slow and may even lead to an error:
+cbind(x, y[rep(1L, 3L),])
+# ... but if x or y is very large:
 Error: cannot allocate vector of size
 ```
 
-The ‘broadcast’ package performs “broadcasting”, which can do the above,
-but **faster**, **without unnecessary copies**, and scalable to arrays
-of any size (up to 16 dimensions).
-
-Like so:
+</td>
+<td>
 
 ``` r
 bind_array(list(x, y), along = 2L)
-#>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-#> [1,]    1    5    9   13   17  100  200  300  400   500
-#> [2,]    2    6   10   14   18  100  200  300  400   500
-#> [3,]    3    7   11   15   19  100  200  300  400   500
-#> [4,]    4    8   12   16   20  100  200  300  400   500
+#>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
+#> [1,]    1    4    7   10  100  200  300  400
+#> [2,]    2    5    8   11  100  200  300  400
+#> [3,]    3    6    9   12  100  200  300  400
 ```
+
+</td>
+</tr>
+</table>
 
 `bind_array()` is also considerably faster and more memory efficient
 than `abind()`. See the
@@ -274,6 +284,10 @@ of the variables is.
 
 **The Quick-Start Guide can be found
 [here](https://tony-aw.github.io/broadcast/vignettes/b_quickstart.html).**
+
+**Some Practical Examples of the ‘broadcast’ package in action can be
+found
+[here](https://tony-aw.github.io/broadcast/vignettes/practical_applications.html).**
 
  
 

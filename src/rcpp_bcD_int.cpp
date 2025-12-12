@@ -13,8 +13,8 @@ inline long long rcpp_int53_gcd_rec(
   long long x, long long y
 ) {
 
-  long long a = labs(x);
-  long long b = labs(y);
+  long long a = std::abs(x);
+  long long b = std::abs(y);
   
   if (a == 0) {
     return b;

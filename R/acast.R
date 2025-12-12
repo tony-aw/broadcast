@@ -165,6 +165,9 @@ acast.default <- function(
   # CORE function:
   .rcpp_acast(out, x, starts, lens, subs, out.dimchunk, dcp_out, dcp_x, grp, grp_n, margin, newdim)
   
+  if(broadcaster(x)) {
+    .rcpp_set_attr(out, "class", "broadcaster")
+  }
   
   return(out)
   
