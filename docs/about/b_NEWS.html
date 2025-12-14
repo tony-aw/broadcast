@@ -216,10 +216,12 @@ ul.task-list li input[type="checkbox"] {
 <h1>broadcast 0.1.7 (Under Development)</h1>
 <p><strong>Consistency fixes:</strong></p>
 <ul>
-<li>In <a href="../man/bc.b.html">bc.b()</a>, in the case of a result with length zero: the result will be of type “raw” if both <code>x</code> and <code>y</code> are raw, and logical otherwise (until now, the result was always logical, which is not consistent with the regular case).</li>
-<li>In <a href="../man/bc.d.html">bc.d()</a>, the <code>d==</code>, <code>d!=</code> etc. operators now also accept the case where both <code>x</code> and <code>y</code> are integer or logical.</li>
-<li>Most methods and operators now also preserve <code>comment</code> attributes.</li>
-<li><a href="../man/bcapply.html">bcapply()</a> will now accept the argument input <code>v = "numeric"</code> as an alias for <code>v = "double"</code>.</li>
+<li>In <a href="../man/bc.b.html">bc.b()</a>, in the case of a result with length zero:<br>
+the result will be of type “raw” if both <code>x</code> and <code>y</code> are raw, and logical otherwise<br>
+(until now, the result was always logical, which is not consistent with the regular case).</li>
+<li>In <a href="../man/bc.d.html">bc.d()</a>:<br>
+the <code>d==</code>, <code>d!=</code> etc. operators now also accept the case where both <code>x</code> and <code>y</code> are integer or logical.</li>
+<li>Most methods and operators now also preserve the <code>comment</code> attribute.</li>
 </ul>
 <p><strong>Other changes:</strong></p>
 <ul>

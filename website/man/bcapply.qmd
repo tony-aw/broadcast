@@ -42,11 +42,11 @@ further arguments passed to or from methods. <br /> <br />
 either <code>NULL</code>, or single string, giving the scalar type for a single iteration. <br />
 If <code>NULL</code> (default) or <code>"list"</code>, the result will be a recursive array. <br />
 If it is certain that, for every iteration,
-<code>f()</code> always results in a <b>single atomic scalar</b>,
+<code>f()</code> always results in a <b>single atomic scalar</b> of <b>exactly</b> a specific type,
 the user can specify the type in <code>v</code> to pre-allocate the result. <br />
 Pre-allocating the results leads to slightly faster and more memory efficient code. <br />
 NOTE: Incorrectly specifying <code>v</code> leads to undefined behaviour; <br />
-when unsure, leave <code>v</code> at its default value.
+when unsure, leave <code>v</code> at its default value. <br />
 </td></tr>
 </table>
 

@@ -6,19 +6,20 @@ title: Changelog
 
 **Consistency fixes:**
 
-* In [bc.b()](/man/bc.b.qmd), in the case of a result with length zero:
-the result will be of type "raw" if both `x` and `y` are raw, and logical otherwise
+* In [bc.b()](/man/bc.b.qmd), in the case of a result with length zero:  
+the result will be of type "raw" if both `x` and `y` are raw, and logical otherwise  
 (until now, the result was always logical, which is not consistent with the regular case).
-* In [bc.d()](/man/bc.d.qmd),
+* In [bc.d()](/man/bc.d.qmd):  
 the `d==`, `d!=` etc. operators now also accept the case where both `x` and `y` are integer or logical.
-* Most methods and operators now also preserve `comment` attributes.
-* [bcapply()](/man/bcapply.qmd) will now accept the argument input `v = "numeric"` as an alias for `v = "double"`.
+* Most methods and operators now also preserve the `comment` attribute.
+
 
 **Other changes:**
 
 * Added more examples in the reference manual.
 * Added more tests.
 * Fixed several linguistic errors in the help page of [cast_shallow2atomic()](/man/cast_shallow2atomic.qmd).
+
 
 <br>
 

@@ -9,7 +9,7 @@ the result will be of type "raw" if both `x` and `y` are raw, and logical otherw
 * In `bc.d()`:  
 the `d==`, `d!=` etc. operators now also accept the case where both `x` and `y` are integer or logical.
 * Most methods and operators now also preserve the `comment` attribute.
-* `bcapply()` will now accept the argument input `v = "numeric"` as an alias for `v = "double"`.
+
 
 **Other changes:**
 
