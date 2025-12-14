@@ -501,79 +501,83 @@ enumerate <- enumerate + i # count number of tests
 
 
 # raw ====
-gen <- function(n) sample(c(as.raw(1:100)), n, TRUE)
-i <- 1L
-op <- function(x, y) {
-  return(x & y)
-}
-v <- "raw"
-basefun <- function(x, y) {
-  # using for-loop, because mapply really does not function properly here
-  out <- mapply(op, x, y, SIMPLIFY = FALSE, USE.NAMES = FALSE)
-  out <- as.raw(out)
-  dim(out) <- bc_dim(x, y)
-  return(out)
-}
+# Leaving 'raw' out, because oldrel 'R' had a bug that messed up these tests;
 
+# 
+# gen <- function(n) sample(c(as.raw(1:100)), n, TRUE)
+# i <- 1L
+# op <- function(x, y) {
+#   return(x & y)
+# }
+# v <- "raw"
+# basefun <- function(x, y) {
+#   # using for-loop, because mapply really does not function properly here
+#   out <- mapply(op, x, y, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+#   out <- as.raw(out)
+#   dim(out) <- bc_dim(x, y)
+#   return(out)
+# }
+# 
+# 
+# for(iSample in 1:5) { # re-do tests with different random configurations
+#   for(iDimX in c(1, 2, 5, 8)) { # different dimensions for x
+#     x.dim <- test_make_dims(iDimX)
+#     x.len <- prod(x.dim)
+#     for(iDimY in c(1, 2, 5, 8)) { # different dimensions for y
+#       y.dim <- test_make_dims(iDimY)
+#       y.len <- prod(y.dim)
+#       
+#       x <- array(gen(x.len), dim = x.dim)
+#       y <- array(gen(y.len), dim = y.dim)
+#       
+#       # PREPARE FOR TEST
+#       tdim <- bc_dim(x, y)
+#       # print(x)
+#       # print(y)
+#       # print(tdim)
+#       # cat("\n")
+#       
+#       
+#       # DO TESTS BY CASE:
+#       if(is.null(tdim)) {
+#         # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
+#         expected <- basefun((drop(x)), (drop(y)))
+#         attributes(expected) <- NULL # must be a vector if tdim == NULL
+#         out <- bcapply(x, y, op, v)
+#       }
+#       else if(length(y) == 1L && length(x) == 1L) {
+#         # CASE 2: x and y are both scalar arrays
+#         expected <- basefun((x), (y))
+#         out <- bcapply(x, y, op, v)
+#       }
+#       else if(length(x) == 1L && length(y) > 1L) {
+#         # CASE 3: x is scalar, y is not
+#         expected <- basefun((x), rep_dim((y), tdim))
+#         out <- bcapply(x, y, op, v)
+#       }
+#       else if(length(y) == 1L && length(x) > 1L) {
+#         # CASE 4: y is scalar, x is not
+#         expected <- basefun(rep_dim((x), tdim), (y))
+#         out <- bcapply(x, y, op, v)
+#       }
+#       else {
+#         # CASE 5: x and y are both non-reducible arrays
+#         expected <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
+#         out <- bcapply(x, y, op, v)
+#       }
+#       # END CASES
+#       
+#       # ensure correct dimensions:
+#       dim(expected) <- tdim
+#       
+#       expect_equal(
+#         expected, out
+#       ) |> errorfun()
+#       
+#       i <- i + 1L
+#     }
+#   }
+# }
+# enumerate <- enumerate + i # count number of tests
 
-for(iSample in 1:5) { # re-do tests with different random configurations
-  for(iDimX in c(1, 2, 5, 8)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in c(1, 2, 5, 8)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-      
-      x <- array(gen(x.len), dim = x.dim)
-      y <- array(gen(y.len), dim = y.dim)
-      
-      # PREPARE FOR TEST
-      tdim <- bc_dim(x, y)
-      # print(x)
-      # print(y)
-      # print(tdim)
-      # cat("\n")
-      
-      
-      # DO TESTS BY CASE:
-      if(is.null(tdim)) {
-        # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-        expected <- basefun((drop(x)), (drop(y)))
-        attributes(expected) <- NULL # must be a vector if tdim == NULL
-        out <- bcapply(x, y, op, v)
-      }
-      else if(length(y) == 1L && length(x) == 1L) {
-        # CASE 2: x and y are both scalar arrays
-        expected <- basefun((x), (y))
-        out <- bcapply(x, y, op, v)
-      }
-      else if(length(x) == 1L && length(y) > 1L) {
-        # CASE 3: x is scalar, y is not
-        expected <- basefun((x), rep_dim((y), tdim))
-        out <- bcapply(x, y, op, v)
-      }
-      else if(length(y) == 1L && length(x) > 1L) {
-        # CASE 4: y is scalar, x is not
-        expected <- basefun(rep_dim((x), tdim), (y))
-        out <- bcapply(x, y, op, v)
-      }
-      else {
-        # CASE 5: x and y are both non-reducible arrays
-        expected <- basefun(rep_dim((x), tdim), rep_dim((y), tdim))
-        out <- bcapply(x, y, op, v)
-      }
-      # END CASES
-      
-      # ensure correct dimensions:
-      dim(expected) <- tdim
-      
-      expect_equal(
-        expected, out
-      ) |> errorfun()
-      
-      i <- i + 1L
-    }
-  }
-}
-enumerate <- enumerate + i # count number of tests
 
