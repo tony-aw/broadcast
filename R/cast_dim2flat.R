@@ -49,9 +49,9 @@ cast_dim2flat.default <- function(x, ...) {
   if(is.null(x.dimnames)) {
     dcp <- .C_make_dcp(x.dim)
     dimnumbers <- vector("list", x.ndim)
-    dimnumbers[[1]] <- rep_len(1:x.dim[1], x.len)
+    dimnumbers[[1]] <- rep_len(seq_len(x.dim[1]), x.len)
     for(i in 2:x.ndim) {
-      temp <- rep(1:x.dim[i], each = dcp[i])
+      temp <- rep(seq_len(x.dim[i]), each = dcp[i])
       temp <- rep_len(temp, x.len)
       dimnumbers[[i]] <- temp
     }
@@ -61,9 +61,9 @@ cast_dim2flat.default <- function(x, ...) {
   else {
     dcp <- .C_make_dcp(x.dim)
     out.dimnames <- vector("list", x.ndim)
-    for(i in 1:x.ndim) {
+    for(i in seq_len(x.ndim)) {
       if(is.null(x.dimnames[[i]])) {
-        temp <- rep(1:x.dim[i], each = dcp[i])
+        temp <- rep(seq_len(x.dim[i]), each = dcp[i])
         temp <- rep_len(temp, x.len)
       }
       else {

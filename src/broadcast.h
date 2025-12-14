@@ -304,9 +304,9 @@
 
 
 #define MACRO_TYPESWITCH_DECIMAL_DIST(DIMCODE, NACODE1, DOCODE1, NACODE2, DOCODE2) do {      \
+    if(TYPEOF(x) == REALSXP && TYPEOF(y) == REALSXP) {  \
     const double *px = REAL_RO(x);                              \
     const double *py = REAL_RO(y);                              \
-    if(TYPEOF(x) == REALSXP && TYPEOF(y) == REALSXP) {  \
       DIMCODE(                                                    \
         MACRO_DOUBLEPASS(                                         \
           MACRO_ACTION2(                                           \

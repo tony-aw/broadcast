@@ -192,7 +192,6 @@ enumerate <- enumerate + 2L
 
 
 # errors ====
-
 expect_error(
   mbroadcasters(~ foo, TRUE),
   pattern = "`nms` must be a character vector"
@@ -207,4 +206,25 @@ expect_error(
   mbroadcasters(letters, TRUE, ~ foo),
   "`env` must be an environment or `NULL`"
 )
+
+
+# tes protected names ====
+`TRUE` <- 1:10
+`1` <- 1:10
+expect_error(
+  mbroadcasters("TRUE", TRUE)
+)
+expect_error(
+  mbroadcasters("1", TRUE)
+)
+mbroadcasters("`TRUE`", TRUE)
+expect_true(
+  broadcaster(`TRUE`)
+)
+mbroadcasters("`1`", TRUE)
+expect_true(
+  broadcaster(`1`)
+)
+
+enumerate <- enumerate + 4L
 

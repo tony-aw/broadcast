@@ -85,11 +85,10 @@ vector2array <- function(x, direction, ndim = direction, broadcaster = NULL) {
   }
   
   # make out:
-  out <- x
+  out <- x # automatically keep all relevant attributes
   dim(out) <- out.dim
   dimnames(out) <- out.dimnames
   broadcaster(out) <- broadcaster
-  
   
   return(out)
 }
@@ -115,8 +114,11 @@ undim <- function(x, broadcaster = NULL) {
   }
   
   # get params:
-  x.dimnames <- dimnames(x)
-  if(!is.null(x.dimnames)) {
+  if(length(x) == 0L) {
+    out.names <- NULL
+  }
+  else if(!is.null(dimnames(x))) {
+    x.dimnames <- dimnames(x)
     ind <- lengths(x.dimnames) == length(x)
     if(any(ind)) {
       ind <- which(ind)[1L]
@@ -127,11 +129,11 @@ undim <- function(x, broadcaster = NULL) {
     out.names <- names(x)
   }
   
+  
   # make out:
-  out <- x
+  out <- x # automatically keep all relevant attributes
   dim(out) <- NULL
   names(out) <- out.names
-  
   broadcaster(out) <- broadcaster
   
   return(out)

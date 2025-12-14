@@ -69,6 +69,12 @@ setMethod(
   if(is.null(v)) {
     v <- "list"
   }
+  if(length(v) > 1L) {
+    stop(simpleError("`v` must be a single string or `NULL`", call = abortcall))
+  }
+  if(v == "numeric") {
+    v <- "double"
+  }
   if(!v %in% c("raw", "logical", "integer", "double", "complex", "character", "list")) {
     stop(simpleError("unsupported type specified for `v`", call = abortcall))
   }
@@ -76,7 +82,7 @@ setMethod(
   
   # early zero-len return:
   if(length(x) == 0L || length(y) == 0L) {
-    return(vector(v, 0L))
+    return(.binary_return_zerolen(x, y, FALSE, v))
   }
   
   

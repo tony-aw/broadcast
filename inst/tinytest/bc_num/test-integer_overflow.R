@@ -6,15 +6,28 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 
-# overflow ====
+# bc.i overflow ====
 expect_equal(
-  bc.i(2^53, 1, "+") |> drop(),
+  bc.i(2^53, 1, "+"),
+  Inf
+)
+expect_equal(
+  bc.i(-2^53, 1, "-"),
+  -Inf
+)
+expect_equal(
+  bc.i(2^53, 2, "*"),
+  Inf
+)
+expect_equal(
+  bc.i(-2^53, 0.5, "%/%"),
+  -Inf
+)
+expect_equal(
+  bc.i(2^53, 2, "^"),
   Inf
 )
 
-expect_equal(
-  bc.i(-2^53, 1, "-") |> drop(),
-  -Inf
-)
-enumerate <- enumerate + 2L
+enumerate <- enumerate + 5L
+
 

@@ -72,8 +72,6 @@ setMethod(
     else {
       stop(simpleError("given operator not supported in the given context", call = mycall))
     }
-    
-    
   }
 )
 
@@ -82,13 +80,13 @@ setMethod(
 #' @noRd
 .bc_dec_math <- function(x, y, op, abortcall) {
   
-  if(length(x) == 0L || length(y) == 0L) {
-    return(numeric(0L))
-  }
-  
   if(is.double(x) || is.double(y)) {
     if(!is.double(x)) x <- as_dbl(x)
     if(!is.double(y)) y <- as_dbl(y)
+  }
+  
+  if(length(x) == 0L || length(y) == 0L) {
+    return(.binary_return_zerolen(x, y, FALSE, "double"))
   }
   
   prep <- .binary_prep(x, y, abortcall)
@@ -138,13 +136,13 @@ setMethod(
   
   
   # MAIN:
-  if(length(x) == 0L || length(y) == 0L) {
-    return(logical(0L))
-  }
-  
   if(is.double(x) || is.double(y)) {
     if(!is.double(x)) x <- as_dbl(x)
     if(!is.double(y)) y <- as_dbl(y)
+  }
+  
+  if(length(x) == 0L || length(y) == 0L) {
+    return(.binary_return_zerolen(x, y, TRUE, "logical"))
   }
   
   prep <- .binary_prep(x, y, abortcall)
@@ -184,7 +182,7 @@ setMethod(
   
   .rcpp_set_attr(out, "dim", out.dimorig)
   
-  .binary_set_attr(out, x, y)
+  .binary_set_attr_logical(out, x, y)
   
   return(out)
   
@@ -207,7 +205,7 @@ setMethod(
   
   # MAIN:
   if(length(x) == 0L || length(y) == 0L) {
-    return(logical(0L))
+    return(.binary_return_zerolen(x, y, TRUE, "logical"))
   }
   
   if(is.double(x) || is.double(y)) {
@@ -253,7 +251,7 @@ setMethod(
   
   .rcpp_set_attr(out, "dim", out.dimorig)
   
-  .binary_set_attr(out, x, y)
+  .binary_set_attr_logical(out, x, y)
   
   return(out)
   

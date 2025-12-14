@@ -174,15 +174,9 @@
   }
   
   if(checkx && checky) {
-    # `x` and `y` conflict; only use if their names point to same vector
-    if(.rcpp_address(names(x)) == .rcpp_address(names(y))) {
-      .set_dimnames(out, list(names(x)))
-      return(invisible(NULL))
-    }
-    else {
-      return(invisible(NULL))
-    }
-    
+    # `x` and `y` conflict; use names of `x`:
+    .set_dimnames(out, list(names(x)))
+    return(invisible(NULL))
   }
   
   if(checkx) { # use `x`
@@ -215,14 +209,9 @@
   }
   
   if(checkx && checky) {
-    # `x` and `y` conflict; only use if their names point to same vector
-    if(.rcpp_address(names(x)) == .rcpp_address(names(y))) {
-      .rcpp_set_attr(out, "names", names(x))
-      return(invisible(NULL))
-    }
-    else {
-      return(invisible(NULL))
-    }
+    # `x` and `y` conflict; use names of `x`:
+    .rcpp_set_attr(out, "names", names(x))
+    return(invisible(NULL))
     
   }
   

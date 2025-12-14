@@ -82,15 +82,15 @@ ul.task-list li input[type="checkbox"] {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="../vignettes/a_readme.html" rel="" target="">
- <span class="menu-text">Guides and Vignettes</span></a>
+ <span class="menu-text">🗺️ Guides and Vignettes</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../man/aaa00_broadcast_help.html" rel="" target="">
- <span class="menu-text">Reference Manual</span></a>
+ <span class="menu-text">📖 Reference Manual</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../about/a_acknowledgements.html" rel="" target="" aria-current="page">
- <span class="menu-text">About</span></a>
+ <span class="menu-text">📇 About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -177,7 +177,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#broadcast-0.1.6.1" id="toc-broadcast-0.1.6.1" class="nav-link active" data-scroll-target="#broadcast-0.1.6.1">broadcast 0.1.6.1</a></li>
+  <li><a href="#broadcast-0.1.7-under-development" id="toc-broadcast-0.1.7-under-development" class="nav-link active" data-scroll-target="#broadcast-0.1.7-under-development">broadcast 0.1.7 (Under Development)</a></li>
+  <li><a href="#broadcast-0.1.6.1" id="toc-broadcast-0.1.6.1" class="nav-link" data-scroll-target="#broadcast-0.1.6.1">broadcast 0.1.6.1</a></li>
   <li><a href="#broadcast-0.1.6" id="toc-broadcast-0.1.6" class="nav-link" data-scroll-target="#broadcast-0.1.6">broadcast 0.1.6</a></li>
   <li><a href="#broadcast-0.1.5.3" id="toc-broadcast-0.1.5.3" class="nav-link" data-scroll-target="#broadcast-0.1.5.3">broadcast 0.1.5.3</a></li>
   <li><a href="#broadcast-0.1.5.2" id="toc-broadcast-0.1.5.2" class="nav-link" data-scroll-target="#broadcast-0.1.5.2">broadcast 0.1.5.2</a></li>
@@ -211,11 +212,29 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="broadcast-0.1.7-under-development" class="level1">
+<h1>broadcast 0.1.7 (Under Development)</h1>
+<p><strong>Consistency fixes:</strong></p>
+<ul>
+<li>In <a href="../man/bc.b.html">bc.b()</a>, in the case of a result with length zero: the result will be of type “raw” if both <code>x</code> and <code>y</code> are raw, and logical otherwise (until now, the result was always logical, which is not consistent with the regular case).</li>
+<li>In <a href="../man/bc.d.html">bc.d()</a>, the <code>d==</code>, <code>d!=</code> etc. operators now also accept the case where both <code>x</code> and <code>y</code> are integer or logical.</li>
+<li>Most methods and operators now also preserve <code>comment</code> attributes.</li>
+<li><a href="../man/bcapply.html">bcapply()</a> will now accept the argument input <code>v = "numeric"</code> as an alias for <code>v = "double"</code>.</li>
+</ul>
+<p><strong>Other changes:</strong></p>
+<ul>
+<li>Added more examples in the reference manual.</li>
+<li>Added more tests.</li>
+<li>Fixed several linguistic errors in the help page of <a href="../man/cast_shallow2atomic.html">cast_shallow2atomic()</a>.</li>
+</ul>
+<p><br></p>
+</section>
 <section id="broadcast-0.1.6.1" class="level1">
 <h1>broadcast 0.1.6.1</h1>
 <ul>
 <li>Replaced all uses of <code>abs()</code>/<code>fabs()</code> with <code>std::abs()</code> in the internal source code.</li>
 </ul>
+<p><br></p>
 </section>
 <section id="broadcast-0.1.6" class="level1">
 <h1>broadcast 0.1.6</h1>
@@ -232,18 +251,21 @@ ul.task-list li input[type="checkbox"] {
 <li>If one of the input arrays in <a href="../man/bind_array.html">bind_array()</a> is a <code>broadcaster</code>, then the result will also be a <code>broadcaster</code>.</li>
 <li>Added more tests.</li>
 </ul>
+<p><br></p>
 </section>
 <section id="broadcast-0.1.5.3" class="level1">
 <h1>broadcast 0.1.5.3</h1>
 <ul>
 <li>Replaced <code>abs</code> function with <code>labs</code> function when using long integers in src/rcpp_bcFact_int.</li>
 </ul>
+<p><br></p>
 </section>
 <section id="broadcast-0.1.5.2" class="level1">
 <h1>broadcast 0.1.5.2</h1>
 <ul>
 <li>Reduced the installation time and size of the compiled library, with almost no performance loss.</li>
 </ul>
+<p><br></p>
 </section>
 <section id="broadcast-0.1.5" class="level1">
 <h1>broadcast 0.1.5</h1>
@@ -276,6 +298,7 @@ Now, <code>recurse_all</code>, controls if the casting methods recurse through c
 <li>Added and adapted the unit tests for the above changes.</li>
 <li>Re-ran the unit tests coverage report shown on the website.</li>
 </ul>
+<p><br></p>
 </section>
 <section id="broadcast-0.1.3" class="level1">
 <h1>broadcast 0.1.3</h1>
@@ -283,6 +306,7 @@ Now, <code>recurse_all</code>, controls if the casting methods recurse through c
 <li>Continuation of Initial CRAN submission.</li>
 <li>Fixed the title case.</li>
 </ul>
+<p><br></p>
 </section>
 <section id="broadcast-0.1.2" class="level1">
 <h1>broadcast 0.1.2</h1>
@@ -291,6 +315,7 @@ Now, <code>recurse_all</code>, controls if the casting methods recurse through c
 <li>Shortened the title.</li>
 <li>Removed the LICENSE file, and its reference in the Description.</li>
 </ul>
+<p><br></p>
 </section>
 <section id="broadcast-0.1.1" class="level1">
 <h1>broadcast 0.1.1</h1>
@@ -298,12 +323,14 @@ Now, <code>recurse_all</code>, controls if the casting methods recurse through c
 <li>Continuation of Initial CRAN submission.</li>
 <li>Replaced <code>abs</code> function with <code>labs</code> function when using long integers in src/rcpp_bc_int.</li>
 </ul>
+<p><br></p>
 </section>
 <section id="broadcast-0.1" class="level1">
 <h1>broadcast 0.1</h1>
 <ul>
 <li>Initial CRAN submission</li>
 </ul>
+<p><br></p>
 </section>
 <section id="broadcast-0.0.0.9018" class="level1">
 <h1>broadcast 0.0.0.9018</h1>
@@ -312,12 +339,14 @@ Now, <code>recurse_all</code>, controls if the casting methods recurse through c
 <li>Proof-read the documentation, and made some tweaks.</li>
 <li>Started preparations for CRAN release in the near future.</li>
 </ul>
+<p><br></p>
 </section>
 <section id="broadcast-0.0.0.9000" class="level1">
 <h1>broadcast 0.0.0.9000</h1>
 <ul>
 <li>Initial GitHub Publication</li>
 </ul>
+<p><br></p>
 
 
 </section>

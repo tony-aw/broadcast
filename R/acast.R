@@ -155,16 +155,19 @@ acast.default <- function(
   
   
   # pre params:
-  subs <- lapply(1:dimchunksize, \(i)1:x.dimchunk[i])
+  subs <- lapply(seq_len(dimchunksize), \(i)seq_len(x.dimchunk[i]))
   starts <- rep(0L, dimchunksize)
   lens <- lengths(subs)
-  dcp_out <- .C_make_dcp(out.dimchunk)[1:dimchunksize]
-  dcp_x <- .C_make_dcp(x.dimchunk)[1:dimchunksize]
+  dcp_out <- .C_make_dcp(out.dimchunk)[seq_len(dimchunksize)]
+  dcp_x <- .C_make_dcp(x.dimchunk)[seq_len(dimchunksize)]
   
   
   # CORE function:
   .rcpp_acast(out, x, starts, lens, subs, out.dimchunk, dcp_out, dcp_x, grp, grp_n, margin, newdim)
   
+  if(broadcaster(x)) {
+    .rcpp_set_attr(out, "class", "broadcaster")
+  }
   
   return(out)
   

@@ -204,24 +204,13 @@ Let's once again cast this list to a dimensional list, but this time use `in2out
 
 ```{r}
 hier2dim(x, in2out = FALSE) # check once again the dimensions
-x2 <- cast_hier2dim(x, in2out = FALSE) # actually cast nested list into dimensional list
+x2 <- cast_hier2dim(x, in2out = FALSE, direction.names = 1)
 print(x2)
 ```
 
 `x2` is the casted list.
-Since `in2out = FALSE`, element `x[[i]][[j]][[k]]` corresponds to element `x2[i, j, k]` (for all `i`, `j`, and `k`).
-
-
-Once again it is trivially easy to set the `dimnames` of `x2`, using [hiernames2dimnames()](/man/hier2dim.qmd) (available from version `0.1.5`):
-
-```{r}
-# this time, in2out = FALSE
-# so we go from the surface names to the deepest names
-dimnames(x2) <- hiernames2dimnames(x, in2out = FALSE)
-print(x2)
-```
-
-There, the names are now correct.
+Since `in2out = FALSE`, element `x[[i]][[j]][[k]]` corresponds to element `x2[i, j, k]` (for all `i`, `j`, and `k`).  
+The argument `direction.names = 1` was specified, which intelligently tries to deduce good `dimnames` for the result. So we don't have to set the dimension names via [hiernames2dimnames()](/man/hier2dim.qmd).
 
 One can print `x2` less compactly without much effort by flattening it, again using the [cast_dim2flat()](/man/cast_dim2flat.qmd) function.  
 We only need to see a portion of the list in detail, so let's look at class1 from group 1 in the flattened form:
@@ -276,27 +265,17 @@ But notice the **names** of the output are different: the second element has the
 So let's cast this list as dimensional:
 
 ```{r}
-x2 <- cast_hier2dim(x)
+x2 <- cast_hier2dim(x, direction.names = 1)
 print(x2)
 ```
 
 Subset `x2[, 2, 1]` is filled with `NULL`; this is the place where `x$group1$class2` was in Example 1, but since it's not there, we need to fill **something**.
 
-To make it make obvious, let's give the array proper `dimnames`:
-
-```{r}
-dimnames(x2) <- hiernames2dimnames(x)
-print(x2)
-```
-
-Again, element "class2" is missing from element "group1", but not from "group2", and so padded with `NULL` when the list is casted as dimensional.
-
 Sometimes, a different value than `NULL` is desired for padding.  
 So let's replace the padding value with something **really** obvious, using the `padding` argument:
 
 ```{r}
-x2 <- cast_hier2dim(x, padding = list(~ "this is padding!"))
-dimnames(x2) <- hiernames2dimnames(x)
+x2 <- cast_hier2dim(x, padding = list(~ "this is padding!"), direction.names = 1)
 print(x2)
 ```
 
@@ -343,7 +322,8 @@ x <- list(
 
 
 On the left side the list is casted as dimensional using the default of `in2out = TRUE`, with proper names assigned.  
-On the right side the list is casted as dimensional using `in2out = FALSE`, again with proper names assigned.
+On the right side the list is casted as dimensional using `in2out = FALSE`, again with proper names assigned.  
+For the sake of this example, we will set the `dimnames` manually via [hiernames2dimnames()](/man/hier2dim.qmd).
 
 :::{layout-ncol="2"}
 
@@ -468,7 +448,7 @@ print(x2)
 ```
 
 The default value for `in2out` is `TRUE`, so we don't have to specify it here.  
-The `direction.names` argument (available from broadcast version `0.1.6`) in [cast_hier2dim()](/man/cast_hier2dim.qmd) will construct dimensional names for you, so you don't have to set them manually using [hiernames2dimnames()](/man/hier2dim.qmd).  
+The `direction.names` argument in [cast_hier2dim()](/man/cast_hier2dim.qmd) will construct dimensional names for you, so you don't have to set them manually using [hiernames2dimnames()](/man/hier2dim.qmd).  
 
 
 Second, cast the newly created dimensional list back to a nested list, but this time use `in2out = FALSE`:

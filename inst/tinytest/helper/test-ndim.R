@@ -1,10 +1,34 @@
 # set-up ===
 enumerate <- 0 # to count number of tests performed using iterations in loops
 
+
+
+# ndim() ====
+
+expect_equal(
+  ndim(1:10),
+  0L
+)
+expect_equal(
+  ndim(NULL),
+  0L
+)
+expect_equal(
+  ndim(integer(0L)),
+  0L
+)
+expect_equal(
+  ndim(list()),
+  0L
+)
 expect_equal(
   ndim(array(1:24, 2:4)),
   3L
 )
+enumerate <- enumerate + 5L
+
+
+# lst.ndim() ====
 
 x <- list(
   array(c(TRUE, FALSE, NA), c(10)),
@@ -34,6 +58,23 @@ expect_equal(
   out
 )
 
-enumerate <- enumerate + 3L
+expect_equal(
+  lst.ndim(list(1:10)),
+  0L
+)
+expect_equal(
+  lst.ndim(list(NULL)),
+  0L
+)
+expect_equal(
+  lst.ndim(list(integer(0L))),
+  0L
+)
+expect_equal(
+  lst.ndim(list()),
+  integer(0L)
+)
+
+enumerate <- enumerate + 7L
 
 

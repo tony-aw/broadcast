@@ -21,12 +21,12 @@ test_make_dims <- function(n) {
 }
 .return_missing <- broadcast:::.return_missing
 
-ab <- broadcast:::.as.broadcaster
+abcr <- broadcast:::.as.broadcaster
 
 mysub <- function(txt) {
-  txt <- gsub("x", "ab(x)", txt)
-  txt <- gsub("y", "ab(y)", txt)
-  txt <- gsub("z", "ab(z)", txt)
+  txt <- gsub("x", "abcr(x)", txt)
+  txt <- gsub("y", "abcr(y)", txt)
+  txt <- gsub("z", "abcr(z)", txt)
   return(txt)
 }
 

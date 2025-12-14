@@ -114,5 +114,13 @@ expect_error(
   pattern = "`f` must be a function that takes in exactly 2 arguments",
   fixed = TRUE
 )
-enumerate <- enumerate + 2L
+expect_error(
+  bcapply(x, y, \(x, y)paste0(x, y), v = letters),
+  pattern = "`v` must be a single string or `NULL`"
+)
+expect_error(
+  bcapply(x, y, \(x, y)paste0(x, y), v = "a"),
+  pattern = "unsupported type specified for `v`"
+)
+enumerate <- enumerate + 4L
 

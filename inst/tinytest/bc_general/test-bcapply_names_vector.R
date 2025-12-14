@@ -87,11 +87,11 @@ for(i in seq_along(datagens)) {
   
   expect_equal(
     bcapply(x, y, \(x, y) paste0(x, y)) |> names(),
-    NULL
+    names(x)
   ) |> errorfun()
   expect_equal(
     bcapply(y, x, \(x, y) paste0(x, y)) |> names(),
-    NULL
+    names(y)
   ) |> errorfun()
   
   enumerate <- enumerate + 2L

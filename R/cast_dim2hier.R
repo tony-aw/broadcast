@@ -54,7 +54,7 @@ cast_dim2hier.default <- function(x, in2out = TRUE, distr.names = TRUE, ...) {
   # FUNCTION:
   x.dim <- dim(x)
   x.ndim <- depth <- ndim(x)
-  x.dcp <- .C_make_dcp(x.dim)[1:x.ndim]
+  x.dcp <- .C_make_dcp(x.dim)[seq_len(x.ndim)]
   lens <- x.dim
   
   if(in2out) {

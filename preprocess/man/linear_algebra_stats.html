@@ -119,6 +119,7 @@ A vector of standard deviations.
 <h3>Examples</h3>
 
 <pre><code class='language-R'>
+
 vc &lt;- datasets::ability.cov$cov
 X &lt;- matrix(rnorm(100), 100, ncol(vc))
 
@@ -127,8 +128,6 @@ cinv(vc) # faster than `solve()`, but only works on positive definite matrices
 all(round(solve(vc), 6) == round(cinv(vc), 6)) # they're the same
 
 sd_lc(X, vc)
-
-     
 </code></pre>
 
 </main>

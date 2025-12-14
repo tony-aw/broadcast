@@ -38,7 +38,7 @@ see the <code>Details</code> and <code>Examples</code> sections.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="padding">padding</code></td>
 <td>
-an atomic scalar, and only relevant if <code>arrangement</code> is 1 or -1. <br />
+an atomic scalar, and only relevant if <code>arrangement</code> is <code>1</code> or <code>-1</code>. <br />
 This gives the padding value to use when padding is required. <br />
 Padding is used to ensure every all slices of the same dimension in the output
 have equal number of elements
@@ -46,12 +46,12 @@ have equal number of elements
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="comnames_from">comnames_from</code></td>
 <td>
-an integer scalar or <code>NULL</code>, and only relevant if <code>arrangement</code> is 1 or -1. <br />
+an integer scalar or <code>NULL</code>, and only relevant if <code>arrangement</code> is <code>1</code> or <code>-1</code>. <br />
 This gives which element of <code>x</code> to use for the communal names. <br />
 If <code>NULL</code>, no communal names will be given. <br />
 For example: <br />
 If <code>x</code> is a 1d (or dimensionless) list,
-<code>cast_shallow2atomic(x, 1)</code> will produce an atomic matrix. <br />
+<code>cast_shallow2atomic(x, 1, arrangement = 1)</code> will produce an atomic matrix. <br />
 The column names of the matrix will be <code>names(x)</code>. <br />
 The row names, however, will be taken from <code>names(x[[comnames_from]])</code>,
 provided that <code>x[[comnames_from]]</code> has the proper length. <br />
@@ -71,12 +71,18 @@ If <code>arrangement = 1L</code>, <br />
 with the elements arranged such that the dimensions are <code>c(max(lengths(x)), dim(x))</code>. <br />
 If <code>x</code> has no dimensions, <code>dim(x)</code> is replaced with <code>length(x)</code>, thus treating <code>x</code> as an 1d array. <br />
 This will therefore always produce an atomic array with at least 2 dimensions. <br />
+The <code>dimnames</code>, if possible to construct,
+will be <code>c(names(x[[comnames_from]]), dimnames(x))</code>. <br />
 <br />
 If <code>arrangement = -1L</code>, <br />
 <code>cast_shallow2atomic()</code> will produce an atomic array,
 with the elements arranged such that the dimensions are <code>c(dim(x), max(lengths(x)))</code>. <br />
 If <code>x</code> has no dimensions, <code>dim(x)</code> is replaced with <code>length(x)</code>, thus treating <code>x</code> as an 1d array. <br />
 This will therefore always produce an atomic array with at least 2 dimensions. <br />
+The <code>dimnames</code>, if possible to construct,
+will be <code>c(dimnames(x), names(x[[comnames_from]]))</code>. <br />
+<br />
+In all cases, the result will be <code>atomic</code>. <br />
 <br />
 
 
@@ -84,16 +90,21 @@ This will therefore always produce an atomic array with at least 2 dimensions. <
 ### Value
 
 If <code>arrangement = 0L</code>: <br />
-An atomic vector without dimensions. <br />
+An atomic vector. <br />
 <br />
 If <code>arrangement = 1L</code>: <br />
-An atomic array with dimensions <code>c(max(lengths(x)), dim(x))</code>. <br />
-The dimnames, if possible to construct, will be <code>c(names(x[[comnames_from]]), dimnames(x))</code>, provided
-If <code>x</code> has no dimensions, <code>dim(x)</code> is replaced with <code>length(x)</code>. <br />
+An atomic array. <br />
 <br />
 If <code>arrangement = -1L</code>: <br />
-An atomic array with dimensions <code>c(dim(x), max(lengths(x)))</code>. <br />
-If <code>x</code> has no dimensions, <code>dim(x)</code> is replaced with <code>length(x)</code>. <br />
+An atomic array. <br />
+<br />
+The type of the result is determined from the highest <code>atomic</code> type of any of the list elements
+(including elements of length zero). <br />
+The hierarchy of <code>atomic</code> types is: <br />
+raw &lt; logical &lt; integer &lt; double &lt; complex &lt; character. <br />
+List elements that are not <code>atomic</code> but language expressions,
+like formulas,
+will be coerced to type of <code>character</code>. <br />
 <br />
 
 

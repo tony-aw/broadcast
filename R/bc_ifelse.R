@@ -79,7 +79,10 @@ setMethod(
     stop(simpleError("input must be arrays or simple vecors", call = abortcall))
   }
   if(length(test) == 0L) {
-    return(vector(typeof(yes), 0L))
+    out <- vector(typeof(yes), 0L)
+    broadcaster(out) <- broadcaster(test)
+    comment(out) <- comment(test)
+    return(out)
   }
   if(length(test) != prod(bc_dim(yes, no))) {
     stop(simpleError("`test` of incorrect length", call = abortcall))
@@ -141,6 +144,9 @@ setMethod(
   }
   if(is.atomic(out) && inherits(test, "mutatomic")) {
     .rcpp_set_ma(out, c("mutatomic", oldClass(out)))
+  }
+  if(!is.null(comment(test))) {
+    .rcpp_set_attr(out, "comment", comment(test))
   }
   
   return(out)

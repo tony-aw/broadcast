@@ -70,6 +70,22 @@ for(i in lst.files) {
 # Process Vignettes, Index page ====
 #
 
+# process index page ====
+funs <- getNamespaceExports("broadcast")
+filepath <- file.path("website", "index.qmd")
+temp <- readLines(filepath)
+p <- paste0("\\[", funs, "\\(\\)\\]", "\\(\\/man\\/.*\\.qmd\\)")
+rp <- paste0("`", funs, "()`")
+temp <- stri_replace_all(
+  temp, rp, regex = p, vectorize_all = FALSE
+)
+p <- paste0("`", funs, "()`")
+rp <- paste0("[", funs, "()]", "(/man/", rd_index(funs), ".qmd)")
+temp <- stri_replace_all(
+  temp, rp, fixed = p, vectorize_all = FALSE
+)
+writeLines(temp, file.path("website", "index.qmd"))
+
 
 # clear any present links in vignettes ====
 funs <- getNamespaceExports("broadcast")

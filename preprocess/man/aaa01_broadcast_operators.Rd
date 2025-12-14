@@ -17,7 +17,7 @@ this is sufficient. \cr
 The second way is to use the large set of \code{bc.}- functions. \cr
 These offer much greater control and more operators than the previous method,
 and has less risk of running into conflicting methods. \cr
-But it does not support operator precedence. \cr
+But they do not support operator precedence. \cr
 \cr
 }
 \section{Operators Overloaded via Broadcaster Class}{
@@ -34,8 +34,8 @@ The following relational operators have a 'broadcaster' method:
 ==, !=, <, >, <=, >= \cr
 And finally, the & and | operators also have a 'broadcaster' method. \cr
 \cr
-As the \code{[broadcaster](broadcaster.qmd)} operator methods simply overload the base operators,
-operator precedence rules are preserved for the \code{[broadcaster](broadcaster.qmd)} operator methods. \cr
+The overloaded operators preserve the same precedence rules as the base operators. \cr
+I.e. \code{^} comes before \code{*} and \code{/}, which come before \code{+} and \code{-}, and so on. \cr
 \cr
 See also the Examples section below. \cr
 \cr
@@ -71,7 +71,7 @@ The various other \code{bc.} methods have specialized relational operators avail
 
 The \code{bc.} functions and the overloaded operators generally do \bold{not}
 preserve attributes, unlike the base 'R' operators,
-except for (dim)names and the \code{[broadcaster](broadcaster.qmd)} class attribute (and related attributes). \cr
+except for \code{names}, \code{dimnames}, \code{comment} (if appropriate), and the \code{[broadcaster](broadcaster.qmd)} class attribute (and related attributes). \cr
 \cr
 Broadcasting often results in an object with more dimensions, larger dimensions,
 and/or larger length than the original objects. \cr
@@ -80,9 +80,6 @@ Custom matrix classes, for example, presumes an object to have exactly 2 dimensi
 And the various classes provided by the 'bit' package have length-related attributes. \cr
 So class attributes cannot be guaranteed to hold for the resulting objects when broadcasting is involved. \cr
 \cr
-The \code{bc.} functions and the overloaded operators
-\bold{always} preserve the "broadcaster" attribute,
-as this is necessary to chain together broadcasted operations. \cr
 \cr
 Almost all functions provided by 'broadcast' are S3 or S4 generics; \cr
 methods can be written for them for specific classes,

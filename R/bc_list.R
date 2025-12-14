@@ -59,7 +59,7 @@ setMethod(
   }
   
   if(length(x) == 0L || length(y) == 0L) {
-    return(vector("list", 0L))
+    return(.binary_return_zerolen(x, y, FALSE, "list"))
   }
   
   # general prep:

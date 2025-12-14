@@ -48,16 +48,18 @@
 .hiercast_check_dims <- function(x, abortcall) {
   x.dim <- dim(x)
   if(is.null(x.dim)) {
-    stop("`x` has no dimensions")
+    stop(simpleError("`x` has no dimensions", call = abortcall))
   }
   if(any(x.dim == 0)) {
-    stop("`x` has zero-length dimensions")
+    stop(simpleError("`x` has zero-length dimensions", call = abortcall))
   }
   if(ndim(x) == 1) {
-    stop("`x` is single-dimensional")
+    stop(simpleError("`x` is single-dimensional", call = abortcall))
   }
   if(ndim(x) > 16L) {
-    stop("arrays with more than 16 dimensions not supported")
+    stop(simpleError(
+      "arrays with more than 16 dimensions not supported", call = abortcall
+    ))
   }
 }
 

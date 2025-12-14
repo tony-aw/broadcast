@@ -75,7 +75,7 @@ setMethod(
 .bc_raw_byte <- function(x, y, op, abortcall) {
   
   if(length(x) == 0L || length(y) == 0L) {
-    return(raw(0L))
+    return(.binary_return_zerolen(x, y, TRUE, "raw"))
   }
   
   prep <- .binary_prep(x, y, abortcall)
@@ -112,7 +112,7 @@ setMethod(
   
   .rcpp_set_attr(out, "dim", out.dimorig)
   
-  .binary_set_attr(out, x, y)
+  .binary_set_attr_logical(out, x, y)
   
   return(out)
   

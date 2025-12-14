@@ -6,6 +6,10 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 
+.test_binary <- broadcast:::.test_binary
+.test_binary_class <- broadcast:::.test_binary_class
+.test_binary_zerolen <- broadcast:::.test_binary_zerolen
+
 test_make_dims <- function(n) {
   
   # make dimensions that are randomly of size 1 or 5:
@@ -20,7 +24,7 @@ test_make_dims <- function(n) {
   return(out)
 }
 .return_missing <- broadcast:::.return_missing
-
+types <- "character"
 
 
 # basic tests ====
@@ -43,86 +47,50 @@ enumerate <- enumerate + 2L
 
 
 # plus ====
-nres <- 10 * 5 * 5 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
-op <- "+"
-
-i <- 1L
-x.data <- sample(letters)
-y.data <- sample(letters)
 basefun <- function(x, y) {
-  out <- paste0(x, y)
+  out <- ifelse(is.na(x) | is.na(y), NA_character_, paste0(x, y))
   dim(out) <- bc_dim(x, y)
   return(out)
 }
+bc.fun <- \(x, y) bc.str(x, y, "+")
 
-for(iSample in 1:10) { # re-do tests with different random configurations
-  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-
-      x <- array(x.data, dim = x.dim)
-      y <- array(y.data, dim = y.dim)
-      
-      # PREPARE FOR TEST
-      tdim <- bc_dim(x, y)
-      # print(x)
-      # print(y)
-      # print(tdim)
-      # cat("\n")
-      
-      
-      # DO TESTS BY CASE:
-      if(is.null(tdim)) {
-        # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-        expected[[i]] <- basefun(as_chr(drop(x)), as_chr(drop(y)))
-        attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-        out[[i]] <- bc.str(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) == 1L) {
-        # CASE 2: x and y are both scalar arrays
-        expected[[i]] <- basefun(as.character(x), as.character(y))
-        out[[i]] <- bc.str(x, y, op)
-      }
-      else if(length(x) == 1L && length(y) > 1L) {
-        # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.character(x), rep_dim(as_chr(y), tdim))
-        out[[i]] <- bc.str(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) > 1L) {
-        # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(rep_dim(as_chr(x), tdim), as.character(y))
-        out[[i]] <- bc.str(x, y, op)
-      }
-      else {
-        # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(rep_dim(as_chr(x), tdim), rep_dim(as_chr(y), tdim))
-        out[[i]] <- bc.str(x, y, op)
-      }
-      # END CASES
-      
-      # R is sometimes inconsistent whether it returns NA or NaN
-      # for example: NaN + NaN = NA, but NaN - NaN = NaN
-      # the 'broadcast' package prefers to remain consistent in all NA/NaN cases
-      # the following code is meant to ensure NaN results turn to NA, like 'broadcast' does
-      ind.NaN <- is.nan(expected[[i]])
-      expected[[i]][ind.NaN] <- .return_missing(expected[[i]][ind.NaN])
-      ind.NaN <- is.nan(out[[i]])
-      out[[i]][ind.NaN] <- .return_missing(out[[i]][ind.NaN])
-      
-      # ensure correct dimensions:
-      dim(expected[[i]]) <- tdim
-      
-      i <- i + 1L
-    }
-  }
-}
-enumerate <- enumerate + i # count number of tests
-# test results:
+res <- .test_binary(bc.fun, basefun, types, types)
 expect_equal(
-  expected, out
+  res$expected,
+  res$out
 )
+
+
+
+
+# attributes tests ====
+bc.fun <- function(x, y) { bc.str(x, y, "+")}
+
+res <- .test_binary_class(bc.fun, types, types)
+expect_equal(
+  res$expected_bc, res$out_bc
+)
+expect_equal(
+  res$expected_comm, res$out_comm
+)
+expect_equal(
+  res$expected_ma, res$out_ma
+)
+enumerate <- enumerate + res$i
+
+
+# zerolen tests ====
+bc.fun <- function(x, y) { bc.str(x, y, "+")}
+res <- .test_binary_zerolen(bc.fun, is.character, types, types)
+expect_true(all(res$is_OK_type))
+expect_equal(
+  res$expected_bc, res$out_bc
+)
+expect_equal(
+  res$expected_comm, res$out_comm
+)
+enumerate <- enumerate + res$i
+
+
+
 

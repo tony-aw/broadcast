@@ -17,18 +17,18 @@ The attributes of the objects inside the list will be ignored, except for \code{
 
 \item{arrangement}{see the \code{Details} and \code{Examples} sections.}
 
-\item{padding}{an atomic scalar, and only relevant if \code{arrangement} is 1 or -1. \cr
+\item{padding}{an atomic scalar, and only relevant if \code{arrangement} is \code{1} or \code{-1}. \cr
 This gives the padding value to use when padding is required. \cr
 Padding is used to ensure every all slices of the same dimension in the output
 have equal number of elements
 (for example, all rows must have the same number of columns).}
 
-\item{comnames_from}{an integer scalar or \code{NULL}, and only relevant if \code{arrangement} is 1 or -1. \cr
+\item{comnames_from}{an integer scalar or \code{NULL}, and only relevant if \code{arrangement} is \code{1} or \code{-1}. \cr
 This gives which element of \code{x} to use for the communal names. \cr
 If \code{NULL}, no communal names will be given. \cr
 For example: \cr
 If \code{x} is a 1d (or dimensionless) list,
-\code{cast_shallow2atomic(x, 1)} will produce an atomic matrix. \cr
+\code{cast_shallow2atomic(x, 1, arrangement = 1)} will produce an atomic matrix. \cr
 The column names of the matrix will be \code{names(x)}. \cr
 The row names, however, will be taken from \code{names(x[[comnames_from]])},
 provided that \code{x[[comnames_from]]} has the proper length. \cr
@@ -36,16 +36,21 @@ See also the \code{Examples} section.}
 }
 \value{
 If \code{arrangement = 0L}: \cr
-An atomic vector without dimensions. \cr
+An atomic vector. \cr
 \cr
 If \code{arrangement = 1L}: \cr
-An atomic array with dimensions \code{c(max(lengths(x)), dim(x))}. \cr
-The dimnames, if possible to construct, will be \code{c(names(x[[comnames_from]]), dimnames(x))}, provided
-If \code{x} has no dimensions, \code{dim(x)} is replaced with \code{length(x)}. \cr
+An atomic array. \cr
 \cr
 If \code{arrangement = -1L}: \cr
-An atomic array with dimensions \code{c(dim(x), max(lengths(x)))}. \cr
-If \code{x} has no dimensions, \code{dim(x)} is replaced with \code{length(x)}. \cr
+An atomic array. \cr
+\cr
+The type of the result is determined from the highest \code{atomic} type of any of the list elements
+(including elements of length zero). \cr
+The hierarchy of \code{atomic} types is: \cr
+raw < logical < integer < double < complex < character. \cr
+List elements that are not \code{atomic} but language expressions,
+like formulas,
+will be coerced to type of \code{character}. \cr
 \cr
 }
 \description{
@@ -62,12 +67,18 @@ If \code{arrangement = 1L}, \cr
 with the elements arranged such that the dimensions are \code{c(max(lengths(x)), dim(x))}. \cr
 If \code{x} has no dimensions, \code{dim(x)} is replaced with \code{length(x)}, thus treating \code{x} as an 1d array. \cr
 This will therefore always produce an atomic array with at least 2 dimensions. \cr
+The \code{dimnames}, if possible to construct,
+will be \code{c(names(x[[comnames_from]]), dimnames(x))}. \cr
 \cr
 If \code{arrangement = -1L}, \cr
 \code{cast_shallow2atomic()} will produce an atomic array,
 with the elements arranged such that the dimensions are \code{c(dim(x), max(lengths(x)))}. \cr
 If \code{x} has no dimensions, \code{dim(x)} is replaced with \code{length(x)}, thus treating \code{x} as an 1d array. \cr
 This will therefore always produce an atomic array with at least 2 dimensions. \cr
+The \code{dimnames}, if possible to construct,
+will be \code{c(dimnames(x), names(x[[comnames_from]]))}. \cr
+\cr
+In all cases, the result will be \code{atomic}. \cr
 \cr
 }
 \section{Back transformation}{

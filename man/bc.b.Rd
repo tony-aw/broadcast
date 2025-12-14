@@ -10,10 +10,11 @@ bc.b(x, y, op, ...)
 \S4method{bc.b}{ANY}(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable vectors/arrays of type \code{logical}, \code{numeric}, or \code{raw}.}
+\item{x, y}{conformable vectors/arrays of type \code{logical}, \code{numeric}, or \code{raw}. \cr
+Note that input with type of \code{double} will be coerced to \code{integer}.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported Boolean  operators: &, |, xor, nand, ==, !=, <, >, <=, >=.}
+Supported Boolean operators: &, |, xor, nand, ==, !=, <, >, <=, >=.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }

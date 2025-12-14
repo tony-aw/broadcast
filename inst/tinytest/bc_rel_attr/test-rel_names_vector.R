@@ -85,11 +85,11 @@ for(i in seq_along(datagens)) {
   
   expect_equal(
     bc.rel(x, y, "==") |> names(),
-    NULL
+    names(x)
   ) |> errorfun()
   expect_equal(
     bc.rel(y, x, "==") |> names(),
-    NULL
+    names(y)
   ) |> errorfun()
   
   enumerate <- enumerate + 2L

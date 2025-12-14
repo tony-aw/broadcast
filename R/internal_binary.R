@@ -141,11 +141,10 @@
       ndim <- length(x.dim)
     }
   }
-  if(dimmode == 4L && ndim < 16L) { # make dimensions of length 16 so that they fit the general MACRO
+  if(dimmode == 4L && ndim < 16L) { # make dimensions fit the general MACRO
     x.dim <- .chunkify_dims(x.dim)
     y.dim <-  .chunkify_dims(y.dim)
     out.dimsimp <- .C_pmax(x.dim, y.dim)
-    ndim <- 16L
   }
   
   
@@ -216,6 +215,23 @@
 }
 
 
+#' @keywords internal
+#' @noRd
+.binary_set_comm <- function(x, y, out) {
+  x.comm <- comment(x)
+  y.comm <- comment(y)
+  x.hascom <- !is.null(x.comm)
+  y.hascom <- !is.null(y.comm)
+  if(x.hascom != y.hascom) {
+    
+    if(x.hascom && is.character(x.comm)) {
+      .rcpp_set_attr(out, "comment", x.comm)
+    }
+    else if(y.hascom && is.character(y.comm)) {
+      .rcpp_set_attr(out, "comment", y.comm)
+    }
+  }
+}
 
 
 #' @keywords internal
@@ -230,7 +246,48 @@
     .rcpp_set_ma(out, c("mutatomic", oldClass(out)))
   }
   
+  .binary_set_comm(x, y, out)
   .binames_set(x, y, out)
+  
+}
+
+#' @keywords internal
+#' @noRd
+.binary_set_attr_logical <- function(out, x, y) {
+  
+  if(inherits(x, "broadcaster") || inherits(y, "broadcaster")) {
+    .rcpp_set_attr(out, "class", "broadcaster")
+  }
+  
+  .binames_set(x, y, out)
+  
+}
+
+
+
+#' @keywords internal
+#' @noRd
+.binary_return_zerolen <- function(x, y, is_logical_op = FALSE, returntype = NULL) {
+  
+  # determine output type & and make output of type:
+  out.type <- returntype
+  if(is.null(returntype)) {
+    out.type <- .C_bindhelper_max_type(list(x, y))
+    out.type <- .types()[out.type]
+  }
+  out <- vector(out.type, 0L)
+  
+  # length INDEPENDENT attributes:
+  if(broadcaster(x) || broadcaster(y)) {
+    broadcaster(out) <- TRUE
+  }
+  
+  if(!is_logical_op) {
+    .binary_set_comm(x, y, out)
+  }
+  
+  
+  return(out)
   
 }
 

@@ -53,8 +53,8 @@
     return(.bc_cplx_rel(e1, e2, op, abortcall))
   }
   else if(is.numeric(e1) || is.numeric(e2)) {
-    if(!is.double(e1)) e1 <- as_dbl(e1)
-    if(!is.double(e2)) e2 <- as_dbl(e2)
+    if(!is.numeric(e1)) e1 <- as_dbl(e1)
+    if(!is.numeric(e2)) e2 <- as_dbl(e2)
     return(.bc_dec_rel(e1, e2, op, abortcall))
   }
   else if(is.logical(e1) || is.logical(e2)) {
@@ -75,8 +75,8 @@
   .binary_stop_general(e1, e2, "?", abortcall)
   
   if(is.numeric(e1) || is.numeric(e2)) {
-    if(!is.double(e1)) e1 <- as_dbl(e1)
-    if(!is.double(e2)) e2 <- as_dbl(e2)
+    if(!is.numeric(e1)) e1 <- as_dbl(e1)
+    if(!is.numeric(e2)) e2 <- as_dbl(e2)
     return(.bc_dec_rel(e1, e2, op, abortcall))
   }
   else if(is.logical(e1) || is.logical(e2)) {
@@ -96,7 +96,7 @@
 .bc_raw_rel <- function(x, y, op, abortcall) {
   
   if(length(x) == 0L || length(y) == 0L) {
-    return(logical(0L))
+    return(.binary_return_zerolen(x, y, TRUE, "logical"))
   }
   
   prep <- .binary_prep(x, y, abortcall)

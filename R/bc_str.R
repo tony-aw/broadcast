@@ -97,7 +97,7 @@ setMethod(
 .bc_str_conc <- function(x, y, op, abortcall) {
   
   if(length(x) == 0L || length(y) == 0L) {
-    return(character(0L))
+    return(.binary_return_zerolen(x, y))
   }
   
   prep <- .binary_prep(x, y, abortcall)
@@ -146,7 +146,7 @@ setMethod(
 .bc_str_rel <- function(x, y, op, abortcall) {
   
   if(length(x) == 0L || length(y) == 0L) {
-    return(logical(0L))
+    return(.binary_return_zerolen(x, y, TRUE, "logical"))
   }
   
   prep <- .binary_prep(x, y, abortcall)
@@ -184,7 +184,7 @@ setMethod(
   
   .rcpp_set_attr(out, "dim", out.dimorig)
   
-  .binary_set_attr(out, x, y)
+  .binary_set_attr_logical(out, x, y)
   
   return(out)
   
@@ -197,7 +197,7 @@ setMethod(
 .bc_str_dist <- function(x, y, op, abortcall) {
   
   if(length(x) == 0L || length(y) == 0L) {
-    return(integer(0L))
+    return(.binary_return_zerolen(x, y, TRUE, "integer"))
   }
   
   prep <- .binary_prep(x, y, abortcall)
@@ -234,7 +234,7 @@ setMethod(
   
   .rcpp_set_attr(out, "dim", out.dimorig)
   
-  .binary_set_attr(out, x, y)
+  .binary_set_attr_logical(out, x, y)
   
   return(out)
   

@@ -35,7 +35,7 @@ set.seed(1)
 
 # Introduction
 
-## 🗺️Overview
+## Overview
 
 'broadcast' is an efficient 'C'/'C++' - based `r fa("r-project")` package that, as the name suggests, performs "array broadcasting" (similar to broadcasting in the 'Numpy' module for 'Python').
 
@@ -56,13 +56,11 @@ Consider the arrays `x` and `y`:
 ```
 
 Suppose one wishes to compute the element-wise addition of these 2 arrays.  
-As show below, this cannot be done efficiently in base 'R'; it **can** be done fast and memory-efficiently with the 'broadcast' package:
+As show in the tabs below, this cannot be done efficiently in base 'R'; it **can** be done fast and memory-efficiently with the 'broadcast' package:
 
-::: {.grid}
+::: {.panel-tabset}
 
-::: {.g-col-6}
-
-In base `r fa("r-project")`:
+## Base `r fa("r-project")`:
 
 ```{r eval=FALSE, echo=TRUE}
 x + y
@@ -74,19 +72,14 @@ x + y[rep(1L, 3L),]
 Error: cannot allocate vector of size
 ```
 
-:::
 
-::: {.g-col-6}
-
-With the 'broadcast' package:
+## 'broadcast' package:
 
 ```{r}
 broadcaster(x) <- TRUE
 broadcaster(y) <- TRUE
 x + y
 ```
-
-:::
 
 :::
 
@@ -98,7 +91,7 @@ x + y
 <details>
   <summary><b><a style="cursor: pointer;">Broadcasted Array Binding 🔍 </a></b> </summary>
 
-Using broadcasting, `bind_array()` from the 'broadcast' package can bind arrays together in ways that cannot efficiently be done with `rbind()`, `cbind()`, or `abind::abind()`. Let's consider these arrays:
+Using broadcasting, [bind_array()](/man/bind_array.qmd) from the 'broadcast' package can bind arrays together in ways that cannot efficiently be done with `rbind()`, `cbind()`, or `abind::abind()`. Let's consider these arrays:
 
 ```{r}
 (x <- array(1:12, c(3, 4)))
@@ -106,13 +99,11 @@ Using broadcasting, `bind_array()` from the 'broadcast' package can bind arrays 
 ```
 
 Suppose one wishes to column-bind these 2 arrays.  
-As show in the table below, this cannot be done efficiently in base 'R'; it **can** be done fast and memory-efficiently with the 'broadcast' package:
+As show in the tabs below, this cannot be done efficiently in base 'R'; it **can** be done fast and memory-efficiently with the 'broadcast' package:
 
-::: {.grid}
+::: {.panel-tabset}
 
-::: {.g-col-6}
-
-In base `r fa("r-project")`:
+## Base `r fa("r-project")`:
 
 ```{r eval=FALSE, echo=TRUE}
 cbind(x, y)
@@ -125,11 +116,8 @@ cbind(x, y[rep(1L, 3L),])
 Error: cannot allocate vector of size
 ```
 
-:::
 
-::: {.g-col-6}
-
-With the 'broadcast' package:
+## 'broadcast' package:
 
 
 ```{r}
@@ -139,9 +127,7 @@ bind_array(list(x, y), along = 2L)
 
 :::
 
-:::
-
-`bind_array()` is also considerably faster and more memory efficient than `abind()`. See the [benchmarks](https://tony-aw.github.io/broadcast/about/f_benchmarks_other.html).
+[bind_array()](/man/bind_array.qmd) is also considerably faster and more memory efficient than `abind()`. See the [benchmarks](https://tony-aw.github.io/broadcast/about/f_benchmarks_other.html).
 
 </details>
 
@@ -150,7 +136,7 @@ bind_array(list(x, y), along = 2L)
 <details>
   <summary><b><a style="cursor: pointer;">Broadcasted General Functions 🔍 </a></b> </summary>
 
-The idea of broadcasted infix operations and broadcasted array binding has been generalized to also include `bcapply()` (a broadcasted apply-like function), `bc_ifelse()` (broadcasted version of `ifelse()`), `bc_strrep()` (broadcasted version of `strrep()`).
+The idea of broadcasted infix operations and broadcasted array binding has been generalized to also include [bcapply()](/man/bcapply.qmd) (a broadcasted apply-like function), [bc_ifelse()](/man/bc_ifelse.qmd) (broadcasted version of `ifelse()`), [bc_strrep()](/man/bc_strrep.qmd) (broadcasted version of `strrep()`).
 
 </details>
 
@@ -187,14 +173,14 @@ x <- list(
 Since all values in the list are numbers, you might want to turn this into a numeric array, to make mathematical computations and analyses on it easier.
 
 
-This can be done with the ‘broadcast’ package with the following steps. First, turn the nested list into a shallow (i.e. non-nested), dimensional list using `cast_hier2dim()`:
+This can be done with the ‘broadcast’ package with the following steps. First, turn the nested list into a shallow (i.e. non-nested), dimensional list using [cast_hier2dim()](/man/cast_hier2dim.qmd):
 
 ```{r}
 x2 <- cast_hier2dim(x, in2out = FALSE, direction.names = 1L)
 print(x2)
 ```
 
-Second, turn the shallow (i.e. non-nested), dimensional list into an atomic array using `cast_shallow2atomic()`:
+Second, turn the shallow (i.e. non-nested), dimensional list into an atomic array using [cast_shallow2atomic()](/man/cast_shallow2atomic.qmd):
 
 ```{r}
 x3 <- cast_shallow2atomic(x2, 1L)
@@ -208,7 +194,7 @@ print(x3)
 <details>
   <summary><b><a style="cursor: pointer;">A few Linear Algebra Functions for Statistics 🔍 </a></b> </summary>
 
-'broadcast' comes with a few linear algebra functions for statistics. For example, the `sd_lc()` function to compute the standard deviation of a linear combination of variables - regardless of what the distribution of the variables is.
+'broadcast' comes with a few linear algebra functions for statistics. For example, the [sd_lc()](/man/linear_algebra_stats.qmd) function to compute the standard deviation of a linear combination of variables - regardless of what the distribution of the variables is.
 
 </details>
 
@@ -219,7 +205,7 @@ print(x3)
 
 &nbsp;
 
-## 🤷🏽Why use 'broadcast'
+## Why use 'broadcast'
 
 **Efficiency**
 
@@ -239,7 +225,7 @@ Have you ever been bothered by any of the following while programming in `r fa("
 -   `abind::abind()` being too slow, or ruining the structure of recursive arrays?
 -   The `sweep()` and `outer()` functions being too slow or too limiting?
 -   that there is no array analogy to `data.table::dcast()`?
--   difficulties in handling nested lists?
+-   difficulties in handling deeply nested lists?
 -   that certain 'Numpy' operations have no equivalent operation in `r fa("r-project")`?
 
 If you answered "YES" to any of the above, 'broadcast' may be the `r fa("r-project")` - package for you.
@@ -266,7 +252,7 @@ The 'broadcast' package is frequently checked using a large suite of unit tests 
 
 &nbsp;
 
-## 🔧Installation
+## Installation
 
 ```{r echo=TRUE, eval=FALSE}
 
@@ -280,7 +266,7 @@ install.packages("broadcast", type = "source")
 
 &nbsp;
 
-## 📊Status
+## Status
 
 'broadcast' is now available on CRAN! 🎉
 
@@ -290,7 +276,7 @@ I'm eager to read your input!
 
  
 
-## 📖Documentation
+## Documentation
 
 The documentation in the 'broadcast' website is divided into 3 main parts:
 

@@ -176,7 +176,7 @@
   # determine out.dim (padded):
   size_along <- .C_bindhelper_sum_along(input.dims, along - 1L)
   out.dim <- rep(1L, chunksize)
-  out.dim[1:max_ndims] <- do.call(pmax, input.dims)
+  out.dim[seq_len(max_ndims)] <- do.call(pmax, input.dims)
   out.dim[along] <- size_along
   out.dimorig[along] <- size_along # original dimensions
   out.dim <- as.integer(out.dim)
@@ -213,7 +213,7 @@
   dcp_x <- vector("double", chunksize+1)
   size_along <- 0L
   
-  for(i in 1:length(input)) {
+  for(i in seq_along(input)) {
     
     # construct parameters:
     x <- input[[i]]

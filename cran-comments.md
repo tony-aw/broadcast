@@ -1,6 +1,7 @@
-Debbian is a difficult OS, isn't it?
-I have replaced ALL uses of `abs()`/ `fabs()` in my source code with `std::abs()`, in the hopes that Debian can actually handle it. 
-And of course tested this new version on GitHUb with various OS (Debian not available, unfortunately), and tested on my own laptop.
+
+Update to version 0.1.7.
+Thank you for all your hard work people of CRAN.
+I wish you all a happy Christmas & New Year!!!
 
 ## R CMD check results
 

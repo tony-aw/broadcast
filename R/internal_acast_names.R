@@ -5,7 +5,7 @@
   
   
   out.dimnames <- rep(list(NULL), ndim(out))
-  out.dimnames[1:ndim(x)] <- dimnames(x)
+  out.dimnames[seq_len(ndim(x))] <- dimnames(x)
   out.dimnames[margin] <- list(NULL)
   out.dimnames[ndim(x) + 1L] <- list(grp_lvls) # safe, because I used droplevels()
   

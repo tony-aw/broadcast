@@ -73,11 +73,11 @@ for(i in seq_along(funs)) {
   
   expect_equal(
     funs[[i]](x, y, op) |> names(),
-    NULL
+    names(x)
   ) |> errorfun()
   expect_equal(
     funs[[i]](y, x, op) |> names(),
-    NULL
+    names(y)
   ) |> errorfun()
   
   enumerate <- enumerate + 2L

@@ -130,7 +130,7 @@ hiernames2dimnames.default <- function(
   }
   out.dims <- .hiercast_dims(x, depth, in2out, recurse_all, sys.call())
   
-  out.dcp <- .C_make_dcp(out.dims)[1:out.ndims]
+  out.dcp <- .C_make_dcp(out.dims)[seq_len(out.ndims)]
   if(in2out) {
     # note that, when in2out = TRUE,
     # it is needed that the dimcumprod to go from large to small

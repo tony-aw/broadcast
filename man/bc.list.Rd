@@ -34,8 +34,7 @@ x <- array(gen(10), x.dim)
 y <- array(gen(10), c(10,1,1))
 
 bc.list(
-  x, y,
-  \(x, y)c(length(x) == length(y), typeof(x) == typeof(y))
+  x, y, \(x, y)x \%in\% y
 )
 }
 \seealso{

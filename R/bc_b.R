@@ -10,9 +10,10 @@
 #' \cr
 #' For regular relational operators, see \link{bc.rel}. \cr \cr
 #' 
-#' @param x,y conformable vectors/arrays of type `logical`, `numeric`, or `raw`.
+#' @param x,y conformable vectors/arrays of type `logical`, `numeric`, or `raw`. \cr
+#' Note that input with type of `double` will be coerced to `integer`.
 #' @param op a single string, giving the operator. \cr
-#' Supported Boolean  operators: `r paste0(c(broadcast:::.op_b(), broadcast:::.op_rel()), collapse = ", ")`.
+#' Supported Boolean operators: `r paste0(c(broadcast:::.op_b(), broadcast:::.op_rel()), collapse = ", ")`.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #'
 #' @details
@@ -88,13 +89,19 @@ setMethod(
 #' @noRd
 .bc_b_andor <- function(x, y, op, abortcall) {
   
-  if(length(x) == 0L || length(y) == 0L) {
-    return(logical(0L))
+  if(!is.raw(x) || !is.raw(y)) {
+    if(is.raw(x)) x <- as_int(x)
+    if(is.raw(y)) y <- as_int(y)
   }
   
-  if(is.logical(x) || is.integer(x) || is.logical(y) || is.integer(y)) {
-    if(!is.integer(x)) x <- as_int(x)
-    if(!is.integer(y)) y <- as_int(y)
+  if(length(x) == 0L || length(y) == 0L) {
+    if(is.raw(x) && is.raw(y)) {
+      out.type <- "raw"
+    }
+    else {
+      out.type <- "logical"
+    }
+    return(.binary_return_zerolen(x, y, TRUE, out.type))
   }
   
   prep <- .binary_prep(x, y, abortcall)
@@ -131,7 +138,7 @@ setMethod(
   
   .rcpp_set_attr(out, "dim", out.dimorig)
   
-  .binary_set_attr(out, x, y)
+  .binary_set_attr_logical(out, x, y)
   
   return(out)
   
@@ -142,13 +149,19 @@ setMethod(
 #' @noRd
 .bc_b_rel <- function(x, y, op, abortcall) {
   
-  if(length(x) == 0L || length(y) == 0L) {
-    return(logical(0L))
+  if(!is.raw(x) || !is.raw(y)) {
+    if(is.raw(x)) x <- as_int(x)
+    if(is.raw(y)) y <- as_int(y)
   }
   
-  if(is.logical(x) || is.integer(x) || is.logical(y) || is.integer(y)) {
-    if(!is.integer(x)) x <- as_int(x)
-    if(!is.integer(y)) y <- as_int(y)
+  if(length(x) == 0L || length(y) == 0L) {
+    if(is.raw(x) && is.raw(y)) {
+      out.type <- "raw"
+    }
+    else {
+      out.type <- "logical"
+    }
+    return(.binary_return_zerolen(x, y, TRUE, out.type))
   }
   
   prep <- .binary_prep(x, y, abortcall)
@@ -185,7 +198,7 @@ setMethod(
   
   .rcpp_set_attr(out, "dim", out.dimorig)
   
-  .binary_set_attr(out, x, y)
+  .binary_set_attr_logical(out, x, y)
   
   return(out)
   

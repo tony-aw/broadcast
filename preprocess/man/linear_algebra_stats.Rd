@@ -62,6 +62,7 @@ without making needless copies. \cr
 }
 \examples{
 
+
 vc <- datasets::ability.cov$cov
 X <- matrix(rnorm(100), 100, ncol(vc))
 
@@ -70,8 +71,6 @@ cinv(vc) # faster than `solve()`, but only works on positive definite matrices
 all(round(solve(vc), 6) == round(cinv(vc), 6)) # they're the same
 
 sd_lc(X, vc)
-
-     
 }
 \references{
 John A. Rice (2007), \emph{Mathematical Statistics and Data Analysis} (6th Edition)

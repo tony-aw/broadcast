@@ -69,7 +69,7 @@ setMethod(
 .bc_strrep <- function(x, y, abortcall) {
   
   if(length(x) == 0L || length(y) == 0L) {
-    return(character(0L))
+    return(.binary_return_zerolen(x, y, FALSE, "character"))
   }
   
   prep <- .binary_prep(x, y, abortcall)

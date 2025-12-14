@@ -79,7 +79,7 @@ A logical array as a result of the broadcasted relational comparison. <br />
 
 <pre><code class='language-R'>x.dim &lt;- c(4:2)
 x.len &lt;- prod(x.dim)
-gen &lt;- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
+gen &lt;- function() sample(c(rnorm(20), NA, NaN, Inf, -Inf))
 x &lt;- array(gen() + gen() * -1i, x.dim)
 y &lt;- array(gen() + gen() * -1i, c(4,1,1))
 
@@ -91,10 +91,11 @@ bc.cplx(x, y, "+")
 bc.cplx(array(gen() + gen() * -1i), array(gen() + gen() * -1i), "==")
 bc.cplx(array(gen() + gen() * -1i), array(gen() + gen() * -1i), "!=")
 
-x &lt;- gen() + gen() * -1i
-y &lt;- gen() + gen() * -1i
-out &lt;- bc.cplx(array(x), array(y), "*")
-cbind(x, y, x*y, out)
+x &lt;- array(gen() + gen() * -1i)
+y &lt;- array(gen() + gen() * -1i)
+bcr(x) &lt;- bcr(y) &lt;- TRUE
+out &lt;- x * y
+bind_array(list(x = x, y = y, `x*y` = x*y, out = out), 2L)
 </code></pre>
 
 </main>

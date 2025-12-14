@@ -32,7 +32,7 @@ this is sufficient. <br />
 The second way is to use the large set of <code>bc.</code>- functions. <br />
 These offer much greater control and more operators than the previous method,
 and has less risk of running into conflicting methods. <br />
-But it does not support operator precedence. <br />
+But they do not support operator precedence. <br />
 <br />
 </p>
 
@@ -51,8 +51,8 @@ The following relational operators have a 'broadcaster' method:
 ==, !=, &lt;, &gt;, &lt;=, &gt;= <br />
 And finally, the &amp; and | operators also have a 'broadcaster' method. <br />
 <br />
-As the <code>[broadcaster](broadcaster.qmd)</code> operator methods simply overload the base operators,
-operator precedence rules are preserved for the <code>[broadcaster](broadcaster.qmd)</code> operator methods. <br />
+The overloaded operators preserve the same precedence rules as the base operators. <br />
+I.e. <code>^</code> comes before <code>*</code> and <code>/</code>, which come before <code>+</code> and <code>-</code>, and so on. <br />
 <br />
 See also the Examples section below. <br />
 <br />
@@ -109,7 +109,7 @@ The various other <code>bc.</code> methods have specialized relational operators
 
 <p>The <code>bc.</code> functions and the overloaded operators generally do <b>not</b>
 preserve attributes, unlike the base 'R' operators,
-except for (dim)names and the <code>[broadcaster](broadcaster.qmd)</code> class attribute (and related attributes). <br />
+except for <code>names</code>, <code>dimnames</code>, <code>comment</code> (if appropriate), and the <code>[broadcaster](broadcaster.qmd)</code> class attribute (and related attributes). <br />
 <br />
 Broadcasting often results in an object with more dimensions, larger dimensions,
 and/or larger length than the original objects. <br />
@@ -118,9 +118,6 @@ Custom matrix classes, for example, presumes an object to have exactly 2 dimensi
 And the various classes provided by the 'bit' package have length-related attributes. <br />
 So class attributes cannot be guaranteed to hold for the resulting objects when broadcasting is involved. <br />
 <br />
-The <code>bc.</code> functions and the overloaded operators
-<b>always</b> preserve the &quot;broadcaster&quot; attribute,
-as this is necessary to chain together broadcasted operations. <br />
 <br />
 Almost all functions provided by 'broadcast' are S3 or S4 generics; <br />
 methods can be written for them for specific classes,

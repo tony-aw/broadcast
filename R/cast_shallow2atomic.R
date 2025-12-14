@@ -8,17 +8,17 @@
 #' @param x a shallow (i.e. non-nested) list. \cr
 #' The attributes of the objects inside the list will be ignored, except for `names`.
 #' @param arrangement see the `Details` and `Examples` sections.
-#' @param comnames_from an integer scalar or `NULL`, and only relevant if `arrangement` is 1 or -1. \cr
+#' @param comnames_from an integer scalar or `NULL`, and only relevant if `arrangement` is `1` or `-1`. \cr
 #' This gives which element of `x` to use for the communal names. \cr
 #' If `NULL`, no communal names will be given. \cr
 #' For example: \cr
 #' If `x` is a 1d (or dimensionless) list,
-#' `cast_shallow2atomic(x, 1)` will produce an atomic matrix. \cr
+#' `cast_shallow2atomic(x, 1, arrangement = 1)` will produce an atomic matrix. \cr
 #' The column names of the matrix will be `names(x)`. \cr
 #' The row names, however, will be taken from `names(x[[comnames_from]])`,
 #' provided that `x[[comnames_from]]` has the proper length. \cr
 #' See also the `Examples` section.
-#' @param padding an atomic scalar, and only relevant if `arrangement` is 1 or -1. \cr
+#' @param padding an atomic scalar, and only relevant if `arrangement` is `1` or `-1`. \cr
 #' This gives the padding value to use when padding is required. \cr
 #' Padding is used to ensure every all slices of the same dimension in the output
 #' have equal number of elements
@@ -37,12 +37,18 @@
 #' with the elements arranged such that the dimensions are `c(max(lengths(x)), dim(x))`. \cr
 #' If `x` has no dimensions, `dim(x)` is replaced with `length(x)`, thus treating `x` as an 1d array. \cr
 #' This will therefore always produce an atomic array with at least 2 dimensions. \cr
+#' The `dimnames`, if possible to construct,
+#' will be `c(names(x[[comnames_from]]), dimnames(x))`. \cr
 #' \cr
 #' If `arrangement = -1L`, \cr
 #' `cast_shallow2atomic()` will produce an atomic array,
 #' with the elements arranged such that the dimensions are `c(dim(x), max(lengths(x)))`. \cr
 #' If `x` has no dimensions, `dim(x)` is replaced with `length(x)`, thus treating `x` as an 1d array. \cr
 #' This will therefore always produce an atomic array with at least 2 dimensions. \cr
+#' The `dimnames`, if possible to construct,
+#' will be `c(dimnames(x), names(x[[comnames_from]]))`. \cr
+#' \cr
+#' In all cases, the result will be `atomic`. \cr
 #' \cr
 #' 
 #' 
@@ -71,16 +77,21 @@
 #' 
 #' @returns
 #' If `arrangement = 0L`: \cr
-#' An atomic vector without dimensions. \cr
+#' An atomic vector. \cr
 #' \cr
 #' If `arrangement = 1L`: \cr
-#' An atomic array with dimensions `c(max(lengths(x)), dim(x))`. \cr
-#' The dimnames, if possible to construct, will be `c(names(x[[comnames_from]]), dimnames(x))`, provided 
-#' If `x` has no dimensions, `dim(x)` is replaced with `length(x)`. \cr
+#' An atomic array. \cr
 #' \cr
 #' If `arrangement = -1L`: \cr
-#' An atomic array with dimensions `c(dim(x), max(lengths(x)))`. \cr
-#' If `x` has no dimensions, `dim(x)` is replaced with `length(x)`. \cr
+#' An atomic array. \cr
+#' \cr
+#' The type of the result is determined from the highest `atomic` type of any of the list elements
+#' (including elements of length zero). \cr
+#' The hierarchy of `atomic` types is: \cr
+#' raw < logical < integer < double < complex < character. \cr
+#' List elements that are not `atomic` but language expressions,
+#' like formulas,
+#' will be coerced to type of `character`. \cr
 #' \cr
 #' 
 #' 
@@ -206,6 +217,7 @@ cast_shallow2atomic.default <- function(x, arrangement = 0L, padding = NA, comna
   .rcpp_shallow2atomic(x, out, nrow, ncol, arrangement)
   return(out)
 }
+
 
 #' @keywords internal
 #' @noRd

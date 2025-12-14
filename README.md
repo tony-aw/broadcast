@@ -85,14 +85,14 @@ Error: cannot allocate vector of size
 <td>
 
 ``` r
-broadcaster(x) <- broadcaster(y) <- TRUE
+broadcaster(x) <- TRUE
+broadcaster(y) <- TRUE
 x + y
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]  101  204  307  410  513
 #> [2,]  102  205  308  411  514
 #> [3,]  103  206  309  412  515
 #> broadcaster
-# this does NOT make any copies of the original arrays :-)
 ```
 
 </td>
@@ -319,7 +319,7 @@ Have you ever been bothered by any of the following while programming in
   arrays?
 - The `sweep()` and `outer()` functions being too slow or too limiting?
 - that there is no array analogy to `data.table::dcast()`?
-- difficulties in handling nested lists?
+- difficulties in handling deeply nested lists?
 - that certain ‘Numpy’ operations have no equivalent operation in ‘R’?
 
 If you answered “YES” to any of the above, ‘broadcast’ may be the ‘R’ -

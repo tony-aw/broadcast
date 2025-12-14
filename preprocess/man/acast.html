@@ -158,6 +158,21 @@ and <code>back</code> will have more missing values than <code>x</code>. <br /> 
 <h3>Examples</h3>
 
 <pre><code class='language-R'>
+
+
+# balanced acasting ====
+x &lt;- cbind(id = rep(1:3, each = 2), grp = rep(1:2, 3), val = rnorm(6))
+print(x)
+
+grp &lt;- as.factor(x[, 2])
+levels(grp) &lt;- c("a", "b")
+margin &lt;- 1L
+
+acast(x, margin, grp)
+
+
+
+# unbalanced acasting ====
 x &lt;- cbind(id = c(rep(1:3, each = 2), 1), grp = c(rep(1:2, 3), 2), val = rnorm(7))
 print(x)
 
@@ -166,6 +181,21 @@ levels(grp) &lt;- c("a", "b")
 margin &lt;- 1L
 
 acast(x, margin, grp, fill = TRUE)
+
+
+
+# unbalanced acasting with raw array ====
+x &lt;- cbind(id = c(rep(1:3, each = 2), 1), grp = c(rep(1:2, 3), 2), val = sample(1:7))
+x &lt;- as_raw(x)
+print(x)
+
+grp &lt;- x[, 2] |&gt; as.integer() |&gt; as.factor()
+levels(grp) &lt;- c("a", "b")
+margin &lt;- 1L
+
+(fill_val &lt;- as.raw(255))
+acast(x, margin, grp, fill = TRUE, fill_val = fill_val)
+
 </code></pre>
 
 </main>

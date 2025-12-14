@@ -8,6 +8,7 @@ errorfun <- function(tt) {
 }
 
 source(file.path(getwd(), "source.R"))
+.rcpp_address <- broadcast:::.rcpp_address
 
 
 # neither named ====
@@ -39,7 +40,7 @@ for(i in seq_along(funs)) {
 
 
 
-# both sides reference same names ====
+# both sides named; using `x` only ====
 
 for(i in seq_along(funs)) {
   for(iDimX in c(TRUE, FALSE)) {
@@ -89,11 +90,11 @@ for(i in seq_along(funs)) {
       
       expect_equal(
         funs[[i]](x, y, op) |> names(),
-        NULL
+        names(x)
       ) |> errorfun()
       expect_equal(
         funs[[i]](y, x, op) |> names(),
-        NULL
+        names(y)
       ) |> errorfun()
       
       enumerate <- enumerate + 2L

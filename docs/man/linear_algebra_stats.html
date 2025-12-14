@@ -116,15 +116,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="../vignettes/a_readme.html" rel="" target="">
- <span class="menu-text">Guides and Vignettes</span></a>
+ <span class="menu-text">🗺️ Guides and Vignettes</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../man/aaa00_broadcast_help.html" rel="" target="" aria-current="page">
- <span class="menu-text">Reference Manual</span></a>
+ <span class="menu-text">📖 Reference Manual</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../about/a_acknowledgements.html" rel="" target="">
- <span class="menu-text">About</span></a>
+ <span class="menu-text">📇 About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -502,60 +502,61 @@ if <code>vc</code> is not a Positive (semi-) Definite matrix, give here the valu
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"broadcast"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> datasets<span class="sc">::</span>ability.cov<span class="sc">$</span>cov</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>), <span class="dv">100</span>, <span class="fu">ncol</span>(vc))</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(vc)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">##              general       picture        blocks         maze       reading</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">## general  0.082259001 -0.0312406436 -7.750932e-03 -0.013309494 -2.061705e-02</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## picture -0.031240644  0.2369906996 -2.484938e-02  0.017844845  8.603286e-04</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="do">## blocks  -0.007750932 -0.0248493822  1.344272e-02 -0.012544830 -3.802671e-05</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="do">## maze    -0.013309494  0.0178448450 -1.254483e-02  0.101625400  5.508423e-03</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## reading -0.020617049  0.0008603286 -3.802671e-05  0.005508423  5.713620e-02</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="do">## vocab   -0.002420800  0.0019394999 -1.157864e-03 -0.002857265 -2.406969e-02</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="do">##                vocab</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="do">## general -0.002420800</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="do">## picture  0.001939500</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="do">## blocks  -0.001157864</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="do">## maze    -0.002857265</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="do">## reading -0.024069692</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="do">## vocab    0.020323179</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">cinv</span>(vc) <span class="co"># faster than `solve()`, but only works on positive definite matrices</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="do">##              [,1]          [,2]          [,3]         [,4]          [,5]</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  0.082259001 -0.0312406436 -7.750932e-03 -0.013309494 -2.061705e-02</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] -0.031240644  0.2369906996 -2.484938e-02  0.017844845  8.603286e-04</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] -0.007750932 -0.0248493822  1.344272e-02 -0.012544830 -3.802671e-05</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] -0.013309494  0.0178448450 -1.254483e-02  0.101625400  5.508423e-03</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] -0.020617049  0.0008603286 -3.802671e-05  0.005508423  5.713620e-02</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [6,] -0.002420800  0.0019394999 -1.157864e-03 -0.002857265 -2.406969e-02</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="do">##              [,6]</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,] -0.002420800</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  0.001939500</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] -0.001157864</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] -0.002857265</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] -0.024069692</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="do">## [6,]  0.020323179</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(<span class="fu">round</span>(<span class="fu">solve</span>(vc), <span class="dv">6</span>) <span class="sc">==</span> <span class="fu">round</span>(<span class="fu">cinv</span>(vc), <span class="dv">6</span>)) <span class="co"># they're the same</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">sd_lc</span>(X, vc)</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1] 14.5877137 34.0210016 39.6666122 10.0479110  1.1019603 16.7875519</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="do">##   [7] 46.8006125  7.9150031 41.9389309  9.6013877 56.6780496  8.5379782</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="do">##  [13] 27.7657029 13.1562265 39.7404139 15.4556488 57.4484551  6.4442303</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="do">##  [19] 33.3246847  0.6039213 27.0513811 50.0545688  6.8187343  6.4943898</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="do">##  [25]  3.4116760 48.0715514  2.4199632 64.7633475 82.9974773 39.2628915</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="do">##  [31] 12.9871776 44.2508173 23.0163502  6.9982136 58.0106589 14.6485862</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="do">##  [37] 28.0670851  7.4630036 25.1016054 10.9164697 16.8194040  5.2096533</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="do">##  [43] 19.1665631 18.0395310 67.9680300 34.3509783 46.4038128 21.7989740</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="do">##  [49] 27.2117732 22.9367181 25.8008121 79.9786989 41.2804920  3.2101015</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="do">##  [55]  2.3577737 27.2260940  3.2499242 29.5585378 35.2480518 36.3019510</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="do">##  [61] 36.2730547 57.9657192 52.3191485 18.9536511 12.7430762  8.6849482</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="do">##  [67] 35.8370287 20.5217447  9.0475018  2.7107792 28.0813981 63.0927135</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="do">##  [73] 30.6554848 27.6400662  1.3951665  1.7661268 37.7978461 74.3031129</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="do">##  [79] 55.5435504  9.9668804  4.2988195 43.4887548 57.4348564  6.4469836</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="do">##  [85]  7.0540288 20.1118718 15.0641284 36.7405363  0.3636223 26.3722148</span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="do">##  [91] 20.3057245 86.7032291 16.7436865  0.2319227 42.2100504 15.7261251</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="do">##  [97] 47.8437871  9.1976460 27.3163631 24.7092810</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> datasets<span class="sc">::</span>ability.cov<span class="sc">$</span>cov</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>), <span class="dv">100</span>, <span class="fu">ncol</span>(vc))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(vc)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">##              general       picture        blocks         maze       reading</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## general  0.082259001 -0.0312406436 -7.750932e-03 -0.013309494 -2.061705e-02</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="do">## picture -0.031240644  0.2369906996 -2.484938e-02  0.017844845  8.603286e-04</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="do">## blocks  -0.007750932 -0.0248493822  1.344272e-02 -0.012544830 -3.802671e-05</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## maze    -0.013309494  0.0178448450 -1.254483e-02  0.101625400  5.508423e-03</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="do">## reading -0.020617049  0.0008603286 -3.802671e-05  0.005508423  5.713620e-02</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="do">## vocab   -0.002420800  0.0019394999 -1.157864e-03 -0.002857265 -2.406969e-02</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="do">##                vocab</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="do">## general -0.002420800</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="do">## picture  0.001939500</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="do">## blocks  -0.001157864</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="do">## maze    -0.002857265</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="do">## reading -0.024069692</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="do">## vocab    0.020323179</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">cinv</span>(vc) <span class="co"># faster than `solve()`, but only works on positive definite matrices</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="do">##              [,1]          [,2]          [,3]         [,4]          [,5]</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  0.082259001 -0.0312406436 -7.750932e-03 -0.013309494 -2.061705e-02</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] -0.031240644  0.2369906996 -2.484938e-02  0.017844845  8.603286e-04</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] -0.007750932 -0.0248493822  1.344272e-02 -0.012544830 -3.802671e-05</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] -0.013309494  0.0178448450 -1.254483e-02  0.101625400  5.508423e-03</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] -0.020617049  0.0008603286 -3.802671e-05  0.005508423  5.713620e-02</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="do">## [6,] -0.002420800  0.0019394999 -1.157864e-03 -0.002857265 -2.406969e-02</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="do">##              [,6]</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,] -0.002420800</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  0.001939500</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] -0.001157864</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,] -0.002857265</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="do">## [5,] -0.024069692</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="do">## [6,]  0.020323179</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(<span class="fu">round</span>(<span class="fu">solve</span>(vc), <span class="dv">6</span>) <span class="sc">==</span> <span class="fu">round</span>(<span class="fu">cinv</span>(vc), <span class="dv">6</span>)) <span class="co"># they're the same</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="fu">sd_lc</span>(X, vc)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1]   4.9311330  36.6654612  66.5581601  29.5741666  35.6910336   8.1870141</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="do">##   [7]   5.4467691  29.2910959  47.1163496  15.9524592  38.1808441  10.8762980</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="do">##  [13]   7.1492026   6.2235160  32.3535848  57.2695784  31.2022510  12.2840072</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="do">##  [19]   8.3198362  44.4752952  16.1763224   5.8121015   9.0914001  32.2160494</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="do">##  [25]  44.5210272  57.5716194   4.8238322   0.7619434  59.1834559  46.3804586</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="do">##  [31]  12.6198865   5.2329438  35.5681521  28.6518782   0.9011932  28.7266605</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="do">##  [37]  22.8487538  47.9108665  23.8903255   9.8377168  20.7777743  27.2183426</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="do">##  [43]  35.5746057   1.3986730  10.2739843  37.9660615  25.8297950   0.7829957</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="do">##  [49]   1.6551459  15.5739036  12.4897300  35.2058980  48.0230749  11.7221034</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="do">##  [55]  36.7350192  21.9200227   8.9632547  12.3194018  15.6905300  46.4394696</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="do">##  [61]  18.5811737  78.2000946  55.8309349  15.8156647  24.0873880  66.2119335</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="do">##  [67]  35.8744997  11.9500065   1.7132524  33.1213601 109.6691874  10.1462461</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="do">##  [73]  42.1806403  42.4310299  30.3725893  26.5842014  14.7730041   0.2309909</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="do">##  [79]   2.5865066   3.6283992   3.3427719  12.9133400  30.0247869  48.8009701</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="do">##  [85]  15.0797362  11.9070023   3.8824712  60.4347549 113.2392928  37.7607913</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="do">##  [91]  27.6153225  29.8829112  18.6661056  63.9190498   6.0780959  26.4014683</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="do">##  [97]  20.8195911  20.1738628  16.8261912  60.1187901</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

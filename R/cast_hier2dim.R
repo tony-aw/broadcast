@@ -68,7 +68,7 @@ cast_hier2dim.default <- function(
   out.dims <- .hier2dim(x, in2out, maxdepth, recurse_all, sys.call())
   out.ndims <- depth <- length(out.dims)
   out.len <- prod(out.dims)
-  out.dcp <- .C_make_dcp(out.dims)[1:out.ndims]
+  out.dcp <- .C_make_dcp(out.dims)[seq_len(out.ndims)]
   if(in2out) {
     # note that, when in2out = TRUE,
     # it is needed that the dimcumprod to go from large to small

@@ -21,7 +21,6 @@ set.seed(1L)
 
 &nbsp;
 
-# Introduction
 
 Broadcasting comes up frequent enough in real world problems. This page gives a few examples of these.
 
@@ -69,8 +68,8 @@ The `abind()` function, from the package of the same name, allows one to bind ar
 Unfortunately, `abind()` does not support broadcasting, which can lead to frustrations such as the following:
 
 ```{r echo=TRUE, eval=FALSE}
-x <- array(1:27, c(3,3,3))
-y <- array(1L, c(3,3,1))
+(x <- array(1:27, c(3,3,3)))
+(y <- array(1L, c(3,3,1)))
 abind::abind(x, y, along = 2)
 
 #> Error in abind(x, y, along = 2) : 
@@ -281,7 +280,94 @@ asplit(out, ndim(out)) |> bind_array(along = margin)
 
 &nbsp;
 
-# Nested Broadcasting
+# Nested Binding with Broadcasting
+
+Consider the following 2 lists `x` and `y`:
+
+```{r}
+x <- list(
+  group1 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    ),
+    class2 = list(
+      height = rnorm(10, 170),
+      weight = rnorm(10, 80),
+      sex = sample(c("M", "F", NA), 10, TRUE)
+    )
+  )
+)
+
+
+y <- list(
+  group1 = list(
+    class1 = list(
+      smoker = sample(c(TRUE, FALSE), 10, TRUE)
+    ),
+    class2 = list(
+      smoker = sample(c(TRUE, FALSE), 10, TRUE)
+    )
+  ),
+  group2 = list(
+    class1 = list(
+      smoker = sample(c(TRUE, FALSE), 10, TRUE)
+    ),
+    class2 = list(
+      smoker = sample(c(TRUE, FALSE), 10, TRUE)
+    )
+  )
+)
+
+```
+
+We wish 2 merge these 2 lists, such that after every list-element "sex" in list `x`, the element "smoker" follows in list `y`.
+
+This can be done with a double for-loop in `r fa("r-project")`, but if both lists are large, this becomes slow. With the 'broadcast' package, one can cast both lists as dimensional, and then use broadcasted binding to merge `x` and `y` together with ease. Moreover, if a list can be represented dimensionally rather than hierarchically, one should do so to make further analyses and manipulations much easier.
+
+So let's first cast both lists from hierarchical lists to dimensional lists:
+
+```{r}
+(x2 <- cast_hier2dim(x, direction.names = 1))
+(y2 <- cast_hier2dim(y, direction.names = 1))
+```
+
+
+Now bind these lists together using [bind_array()](/man/bind_array.qmd) can handle recursive arrays (i.e. dimensional lists) natively with ease:
+
+```{r}
+z <- bind_array(list(x2, y2), 1L)
+print(z)
+```
+
+What we've just done would require an **expensive** double for-loop in base `r fa("r-project")`.
+But notice how easily we've achieved this goal with 'broadcast': just 2 steps - casting and then binding!
+
+If you *really*  want `z` to be a nested list, you can cast it back to hierarchical:
+
+```{r}
+z2 <- cast_dim2hier(z)
+```
+
+Remember that elements of a lists do not contain the actual data; they **point** to the data; casting lists from dimensional to hierarchical and vice-versa only makes inexpensive shallow copies, not deep copies. It's also quite fast.
+
+&nbsp;
+
+
+# Nested Arithmetic with Broadcasting
 
 We have a class of students who scored certain amounts of points for homework exercises. The software used for collecting the points for these homework exercises produces on object that is read by `r fa("r-project")` as a nested list, like so:
 
@@ -316,7 +402,7 @@ x2 <- cast_hier2dim(x, in2out = FALSE, direction.names = 1L)
 print(x2)
 ```
 
-Second, turn the dimensional list into an atomic array using [cast_shallow2atomic()](/man/cast_shallow2atomic.qmd) (available from version `0.1.6` onward):
+Second, turn the dimensional list into an atomic array using [cast_shallow2atomic()](/man/cast_shallow2atomic.qmd):
 
 ```{r}
 x3 <- cast_shallow2atomic(x2, 1L)
@@ -349,10 +435,14 @@ By turning the nested list into a dimensional atomic array, broadcasted and vect
 The [sd_lc()](/man/linear_algebra_stats.qmd) function computes the standard deviation for a linear combination of random variables. One of its notable use-cases is to compute the confidence interval (or credible interval if you're going Bayesian) of a spline.
 
 Packages like 'mgcv' provides the user to plot and analyse the smoothers with confidence from a fitted GAM.  
-But not all `r fa("r-project")` packages are as user-friendly; for example the 'INLA' `r fa("r-project")` package, though very important for high-level statistical analyses with spatial-temporal correlation, is not very user-friendly in terms of producing the confidence interval of a spline.  
-So one practical application of [sd_lc()](/man/linear_algebra_stats.qmd) is computing confidence intervals of splines when a package does not provide that service in a user-friendly way.
+But sometimes one may want to compute spline intervals manually, like in the following cases:
 
-Please note that the [sd_lc()](/man/linear_algebra_stats.qmd) functions is just a linear algebra function, not specific to any type/class of model; so this function assumes you know what you're doing.
+ - Some `r fa("r-project")` packages (like the 'INLA' `r fa("r-project")` package), do not provide a clear and consistent way to compute the confidence intervals of a spline.
+ - One may want to use a type of spline **not** covered by the package you're using (this is especially true when using a novel spline). In such cases, you'll have to compute the spline mean and confidence/credible intervals on your own.
+
+So one practical application of [sd_lc()](/man/linear_algebra_stats.qmd) is computing confidence/credible intervals of splines when a package does not provide that service in a user-friendly way.
+
+Please note that the [sd_lc()](/man/linear_algebra_stats.qmd) functions is just a linear algebra function, not specific to any type/class of model (so this function assumes you know what you're doing).
 
 For a demonstration of [sd_lc()](/man/linear_algebra_stats.qmd), the following will be done:
 
@@ -377,7 +467,7 @@ Now extract the required model parameters to recreate this plot:
 
 # get names of relevant coefficients:
 coeffnames <- names(coef(m))
-coeffnames <- coeffnames[grepl("x2", coeffnames)]
+coeffnames <- grepv("x2", coeffnames)
 print(coeffnames)
 
 # get necessary model parameters (i.e. X, b, vc)
@@ -411,8 +501,8 @@ I'll use transparent green dots for the mean, and transparent red dots for the c
 
 ```{r fig.width=8}
 # defines some colours:
-colour1 <- rgb(red = 0, green = 1, blue = 0, alpha = 0.15)
-colour2 <- rgb(red = 1, green = 0, blue = 0, alpha = 0.15)
+green <- rgb(red = 0, green = 1, blue = 0, alpha = 0.15)
+red <- rgb(red = 1, green = 0, blue = 0, alpha = 0.15)
 
 # original plot from the 'mgcv' R-package:
 par(mfrow = c(1,1))
@@ -426,9 +516,9 @@ lc <- data.frame(
   upper = upper
 )
 lc <- lc[order(lc$x),]
-points(x = lc$x, y = lc$mean, col = colour1) # plot our means
-points(x = lc$x, y = lc$lower, col = colour2) # plot our lower bound
-points(x = lc$x, y = lc$upper, col = colour2) # plot our upper bound
+with(lc, points(x = x, y = means, col = green)) # plot our means
+with(lc, points(x = x, y = lower, col = red)) # plot our lower bound
+with(lc, points(x = x, y = upper, col = red)) # plot our upper bound
 
 ```
 
@@ -442,14 +532,14 @@ Let's use the 'tinyplot' framework to compute the plot manually:
 ```{r fig.width=8}
 library(tinyplot)
 tinytheme("clean")
-tinyplot( # plot confidence interval
-  x = lc$x, ymin = lc$lower, ymax = lc$upper, type = "ribbon",
+with(lc, tinyplot( # plot confidence interval
+  x = x, ymin = lower, ymax = upper, type = "ribbon",
   xlab = "x2", ylab = "s(x2)",
-)
-tinyplot( # plot means over it
-  x = lc$x, y = lc$means, type = "l",
+))
+with(lc, tinyplot( # plot means over it
+  x = x, y = means, type = "l",
   add = TRUE, col = "green"
-)
+))
 
 ```
 

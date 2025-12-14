@@ -55,7 +55,7 @@ Using \code{comnames_from = 10} will then result in \code{bind_array()} using
 \value{
 An array as a result from the (broadcasted) binding. \cr
 \cr
-The type of the result is determined from the highest type of any of the inputs. \cr
+The type of the result is determined from the highest type of any of the non-empty inputs. \cr
 The hierarchy of types is: \cr
 raw < logical < integer < double < complex < character < list . \cr
 \cr
@@ -71,24 +71,17 @@ The API of \code{bind_array()} is inspired by the fantastic
 \code{abind::abind()} function
 by Tony Plare & Richard Heiberger (2016). \cr
 But \code{bind_array()} differs considerably from \code{abind::abind}
-in the following ways:
-\itemize{
-\item \code{bind_array()} allows for broadcasting,
-while \code{abind::abind} does not support broadcasting.
-\item \code{bind_array()} is generally faster and more memory-efficient than \code{abind::abind},
-as \code{bind_array()} relies heavily on 'C' and 'C++' code.
-\item \code{bind_array()} differs from \code{abind::abind}
-in that it can handle recursive arrays properly \cr
-(the \code{abind::abind} function would unlist everything to atomic arrays,
-ruining the structure).
-\item unlike \code{abind::abind},
-\code{bind_array()} only binds (atomic/recursive) arrays and matrices. \cr
+in that
+\code{bind_array()} allows for broadcasting,
+\code{bind_array()} is generally faster and more memory-efficient,
+and \code{bind_array()} can handle recursive arrays. \cr
+\cr
+Note that, unlike \code{abind::abind()},
+\code{bind_array()} only binds (atomic/recursive) arrays and matrices; \cr
 \code{bind_array()} does not attempt to convert things to arrays when they are not arrays,
 but will give an error instead. \cr
-This saves computation time and prevents unexpected results.
-\item \code{bind_array()} has more streamlined naming options,
-compared to \code{abind::abind}. \cr
-}
+This saves computation time and prevents unexpected results. \cr
+\cr
 }
 \examples{
 
@@ -101,12 +94,18 @@ input <- list(x, y, z)
 bind_array(input, 2L)
 
 
+################################################################################
+
+
 # Broadcasting example ====
 x <- array(1:20, c(5, 4))
 y <- array(-1:-5, c(1, 5)) # rows will be broadcasted from 1 to 5
 z <- array(21:40, c(5, 4))
 input <- list(x, y, z)
 bind_array(input, 2L)
+
+
+################################################################################
 
 
 # Mixing types ====
@@ -132,6 +131,8 @@ input <- list(x = x, y = y, z = z)
 bind_array(input, along = 2L)
 
 
+################################################################################
+
 
 # Illustrating `along` argument ====
 # using recursive arrays for clearer visual distinction
@@ -148,6 +149,8 @@ bind_array(input, along = 2L, TRUE)
 bind_array(input, along = 3L, TRUE) # bind on new dimension before first
 
 
+################################################################################
+
 
 # binding, with empty arrays ====
 emptyarray <- array(numeric(0L), c(0L, 3L))
@@ -157,11 +160,13 @@ input <- list(x = x, y = emptyarray)
 bind_array(input, along = 1L, comnames_from = 2L) # row-bind
 
 
+################################################################################
+
 
 # Illustrating `name_along` ====
-x <- array(1:20, c(5, 3), list(NULL, LETTERS[1:3]))
-y <- array(-1:-20, c(5, 3))
-z <- array(-1:-20, c(5, 3))
+x <- array(1:15, c(5, 3), list(NULL, LETTERS[1:3]))
+y <- array(-1:-15, c(5, 3))
+z <- array(-1:-15, c(5, 3))
 
 bind_array(list(a = x, b = y, z), 2L)
 bind_array(list(x, y, z), 2L)
@@ -172,11 +177,51 @@ names(input) <- c("", NA, "")
 bind_array(input, 2L)
 
 
+################################################################################
+
+
 # binding vectors and arrays ====
 x <- setNames(1:4, letters[1:4]) |> vector2array(direction = 2L, ndim = 2L)
 y <- array(1:20, c(5, 4), list(NULL, LETTERS[1:4]))
 input <- list(x, y)
 bind_array(input, 1L, comnames_from = 1L) # row-bind, with names from vector `x`
+
+
+################################################################################
+
+
+# start with empty vector, and bind arrays from there (handy in loops) ====
+y <- array(-1:-15, c(5, 3))
+z <- array(-1:-15, c(5, 3))
+input <- list(y, z)
+init <- vector2array(raw(0L), 1L, 2L)
+for(i in input) {
+  init <- bind_array(list(init, i), 2L)
+}
+print(init)
+
+
+
+################################################################################
+
+
+# type of the result is independent of the types of empty arrays ====
+# make regular arrays of type `integer`:
+y <- array(-1:-15, c(5, 3))
+z <- array(-1:-15, c(5, 3))
+
+# make empty array of type `list`:
+emptyarray <- array(vector("list", 0L), c(0L, 3L))
+dimnames(emptyarray) <- list(NULL, paste("empty", 1:3))
+print(emptyarray)
+typeof(emptyarray) # type of list, the highest type
+length(emptyarray) # but also empty, so it's type does NOT affect result type!
+
+# bind results:
+input <- list(y = y, z = z, e = emptyarray)
+out <- bind_array(input, along = 1L, comnames_from = 2L) # row-bind
+typeof(out) # `integer`, NOT `list`, because empty arrays don't count
+
 
 }
 \references{

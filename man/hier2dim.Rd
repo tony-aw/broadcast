@@ -104,6 +104,9 @@ dimnames(x2) <- hiernames2dimnames(x)
 print(x2)
 
 
+################################################################################
+
+
 # Example 2: Cast from outside to inside ====
 x <- list(
   group1 = list(
@@ -147,6 +150,8 @@ dimnames(x2) <- hiernames2dimnames(x, in2out = FALSE)
 
 print(x2)
 
+
+################################################################################
 
 
 # Example 3: padding ====

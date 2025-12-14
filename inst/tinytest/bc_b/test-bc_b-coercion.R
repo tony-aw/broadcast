@@ -9,8 +9,8 @@ errorfun <- function(tt) {
 ops <- broadcast:::.op_b()
 
 for(op in ops) {
-  x <- array(sample(c(-49:49, NA)), c(100, 1))
-  y <- array(sample(c(-49:49, NA)), c(1, 100))
+  x <- array(sample(c(-49:49, NA)), c(100, 1)) |> as_int()
+  y <- array(sample(c(-49:49, NA)), c(1, 100)) |> as_int()
   expect_equal(
     bc.b(as_dbl(x), as_dbl(y), op),
     bc.b(x, y, op)

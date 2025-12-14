@@ -39,7 +39,7 @@ rep_dim <- function(
     old.ndim <- ndim(x)
     old.dimnames <- dimnames(x)
     dim(x) <- c(dim(x), rep(1, tdimlen - ndim(x)))
-    dimnames(x)[1:old.ndim] <- old.dimnames
+    dimnames(x)[seq_len(old.ndim)] <- old.dimnames
   }
   x.dim <- dim(x)
   x.dimlen <- ndim(x)

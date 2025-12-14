@@ -101,6 +101,15 @@ expect_equal(
 enumerate <- enumerate + 4L
 
 
+# zero-len object ====
+x <- integer(0L)
+expect_equal(
+  vector2array(x, 2L, 3L),
+  array(x, c(1, 0, 1))
+)
+enumerate <- enumerate + 1L
+
+
 
 # errors ====
 x <- setNames(1:19, sample(letters, 19))

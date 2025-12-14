@@ -1,8 +1,29 @@
 
+# broadcast 0.1.7
+
+**Consistency fixes:**
+
+* In `bc.b()`, in the case of a result with length zero:  
+the result will be of type "raw" if both `x` and `y` are raw, and logical otherwise  
+(until now, the result was always logical, which is not consistent with the regular case).
+* In `bc.d()`:  
+the `d==`, `d!=` etc. operators now also accept the case where both `x` and `y` are integer or logical.
+* Most methods and operators now also preserve the `comment` attribute.
+* `bcapply()` will now accept the argument input `v = "numeric"` as an alias for `v = "double"`.
+
+**Other changes:**
+
+* Added more examples in the reference manual.
+* Added more tests.
+* Fixed several linguistic errors in the help page of `cast_shallow2atomic()`.
+
+<br>
+
 # broadcast 0.1.6.1
 
 * Replaced all uses of `abs()`/`fabs()` with `std::abs()` in the internal source code.
 
+<br>
 
 # broadcast 0.1.6
 
@@ -18,16 +39,19 @@
 * If one of the input arrays in `bind_array()` is a `broadcaster`, then the result will also be a `broadcaster`.
 * Added more tests.
 
+<br>
 
 # broadcast 0.1.5.3
 
 * Replaced `abs` function with `labs` function when using long integers in src/rcpp_bcFact_int.
 
+<br>
 
 # broadcast 0.1.5.2
 
 * Reduced the installation time and size of the compiled library, with almost no performance loss.
 
+<br>
 
 # broadcast 0.1.5
 
@@ -65,33 +89,40 @@ Moreover, the S3 methods in this package now check for unknown arguments given t
 * Added and adapted the unit tests for the above changes.
 * Re-ran the unit tests coverage report shown on the website.
 
-
+<br>
 
 # broadcast 0.1.3
 * Continuation of Initial CRAN submission.
 * Fixed the title case.
 
+<br>
 
 # broadcast 0.1.2
 * Continuation of Initial CRAN submission.
 * Shortened the title.
 * Removed the LICENSE file, and its reference in the Description.
 
+<br>
 
 # broadcast 0.1.1
 * Continuation of Initial CRAN submission.
 * Replaced `abs` function with `labs` function when using long integers in src/rcpp_bc_int.
 
+<br>
 
 # broadcast 0.1
 * Initial CRAN submission
 
+<br>
 
 # broadcast 0.0.0.9018
 * Small performance improvements (re-ran the benchmarks again).
 * Proof-read the documentation, and made some tweaks.
 * Started preparations for CRAN release in the near future.
 
+<br>
 
 # broadcast 0.0.0.9000
 * Initial GitHub Publication
+
+<br>

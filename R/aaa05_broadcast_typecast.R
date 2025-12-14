@@ -2,8 +2,8 @@
 #'
 #' @description
 #' Type casting usually strips away attributes of objects. \cr
-#' The functions provided here preserve dimensions, dimnames, names,
-#' and \link{broadcaster} attributes,
+#' The functions provided here preserve `dim`, `dimnames`, `names`,
+#' `comment`, and \link{broadcaster} attributes,
 #' which may be more convenient for arrays and array-like objects. \cr
 #' \cr
 #' The functions are as follows: \cr

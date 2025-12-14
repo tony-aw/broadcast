@@ -44,58 +44,60 @@ datagens <- list(
 
 for(iNdims in c(1:5)) {
   for(iNamed in c(TRUE, FALSE)) {
-    for(iMargin in c(1, iNdims)) {
-      for(iType in seq_along(datagens)) {
-        for(iFill in c(TRUE, FALSE)) {
-          for(iSample in 1:5) {
-            
-            x <- array(datagens[[iType]](), test_make_dims(iNdims))
-            if(iNamed) {
-              dimnames(x) <- test_make_dimnames(dim(x))
-            }
-            
-            if(iFill) {
-              grp <- as.factor(sample(1:(dim(x)[iMargin] - 1L), dim(x)[iMargin], TRUE))
-            }
-            else {
-              grp <- as.factor(sample(rep_len(1:sqrt(dim(x)[iMargin]), dim(x)[iMargin])))
-            }
-            
-            if(is.atomic(x)) {
-              fillvalue <- x[sample(1:length(x), 1L)]
-            }
-            if(is.recursive(x)) {
-              fillvalue <- x[sample(1:length(x), 1L)]
-            }
-            
-            if(nlevels(grp) >= 2L) {
-              
-              
-              expect_silent(
-                acast(x, iMargin, grp, iFill, fillvalue)
-              ) |> errorfun()
-              
-              check_dimnames <- dimnames(acast(x, iMargin, grp, iFill, fillvalue))
-              expect_true(
-                !is.null(check_dimnames[length(check_dimnames)])
-              ) |> errorfun()
-              
-              enumerate <- enumerate + 2L
-              
-              if(iNamed && iNdims >= 2L) {
-                out <- acast(x, iMargin, grp, iFill, fillvalue)
-                expect_equal(
-                  dimnames(x)[-iMargin],
-                  dimnames(out)[c(-iMargin, -ndim(out))]
-                ) |> errorfun()
-                enumerate <- enumerate + 1L
+      for(iBc in c(TRUE, FALSE)) {
+        for(iMargin in c(1, iNdims)) {
+          for(iType in seq_along(datagens)) {
+            for(iFill in c(TRUE, FALSE)) {
+              for(iSample in 1:5) {
+                
+                x <- array(datagens[[iType]](), test_make_dims(iNdims))
+                if(iNamed) {
+                  dimnames(x) <- test_make_dimnames(dim(x))
+                }
+                broadcaster(x) <- iBc
+                
+                if(iFill) {
+                  grp <- as.factor(sample(1:(dim(x)[iMargin] - 1L), dim(x)[iMargin], TRUE))
+                }
+                else {
+                  grp <- as.factor(sample(rep_len(1:sqrt(dim(x)[iMargin]), dim(x)[iMargin])))
+                }
+                
+                if(is.atomic(x)) {
+                  fillvalue <- x[sample(1:length(x), 1L)]
+                }
+                if(is.recursive(x)) {
+                  fillvalue <- x[sample(1:length(x), 1L)]
+                }
+                
+                if(nlevels(grp) >= 2L) {
+                  
+                  
+                  expect_silent(
+                    acast(x, iMargin, grp, iFill, fillvalue)
+                  ) |> errorfun()
+                  
+                  check_dimnames <- dimnames(acast(x, iMargin, grp, iFill, fillvalue))
+                  expect_true(
+                    !is.null(check_dimnames[length(check_dimnames)])
+                  ) |> errorfun()
+                  
+                  enumerate <- enumerate + 2L
+                  
+                  if(iNamed && iNdims >= 2L) {
+                    out <- acast(x, iMargin, grp, iFill, fillvalue)
+                    expect_equal(
+                      dimnames(x)[-iMargin],
+                      dimnames(out)[c(-iMargin, -ndim(out))]
+                    ) |> errorfun()
+                    enumerate <- enumerate + 1L
+                  }
+                  
+                  
+                }
               }
-              
-              
             }
           }
-        }
-        
       }
     }
   }

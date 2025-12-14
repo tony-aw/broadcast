@@ -23,7 +23,7 @@ The implementations available in 'broadcast' include, but are not limited to, th
 they support a large set of
 relational, arithmetic, Boolean, string, and bit-wise operations.
 \item A faster, more memory efficient, and broadcasted abind-like function, for binding arrays along an arbitrary dimension.
-\item Broadcasted ifelse-like, and apply-like functions.
+\item Broadcasted ifelse-like and apply-like functions.
 \item Casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.
 \item A few linear algebra functions for statistics.
 }

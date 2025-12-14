@@ -135,63 +135,6 @@ expect_equal(
 enumerate <- enumerate + 1L
 
 
-# dimnames ====
-x <- array(1:10)
-y <- array(1:10, c(1, 10))
-test <- bc.d(x, y, ">")
-dimnames(test) <- list(letters[1:10], LETTERS[1:10])
-
-expect_equal(
-  bc_ifelse(test, x, y) |> dimnames(),
-  dimnames(test)
-)
-
-dim(test) <- length(test)
-dimnames(test) <- list(sample(letters, length(test), TRUE))
-
-expect_equal(
-  bc_ifelse(test, x, y) |> dimnames(),
-  NULL
-)
-
-enumerate <- enumerate + 2L
-
-
-
-# names ====
-x <- 1:10
-y <- 1:10
-test <- bc.d(x, y, ">")
-names(test) <- sample(letters[1:10])
-
-expect_equal(
-  bc_ifelse(test, x, y) |> names(),
-  names(test)
-)
-
-dim(test) <- length(test)
-names(test) <- sample(letters[1:10])
-
-expect_equal(
-  bc_ifelse(test, x, y) |> names(),
-  names(test)
-)
-
-expect_equal(
-  bc_ifelse(test, as.array(x), y) |> names(),
-  names(test)
-)
-
-expect_equal(
-  bc_ifelse(test, x, as.array(y)) |> names(),
-  names(test)
-)
-
-
-enumerate <- enumerate + 4L
-
-
-
 # errors ====
 expect_error(
   bc_ifelse(letters, LETTERS, letters),

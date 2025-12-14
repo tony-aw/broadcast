@@ -5,6 +5,9 @@ errorfun <- function(tt) {
   
   if(isFALSE(tt)) stop(print(tt))
 }
+.test_binary <- broadcast:::.test_binary
+.test_binary_class <- broadcast:::.test_binary_class
+.test_binary_zerolen <- broadcast:::.test_binary_zerolen
 
 test_make_dims <- function(n) {
   
@@ -27,9 +30,10 @@ test_make_dims <- function(n) {
 `%nand%` <- function(x, y) bitwAnd(bitwNot(x), bitwNot(y))
 `%==%` <- function(x, y) (x %&% y) %|% (x %nand% y)
 
+
 # bitwise & ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+
 op <- "&"
 
 i <- 1L
@@ -39,77 +43,18 @@ basefun <- function(x, y) {
   dim(out) <- bc_dim(x, y)
   return(out)
 }
-
-for(iSample in 1:10) { # re-do tests with different random configurations
-  
-  x.data <- sample(as.integer(0:255))
-  y.data <- sample(as.integer(0:255))
-  
-  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-
-      x <- array(x.data, dim = x.dim)
-      y <- array(y.data, dim = y.dim)
-      
-      # PREPARE FOR TEST
-      tdim <- bc_dim(x, y)
-      # print(x)
-      # print(y)
-      # print(tdim)
-      # cat("\n")
-      
-      
-      # DO TESTS BY CASE:
-      if(is.null(tdim)) {
-        # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-        expected[[i]] <- basefun(as_int(drop(x)), as_int(drop(y)))
-        attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) == 1L) {
-        # CASE 2: x and y are both scalar arrays
-        expected[[i]] <- basefun(as.integer(x), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(x) == 1L && length(y) > 1L) {
-        # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.integer(x), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) > 1L) {
-        # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else {
-        # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      # END CASES
-      
-      # ensure correct dimensions:
-      dim(expected[[i]]) <- tdim
-      
-      i <- i + 1L
-    }
-  }
-}
-enumerate <- enumerate + i # count number of tests
-# test results:
+bc.fun <- \(x, y) bc.bit(x, y, "&")
+res <- .test_binary(bc.fun, basefun, "integer", "integer")
 expect_equal(
-  expected, out
+  res$expected, res$out
 )
+enumerate <- enumerate + res$i
 
 
 
 # bitwise | ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+
 op <- "|"
 
 i <- 1L
@@ -119,76 +64,17 @@ basefun <- function(x, y) {
   dim(out) <- bc_dim(x, y)
   return(out)
 }
-
-for(iSample in 1:10) { # re-do tests with different random configurations
-  
-  x.data <- sample(as.integer(0:255))
-  y.data <- sample(as.integer(0:255))
-  
-  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-      
-      x <- array(x.data, dim = x.dim)
-      y <- array(y.data, dim = y.dim)
-      
-      # PREPARE FOR TEST
-      tdim <- bc_dim(x, y)
-      # print(x)
-      # print(y)
-      # print(tdim)
-      # cat("\n")
-      
-      
-      # DO TESTS BY CASE:
-      if(is.null(tdim)) {
-        # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-        expected[[i]] <- basefun(as_int(drop(x)), as_int(drop(y)))
-        attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) == 1L) {
-        # CASE 2: x and y are both scalar arrays
-        expected[[i]] <- basefun(as.integer(x), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(x) == 1L && length(y) > 1L) {
-        # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.integer(x), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) > 1L) {
-        # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else {
-        # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      # END CASES
-      
-      # ensure correct dimensions:
-      dim(expected[[i]]) <- tdim
-      
-      i <- i + 1L
-    }
-  }
-}
-enumerate <- enumerate + i # count number of tests
-# test results:
+bc.fun <- \(x, y) bc.bit(x, y, "|")
+res <- .test_binary(bc.fun, basefun, "integer", "integer")
 expect_equal(
-  expected, out
+  res$expected, res$out
 )
+enumerate <- enumerate + res$i
 
 
 # bitwise xor ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+
 op <- "xor"
 
 i <- 1L
@@ -198,76 +84,17 @@ basefun <- function(x, y) {
   dim(out) <- bc_dim(x, y)
   return(out)
 }
-
-for(iSample in 1:10) { # re-do tests with different random configurations
-  
-  x.data <- sample(as.integer(0:255))
-  y.data <- sample(as.integer(0:255))
-  
-  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-      
-      x <- array(x.data, dim = x.dim)
-      y <- array(y.data, dim = y.dim)
-      
-      # PREPARE FOR TEST
-      tdim <- bc_dim(x, y)
-      # print(x)
-      # print(y)
-      # print(tdim)
-      # cat("\n")
-      
-      
-      # DO TESTS BY CASE:
-      if(is.null(tdim)) {
-        # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-        expected[[i]] <- basefun(as_int(drop(x)), as_int(drop(y)))
-        attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) == 1L) {
-        # CASE 2: x and y are both scalar arrays
-        expected[[i]] <- basefun(as.integer(x), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(x) == 1L && length(y) > 1L) {
-        # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.integer(x), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) > 1L) {
-        # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else {
-        # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      # END CASES
-      
-      # ensure correct dimensions:
-      dim(expected[[i]]) <- tdim
-      
-      i <- i + 1L
-    }
-  }
-}
-enumerate <- enumerate + i # count number of tests
-# test results:
+bc.fun <- \(x, y) bc.bit(x, y, "xor")
+res <- .test_binary(bc.fun, basefun, "integer", "integer")
 expect_equal(
-  expected, out
+  res$expected, res$out
 )
+enumerate <- enumerate + res$i
 
 
 # bitwise nand ====
 nres <- 10 * 5 * 5 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+
 op <- "nand"
 
 i <- 1L
@@ -277,76 +104,17 @@ basefun <- function(x, y) {
   dim(out) <- bc_dim(x, y)
   return(out)
 }
-
-for(iSample in 1:10) { # re-do tests with different random configurations
-  
-  x.data <- sample(as.integer(0:255))
-  y.data <- sample(as.integer(0:255))
-  
-  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-      
-      x <- array(x.data, dim = x.dim)
-      y <- array(y.data, dim = y.dim)
-      
-      # PREPARE FOR TEST
-      tdim <- bc_dim(x, y)
-      # print(x)
-      # print(y)
-      # print(tdim)
-      # cat("\n")
-      
-      
-      # DO TESTS BY CASE:
-      if(is.null(tdim)) {
-        # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-        expected[[i]] <- basefun(as_int(drop(x)), as_int(drop(y)))
-        attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) == 1L) {
-        # CASE 2: x and y are both scalar arrays
-        expected[[i]] <- basefun(as.integer(x), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(x) == 1L && length(y) > 1L) {
-        # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.integer(x), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) > 1L) {
-        # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else {
-        # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      # END CASES
-      
-      # ensure correct dimensions:
-      dim(expected[[i]]) <- tdim
-      
-      i <- i + 1L
-    }
-  }
-}
-enumerate <- enumerate + i # count number of tests
-# test results:
+bc.fun <- \(x, y) bc.bit(x, y, "nand")
+res <- .test_binary(bc.fun, basefun, "integer", "integer")
 expect_equal(
-  expected, out
+  res$expected, res$out
 )
+enumerate <- enumerate + res$i
 
 
 # bitwise equal ====
-nres <- 10 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+
+
 op <- "=="
 
 i <- 1L
@@ -356,76 +124,17 @@ basefun <- function(x, y) {
   dim(out) <- bc_dim(x, y)
   return(out)
 }
-
-for(iSample in 1:10) { # re-do tests with different random configurations
-  
-  x.data <- sample(as.integer(0:255))
-  y.data <- sample(as.integer(0:255))
-  
-  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-      
-      x <- array(x.data, dim = x.dim)
-      y <- array(y.data, dim = y.dim)
-      
-      # PREPARE FOR TEST
-      tdim <- bc_dim(x, y)
-      # print(x)
-      # print(y)
-      # print(tdim)
-      # cat("\n")
-      
-      
-      # DO TESTS BY CASE:
-      if(is.null(tdim)) {
-        # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-        expected[[i]] <- basefun(as_int(drop(x)), as_int(drop(y)))
-        attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) == 1L) {
-        # CASE 2: x and y are both scalar arrays
-        expected[[i]] <- basefun(as.integer(x), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(x) == 1L && length(y) > 1L) {
-        # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.integer(x), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) > 1L) {
-        # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else {
-        # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      # END CASES
-      
-      # ensure correct dimensions:
-      dim(expected[[i]]) <- tdim
-      
-      i <- i + 1L
-    }
-  }
-}
-enumerate <- enumerate + i # count number of tests
-# test results:
+bc.fun <- \(x, y) bc.bit(x, y, "==")
+res <- .test_binary(bc.fun, basefun, "integer", "integer")
 expect_equal(
-  expected, out
+  res$expected, res$out
 )
+enumerate <- enumerate + res$i
 
 
 # bitwise unequal ====
-nres <- 10 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+
+
 op <- "!="
 
 i <- 1L
@@ -435,76 +144,17 @@ basefun <- function(x, y) {
   dim(out) <- bc_dim(x, y)
   return(out)
 }
-
-for(iSample in 1:10) { # re-do tests with different random configurations
-  
-  x.data <- sample(as.integer(0:255))
-  y.data <- sample(as.integer(0:255))
-  
-  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-      
-      x <- array(x.data, dim = x.dim)
-      y <- array(y.data, dim = y.dim)
-      
-      # PREPARE FOR TEST
-      tdim <- bc_dim(x, y)
-      # print(x)
-      # print(y)
-      # print(tdim)
-      # cat("\n")
-      
-      
-      # DO TESTS BY CASE:
-      if(is.null(tdim)) {
-        # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-        expected[[i]] <- basefun(as_int(drop(x)), as_int(drop(y)))
-        attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) == 1L) {
-        # CASE 2: x and y are both scalar arrays
-        expected[[i]] <- basefun(as.integer(x), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(x) == 1L && length(y) > 1L) {
-        # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.integer(x), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) > 1L) {
-        # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else {
-        # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      # END CASES
-      
-      # ensure correct dimensions:
-      dim(expected[[i]]) <- tdim
-      
-      i <- i + 1L
-    }
-  }
-}
-enumerate <- enumerate + i # count number of tests
-# test results:
+bc.fun <- \(x, y) bc.bit(x, y, "!=")
+res <- .test_binary(bc.fun, basefun, "integer", "integer")
 expect_equal(
-  expected, out
+  res$expected, res$out
 )
+enumerate <- enumerate + res$i
 
 
 # bitwise smaller ====
-nres <- 10 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+
+
 op <- "<"
 
 i <- 1L
@@ -514,76 +164,17 @@ basefun <- function(x, y) {
   dim(out) <- bc_dim(x, y)
   return(out)
 }
-
-for(iSample in 1:10) { # re-do tests with different random configurations
-  
-  x.data <- sample(as.integer(0:255))
-  y.data <- sample(as.integer(0:255))
-  
-  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-      
-      x <- array(x.data, dim = x.dim)
-      y <- array(y.data, dim = y.dim)
-      
-      # PREPARE FOR TEST
-      tdim <- bc_dim(x, y)
-      # print(x)
-      # print(y)
-      # print(tdim)
-      # cat("\n")
-      
-      
-      # DO TESTS BY CASE:
-      if(is.null(tdim)) {
-        # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-        expected[[i]] <- basefun(as_int(drop(x)), as_int(drop(y)))
-        attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) == 1L) {
-        # CASE 2: x and y are both scalar arrays
-        expected[[i]] <- basefun(as.integer(x), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(x) == 1L && length(y) > 1L) {
-        # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.integer(x), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) > 1L) {
-        # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else {
-        # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      # END CASES
-      
-      # ensure correct dimensions:
-      dim(expected[[i]]) <- tdim
-      
-      i <- i + 1L
-    }
-  }
-}
-enumerate <- enumerate + i # count number of tests
-# test results:
+bc.fun <- \(x, y) bc.bit(x, y, "<")
+res <- .test_binary(bc.fun, basefun, "integer", "integer")
 expect_equal(
-  expected, out
+  res$expected, res$out
 )
+enumerate <- enumerate + res$i
 
 
 # bitwise greater ====
-nres <- 10 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+
+
 op <- ">"
 
 i <- 1L
@@ -593,77 +184,16 @@ basefun <- function(x, y) {
   dim(out) <- bc_dim(x, y)
   return(out)
 }
-
-for(iSample in 1:10) { # re-do tests with different random configurations
-  
-  x.data <- sample(as.integer(0:255))
-  y.data <- sample(as.integer(0:255))
-  
-  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-      
-      x <- array(x.data, dim = x.dim)
-      y <- array(y.data, dim = y.dim)
-      
-      # PREPARE FOR TEST
-      tdim <- bc_dim(x, y)
-      # print(x)
-      # print(y)
-      # print(tdim)
-      # cat("\n")
-      
-      
-      # DO TESTS BY CASE:
-      if(is.null(tdim)) {
-        # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-        expected[[i]] <- basefun(as_int(drop(x)), as_int(drop(y)))
-        attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) == 1L) {
-        # CASE 2: x and y are both scalar arrays
-        expected[[i]] <- basefun(as.integer(x), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(x) == 1L && length(y) > 1L) {
-        # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.integer(x), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) > 1L) {
-        # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else {
-        # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      # END CASES
-      
-      # ensure correct dimensions:
-      dim(expected[[i]]) <- tdim
-      
-      
-      i <- i + 1L
-    }
-  }
-}
-enumerate <- enumerate + i # count number of tests
-# test results:
+bc.fun <- \(x, y) bc.bit(x, y, ">")
+res <- .test_binary(bc.fun, basefun, "integer", "integer")
 expect_equal(
-  expected, out
+  res$expected, res$out
 )
-
+enumerate <- enumerate + res$i
 
 # bitwise se ====
-nres <- 10 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+
+
 op <- "<="
 
 i <- 1L
@@ -673,79 +203,18 @@ basefun <- function(x, y) {
   dim(out) <- bc_dim(x, y)
   return(out)
 }
-
-for(iSample in 1:10) { # re-do tests with different random configurations
-  
-  x.data <- sample(as.integer(0:255))
-  y.data <- sample(as.integer(0:255))
-  
-  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-      
-      x <- array(x.data, dim = x.dim)
-      y <- array(y.data, dim = y.dim)
-      
-      # PREPARE FOR TEST
-      tdim <- bc_dim(x, y)
-      # print(x)
-      # print(y)
-      # print(tdim)
-      # cat("\n")
-      
-      
-      # DO TESTS BY CASE:
-      if(is.null(tdim)) {
-        # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-        expected[[i]] <- basefun(as_int(drop(x)), as_int(drop(y)))
-        attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) == 1L) {
-        # CASE 2: x and y are both scalar arrays
-        expected[[i]] <- basefun(as.integer(x), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(x) == 1L && length(y) > 1L) {
-        # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.integer(x), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) > 1L) {
-        # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else {
-        # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      # END CASES
-      
-      # ensure correct dimensions:
-      dim(expected[[i]]) <- tdim
-      
-      
-      i <- i + 1L
-    }
-  }
-}
-enumerate <- enumerate + i # count number of tests
-# test results:
+bc.fun <- \(x, y) bc.bit(x, y, "<=")
+res <- .test_binary(bc.fun, basefun, "integer", "integer")
 expect_equal(
-  expected, out
+  res$expected, res$out
 )
-
+enumerate <- enumerate + res$i
 
 
 
 # bitwise ge ====
-nres <- 10 * 3 * 3 # number of tests performed here
-expected <- out <- vector("list", nres)
+
+
 op <- ">="
 
 i <- 1L
@@ -755,76 +224,78 @@ basefun <- function(x, y) {
   dim(out) <- bc_dim(x, y)
   return(out)
 }
-
-for(iSample in 1:10) { # re-do tests with different random configurations
-  
-  x.data <- sample(as.integer(0:255))
-  y.data <- sample(as.integer(0:255))
-  
-  for(iDimX in sample(1:8, 3L)) { # different dimensions for x
-    x.dim <- test_make_dims(iDimX)
-    x.len <- prod(x.dim)
-    for(iDimY in sample(1:8, 3L)) { # different dimensions for y
-      y.dim <- test_make_dims(iDimY)
-      y.len <- prod(y.dim)
-      
-      x <- array(x.data, dim = x.dim)
-      y <- array(y.data, dim = y.dim)
-      
-      # PREPARE FOR TEST
-      tdim <- bc_dim(x, y)
-      # print(x)
-      # print(y)
-      # print(tdim)
-      # cat("\n")
-      
-      
-      # DO TESTS BY CASE:
-      if(is.null(tdim)) {
-        # CASE 1: result has no dimensions (for ex. when x and y are both scalars)
-        expected[[i]] <- basefun(as_int(drop(x)), as_int(drop(y)))
-        attributes(expected[[i]]) <- NULL # must be a vector if tdim == NULL
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) == 1L) {
-        # CASE 2: x and y are both scalar arrays
-        expected[[i]] <- basefun(as.integer(x), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(x) == 1L && length(y) > 1L) {
-        # CASE 3: x is scalar, y is not
-        expected[[i]] <- basefun(as.integer(x), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else if(length(y) == 1L && length(x) > 1L) {
-        # CASE 4: y is scalar, x is not
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), as.integer(y))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      else {
-        # CASE 5: x and y are both non-reducible arrays
-        expected[[i]] <- basefun(rep_dim(as_int(x), tdim), rep_dim(as_int(y), tdim))
-        out[[i]] <- bc.bit(x, y, op)
-      }
-      # END CASES
-      
-      # ensure correct dimensions:
-      dim(expected[[i]]) <- tdim
-      
-      
-      i <- i + 1L
-    }
-  }
-}
-enumerate <- enumerate + i # count number of tests
-# test results:
+bc.fun <- \(x, y) bc.bit(x, y, ">=")
+res <- .test_binary(bc.fun, basefun, "integer", "integer")
 expect_equal(
-  expected, out
+  res$expected, res$out
+)
+enumerate <- enumerate + res$i
+
+
+
+
+# attributes tests (and/or) ====
+bc.fun <- function(x, y) { bc.bit(x, y, "&")}
+
+types <- "integer"
+
+res <- .test_binary_class(bc.fun, types, types)
+expect_equal(
+  res$expected_bc, res$out_bc
+)
+expect_false(
+  identical(res$expected_comm, res$out_comm)
+)
+expect_false(
+  identical(res$expected_ma, res$out_ma)
 )
 
+enumerate <- enumerate + res$i
+
+
+# zerolen tests (and/or) ====
+bc.fun <- function(x, y) { bc.bit(x, y, "&")}
+
+res <- .test_binary_zerolen(bc.fun, is.integer, types, types)
+expect_true(all(res$is_OK_type))
+expect_equal(
+  res$expected_bc, res$out_bc
+)
+expect_false(
+  identical(res$expected_comm, res$out_comm)
+)
+enumerate <- enumerate + res$i
 
 
 
+# attributes tests (rel) ====
+bc.fun <- function(x, y) { bc.bit(x, y, "==")}
 
+res <- .test_binary_class(bc.fun, types, types)
+expect_equal(
+  res$expected_bc, res$out_bc
+)
+expect_false(
+  identical(res$expected_comm, res$out_comm)
+)
+expect_false(
+  identical(res$expected_ma, res$out_ma)
+)
+
+enumerate <- enumerate + res$i
+
+
+# zerolen tests (rel) ====
+bc.fun <- function(x, y) { bc.bit(x, y, "==")}
+
+res <- .test_binary_zerolen(bc.fun, is.integer, types, types)
+expect_true(all(res$is_OK_type))
+expect_equal(
+  res$expected_bc, res$out_bc
+)
+expect_false(
+  identical(res$expected_comm, res$out_comm)
+)
+enumerate <- enumerate + res$i
 
 

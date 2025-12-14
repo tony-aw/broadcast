@@ -44,29 +44,23 @@
 #' \code{abind::abind()} function
 #' by Tony Plare & Richard Heiberger (2016). \cr
 #' But `bind_array()` differs considerably from \code{abind::abind}
-#' in the following ways:
-#'  
-#'  - `bind_array()` allows for broadcasting,
-#'  while \code{abind::abind} does not support broadcasting.
-#'   - `bind_array()` is generally faster and more memory-efficient than \code{abind::abind},
-#'  as `bind_array()` relies heavily on 'C' and 'C++' code.
-#'  - `bind_array()` differs from \code{abind::abind}
-#'  in that it can handle recursive arrays properly \cr
-#'  (the \code{abind::abind} function would unlist everything to atomic arrays,
-#'  ruining the structure).
-#'  - unlike \code{abind::abind},
-#'  `bind_array()` only binds (atomic/recursive) arrays and matrices. \cr
-#'  `bind_array()` does not attempt to convert things to arrays when they are not arrays,
-#'  but will give an error instead. \cr
-#'  This saves computation time and prevents unexpected results.
-#'  - `bind_array()` has more streamlined naming options,
-#'  compared to \code{abind::abind}. \cr
+#' in that
+#' `bind_array()` allows for broadcasting,
+#' `bind_array()` is generally faster and more memory-efficient,
+#' and `bind_array()` can handle recursive arrays. \cr
+#' \cr
+#' Note that, unlike `abind::abind()`,
+#' `bind_array()` only binds (atomic/recursive) arrays and matrices; \cr
+#' `bind_array()` does not attempt to convert things to arrays when they are not arrays,
+#' but will give an error instead. \cr
+#' This saves computation time and prevents unexpected results. \cr
+#' \cr
 #' 
 #' 
 #' @returns
 #' An array as a result from the (broadcasted) binding. \cr
 #' \cr
-#' The type of the result is determined from the highest type of any of the inputs. \cr
+#' The type of the result is determined from the highest type of any of the non-empty inputs. \cr
 #' The hierarchy of types is: \cr
 #' raw < logical < integer < double < complex < character < list . \cr
 #' \cr

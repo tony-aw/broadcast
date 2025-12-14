@@ -125,6 +125,16 @@ expect_equal(
 enumerate <- enumerate + 4L
 
 
+# zero-len object ====
+x <- array(integer(0L), c(10, 0, 10))
+dimnames(x) <- list(letters[1:10], NULL, month.abb[1:10])
+expect_equal(
+  undim(x),
+  integer(0L)
+)
+enumerate <- enumerate + 1L
+
+
 # errors ====
 expect_error(
   undim(~ foo),

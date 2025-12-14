@@ -6,7 +6,43 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 
-# C funs ====
+
+
+# .C_any_nonarray ====
+.C_any_nonarray <- broadcast:::.C_any_nonarray
+
+expect_error(
+  .C_any_nonarray(1:10),
+  pattern = "`x` must be a list"
+)
+
+x <- list(
+  array(integer(0L)),
+  array(integer(0L), c(0, 10)),
+  array(1:10),
+  matrix(1:20, 5, 4),
+  array(1:27, c(3,3,3))
+)
+expect_false(
+  .C_any_nonarray(x)
+)
+
+x <- list(
+  array(integer(0L)),
+  array(integer(0L), c(0, 10)),
+  array(1:10),
+  matrix(1:20, 5, 4),
+  array(1:27, c(3,3,3)),
+  1:10
+)
+expect_true(
+  .C_any_nonarray(x)
+)
+
+enumerate <- enumerate + 3L
+
+
+# .C_bind_which_comdims ====
 
 .C_bind_which_comdims <- broadcast:::.C_bind_which_comdims
 
