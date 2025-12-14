@@ -3,8 +3,8 @@
 
 ### Description
 
-Base 'R' comes with relational (==, !=, etc.),
-arithmetic (+, -, *, /, etc.), and logical/bit-wise (&amp;, |) operators. <br />
+Base 'R' comes with relational,
+arithmetic and logical/bit-wise (&amp;, |) operators. <br />
 'broadcast' provides 2 ways to use these operators with broadcasting. <br />
 <br />
 The first (and simple) way is to use the [broadcaster](broadcaster.qmd) class,
@@ -28,15 +28,13 @@ If at least one of the 2 arguments of the base operators has the [broadcaster](b
 and no other class (like <code>bit64</code>) interferes,
 broadcasting will be used. <br />
 <br />
-The following arithmetic operators have a 'broadcaster' method:
-+, -, *, /, ^, %%, %/% <br />
-The following relational operators have a 'broadcaster' method:
-==, !=, &lt;, &gt;, &lt;=, &gt;= <br />
-And finally, the &amp; and | operators also have a 'broadcaster' method. <br />
-<br />
-The overloaded operators preserve the same precedence rules as the base operators. <br />
-I.e. <code>^</code> comes before <code>*</code> and <code>/</code>, which come before <code>+</code> and <code>-</code>, and so on. <br />
-<br />
+The following operators have a 'broadcaster' method:
+
+<div class="sourceCode r"><pre>+, -, *, /, ^, %%, %/%
+==, !=, &lt;, &gt;, &lt;=, &gt;=
+&amp;, |
+
+</pre></div>
 See also the Examples section below. <br />
 <br />
 

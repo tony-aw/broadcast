@@ -2,8 +2,8 @@
 #' 
 #' @description
 #' 
-#' Base 'R' comes with relational (==, !=, etc.),
-#' arithmetic (+, -, *, /, etc.), and logical/bit-wise (&, |) operators. \cr
+#' Base 'R' comes with relational,
+#' arithmetic and logical/bit-wise (&, |) operators. \cr
 #' 'broadcast' provides 2 ways to use these operators with broadcasting. \cr
 #' \cr
 #' The first (and simple) way is to use the \link{broadcaster} class,
@@ -25,15 +25,14 @@
 #' and no other class (like `bit64`) interferes,
 #' broadcasting will be used. \cr
 #' \cr
-#' The following arithmetic operators have a 'broadcaster' method:
-#' +, -, *, /, ^, %%, %/% \cr
-#' The following relational operators have a 'broadcaster' method:
-#' `r paste0(broadcast:::.op_rel(), collapse = ", ")` \cr
-#' And finally, the & and | operators also have a 'broadcaster' method. \cr
-#' \cr
-#' The overloaded operators preserve the same precedence rules as the base operators. \cr
-#' I.e. `^` comes before `*` and `/`, which come before `+` and `-`, and so on. \cr
-#' \cr
+#' The following operators have a 'broadcaster' method:
+#' 
+#' ```{r, eval = FALSE, echo = TRUE}
+#' +, -, *, /, ^, %%, %/%
+#' ==, !=, <, >, <=, >=
+#' &, |
+#' 
+#' ```
 #' See also the Examples section below. \cr
 #' \cr
 #' 

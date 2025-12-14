@@ -5,8 +5,8 @@
 \alias{broadcast_operators}
 \title{Details on Broadcasted Operators}
 \description{
-Base 'R' comes with relational (==, !=, etc.),
-arithmetic (+, -, *, /, etc.), and logical/bit-wise (&, |) operators. \cr
+Base 'R' comes with relational,
+arithmetic and logical/bit-wise (&, |) operators. \cr
 'broadcast' provides 2 ways to use these operators with broadcasting. \cr
 \cr
 The first (and simple) way is to use the \code{[broadcaster](broadcaster.qmd)} class,
@@ -28,15 +28,14 @@ If at least one of the 2 arguments of the base operators has the \code{[broadcas
 and no other class (like \code{bit64}) interferes,
 broadcasting will be used. \cr
 \cr
-The following arithmetic operators have a 'broadcaster' method:
-+, -, *, /, ^, \%\%, \%/\% \cr
-The following relational operators have a 'broadcaster' method:
-==, !=, <, >, <=, >= \cr
-And finally, the & and | operators also have a 'broadcaster' method. \cr
-\cr
-The overloaded operators preserve the same precedence rules as the base operators. \cr
-I.e. \code{^} comes before \code{*} and \code{/}, which come before \code{+} and \code{-}, and so on. \cr
-\cr
+The following operators have a 'broadcaster' method:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{+, -, *, /, ^, \%\%, \%/\%
+==, !=, <, >, <=, >=
+&, |
+
+}\if{html}{\out{</div>}}
+
 See also the Examples section below. \cr
 \cr
 }
