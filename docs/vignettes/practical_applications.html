@@ -125,7 +125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../about/a_acknowledgements.html" rel="" target="">
- <span class="menu-text">📇 About</span></a>
+ <span class="menu-text">📰 About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -999,9 +999,9 @@ I’ll use transparent green dots for the mean, and transparent red dots for the
 <span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> upper</span>
 <span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>lc <span class="ot">&lt;-</span> lc[<span class="fu">order</span>(lc<span class="sc">$</span>x),]</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(lc, <span class="fu">points</span>(<span class="at">x =</span> x, <span class="at">y =</span> means, <span class="at">col =</span> green)) <span class="co"># plot our means</span></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(lc, <span class="fu">points</span>(<span class="at">x =</span> x, <span class="at">y =</span> lower, <span class="at">col =</span> red)) <span class="co"># plot our lower bound</span></span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(lc, <span class="fu">points</span>(<span class="at">x =</span> x, <span class="at">y =</span> upper, <span class="at">col =</span> red)) <span class="co"># plot our upper bound</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>lc <span class="sc">%$%</span> <span class="fu">points</span>(<span class="at">x =</span> x, <span class="at">y =</span> means, <span class="at">col =</span> green) <span class="co"># plot our means</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>lc <span class="sc">%$%</span> <span class="fu">points</span>(<span class="at">x =</span> x, <span class="at">y =</span> lower, <span class="at">col =</span> red) <span class="co"># plot our lower bound</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>lc <span class="sc">%$%</span> <span class="fu">points</span>(<span class="at">x =</span> x, <span class="at">y =</span> upper, <span class="at">col =</span> red) <span class="co"># plot our upper bound</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="practical_applications_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="768"></p>
 </div>
@@ -1012,15 +1012,16 @@ I’ll use transparent green dots for the mean, and transparent red dots for the
 Let’s use the ‘tinyplot’ framework to compute the plot manually:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tinyplot)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tinytheme</span>(<span class="st">"clean"</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(lc, <span class="fu">tinyplot</span>( <span class="co"># plot confidence interval</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> x, <span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper, <span class="at">type =</span> <span class="st">"ribbon"</span>,</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"x2"</span>, <span class="at">ylab =</span> <span class="st">"s(x2)"</span>,</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(lc, <span class="fu">tinyplot</span>( <span class="co"># plot means over it</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> x, <span class="at">y =</span> means, <span class="at">type =</span> <span class="st">"l"</span>,</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"green"</span></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tinytheme</span>(<span class="st">"clean"</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>lc <span class="sc">%$%</span> <span class="fu">tinyplot</span>( <span class="co"># plot confidence interval</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> x, <span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper, <span class="at">type =</span> <span class="st">"ribbon"</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"x2"</span>, <span class="at">ylab =</span> <span class="st">"s(x2)"</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>lc <span class="sc">%$%</span> <span class="fu">tinyplot</span>( <span class="co"># plot means over it</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> x, <span class="at">y =</span> means, <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"green"</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="practical_applications_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="768"></p>
 </div>

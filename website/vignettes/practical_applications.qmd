@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
 
 ```{r setup, echo=FALSE, eval=TRUE}
 library(broadcast) |> suppressMessages()
+library(magrittr) |> suppressMessages()
 library(fontawesome) |> suppressWarnings()
 set.seed(1L)
 ```
@@ -516,9 +517,9 @@ lc <- data.frame(
   upper = upper
 )
 lc <- lc[order(lc$x),]
-with(lc, points(x = x, y = means, col = green)) # plot our means
-with(lc, points(x = x, y = lower, col = red)) # plot our lower bound
-with(lc, points(x = x, y = upper, col = red)) # plot our upper bound
+lc %$% points(x = x, y = means, col = green) # plot our means
+lc %$% points(x = x, y = lower, col = red) # plot our lower bound
+lc %$% points(x = x, y = upper, col = red) # plot our upper bound
 
 ```
 
@@ -531,15 +532,16 @@ Let's use the 'tinyplot' framework to compute the plot manually:
 
 ```{r fig.width=8}
 library(tinyplot)
+
 tinytheme("clean")
-with(lc, tinyplot( # plot confidence interval
+lc %$% tinyplot( # plot confidence interval
   x = x, ymin = lower, ymax = upper, type = "ribbon",
   xlab = "x2", ylab = "s(x2)",
-))
-with(lc, tinyplot( # plot means over it
+)
+lc %$% tinyplot( # plot means over it
   x = x, y = means, type = "l",
   add = TRUE, col = "green"
-))
+)
 
 ```
 
