@@ -63,7 +63,7 @@ The larger the matrix `mat` becomes, the more advantageous it becomes to use bro
 
 &nbsp;
 
-# Binding arrays along an arbitrary dimension
+# Bind arrays
 
 The `abind()` function, from the package of the same name, allows one to bind arrays along any arbitrary dimensions (not just along rows or columns).  
 Unfortunately, `abind()` does not support broadcasting, which can lead to frustrations such as the following:
@@ -93,76 +93,85 @@ bind_array(list(x, y), 2)
 &nbsp;
 
 
-# Perform computation on all possible pairs
+# Compute on all possible pairs
 
-Suppose you have 2 vectors of character strings, and you want to concatenate all possible pairs of these strings.
+Suppose you have 2 vectors of character strings, and you want to calculate the distance (i.e. dissimilarity) all possible pairs of these strings.
 
 In base `r fa("r-project")`, this would require a either a loop (which is slow), or repeating the vectors several times (which requires more memory), or use of the `outer()` function (which is both slow **and** requires lots of memory).
 
-The 'broadcasted way to do this, is to make the vectors orthogonal, and concatenate the strings of the orthogonal vectors - this is both fast and memory efficient.
+The 'broadcasted way to do this, is to make the vectors orthogonal, and then calculate the distances between the strings of the orthogonal vectors - this is both fast and memory efficient.
 
 For example:
 
 ```{r}
-x <- array(letters[1:10], c(10, 1))
-y <- array(letters[1:10], c(1, 10))
-
-out <- bc.str(x, y, "+")
-dimnames(out) <- list(x, y)
+x <- array(month.name, c(12, 1))
+y <- array(month.abb, c(1, 12))
+out <- bc.str(x, y, "levenshtein")
+dimnames(out) <- list(month.name, month.abb)
 print(out)
 
 ```
 
 &nbsp;
 
-# Modifying an Array Along a Dimension
+# Modify Array Along a Dimension
+
+## Along columns
 
 Consider the following array:
 
 ```{r}
-x <- array(1:27, c(3,3,3))
+x <- array(sample(0:9), c(3,3,3))
 print(x)
 ```
 
-Suppose one wishes to multiply all values of the second column with `2`, and all values of the third column with `3`.  
-This can be done with 'broadcast', by creating a multiplier vector whose dimensional direction is aligned with - in this case - the columns, and multiplying the array with said vector.  
-We don't want to change the first column, so we multiply the first column with `1`.  
+Suppose one wishes to add `10` to all values of the second column, and `100` to all values of the third column.  
+This can be done with 'broadcast', by creating a modification vector whose dimensional direction is aligned with - in this case - the columns, and performing broadcasted addition between the array and said vector.  
+We don't want to change the first column, so we add `0` to the first column.  
 
 So we can do this as follows:
 
 ```{r}
-multiplier <- array(c(1, 2, 3), c(1, 3))
-print(multiplier)
-bcr(x) <- bcr(multiplier) <- TRUE
+v <- array(c(0, 10, 100), c(1, 3))
+print(v)
+bcr(x) <- bcr(v) <- TRUE
 
-x * multiplier
+x + v
 
 ```
 
-Suppose that, instead of multiplying the 3 columns with 1, 2, and 3, we wish to multiply the rows with 1, 2, and 3.
+&nbsp;
 
-This again can by creating a multiplier vector - this time aligned with the rows.  
+## Along rows
+
+Suppose that, instead of adding `{0, 10, 100}` to the 3 columns, we wish to add these to the rows instead.
+
+This again can by creating a modifcation vector - this time aligned with the rows.  
 Note that in the 'broadcast' package, a vector without dimensions is interpreted as a vector aligned with rows (confusingly called a "column vector" in mathematics).
 Like so:
 
 ```{r}
-multiplier <- c(1, 2, 3) # effectively the same as array(c(1, 2, 3), c(3, 1))
-print(multiplier)
-bcr(x) <- bcr(multiplier) <- TRUE
+v <- c(0, 10, 100) # effectively the same as array(c(0, 10, 100), c(3, 1))
+print(v)
+bcr(x) <- bcr(v) <- TRUE
 
-x * multiplier
+x + v
 
 ```
 
-As a final example, we want to multiply layers (3rd dimension) 2 and 3 of `x` with 2 and 3, respectively.  
-As you may have guessed, one can do so by creating a multiplier vector aligned with the layers, and multiplying that vector with the array, like so:
+&nbsp;
+
+## Along layers
+
+As a final example, we want to add `{0, 10, 100}` to the layers (3rd dimension) of `x`.  
+As you may have guessed, one can do so by creating a modification vector aligned with the layers, and adding that vector to the array, like so:
 
 ```{r}
-multiplier <- array(c(1, 2, 3), c(1, 1, 3))
-print(multiplier)
-bcr(x) <- bcr(multiplier) <- TRUE
+v <- array(c(0, 10, 100), c(1, 1, 3))
+print(v)
+bcr(x) <- bcr(v) <- TRUE
 
-x * multiplier
+x + v
 
 ```
 
@@ -337,7 +346,7 @@ y <- list(
 
 We wish 2 merge these 2 lists, such that after every list-element "sex" in list `x`, the element "smoker" follows in list `y`.
 
-This can be done with a double for-loop in `r fa("r-project")`, but if both lists are large, this becomes slow. With the 'broadcast' package, one can cast both lists as dimensional, and then use broadcasted binding to merge `x` and `y` together with ease. Moreover, if a list can be represented dimensionally rather than hierarchically, one should do so to make further analyses and manipulations much easier.
+This can be done with a double for-loop in `r fa("r-project")`, but if both lists are large, this becomes slow. With the 'broadcast' package, one can cast both lists as dimensional, and then use broadcasted binding to merge `x` and `y` together with ease. Moreover, if a list can be represented dimensionally, it is advised to make the list dimensional as that will make further analyses, manipulations, and sub-set operations much easier and faster compared to a hierarchical list.
 
 So let's first cast both lists from hierarchical lists to dimensional lists:
 
@@ -347,7 +356,7 @@ So let's first cast both lists from hierarchical lists to dimensional lists:
 ```
 
 
-Now bind these lists together using [bind_array()](/man/bind_array.qmd) can handle recursive arrays (i.e. dimensional lists) natively with ease:
+Now bind these lists together using [bind_array()](/man/bind_array.qmd), which can handle recursive arrays (i.e. dimensional lists) natively with ease:
 
 ```{r}
 z <- bind_array(list(x2, y2), 1L)
@@ -420,18 +429,18 @@ dimnames(multiplier)[[3L]] <- dimnames(x3)[[3L]]
 print(multiplier)
 
 # broadcasted multiply x3 with multiplier:
-bcr(x3) <- TRUE
+broadcaster(x3) <- TRUE
 x3 * multiplier
 ```
 
 Thus we started off with a nested list, through which one cannot broadcast and for which little to no vectorized operators are available.  
-By turning the nested list into a dimensional atomic array, broadcasted and vectorized operations cann more easily be used.
+By turning the nested list into a dimensional atomic array, both broadcasted and vectorized operations can more easily be used.
 
 
 &nbsp;
 
 
-# Manually compute confidence/credible interval for a spline
+# Compute confidence/credible interval of a spline
 
 The [sd_lc()](/man/linear_algebra_stats.qmd) function computes the standard deviation for a linear combination of random variables. One of its notable use-cases is to compute the confidence interval (or credible interval if you're going Bayesian) of a spline.
 
