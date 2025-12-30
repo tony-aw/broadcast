@@ -1,5 +1,5 @@
 ---
-title: "Other packages"
+title: "Other Packages"
 format: html
 ---
 
@@ -31,13 +31,14 @@ These alternatives all need access to a different programming language, which br
  - **Wasteful translations**: Using libraries from other languages, such as 'xtensor' ('C++') or 'Numpy' ('Python') means that - at some point - one needs to convert between the structure of `r fa("r-project")` to that of the other language, and vice-versa, which wastes precious time, memory, and power.
  - **Inconsistent behaviour**: Using libraries from other languages also means one cannot always guarantee consistent behaviour for some operations.  
  For example: both 'Numpy' and 'xtensor' have only limited support for missing values, whereas `r fa("r-project")` supports missing values for both atomic and recursive array/vector types (except type of 'Raw').
+ - **Access to CRAN's quality control**:  'R' is unique in that it has access to CRAN's quality control; most other languages (including Python) don't have a real comparable organization like CRAN.
  
 Since the 'broadcast' package does not rely on any external library, other than linking to 'Rcpp', 'broadcast' avoids all of the above issues.
 
 &nbsp;
 
 
-# The 'tinyverse
+# The 'tinyverse'
 
 The 'broadcast' package adheres to the 'tinyverse' philosophy (not to be confused with the 'tidyverse'), which is the programming philosophy to primarily minimize dependencies. 'broadcast' also belongs to the [fastverse](https://github.com/fastverse/fastverse), which is a collection of packages aimed at keep code fast and efficient.
 
