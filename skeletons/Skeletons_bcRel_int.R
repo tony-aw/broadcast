@@ -34,7 +34,6 @@ using namespace Rcpp;
 
 "
 
-readr::write_file(header_for_sourcing, "header.txt")
 
 Rcpp::sourceCpp(code = header_for_sourcing)
 

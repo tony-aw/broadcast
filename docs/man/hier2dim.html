@@ -95,6 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
+<link rel="stylesheet" href="../man.css">
 </head>
 
 <body class="nav-sidebar docked nav-fixed">
@@ -339,13 +340,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../man/bc_dim.html" class="sidebar-item-text sidebar-link">
+            <a href="../man/checkmissing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Helper Functions</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/checkmissing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">checkmissing</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc_dim.html" class="sidebar-item-text sidebar-link">
@@ -532,8 +539,8 @@ A single number, giving the direction in which to search for names. <br> Must be
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># predict what dimensions `x` would have if casted as dimensional:</span></span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="fu">hier2dim</span>(x)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="do">##       </span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 2 2</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       </span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 2 2</span></span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x) <span class="co"># cast as dimensional</span></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
@@ -542,19 +549,19 @@ A single number, giving the direction in which to search for names. <br> Must be
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(x2) <span class="ot">&lt;-</span> <span class="fu">hiernames2dimnames</span>(x)</span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x2)</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="do">## , , group1</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="do">##        class1       class2      </span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="do">## height numeric,10   numeric,10  </span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="do">## weight numeric,10   numeric,10  </span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="do">## sex    character,10 character,10</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="do">## , , group2</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="do">##        class1       class2      </span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="do">## height numeric,10   numeric,10  </span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="do">## weight numeric,10   numeric,10  </span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="do">## sex    character,10 character,10</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , group1</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        class1       class2      </span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; height numeric,10   numeric,10  </span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; weight numeric,10   numeric,10  </span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sex    character,10 character,10</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , group2</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        class1       class2      </span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; height numeric,10   numeric,10  </span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; weight numeric,10   numeric,10  </span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sex    character,10 character,10</span></span>
 <span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="do">################################################################################</span></span>
@@ -593,8 +600,8 @@ A single number, giving the direction in which to search for names. <br> Must be
 <span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="co"># predict what dimensions `x` would have if casted as dimensional:</span></span>
 <span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="fu">hier2dim</span>(x, <span class="at">in2out =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="do">##       </span></span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 2 3</span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       </span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2 3</span></span>
 <span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x, <span class="at">in2out =</span> <span class="cn">FALSE</span>) <span class="co"># cast as dimensional</span></span>
 <span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a></span>
@@ -604,23 +611,23 @@ A single number, giving the direction in which to search for names. <br> Must be
 <span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(x2) <span class="ot">&lt;-</span> <span class="fu">hiernames2dimnames</span>(x, <span class="at">in2out =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x2)</span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="do">## , , height</span></span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="do">##        class1     class2    </span></span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="do">## group1 numeric,10 numeric,10</span></span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="do">## group2 numeric,10 numeric,10</span></span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="do">## , , weight</span></span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="do">##        class1     class2    </span></span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="do">## group1 numeric,10 numeric,10</span></span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="do">## group2 numeric,10 numeric,10</span></span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="do">## , , sex</span></span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="do">##        class1       class2      </span></span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="do">## group1 character,10 character,10</span></span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="do">## group2 character,10 character,10</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , height</span></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        class1     class2    </span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group1 numeric,10 numeric,10</span></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group2 numeric,10 numeric,10</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , weight</span></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        class1     class2    </span></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group1 numeric,10 numeric,10</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group2 numeric,10 numeric,10</span></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , sex</span></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        class1       class2      </span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group1 character,10 character,10</span></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group2 character,10 character,10</span></span>
 <span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="do">################################################################################</span></span>
@@ -654,25 +661,25 @@ A single number, giving the direction in which to search for names. <br> Must be
 <span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="fu">hier2dim</span>(x) <span class="co"># as indicated here, dimension 2 (i.e. columns) will have padding</span></span>
-<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="do">##         padding         </span></span>
-<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="do">##       3       2       2</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         padding         </span></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       3       2       2</span></span>
 <span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="co"># casting this to a dimensional list will resulting in padding with `NULL`:</span></span>
 <span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x)</span>
 <span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x2)</span>
-<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 1</span></span>
-<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1]         [,2]</span></span>
-<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,] numeric,10   NULL</span></span>
-<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] numeric,10   NULL</span></span>
-<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] character,10 NULL</span></span>
-<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 2</span></span>
-<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1]         [,2]        </span></span>
-<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,] numeric,10   numeric,10  </span></span>
-<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] numeric,10   numeric,10  </span></span>
-<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] character,10 character,10</span></span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , 1</span></span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1]         [,2]</span></span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] numeric,10   NULL</span></span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] numeric,10   NULL</span></span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] character,10 NULL</span></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , 2</span></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1]         [,2]        </span></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] numeric,10   numeric,10  </span></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] numeric,10   numeric,10  </span></span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] character,10 character,10</span></span>
 <span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a><span class="co"># The `NULL` values are added for padding.</span></span>
 <span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="co"># This is because all slices of the same dimension need to have the same number of elements.  </span></span>
 <span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="co"># For example, all rows need to have the same number of columns.</span></span>
@@ -680,59 +687,59 @@ A single number, giving the direction in which to search for names. <br> Must be
 <span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="co"># one can also use custom padding:</span></span>
 <span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x, <span class="at">padding =</span> <span class="fu">list</span>(<span class="sc">~</span> <span class="st">"this is padding"</span>))</span>
 <span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x2)</span>
-<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 1</span></span>
-<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1]         [,2]              </span></span>
-<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,] numeric,10   ~"this is padding"</span></span>
-<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] numeric,10   ~"this is padding"</span></span>
-<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] character,10 ~"this is padding"</span></span>
-<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="do">## , , 2</span></span>
-<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1]         [,2]        </span></span>
-<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,] numeric,10   numeric,10  </span></span>
-<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,] numeric,10   numeric,10  </span></span>
-<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,] character,10 character,10</span></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , 1</span></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1]         [,2]              </span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] numeric,10   ~"this is padding"</span></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] numeric,10   ~"this is padding"</span></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] character,10 ~"this is padding"</span></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , 2</span></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1]         [,2]        </span></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] numeric,10   numeric,10  </span></span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] numeric,10   numeric,10  </span></span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] character,10 character,10</span></span>
 <span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(x2) <span class="ot">&lt;-</span> <span class="fu">hiernames2dimnames</span>(x)</span>
 <span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x2)</span>
-<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a><span class="do">## , , group1</span></span>
-<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a><span class="do">##        class1       class2            </span></span>
-<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a><span class="do">## height numeric,10   ~"this is padding"</span></span>
-<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="do">## weight numeric,10   ~"this is padding"</span></span>
-<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="do">## sex    character,10 ~"this is padding"</span></span>
-<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="do">## , , group2</span></span>
-<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="do">##        class1       class2      </span></span>
-<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="do">## height numeric,10   numeric,10  </span></span>
-<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="do">## weight numeric,10   numeric,10  </span></span>
-<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="do">## sex    character,10 character,10</span></span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , group1</span></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        class1       class2            </span></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; height numeric,10   ~"this is padding"</span></span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; weight numeric,10   ~"this is padding"</span></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sex    character,10 ~"this is padding"</span></span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , group2</span></span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        class1       class2      </span></span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; height numeric,10   numeric,10  </span></span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; weight numeric,10   numeric,10  </span></span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sex    character,10 character,10</span></span>
 <span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="co"># we can also use in2out = FALSE:</span></span>
 <span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x, <span class="at">in2out =</span> <span class="cn">FALSE</span>, <span class="at">padding =</span> <span class="fu">list</span>(<span class="sc">~</span> <span class="st">"this is padding"</span>))</span>
 <span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(x2) <span class="ot">&lt;-</span> <span class="fu">hiernames2dimnames</span>(x, <span class="at">in2out =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x2)</span>
-<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a><span class="do">## , , height</span></span>
-<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="do">##        class1     class2            </span></span>
-<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a><span class="do">## group1 numeric,10 ~"this is padding"</span></span>
-<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a><span class="do">## group2 numeric,10 numeric,10        </span></span>
-<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a><span class="do">## , , weight</span></span>
-<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a><span class="do">##        class1     class2            </span></span>
-<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="do">## group1 numeric,10 ~"this is padding"</span></span>
-<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="do">## group2 numeric,10 numeric,10        </span></span>
-<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="do">## , , sex</span></span>
-<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="do">##        class1       class2            </span></span>
-<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="do">## group1 character,10 ~"this is padding"</span></span>
-<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="do">## group2 character,10 character,10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , height</span></span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        class1     class2            </span></span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group1 numeric,10 ~"this is padding"</span></span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group2 numeric,10 numeric,10        </span></span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , weight</span></span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        class1     class2            </span></span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group1 numeric,10 ~"this is padding"</span></span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group2 numeric,10 numeric,10        </span></span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , sex</span></span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        class1       class2            </span></span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group1 character,10 ~"this is padding"</span></span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group2 character,10 character,10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

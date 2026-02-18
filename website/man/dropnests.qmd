@@ -1,14 +1,19 @@
 ---
 title: dropnests
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Drop Redundant List Nesting {.unnumbered}
 
 
 ### Description
 
-<code>dropnests()</code> drops redundant nesting of a list. <br />
-It is the hierarchical equivalent to the dimensional <code>base::drop()</code> function. <br />
-<br />
+<code>dropnests()</code> drops redundant nesting of a list. <br>
+It is the hierarchical equivalent to the dimensional <code>base::drop()</code> function. <br>
+<br>
 
 
 
@@ -30,13 +35,13 @@ a list
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-further arguments passed to or from methods. <br /> <br />
+further arguments passed to or from methods. <br> <br>
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="maxdepth">maxdepth</code></td>
 <td>
 a single, positive integer,
-giving the maximum depth to recurse into the list. <br />
-The surface-level elements of a list is depth 1. <br />
+giving the maximum depth to recurse into the list. <br>
+The surface-level elements of a list is depth 1. <br>
 <code>dropnests(x, maxdepth = 1)</code> will return <code>x</code> unchanged.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="recurse_all">recurse_all</code></td>
@@ -48,20 +53,20 @@ see [broadcast_casting](aaa02_broadcast_casting.qmd).
 
 ### Value
 
-A list without redundant nesting. <br />
-Attributes are preserved. <br />
-<br />
+A list without redundant nesting. <br>
+Attributes are preserved. <br>
+<br>
 
 
 
 ### See Also
 
-[broadcast_casting](aaa02_broadcast_casting.qmd) <br />
+[broadcast_casting](aaa02_broadcast_casting.qmd) <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 

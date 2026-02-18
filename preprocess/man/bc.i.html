@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>R: Broadcasted Integer Numeric Operations with Extra Overflow...</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
+<script>
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
@@ -11,7 +11,7 @@ function processMathHTML() {
 }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
     onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
+<link rel="stylesheet" type="text/css" href="R.css">
 </head><body><div class="container"><main>
 
 <table style="width: 100%;"><tr><td>bc.i</td><td style="text-align: right;">R Documentation</td></tr></table>
@@ -21,14 +21,14 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>The <code>bc.i()</code> function
-performs broadcasted integer numeric operations on 2 numeric or logical arrays. <br />
-<br />
+performs broadcasted integer numeric operations on 2 numeric or logical arrays. <br>
+<br>
 Please note that these operations will treat the input as (<code>double</code> typed) integers,
-and will efficiently truncate when necessary. <br />
+and will efficiently truncate when necessary. <br>
 Therefore, something like <code>bc.i(1, 1.5, "==")</code> returns <code>TRUE</code>,
-because <code>trunc(1.5)</code> equals <code>1</code>. <br />
-<br />
-For regular relational operators, see <code>[bc.rel](bc.rel.qmd)</code>. <br /> <br />
+because <code>trunc(1.5)</code> equals <code>1</code>. <br>
+<br>
+For regular relational operators, see <code>[bc.rel](bc.rel.qmd)</code>. <br> <br>
 </p>
 
 
@@ -50,39 +50,39 @@ bc.i(x, y, op)
 </td></tr>
 <tr><td><code id="op">op</code></td>
 <td>
-<p>a single string, giving the operator. <br />
-Supported simple arithmetic operators: +, -, *, ^, pmin, pmax. <br />
-Supported special division arithmetic operators: gcd, %%, %/%. <br />
-Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br />
+<p>a single string, giving the operator. <br>
+Supported simple arithmetic operators: +, -, *, ^, pmin, pmax. <br>
+Supported special division arithmetic operators: gcd, %%, %/%. <br>
+Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br>
 The &quot;gcd&quot; operator performs the &quot;Greatest Common Divisor&quot; operation,
 using the Euclidean algorithm.</p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
-<p>further arguments passed to or from methods. <br /> <br /></p>
+<p>further arguments passed to or from methods. <br> <br></p>
 </td></tr>
 </table>
 
 
 <h3>Value</h3>
 
-<p>For arithmetic operators: <br />
+<p>For arithmetic operators: <br>
 A numeric array of whole numbers,
-as a result of the broadcasted arithmetic operation. <br />
+as a result of the broadcasted arithmetic operation. <br>
 Base 'R' supports integers from <code>-2^53</code> to <code>2^53</code>,
-which thus range from approximately <code>-9</code> quadrillion to <code>+9</code> quadrillion. <br />
+which thus range from approximately <code>-9</code> quadrillion to <code>+9</code> quadrillion. <br>
 Values outside of this range will be returned as <code>-Inf</code> or <code>Inf</code>,
-as an extra protection against integer overflow. <br />
-<br />
-For relational operators: <br />
-A logical array as a result of the broadcasted integer relational comparison. <br />
-<br />
+as an extra protection against integer overflow. <br>
+<br>
+For relational operators: <br>
+A logical array as a result of the broadcasted integer relational comparison. <br>
+<br>
 </p>
 
 
 <h3>See Also</h3>
 
-<p><code>[broadcast_operators](aaa01_broadcast_operators.qmd)</code> <br />
+<p><code>[broadcast_operators](aaa01_broadcast_operators.qmd)</code> <br>
 </p>
 
 

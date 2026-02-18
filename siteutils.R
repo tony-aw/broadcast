@@ -176,7 +176,7 @@ rd2qmd <- function(source_file, temp_html, target_dir, path) {
     }
     
     block <- sprintf(
-      "```{r, warning=FALSE, message=FALSE, eval=%s, collapse = TRUE, comment = NA}", # I edited this a bit
+      "```{r, warning=FALSE, message=FALSE, eval=%s, collapse = TRUE, comment = \"#>\"}", # I edited this a bit
       block_eval
     )
     

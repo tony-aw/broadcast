@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>R: Broadcasted Ifelse</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
+<script>
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
@@ -11,7 +11,7 @@ function processMathHTML() {
 }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
     onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
+<link rel="stylesheet" type="text/css" href="R.css">
 </head><body><div class="container"><main>
 
 <table style="width: 100%;"><tr><td>bc_ifelse</td><td style="text-align: right;">R Documentation</td></tr></table>
@@ -21,7 +21,7 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>The <code>bc_ifelse()</code> method
-performs a broadcasted form of ifelse. <br />
+performs a broadcasted form of ifelse. <br>
 </p>
 
 
@@ -41,18 +41,18 @@ bc_ifelse(test, yes, no)
 <td>
 <p>a vector or array,
 with the type <code>logical</code>, <code>integer</code>, or <code>raw</code>,
-and a length equal to <code>prod(bc_dim(yes, no))</code>. <br />
+and a length equal to <code>prod(bc_dim(yes, no))</code>. <br>
 If <code>yes</code> / <code>no</code> are of type <code>raw</code>, <code>test</code> is not allowed to contain any <code>NA</code>s.</p>
 </td></tr>
 <tr><td><code id="yes">yes</code>, <code id="no">no</code></td>
 <td>
-<p>conformable vectors/arrays of the same type. <br />
-All atomic types are supported. <br />
+<p>conformable vectors/arrays of the same type. <br>
+All atomic types are supported. <br>
 Recursive arrays of type list are also supported.</p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
-<p>further arguments passed to or from methods. <br /> <br /></p>
+<p>further arguments passed to or from methods. <br> <br></p>
 </td></tr>
 </table>
 
@@ -60,11 +60,11 @@ Recursive arrays of type list are also supported.</p>
 <h3>Value</h3>
 
 <p>The output, here referred to as <code>out</code>,
-will be an array of the same type as <code>yes</code> and <code>no</code>. <br />
+will be an array of the same type as <code>yes</code> and <code>no</code>. <br>
 If <code>test</code> has the same dimensions as <code>bc_dim(yes, no)</code>,
-then <code>out</code> will also have the same dimnames as <code>test</code>. <br />
-If <code>test</code> is a <code>[broadcaster](broadcaster.qmd)</code>, then <code>out</code> will also be a <code>[broadcaster](broadcaster.qmd)</code>. <br />
-<br />
+then <code>out</code> will also have the same dimnames as <code>test</code>. <br>
+If <code>test</code> is a <code>[broadcaster](broadcaster.qmd)</code>, then <code>out</code> will also be a <code>[broadcaster](broadcaster.qmd)</code>. <br>
+<br>
 After broadcasting <code>yes</code> against <code>no</code>,
 given any element index <code>i</code>,
 the following will hold for the output:
@@ -79,7 +79,7 @@ the following will hold for the output:
 </li>
 <li><p> when <code>test[i]</code> is <code>NA</code>,
 <code>out[i]</code> is <code>NA</code> when <code>yes</code> and <code>no</code> are atomic,
-and <code>out[i]</code> is <code>list(NULL)</code> when <code>yes</code> and <code>no</code> are recursive. <br /> <br />
+and <code>out[i]</code> is <code>list(NULL)</code> when <code>yes</code> and <code>no</code> are recursive. <br> <br>
 </p>
 </li></ul>
 

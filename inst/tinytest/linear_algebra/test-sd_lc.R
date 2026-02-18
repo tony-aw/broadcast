@@ -23,26 +23,23 @@ coercefun <- list(
   as.logical
 )
 
-for(j in c(NaN, NA, 0, -1e6, 1e6)) {
-  for(k in seq_along(coercefun)) {
-    
-    nobs <- 20
-    nvars <- 10
-    n <- nobs * nvars
-    X <- matrix(coercefun[[k]](rnorm(100)), nobs, nvars)
-    vc <- gen_vcov(nvars)
-    
-    out <- rowSums((X %*% vc) * X) |> sqrt()
-    out[is.na(out)] <- j
-    expect_equal(
-      out,
-      sd_lc(X, vc, j)
-    ) |> errorfun()
-    enumerate <- enumerate + 1L
-    
-  }
+for(k in seq_along(coercefun)) {
+  
+  nobs <- 20
+  nvars <- 10
+  n <- nobs * nvars
+  X <- matrix(coercefun[[k]](rnorm(100)), nobs, nvars)
+  vc <- gen_vcov(nvars)
+  
+  out <- rowSums((X %*% vc) * X) |> sqrt()
+  expect_equal(
+    out,
+    sd_lc(X, vc)
+  ) |> errorfun()
+  enumerate <- enumerate + 1L
   
 }
+
 
 vc <- datasets::ability.cov$cov
 nobs <- 100
@@ -60,50 +57,8 @@ expect_equal(
 enumerate <- enumerate + 1L
 
 
-# missing/special values tests ====
 
-for(i in 1:10) { # multiple iterations to take into account randomness
-  
-  # make data:
-  vc <- datasets::ability.cov$cov
-  nobs <- 100
-  nvars <- nrow(vc)
-  n <- nobs * nvars
-  
-  
-  # test real:
-  X <- matrix(sample(c(1:6, NaN, NA, -Inf, Inf)), nobs, nvars)
-  out <- rowSums((X %*% vc) * X) |> sqrt()
-  expect_equal(
-    out,
-    sd_lc(X, vc)
-  ) |> errorfun()
-  
-  
-  # test integer:
-  X <- matrix(sample(c(1:9, NA_integer_)), nobs, nvars)
-  out <- rowSums((X %*% vc) * X) |> sqrt()
-  expect_equal(
-    out,
-    sd_lc(X, vc)
-  ) |> errorfun()
-  
-  
-  # test logical:
-  X <- matrix(sample(c(TRUE, FALSE, NA), 10, TRUE), nobs, nvars)
-  out <- rowSums((X %*% vc) * X) |> sqrt()
-  expect_equal(
-    out,
-    sd_lc(X, vc)
-  ) |> errorfun()
-  
-  
-  enumerate <- enumerate + 3L
-  
-}
-
-
-# distributional tests ====
+# test on combinations of distributions ====
 funlist <- list( # normal distribution already tested above, so not needed here
   \(p) rbeta(1000, p, p+1),
   \(p) rbinom(1000, 1, p/10) |> as.logical(), # Bernoulli

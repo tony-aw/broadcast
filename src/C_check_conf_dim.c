@@ -6,7 +6,7 @@
 
 SEXP C_check_conf_dim ( SEXP xdim, SEXP ydim, SEXP xlen0, SEXP ylen0 ) {
     
-  if(TYPEOF(xdim) == NILSXP || TYPEOF(ydim) == NILSXP) {
+  if(xdim == R_NilValue || ydim == R_NilValue) { // if x or y is NULL
     
     double xlen, ylen;
     
@@ -32,8 +32,7 @@ SEXP C_check_conf_dim ( SEXP xdim, SEXP ydim, SEXP xlen0, SEXP ylen0 ) {
       return(Rf_ScalarLogical(1));
    }
     
-    
-  }
+  } // END if x or y is NULL
   else {
     
     const int *pxdim = INTEGER_RO(xdim);

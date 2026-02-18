@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>R: Broadcasted Decimal Numeric Operations</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
+<script>
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
@@ -11,7 +11,7 @@ function processMathHTML() {
 }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
     onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
+<link rel="stylesheet" type="text/css" href="R.css">
 </head><body><div class="container"><main>
 
 <table style="width: 100%;"><tr><td>bc.d</td><td style="text-align: right;">R Documentation</td></tr></table>
@@ -21,8 +21,8 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>The <code>bc.d()</code> function
-performs broadcasted decimal numeric operations on 2 numeric or logical arrays. <br />
-<br /> <br />
+performs broadcasted decimal numeric operations on 2 numeric or logical arrays. <br>
+<br> <br>
 </p>
 
 
@@ -44,19 +44,19 @@ bc.d(x, y, op, tol = sqrt(.Machine$double.eps))
 </td></tr>
 <tr><td><code id="op">op</code></td>
 <td>
-<p>a single string, giving the operator. <br />
-Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. <br />
-Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;=. <br /></p>
+<p>a single string, giving the operator. <br>
+Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. <br>
+Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;=. <br></p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
-<p>further arguments passed to or from methods. <br /> <br /></p>
+<p>further arguments passed to or from methods. <br> <br></p>
 </td></tr>
 <tr><td><code id="tol">tol</code></td>
 <td>
-<p>a single number between 0 and 0.1, giving the machine tolerance to use for the relational operators. <br />
-Only relevant for the following operators: <br />
-d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;= <br />
+<p>a single number between 0 and 0.1, giving the machine tolerance to use for the relational operators. <br>
+Only relevant for the following operators: <br>
+d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;= <br>
 See the
 %d==%, %d!=%, %d&lt;%, %d&gt;%, %d&lt;=%, %d&gt;=% operators
 from the 'tinycodet' package for details.</p>
@@ -66,18 +66,18 @@ from the 'tinycodet' package for details.</p>
 
 <h3>Value</h3>
 
-<p>For arithmetic operators: <br />
-A numeric array as a result of the broadcasted decimal arithmetic operation. <br />
-<br />
-For relational operators: <br />
-A logical array as a result of the broadcasted decimal relational comparison. <br />
-<br />
+<p>For arithmetic operators: <br>
+A numeric array as a result of the broadcasted decimal arithmetic operation. <br>
+<br>
+For relational operators: <br>
+A logical array as a result of the broadcasted decimal relational comparison. <br>
+<br>
 </p>
 
 
 <h3>See Also</h3>
 
-<p><code>[broadcast_operators](aaa01_broadcast_operators.qmd)</code> <br />
+<p><code>[broadcast_operators](aaa01_broadcast_operators.qmd)</code> <br>
 </p>
 
 

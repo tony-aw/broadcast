@@ -1,28 +1,33 @@
 ---
 title: broadcaster
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Check or Set if an Array is a Broadcaster {.unnumbered}
 
 
 ### Description
 
-<code>broadcaster()</code> checks if an array or vector has the &quot;broadcaster&quot; attribute. <br />
-<code>bcr()</code> is a short-hand alias for <code>broadcaster()</code>. <br />
-<br />
-<code style="white-space: pre;">broadcaster()&lt;-</code> (or <code style="white-space: pre;">bcr()&lt;-</code>) sets or un-sets the class attribute &quot;broadcaster&quot; on an array or vector. <br />
-<br />
-<code>mbroadcasters()</code> sets or un-sets multiple objects in an environment as broadcaster. <br />
-<br />
+<code>broadcaster()</code> checks if an array or vector has the &quot;broadcaster&quot; attribute. <br>
+<code>bcr()</code> is a short-hand alias for <code>broadcaster()</code>. <br>
+<br>
+<code style="white-space: pre;">broadcaster()&lt;-</code> (or <code style="white-space: pre;">bcr()&lt;-</code>) sets or un-sets the class attribute &quot;broadcaster&quot; on an array or vector. <br>
+<br>
+<code>mbroadcasters()</code> sets or un-sets multiple objects in an environment as broadcaster. <br>
+<br>
 The <code>broadcaster</code> class attribute exists purely to overload the
 arithmetic, Boolean, bit-wise, and relational infix operators,
-to support broadcasting. <br />
+to support broadcasting. <br>
 This makes mathematical expressions with multiple variables,
 where precedence may be important,
-far more convenient. <br />
-Like in the following calculation: <br />
-<code>x / (y + z)</code> <br />
-<br />
-See [broadcast_operators](aaa01_broadcast_operators.qmd) for more information. <br />
+far more convenient. <br>
+Like in the following calculation: <br>
+<code>x / (y + z)</code> <br>
+<br>
+See [broadcast_operators](aaa01_broadcast_operators.qmd) for more information. <br>
 
 
 
@@ -45,7 +50,7 @@ bcr(x) &lt;- value
 <table role = "presentation">
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
 <td>
-object to check or set. <br />
+object to check or set. <br>
 Only S3 vectors and arrays are supported, and only up to 16 dimensions.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="value">value</code></td>
@@ -59,46 +64,46 @@ a character vector of variable names.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="env">env</code></td>
 <td>
-the environment where to look for the variable names specified in <code>nms</code>. <br />
-If <code>NULL</code>, the environment from which the function was called is used. <br />
+the environment where to look for the variable names specified in <code>nms</code>. <br>
+If <code>NULL</code>, the environment from which the function was called is used. <br>
 </td></tr>
 </table>
 
 
 ### Value
 
-For <code>broadcaster()</code>: <br />
-<code>TRUE</code> if an array or vector is a broadcaster, or <code>FALSE</code> if it is not. <br />
-<br />
-For <code style="white-space: pre;">broadcaster()&lt;-</code>: <br />
+For <code>broadcaster()</code>: <br>
+<code>TRUE</code> if an array or vector is a broadcaster, or <code>FALSE</code> if it is not. <br>
+<br>
+For <code style="white-space: pre;">broadcaster()&lt;-</code>: <br>
 Returns nothing,
 but sets (if right hand side is <code>TRUE</code>)
 or removes (if right hand side is <code>FALSE</code>)
-the &quot;broadcaster&quot; class attribute. <br />
-<br />
-For <code>mbroadcasters()</code>: <br />
+the &quot;broadcaster&quot; class attribute. <br>
+<br>
+For <code>mbroadcasters()</code>: <br>
 Returns nothing,
 but sets (if <code>value = TRUE</code>)
 or removes (<code>value = FALSE</code>)
-the &quot;broadcaster&quot; class attribute. <br />
+the &quot;broadcaster&quot; class attribute. <br>
 If <code>value = TRUE</code>,
 objects that cannot become a broadcaster or are already a broadcaster
-will be ignored. <br />
+will be ignored. <br>
 If <code>value = FALSE</code>,
 objects that are not broadcasters (according to <code>broadcaster()</code>)
-will be ignored. <br />
-<br />
+will be ignored. <br>
+<br>
 
 
 
 ### See Also
 
-[broadcast_operators](aaa01_broadcast_operators.qmd) <br />
+[broadcast_operators](aaa01_broadcast_operators.qmd) <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 

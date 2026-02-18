@@ -339,13 +339,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../man/bc_dim.html" class="sidebar-item-text sidebar-link">
+            <a href="../man/checkmissing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Helper Functions</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/checkmissing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">checkmissing</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc_dim.html" class="sidebar-item-text sidebar-link">
@@ -472,67 +478,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y <span class="sc">/</span> x</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="do">##            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,]  2.000000  3.000000  4.000000  5.000000  6.000000  7.000000  8.000000</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,]  2.500000  3.000000  3.500000  4.000000  4.500000  5.000000  5.500000</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,]  3.333333  3.666667  4.000000  4.333333  4.666667  5.000000  5.333333</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,]  4.250000  4.500000  4.750000  5.000000  5.250000  5.500000  5.750000</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,]  5.200000  5.400000  5.600000  5.800000  6.000000  6.200000  6.400000</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,]  6.166667  6.333333  6.500000  6.666667  6.833333  7.000000  7.166667</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,]  7.142857  7.285714  7.428571  7.571429  7.714286  7.857143  8.000000</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,]  8.125000  8.250000  8.375000  8.500000  8.625000  8.750000  8.875000</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,]  9.111111  9.222222  9.333333  9.444444  9.555556  9.666667  9.777778</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] 10.100000 10.200000 10.300000 10.400000 10.500000 10.600000 10.700000</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="do">##            [,8]      [,9]     [,10]</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,]  9.000000 10.000000 11.000000</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,]  6.000000  6.500000  7.000000</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,]  5.666667  6.000000  6.333333</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,]  6.000000  6.250000  6.500000</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,]  6.600000  6.800000  7.000000</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,]  7.333333  7.500000  7.666667</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,]  8.142857  8.285714  8.428571</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,]  9.000000  9.125000  9.250000</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,]  9.888889 10.000000 10.111111</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] 10.800000 10.900000 11.000000</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  2.000000  3.000000  4.000000  5.000000  6.000000  7.000000  8.000000</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  2.500000  3.000000  3.500000  4.000000  4.500000  5.000000  5.500000</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]  3.333333  3.666667  4.000000  4.333333  4.666667  5.000000  5.333333</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  4.250000  4.500000  4.750000  5.000000  5.250000  5.500000  5.750000</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]  5.200000  5.400000  5.600000  5.800000  6.000000  6.200000  6.400000</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  6.166667  6.333333  6.500000  6.666667  6.833333  7.000000  7.166667</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  7.142857  7.285714  7.428571  7.571429  7.714286  7.857143  8.000000</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  8.125000  8.250000  8.375000  8.500000  8.625000  8.750000  8.875000</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  9.111111  9.222222  9.333333  9.444444  9.555556  9.666667  9.777778</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 10.100000 10.200000 10.300000 10.400000 10.500000 10.600000 10.700000</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            [,8]      [,9]     [,10]</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  9.000000 10.000000 11.000000</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  6.000000  6.500000  7.000000</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]  5.666667  6.000000  6.333333</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  6.000000  6.250000  6.500000</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]  6.600000  6.800000  7.000000</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  7.333333  7.500000  7.666667</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  8.142857  8.285714  8.428571</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  9.000000  9.125000  9.250000</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  9.888889 10.000000 10.111111</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 10.800000 10.900000 11.000000</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">+</span> y) <span class="sc">/</span> x</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="do">##           [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] 2.000000 3.000000 4.000000 5.000000 6.000000 7.000000 8.000000 9.000000</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] 1.500000 2.000000 2.500000 3.000000 3.500000 4.000000 4.500000 5.000000</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] 1.333333 1.666667 2.000000 2.333333 2.666667 3.000000 3.333333 3.666667</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] 1.250000 1.500000 1.750000 2.000000 2.250000 2.500000 2.750000 3.000000</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] 1.200000 1.400000 1.600000 1.800000 2.000000 2.200000 2.400000 2.600000</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] 1.166667 1.333333 1.500000 1.666667 1.833333 2.000000 2.166667 2.333333</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] 1.142857 1.285714 1.428571 1.571429 1.714286 1.857143 2.000000 2.142857</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] 1.125000 1.250000 1.375000 1.500000 1.625000 1.750000 1.875000 2.000000</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] 1.111111 1.222222 1.333333 1.444444 1.555556 1.666667 1.777778 1.888889</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] 1.100000 1.200000 1.300000 1.400000 1.500000 1.600000 1.700000 1.800000</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="do">##            [,9]     [,10]</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] 10.000000 11.000000</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,]  5.500000  6.000000</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,]  4.000000  4.333333</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,]  3.250000  3.500000</span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,]  2.800000  3.000000</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,]  2.500000  2.666667</span></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,]  2.285714  2.428571</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,]  2.125000  2.250000</span></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,]  2.000000  2.111111</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,]  1.900000  2.000000</span></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] 2.000000 3.000000 4.000000 5.000000 6.000000 7.000000 8.000000 9.000000</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] 1.500000 2.000000 2.500000 3.000000 3.500000 4.000000 4.500000 5.000000</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 1.333333 1.666667 2.000000 2.333333 2.666667 3.000000 3.333333 3.666667</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 1.250000 1.500000 1.750000 2.000000 2.250000 2.500000 2.750000 3.000000</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 1.200000 1.400000 1.600000 1.800000 2.000000 2.200000 2.400000 2.600000</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] 1.166667 1.333333 1.500000 1.666667 1.833333 2.000000 2.166667 2.333333</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] 1.142857 1.285714 1.428571 1.571429 1.714286 1.857143 2.000000 2.142857</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] 1.125000 1.250000 1.375000 1.500000 1.625000 1.750000 1.875000 2.000000</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] 1.111111 1.222222 1.333333 1.444444 1.555556 1.666667 1.777778 1.888889</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 1.100000 1.200000 1.300000 1.400000 1.500000 1.600000 1.700000 1.800000</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            [,9]     [,10]</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] 10.000000 11.000000</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  5.500000  6.000000</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]  4.000000  4.333333</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  3.250000  3.500000</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]  2.800000  3.000000</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  2.500000  2.666667</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  2.285714  2.428571</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  2.125000  2.250000</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  2.000000  2.111111</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]  1.900000  2.000000</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">+</span> y) <span class="sc">*</span> x</span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="do">##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,]    2    3    4    5    6    7    8    9   10    11</span></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,]    6    8   10   12   14   16   18   20   22    24</span></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,]   12   15   18   21   24   27   30   33   36    39</span></span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,]   20   24   28   32   36   40   44   48   52    56</span></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,]   30   35   40   45   50   55   60   65   70    75</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,]   42   48   54   60   66   72   78   84   90    96</span></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,]   56   63   70   77   84   91   98  105  112   119</span></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,]   72   80   88   96  104  112  120  128  136   144</span></span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,]   90   99  108  117  126  135  144  153  162   171</span></span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,]  110  120  130  140  150  160  170  180  190   200</span></span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]    2    3    4    5    6    7    8    9   10    11</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]    6    8   10   12   14   16   18   20   22    24</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]   12   15   18   21   24   27   30   33   36    39</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]   20   24   28   32   36   40   44   48   52    56</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]   30   35   40   45   50   55   60   65   70    75</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]   42   48   54   60   66   72   78   84   90    96</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]   56   63   70   77   84   91   98  105  112   119</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]   72   80   88   96  104  112  120  128  136   144</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]   90   99  108  117  126  135  144  153  162   171</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]  110  120  130  140  150  160  170  180  190   200</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="co"># relational operators ====</span></span>
@@ -542,83 +548,83 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(y) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
 <span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>x <span class="sc">==</span> y</span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="do">##        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</span></span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE</span></span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE</span></span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</span></span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE</span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>x <span class="sc">!=</span> y</span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="do">##        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,]  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,]  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE</span></span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE</span></span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</span></span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE</span></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE</span></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&lt;</span> y</span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="do">##        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE</span></span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</span></span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE</span></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&gt;</span> y</span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="do">##        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE</span></span>
-<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE</span></span>
-<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</span></span>
-<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE</span></span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE</span></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</span></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&lt;=</span> y</span>
-<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="do">##        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
-<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE</span></span>
-<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</span></span>
-<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE</span></span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</span></span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&gt;=</span> y</span>
-<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a><span class="do">##       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
-<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE</span></span>
-<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE</span></span>
-<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</span></span>
-<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE</span></span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE</span></span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</span></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a></span>
@@ -634,67 +640,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y <span class="sc">/</span> x</span>
-<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="do">##            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]</span></span>
-<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] 10.600000 10.300000 10.200000 10.500000 10.100000 10.700000 10.800000</span></span>
-<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,]  5.000000  4.000000  3.666667  4.666667  3.333333  5.333333  5.666667</span></span>
-<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,]  8.750000  8.375000  8.250000  8.625000  8.125000  8.875000  9.000000</span></span>
-<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,]  7.000000  4.000000  3.000000  6.000000  2.000000  8.000000  9.000000</span></span>
-<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,]  9.666667  9.333333  9.222222  9.555556  9.111111  9.777778  9.888889</span></span>
-<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,]  6.200000  5.600000  5.400000  6.000000  5.200000  6.400000  6.600000</span></span>
-<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,]  5.500000  4.750000  4.500000  5.250000  4.250000  5.750000  6.000000</span></span>
-<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,]  7.000000  6.500000  6.333333  6.833333  6.166667  7.166667  7.333333</span></span>
-<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,]  5.000000  3.500000  3.000000  4.500000  2.500000  5.500000  6.000000</span></span>
-<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,]  7.857143  7.428571  7.285714  7.714286  7.142857  8.000000  8.142857</span></span>
-<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="do">##            [,8]      [,9]     [,10]</span></span>
-<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] 10.400000 10.900000 11.000000</span></span>
-<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,]  4.333333  6.000000  6.333333</span></span>
-<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,]  8.500000  9.125000  9.250000</span></span>
-<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,]  5.000000 10.000000 11.000000</span></span>
-<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,]  9.444444 10.000000 10.111111</span></span>
-<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,]  5.800000  6.800000  7.000000</span></span>
-<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,]  5.000000  6.250000  6.500000</span></span>
-<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,]  6.666667  7.500000  7.666667</span></span>
-<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,]  4.000000  6.500000  7.000000</span></span>
-<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,]  7.571429  8.285714  8.428571</span></span>
-<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]</span></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  7.428571  7.285714  8.000000  7.142857  8.285714  7.714286  8.428571</span></span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  4.000000  3.000000  8.000000  2.000000 10.000000  6.000000 11.000000</span></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]  5.600000  5.400000  6.400000  5.200000  6.800000  6.000000  7.000000</span></span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  9.333333  9.222222  9.777778  9.111111 10.000000  9.555556 10.111111</span></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 10.300000 10.200000 10.700000 10.100000 10.900000 10.500000 11.000000</span></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  4.000000  3.666667  5.333333  3.333333  6.000000  4.666667  6.333333</span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  3.500000  3.000000  5.500000  2.500000  6.500000  4.500000  7.000000</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  8.375000  8.250000  8.875000  8.125000  9.125000  8.625000  9.250000</span></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  4.750000  4.500000  5.750000  4.250000  6.250000  5.250000  6.500000</span></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]  6.500000  6.333333  7.166667  6.166667  7.500000  6.833333  7.666667</span></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            [,8]      [,9]     [,10]</span></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  7.571429  7.857143  8.142857</span></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  5.000000  7.000000  9.000000</span></span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]  5.800000  6.200000  6.600000</span></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  9.444444  9.666667  9.888889</span></span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 10.400000 10.600000 10.800000</span></span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  4.333333  5.000000  5.666667</span></span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  4.000000  5.000000  6.000000</span></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  8.500000  8.750000  9.000000</span></span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  5.000000  5.500000  6.000000</span></span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]  6.666667  7.000000  7.333333</span></span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">+</span> y) <span class="sc">/</span> x</span>
-<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a><span class="do">##           [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]</span></span>
-<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] 1.600000 1.300000 1.200000 1.500000 1.100000 1.700000 1.800000 1.400000</span></span>
-<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] 3.000000 2.000000 1.666667 2.666667 1.333333 3.333333 3.666667 2.333333</span></span>
-<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] 1.750000 1.375000 1.250000 1.625000 1.125000 1.875000 2.000000 1.500000</span></span>
-<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] 7.000000 4.000000 3.000000 6.000000 2.000000 8.000000 9.000000 5.000000</span></span>
-<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] 1.666667 1.333333 1.222222 1.555556 1.111111 1.777778 1.888889 1.444444</span></span>
-<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] 2.200000 1.600000 1.400000 2.000000 1.200000 2.400000 2.600000 1.800000</span></span>
-<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] 2.500000 1.750000 1.500000 2.250000 1.250000 2.750000 3.000000 2.000000</span></span>
-<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] 2.000000 1.500000 1.333333 1.833333 1.166667 2.166667 2.333333 1.666667</span></span>
-<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] 4.000000 2.500000 2.000000 3.500000 1.500000 4.500000 5.000000 3.000000</span></span>
-<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] 1.857143 1.428571 1.285714 1.714286 1.142857 2.000000 2.142857 1.571429</span></span>
-<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="do">##            [,9]     [,10]</span></span>
-<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,]  1.900000  2.000000</span></span>
-<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,]  4.000000  4.333333</span></span>
-<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,]  2.125000  2.250000</span></span>
-<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] 10.000000 11.000000</span></span>
-<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,]  2.000000  2.111111</span></span>
-<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,]  2.800000  3.000000</span></span>
-<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,]  3.250000  3.500000</span></span>
-<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,]  2.500000  2.666667</span></span>
-<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,]  5.500000  6.000000</span></span>
-<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,]  2.285714  2.428571</span></span>
-<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           [,1]     [,2]     [,3]     [,4]      [,5]     [,6]      [,7]     [,8]</span></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] 1.428571 1.285714 2.000000 1.142857  2.285714 1.714286  2.428571 1.571429</span></span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] 4.000000 3.000000 8.000000 2.000000 10.000000 6.000000 11.000000 5.000000</span></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 1.600000 1.400000 2.400000 1.200000  2.800000 2.000000  3.000000 1.800000</span></span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 1.333333 1.222222 1.777778 1.111111  2.000000 1.555556  2.111111 1.444444</span></span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 1.300000 1.200000 1.700000 1.100000  1.900000 1.500000  2.000000 1.400000</span></span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] 2.000000 1.666667 3.333333 1.333333  4.000000 2.666667  4.333333 2.333333</span></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] 2.500000 2.000000 4.500000 1.500000  5.500000 3.500000  6.000000 3.000000</span></span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] 1.375000 1.250000 1.875000 1.125000  2.125000 1.625000  2.250000 1.500000</span></span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] 1.750000 1.500000 2.750000 1.250000  3.250000 2.250000  3.500000 2.000000</span></span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 1.500000 1.333333 2.166667 1.166667  2.500000 1.833333  2.666667 1.666667</span></span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           [,9]    [,10]</span></span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] 1.857143 2.142857</span></span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] 7.000000 9.000000</span></span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 2.200000 2.600000</span></span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 1.666667 1.888889</span></span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 1.600000 1.800000</span></span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] 3.000000 3.666667</span></span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] 4.000000 5.000000</span></span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] 1.750000 2.000000</span></span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] 2.500000 3.000000</span></span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 2.000000 2.333333</span></span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">+</span> y) <span class="sc">*</span> x</span>
-<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a><span class="do">##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
-<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,]  160  130  120  150  110  170  180  140  190   200</span></span>
-<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,]   27   18   15   24   12   30   33   21   36    39</span></span>
-<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,]  112   88   80  104   72  120  128   96  136   144</span></span>
-<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,]    7    4    3    6    2    8    9    5   10    11</span></span>
-<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,]  135  108   99  126   90  144  153  117  162   171</span></span>
-<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,]   55   40   35   50   30   60   65   45   70    75</span></span>
-<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,]   40   28   24   36   20   44   48   32   52    56</span></span>
-<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,]   72   54   48   66   42   78   84   60   90    96</span></span>
-<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,]   16   10    8   14    6   18   20   12   22    24</span></span>
-<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,]   91   70   63   84   56   98  105   77  112   119</span></span>
-<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]   70   63   98   56  112   84  119   77   91   105</span></span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]    4    3    8    2   10    6   11    5    7     9</span></span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]   40   35   60   30   70   50   75   45   55    65</span></span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  108   99  144   90  162  126  171  117  135   153</span></span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]  130  120  170  110  190  150  200  140  160   180</span></span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]   18   15   30   12   36   24   39   21   27    33</span></span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]   10    8   18    6   22   14   24   12   16    20</span></span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]   88   80  120   72  136  104  144   96  112   128</span></span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]   28   24   44   20   52   36   56   32   40    48</span></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]   54   48   78   42   90   66   96   60   72    84</span></span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a><span class="co"># relational operators ====</span></span>
@@ -703,83 +709,83 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a><span class="fu">mbroadcasters</span>(<span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>), <span class="cn">TRUE</span>)</span>
 <span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a>x <span class="sc">==</span> y</span>
-<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a><span class="do">##        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
-<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</span></span>
-<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE</span></span>
-<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE</span></span>
-<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</span></span>
-<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
+<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</span></span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE</span></span>
+<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE</span></span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</span></span>
+<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a>x <span class="sc">!=</span> y</span>
-<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a><span class="do">##        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
-<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,]  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,]  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE</span></span>
-<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE</span></span>
-<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</span></span>
-<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE</span></span>
+<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE</span></span>
+<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</span></span>
+<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&lt;</span> y</span>
-<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a><span class="do">##        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
-<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE</span></span>
-<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</span></span>
-<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
+<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE</span></span>
+<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</span></span>
+<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&gt;</span> y</span>
-<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a><span class="do">##        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
-<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE</span></span>
-<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE</span></span>
-<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</span></span>
-<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
+<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE</span></span>
+<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE</span></span>
+<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</span></span>
+<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&lt;=</span> y</span>
-<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a><span class="do">##        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
-<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE</span></span>
-<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</span></span>
-<span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span>
+<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
+<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE</span></span>
+<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</span></span>
+<span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&gt;=</span> y</span>
-<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a><span class="do">##       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
-<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE</span></span>
-<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE</span></span>
-<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE</span></span>
-<span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</span></span>
-<span id="cb1-322"><a href="#cb1-322" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a><span class="do">## broadcaster</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]</span></span>
+<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE</span></span>
+<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE</span></span>
+<span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</span></span>
+<span id="cb1-322"><a href="#cb1-322" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

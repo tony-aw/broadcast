@@ -1,5 +1,10 @@
 ---
 title: bc_ifelse
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Broadcasted Ifelse {.unnumbered}
 
@@ -7,7 +12,7 @@ title: bc_ifelse
 ### Description
 
 The <code>bc_ifelse()</code> method
-performs a broadcasted form of ifelse. <br />
+performs a broadcasted form of ifelse. <br>
 
 
 
@@ -27,18 +32,18 @@ bc_ifelse(test, yes, no)
 <td>
 a vector or array,
 with the type <code>logical</code>, <code>integer</code>, or <code>raw</code>,
-and a length equal to <code>prod(bc_dim(yes, no))</code>. <br />
+and a length equal to <code>prod(bc_dim(yes, no))</code>. <br>
 If <code>yes</code> / <code>no</code> are of type <code>raw</code>, <code>test</code> is not allowed to contain any <code>NA</code>s.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="yes">yes</code>, <code id="no">no</code></td>
 <td>
-conformable vectors/arrays of the same type. <br />
-All atomic types are supported. <br />
+conformable vectors/arrays of the same type. <br>
+All atomic types are supported. <br>
 Recursive arrays of type list are also supported.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-further arguments passed to or from methods. <br /> <br />
+further arguments passed to or from methods. <br> <br>
 </td></tr>
 </table>
 
@@ -46,11 +51,11 @@ further arguments passed to or from methods. <br /> <br />
 ### Value
 
 The output, here referred to as <code>out</code>,
-will be an array of the same type as <code>yes</code> and <code>no</code>. <br />
+will be an array of the same type as <code>yes</code> and <code>no</code>. <br>
 If <code>test</code> has the same dimensions as <code>bc_dim(yes, no)</code>,
-then <code>out</code> will also have the same dimnames as <code>test</code>. <br />
-If <code>test</code> is a [broadcaster](broadcaster.qmd), then <code>out</code> will also be a [broadcaster](broadcaster.qmd). <br />
-<br />
+then <code>out</code> will also have the same dimnames as <code>test</code>. <br>
+If <code>test</code> is a [broadcaster](broadcaster.qmd), then <code>out</code> will also be a [broadcaster](broadcaster.qmd). <br>
+<br>
 After broadcasting <code>yes</code> against <code>no</code>,
 given any element index <code>i</code>,
 the following will hold for the output:
@@ -65,14 +70,14 @@ the following will hold for the output:
 </li>
 <li> when <code>test[i]</code> is <code>NA</code>,
 <code>out[i]</code> is <code>NA</code> when <code>yes</code> and <code>no</code> are atomic,
-and <code>out[i]</code> is <code>list(NULL)</code> when <code>yes</code> and <code>no</code> are recursive. <br /> <br />
+and <code>out[i]</code> is <code>list(NULL)</code> when <code>yes</code> and <code>no</code> are recursive. <br> <br>
 
 </li></ul>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 

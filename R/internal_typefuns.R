@@ -42,6 +42,16 @@
   return(good_form && good_S3)
 }
 
+
+#' @keywords internal
+#' @noRd
+.is_long_dimless_vector <- function(x) {
+  intmax <- 2^31 - 1
+  out <- (is.null(dim(x))) && (length(x) >= intmax)
+  return(out)
+}
+
+
 #' @keywords internal
 #' @noRd
 .is_list <- function(x) {

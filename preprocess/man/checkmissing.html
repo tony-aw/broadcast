@@ -1,0 +1,179 @@
+<!DOCTYPE html><html><head><title>R: Efficiently Check for (Non-)Missing Values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script>
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>checkmissing</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Efficiently Check for (Non-)Missing Values</h2>
+
+<h3>Description</h3>
+
+<p>The <code>checkNULL()</code> function efficiently checks for the presence
+(or absence) of <code>NULL</code> in every element of a list. <br>
+The <code>checkNA()</code> function efficiently checks for the presence
+(or absence) of <code>NA</code>/<code>NaN</code> in every element of an atomic vector. <br>
+<br>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>checkNA(x, ...)
+
+## Default S3 method:
+checkNA(x, op, inv = FALSE, ...)
+
+checkNULL(x, ...)
+
+## Default S3 method:
+checkNULL(x, op, inv = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="x">x</code></td>
+<td>
+<p>an object. <br>
+For <code>checkNULL()</code>: a recursive vector or array (i.e. type of <code>list</code>). <br>
+For <code>checkNA()</code>: an atomic vector or array (raw type not supported). <br></p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>further arguments passed to or from methods.</p>
+</td></tr>
+<tr><td><code id="op">op</code></td>
+<td>
+<p>a single string, giving the operation to use. <br>
+The following operations are supported:
+</p>
+
+<ul>
+<li><p> &quot;logical&quot;: checks for every element of <code>x</code> the presence/absence of missing values; returns a logical vector/array.
+</p>
+</li>
+<li><p> &quot;raw&quot;: same as operation &quot;logical&quot;,
+except the result will be a raw vector/array (<code>01</code> = <code>TRUE</code>, <code>00</code> = FALSE),
+which requires less memory.
+</p>
+</li>
+<li><p> &quot;any&quot;: checks if any element is (not) missing.
+</p>
+</li>
+<li><p> &quot;all&quot;: checks if all elements are (not) missing.
+</p>
+</li>
+<li><p> &quot;count&quot; or &quot;sum&quot;: counts the number of elements that are (not) missing.
+</p>
+</li>
+<li><p> &quot;which&quot;: gives the element indices that are (not) missing.
+</p>
+</li>
+<li><p> &quot;first&quot;: gives the element index of the first (non-) missing element.
+</p>
+</li>
+<li><p> &quot;last&quot;: gives the element index of the last (non-) missing element.
+</p>
+</li></ul>
+</td></tr>
+<tr><td><code id="inv">inv</code></td>
+<td>
+<p>Boolean, indicating if the check should be inverted. <br>
+If <code>inv = FALSE</code> (default), the operations check for missing elements. <br>
+If <code>inv = TRUE</code>, the operations check for NOT missing elements. <br> <br></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Output depends on the specification of argument <code>op</code>:
+</p>
+
+<ul>
+<li><p> &quot;logical&quot;: logical vector with the same length, names, and dimensions as <code>x</code>.
+</p>
+</li>
+<li><p> &quot;raw&quot;: raw vector with the same length, names, and dimensions as <code>x</code>.
+</p>
+</li>
+<li><p> &quot;any&quot;: <code>TRUE</code> or <code>FALSE</code>.
+</p>
+</li>
+<li><p> &quot;all&quot;: <code>TRUE</code> or <code>FALSE</code>.
+</p>
+</li>
+<li><p> &quot;count&quot; or &quot;sum&quot;: 53 bit integer scalar.
+</p>
+</li>
+<li><p> &quot;which&quot;: vector of indices.
+</p>
+</li>
+<li><p> &quot;first&quot;: the first index found, or <code>0</code> otherwise.
+</p>
+</li>
+<li><p> &quot;last&quot;: the last index found, or <code>0</code> otherwise.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+# checkNA ====
+x &lt;- array(
+  sample(c(-10:10, NA, NaN)), dim = 4:2
+)
+y &lt;- array(
+  sample(c(-10:10, NA, NaN)), dim = c(4,1,1)
+)
+broadcaster(x) &lt;- broadcaster(y) &lt;- TRUE
+
+mx &lt;- checkNA(x, "raw")
+my &lt;- checkNA(y, "raw")
+bc.b(mx, my, "&amp;")
+bc.b(mx, my, "xor")
+bc.b(mx, my, "nand")
+bc.b(mx, my, "==")
+bc.b(mx, my, "!=")
+bc_ifelse(bc.b(mx, my, "|"), -1000L, x + y)
+
+
+# checkNULL ====
+x &lt;- array(
+  sample(list(letters, LETTERS, month.abb, month.name, NULL)), dim = 4:2
+)
+y &lt;- array(
+  sample(list(letters, LETTERS, month.abb, month.name, NULL)), dim = c(4,1,1)
+)
+broadcaster(x) &lt;- broadcaster(y) &lt;- TRUE
+
+mx &lt;- checkNULL(x, "raw")
+my &lt;- checkNULL(y, "raw")
+bc.b(mx, my, "&amp;")
+bc.b(mx, my, "xor")
+bc.b(mx, my, "nand")
+bc.b(mx, my, "==")
+bc.b(mx, my, "!=")
+bc_ifelse(bc.b(mx, my, "|"), list(~ "Nothing"), bc.list(x, y, paste0))
+
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

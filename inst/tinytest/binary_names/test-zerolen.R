@@ -23,6 +23,9 @@ for(i in seq_along(funs)) {
   x <- array(datagens[[i]](), c(3,3,3), mydimnames)
   y <- datagens[[i]]()[0L]
   
+  x.copy <- .rcpp_clone(x)
+  y.copy <- .rcpp_clone(y)
+  
   expect_equal(
     funs[[i]](x, y, op) |> dimnames(),
     NULL
@@ -33,6 +36,8 @@ for(i in seq_along(funs)) {
   ) |> errorfun()
   
   dim(x) <- NULL
+  dim(x.copy) <- NULL
+  
   expect_equal(
     funs[[i]](x, y, op) |> names(),
     NULL
@@ -42,6 +47,15 @@ for(i in seq_along(funs)) {
     NULL
   ) |> errorfun()
   
-  enumerate <- enumerate + 4L
+  
+  # check that original arrays remain unaffected:
+  expect_equal(
+    x, x.copy
+  ) |> errorfun()
+  expect_equal(
+    y, y.copy
+  ) |> errorfun()
+  
+  enumerate <- enumerate + 6L
   
 }

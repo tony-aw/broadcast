@@ -6,8 +6,8 @@
 SEXP C_pmax ( SEXP x, SEXP y ) {
 
   
-  const int *restrict px = INTEGER(x);
-  const int *restrict py = INTEGER(y);
+  const int *restrict px = INTEGER_RO(x);
+  const int *restrict py = INTEGER_RO(y);
   
   int n = Rf_length(x);
   

@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>R: Simple and Fast Casting/Pivoting of an Array</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
+<script>
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
@@ -11,7 +11,7 @@ function processMathHTML() {
 }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
     onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
+<link rel="stylesheet" type="text/css" href="R.css">
 </head><body><div class="container"><main>
 
 <table style="width: 100%;"><tr><td>acast</td><td style="text-align: right;">R Documentation</td></tr></table>
@@ -20,10 +20,10 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>The <code>acast()</code> function spreads subsets of an array margin over a new dimension. <br />
-<br />
+<p>The <code>acast()</code> function spreads subsets of an array margin over a new dimension. <br>
+<br>
 Roughly speaking, <code>acast()</code> can be thought of as the &quot;array&quot; analogy to
-<code>data.table::dcast()</code>. <br />
+<code>data.table::dcast()</code>. <br>
 But note 2 important differences:
 </p>
 
@@ -66,27 +66,27 @@ acast(x, margin, grp, fill = FALSE, fill_val, ...)
 <tr><td><code id="grp">grp</code></td>
 <td>
 <p>a factor, where <code>length(grp) == dim(x)[margin]</code>, with at least <code>2</code> unique values,
-specifying which indices of <code>dim(x)[margin]</code> belong to which group. <br />
-Each group will be cast onto a separate index of dimension <code>ndim(x) + 1</code>. <br />
-Unused levels of <code>grp</code> will be dropped. <br />
+specifying which indices of <code>dim(x)[margin]</code> belong to which group. <br>
+Each group will be cast onto a separate index of dimension <code>ndim(x) + 1</code>. <br>
+Unused levels of <code>grp</code> will be dropped. <br>
 Any <code>NA</code> values or levels found in <code>grp</code> will result in an error.</p>
 </td></tr>
 <tr><td><code id="fill">fill</code></td>
 <td>
-<p>Boolean. <br />
+<p>Boolean. <br>
 When factor <code>grp</code> is unbalanced (i.e. has unequally sized groups)
 the result will be an array where some slices have missing values, which need to be filled.
 If <code>fill = TRUE</code>, an unbalanced <code>grp</code> factor is allowed,
-and missing values will be filled with <code>fill_val</code>. <br />
+and missing values will be filled with <code>fill_val</code>. <br>
 If <code>fill = FALSE</code> (default), an unbalanced <code>grp</code> factor is not allowed,
 and providing an unbalanced factor for <code>grp</code> produces an error.</p>
 </td></tr>
 <tr><td><code id="fill_val">fill_val</code></td>
 <td>
 <p>scalar of the same type of <code>x</code>,
-giving value to use to fill in the gaps when <code>fill = TRUE</code>. <br />
-The <code>fill_val</code> argument is ignored when <code>fill = FALSE</code>. <br />
-If <code>fill_val</code> is missing, it is specified as follows: <br />
+giving value to use to fill in the gaps when <code>fill = TRUE</code>. <br>
+The <code>fill_val</code> argument is ignored when <code>fill = FALSE</code>. <br>
+If <code>fill_val</code> is missing, it is specified as follows: <br>
 </p>
 
 <ul>
@@ -96,7 +96,7 @@ If <code>fill_val</code> is missing, it is specified as follows: <br />
 <li><p> If <code>x</code> is atomic but not <code>raw</code>, <code>fill_val</code> is set to <code>NA</code>;
 </p>
 </li>
-<li><p> If <code>x</code> is of type <code>list</code>, <code>fill_val</code> is set to <code>list(NULL)</code>. <br /> <br />
+<li><p> If <code>x</code> is of type <code>list</code>, <code>fill_val</code> is set to <code>list(NULL)</code>. <br> <br>
 </p>
 </li></ul>
 </td></tr>
@@ -105,10 +105,10 @@ If <code>fill_val</code> is missing, it is specified as follows: <br />
 
 <h3>Details</h3>
 
-<p>For the sake of illustration, consider a matrix <code>x</code> and a grouping factor <code>grp</code>. <br />
-Let the integer scalar <code>k</code> represent a group in <code>grp</code>, such that <code>k</code> <code class="reqn">\in</code> <code>1:nlevels(grp)</code>. <br />
-Then the code <br />
-<code>out &lt;- acast(x, margin = 1, grp = grp)</code> <br />
+<p>For the sake of illustration, consider a matrix <code>x</code> and a grouping factor <code>grp</code>. <br>
+Let the integer scalar <code>k</code> represent a group in <code>grp</code>, such that <code>k</code> <code class="reqn">\in</code> <code>1:nlevels(grp)</code>. <br>
+Then the code <br>
+<code>out &lt;- acast(x, margin = 1, grp = grp)</code> <br>
 essentially performs the following for every group <code>k</code>:
 </p>
 
@@ -118,22 +118,22 @@ essentially performs the following for every group <code>k</code>:
 </li></ul>
 
 <p>Please see the examples section
-to get a good idea on how this function casts an array. <br /> <br />
+to get a good idea on how this function casts an array. <br> <br>
 </p>
 
 
 <h3>Value</h3>
 
-<p>An array with dimensions <code style="white-space: pre;">&#8288;c(dim(x), max(tabulate(grp))&#8288;</code>. <br /> <br />
+<p>An array with dimensions <code style="white-space: pre;">&#8288;c(dim(x), max(tabulate(grp))&#8288;</code>. <br> <br>
 </p>
 
 
 <h3>Back transformation</h3>
 
-<p>From the casted array, <br />
-<code>out &lt;- acast(x, margin, grp)</code>, <br />
-one can get the original <code>x</code> back by using <br />
-<code>back &lt;- asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br />
+<p>From the casted array, <br>
+<code>out &lt;- acast(x, margin, grp)</code>, <br>
+one can get the original <code>x</code> back by using <br>
+<code>back &lt;- asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br>
 Note, however, the following about the back-transformed array <code>back</code>:
 </p>
 
@@ -143,7 +143,7 @@ Note, however, the following about the back-transformed array <code>back</code>:
 </li>
 <li><p> if the levels of <code>grp</code> did not have equal frequencies,
 then <code>dim(back)[margin] &gt; dim(x)[margin]</code>,
-and <code>back</code> will have more missing values than <code>x</code>. <br /> <br />
+and <code>back</code> will have more missing values than <code>x</code>. <br> <br>
 </p>
 </li></ul>
 
@@ -151,7 +151,7 @@ and <code>back</code> will have more missing values than <code>x</code>. <br /> 
 
 <h3>See Also</h3>
 
-<p><code>[broadcast_casting](aaa02_broadcast_casting.qmd)</code> <br />
+<p><code>[broadcast_casting](aaa02_broadcast_casting.qmd)</code> <br>
 </p>
 
 

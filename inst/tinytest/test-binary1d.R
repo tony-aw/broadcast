@@ -5,12 +5,8 @@ errorfun <- function(tt) {
   
   if(isFALSE(tt)) stop(print(tt))
 }
-
-undim <- function(x) {
-  dim(x) <- NULL
-  return(x)
-}
 source(file.path(getwd(), "source.R"))
+
 
 for(i in seq_along(funs)) {
   x <- array(datagens[[i]](), c(10, 1))

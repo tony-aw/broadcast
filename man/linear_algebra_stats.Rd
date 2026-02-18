@@ -5,11 +5,14 @@
 \alias{linear_algebra_stats}
 \alias{cinv}
 \alias{sd_lc}
+\alias{ecumprob}
 \title{Simple Linear Algebra Functions for Statistics}
 \usage{
 cinv(x)
 
 sd_lc(X, vc, bad_rp = NaN)
+
+ecumprob(y, sim, eps = 0)
 }
 \arguments{
 \item{x}{a real symmetric positive-definite square matrix.}
@@ -20,30 +23,50 @@ sd_lc(X, vc, bad_rp = NaN)
 
 \item{bad_rp}{if \code{vc} is not a Positive (semi-) Definite matrix,
 give here the value to replace bad standard deviations with. \cr \cr}
+
+\item{y}{values to estimate the cumulative probability for.}
+
+\item{sim}{a matrix (or data.frame) with at least 500 columns of simulated values. \cr
+If \code{sim} is given as a dimensionless vector,
+it will be treated as a matrix with 1 row and \code{length(sim)} columns,
+and this will be noted with a message.}
+
+\item{eps}{a non-negative numeric scaler smaller than \code{0.1},
+giving the cut-off value for probabilities. \cr
+Probabilities smaller than \code{eps} will be replaced with \code{eps},
+and probabilities larger than \code{1 - eps} will be replaced with \code{1 - eps}. \cr
+Set \code{eps = 0} to disable probability trimming.}
 }
 \value{
 For \code{cinv()}: \cr
 A matrix. \cr
 \cr
 For \code{sd_lc()}: \cr
-A vector of standard deviations.
+A vector of standard deviations. \cr
 \cr
+For \code{ecumprob()}: \cr
+A vector of cumulative probabilities. \cr
+If for any observation \code{i} (after broadcasting,) \code{y[i]} is NA/NaN or any of \code{sim[i,]} is NA/NaN,
+the result for \code{i} will be \code{NA}. \cr
+If zero-length \code{y} or \code{sim} is given, a zero-length numeric vector is returned. \cr
 \cr
 }
 \description{
 'broadcast' provides some simple Linear Algebra Functions for Statistics: \cr
-\code{cinv()}; \cr
-\code{sd_lc()}. \cr
+\code{cinv()} \cr
+\code{sd_lc()} \cr
+\code{ecumprob()} \cr
 \cr
 \cr
 }
 \details{
-\bold{cinv()} \cr
+\bold{\code{cinv()}} \cr
 \code{cinv()}
 computes the Choleski inverse
 of a real symmetric positive-definite square matrix. \cr
 \cr
-\bold{sd_lc()} \cr
+\cr
+\bold{\code{sd_lc()}} \cr
 Given the linear combination \code{X \%*\% b}, where:
 \itemize{
 \item \code{X} is a matrix of multipliers/constants;
@@ -59,10 +82,29 @@ without making needless copies. \cr
 (depending on the Linear Algebra Library used for base 'R'). \cr
 \cr
 \cr
+\bold{\code{ecumprob()}} \cr
+The \code{ecumprod(y, sim)} function takes a matrix (or data.frame) of simulated values \code{sim},
+and for each row \code{i} (after broadcasting),
+estimates the cumulative distribution function of \code{sim[i, ]},
+and returns the cumulative probability for \code{y[i]}. \cr
+\cr
+In terms of statistics,
+it is equivalent to the following operation for each index \code{i}: \cr
+\code{ecdf(sim[i,])(y[i])} \cr
+However, \code{ecumprob()} is \bold{much} faster, and supports \code{NA}s/\code{NaN}s. \cr
+\cr
+In terms of linear algebra,
+it is equivalent to the following broadcasted operation: \cr
+\code{rowMeans(sim <= y)} \cr
+where \code{y} and \code{sim} are \link{broadcaster} arrays. \cr
+However, \code{ecumprob()} is \bold{much more} memory-efficient,
+supports a data.frame for \code{sim},
+and has statistical safety checks. \cr
+\cr
 }
 \examples{
 
-
+# variances ====
 vc <- datasets::ability.cov$cov
 X <- matrix(rnorm(100), 100, ncol(vc))
 
@@ -71,6 +113,25 @@ cinv(vc) # faster than `solve()`, but only works on positive definite matrices
 all(round(solve(vc), 6) == round(cinv(vc), 6)) # they're the same
 
 sd_lc(X, vc)
+
+
+
+# ecumprob() ====
+
+sim <- rnbinom(10 * 5000L, mu = 3, size = 2) |> matrix(10, 5000)
+y <- sample(0:9)
+
+# vector:
+pnbinom(y[1], mu = 3, size = 2) # real probability
+ecumprob(y[1], sim[1, , drop = TRUE]) # approximation
+
+# matrix:
+pnbinom(y, mu = 3, size = 2) # real probability
+ecumprob(y, sim) # approximation
+
+# data.frame:
+pnbinom(y, mu = 3, size = 2) # real probability
+ecumprob(y, as.data.frame(sim)) # approximation
 }
 \references{
 John A. Rice (2007), \emph{Mathematical Statistics and Data Analysis} (6th Edition)

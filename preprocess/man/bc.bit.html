@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>R: Broadcasted Bit-wise Operations</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
+<script>
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
@@ -11,7 +11,7 @@ function processMathHTML() {
 }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
     onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
+<link rel="stylesheet" type="text/css" href="R.css">
 </head><body><div class="container"><main>
 
 <table style="width: 100%;"><tr><td>bc.bit</td><td style="text-align: right;">R Documentation</td></tr></table>
@@ -22,8 +22,8 @@ function processMathHTML() {
 
 <p>The <code>bc.bit()</code> function
 performs broadcasted bit-wise operations
-on pairs of arrays, where both arrays are of type <code>raw</code> or both arrays are of type <code>integer</code>. <br />
-<br />
+on pairs of arrays, where both arrays are of type <code>raw</code> or both arrays are of type <code>integer</code>. <br>
+<br>
 </p>
 
 
@@ -45,12 +45,12 @@ bc.bit(x, y, op)
 </td></tr>
 <tr><td><code id="op">op</code></td>
 <td>
-<p>a single string, giving the operator. <br />
+<p>a single string, giving the operator. <br>
 Supported bit-wise operators: &amp;, |, xor, nand, &lt;&lt;, &gt;&gt;, ==, !=, &lt;, &gt;, &lt;=, &gt;=.</p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
-<p>further arguments passed to or from methods. <br /> <br /></p>
+<p>further arguments passed to or from methods. <br> <br></p>
 </td></tr>
 </table>
 
@@ -58,8 +58,8 @@ Supported bit-wise operators: &amp;, |, xor, nand, &lt;&lt;, &gt;&gt;, ==, !=, &
 <h3>Details</h3>
 
 <p>The &quot;&amp;&quot;, &quot;|&quot;, &quot;xor&quot;, and &quot;nand&quot; operators given in <code>bc.bit()</code>
-perform BIT-WISE AND, OR, XOR, and NAND operations, respectively. <br />
-<br />
+perform BIT-WISE AND, OR, XOR, and NAND operations, respectively. <br>
+<br>
 The relational operators given in <code>bc.bit()</code> perform BIT-WISE relational operations:
 </p>
 
@@ -79,31 +79,31 @@ The relational operators given in <code>bc.bit()</code> perform BIT-WISE relatio
 <li><p> &quot;&lt;=&quot; is equivalent to bit-wise <code>(!x &amp; y) | (y == x)</code>, but faster;
 </p>
 </li>
-<li><p> &quot;&gt;=&quot; is equivalent to bit-wise <code>(x &amp; !y) | (y == x)</code>, but faster. <br /> <br />
+<li><p> &quot;&gt;=&quot; is equivalent to bit-wise <code>(x &amp; !y) | (y == x)</code>, but faster. <br> <br>
 </p>
 </li></ul>
 
 <p>The &quot;&lt;&lt;&quot; and &quot;&gt;&gt;&quot; operators perform bit-wise left-shift and right-shift,
 respectively,
-on <code>x</code> by unit <code>y</code>. <br />
+on <code>x</code> by unit <code>y</code>. <br>
 For these shift operations,
-<code>y</code> being larger than the number of bits of <code>x</code> results in an error. <br />
-Shift operations are only supported for type of <code>raw</code>. <br /> <br />
+<code>y</code> being larger than the number of bits of <code>x</code> results in an error. <br>
+Shift operations are only supported for type of <code>raw</code>. <br> <br>
 </p>
 
 
 <h3>Value</h3>
 
-<p>For bit-wise operators: <br />
+<p>For bit-wise operators: <br>
 An array of the same type as <code>x</code> and <code>y</code>,
-as a result of the broadcasted bit-wise operation. <br />
-<br />
+as a result of the broadcasted bit-wise operation. <br>
+<br>
 </p>
 
 
 <h3>See Also</h3>
 
-<p><code>[broadcast_operators](aaa01_broadcast_operators.qmd)</code> <br />
+<p><code>[broadcast_operators](aaa01_broadcast_operators.qmd)</code> <br>
 </p>
 
 

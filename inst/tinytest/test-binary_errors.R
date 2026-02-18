@@ -84,18 +84,35 @@ for(i in seq_along(funs)) {
 
 
 # broadcasting will exceed maximum size ====
+pattern <- "broadcasting will exceed maximum size"
 maxint <- 2^53 + 1L
 n <- ceiling(sqrt(maxint))
 x <- array(as.raw(0:255), c(n, 1))
 y <- array(as.raw(0:255), c(1, n))
 expect_error(
   bc.raw(x, y, "diff"),
-  pattern = "broadcasting will exceed maximum size"
+  pattern = pattern
 )
-enumerate <- enumerate + 1L
+broadcaster(x) <- broadcaster(y) <- TRUE
+expect_error(
+  x & y,
+  pattern = pattern
+)
 
+x <- 1:(2^32 + 2)
+y <- array(1:27, c(1, 3, 3))
+expect_error(
+  bc.d(x, y, "+"),
+  pattern = pattern
+)
+broadcaster(x) <- broadcaster(y) <- TRUE
+expect_error(
+  x + y,
+  pattern = pattern
+)
+enumerate <- enumerate + 4L
 
-
+ 
 # operator errors ====
 message <- "given operator not supported in the given context"
 ops <- c(

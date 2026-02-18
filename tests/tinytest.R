@@ -34,6 +34,9 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
     "broadcast", testdir = file.path("tinytest", "binary_names")
   )
   tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "binary_prep")
+  )
+  tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bind_array_1_basic")
   )
   tinytest::test_package(
@@ -53,6 +56,9 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "cast")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "checkmissing")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "class")

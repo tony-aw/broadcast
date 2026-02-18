@@ -12,7 +12,7 @@ Broadcasted Array Operations Like 'NumPy' \cr \cr
 
 Implements efficient 'NumPy'-like broadcasted operations for atomic and recursive arrays.
 
-In the context of operations involving 2 (or more) arrays, “broadcasting” refers to efficiently recycling array dimensions, without making copies.
+In the context of operations involving 2 (or more) arrays, “broadcasting” (AKA singleton expansion) refers to efficiently recycling array dimensions, without making copies.
 
 Besides linking to 'Rcpp', 'broadcast' does not use any external libraries in any way;
 'broadcast' was essentially made from scratch and can be installed out-of-the-box.

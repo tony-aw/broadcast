@@ -1,4 +1,15 @@
 
+# broadcast 0.1.8
+
+* Slightly relaxed the behaviour for `NA`s/`NaN`s for the `+` and `-` operators involving complex numbers.
+* Streamlined some internal code here and there.
+* Changed the internal code to avoid the false-positive issue message in 'Rchk'.
+* Built the package with the recently updated version of 'Rcpp'.
+* Added the `checkNULL()` and `checkNA()` methods.
+* Added a new linear algebra function for statistics: `ecumprob()`.
+
+<br>
+
 # broadcast 0.1.7
 
 **Consistency fixes:**

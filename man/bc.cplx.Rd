@@ -29,10 +29,12 @@ A logical array as a result of the broadcasted relational comparison. \cr
 \description{
 The \code{bc.cplx()} function performs broadcasted complex numeric operations on pairs of arrays. \cr
 \cr
-Note that \code{bc.cplx()} uses more strict \code{NA} checks than base 'R': \cr
-If for an element of either \code{x} or \code{y}, either the real or imaginary part is \code{NA} or \code{NaN},
-than the result of the operation for that element is necessarily \code{NA}. \cr
-\cr \cr
+}
+\details{
+For the \code{*} and \code{/} operators, \code{bc.cplx()} uses more strict \code{NA} checks than base 'R': \cr
+If for an iteration,
+\code{re(x)}, \code{im(x)}, \code{re(y)}, and/or \code{im(y)} contains \code{NA},
+than the result for that iteration is necessarily \code{NA_complex_}.
 }
 \examples{
 x.dim <- c(4:2)

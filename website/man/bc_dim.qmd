@@ -1,5 +1,10 @@
 ---
 title: bc_dim
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Predict Broadcasted Dimensions {.unnumbered}
 
@@ -31,12 +36,12 @@ an atomic or recursive array.
 ### Value
 
 Returns an integer vector giving the broadcasted dimension sizes of the result,
-or the length of the result if its dimensions will be <code>NULL</code>. <br /> <br />
+or the length of the result if its dimensions will be <code>NULL</code>. <br> <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 x.dim <- c(4:2)

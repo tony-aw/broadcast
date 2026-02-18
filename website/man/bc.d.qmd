@@ -1,5 +1,10 @@
 ---
 title: bc.d
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Broadcasted Decimal Numeric Operations {.unnumbered}
 
@@ -7,8 +12,8 @@ title: bc.d
 ### Description
 
 The <code>bc.d()</code> function
-performs broadcasted decimal numeric operations on 2 numeric or logical arrays. <br />
-<br /> <br />
+performs broadcasted decimal numeric operations on 2 numeric or logical arrays. <br>
+<br> <br>
 
 
 
@@ -30,19 +35,19 @@ conformable vectors/arrays of type logical or numeric.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
-a single string, giving the operator. <br />
-Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. <br />
-Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;=. <br />
+a single string, giving the operator. <br>
+Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. <br>
+Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;=. <br>
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-further arguments passed to or from methods. <br /> <br />
+further arguments passed to or from methods. <br> <br>
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="tol">tol</code></td>
 <td>
-a single number between 0 and 0.1, giving the machine tolerance to use for the relational operators. <br />
-Only relevant for the following operators: <br />
-d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;= <br />
+a single number between 0 and 0.1, giving the machine tolerance to use for the relational operators. <br>
+Only relevant for the following operators: <br>
+d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;= <br>
 See the
 %d==%, %d!=%, %d&lt;%, %d&gt;%, %d&lt;=%, %d&gt;=% operators
 from the 'tinycodet' package for details.
@@ -52,23 +57,23 @@ from the 'tinycodet' package for details.
 
 ### Value
 
-For arithmetic operators: <br />
-A numeric array as a result of the broadcasted decimal arithmetic operation. <br />
-<br />
-For relational operators: <br />
-A logical array as a result of the broadcasted decimal relational comparison. <br />
-<br />
+For arithmetic operators: <br>
+A numeric array as a result of the broadcasted decimal arithmetic operation. <br>
+<br>
+For relational operators: <br>
+A logical array as a result of the broadcasted decimal relational comparison. <br>
+<br>
 
 
 
 ### See Also
 
-[broadcast_operators](aaa01_broadcast_operators.qmd) <br />
+[broadcast_operators](aaa01_broadcast_operators.qmd) <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 x.dim <- c(4:2)

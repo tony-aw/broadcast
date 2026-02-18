@@ -1,15 +1,20 @@
 ---
 title: acast
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Simple and Fast Casting/Pivoting of an Array {.unnumbered}
 
 
 ### Description
 
-The <code>acast()</code> function spreads subsets of an array margin over a new dimension. <br />
-<br />
+The <code>acast()</code> function spreads subsets of an array margin over a new dimension. <br>
+<br>
 Roughly speaking, <code>acast()</code> can be thought of as the &quot;array&quot; analogy to
-<code>data.table::dcast()</code>. <br />
+<code>data.table::dcast()</code>. <br>
 But note 2 important differences:
 
 
@@ -52,27 +57,27 @@ a scalar integer, specifying the margin to cast from.
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="grp">grp</code></td>
 <td>
 a factor, where <code>length(grp) == dim(x)[margin]</code>, with at least <code>2</code> unique values,
-specifying which indices of <code>dim(x)[margin]</code> belong to which group. <br />
-Each group will be cast onto a separate index of dimension <code>ndim(x) + 1</code>. <br />
-Unused levels of <code>grp</code> will be dropped. <br />
+specifying which indices of <code>dim(x)[margin]</code> belong to which group. <br>
+Each group will be cast onto a separate index of dimension <code>ndim(x) + 1</code>. <br>
+Unused levels of <code>grp</code> will be dropped. <br>
 Any <code>NA</code> values or levels found in <code>grp</code> will result in an error.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="fill">fill</code></td>
 <td>
-Boolean. <br />
+Boolean. <br>
 When factor <code>grp</code> is unbalanced (i.e. has unequally sized groups)
 the result will be an array where some slices have missing values, which need to be filled.
 If <code>fill = TRUE</code>, an unbalanced <code>grp</code> factor is allowed,
-and missing values will be filled with <code>fill_val</code>. <br />
+and missing values will be filled with <code>fill_val</code>. <br>
 If <code>fill = FALSE</code> (default), an unbalanced <code>grp</code> factor is not allowed,
 and providing an unbalanced factor for <code>grp</code> produces an error.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="fill_val">fill_val</code></td>
 <td>
 scalar of the same type of <code>x</code>,
-giving value to use to fill in the gaps when <code>fill = TRUE</code>. <br />
-The <code>fill_val</code> argument is ignored when <code>fill = FALSE</code>. <br />
-If <code>fill_val</code> is missing, it is specified as follows: <br />
+giving value to use to fill in the gaps when <code>fill = TRUE</code>. <br>
+The <code>fill_val</code> argument is ignored when <code>fill = FALSE</code>. <br>
+If <code>fill_val</code> is missing, it is specified as follows: <br>
 
 
 <ul>
@@ -82,7 +87,7 @@ If <code>fill_val</code> is missing, it is specified as follows: <br />
 <li> If <code>x</code> is atomic but not <code>raw</code>, <code>fill_val</code> is set to <code>NA</code>;
 
 </li>
-<li> If <code>x</code> is of type <code>list</code>, <code>fill_val</code> is set to <code>list(NULL)</code>. <br /> <br />
+<li> If <code>x</code> is of type <code>list</code>, <code>fill_val</code> is set to <code>list(NULL)</code>. <br> <br>
 
 </li></ul>
 </td></tr>
@@ -91,10 +96,10 @@ If <code>fill_val</code> is missing, it is specified as follows: <br />
 
 ### Details
 
-For the sake of illustration, consider a matrix <code>x</code> and a grouping factor <code>grp</code>. <br />
-Let the integer scalar <code>k</code> represent a group in <code>grp</code>, such that <code>k</code> $\in$ <code>1:nlevels(grp)</code>. <br />
-Then the code <br />
-<code>out &lt;- acast(x, margin = 1, grp = grp)</code> <br />
+For the sake of illustration, consider a matrix <code>x</code> and a grouping factor <code>grp</code>. <br>
+Let the integer scalar <code>k</code> represent a group in <code>grp</code>, such that <code>k</code> $\in$ <code>1:nlevels(grp)</code>. <br>
+Then the code <br>
+<code>out &lt;- acast(x, margin = 1, grp = grp)</code> <br>
 essentially performs the following for every group <code>k</code>:
 
 
@@ -104,22 +109,22 @@ essentially performs the following for every group <code>k</code>:
 </li></ul>
 
 Please see the examples section
-to get a good idea on how this function casts an array. <br /> <br />
+to get a good idea on how this function casts an array. <br> <br>
 
 
 
 ### Value
 
-An array with dimensions <code style="white-space: pre;">c(dim(x), max(tabulate(grp))</code>. <br /> <br />
+An array with dimensions <code style="white-space: pre;">c(dim(x), max(tabulate(grp))</code>. <br> <br>
 
 
 
 ### Back transformation
 
-From the casted array, <br />
-<code>out &lt;- acast(x, margin, grp)</code>, <br />
-one can get the original <code>x</code> back by using <br />
-<code>back &lt;- asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br />
+From the casted array, <br>
+<code>out &lt;- acast(x, margin, grp)</code>, <br>
+one can get the original <code>x</code> back by using <br>
+<code>back &lt;- asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br>
 Note, however, the following about the back-transformed array <code>back</code>:
 
 
@@ -129,7 +134,7 @@ Note, however, the following about the back-transformed array <code>back</code>:
 </li>
 <li> if the levels of <code>grp</code> did not have equal frequencies,
 then <code>dim(back)[margin] &gt; dim(x)[margin]</code>,
-and <code>back</code> will have more missing values than <code>x</code>. <br /> <br />
+and <code>back</code> will have more missing values than <code>x</code>. <br> <br>
 
 </li></ul>
 
@@ -137,12 +142,12 @@ and <code>back</code> will have more missing values than <code>x</code>. <br /> 
 
 ### See Also
 
-[broadcast_casting](aaa02_broadcast_casting.qmd) <br />
+[broadcast_casting](aaa02_broadcast_casting.qmd) <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 

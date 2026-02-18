@@ -1,5 +1,10 @@
 ---
 title: rep_dim
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Replicate Array Dimensions {.unnumbered}
 
@@ -8,15 +13,15 @@ title: rep_dim
 
 The <code>rep_dim()</code> function
 replicates array dimensions until the specified dimension sizes are reached,
-and returns the array. <br />
-<br />
+and returns the array. <br>
+<br>
 The various broadcasting functions recycle array dimensions virtually,
-meaning little to no additional memory is needed. <br />
+meaning little to no additional memory is needed. <br>
 The <code>rep_dim()</code> function,
 however,
 physically replicates the dimensions of an array
-(and thus actually occupies additional memory space). <br />
-<br />
+(and thus actually occupies additional memory space). <br>
+<br>
 
 
 
@@ -47,7 +52,7 @@ Returns the replicated array.
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 

@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>R: Broadcasted Boolean Operations</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
+<script>
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
@@ -11,7 +11,7 @@ function processMathHTML() {
 }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
     onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
+<link rel="stylesheet" type="text/css" href="R.css">
 </head><body><div class="container"><main>
 
 <table style="width: 100%;"><tr><td>bc.b</td><td style="text-align: right;">R Documentation</td></tr></table>
@@ -21,13 +21,13 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>The <code>bc.b()</code> function
-performs broadcasted logical (or Boolean) operations on 2 arrays. <br />
-<br />
-Please note that these operations will treat the input as <code>logical</code>. <br />
+performs broadcasted logical (or Boolean) operations on 2 arrays. <br>
+<br>
+Please note that these operations will treat the input as <code>logical</code>. <br>
 Therefore, something like <code>bc.b(1, 2, "==")</code> returns <code>TRUE</code>,
-because both <code>1</code> and <code>2</code> are <code>TRUE</code> when treated as <code>logical</code>. <br />
-<br />
-For regular relational operators, see <code>[bc.rel](bc.rel.qmd)</code>. <br /> <br />
+because both <code>1</code> and <code>2</code> are <code>TRUE</code> when treated as <code>logical</code>. <br>
+<br>
+For regular relational operators, see <code>[bc.rel](bc.rel.qmd)</code>. <br> <br>
 </p>
 
 
@@ -45,24 +45,24 @@ bc.b(x, y, op)
 <table role = "presentation">
 <tr><td><code id="x">x</code>, <code id="y">y</code></td>
 <td>
-<p>conformable vectors/arrays of type <code>logical</code>, <code>numeric</code>, or <code>raw</code>. <br />
+<p>conformable vectors/arrays of type <code>logical</code>, <code>numeric</code>, or <code>raw</code>. <br>
 Note that input with type of <code>double</code> will be coerced to <code>integer</code>.</p>
 </td></tr>
 <tr><td><code id="op">op</code></td>
 <td>
-<p>a single string, giving the operator. <br />
+<p>a single string, giving the operator. <br>
 Supported Boolean operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=.</p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
-<p>further arguments passed to or from methods. <br /> <br /></p>
+<p>further arguments passed to or from methods. <br> <br></p>
 </td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p><code>bc.b()</code> efficiently casts the input to logical. <br />
+<p><code>bc.b()</code> efficiently casts the input to logical. <br>
 Since the input is treated as logical, the following equalities hold for <code>bc.b()</code>:
 </p>
 
@@ -82,7 +82,7 @@ Since the input is treated as logical, the following equalities hold for <code>b
 <li><p> &quot;&lt;=&quot; is equivalent to <code>(!x &amp; y) | (y == x)</code>, but faster;
 </p>
 </li>
-<li><p> &quot;&gt;=&quot; is equivalent to <code>(x &amp; !y) | (y == x)</code>, but faster. <br /> <br />
+<li><p> &quot;&gt;=&quot; is equivalent to <code>(x &amp; !y) | (y == x)</code>, but faster. <br> <br>
 </p>
 </li></ul>
 
@@ -90,19 +90,19 @@ Since the input is treated as logical, the following equalities hold for <code>b
 
 <h3>Value</h3>
 
-<p>Normally: <br />
-A logical array/vector as a result of the broadcasted Boolean operation. <br />
-<br />
-If both <code>x</code> and <code>y</code> are type of raw: <br />
+<p>Normally: <br>
+A logical array/vector as a result of the broadcasted Boolean operation. <br>
+<br>
+If both <code>x</code> and <code>y</code> are type of raw: <br>
 A raw array/vector as a result of the broadcasted Boolean operation,
-where <code>01</code> codes for <code>TRUE</code> and <code>00</code> codes for <code>FALSE</code>. <br />
-This is convenient as <code>raw</code> requires less memory space than <code>logical</code>. <br /> <br />
+where <code>01</code> codes for <code>TRUE</code> and <code>00</code> codes for <code>FALSE</code>. <br>
+This is convenient as <code>raw</code> requires less memory space than <code>logical</code>. <br> <br>
 </p>
 
 
 <h3>See Also</h3>
 
-<p><code>[broadcast_operators](aaa01_broadcast_operators.qmd)</code> <br />
+<p><code>[broadcast_operators](aaa01_broadcast_operators.qmd)</code> <br>
 </p>
 
 

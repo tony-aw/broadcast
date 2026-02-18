@@ -12,6 +12,15 @@
 }
 
 
+#' @keywords Internal
+#' @noRd
+.C_make_outdim <- function(x.dim, y.dim) {
+  .Call("C_make_outdim",
+        as.integer(x.dim), as.integer(y.dim),
+        as.integer(length(x.dim)), as.integer(length(y.dim))
+  )
+}
+
 
 #' @keywords Internal
 #' @noRd
@@ -22,22 +31,8 @@
 
 #' @keywords Internal
 #' @noRd
-.C_any_nonarray <- function(x) {
-  .Call("C_any_nonarray", x = x)
-}
-
-
-#' @keywords Internal
-#' @noRd
 .C_arraysize_overflow <- function(xdim, xlen) {
   .Call("C_arraysize_overflow", xdim, xlen)
-}
-
-
-#' @keywords Internal
-#' @noRd
-.C_lst_ndims <- function(x) {
-  .Call("C_lst_ndims", x = x)
 }
 
 
@@ -68,37 +63,8 @@
 
 #' @keywords Internal
 #' @noRd
-.C_bind_which_comdims <- function(out_dim, start, obj_dim) {
-  out_dim <- as.integer(out_dim)
-  start <- as.integer(start)
-  obj_dim <- as.integer(obj_dim)
-  .Call("C_bind_which_comdims", out_dim, start, obj_dim)
-}
-
-
-#' @keywords Internal
-#' @noRd
-.C_dropdims_count <- function(xdim, ydim) {
-  .Call("C_dropdims_count", xdim, ydim)
-}
-
-#' @keywords Internal
-#' @noRd
-.C_dropdims_which <- function(xdim, ydim, size) {
-  .Call("C_dropdims_which", xdim, ydim, size)
-}
-
-
-#' @keywords Internal
-#' @noRd
 .C_dims_allge <- function(xdim, ydim) {
   .Call("C_dims_allge", xdim, ydim)
-}
-
-#' @keywords Internal
-#' @noRd
-.C_binames_consider_dim <- function(outdim, xdim, xdimnames) {
-  .Call("C_binames_consider_dim", outdim, xdim, xdimnames)
 }
 
 #' @keywords Internal
@@ -108,12 +74,37 @@
 }
 
 
+
+#' @keywords Internal
+#' @noRd
+.C_chunkify_dims <- function(dims, chunks) {
+  .Call("C_chunkify_dims", as.integer(dims), as.integer(chunks))
+}
+
+#' @keywords Internal
+#' @noRd
+.C_unlisthelper_maxlen <- function(x) {
+  .Call("C_unlisthelper_maxlen", x)
+}
+
+#' @keywords Internal
+#' @noRd
+.C_determine_dimmode <- function(xdim, ydim, xlen, ylen) {
+  .Call("C_determine_dimmode", xdim, ydim, xlen, ylen)
+}
+
+
+# linear algebra =====
+
 #' @keywords Internal
 #' @noRd
 .C_sd_lc <- function(w, vc, nobs, nvars, bad_rp) {
   .Call("C_sd_lc", w, diag(vc), vc, as.integer(nobs), as.integer(nvars), as.double(bad_rp))
 }
 
+
+
+# bindhelpers ====
 
 #' @keywords Internal
 #' @noRd
@@ -143,18 +134,10 @@
 
 #' @keywords Internal
 #' @noRd
-.C_chunkify_dims <- function(dims, chunks) {
-  .Call("C_chunkify_dims", as.integer(dims), as.integer(chunks))
+.C_bind_which_comdims <- function(out_dim, start, obj_dim) {
+  out_dim <- as.integer(out_dim)
+  start <- as.integer(start)
+  obj_dim <- as.integer(obj_dim)
+  .Call("C_bind_which_comdims", out_dim, start, obj_dim)
 }
 
-#' @keywords Internal
-#' @noRd
-.C_unlisthelper_maxlen <- function(x) {
-  .Call("C_unlisthelper_maxlen", x)
-}
-
-#' @keywords Internal
-#' @noRd
-.C_determine_dimmode <- function(xdim, ydim, xlen, ylen) {
-  .Call("C_determine_dimmode", xdim, ydim, xlen, ylen)
-}

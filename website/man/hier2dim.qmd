@@ -1,5 +1,10 @@
 ---
 title: hier2dim
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Helper Functions For cast_hier2dim {.unnumbered}
 
@@ -8,11 +13,11 @@ title: hier2dim
 
 <code>hier2dim()</code> takes a hierarchical/nested list,
 and predicts what dimensions the list would have,
-if casted by the [cast_hier2dim](cast_hier2dim.qmd) function. <br />
-<br />
+if casted by the [cast_hier2dim](cast_hier2dim.qmd) function. <br>
+<br>
 <code>hiernames2dimnames()</code> takes a hierarchical/nested list,
-and intelligently tries to compose dimnames for the result of [cast_hier2dim](cast_hier2dim.qmd). <br />
-<br />
+and intelligently tries to compose dimnames for the result of [cast_hier2dim](cast_hier2dim.qmd). <br>
+<br>
 
 
 
@@ -42,13 +47,13 @@ hiernames2dimnames(
 <table role = "presentation">
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
 <td>
-a nested list. <br />
+a nested list. <br>
 If <code>x</code> has redundant nesting,
 it is advisable (though not necessary) to reduce the redundant nesting using [dropnests](dropnests.qmd).
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-further arguments passed to or from methods. <br /> <br />
+further arguments passed to or from methods. <br> <br>
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="in2out">in2out</code>, <code id="recurse_all">recurse_all</code></td>
 <td>
@@ -57,13 +62,13 @@ see [broadcast_casting](aaa02_broadcast_casting.qmd).
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="maxdepth">maxdepth</code></td>
 <td>
 a single, positive integer,
-giving the maximum depth to recurse into the list. <br />
-The surface-level elements of a list is depth 1. <br />
+giving the maximum depth to recurse into the list. <br>
+The surface-level elements of a list is depth 1. <br>
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="direction">direction</code></td>
 <td>
-A single number, giving the direction in which to search for names. <br />
-Must be either <code>1</code> (to search from start to end) or <code>-1</code> (to search from end to start). <br />
+A single number, giving the direction in which to search for names. <br>
+Must be either <code>1</code> (to search from start to end) or <code>-1</code> (to search from end to start). <br>
 If set to <code>0</code>, the result will simply be <code>NULL</code>.
 </td></tr>
 </table>
@@ -71,28 +76,28 @@ If set to <code>0</code>, the result will simply be <code>NULL</code>.
 
 ### Value
 
-For <code>hier2dim()</code>: <br />
+For <code>hier2dim()</code>: <br>
 An integer vector,
 giving the dimensions <code>x</code> would have,
-if casted by <code>cast_hier2dim()</code>. <br />
+if casted by <code>cast_hier2dim()</code>. <br>
 The names of the output indicates if padding is required (name &quot;padding&quot;),
-or no padding is required (no name) for that dimension; <br />
-Padding will be required if not all list-elements at a certain depth have the same length. <br />
-<br />
-For <code>hiernames2dimnames()</code>: <br />
-A list of <code>dimnames</code>; these can be assigned to the <code>dimnames</code> of the result of [cast_hier2dim](cast_hier2dim.qmd). <br />
-<br />
+or no padding is required (no name) for that dimension; <br>
+Padding will be required if not all list-elements at a certain depth have the same length. <br>
+<br>
+For <code>hiernames2dimnames()</code>: <br>
+A list of <code>dimnames</code>; these can be assigned to the <code>dimnames</code> of the result of [cast_hier2dim](cast_hier2dim.qmd). <br>
+<br>
 
 
 
 ### See Also
 
-[broadcast_casting](aaa02_broadcast_casting.qmd), [cast_hier2dim](cast_hier2dim.qmd) <br />
+[broadcast_casting](aaa02_broadcast_casting.qmd), [cast_hier2dim](cast_hier2dim.qmd) <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 

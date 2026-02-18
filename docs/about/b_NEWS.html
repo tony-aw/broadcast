@@ -152,19 +152,25 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../about/e_benchmarks_numpy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Benchmarks with Numpy</span></a>
+ <span class="menu-text">Benchmarks with NumPy</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../about/f_benchmarks_other.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Other benchmarks</span></a>
+ <span class="menu-text">Other Benchmarks</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../about/g_unit_test_covr.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Unit Test Coverage Report</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about/h_technical_details.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Technical Details</span></a>
   </div>
 </li>
     </ul>
@@ -177,7 +183,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#broadcast-0.1.7" id="toc-broadcast-0.1.7" class="nav-link active" data-scroll-target="#broadcast-0.1.7">broadcast 0.1.7</a></li>
+  <li><a href="#broadcast-0.1.8-under-development" id="toc-broadcast-0.1.8-under-development" class="nav-link active" data-scroll-target="#broadcast-0.1.8-under-development">broadcast 0.1.8 (Under Development)</a></li>
+  <li><a href="#broadcast-0.1.7" id="toc-broadcast-0.1.7" class="nav-link" data-scroll-target="#broadcast-0.1.7">broadcast 0.1.7</a></li>
   <li><a href="#broadcast-0.1.6.1" id="toc-broadcast-0.1.6.1" class="nav-link" data-scroll-target="#broadcast-0.1.6.1">broadcast 0.1.6.1</a></li>
   <li><a href="#broadcast-0.1.6" id="toc-broadcast-0.1.6" class="nav-link" data-scroll-target="#broadcast-0.1.6">broadcast 0.1.6</a></li>
   <li><a href="#broadcast-0.1.5.3" id="toc-broadcast-0.1.5.3" class="nav-link" data-scroll-target="#broadcast-0.1.5.3">broadcast 0.1.5.3</a></li>
@@ -212,6 +219,18 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="broadcast-0.1.8-under-development" class="level1">
+<h1>broadcast 0.1.8 (Under Development)</h1>
+<ul>
+<li>Slightly relaxed the behaviour for <code>NA</code>s/<code>NaN</code>s for the <code>+</code> and <code>-</code> operators involving complex numbers.</li>
+<li>Streamlined some internal code here and there.</li>
+<li>Changed the internal code to avoid the false-positive issue message in ‘Rchk’.</li>
+<li>Built the package with the recently updated version of ‘Rcpp’.</li>
+<li>Added the <a href="../man/checkmissing.html">checkNULL()</a> and <a href="../man/checkmissing.html">checkNA()</a> methods.</li>
+<li>Added a new linear algebra function for statistics: <a href="../man/linear_algebra_stats.html">ecumprob()</a>.</li>
+</ul>
+<p><br></p>
+</section>
 <section id="broadcast-0.1.7" class="level1">
 <h1>broadcast 0.1.7</h1>
 <p><strong>Consistency fixes:</strong></p>
@@ -280,11 +299,11 @@ Now, <code>recurse_all</code>, controls if the casting methods recurse through c
 <p><strong>Behavioural Changes:</strong></p>
 <ul>
 <li>The <code>as_*</code> functions now also preserve the <code>broadcaster</code> class attribute.</li>
-<li>If both <code>x</code> and <code>y</code> in the <a href="../man/bc.b.html">bc.b()</a> will return type of <code>raw</code>.</li>
+<li>If both <code>x</code> and <code>y</code> in the <a href="../man/bc.b.html">bc.b()</a> method are of type <code>raw</code>, <a href="../man/bc.b.html">bc.b()</a> will return type of <code>raw</code>.</li>
 </ul>
 <p><strong>New Methods:</strong></p>
 <ul>
-<li>Added the <a href="../man/hier2dim.html">hiernames2dimnames()</a>.</li>
+<li>Added the <a href="../man/hier2dim.html">hiernames2dimnames()</a> method, to make it easier to compose <code>dimnames</code> for the result of <a href="../man/cast_hier2dim.html">cast_hier2dim()</a>.</li>
 </ul>
 <p><strong>Documentation Improvements</strong>:</p>
 <ul>

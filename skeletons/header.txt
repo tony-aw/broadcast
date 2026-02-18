@@ -272,9 +272,18 @@
 
 
 #define MACRO_TYPESWITCH_DECIMAL_SPECIAL(DIMCODE, RULECHECK, RULECODE, NACODE, DOCODE) do {      \
-  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
-  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
-  if(xint && yint) {                                        \
+  if(TYPEOF(x) == REALSXP && TYPEOF(y) == REALSXP) {                                 \
+    const double *px = REAL_RO(x);                                           \
+    const double *py = REAL_RO(y);                                           \
+    DIMCODE(                                                          \
+      MACRO_ACTION3(                                           \
+        RULECHECK,                                                    \
+        RULECODE,                                                     \
+        DOCODE                                                \
+      )                                                       \
+    );                                                       \
+  }                                                         \
+  else {                                        \
     const int *px = INTEGER_RO(x);                                        \
     const int *py = INTEGER_RO(y);                                        \
     DIMCODE(                                                          \
@@ -283,17 +292,6 @@
         RULECODE,                                                     \
         px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
         NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(!xint && !yint) {                                 \
-    const double *px = REAL_RO(x);                                           \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION3(                                           \
-        RULECHECK,                                                    \
-        RULECODE,                                                     \
         DOCODE                                                \
       )                                                       \
     );                                                       \
@@ -361,7 +359,7 @@
 
 
 #define MACRO_TYPESWITCH_INTEGER_COMMON(DIMCODE, NACODE, DOCODE) do {      \
-   bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
+  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
   bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
   if(xint && yint) {                                        \
     const int *px = INTEGER_RO(x);                                        \
@@ -1020,48 +1018,6 @@
       DIMCODE(                                                          \
         MACRO_ASSIGN_C(!(bool)px[flatind_x] && !(bool)py[flatind_y])  \
       );                                                        \
-      break;	\
-    }	\
-    case 5:	\
-    {	\
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] == (bool)py[flatind_y])  \
-      );                                                   \
-      break;	\
-    }	\
-    case 6:	\
-    {	\
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \
-      );                                                     \
-      break;	\
-    }	\
-    case 7:	\
-    { \
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] < (bool)py[flatind_y])  \
-      );                                                     \
-        break;	\
-    }	\
-    case 8:	\
-    {	\
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] > (bool)py[flatind_y])  \
-      );                                                      \
-      break;	\
-    }	\
-    case 9:	\
-    {	\
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] <= (bool)py[flatind_y])  \
-      );                                                     \
-      break;	\
-    }	\
-    case 10:	\
-    {	\
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] >= (bool)py[flatind_y])  \
-      );                                                    \
       break;	\
     }	\
     default:	\
@@ -2694,6 +2650,122 @@ i_y1 = (pind1[iter1] - 1) * pdcp_y[0] + i_y2;	\
     }	\
   }	\
 } while(0)
+
+
+#define MACRO_CHECKMISSING_TYPESWITCH(MACROCODE, DOCODE) do { \
+  switch(TYPEOF(y)) {                                                         \
+    case INTSXP:                                                              \
+    case LGLSXP:                                                              \
+    {                                                                         \
+      const int *py = INTEGER_RO(y);                                          \
+      MACROCODE(DOCODE, py[i] == NA_INTEGER, py[i] != NA_INTEGER);            \
+      break;                                                                  \
+    }                                                                         \
+    case REALSXP:                                                             \
+    {                                                                         \
+      const double *py = REAL_RO(y);                                          \
+      MACROCODE(DOCODE, R_isnancpp(py[i]), !R_isnancpp(py[i]));               \
+      break;                                                                  \
+    }                                                                         \
+    case CPLXSXP:                                                             \
+    {                                                                         \
+      const Rcomplex *py = COMPLEX_RO(y);                                     \
+      MACROCODE(                                                              \
+        DOCODE,                                                               \
+        R_isnancpp(py[i].r) || R_isnancpp(py[i].i),                           \
+        !R_isnancpp(py[i].i) && !R_isnancpp(py[i].r)                          \
+      );                                                                      \
+      break;                                                                  \
+    }                                                                         \
+    case STRSXP:                                                              \
+    {                                                                         \
+      const SEXP *py = STRING_PTR_RO(y);                                      \
+      MACROCODE(DOCODE, py[i] == NA_STRING, py[i] != NA_STRING);              \
+      break;                                                                  \
+    }                                                                         \
+    case VECSXP:                                                              \
+    {                                                                         \
+      MACROCODE(                                                              \
+        DOCODE,                                                               \
+        VECTOR_ELT(y, i) == R_NilValue,                                       \
+        VECTOR_ELT(y, i) != R_NilValue                                        \
+      );                                                                      \
+      break;                                                                  \
+    }                                                                         \
+    case RAWSXP:                                                              \
+    {                                                                         \
+      stop("NAs not defined for type `raw`");                               \
+      break;                                                                  \
+    }                                                                         \
+    default: stop("Unsupported type");                                      \
+  }                                                                           \
+} while(0)
+
+
+#define MACRO_CHECKMISSING_IS(DOCODE, ISNACODE, ISNOTNACODE) do {  \
+  if(!invert) {                                                         \
+    for(R_xlen_t i = 0; i < n; ++i) {                                     \
+      DOCODE = ISNACODE;                                                    \
+    }                                                                     \
+  }                                                                       \
+  else if(invert) {                                                   \
+    for(R_xlen_t i = 0; i < n; ++i) {                                     \
+      DOCODE = ISNOTNACODE;                                              \
+    }                                                                     \
+  }                                                                       \
+  else {                                                                  \
+    stop("`invert` must be `TRUE` or `FALSE`");                         \
+  }                                                                       \
+  break;                                                                  \
+} while(0)
+
+
+
+
+#define MACRO_CHECKMISSING_FW(DOCODE, ISNACODE, ISNOTNACODE) do {             \
+  if(!invert) {                                                         \
+    for(R_xlen_t i = 0; i < n; ++i) {                                     \
+      if(ISNACODE) {                                                      \
+        DOCODE;                                                           \
+      }                                                                   \
+    }                                                                     \
+  }                                                                       \
+  else if(invert) {                                                      \
+    for(R_xlen_t i = 0; i < n; ++i) {                                     \
+      if(ISNOTNACODE) {                                                   \
+        DOCODE;                                                           \
+      }                                                                   \
+    }                                                                     \
+  }                                                                       \
+  else {                                                                  \
+    stop("`invert` must be `TRUE` or `FALSE`");                         \
+  }                                                                       \
+} while(0)
+
+
+
+
+#define MACRO_CHECKMISSING_BW(DOCODE, ISNACODE, ISNOTNACODE) do {             \
+  if(!invert) {                                                         \
+    for(R_xlen_t i = (n-1); i >= 0; --i) {                                     \
+      if(ISNACODE) {                                                      \
+        DOCODE;                                                           \
+      }                                                                   \
+    }                                                                     \
+  }                                                                       \
+  else if(invert) {                                                      \
+    for(R_xlen_t i = (n-1); i >= 0; --i) {                                     \
+      if(ISNOTNACODE) {                                                   \
+        DOCODE;                                                           \
+      }                                                                   \
+    }                                                                     \
+  }                                                                       \
+  else {                                                                  \
+    stop("`invert` must be `TRUE` or `FALSE`");                         \
+  }                                                                       \
+} while(0)
+
+
 
 
 #endif

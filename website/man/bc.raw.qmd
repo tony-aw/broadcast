@@ -1,5 +1,10 @@
 ---
 title: bc.raw
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Broadcasted Operations that Take Raw Arrays and Return Raw Arrays {.unnumbered}
 
@@ -8,11 +13,11 @@ title: bc.raw
 
 The <code>bc.raw()</code> function
 performs broadcasted operations
-on arrays of type <code>raw</code>, and the return type is <b>always</b> <code>raw</code>. <br />
-<br />
-For bit-wise operations, use [bc.bit](bc.bit.qmd). <br />
-For relational operations with logical (<code>TRUE</code>/<code>FALSE</code>/<code>NA</code>) results, use [bc.rel](bc.rel.qmd). <br />
-<br />
+on arrays of type <code>raw</code>, and the return type is <b>always</b> <code>raw</code>. <br>
+<br>
+For bit-wise operations, use [bc.bit](bc.bit.qmd). <br>
+For relational operations with logical (<code>TRUE</code>/<code>FALSE</code>/<code>NA</code>) results, use [bc.rel](bc.rel.qmd). <br>
+<br>
 
 
 
@@ -34,28 +39,28 @@ conformable vectors/arrays of type raw.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
-a single string, giving the operator. <br />
-Supported operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, pmin, pmax, diff. <br />
+a single string, giving the operator. <br>
+Supported operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, pmin, pmax, diff. <br>
 The relational operators work the same as in [bc.rel](bc.rel.qmd),
-but with the following difference: <br />
+but with the following difference: <br>
 a <code>TRUE</code> result is replaced with <code>01</code>,
-and a <code>FALSE</code> result is replaced with <code>00</code>. <br />
+and a <code>FALSE</code> result is replaced with <code>00</code>. <br>
 The &quot;diff&quot; operator performs the byte equivalent of <code>abs(x - y)</code>.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-further arguments passed to or from methods. <br /> <br />
+further arguments passed to or from methods. <br> <br>
 </td></tr>
 </table>
 
 
 ### Value
 
-<code>bc.raw()</code> <b>always</b> returns an array of type <code>raw</code>. <br />
+<code>bc.raw()</code> <b>always</b> returns an array of type <code>raw</code>. <br>
 For the relational operators,
 <code>01</code> codes for <code>TRUE</code> results,
-and <code>00</code> codes for <code>FALSE</code> results. <br />
-<br />
+and <code>00</code> codes for <code>FALSE</code> results. <br>
+<br>
 
 
 
@@ -66,7 +71,7 @@ and <code>00</code> codes for <code>FALSE</code> results. <br />
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 

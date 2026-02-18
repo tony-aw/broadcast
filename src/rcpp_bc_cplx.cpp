@@ -12,12 +12,6 @@ inline Rcomplex rcpp_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
   
   Rcomplex out;
   
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    out.r = NA_REAL;
-    out.i = NA_REAL;
-    return out;
-  }
-  
   out.r = x.r + y.r;
   out.i = x.i + y.i;
   return out;
@@ -27,12 +21,6 @@ inline Rcomplex rcpp_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
 inline Rcomplex rcpp_cplx_min( const Rcomplex& x, const Rcomplex& y) {
   
   Rcomplex out;
-  
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    out.r = NA_REAL;
-    out.i = NA_REAL;
-    return out;
-  }
   
   out.r = x.r - y.r ;
   out.i = x.i - y.i ;

@@ -31,16 +31,14 @@ making copies.
 This is considerably **faster** and **more memory-efficient** than R’s
 regular dimensions replication mechanism.
 
-At its core, the ‘broadcast’ package provides the following
-functionalities, all related to “broadcasting” (click on the 🔍 to show
-or hide):
+Key Features (click on the 🔍 to show or hide):
 
 <details>
 <summary>
 <b><a style="cursor: pointer;">Broadcasted Infix Operators 🔍 </a></b>
 </summary>
 
-Consider the arrays `x` and `y`:
+Consider computing the addition of these arrays `x` and `y`:
 
 ``` r
 (x <- array(1:15, c(3, 5)))
@@ -53,11 +51,8 @@ Consider the arrays `x` and `y`:
 #> [1,]  100  200  300  400  500
 ```
 
-Suppose one wishes to compute the element-wise addition of these 2
-arrays.  
-As show in the table below, this cannot be done efficiently in base ‘R’;
-it **can** be done fast and memory-efficiently with the ‘broadcast’
-package:
+This cannot be done efficiently in base ‘R’; it **can** be done fast and
+memory-efficiently with the ‘broadcast’ package:
 
 <table>
 <tr>
@@ -110,7 +105,8 @@ arithmetic-, relational-, Boolean- string- and bit-wise operators.
 
 Using broadcasting, `bind_array()` from the ‘broadcast’ package can bind
 arrays together in ways that cannot efficiently be done with `rbind()`,
-`cbind()`, or `abind::abind()`. Let’s consider these arrays:
+`cbind()`, or `abind::abind()`. Consider, for example, column-binding
+these arrays `x` and `y`:
 
 ``` r
 (x <- array(1:12, c(3, 4)))
@@ -123,10 +119,8 @@ arrays together in ways that cannot efficiently be done with `rbind()`,
 #> [1,]  100  200  300  400
 ```
 
-Suppose one wishes to column-bind these 2 arrays.  
-As show in the table below, this cannot be done efficiently in base ‘R’;
-it **can** be done fast and memory-efficiently with the ‘broadcast’
-package:
+This cannot be done efficiently in base ‘R’; it **can** be done fast and
+memory-efficiently with the ‘broadcast’ package:
 
 <table cellspacing="0" cellpadding="0">
 <tr>
@@ -143,7 +137,7 @@ Base ‘R’
 ``` r
 cbind(x, y)
 Error in cbind(x, y) :
-  number of rows of matrices must match (see arg 2)
+  number of rows of matrices must match
 
 # You *could* do the following....
 cbind(x, y[rep(1L, 3L),])
@@ -282,12 +276,13 @@ of the variables is.
 
 </details>
 
-**The Quick-Start Guide can be found
-[here](https://tony-aw.github.io/broadcast/vignettes/b_quickstart.html).**
+ 
 
-**Some Practical Examples of the ‘broadcast’ package in action can be
-found
-[here](https://tony-aw.github.io/broadcast/vignettes/practical_applications.html).**
+The **Quick-Start Guide** can be found
+[here](https://tony-aw.github.io/broadcast/vignettes/b_quickstart.html).
+
+Some **Practical Applications** of the ‘broadcast’ package can be found
+[here](https://tony-aw.github.io/broadcast/vignettes/practical_applications.html).
 
  
 

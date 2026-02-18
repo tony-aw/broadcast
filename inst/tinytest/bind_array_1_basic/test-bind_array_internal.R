@@ -8,11 +8,11 @@ errorfun <- function(tt) {
 
 
 
-# .C_any_nonarray ====
-.C_any_nonarray <- broadcast:::.C_any_nonarray
+# .rcpp_any_nonarray ====
+.rcpp_any_nonarray <- broadcast:::.rcpp_any_nonarray
 
 expect_error(
-  .C_any_nonarray(1:10),
+  .rcpp_any_nonarray(1:10),
   pattern = "`x` must be a list"
 )
 
@@ -24,7 +24,7 @@ x <- list(
   array(1:27, c(3,3,3))
 )
 expect_false(
-  .C_any_nonarray(x)
+  .rcpp_any_nonarray(x)
 )
 
 x <- list(
@@ -36,7 +36,7 @@ x <- list(
   1:10
 )
 expect_true(
-  .C_any_nonarray(x)
+  .rcpp_any_nonarray(x)
 )
 
 enumerate <- enumerate + 3L

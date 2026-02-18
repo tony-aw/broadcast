@@ -1,0 +1,169 @@
+---
+title: checkmissing
+
+format:
+  html:
+    css: /man.css
+
+---
+## Efficiently Check for (Non-)Missing Values {.unnumbered}
+
+
+### Description
+
+The <code>checkNULL()</code> function efficiently checks for the presence
+(or absence) of <code>NULL</code> in every element of a list. <br>
+The <code>checkNA()</code> function efficiently checks for the presence
+(or absence) of <code>NA</code>/<code>NaN</code> in every element of an atomic vector. <br>
+<br>
+
+
+
+### Usage
+
+<pre><code class='language-R'>checkNA(x, ...)
+
+## Default S3 method:
+checkNA(x, op, inv = FALSE, ...)
+
+checkNULL(x, ...)
+
+## Default S3 method:
+checkNULL(x, op, inv = FALSE, ...)
+</code></pre>
+
+
+### Arguments
+
+<table role = "presentation">
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
+<td>
+an object. <br>
+For <code>checkNULL()</code>: a recursive vector or array (i.e. type of <code>list</code>). <br>
+For <code>checkNA()</code>: an atomic vector or array (raw type not supported). <br>
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
+<td>
+further arguments passed to or from methods.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
+<td>
+a single string, giving the operation to use. <br>
+The following operations are supported:
+
+
+<ul>
+<li> &quot;logical&quot;: checks for every element of <code>x</code> the presence/absence of missing values; returns a logical vector/array.
+
+</li>
+<li> &quot;raw&quot;: same as operation &quot;logical&quot;,
+except the result will be a raw vector/array (<code>01</code> = <code>TRUE</code>, <code>00</code> = FALSE),
+which requires less memory.
+
+</li>
+<li> &quot;any&quot;: checks if any element is (not) missing.
+
+</li>
+<li> &quot;all&quot;: checks if all elements are (not) missing.
+
+</li>
+<li> &quot;count&quot; or &quot;sum&quot;: counts the number of elements that are (not) missing.
+
+</li>
+<li> &quot;which&quot;: gives the element indices that are (not) missing.
+
+</li>
+<li> &quot;first&quot;: gives the element index of the first (non-) missing element.
+
+</li>
+<li> &quot;last&quot;: gives the element index of the last (non-) missing element.
+
+</li></ul>
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="inv">inv</code></td>
+<td>
+Boolean, indicating if the check should be inverted. <br>
+If <code>inv = FALSE</code> (default), the operations check for missing elements. <br>
+If <code>inv = TRUE</code>, the operations check for NOT missing elements. <br> <br>
+</td></tr>
+</table>
+
+
+### Value
+
+Output depends on the specification of argument <code>op</code>:
+
+
+<ul>
+<li> &quot;logical&quot;: logical vector with the same length, names, and dimensions as <code>x</code>.
+
+</li>
+<li> &quot;raw&quot;: raw vector with the same length, names, and dimensions as <code>x</code>.
+
+</li>
+<li> &quot;any&quot;: <code>TRUE</code> or <code>FALSE</code>.
+
+</li>
+<li> &quot;all&quot;: <code>TRUE</code> or <code>FALSE</code>.
+
+</li>
+<li> &quot;count&quot; or &quot;sum&quot;: 53 bit integer scalar.
+
+</li>
+<li> &quot;which&quot;: vector of indices.
+
+</li>
+<li> &quot;first&quot;: the first index found, or <code>0</code> otherwise.
+
+</li>
+<li> &quot;last&quot;: the last index found, or <code>0</code> otherwise.
+
+</li></ul>
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
+library("broadcast")
+
+
+# checkNA ====
+x <- array(
+  sample(c(-10:10, NA, NaN)), dim = 4:2
+)
+y <- array(
+  sample(c(-10:10, NA, NaN)), dim = c(4,1,1)
+)
+broadcaster(x) <- broadcaster(y) <- TRUE
+
+mx <- checkNA(x, "raw")
+my <- checkNA(y, "raw")
+bc.b(mx, my, "&")
+bc.b(mx, my, "xor")
+bc.b(mx, my, "nand")
+bc.b(mx, my, "==")
+bc.b(mx, my, "!=")
+bc_ifelse(bc.b(mx, my, "|"), -1000L, x + y)
+
+
+# checkNULL ====
+x <- array(
+  sample(list(letters, LETTERS, month.abb, month.name, NULL)), dim = 4:2
+)
+y <- array(
+  sample(list(letters, LETTERS, month.abb, month.name, NULL)), dim = c(4,1,1)
+)
+broadcaster(x) <- broadcaster(y) <- TRUE
+
+mx <- checkNULL(x, "raw")
+my <- checkNULL(y, "raw")
+bc.b(mx, my, "&")
+bc.b(mx, my, "xor")
+bc.b(mx, my, "nand")
+bc.b(mx, my, "==")
+bc.b(mx, my, "!=")
+bc_ifelse(bc.b(mx, my, "|"), list(~ "Nothing"), bc.list(x, y, paste0))
+
+
+
+```

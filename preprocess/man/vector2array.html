@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>R: Turn Vector to Array and Vice-Versa</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
+<script>
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
@@ -11,7 +11,7 @@ function processMathHTML() {
 }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
     onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
+<link rel="stylesheet" type="text/css" href="R.css">
 </head><body><div class="container"><main>
 
 <table style="width: 100%;"><tr><td>vector2array</td><td style="text-align: right;">R Documentation</td></tr></table>
@@ -22,14 +22,14 @@ function processMathHTML() {
 
 <p><code>vector2array()</code> turns a vector into an array,
 with a specific vector direction,
-and turning the names into dimnames, and keeping (or forcing) <code>[broadcaster](broadcaster.qmd)</code> attribute. <br />
-<br />
+and turning the names into dimnames, and keeping (or forcing) <code>[broadcaster](broadcaster.qmd)</code> attribute. <br>
+<br>
 <code>undim()</code> returns a copy of an object, but with its dimensions removed,
 but still trying to keep the names if possible
-(it somewhat is like the dimensional version of <code>unlist()</code>). <br />
+(it somewhat is like the dimensional version of <code>unlist()</code>). <br>
 <code>undim()</code> will also keep (or force) the <code>[broadcaster](broadcaster.qmd)</code> attribute
-<br />
-<code>array2vector()</code> is an alias for <code>undim()</code>. <br /> <br />
+<br>
+<code>array2vector()</code> is an alias for <code>undim()</code>. <br> <br>
 </p>
 
 
@@ -48,31 +48,31 @@ array2vector(x, broadcaster = NULL)
 <table role = "presentation">
 <tr><td><code id="x">x</code></td>
 <td>
-<p>an vector (for <code>vector2array()</code> or an array (for <code>undim()</code>/<code>array2vector()</code>). <br />
+<p>an vector (for <code>vector2array()</code> or an array (for <code>undim()</code>/<code>array2vector()</code>). <br>
 All atomic types, and the recursive type <code>list</code>, are supported.</p>
 </td></tr>
 <tr><td><code id="direction">direction</code></td>
 <td>
-<p>a positive integer scalar, giving the direction of the vector. <br />
+<p>a positive integer scalar, giving the direction of the vector. <br>
 In other words: give here which dimension should have size <code>length(x)</code> - all other dimensions will have size <code>1</code>.</p>
 </td></tr>
 <tr><td><code id="ndim">ndim</code></td>
 <td>
-<p>the number of dimensions in total. <br />
+<p>the number of dimensions in total. <br>
 It must be the case that <code>ndim &gt;= direction</code>, and <code>ndim &lt;= 16L</code>.</p>
 </td></tr>
 <tr><td><code id="broadcaster">broadcaster</code></td>
 <td>
-<p><code>TRUE</code> or <code>FALSE</code>, indicating if the result should be a broadcaster. <br />
-If <code>NULL</code>, <code>broadcaster(x)</code> will be used. <br /></p>
+<p><code>TRUE</code> or <code>FALSE</code>, indicating if the result should be a broadcaster. <br>
+If <code>NULL</code>, <code>broadcaster(x)</code> will be used. <br></p>
 </td></tr>
 </table>
 
 
 <h3>Value</h3>
 
-<p>For <code>vector2array()</code>: <br />
-If <code>x</code> is already an array, <code>x</code> is returned unchanged. <br />
+<p>For <code>vector2array()</code>: <br>
+If <code>x</code> is already an array, <code>x</code> is returned unchanged. <br>
 Otherwise, given <code>out &lt;- vector2array(x, direction, ndim)</code>,
 <code>out</code> will be an array with the following properties:
 </p>
@@ -84,14 +84,14 @@ Otherwise, given <code>out &lt;- vector2array(x, direction, ndim)</code>,
 <li> <p><code>dim(out)[direction] == length(x)</code>, and all other dimensions will be <code>1</code>;
 </p>
 </li>
-<li> <p><code>dimnames(out)[[direction]] == names(x)</code>, and all other <code>dimnames</code> will be <code>NULL</code>. <br /> <br />
+<li> <p><code>dimnames(out)[[direction]] == names(x)</code>, and all other <code>dimnames</code> will be <code>NULL</code>. <br> <br>
 </p>
 </li></ul>
 
-<p>For <code>undim()</code>: <br />
-If <code>x</code> is not an array, <code>x</code> is returned unchanged. <br />
+<p>For <code>undim()</code>: <br>
+If <code>x</code> is not an array, <code>x</code> is returned unchanged. <br>
 Otherwise, a copy of the original object, but without dimensions,
-but keeping names and <code>[broadcaster](broadcaster.qmd)</code> attribute as far as possible. <br /> <br />
+but keeping names and <code>[broadcaster](broadcaster.qmd)</code> attribute as far as possible. <br> <br>
 </p>
 
 

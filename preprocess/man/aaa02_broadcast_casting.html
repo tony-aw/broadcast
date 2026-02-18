@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>R: Details on Casting Functions</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
+<script>
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
@@ -11,7 +11,7 @@ function processMathHTML() {
 }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
     onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
+<link rel="stylesheet" type="text/css" href="R.css">
 </head><body><div class="container"><main>
 
 <table style="width: 100%;"><tr><td>aaa02_broadcast_casting</td><td style="text-align: right;">R Documentation</td></tr></table>
@@ -20,44 +20,44 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>'broadcast' provides several &quot;casting&quot; functions. <br />
-These can facilitate complex forms of broadcasting that would normally not be possible. <br />
-But these &quot;casting&quot; functions also have their own merit, beside empowering complex broadcasting. <br />
-<br />
+<p>'broadcast' provides several &quot;casting&quot; functions. <br>
+These can facilitate complex forms of broadcasting that would normally not be possible. <br>
+But these &quot;casting&quot; functions also have their own merit, beside empowering complex broadcasting. <br>
+<br>
 The following casting functions are available:
 </p>
 
 <ul>
-<li> <p><code>[acast](acast.qmd)</code>: <br />
-Casts group-based subsets of an array into a new dimension. <br />
+<li> <p><code>[acast](acast.qmd)</code>: <br>
+Casts group-based subsets of an array into a new dimension. <br>
 Useful for, for example, performing <b>grouped</b> broadcasted operations.
 </p>
 </li>
-<li> <p><code>[cast_hier2dim](cast_hier2dim.qmd)</code>: <br />
-Casts a nested/hierarchical list into a dimensional list (i.e. array of type <code>list</code>). <br />
+<li> <p><code>[cast_hier2dim](cast_hier2dim.qmd)</code>: <br>
+Casts a nested/hierarchical list into a dimensional list (i.e. array of type <code>list</code>). <br>
 Useful because one cannot broadcast through nesting, but one <b>can</b> broadcast along dimensions.
 </p>
 </li>
-<li> <p><code>[hier2dim](hier2dim.qmd)</code>, <code>[hiernames2dimnames](hier2dim.qmd)</code>: <br />
+<li> <p><code>[hier2dim](hier2dim.qmd)</code>, <code>[hiernames2dimnames](hier2dim.qmd)</code>: <br>
 Helper functions for <code>[cast_hier2dim](cast_hier2dim.qmd)</code>.
 </p>
 </li>
-<li> <p><code>[cast_dim2hier](cast_dim2hier.qmd)</code>: <br />
+<li> <p><code>[cast_dim2hier](cast_dim2hier.qmd)</code>: <br>
 Casts a dimensional list into a nested/hierarchical list; the opposite of <code>[cast_hier2dim](cast_hier2dim.qmd)</code>.
 </p>
 </li>
-<li> <p><code>[cast_shallow2atomic](cast_shallow2atomic.qmd)</code>: <br />
-Casts a (dimensional) shallow (i.e. non-nested) list into an atomic vector or array. <br />
+<li> <p><code>[cast_shallow2atomic](cast_shallow2atomic.qmd)</code>: <br>
+Casts a (dimensional) shallow (i.e. non-nested) list into an atomic vector or array. <br>
 Useful because atomic vectors/arrays have access to many vectorized (broadcasted) operations that may not be available for vectors/arrays of type <code>list</code>.
 </p>
 </li>
-<li> <p><code>[cast_dim2flat](cast_dim2flat.qmd)</code>: <br />
-Casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. <br />
+<li> <p><code>[cast_dim2flat](cast_dim2flat.qmd)</code>: <br>
+Casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. <br>
 Mostly useful for printing or summarizing dimensional lists.
 </p>
 </li>
-<li> <p><code>[dropnests](dropnests.qmd)</code>: <br />
-Drop redundant nesting in lists; mostly used for facilitating the above casting functions. <br /> <br />
+<li> <p><code>[dropnests](dropnests.qmd)</code>: <br>
+Drop redundant nesting in lists; mostly used for facilitating the above casting functions. <br> <br>
 </p>
 </li></ul>
 
@@ -66,67 +66,67 @@ Drop redundant nesting in lists; mostly used for facilitating the above casting 
 <h3>Shared argument <code>recurse_all</code></h3>
 
 <p>The <code>[dropnests](dropnests.qmd)</code>, <code>[hier2dim](hier2dim.qmd)</code>, <code>[hiernames2dimnames](hier2dim.qmd)</code>, and <code>[cast_hier2dim](cast_hier2dim.qmd)</code> methods
-all have the <code>recurse_all</code> argument. <br />
+all have the <code>recurse_all</code> argument. <br>
 By default <code>recurse_all = FALSE</code>,
-meaning these methods do not recurse through dimensional or classed lists (like data.frames). <br />
+meaning these methods do not recurse through dimensional or classed lists (like data.frames). <br>
 Setting <code>recurse_all = TRUE</code>
 allows these methods to recurse through all list objects,
-even if they are dimensional and/or classed. <br />
-<br />
+even if they are dimensional and/or classed. <br>
+<br>
 </p>
 
 
 <h3>Shared Argument <code>in2out</code></h3>
 
 <p>The <code>[hier2dim](hier2dim.qmd)</code>, <code>[hiernames2dimnames](hier2dim.qmd)</code>, <code>[cast_hier2dim](cast_hier2dim.qmd)</code>, and <code>[cast_dim2hier](cast_dim2hier.qmd)</code> methods
-all have the <code>in2out</code> argument. <br />
-<br />
-<br />
-<img src="../help/figures/in2out-TRUE-green.svg" alt='[TRUE]' /> <br />
-By default <code>in2out</code> is <code>TRUE</code>. <br />
-This means the call <br />
-<code>y &lt;- cast_hier2dim(x)</code> <br />
+all have the <code>in2out</code> argument. <br>
+<br>
+<br>
+<img src="../help/figures/in2out-TRUE-green.svg" alt='[TRUE]'> <br>
+By default <code>in2out</code> is <code>TRUE</code>. <br>
+This means the call <br>
+<code>y &lt;- cast_hier2dim(x)</code> <br>
 will cast the elements of the deepest valid depth of <code>x</code> to the rows of <code>y</code>,
 and elements of the depth above that to the columns of <code>y</code>,
-and so on until the surface-level elements of <code>x</code> are cast to the last dimension of <code>y</code>. <br />
-<br />
-Similarly, the call <br />
-<code>x &lt;- cast_dim2hier(y)</code> <br />
+and so on until the surface-level elements of <code>x</code> are cast to the last dimension of <code>y</code>. <br>
+<br>
+Similarly, the call <br>
+<code>x &lt;- cast_dim2hier(y)</code> <br>
 will cast the rows of <code>y</code> to the inner most elements of <code>x</code>,
 and the columns of <code>y</code> to one depth above that,
-and so on until the last dimension of <code>y</code> is cast to the surface-level elements of <code>x</code>. <br />
-<br />
+and so on until the last dimension of <code>y</code> is cast to the surface-level elements of <code>x</code>. <br>
+<br>
 Consider the nested list <code>x</code> with a depth of <code>3</code>,
 and the recursive array <code>y</code> with 3 dimensions,
-where their relationship can described as the following code: <br />
-<code>y &lt;- cast_hier2dim(x)</code> <br />
-<code>x &lt;- cast_dim2hier(y)</code>. <br />
-Then it holds that: <br />
-<code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[k, j, i]]</code>, <br />
-<code class="reqn">\forall</code>(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br />
-<br />
-<br />
-<img src="../help/figures/in2out-FALSE-red.svg" alt='[FALSE]' /> <br />
-If <code>in2out = FALSE</code>, the call <br />
-<code>y &lt;- cast_hier2dim(x, in2out = FALSE)</code> <br />
+where their relationship can described as the following code: <br>
+<code>y &lt;- cast_hier2dim(x)</code> <br>
+<code>x &lt;- cast_dim2hier(y)</code>. <br>
+Then it holds that: <br>
+<code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[k, j, i]]</code>, <br>
+<code class="reqn">\forall</code>(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br>
+<br>
+<br>
+<img src="../help/figures/in2out-FALSE-red.svg" alt='[FALSE]'> <br>
+If <code>in2out = FALSE</code>, the call <br>
+<code>y &lt;- cast_hier2dim(x, in2out = FALSE)</code> <br>
 will cast the surface-level elements of <code>x</code> to the rows of <code>y</code>,
 and elements of the depth below that to the columns of <code>y</code>,
-and so on until the elements of the deepest valid depth of <code>x</code> are cast to the last dimension of <code>y</code>. <br />
-<br />
-Similarly, the call <br />
-<code>x &lt;- cast_dim2hier(y, in2out = FALSE)</code> <br />
+and so on until the elements of the deepest valid depth of <code>x</code> are cast to the last dimension of <code>y</code>. <br>
+<br>
+Similarly, the call <br>
+<code>x &lt;- cast_dim2hier(y, in2out = FALSE)</code> <br>
 will cast the rows of <code>y</code> to the surface-level elements of <code>x</code>,
 and the columns of <code>y</code> to one depth below that,
-and so on until the last dimension of <code>y</code> is cast to the inner most elements of <code>x</code>. <br />
-<br />
+and so on until the last dimension of <code>y</code> is cast to the inner most elements of <code>x</code>. <br>
+<br>
 Consider the nested list <code>x</code> with a depth of <code>3</code>,
 and the recursive array <code>y</code> with 3 dimensions,
-where their relationship can described with the following code: <br />
-<code>y &lt;- cast_hier2dim(x, in2out = FALSE)</code> <br />
-<code>x &lt;- cast_dim2hier(y, in2out = FALSE)</code>. <br />
-Then it holds that : <br />
-<code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[i, j, k]]</code>, <br />
-<code class="reqn">\forall</code>(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br /> <br />
+where their relationship can described with the following code: <br>
+<code>y &lt;- cast_hier2dim(x, in2out = FALSE)</code> <br>
+<code>x &lt;- cast_dim2hier(y, in2out = FALSE)</code>. <br>
+Then it holds that : <br>
+<code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[i, j, k]]</code>, <br>
+<code class="reqn">\forall</code>(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br> <br>
 </p>
 
 

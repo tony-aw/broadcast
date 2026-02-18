@@ -69,6 +69,9 @@ for(i in seq_along(funs)) {
            if(iDimNmsY) y.dimnames <- test_make_dimnames(y.dim)
            y <- array(datagens[[i]](), y.dim, y.dimnames)
            
+           x.copy <- .rcpp_clone(x)
+           y.copy <- .rcpp_clone(y)
+           
            out <- funs[[i]](x, y, op) 
            
            if(!is.null(dimnames(out))) {
@@ -80,6 +83,18 @@ for(i in seq_along(funs)) {
            }
            enumerate <- enumerate + 1L
            counter <- counter + 1L
+           
+           
+           # check that original arrays remain unaffected:
+           expect_equal(
+             x, x.copy
+           ) |> errorfun()
+           expect_equal(
+             y, y.copy
+           ) |> errorfun()
+           
+           enumerate <- enumerate + 2L
+           
          }
        }
      }
@@ -114,6 +129,9 @@ for(i in seq_along(funs)) {
             dimnames(y)[ind] <- list(sample(month.abb, dims[ind], TRUE))
           }
           
+          x.copy <- .rcpp_clone(x)
+          y.copy <- .rcpp_clone(y)
+          
           out <- funs[[i]](x, y, op) 
           
           if(!is.null(dimnames(out))) {
@@ -125,6 +143,17 @@ for(i in seq_along(funs)) {
           }
           enumerate <- enumerate + 1L
           counter <- counter + 1L
+          
+          
+          # check that original arrays remain unaffected:
+          expect_equal(
+            x, x.copy
+          ) |> errorfun()
+          expect_equal(
+            y, y.copy
+          ) |> errorfun()
+          
+          enumerate <- enumerate + 2L
         }
       }
     }

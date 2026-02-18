@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>R: Cast Hierarchical List into Dimensional list</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
+<script>
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
@@ -11,7 +11,7 @@ function processMathHTML() {
 }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
     onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
+<link rel="stylesheet" type="text/css" href="R.css">
 </head><body><div class="container"><main>
 
 <table style="width: 100%;"><tr><td>cast_hier2dim</td><td style="text-align: right;">R Documentation</td></tr></table>
@@ -21,11 +21,11 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p><code>cast_hier2dim()</code> casts a hierarchical/nested list into a dimensional list
-(i.e. an array of type <code>list</code>). <br />
-<br />
-This method comes with 2 helper functions: <br />
-<code>[hier2dim](hier2dim.qmd)</code> and <code>[hiernames2dimnames](hier2dim.qmd)</code> methods. <br />
-See their help page for details. <br /> <br />
+(i.e. an array of type <code>list</code>). <br>
+<br>
+This method comes with 2 helper functions: <br>
+<code>[hier2dim](hier2dim.qmd)</code> and <code>[hiernames2dimnames](hier2dim.qmd)</code> methods. <br>
+See their help page for details. <br> <br>
 </p>
 
 
@@ -51,13 +51,13 @@ cast_hier2dim(
 <table role = "presentation">
 <tr><td><code id="x">x</code></td>
 <td>
-<p>a nested list. <br />
+<p>a nested list. <br>
 If <code>x</code> has redundant nesting,
 it is advisable (though not necessary) to reduce the redundant nesting using <code>[dropnests](dropnests.qmd)</code>.</p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
-<p>further arguments passed to or from methods. <br /> <br /></p>
+<p>further arguments passed to or from methods. <br> <br></p>
 </td></tr>
 <tr><td><code id="in2out">in2out</code>, <code id="recurse_all">recurse_all</code></td>
 <td>
@@ -66,13 +66,13 @@ it is advisable (though not necessary) to reduce the redundant nesting using <co
 <tr><td><code id="maxdepth">maxdepth</code></td>
 <td>
 <p>a single, positive integer,
-giving the maximum depth to recurse into the list. <br />
-The surface-level elements of a list is depth 1. <br /></p>
+giving the maximum depth to recurse into the list. <br>
+The surface-level elements of a list is depth 1. <br></p>
 </td></tr>
 <tr><td><code id="padding">padding</code></td>
 <td>
 <p>a list of length <code>1</code>,
-giving the padding value to use when padding is required. <br />
+giving the padding value to use when padding is required. <br>
 Padding is used to ensure every all slices of the same dimension in the output
 have equal number of elements
 (for example, all rows must have the same number of columns).</p>
@@ -86,20 +86,20 @@ have equal number of elements
 
 <h3>Value</h3>
 
-<p>An array of type <code>list</code>, with the dimensions given by <code>[hier2dim](hier2dim.qmd)</code>. <br />
+<p>An array of type <code>list</code>, with the dimensions given by <code>[hier2dim](hier2dim.qmd)</code>. <br>
 If the output needs padding (indicated by <code>[hier2dim](hier2dim.qmd)</code>),
 the output will have more elements than <code>x</code>,
-filled with a padding value (as specified in the <code>padding</code> argument). <br />
-<br />
-If <code>direction.names = 0</code> (default), the result will not have any <code>dimnames</code>; <br />
-the <code>dimnames</code> can then still be constructed using <code>[hiernames2dimnames](hier2dim.qmd)</code>. <br />
-If <code>direction.names</code> is <code>1</code> or <code>-1</code>, the result <em>will</em> have <code>dimnames</code>. <br /> <br />
+filled with a padding value (as specified in the <code>padding</code> argument). <br>
+<br>
+If <code>direction.names = 0</code> (default), the result will not have any <code>dimnames</code>; <br>
+the <code>dimnames</code> can then still be constructed using <code>[hiernames2dimnames](hier2dim.qmd)</code>. <br>
+If <code>direction.names</code> is <code>1</code> or <code>-1</code>, the result <em>will</em> have <code>dimnames</code>. <br> <br>
 </p>
 
 
 <h3>See Also</h3>
 
-<p><code>[broadcast_casting](aaa02_broadcast_casting.qmd)</code>, <code>[hier2dim](hier2dim.qmd)</code>, <code>[hiernames2dimnames](hier2dim.qmd)</code> <br />
+<p><code>[broadcast_casting](aaa02_broadcast_casting.qmd)</code>, <code>[hier2dim](hier2dim.qmd)</code>, <code>[hiernames2dimnames](hier2dim.qmd)</code> <br>
 </p>
 
 

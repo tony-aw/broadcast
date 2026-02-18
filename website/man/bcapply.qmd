@@ -1,5 +1,10 @@
 ---
 title: bcapply
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Apply Function to Pair of Arrays with Broadcasting {.unnumbered}
 
@@ -7,7 +12,7 @@ title: bcapply
 ### Description
 
 The <code>bcapply()</code> method
-applies a function to 2 arrays element-wise with broadcasting. <br />
+applies a function to 2 arrays element-wise with broadcasting. <br>
 
 
 
@@ -35,32 +40,32 @@ that can be stored in a single element of a recursive or atomic array.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-further arguments passed to or from methods. <br /> <br />
+further arguments passed to or from methods. <br> <br>
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="v">v</code></td>
 <td>
-either <code>NULL</code>, or single string, giving the scalar type for a single iteration. <br />
-If <code>NULL</code> (default) or <code>"list"</code>, the result will be a recursive array. <br />
+either <code>NULL</code>, or single string, giving the scalar type for a single iteration. <br>
+If <code>NULL</code> (default) or <code>"list"</code>, the result will be a recursive array. <br>
 If it is certain that, for every iteration,
 <code>f()</code> always results in a <b>single atomic scalar</b> of <b>exactly</b> a specific type,
-the user can specify the type in <code>v</code> to pre-allocate the result. <br />
-Pre-allocating the results leads to slightly faster and more memory efficient code. <br />
-NOTE: Incorrectly specifying <code>v</code> leads to undefined behaviour; <br />
-when unsure, leave <code>v</code> at its default value. <br />
+the user can specify the type in <code>v</code> to pre-allocate the result. <br>
+Pre-allocating the results leads to slightly faster and more memory efficient code. <br>
+NOTE: Incorrectly specifying <code>v</code> leads to undefined behaviour; <br>
+when unsure, leave <code>v</code> at its default value. <br>
 </td></tr>
 </table>
 
 
 ### Value
 
-An atomic or recursive array with dimensions <code>bc_dim(x, y)</code>. <br />
+An atomic or recursive array with dimensions <code>bc_dim(x, y)</code>. <br>
 Preserves some of the attributes of <code>x</code> and <code>y</code> similar to broadcasted infix operators,
-as explained in [broadcast_operators](aaa01_broadcast_operators.qmd). <br /> <br />
+as explained in [broadcast_operators](aaa01_broadcast_operators.qmd). <br> <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 

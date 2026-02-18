@@ -5,7 +5,7 @@
   if(!is.list(input)) {
     stop(simpleError("`input` must be a list", call = abortcall))
   }
-  if(.C_any_nonarray(input)) {
+  if(.rcpp_any_nonarray(input)) {
     stop(simpleError("can only bind arrays", call = abortcall))
   }
   if(length(input) < 2L) {

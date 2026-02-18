@@ -95,6 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
+<link rel="stylesheet" href="../man.css">
 </head>
 
 <body class="nav-sidebar docked nav-fixed">
@@ -144,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/bc_dim.html">Helper Functions</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/checkmissing.html">Helper Functions</a></li><li class="breadcrumb-item"><a href="../man/bc_dim.html">bc_dim</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -339,13 +340,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../man/bc_dim.html" class="sidebar-item-text sidebar-link active">
+            <a href="../man/checkmissing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Helper Functions</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/checkmissing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">checkmissing</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc_dim.html" class="sidebar-item-text sidebar-link active">
@@ -455,9 +462,9 @@ an atomic or recursive array.
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">bc.b</span>(x, y, <span class="st">"&amp;"</span>)) <span class="sc">==</span> <span class="fu">bc_dim</span>(x, y)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE TRUE TRUE</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">bc.b</span>(x, y, <span class="st">"|"</span>)) <span class="sc">==</span> <span class="fu">bc_dim</span>(x, y)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE TRUE TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

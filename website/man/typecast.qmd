@@ -1,17 +1,22 @@
 ---
 title: typecast
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Atomic and List Type Casting With Names and Dimensions Preserved {.unnumbered}
 
 
 ### Description
 
-Type casting usually strips away attributes of objects. <br />
+Type casting usually strips away attributes of objects. <br>
 The functions provided here preserve <code>dim</code>, <code>dimnames</code>, <code>names</code>,
 <code>comment</code>, and [broadcaster](broadcaster.qmd) attributes,
-which may be more convenient for arrays and array-like objects. <br />
-<br />
-The functions are as follows: <br />
+which may be more convenient for arrays and array-like objects. <br>
+<br>
+The functions are as follows: <br>
 
 
 <ul>
@@ -33,14 +38,14 @@ The functions are as follows: <br />
 <li> <code>as_raw()</code>: converts object to atomic type <code>raw</code>.
 
 </li>
-<li> <code>as_list()</code>: converts object to recursive type <code>list</code>. <br />
+<li> <code>as_list()</code>: converts object to recursive type <code>list</code>. <br>
 
 </li></ul>
 
-<code>as_num()</code> is an alias for <code>as_dbl()</code>. <br />
-<code>as_str()</code> is an alias for <code>as_chr()</code>. <br />
-<br />
-See also typeof. <br /> <br />
+<code>as_num()</code> is an alias for <code>as_dbl()</code>. <br>
+<code>as_str()</code> is an alias for <code>as_chr()</code>. <br>
+<br>
+See also typeof. <br> <br>
 
 
 
@@ -82,12 +87,12 @@ further arguments passed to or from other methods.
 
 ### Value
 
-The converted object. <br /> <br />
+The converted object. <br> <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 

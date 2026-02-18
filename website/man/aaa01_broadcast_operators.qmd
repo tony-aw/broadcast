@@ -4,30 +4,30 @@
 ### Description
 
 Base 'R' comes with relational,
-arithmetic and logical/bit-wise (&amp;, |) operators. <br />
-'broadcast' provides 2 ways to use these operators with broadcasting. <br />
-<br />
+arithmetic and logical/bit-wise (&amp;, |) operators. <br>
+'broadcast' provides 2 ways to use these operators with broadcasting. <br>
+<br>
 The first (and simple) way is to use the [broadcaster](broadcaster.qmd) class,
-which comes with it's own method dispatch for the above mentioned operators. <br />
+which comes with it's own method dispatch for the above mentioned operators. <br>
 This approach supports operator precedence, and for the average 'R' user,
-this is sufficient. <br />
-<br />
-The second way is to use the large set of <code>bc.</code>- functions. <br />
+this is sufficient. <br>
+<br>
+The second way is to use the large set of <code>bc.</code>- functions. <br>
 These offer much greater control and more operators than the previous method,
-and has less risk of running into conflicting methods. <br />
-But they do not support operator precedence. <br />
-<br />
+and has less risk of running into conflicting methods. <br>
+But they do not support operator precedence. <br>
+<br>
 
 
 
 ### Operators Overloaded via Broadcaster Class
 
 The 'broadcast' package provides the [broadcaster](broadcaster.qmd) class,
-which comes with its own method dispatch for the base operators. <br />
+which comes with its own method dispatch for the base operators. <br>
 If at least one of the 2 arguments of the base operators has the [broadcaster](broadcaster.qmd) class attribute,
 and no other class (like <code>bit64</code>) interferes,
-broadcasting will be used. <br />
-<br />
+broadcasting will be used. <br>
+<br>
 The following operators have a 'broadcaster' method:
 
 <div class="sourceCode r"><pre>+, -, *, /, ^, %%, %/%
@@ -35,17 +35,17 @@ The following operators have a 'broadcaster' method:
 &amp;, |
 
 </pre></div>
-See also the Examples section below. <br />
-<br />
+See also the Examples section below. <br>
+<br>
 
 
 
 ### Available <code>bc.</code> functions
 
 'broadcast' provides a set of functions for broadcasted element-wise binary operations
-with broadcasting. <br />
-These functions use an API similar to the outer function. <br />
-<br />
+with broadcasting. <br>
+These functions use an API similar to the outer function. <br>
+<br>
 The following functions for simple operations are available:
 
 
@@ -74,15 +74,15 @@ The following functions for simple operations are available:
 <li> [bc.bit](bc.bit.qmd): BIT-WISE operations, supporting the <code>raw</code> and <code>integer</code> types;
 
 </li>
-<li> [bc.list](bc.list.qmd): apply any 'R' function to 2 recursive arrays with broadcasting. <br /> <br />
+<li> [bc.list](bc.list.qmd): apply any 'R' function to 2 recursive arrays with broadcasting. <br> <br>
 
 </li></ul>
 
 Note that the [bc.rel](bc.rel.qmd) method is the primary method for relational operators
 (==, !=, &lt;, &gt;, &lt;=, &gt;=),
-and provides what most user usually need in relational operators.<br />
-The various other <code>bc.</code> methods have specialized relational operators available for very specialised needs. <br />
-<br />
+and provides what most user usually need in relational operators.<br>
+The various other <code>bc.</code> methods have specialized relational operators available for very specialised needs. <br>
+<br>
 
 
 
@@ -90,29 +90,29 @@ The various other <code>bc.</code> methods have specialized relational operators
 
 The <code>bc.</code> functions and the overloaded operators generally do <b>not</b>
 preserve attributes, unlike the base 'R' operators,
-except for <code>names</code>, <code>dimnames</code>, <code>comment</code> (if appropriate), and the [broadcaster](broadcaster.qmd) class attribute (and related attributes). <br />
-<br />
+except for <code>names</code>, <code>dimnames</code>, <code>comment</code> (if appropriate), and the [broadcaster](broadcaster.qmd) class attribute (and related attributes). <br>
+<br>
 Broadcasting often results in an object with more dimensions, larger dimensions,
-and/or larger length than the original objects. <br />
-This is relevant as some class-specific attributes are only appropriate for certain dimensions or lengths. <br />
-Custom matrix classes, for example, presumes an object to have exactly 2 dimensions. <br />
-And the various classes provided by the 'bit' package have length-related attributes. <br />
-So class attributes cannot be guaranteed to hold for the resulting objects when broadcasting is involved. <br />
-<br />
-<br />
-Almost all functions provided by 'broadcast' are S3 or S4 generics; <br />
+and/or larger length than the original objects. <br>
+This is relevant as some class-specific attributes are only appropriate for certain dimensions or lengths. <br>
+Custom matrix classes, for example, presumes an object to have exactly 2 dimensions. <br>
+And the various classes provided by the 'bit' package have length-related attributes. <br>
+So class attributes cannot be guaranteed to hold for the resulting objects when broadcasting is involved. <br>
+<br>
+<br>
+Almost all functions provided by 'broadcast' are S3 or S4 generics; <br>
 methods can be written for them for specific classes,
-so that class-specific attributes can be supported when needed. <br />
-<br />
+so that class-specific attributes can be supported when needed. <br>
+<br>
 Unary operations (i.e. <code>+ x</code>, <code>- x</code>) return the original object,
-with only the sign adjusted. <br />
-<br />
-<br />
+with only the sign adjusted. <br>
+<br>
+<br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 

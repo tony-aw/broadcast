@@ -60,7 +60,7 @@ void rcpp_rec_dim2hier_names(
   if(dimnames[depth] != R_NilValue) {
     CharacterVector dimnames_current = dimnames[depth];
     for(R_xlen_t i = 0; i < Rf_xlength(out); ++i) {
-      List temp = VECTOR_ELT(out, i);
+      RObject temp = VECTOR_ELT(out, i);
       temp.attr("names") = dimnames_current;
     }
   }

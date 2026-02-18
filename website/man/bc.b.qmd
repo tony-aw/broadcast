@@ -1,5 +1,10 @@
 ---
 title: bc.b
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Broadcasted Boolean Operations {.unnumbered}
 
@@ -7,13 +12,13 @@ title: bc.b
 ### Description
 
 The <code>bc.b()</code> function
-performs broadcasted logical (or Boolean) operations on 2 arrays. <br />
-<br />
-Please note that these operations will treat the input as <code>logical</code>. <br />
+performs broadcasted logical (or Boolean) operations on 2 arrays. <br>
+<br>
+Please note that these operations will treat the input as <code>logical</code>. <br>
 Therefore, something like <code>bc.b(1, 2, "==")</code> returns <code>TRUE</code>,
-because both <code>1</code> and <code>2</code> are <code>TRUE</code> when treated as <code>logical</code>. <br />
-<br />
-For regular relational operators, see [bc.rel](bc.rel.qmd). <br /> <br />
+because both <code>1</code> and <code>2</code> are <code>TRUE</code> when treated as <code>logical</code>. <br>
+<br>
+For regular relational operators, see [bc.rel](bc.rel.qmd). <br> <br>
 
 
 
@@ -31,24 +36,24 @@ bc.b(x, y, op)
 <table role = "presentation">
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code>, <code id="y">y</code></td>
 <td>
-conformable vectors/arrays of type <code>logical</code>, <code>numeric</code>, or <code>raw</code>. <br />
+conformable vectors/arrays of type <code>logical</code>, <code>numeric</code>, or <code>raw</code>. <br>
 Note that input with type of <code>double</code> will be coerced to <code>integer</code>.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
-a single string, giving the operator. <br />
+a single string, giving the operator. <br>
 Supported Boolean operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-further arguments passed to or from methods. <br /> <br />
+further arguments passed to or from methods. <br> <br>
 </td></tr>
 </table>
 
 
 ### Details
 
-<code>bc.b()</code> efficiently casts the input to logical. <br />
+<code>bc.b()</code> efficiently casts the input to logical. <br>
 Since the input is treated as logical, the following equalities hold for <code>bc.b()</code>:
 
 
@@ -68,7 +73,7 @@ Since the input is treated as logical, the following equalities hold for <code>b
 <li> &quot;&lt;=&quot; is equivalent to <code>(!x &amp; y) | (y == x)</code>, but faster;
 
 </li>
-<li> &quot;&gt;=&quot; is equivalent to <code>(x &amp; !y) | (y == x)</code>, but faster. <br /> <br />
+<li> &quot;&gt;=&quot; is equivalent to <code>(x &amp; !y) | (y == x)</code>, but faster. <br> <br>
 
 </li></ul>
 
@@ -76,24 +81,24 @@ Since the input is treated as logical, the following equalities hold for <code>b
 
 ### Value
 
-Normally: <br />
-A logical array/vector as a result of the broadcasted Boolean operation. <br />
-<br />
-If both <code>x</code> and <code>y</code> are type of raw: <br />
+Normally: <br>
+A logical array/vector as a result of the broadcasted Boolean operation. <br>
+<br>
+If both <code>x</code> and <code>y</code> are type of raw: <br>
 A raw array/vector as a result of the broadcasted Boolean operation,
-where <code>01</code> codes for <code>TRUE</code> and <code>00</code> codes for <code>FALSE</code>. <br />
-This is convenient as <code>raw</code> requires less memory space than <code>logical</code>. <br /> <br />
+where <code>01</code> codes for <code>TRUE</code> and <code>00</code> codes for <code>FALSE</code>. <br>
+This is convenient as <code>raw</code> requires less memory space than <code>logical</code>. <br> <br>
 
 
 
 ### See Also
 
-[broadcast_operators](aaa01_broadcast_operators.qmd) <br />
+[broadcast_operators](aaa01_broadcast_operators.qmd) <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 x.dim <- c(4:2)

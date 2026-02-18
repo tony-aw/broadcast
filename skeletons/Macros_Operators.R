@@ -667,48 +667,6 @@ macro_op_bool_andor_raw <- "
       );                                                        \\
       break;	\\
     }	\\
-    case 5:	\\
-    {	\\
-      DIMCODE(                      \\
-        MACRO_ASSIGN_C((bool)px[flatind_x] == (bool)py[flatind_y])  \\
-      );                                                   \\
-      break;	\\
-    }	\\
-    case 6:	\\
-    {	\\
-      DIMCODE(                      \\
-        MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \\
-      );                                                     \\
-      break;	\\
-    }	\\
-    case 7:	\\
-    { \\
-      DIMCODE(                      \\
-        MACRO_ASSIGN_C((bool)px[flatind_x] < (bool)py[flatind_y])  \\
-      );                                                     \\
-        break;	\\
-    }	\\
-    case 8:	\\
-    {	\\
-      DIMCODE(                      \\
-        MACRO_ASSIGN_C((bool)px[flatind_x] > (bool)py[flatind_y])  \\
-      );                                                      \\
-      break;	\\
-    }	\\
-    case 9:	\\
-    {	\\
-      DIMCODE(                      \\
-        MACRO_ASSIGN_C((bool)px[flatind_x] <= (bool)py[flatind_y])  \\
-      );                                                     \\
-      break;	\\
-    }	\\
-    case 10:	\\
-    {	\\
-      DIMCODE(                      \\
-        MACRO_ASSIGN_C((bool)px[flatind_x] >= (bool)py[flatind_y])  \\
-      );                                                    \\
-      break;	\\
-    }	\\
     default:	\\
     {	\\
       stop(\"given operator not supported in the given context\");	\\

@@ -38,3 +38,6 @@ datagens <- list(
 )
 datagens <- c(datagens, datagens)
 
+.rcpp_address <- broadcast:::.rcpp_address
+.rcpp_clone <- broadcast:::.rcpp_clone
+

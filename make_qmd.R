@@ -42,6 +42,11 @@ for(i in lst.files) {
 
 
 ## adapt man titles ====
+format <- "
+format:
+  html:
+    css: /man.css
+"
 detection <- "---\ntitle:"
 lst.files <- list.files("website/man/", pattern = "qmd")
 for(i in lst.files) {
@@ -51,7 +56,7 @@ for(i in lst.files) {
   temp <- readLines(file.path("website", "man", filename))
   check <- stringi::stri_detect(paste0(temp[1:2], collapse = "\n"), fixed = detection)
   if(!check && !stri_detect(title, fixed = "aaa")) {
-    temp <- c("---", paste0("title: ", title), "---", temp)
+    temp <- c("---", paste0("title: ", title), format, "---", temp)
     writeLines(temp, file.path("website", "man", filename))
   }
 }
@@ -67,18 +72,22 @@ for(i in lst.files) {
 
 
 ################################################################################
-# Process Vignettes, Index page ====
+# Process Index page ====
 #
 
-# process index page ====
+# clear any present links ====
 funs <- getNamespaceExports("broadcast")
 filepath <- file.path("website", "index.qmd")
 temp <- readLines(filepath)
-p <- paste0("\\[", funs, "\\(\\)\\]", "\\(\\/man\\/.*\\.qmd\\)")
+p <- paste0("[", funs, "()]", "(/man/", rd_index(funs), ".qmd)")
 rp <- paste0("`", funs, "()`")
 temp <- stri_replace_all(
-  temp, rp, regex = p, vectorize_all = FALSE
+  temp, rp, fixed = p, vectorize_all = FALSE
 )
+writeLines(temp, file.path("website", "index.qmd"))
+
+
+# # create links ====
 p <- paste0("`", funs, "()`")
 rp <- paste0("[", funs, "()]", "(/man/", rd_index(funs), ".qmd)")
 temp <- stri_replace_all(
@@ -87,16 +96,22 @@ temp <- stri_replace_all(
 writeLines(temp, file.path("website", "index.qmd"))
 
 
+################################################################################
+# Process Vignettes, Index page ====
+#
+
+
 # clear any present links in vignettes ====
 funs <- getNamespaceExports("broadcast")
 lst.files <- list.files(file.path("website", "vignettes"), pattern = "qmd")
 for(i in lst.files) {
+  print(i)
   filepath <- file.path("website", "vignettes", i)
   temp <- readLines(filepath)
-  p <- paste0("\\[", funs, "\\(\\)\\]", "\\(\\/man\\/.*\\.qmd\\)")
+  p <- paste0("[", funs, "()]", "(/man/", rd_index(funs), ".qmd)")
   rp <- paste0("`", funs, "()`")
   temp <- stri_replace_all(
-    temp, rp, regex = p, vectorize_all = FALSE
+    temp, rp, fixed = p, vectorize_all = FALSE
   )
   writeLines(temp, file.path("website", "vignettes", i))
 }
@@ -106,6 +121,7 @@ for(i in lst.files) {
 funs <- getNamespaceExports("broadcast")
 lst.files <- list.files(file.path("website", "vignettes"), pattern = "qmd")
 for(i in lst.files) {
+  print(i)
   filepath <- file.path("website", "vignettes", i)
   temp <- readLines(filepath)
   p <- paste0("`", funs, "()`")
@@ -129,12 +145,13 @@ for(i in lst.files) {
 funs <- getNamespaceExports("broadcast")
 lst.files <- list.files(file.path("website", "About"), pattern = "qmd")
 for(i in lst.files) {
+  print(i)
   filepath <- file.path("website", "About", i)
   temp <- readLines(filepath)
-  p <- paste0("\\[", funs, "\\(\\)\\]", "\\(\\/man\\/.*\\.qmd\\)")
+  p <- paste0("[", funs, "()]", "(/man/", rd_index(funs), ".qmd)")
   rp <- paste0("`", funs, "()`")
   temp <- stri_replace_all(
-    temp, rp, regex = p, vectorize_all = FALSE
+    temp, rp, fixed = p, vectorize_all = FALSE
   )
   writeLines(temp, file.path("website", "About", i))
 }
@@ -144,6 +161,7 @@ for(i in lst.files) {
 funs <- getNamespaceExports("broadcast")
 lst.files <- list.files(file.path("website", "About"), pattern = "qmd")
 for(i in lst.files) {
+  print(i)
   filepath <- file.path("website", "About", i)
   temp <- readLines(filepath)
   p <- paste0("`", funs, "()`")

@@ -3,10 +3,6 @@
 #' @description
 #' The `bc.cplx()` function performs broadcasted complex numeric operations on pairs of arrays. \cr
 #' \cr
-#' Note that `bc.cplx()` uses more strict `NA` checks than base 'R': \cr
-#' If for an element of either `x` or `y`, either the real or imaginary part is `NA` or `NaN`,
-#' than the result of the operation for that element is necessarily `NA`. \cr
-#' \cr \cr
 #' 
 #' @param x,y conformable vectors/arrays of type `complex`.
 #' @param op a single string, giving the operator. \cr
@@ -14,6 +10,11 @@
 #' Supported relational operators: `r paste0(broadcast:::.op_cplx_rel(), collapse = ", ")`.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
+#' @details
+#' For the `*` and `/` operators, `bc.cplx()` uses more strict `NA` checks than base 'R': \cr
+#' If for an iteration,
+#' `re(x)`, `im(x)`, `re(y)`, and/or `im(y)` contains `NA`,
+#' than the result for that iteration is necessarily `NA_complex_`.
 #' 
 #'
 #' @returns

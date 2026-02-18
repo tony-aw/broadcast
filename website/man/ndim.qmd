@@ -1,14 +1,19 @@
 ---
 title: ndim
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Get the Number of Dimensions of an Array {.unnumbered}
 
 
 ### Description
 
-<code>ndim()</code> returns the number of dimensions of an object. <br />
-<code>lst.ndim()</code> returns the number of dimensions of every list-element. <br />
-<br />
+<code>ndim()</code> returns the number of dimensions of an object. <br>
+<code>lst.ndim()</code> returns the number of dimensions of every list-element. <br>
+<br>
 
 
 
@@ -25,20 +30,20 @@ lst.ndim(x)
 <table role = "presentation">
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
 <td>
-a vector or array (for <code>ndim()</code>), or a list of vectors/arrays (for <code>lst.ndim()</code>). <br />
+a vector or array (for <code>ndim()</code>), or a list of vectors/arrays (for <code>lst.ndim()</code>). <br>
 </td></tr>
 </table>
 
 
 ### Value
 
-For <code>ndim()</code>: an integer scalar. <br />
-For <code>lst.ndim()</code>: an integer vector, with the same length, names and dimensions as <code>x</code>. <br /> <br />
+For <code>ndim()</code>: an integer scalar. <br>
+For <code>lst.ndim()</code>: an integer vector, with the same length, names and dimensions as <code>x</code>. <br> <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 

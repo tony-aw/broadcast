@@ -2,6 +2,17 @@
 title: News
 ---
 
+# broadcast 0.1.8 (Under Development)
+
+* Slightly relaxed the behaviour for `NA`s/`NaN`s for the `+` and `-` operators involving complex numbers.
+* Streamlined some internal code here and there.
+* Changed the internal code to avoid the false-positive issue message in 'Rchk'.
+* Built the package with the recently updated version of 'Rcpp'.
+* Added the [checkNULL()](/man/checkmissing.qmd) and [checkNA()](/man/checkmissing.qmd) methods.
+* Added a new linear algebra function for statistics: [ecumprob()](/man/linear_algebra_stats.qmd).
+
+<br>
+
 # broadcast 0.1.7
 
 **Consistency fixes:**
@@ -19,7 +30,6 @@ the `d==`, `d!=` etc. operators now also accept the case where both `x` and `y` 
 * Added more examples in the reference manual.
 * Added more tests.
 * Fixed several linguistic errors in the help page of [cast_shallow2atomic()](/man/cast_shallow2atomic.qmd).
-
 
 <br>
 
@@ -72,11 +82,11 @@ Moreover, the S3 methods in this package now check for unknown arguments given t
 **Behavioural Changes:**
 
 * The `as_*` functions now also preserve the `broadcaster` class attribute. 
-* If both `x` and `y` in the [bc.b()](/man/bc.b.qmd) will return type of `raw`.
+* If both `x` and `y` in the [bc.b()](/man/bc.b.qmd) method are of type `raw`, [bc.b()](/man/bc.b.qmd) will return type of `raw`.
 
 **New Methods:**
 
-* Added the [hiernames2dimnames()](/man/hier2dim.qmd).
+* Added the [hiernames2dimnames()](/man/hier2dim.qmd) method, to make it easier to compose `dimnames` for the result of [cast_hier2dim()](/man/cast_hier2dim.qmd).
 
 
 **Documentation Improvements**:

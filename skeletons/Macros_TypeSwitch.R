@@ -94,9 +94,18 @@ macro_typeswitch_decimal_careful <- "
 macro_typeswitch_decimal_special <- "
 
 #define MACRO_TYPESWITCH_DECIMAL_SPECIAL(DIMCODE, RULECHECK, RULECODE, NACODE, DOCODE) do {      \\
-  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \\
-  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \\
-  if(xint && yint) {                                        \\
+  if(TYPEOF(x) == REALSXP && TYPEOF(y) == REALSXP) {                                 \\
+    const double *px = REAL_RO(x);                                           \\
+    const double *py = REAL_RO(y);                                           \\
+    DIMCODE(                                                          \\
+      MACRO_ACTION3(                                           \\
+        RULECHECK,                                                    \\
+        RULECODE,                                                     \\
+        DOCODE                                                \\
+      )                                                       \\
+    );                                                       \\
+  }                                                         \\
+  else {                                        \\
     const int *px = INTEGER_RO(x);                                        \\
     const int *py = INTEGER_RO(y);                                        \\
     DIMCODE(                                                          \\
@@ -105,17 +114,6 @@ macro_typeswitch_decimal_special <- "
         RULECODE,                                                     \\
         px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \\
         NACODE,                                               \\
-        DOCODE                                                \\
-      )                                                       \\
-    );                                                       \\
-  }                                                         \\
-  else if(!xint && !yint) {                                 \\
-    const double *px = REAL_RO(x);                                           \\
-    const double *py = REAL_RO(y);                                           \\
-    DIMCODE(                                                          \\
-      MACRO_ACTION3(                                           \\
-        RULECHECK,                                                    \\
-        RULECODE,                                                     \\
         DOCODE                                                \\
       )                                                       \\
     );                                                       \\
@@ -198,7 +196,7 @@ macro_typeswitch_integer_unguarded <- "
 macro_typeswitch_integer_common <- "
 
 #define MACRO_TYPESWITCH_INTEGER_COMMON(DIMCODE, NACODE, DOCODE) do {      \\
-   bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \\
+  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \\
   bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \\
   if(xint && yint) {                                        \\
     const int *px = INTEGER_RO(x);                                        \\

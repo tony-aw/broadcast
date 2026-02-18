@@ -29,7 +29,7 @@ ndim <- function(x) {
 #' @rdname ndim
 #' @export
 lst.ndim <- function(x) {
-  out <- .C_lst_ndims(x)
+  out <- .rcpp_lst_ndims(x)
   dim(out) <- dim(x)
   dimnames(out) <- dimnames(x)
   names(out) <- names(x)

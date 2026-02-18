@@ -1,5 +1,10 @@
 ---
 title: bc.bit
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Broadcasted Bit-wise Operations {.unnumbered}
 
@@ -8,8 +13,8 @@ title: bc.bit
 
 The <code>bc.bit()</code> function
 performs broadcasted bit-wise operations
-on pairs of arrays, where both arrays are of type <code>raw</code> or both arrays are of type <code>integer</code>. <br />
-<br />
+on pairs of arrays, where both arrays are of type <code>raw</code> or both arrays are of type <code>integer</code>. <br>
+<br>
 
 
 
@@ -31,12 +36,12 @@ conformable raw or integer (32 bit) vectors/arrays.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
-a single string, giving the operator. <br />
+a single string, giving the operator. <br>
 Supported bit-wise operators: &amp;, |, xor, nand, &lt;&lt;, &gt;&gt;, ==, !=, &lt;, &gt;, &lt;=, &gt;=.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-further arguments passed to or from methods. <br /> <br />
+further arguments passed to or from methods. <br> <br>
 </td></tr>
 </table>
 
@@ -44,8 +49,8 @@ further arguments passed to or from methods. <br /> <br />
 ### Details
 
 The &quot;&amp;&quot;, &quot;|&quot;, &quot;xor&quot;, and &quot;nand&quot; operators given in <code>bc.bit()</code>
-perform BIT-WISE AND, OR, XOR, and NAND operations, respectively. <br />
-<br />
+perform BIT-WISE AND, OR, XOR, and NAND operations, respectively. <br>
+<br>
 The relational operators given in <code>bc.bit()</code> perform BIT-WISE relational operations:
 
 
@@ -65,36 +70,36 @@ The relational operators given in <code>bc.bit()</code> perform BIT-WISE relatio
 <li> &quot;&lt;=&quot; is equivalent to bit-wise <code>(!x &amp; y) | (y == x)</code>, but faster;
 
 </li>
-<li> &quot;&gt;=&quot; is equivalent to bit-wise <code>(x &amp; !y) | (y == x)</code>, but faster. <br /> <br />
+<li> &quot;&gt;=&quot; is equivalent to bit-wise <code>(x &amp; !y) | (y == x)</code>, but faster. <br> <br>
 
 </li></ul>
 
 The &quot;&lt;&lt;&quot; and &quot;&gt;&gt;&quot; operators perform bit-wise left-shift and right-shift,
 respectively,
-on <code>x</code> by unit <code>y</code>. <br />
+on <code>x</code> by unit <code>y</code>. <br>
 For these shift operations,
-<code>y</code> being larger than the number of bits of <code>x</code> results in an error. <br />
-Shift operations are only supported for type of <code>raw</code>. <br /> <br />
+<code>y</code> being larger than the number of bits of <code>x</code> results in an error. <br>
+Shift operations are only supported for type of <code>raw</code>. <br> <br>
 
 
 
 ### Value
 
-For bit-wise operators: <br />
+For bit-wise operators: <br>
 An array of the same type as <code>x</code> and <code>y</code>,
-as a result of the broadcasted bit-wise operation. <br />
-<br />
+as a result of the broadcasted bit-wise operation. <br>
+<br>
 
 
 
 ### See Also
 
-[broadcast_operators](aaa01_broadcast_operators.qmd) <br />
+[broadcast_operators](aaa01_broadcast_operators.qmd) <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 x.dim <- c(4:2)

@@ -1,5 +1,5 @@
 ---
-title: "Other benchmarks"
+title: "Other Benchmarks"
 format: html
 ---
 
@@ -134,7 +134,7 @@ plot(bm_sweep)
 ```
 
 
-'broadcasting' is about **3** (!) times faster than using `sweep()`, and uses approximately **5** (!) times less memory.
+'broadcasting' is about 3 times faster than using `sweep()`, and uses approximately 5 times less memory.
 
 &nbsp;
 
@@ -214,7 +214,7 @@ plot(bm_abind)
 ```
 
 
-Clearly, the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is about about **25** (!!!) times faster than the `abind()` function from the 'abind' package. It is also about **100** (!!!) times more memory efficient.
+Clearly, the [bind_array()](/man/bind_array.qmd) function from 'broadcast' is about about **25** (!) times faster than the `abind()` function from the 'abind' package. It is also about **100** (!!!) times more memory efficient.
 
 &nbsp;
 
@@ -224,9 +224,9 @@ An outer computation is a special case of broadcasting, namely a broadcasting co
 
 Base `r fa("r-project")` has the `outer()` function to perform outer computations. But the `outer()` function from base `r fa("r-project")` uses **soo much memory**, that no meaningful benchmark can be made against the methods provided  by the 'broadcast' package.
 
-The 'Rfast' package, however, provides a very fast and memory-efficient implementation of the `outer()` function. It may be interesting how broadcasted operations hold up to the famously fast 'Rfast' package.
+The 'Rfast' package, however, provides a very fast and memory-efficient implementation of the `outer()` function. It may be interesting to see how broadcasted operations hold up against the famously fast 'Rfast' package.
 
-Here the outer-sum between a row-vector `x` and column-vector `y` (both have 9000 elements) is computed using `Rfast::outer()` and `broadcast::bc.d()`, and their speeds and memory consumption are compared.
+Here the outer-sum between a directional vector `x` (direction = 2) and directional vector `y` (direction = 1), both of 9000 elements, is computed using `Rfast::outer()` and `broadcast::bc.d()`, and their speeds and memory consumption are compared.
 
 The following code was used:
 
@@ -266,7 +266,7 @@ Note, however, that `Rfast::Outer()` unfortunately only supports numeric vectors
 # `%r+%` operator from 'collapse'
 
 
-The impressive 'collapse' package supports a large set of blazingly fast functions for a large variety of tasks. One of these is the `x %r% v` operator. Given a matrix `x` and a vector `v`, `x %r+% v` will add `v` to every row of `x`. Using this function in this way is equivalent to the [bc.d()](/man/bc.d.qmd) function, using a row-vector for `v`.
+The impressive 'collapse' package supports a large set of blazingly fast functions for a large variety of tasks. One of these is the `x %r% v` operator. Given a matrix `x` and a vector `v`, `x %r+% v` will add `v` to every row of `x`. Using this function in this way is equivalent to the [bc.d()](/man/bc.d.qmd) function, using a directional vector for `v` with direction = 2.
 
 Here these 2 approaches are benchmarked.
 
@@ -339,7 +339,7 @@ summary(bm_hier_vs_dim)
 plot(bm_hier_vs_dim)
 ```
 
-As shown in the benchmarks, sub-setting with a dimensional list is **hundreds of times** faster than doing the equivalent sub-setting operation in a nested list.
+As shown in the benchmarks, sub-setting with a dimensional list is **hundreds of times** (!!!) faster than doing the equivalent sub-setting operation in a nested list.
 
 &nbsp;
 

@@ -19,6 +19,9 @@ for(i in seq_along(funs)) {
    if(iDimX) dim(x) <- length(x)
    dim(y) <- c(1, length(y))
    
+   x.copy <- .rcpp_clone(x)
+   y.copy <- .rcpp_clone(y)
+   
    expect_equal(
      funs[[i]](x, y, op) |> names(),
      NULL
@@ -28,7 +31,16 @@ for(i in seq_along(funs)) {
      NULL
    ) |> errorfun()
    
-   enumerate <- enumerate + 2L
+   
+   # check that original arrays remain unaffected:
+   expect_equal(
+     x, x.copy
+   ) |> errorfun()
+   expect_equal(
+     y, y.copy
+   ) |> errorfun()
+   
+   enumerate <- enumerate + 4L
  }
   
 
@@ -53,6 +65,10 @@ for(i in seq_along(funs)) {
       
       if(iNamed == 0L) {
         names(x) <- sample(letters, length(x), TRUE)
+        
+        x.copy <- .rcpp_clone(x)
+        y.copy <- .rcpp_clone(y)
+        
         expect_equal(
           funs[[i]](x, y, op) |> dimnames(),
           list(names(x), NULL)
@@ -62,11 +78,24 @@ for(i in seq_along(funs)) {
           list(names(x), NULL)
         ) |> errorfun()
         
-        enumerate <- enumerate + 2L
+        
+        # check that original arrays remain unaffected:
+        expect_equal(
+          x, x.copy
+        ) |> errorfun()
+        expect_equal(
+          y, y.copy
+        ) |> errorfun()
+        
+        enumerate <- enumerate + 4L
         
       }
       if(iNamed == 1L) {
         dimnames(y) <- list("a", sample(letters, length(y), TRUE))
+        
+        x.copy <- .rcpp_clone(x)
+        y.copy <- .rcpp_clone(y)
+        
         expect_equal(
           funs[[i]](x, y, op) |> dimnames(),
           list(NULL, dimnames(y)[[2L]])
@@ -76,7 +105,16 @@ for(i in seq_along(funs)) {
           list(NULL, dimnames(y)[[2L]])
         ) |> errorfun()
         
-        enumerate <- enumerate + 2L
+        
+        # check that original arrays remain unaffected:
+        expect_equal(
+          x, x.copy
+        ) |> errorfun()
+        expect_equal(
+          y, y.copy
+        ) |> errorfun()
+        
+        enumerate <- enumerate + 4L
         
       }
     }
@@ -103,6 +141,8 @@ for(i in seq_along(funs)) {
     names(x) <- nms
     dimnames(y) <- list(NULL, nms)
     
+    x.copy <- .rcpp_clone(x)
+    y.copy <- .rcpp_clone(y)
     
     expect_equal(
       funs[[i]](x, y, op) |> dimnames(),
@@ -113,7 +153,16 @@ for(i in seq_along(funs)) {
       list(nms, nms)
     ) |> errorfun()
     
-    enumerate <- enumerate + 2L
+    
+    # check that original arrays remain unaffected:
+    expect_equal(
+      x, x.copy
+    ) |> errorfun()
+    expect_equal(
+      y, y.copy
+    ) |> errorfun()
+    
+    enumerate <- enumerate + 4L
       
   }
 }
@@ -133,6 +182,9 @@ for(i in seq_along(funs)) {
     names(x) <- sample(letters, length(x), TRUE)
     dimnames(y) <- list("a", sample(letters, length(y), TRUE))
     
+    x.copy <- .rcpp_clone(x)
+    y.copy <- .rcpp_clone(y)
+    
     expect_equal(
       funs[[i]](x, y, op) |> dimnames(),
       list(names(x), dimnames(y)[[2L]])
@@ -142,7 +194,16 @@ for(i in seq_along(funs)) {
       list(names(x), dimnames(y)[[2L]])
     ) |> errorfun()
     
-    enumerate <- enumerate + 2L
+    
+    # check that original arrays remain unaffected:
+    expect_equal(
+      x, x.copy
+    ) |> errorfun()
+    expect_equal(
+      y, y.copy
+    ) |> errorfun()
+    
+    enumerate <- enumerate + 4L
   }
 }
 

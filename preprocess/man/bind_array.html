@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>R: Dimensional Binding of Arrays with Broadcasting</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
+<script>
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
@@ -11,7 +11,7 @@ function processMathHTML() {
 }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
     onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
+<link rel="stylesheet" type="text/css" href="R.css">
 </head><body><div class="container"><main>
 
 <table style="width: 100%;"><tr><td>bind_array</td><td style="text-align: right;">R Documentation</td></tr></table>
@@ -20,8 +20,8 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p><code>bind_array()</code> binds (atomic/recursive) arrays along a dimension. <br />
-Allows for broadcasting. <br /> <br />
+<p><code>bind_array()</code> binds (atomic/recursive) arrays along a dimension. <br>
+Allows for broadcasting. <br> <br>
 </p>
 
 
@@ -43,51 +43,51 @@ Allows for broadcasting. <br /> <br />
 <table role = "presentation">
 <tr><td><code id="input">input</code></td>
 <td>
-<p>a list of arrays; both atomic and recursive arrays are supported, and can be mixed. <br />
+<p>a list of arrays; both atomic and recursive arrays are supported, and can be mixed. <br>
 If argument <code>input</code> has length <code>0</code>,
 or it contains exclusively objects where one or more dimensions are <code>0</code>,
-an error is returned. <br />
-If <code>input</code> has length <code>1</code>, <code>bind_array()</code> simply returns <code>input[[1L]]</code>. <br />
-<code>input</code> may not contain more than <code>2^16</code> objects. <br />
+an error is returned. <br>
+If <code>input</code> has length <code>1</code>, <code>bind_array()</code> simply returns <code>input[[1L]]</code>. <br>
+<code>input</code> may not contain more than <code>2^16</code> objects. <br>
 If the user wishes to include vectors to bind in <code>input</code>,
 the vectors must be turned into arrays; for example using <code>[vector2array](vector2array.qmd)</code>.</p>
 </td></tr>
 <tr><td><code id="along">along</code></td>
 <td>
 <p>a single integer,
-indicating the dimension along which to bind the dimensions. <br />
-I.e. use <code>along = 1</code> for row-binding, <code>along = 2</code> for column-binding, etc. <br />
+indicating the dimension along which to bind the dimensions. <br>
+I.e. use <code>along = 1</code> for row-binding, <code>along = 2</code> for column-binding, etc. <br>
 Specifying <code>along = 0</code> will bind the arrays on a new dimension before the first,
-making <code>along</code> the new first dimension. <br />
+making <code>along</code> the new first dimension. <br>
 Specifying <code>along = N + 1</code>, with <code>N = max(lst.ndim(input))</code>,
 will create an additional dimension (<code>N + 1</code>) and bind the arrays along that new dimension.</p>
 </td></tr>
 <tr><td><code id="rev">rev</code></td>
 <td>
-<p>Boolean, indicating if <code>along</code> should be reversed, counting backwards. <br />
-If <code>FALSE</code> (default), <code>along</code> works like normally; if <code>TRUE</code>, <code>along</code> is reversed. <br />
-I.e. <code style="white-space: pre;">&#8288;along = 0, rev = TRUE&#8288;</code> is equivalent to <code style="white-space: pre;">&#8288;along = N+1, rev = FALSE&#8288;</code>; <br />
-and <code style="white-space: pre;">&#8288;along = N+1, rev = TRUE&#8288;</code> is equivalent to <code style="white-space: pre;">&#8288;along = 0, rev = FALSE&#8288;</code>; <br />
+<p>Boolean, indicating if <code>along</code> should be reversed, counting backwards. <br>
+If <code>FALSE</code> (default), <code>along</code> works like normally; if <code>TRUE</code>, <code>along</code> is reversed. <br>
+I.e. <code style="white-space: pre;">&#8288;along = 0, rev = TRUE&#8288;</code> is equivalent to <code style="white-space: pre;">&#8288;along = N+1, rev = FALSE&#8288;</code>; <br>
+and <code style="white-space: pre;">&#8288;along = N+1, rev = TRUE&#8288;</code> is equivalent to <code style="white-space: pre;">&#8288;along = 0, rev = FALSE&#8288;</code>; <br>
 with <code>N = max(lst.ndim(input))</code>.</p>
 </td></tr>
 <tr><td><code id="ndim2bc">ndim2bc</code></td>
 <td>
-<p>a single non-negative integer; <br />
-specify here the maximum number of dimensions that are allowed to be broadcasted when binding arrays. <br />
+<p>a single non-negative integer; <br>
+specify here the maximum number of dimensions that are allowed to be broadcasted when binding arrays. <br>
 If <code>ndim2bc = 0L</code>, <b>no</b> broadcasting will be allowed at all.</p>
 </td></tr>
 <tr><td><code id="name_along">name_along</code></td>
 <td>
-<p>Boolean, indicating if dimension <code>along</code> should be named. <br />
+<p>Boolean, indicating if dimension <code>along</code> should be named. <br>
 Please run the code in the examples section to get a demonstration of the naming behaviour.</p>
 </td></tr>
 <tr><td><code id="comnames_from">comnames_from</code></td>
 <td>
-<p>either an integer scalar or <code>NULL</code>. <br />
-Indicates which object in <code>input</code> should be used for naming the shared dimension. <br />
-If <code>NULL</code>, no communal names will be given. <br />
-For example: <br />
-When binding columns of matrices, the matrices will share the same rownames. <br />
+<p>either an integer scalar or <code>NULL</code>. <br>
+Indicates which object in <code>input</code> should be used for naming the shared dimension. <br>
+If <code>NULL</code>, no communal names will be given. <br>
+For example: <br>
+When binding columns of matrices, the matrices will share the same rownames. <br>
 Using <code>comnames_from = 10</code> will then result in <code>bind_array()</code> using
 <code>rownames(input[[10]])</code> for the rownames of the output.</p>
 </td></tr>
@@ -98,32 +98,32 @@ Using <code>comnames_from = 10</code> will then result in <code>bind_array()</co
 
 <p>The API of <code>bind_array()</code> is inspired by the fantastic
 <code>abind::abind()</code> function
-by Tony Plare &amp; Richard Heiberger (2016). <br />
+by Tony Plare &amp; Richard Heiberger (2016). <br>
 But <code>bind_array()</code> differs considerably from <code>abind::abind</code>
 in that
 <code>bind_array()</code> allows for broadcasting,
 <code>bind_array()</code> is generally faster and more memory-efficient,
-and <code>bind_array()</code> can handle recursive arrays. <br />
-<br />
+and <code>bind_array()</code> can handle recursive arrays. <br>
+<br>
 Note that, unlike <code>abind::abind()</code>,
-<code>bind_array()</code> only binds (atomic/recursive) arrays and matrices; <br />
+<code>bind_array()</code> only binds (atomic/recursive) arrays and matrices; <br>
 <code>bind_array()</code> does not attempt to convert things to arrays when they are not arrays,
-but will give an error instead. <br />
-This saves computation time and prevents unexpected results. <br />
-<br />
+but will give an error instead. <br>
+This saves computation time and prevents unexpected results. <br>
+<br>
 </p>
 
 
 <h3>Value</h3>
 
-<p>An array as a result from the (broadcasted) binding. <br />
-<br />
-The type of the result is determined from the highest type of any of the non-empty inputs. <br />
-The hierarchy of types is: <br />
-raw &lt; logical &lt; integer &lt; double &lt; complex &lt; character &lt; list . <br />
-<br />
-If one of the input arrays is a <code>[broadcaster](broadcaster.qmd)</code>, the result will also be a <code>[broadcaster](broadcaster.qmd)</code>. <br />
-<br />
+<p>An array as a result from the (broadcasted) binding. <br>
+<br>
+The type of the result is determined from the highest type of any of the non-empty inputs. <br>
+The hierarchy of types is: <br>
+raw &lt; logical &lt; integer &lt; double &lt; complex &lt; character &lt; list . <br>
+<br>
+If one of the input arrays is a <code>[broadcaster](broadcaster.qmd)</code>, the result will also be a <code>[broadcaster](broadcaster.qmd)</code>. <br>
+<br>
 </p>
 
 

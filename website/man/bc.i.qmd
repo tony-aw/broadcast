@@ -1,5 +1,10 @@
 ---
 title: bc.i
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Broadcasted Integer Numeric Operations with Extra Overflow Protection {.unnumbered}
 
@@ -7,14 +12,14 @@ title: bc.i
 ### Description
 
 The <code>bc.i()</code> function
-performs broadcasted integer numeric operations on 2 numeric or logical arrays. <br />
-<br />
+performs broadcasted integer numeric operations on 2 numeric or logical arrays. <br>
+<br>
 Please note that these operations will treat the input as (<code>double</code> typed) integers,
-and will efficiently truncate when necessary. <br />
+and will efficiently truncate when necessary. <br>
 Therefore, something like <code>bc.i(1, 1.5, "==")</code> returns <code>TRUE</code>,
-because <code>trunc(1.5)</code> equals <code>1</code>. <br />
-<br />
-For regular relational operators, see [bc.rel](bc.rel.qmd). <br /> <br />
+because <code>trunc(1.5)</code> equals <code>1</code>. <br>
+<br>
+For regular relational operators, see [bc.rel](bc.rel.qmd). <br> <br>
 
 
 
@@ -36,44 +41,44 @@ conformable vectors/arrays of type logical or numeric.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
-a single string, giving the operator. <br />
-Supported simple arithmetic operators: +, -, *, ^, pmin, pmax. <br />
-Supported special division arithmetic operators: gcd, %%, %/%. <br />
-Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br />
+a single string, giving the operator. <br>
+Supported simple arithmetic operators: +, -, *, ^, pmin, pmax. <br>
+Supported special division arithmetic operators: gcd, %%, %/%. <br>
+Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br>
 The &quot;gcd&quot; operator performs the &quot;Greatest Common Divisor&quot; operation,
 using the Euclidean algorithm.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-further arguments passed to or from methods. <br /> <br />
+further arguments passed to or from methods. <br> <br>
 </td></tr>
 </table>
 
 
 ### Value
 
-For arithmetic operators: <br />
+For arithmetic operators: <br>
 A numeric array of whole numbers,
-as a result of the broadcasted arithmetic operation. <br />
+as a result of the broadcasted arithmetic operation. <br>
 Base 'R' supports integers from <code>-2^53</code> to <code>2^53</code>,
-which thus range from approximately <code>-9</code> quadrillion to <code>+9</code> quadrillion. <br />
+which thus range from approximately <code>-9</code> quadrillion to <code>+9</code> quadrillion. <br>
 Values outside of this range will be returned as <code>-Inf</code> or <code>Inf</code>,
-as an extra protection against integer overflow. <br />
-<br />
-For relational operators: <br />
-A logical array as a result of the broadcasted integer relational comparison. <br />
-<br />
+as an extra protection against integer overflow. <br>
+<br>
+For relational operators: <br>
+A logical array as a result of the broadcasted integer relational comparison. <br>
+<br>
 
 
 
 ### See Also
 
-[broadcast_operators](aaa01_broadcast_operators.qmd) <br />
+[broadcast_operators](aaa01_broadcast_operators.qmd) <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 x.dim <- c(4:2)

@@ -1,16 +1,22 @@
 ---
 title: linear_algebra_stats
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Simple Linear Algebra Functions for Statistics {.unnumbered}
 
 
 ### Description
 
-'broadcast' provides some simple Linear Algebra Functions for Statistics: <br />
-<code>cinv()</code>; <br />
-<code>sd_lc()</code>. <br />
-<br />
-<br />
+'broadcast' provides some simple Linear Algebra Functions for Statistics: <br>
+<code>cinv()</code> <br>
+<code>sd_lc()</code> <br>
+<code>ecumprob()</code> <br>
+<br>
+<br>
 
 
 
@@ -19,6 +25,8 @@ title: linear_algebra_stats
 <pre><code class='language-R'>cinv(x)
 
 sd_lc(X, vc, bad_rp = NaN)
+
+ecumprob(y, sim, eps = 0)
 </code></pre>
 
 
@@ -40,19 +48,39 @@ the variance-covariance matrix for the (correlated) random variables.
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="bad_rp">bad_rp</code></td>
 <td>
 if <code>vc</code> is not a Positive (semi-) Definite matrix,
-give here the value to replace bad standard deviations with. <br /> <br />
+give here the value to replace bad standard deviations with. <br> <br>
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="y">y</code></td>
+<td>
+values to estimate the cumulative probability for.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="sim">sim</code></td>
+<td>
+a matrix (or data.frame) with at least 500 columns of simulated values. <br>
+If <code>sim</code> is given as a dimensionless vector,
+it will be treated as a matrix with 1 row and <code>length(sim)</code> columns,
+and this will be noted with a message.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="eps">eps</code></td>
+<td>
+a non-negative numeric scaler smaller than <code>0.1</code>,
+giving the cut-off value for probabilities. <br>
+Probabilities smaller than <code>eps</code> will be replaced with <code>eps</code>,
+and probabilities larger than <code>1 - eps</code> will be replaced with <code>1 - eps</code>. <br>
+Set <code>eps = 0</code> to disable probability trimming.
 </td></tr>
 </table>
 
 
 ### Details
 
-<b>cinv()</b> <br />
+<b><code>cinv()</code></b> <br>
 <code>cinv()</code>
 computes the Choleski inverse
-of a real symmetric positive-definite square matrix. <br />
-<br />
-<b>sd_lc()</b> <br />
+of a real symmetric positive-definite square matrix. <br>
+<br>
+<br>
+<b><code>sd_lc()</code></b> <br>
 Given the linear combination <code>X %*% b</code>, where:
 
 
@@ -69,24 +97,48 @@ Given the linear combination <code>X %*% b</code>, where:
 
 <code>sd_lc(X, vc)</code>
 computes the standard deviations for the linear combination <code>X %*% b</code>,
-without making needless copies. <br />
-<code>sd_lc(X, vc)</code> will use <b>much</b> less memory than a base 'R' approach. <br />
+without making needless copies. <br>
+<code>sd_lc(X, vc)</code> will use <b>much</b> less memory than a base 'R' approach. <br>
 <code>sd_lc(X, vc)</code> will <em>usually</em> be faster than a base 'R' approach
-(depending on the Linear Algebra Library used for base 'R'). <br />
-<br />
-<br />
+(depending on the Linear Algebra Library used for base 'R'). <br>
+<br>
+<br>
+<b><code>ecumprob()</code></b> <br>
+The <code>ecumprod(y, sim)</code> function takes a matrix (or data.frame) of simulated values <code>sim</code>,
+and for each row <code>i</code> (after broadcasting),
+estimates the cumulative distribution function of <code>sim[i, ]</code>,
+and returns the cumulative probability for <code>y[i]</code>. <br>
+<br>
+In terms of statistics,
+it is equivalent to the following operation for each index <code>i</code>: <br>
+<code>ecdf(sim[i,])(y[i])</code> <br>
+However, <code>ecumprob()</code> is <b>much</b> faster, and supports <code>NA</code>s/<code>NaN</code>s. <br>
+<br>
+In terms of linear algebra,
+it is equivalent to the following broadcasted operation: <br>
+<code>rowMeans(sim &lt;= y)</code> <br>
+where <code>y</code> and <code>sim</code> are [broadcaster](broadcaster.qmd) arrays. <br>
+However, <code>ecumprob()</code> is <b>much more</b> memory-efficient,
+supports a data.frame for <code>sim</code>,
+and has statistical safety checks. <br>
+<br>
 
 
 
 ### Value
 
-For <code>cinv()</code>: <br />
-A matrix. <br />
-<br />
-For <code>sd_lc()</code>: <br />
-A vector of standard deviations.
-<br />
-<br />
+For <code>cinv()</code>: <br>
+A matrix. <br>
+<br>
+For <code>sd_lc()</code>: <br>
+A vector of standard deviations. <br>
+<br>
+For <code>ecumprob()</code>: <br>
+A vector of cumulative probabilities. <br>
+If for any observation <code>i</code> (after broadcasting,) <code>y[i]</code> is NA/NaN or any of <code>sim[i,]</code> is NA/NaN,
+the result for <code>i</code> will be <code>NA</code>. <br>
+If zero-length <code>y</code> or <code>sim</code> is given, a zero-length numeric vector is returned. <br>
+<br>
 
 
 
@@ -103,11 +155,11 @@ chol, chol2inv
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 
-
+# variances ====
 vc <- datasets::ability.cov$cov
 X <- matrix(rnorm(100), 100, ncol(vc))
 
@@ -116,6 +168,25 @@ cinv(vc) # faster than `solve()`, but only works on positive definite matrices
 all(round(solve(vc), 6) == round(cinv(vc), 6)) # they're the same
 
 sd_lc(X, vc)
+
+
+
+# ecumprob() ====
+
+sim <- rnbinom(10 * 5000L, mu = 3, size = 2) |> matrix(10, 5000)
+y <- sample(0:9)
+
+# vector:
+pnbinom(y[1], mu = 3, size = 2) # real probability
+ecumprob(y[1], sim[1, , drop = TRUE]) # approximation
+
+# matrix:
+pnbinom(y, mu = 3, size = 2) # real probability
+ecumprob(y, sim) # approximation
+
+# data.frame:
+pnbinom(y, mu = 3, size = 2) # real probability
+ecumprob(y, as.data.frame(sim)) # approximation
 
 
 ```

@@ -1,5 +1,5 @@
 ---
-title: "Benchmarks with Numpy"
+title: "Benchmarks with NumPy"
 format: html
 bibliography: references.bib
 ---
@@ -109,9 +109,9 @@ Operations like power (`^`) and division (`/`) need to handle special cases (lik
 
 ## Resources and Code
 
-The code used to run the benchmarks can be found at the bottom of this page. `r fa("r-project")` version 4.5.1 [@r] with the latest version (`0.1.7`) of 'broadcast' was used to run the `r fa("r-project")` code. 'Python' version 3.12.0 [@python] with 'Numpy' version 2.2.1 [@numpy] was used to run the 'Python' code.
+The code used to run the benchmarks can be found at the bottom of this page. `r fa("r-project")` version `4.5.1` [@r] with the latest version (`0.1.7.5`) of 'broadcast' was used to run the `r fa("r-project")` code. 'Python' version `3.12.0` [@python] with 'Numpy' version `2.4.2` [@numpy] was used to run the 'Python' code.
 
-The `r fa("r-project")` code was sourced from 'RStudio' version 2025.09.1 [@rstudio] using `source()`, from a freshly started computer. The 'Python' code was run via 'Jupyter' Notebook [@jupyter], also from a freshly started computer.
+The `r fa("r-project")` code was sourced from 'RStudio' version `2025.09.1` [@rstudio] using `source()`, from a freshly started computer. The 'Python' code was run via 'Jupyter' Notebook [@jupyter], also from a freshly started computer.
 
 
 The `bench::mark()` function from the 'bench' [@bench] package was used for measuring the execution time in `r fa("r-project")`, as this package can also be used to check and filter for garbage collector calls.
@@ -779,7 +779,7 @@ gc()
 #| eval: false
 
 # import sys
-# !{sys.executable} -m pip install numpy
+# !{sys.executable} -m pip install numpy --upgrade
 
 # set-up #
 import numpy as np
@@ -821,9 +821,9 @@ for i in range(0, len(dimsizes)):
 
 gc.collect()
 
-np.savetxt("benchmarks/bm_py_2d_median.txt", median_np)
-np.savetxt("benchmarks/bm_py_2d_q1.txt", q1_np)
-np.savetxt("benchmarks/bm_py_2d_q3.txt", q3_np)
+np.savetxt("bm_py_2d_median.txt", median_np)
+np.savetxt("bm_py_2d_q1.txt", q1_np)
+np.savetxt("bm_py_2d_q3.txt", q3_np)
 # end 2d array #
 
 
@@ -858,9 +858,9 @@ for i in range(0, len(dimsizes)):
 
 gc.collect()
 
-np.savetxt("benchmarks/bm_py_3d_median.txt", median_np)
-np.savetxt("benchmarks/bm_py_3d_q1.txt", q1_np)
-np.savetxt("benchmarks/bm_py_3d_q3.txt", q3_np)
+np.savetxt("bm_py_3d_median.txt", median_np)
+np.savetxt("bm_py_3d_q1.txt", q1_np)
+np.savetxt("bm_py_3d_q3.txt", q3_np)
 # end 3d array #
 
 
@@ -896,9 +896,9 @@ for i in range(0, len(dimsizes)):
 
 gc.collect()
 
-np.savetxt("benchmarks/bm_py_4d_median.txt", median_np)
-np.savetxt("benchmarks/bm_py_4d_q1.txt", q1_np)
-np.savetxt("benchmarks/bm_py_4d_q3.txt", q3_np)
+np.savetxt("bm_py_4d_median.txt", median_np)
+np.savetxt("bm_py_4d_q1.txt", q1_np)
+np.savetxt("bm_py_4d_q3.txt", q3_np)
 # end 4d array #
 
 
@@ -932,9 +932,9 @@ for i in range(0, len(dimsizes)):
 
 gc.collect()
 
-np.savetxt("benchmarks/bm_py_5d_median.txt", median_np)
-np.savetxt("benchmarks/bm_py_5d_q1.txt", q1_np)
-np.savetxt("benchmarks/bm_py_5d_q3.txt", q3_np)
+np.savetxt("bm_py_5d_median.txt", median_np)
+np.savetxt("bm_py_5d_q1.txt", q1_np)
+np.savetxt("bm_py_5d_q3.txt", q3_np)
 # end 5d array #
 
 
@@ -970,9 +970,9 @@ for i in range(0, len(dimsizes)):
 
 gc.collect()
 
-np.savetxt("benchmarks/bm_py_6d_median.txt", median_np)
-np.savetxt("benchmarks/bm_py_6d_q1.txt", q1_np)
-np.savetxt("benchmarks/bm_py_6d_q3.txt", q3_np)
+np.savetxt("bm_py_6d_median.txt", median_np)
+np.savetxt("bm_py_6d_q1.txt", q1_np)
+np.savetxt("bm_py_6d_q3.txt", q3_np)
 # end 5d array #
 
 
@@ -1007,9 +1007,9 @@ for i in range(0, len(dimsizes)):
 
 gc.collect()
 
-np.savetxt("benchmarks/bm_py_7d_median.txt", median_np)
-np.savetxt("benchmarks/bm_py_7d_q1.txt", q1_np)
-np.savetxt("benchmarks/bm_py_7d_q3.txt", q3_np)
+np.savetxt("bm_py_7d_median.txt", median_np)
+np.savetxt("bm_py_7d_q1.txt", q1_np)
+np.savetxt("bm_py_7d_q3.txt", q3_np)
 # end 7d array #
 
 

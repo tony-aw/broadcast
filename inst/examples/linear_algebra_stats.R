@@ -1,5 +1,5 @@
 
-
+# variances ====
 vc <- datasets::ability.cov$cov
 X <- matrix(rnorm(100), 100, ncol(vc))
 
@@ -8,3 +8,22 @@ cinv(vc) # faster than `solve()`, but only works on positive definite matrices
 all(round(solve(vc), 6) == round(cinv(vc), 6)) # they're the same
 
 sd_lc(X, vc)
+
+
+
+# ecumprob() ====
+
+sim <- rnbinom(10 * 5000L, mu = 3, size = 2) |> matrix(10, 5000)
+y <- sample(0:9)
+
+# vector:
+pnbinom(y[1], mu = 3, size = 2) # real probability
+ecumprob(y[1], sim[1, , drop = TRUE]) # approximation
+
+# matrix:
+pnbinom(y, mu = 3, size = 2) # real probability
+ecumprob(y, sim) # approximation
+
+# data.frame:
+pnbinom(y, mu = 3, size = 2) # real probability
+ecumprob(y, as.data.frame(sim)) # approximation

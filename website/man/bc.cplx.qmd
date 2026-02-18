@@ -1,17 +1,18 @@
 ---
 title: bc.cplx
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Broadcasted Complex Numeric Operations {.unnumbered}
 
 
 ### Description
 
-The <code>bc.cplx()</code> function performs broadcasted complex numeric operations on pairs of arrays. <br />
-<br />
-Note that <code>bc.cplx()</code> uses more strict <code>NA</code> checks than base 'R': <br />
-If for an element of either <code>x</code> or <code>y</code>, either the real or imaginary part is <code>NA</code> or <code>NaN</code>,
-than the result of the operation for that element is necessarily <code>NA</code>. <br />
-<br /> <br />
+The <code>bc.cplx()</code> function performs broadcasted complex numeric operations on pairs of arrays. <br>
+<br>
 
 
 
@@ -33,36 +34,45 @@ conformable vectors/arrays of type <code>complex</code>.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
-a single string, giving the operator. <br />
-Supported arithmetic operators: +, -, *, /. <br />
+a single string, giving the operator. <br>
+Supported arithmetic operators: +, -, *, /. <br>
 Supported relational operators: ==, !=.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-further arguments passed to or from methods. <br /> <br />
+further arguments passed to or from methods. <br> <br>
 </td></tr>
 </table>
 
 
+### Details
+
+For the <code>*</code> and <code>/</code> operators, <code>bc.cplx()</code> uses more strict <code>NA</code> checks than base 'R': <br>
+If for an iteration,
+<code>re(x)</code>, <code>im(x)</code>, <code>re(y)</code>, and/or <code>im(y)</code> contains <code>NA</code>,
+than the result for that iteration is necessarily <code>NA_complex_</code>.
+
+
+
 ### Value
 
-For arithmetic operators: <br />
-A complex array as a result of the broadcasted arithmetic operation. <br />
-<br />
-For relational operators: <br />
-A logical array as a result of the broadcasted relational comparison. <br />
-<br />
+For arithmetic operators: <br>
+A complex array as a result of the broadcasted arithmetic operation. <br>
+<br>
+For relational operators: <br>
+A logical array as a result of the broadcasted relational comparison. <br>
+<br>
 
 
 
 ### See Also
 
-[broadcast_operators](aaa01_broadcast_operators.qmd) <br />
+[broadcast_operators](aaa01_broadcast_operators.qmd) <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 x.dim <- c(4:2)

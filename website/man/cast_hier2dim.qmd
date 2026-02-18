@@ -1,5 +1,10 @@
 ---
 title: cast_hier2dim
+
+format:
+  html:
+    css: /man.css
+
 ---
 ## Cast Hierarchical List into Dimensional list {.unnumbered}
 
@@ -7,11 +12,11 @@ title: cast_hier2dim
 ### Description
 
 <code>cast_hier2dim()</code> casts a hierarchical/nested list into a dimensional list
-(i.e. an array of type <code>list</code>). <br />
-<br />
-This method comes with 2 helper functions: <br />
-[hier2dim](hier2dim.qmd) and [hiernames2dimnames](hier2dim.qmd) methods. <br />
-See their help page for details. <br /> <br />
+(i.e. an array of type <code>list</code>). <br>
+<br>
+This method comes with 2 helper functions: <br>
+[hier2dim](hier2dim.qmd) and [hiernames2dimnames](hier2dim.qmd) methods. <br>
+See their help page for details. <br> <br>
 
 
 
@@ -37,13 +42,13 @@ cast_hier2dim(
 <table role = "presentation">
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="x">x</code></td>
 <td>
-a nested list. <br />
+a nested list. <br>
 If <code>x</code> has redundant nesting,
 it is advisable (though not necessary) to reduce the redundant nesting using [dropnests](dropnests.qmd).
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
-further arguments passed to or from methods. <br /> <br />
+further arguments passed to or from methods. <br> <br>
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="in2out">in2out</code>, <code id="recurse_all">recurse_all</code></td>
 <td>
@@ -52,13 +57,13 @@ see [broadcast_casting](aaa02_broadcast_casting.qmd).
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="maxdepth">maxdepth</code></td>
 <td>
 a single, positive integer,
-giving the maximum depth to recurse into the list. <br />
-The surface-level elements of a list is depth 1. <br />
+giving the maximum depth to recurse into the list. <br>
+The surface-level elements of a list is depth 1. <br>
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="padding">padding</code></td>
 <td>
 a list of length <code>1</code>,
-giving the padding value to use when padding is required. <br />
+giving the padding value to use when padding is required. <br>
 Padding is used to ensure every all slices of the same dimension in the output
 have equal number of elements
 (for example, all rows must have the same number of columns).
@@ -72,25 +77,25 @@ see argument <code>direction</code> from the [hiernames2dimnames](hier2dim.qmd) 
 
 ### Value
 
-An array of type <code>list</code>, with the dimensions given by [hier2dim](hier2dim.qmd). <br />
+An array of type <code>list</code>, with the dimensions given by [hier2dim](hier2dim.qmd). <br>
 If the output needs padding (indicated by [hier2dim](hier2dim.qmd)),
 the output will have more elements than <code>x</code>,
-filled with a padding value (as specified in the <code>padding</code> argument). <br />
-<br />
-If <code>direction.names = 0</code> (default), the result will not have any <code>dimnames</code>; <br />
-the <code>dimnames</code> can then still be constructed using [hiernames2dimnames](hier2dim.qmd). <br />
-If <code>direction.names</code> is <code>1</code> or <code>-1</code>, the result <em>will</em> have <code>dimnames</code>. <br /> <br />
+filled with a padding value (as specified in the <code>padding</code> argument). <br>
+<br>
+If <code>direction.names = 0</code> (default), the result will not have any <code>dimnames</code>; <br>
+the <code>dimnames</code> can then still be constructed using [hiernames2dimnames](hier2dim.qmd). <br>
+If <code>direction.names</code> is <code>1</code> or <code>-1</code>, the result <em>will</em> have <code>dimnames</code>. <br> <br>
 
 
 
 ### See Also
 
-[broadcast_casting](aaa02_broadcast_casting.qmd), [hier2dim](hier2dim.qmd), [hiernames2dimnames](hier2dim.qmd) <br />
+[broadcast_casting](aaa02_broadcast_casting.qmd), [hier2dim](hier2dim.qmd), [hiernames2dimnames](hier2dim.qmd) <br>
 
 
 
 ### Examples
-```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = NA}
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
 library("broadcast")
 
 

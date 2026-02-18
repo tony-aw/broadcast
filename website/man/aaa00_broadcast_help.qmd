@@ -4,12 +4,12 @@
 
 ### Description
 
-broadcast: <br />
-Broadcasted Array Operations Like 'NumPy' <br /> <br />
+broadcast: <br>
+Broadcasted Array Operations Like 'NumPy' <br> <br>
 
 Implements efficient 'NumPy'-like broadcasted operations for atomic and recursive arrays.
 
-In the context of operations involving 2 (or more) arrays, “broadcasting” refers to efficiently recycling array dimensions, without making copies.
+In the context of operations involving 2 (or more) arrays, “broadcasting” (AKA singleton expansion) refers to efficiently recycling array dimensions, without making copies.
 
 Besides linking to 'Rcpp', 'broadcast' does not use any external libraries in any way;
 'broadcast' was essentially made from scratch and can be installed out-of-the-box.
@@ -36,7 +36,7 @@ relational, arithmetic, Boolean, string, and bit-wise operations.
 
 </li></ol>
 
-The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just better for efficient computing, but also for the environment).<br /> <br />
+The functions in the 'broadcast' package strive to minimize computation time and memory usage (which is not just better for efficient computing, but also for the environment).<br> <br>
 
 
 
@@ -50,7 +50,7 @@ The functions in the 'broadcast' package strive to minimize computation time and
 <li> GitHub main page: <a href="https://github.com/tony-aw/broadcast">https://github.com/tony-aw/broadcast</a>
 
 </li>
-<li> Reporting Issues or Giving Suggestions: <a href="https://github.com/tony-aw/broadcast/issues">https://github.com/tony-aw/broadcast/issues</a> <br /> <br />
+<li> Reporting Issues or Giving Suggestions: <a href="https://github.com/tony-aw/broadcast/issues">https://github.com/tony-aw/broadcast/issues</a> <br> <br>
 
 </li></ul>
 
@@ -58,41 +58,41 @@ The functions in the 'broadcast' package strive to minimize computation time and
 
 ### Functions
 
-<b>Broadcasted Operators</b> <br />
+<b>Broadcasted Operators</b> <br>
 Base 'R' comes with relational (==, !=, etc.),
-arithmetic (+, -, *, /, etc.), and logical/bit-wise (&amp;, |) operators. <br />
-'broadcast' provides 2 ways to use these operators with broadcasting. <br />
-<br />
+arithmetic (+, -, *, /, etc.), and logical/bit-wise (&amp;, |) operators. <br>
+'broadcast' provides 2 ways to use these operators with broadcasting. <br>
+<br>
 The first (and simple) way is to use the [broadcaster](broadcaster.qmd) class,
-which comes with it's own method dispatch for the above mentioned operators. <br />
+which comes with it's own method dispatch for the above mentioned operators. <br>
 This method support operator precedence, and for the average 'R' user,
-this is sufficient. <br />
-<br />
-The second way is to use the large set of <code>bc.</code>- functions. <br />
+this is sufficient. <br>
+<br>
+The second way is to use the large set of <code>bc.</code>- functions. <br>
 These offer much greater control and more operators than the previous method,
-and has less risk of running into conflicting methods. <br />
-But it does not support operator precedence. <br />
-<br />
-More information about both methods can be found here: <br />
-[broadcast_operators](aaa01_broadcast_operators.qmd). <br />
-<br />
+and has less risk of running into conflicting methods. <br>
+But it does not support operator precedence. <br>
+<br>
+More information about both methods can be found here: <br>
+[broadcast_operators](aaa01_broadcast_operators.qmd). <br>
+<br>
 
-<b>Binding Arrays</b> <br />
+<b>Binding Arrays</b> <br>
 'broadcast' provides the [bind_array](bind_array.qmd) function,
 to bind arrays along an arbitrary dimension,
-with support for broadcasting. <br />
-See [bind_array](bind_array.qmd). <br /><br />
+with support for broadcasting. <br>
+See [bind_array](bind_array.qmd). <br><br>
 
-<b>Casting Functions</b> <br />
-'broadcast' provides several &quot;casting&quot; functions. <br />
-These can facility complex forms of broadcasting that would normally not be possible. <br />
-But these &quot;casting&quot; functions also have their own merit, beside empowering complex broadcasting. <br />
-<br />
-More information about the casting functions can be found here: <br />
-[broadcast_casting](aaa02_broadcast_casting.qmd). <br />
-<br />
+<b>Casting Functions</b> <br>
+'broadcast' provides several &quot;casting&quot; functions. <br>
+These can facility complex forms of broadcasting that would normally not be possible. <br>
+But these &quot;casting&quot; functions also have their own merit, beside empowering complex broadcasting. <br>
+<br>
+More information about the casting functions can be found here: <br>
+[broadcast_casting](aaa02_broadcast_casting.qmd). <br>
+<br>
 
-<b>General Pairwise Broadcasted Functions</b> <br />
+<b>General Pairwise Broadcasted Functions</b> <br>
 'broadcast' also comes with a few general pairwise broadcasted functions:
 
 
@@ -103,30 +103,30 @@ More information about the casting functions can be found here: <br />
 <li> [bcapply](bcapply.qmd): Broadcasted apply-like function.
 
 </li>
-<li> [bc_strrep](bc_strrep.qmd): Broadcasted version of strrep. <br /> <br />
+<li> [bc_strrep](bc_strrep.qmd): Broadcasted version of strrep. <br> <br>
 
 </li></ul>
 
-<b>Other functions</b> <br />
+<b>Other functions</b> <br>
 'broadcast' provides
 [type-casting](typecast.qmd) functions,
-which preserve names and dimensions - convenient for arrays. <br />
-<br />
+which preserve names and dimensions - convenient for arrays. <br>
+<br>
 'broadcast' also provides
-[simple linear algebra functions for statistics](linear_algebra_stats.qmd). <br />
-<br />
-And 'broadcast' comes with some helper functions: <br />
-[bc_dim](bc_dim.qmd), [ndim](ndim.qmd), [lst.ndim](ndim.qmd), [rep_dim](rep_dim.qmd), [vector2array](vector2array.qmd). <br /> <br />
+[simple linear algebra functions for statistics](linear_algebra_stats.qmd). <br>
+<br>
+And 'broadcast' comes with some helper functions: <br>
+[bc_dim](bc_dim.qmd), [ndim](ndim.qmd), [lst.ndim](ndim.qmd), [rep_dim](rep_dim.qmd), [vector2array](vector2array.qmd). <br> <br>
 
 
 
 ### Supported Structures
 
 'broadcast' supports atomic/recursive arrays (up to 16 dimensions),
-and atomic/recursive vectors. <br />
+and atomic/recursive vectors. <br>
 As in standard Linear Algebra convention,
-dimensionless vectors are interpreted as column-vectors in broadcasted array operations. <br />
-<br />
+dimensionless vectors are interpreted as column-vectors in broadcasted array operations. <br>
+<br>
 
 
 

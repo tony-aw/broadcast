@@ -128,7 +128,8 @@ inline SEXP rcpp_rep_new_int(
    
    for(int i = 0; i < n; ++i) {
      SEXP temp_new = rcpp_rep_new_int(max_ndim, 1);
-     SEXP temp_old = Rf_getAttrib(VECTOR_ELT(dims_old, i), R_DimSymbol);
+     RObject foo = VECTOR_ELT(dims_old, i);
+     RObject temp_old = foo.attr("dim");
      
      int m = Rf_length(temp_old);
      

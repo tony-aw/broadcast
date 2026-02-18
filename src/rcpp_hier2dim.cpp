@@ -3,7 +3,7 @@ using namespace Rcpp;
 
 
 inline bool rcpp_OK_listclass(
-  SEXP x, bool recurse_all
+  RObject x, bool recurse_all
 ) {
   if(TYPEOF(x) != VECSXP) {
     return false;
@@ -12,8 +12,8 @@ inline bool rcpp_OK_listclass(
     return true;
   }
   
-  bool check_class = Rf_getAttrib(x, R_ClassSymbol) == R_NilValue;
-  bool check_dim = Rf_getAttrib(x, R_DimSymbol) == R_NilValue;
+  bool check_class = x.attr("class") == R_NilValue;
+  bool check_dim = x.attr("dim") == R_NilValue;
   return (check_class && check_dim);
 }
 
@@ -188,7 +188,7 @@ inline void rcpp_rec_firstnames_atdepth(
   }
   if(n > 0) {
     for(int i = 0; i < n; ++i) {
-      SEXP temp = VECTOR_ELT(x, i);
+      RObject temp = VECTOR_ELT(x, i);
       R_xlen_t n_temp = Rf_xlength(temp);
       if(!rcpp_OK_listclass(temp, recurse_all)) {
         continue;
@@ -197,10 +197,10 @@ inline void rcpp_rec_firstnames_atdepth(
         if(n_temp > maxint) {
           stop("long vectors not supported");
         }
-        if(n_temp != len_target || Rf_getAttrib(temp, R_NamesSymbol) == R_NilValue) {
+        if(n_temp != len_target || temp.attr("names") == R_NilValue) {
           continue;
         }
-        SET_VECTOR_ELT(out, 0, Rf_getAttrib(temp, R_NamesSymbol));
+        SET_VECTOR_ELT(out, 0, temp.attr("names"));
         return;
       }
       else if(n_temp > 0 && (depth < depth_target)) {
@@ -225,7 +225,7 @@ inline void rcpp_rec_lastnames_atdepth(
   }
   if(n > 0) {
     for(int i = (n-1); i >= 0; --i) {
-      SEXP temp = VECTOR_ELT(x, i);
+      RObject temp = VECTOR_ELT(x, i);
       R_xlen_t n_temp = Rf_xlength(temp);
       if(!rcpp_OK_listclass(temp, recurse_all)) {
         continue;
@@ -234,10 +234,10 @@ inline void rcpp_rec_lastnames_atdepth(
         if(n_temp > maxint) {
           stop("long vectors not supported");
         }
-        if(n_temp != len_target || Rf_getAttrib(temp, R_NamesSymbol) == R_NilValue) {
+        if(n_temp != len_target || temp.attr("names") == R_NilValue) {
           continue;
         }
-        SET_VECTOR_ELT(out, 0, Rf_getAttrib(temp, R_NamesSymbol));
+        SET_VECTOR_ELT(out, 0, temp.attr("names"));
         return;
       }
       else if(n_temp > 0 && (depth < depth_target)) {
