@@ -46,6 +46,8 @@ ecumprob <- function(y, sim, eps = 0.0) {
     return(numeric(0L))
   }
   
+  intmax <- 2^31 - 1L
+  
   if(is.null(dim(sim))) {
     message("`sim` is given as a dimensionless vector, and will be treated as a matrix with 1 row and `length(sim)` columns")
   }
@@ -53,8 +55,11 @@ ecumprob <- function(y, sim, eps = 0.0) {
     stop("`sim` must be a matrix (or data.frame)")
   }
   
-  if(.nsim(sim) < 500L) {
+  if(.ecp_nsim(sim) < 500L) {
     stop("at least 500 columns of simulated values must be provided")
+  }
+  if(.ecp_nsim(sim) >= intmax) {
+    stop("long vectors not supported")
   }
   
   if(!is.numeric(y) && !is.logical(y)) {
@@ -62,6 +67,9 @@ ecumprob <- function(y, sim, eps = 0.0) {
   }
   if(!is.null(dim(y))) {
     stop("`y` must be a vector")
+  }
+  if(.ecp_nobs(y, sim) > intmax) {
+    stop("long vectors not supported")
   }
   
   if(!is.numeric(eps) || length(eps) != 1L) {
@@ -146,11 +154,27 @@ ecumprob <- function(y, sim, eps = 0.0) {
 
 #' @keywords internal
 #' @noRd
-.nsim <- function(x) {
-  if(is.null(dim(x))) {
-    return(length(x))
+.ecp_nsim <- function(sim) {
+  if(is.null(dim(sim))) {
+    return(length(sim))
   }
   else {
-    return(ncol(x))
+    return(ncol(sim))
   }
+}
+
+#' @keywords internal
+#' @noRd
+.ecp_nobs <- function(y, sim) {
+  if(is.null(dim(sim))) {
+    sim.nobs <- 1L
+  }
+  else {
+    sim.nobs <- nrow(sim)
+  }
+  
+  y.nobs <- length(y)
+  
+  nobs <- max(y.nobs, sim.nobs)
+  return(nobs)
 }

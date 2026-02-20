@@ -93,7 +93,9 @@ which preserve names and dimensions - convenient for arrays. \cr
 \code{[simple linear algebra functions for statistics](linear_algebra_stats.qmd)}. \cr
 \cr
 And 'broadcast' comes with some helper functions: \cr
-\code{[bc_dim](bc_dim.qmd)}, \code{[ndim](ndim.qmd)}, \code{[lst.ndim](ndim.qmd)}, \code{[rep_dim](rep_dim.qmd)}, \code{[vector2array](vector2array.qmd)}. \cr \cr
+\code{[checkNA](checkmissing.qmd)}, \code{[checkNULL](checkmissing.qmd)}, \cr
+\code{[bc_dim](bc_dim.qmd)}, \code{[ndim](ndim.qmd)}, \code{[lst.ndim](ndim.qmd)}, \code{[rep_dim](rep_dim.qmd)}, \cr
+\code{[vector2array](vector2array.qmd)}. \cr \cr
 }
 
 \section{Supported Structures}{

@@ -1697,30 +1697,30 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_ecp_mat
-SEXP rcpp_ecp_mat(SEXP y, SEXP sim, R_xlen_t nrow, R_xlen_t ncol, double eps);
+SEXP rcpp_ecp_mat(SEXP y, SEXP sim, int nrow, int ncol, double eps);
 RcppExport SEXP _broadcast_rcpp_ecp_mat(SEXP ySEXP, SEXP simSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
     Rcpp::traits::input_parameter< SEXP >::type sim(simSEXP);
-    Rcpp::traits::input_parameter< R_xlen_t >::type nrow(nrowSEXP);
-    Rcpp::traits::input_parameter< R_xlen_t >::type ncol(ncolSEXP);
+    Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
     Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_ecp_mat(y, sim, nrow, ncol, eps));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_ecp_df
-SEXP rcpp_ecp_df(SEXP y, SEXP sim, R_xlen_t nrow, R_xlen_t ncol, double eps);
+SEXP rcpp_ecp_df(SEXP y, SEXP sim, int nrow, int ncol, double eps);
 RcppExport SEXP _broadcast_rcpp_ecp_df(SEXP ySEXP, SEXP simSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
     Rcpp::traits::input_parameter< SEXP >::type sim(simSEXP);
-    Rcpp::traits::input_parameter< R_xlen_t >::type nrow(nrowSEXP);
-    Rcpp::traits::input_parameter< R_xlen_t >::type ncol(ncolSEXP);
+    Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
     Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_ecp_df(y, sim, nrow, ncol, eps));
     return rcpp_result_gen;

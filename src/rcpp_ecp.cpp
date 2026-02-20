@@ -75,11 +75,11 @@ inline bool rcpp_isna_int(int x) {
  //' @noRd
  // [[Rcpp::export(.rcpp_ecp_mat)]]
  SEXP rcpp_ecp_mat(
-     SEXP y, SEXP sim, R_xlen_t nrow, R_xlen_t ncol, double eps
+     SEXP y, SEXP sim, int nrow, int ncol, double eps
  ) {
    
    // determine vectorization and broadcasting:
-   R_xlen_t nobs;
+   int nobs;
    int by_y, by_sim;
    MACRO_ECP_DETERMINE_BROADCASTING;
    
@@ -123,11 +123,11 @@ inline bool rcpp_isna_int(int x) {
  //' @noRd
  // [[Rcpp::export(.rcpp_ecp_df)]]
  SEXP rcpp_ecp_df(
-     SEXP y, SEXP sim, R_xlen_t nrow, R_xlen_t ncol, double eps
+     SEXP y, SEXP sim, int nrow, int ncol, double eps
  ) {
    
    // determine vectorization and broadcasting:
-   R_xlen_t nobs;
+   int nobs;
    int by_y, by_sim;
    MACRO_ECP_DETERMINE_BROADCASTING;
    
@@ -148,7 +148,7 @@ inline bool rcpp_isna_int(int x) {
      
      // Create array of pointers:
      std::vector<const int*> psim(ncol);
-     for(R_xlen_t i = 0; i < ncol; ++i) {
+     for(int i = 0; i < ncol; ++i) {
        temp_pointer = VECTOR_ELT(sim, i);
        if(!(TYPEOF(temp_pointer) == INTSXP || TYPEOF(temp_pointer) == LGLSXP)) {
          stop("all columns of `sim` must be of the same type");
@@ -169,7 +169,7 @@ inline bool rcpp_isna_int(int x) {
      
      // Create array of pointers:
      std::vector<const double*> psim(ncol);
-     for(R_xlen_t i = 0; i < ncol; ++i) {
+     for(int i = 0; i < ncol; ++i) {
        temp_pointer = VECTOR_ELT(sim, i);
        if(TYPEOF(temp_pointer) != REALSXP) {
          stop("all columns of `sim` must be of the same type");
