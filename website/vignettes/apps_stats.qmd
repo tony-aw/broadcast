@@ -226,7 +226,9 @@ lc %$% tinyplot( # plot means over it
 
 # Approximate Dunn-Smyth residuals
 
-The `ecumprod(y, sim)` function (available from 'broadcast' version `0.1.8`) takes simulated values `sim`, and for each row `i` estimates the cumulative distribution function of `sim[i, ]`, and returns the cumulative probability for `y[i]`. It is statistically equivalent to `ecdf(sim[i, ])(y[i])`, except [ecumprob()](/man/linear_algebra_stats.qmd) is more memory-efficient and supports a data.frame for `sim`.
+The `ecumprod(y, sim)` function (available from 'broadcast' version `0.1.8`) takes simulated values `sim`, and for each row `i` estimates the cumulative distribution function of `sim[i, ]`, and returns the cumulative probability for `y[i]`.
+
+`ecumprod(y, sim)` is statistically equivalent to `ecdf(sim[i, ])(y[i])` for each `i`. `ecumprod(y, sim)` is linear-algebraically equivalent to `rowMeans(sim <= y)` where `y` and `sim` are `broadcaster` arrays.   However, [ecumprob()](/man/linear_algebra_stats.qmd) is faster and more memory-efficient than either, and also supports a data.frame for `sim`.
 
 There are several use-cases for [ecumprob()](/man/linear_algebra_stats.qmd). This section gives one such use-case.
 
@@ -240,7 +242,7 @@ $$
 \displaystyle
 r_i = Q_\text{Norm}(\text{CDF}(y_i | \mu_i, \theta))
 $$
-where $Q_\text{Norm}$ is the quantile function of the standard Normal distribution, and CDF is the cumulative distribution function of the model evaluated for response value $y_i$  with model parameters $\mu_i, \theta$.
+where $Q_\text{Norm}$ is the quantile function of the standard Normal distribution, and CDF is the cumulative distribution function of the model.
 
 ::: {.callout-note}
 

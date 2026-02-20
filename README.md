@@ -281,9 +281,6 @@ of the variables is.
 The **Quick-Start Guide** can be found
 [here](https://tony-aw.github.io/broadcast/vignettes/b_quickstart.html).
 
-Some **Practical Applications** of the ‘broadcast’ package can be found
-[here](https://tony-aw.github.io/broadcast/vignettes/practical_applications.html).
-
  
 
 ## 🤷🏽Why use ‘broadcast’
@@ -350,7 +347,7 @@ The ‘broadcast’ package is frequently checked using a large suite of
 unit tests via the [tinytest](https://github.com/markvanderloo/tinytest)
 package. These tests have a
 [coverage](https://tony-aw.github.io/broadcast/about/g_unit_test_covr.html)
-of over 90%. So the chance of a function from this package breaking
+of over 95%. So the chance of a function from this package breaking
 completely is relatively low.
 
 ‘broadcast’ is still relatively new package, however, so (small) bugs
