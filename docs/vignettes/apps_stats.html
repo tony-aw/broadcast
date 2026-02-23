@@ -326,6 +326,19 @@ div.csl-indent {
 <p><img src="apps_stats_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When you plot vectors with ‘tinyplot’, ensure they are <em>not</em> <code>broadcaster</code> vectors, as that seems to conflict with the recycling assumptions of ‘tinyplot’</p>
+</div>
+</div>
 <p>So which of the classifications is closest to our observation? Broadcasting can help get that answer.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcaster</span>(classes) <span class="ot">&lt;-</span> <span class="fu">broadcaster</span>(observation) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
@@ -346,7 +359,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>When you plot vectors with ‘tinyplot’, ensure they are <em>not</em> <code>broadcaster</code> vectors, as that seems to conflict with the recycling assumptions of ‘tinyplot’</p>
+<p>For simplicity, the example here used unnormalized vectors. In a proper VQ computation, one may want to normalize the vectors first.</p>
 </div>
 </div>
 <p>&nbsp;</p>
@@ -361,7 +374,6 @@ But sometimes one may want to compute spline intervals manually, like in the fol
 <li>One may want to use a type of spline <strong>not</strong> covered by the package you’re using (this is especially true when using a novel spline). In such cases, you’ll have to compute the spline mean and confidence/credible intervals on your own.</li>
 </ul>
 <p>So one practical application of <a href="../man/linear_algebra_stats.html">sd_lc()</a> is computing confidence/credible intervals of splines when a package does not provide that service in a user-friendly way.</p>
-<p>Please note that the <a href="../man/linear_algebra_stats.html">sd_lc()</a> functions is just a linear algebra function, not specific to any type/class of model (so this function assumes you know what you’re doing).</p>
 <p>For a demonstration of <a href="../man/linear_algebra_stats.html">sd_lc()</a>, the following will be done:</p>
 <ol type="1">
 <li>a GAM model will be fitted using the ‘mgcv’ package. The model will consist of several low-rank thin-plate (lrtp) smoothers.</li>

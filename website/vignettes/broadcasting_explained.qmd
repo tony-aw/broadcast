@@ -76,7 +76,7 @@ There are several problems.
 First and foremost, when the arrays become larger, the replicated arrays become larger, and if the arrays become too large, you may require more memory than is available in your current system, resulting in a message like the following:
 
 ```{r eval=FALSE, echo=TRUE}
-> Error: cannot allocate vector of size
+Error: cannot allocate vector of size
 ```
 
 
@@ -102,7 +102,7 @@ In the earlier example, we used:
 x + y[rep(1L, 4L),]
 ```
 
-To compute the element-wise addition using broadcasting through the 'broadcast' package, one can set both `x` and `y` as "broadcaster", and then use the `+` operator, like so:
+To compute the element-wise addition using broadcasting through the 'broadcast' package, one can mark both `x` and `y` as "broadcaster", and then use the `+` operator, like so:
 
 ```{r}
 
@@ -142,7 +142,7 @@ x + y
 
 ```
 
-What happens here is that `x` remains the same, but row vector `y` is **virtually** recycled 4 times, but without requiring 4 times more memory. This is also illustrated here:
+What happens here is that `x` remains the same, but each row of `y` is **virtually** recycled 4 times, but without requiring 4 times more memory. This is also illustrated here:
 
 ```{r eval=TRUE, echo=FALSE}
 
@@ -166,7 +166,7 @@ tt(foo, theme = "grid") |> style_tt(line = "tlbr")
 ## Perpendicular vectors
 
 Let's now consider another scenario.
-We now take again 2 matrices `x` and `y`, but this time `x` is a column vector (i.e. a matrix with 1 column and multiple rows), and `y` is a row vector (i.e. a matrix with 1 row and multiple columns):
+We now take again 2 matrices `x` and `y`, but this time `x` is a matrix with 1 column and multiple rows, and `y` is a matrix with 1 row and multiple columns:
 
 
 ```{r}
@@ -210,6 +210,48 @@ tt(foo, theme = "grid") |> style_tt(line = "tlbr")
 &nbsp;
 
 
+# Vector Direction & Length
+
+In the documentation of 'broadcast', the reader may occasionally find references to the "direction" of a vector. The direction of a vector can mean several different things, depending on the context. Before going further, we need to address what the direction of a vector means in the context of broadcasting.
+
+Let's consider the following array `z`:
+
+```{r}
+z <- array(1:10, c(1, 10))
+print(z)
+```
+
+Here, `z` has 1 row and 10 columns.
+It is an array, but effectively it is also a vector: it has only one dimension with size larger than 1.
+
+A directional vector is an array where only one dimension is larger than 1.
+The direction of a vector refers to **which** dimension is larger than 1.
+
+`z` is a directional vector, and its direction is 2.
+
+Now the most important part:  
+Following the standard rules of Linear Algebra, a vector `z` without dimensions is interpreted by the 'broadcast' package as a vector with direction `1`.
+For example, the vectors `x` and `y` below are treated equally by the 'broadcast' package:
+
+```{r}
+x <- array(1:10, c(10, 1))
+y <- 1:10
+print(x)
+print(y)
+```
+
+
+&nbsp;
+
+Since dimensionless vectors are interpreted as directional vectors (which is necessary to meaningfully perform broadcasting), when may wonder: how does the 'broadcast' package deal with  `long` vectors?
+
+The answer is simple:  
+If the result will be a vector, long vectors are supported. I.e. if `x` and `y` are both vectors, than `x` and/or `y` may be long vectors.  
+However, if, for example, `x` is a long vector, and `y` is a directional vector with direction `2`, an error is returned: this is because arrays in `r fa("r-project")` cannot have dimensions larger than `2^31 - 1`.
+
+
+&nbsp;
+
 # Broadcasting limitations and rules
 
 The examples shown so far used matrices. But 'broadcast' is not restricted to only handling matrices; this package can handle any array, provided it does not have more than 16 dimensions.
@@ -222,13 +264,13 @@ The examples show so far only used addition. But 'broadcast' supports a wide var
 
 ## Normalization
 
-Before broadcasting occurs, the number of dimensions of `x` and `y` are normalized, such that `ndim(x)` and `ndim(y)` are the same ( the `ndim(x)` function is the same as `length(dim(x))`).
+Before broadcasting occurs, the number of dimensions of `x` and `y` are normalized, such that `ndim(x)` and `ndim(y)` are the same (`ndim(x)` is the same as `length(dim(x))`).
 
 This normalization is achieved by appending dimensions of size 1 to the array with the smaller number of dimensions until both array have the same number of dimensions.
 
-For example, if `dim(x) = c(3, 4, 3)` and `dim(y) = c(3, 4)`, then internally `dim(y)` is interpreted to be `c(3, 4, 1)`. This neither copies nor modifies array `y`.
+For example, if `dim(x) = c(3, 4, 3)` and `dim(y) = c(3, 4)`, then internally `dim(y)` is *interpreted* to be `c(3, 4, 1)`. This does not actually copy or even modify array `y`.
 
-Following the standard rules of Linear Algebra, a vector `z` without dimensions is taken to be a column vector (i.e. a matrix with 1 column and `length(z)` rows).
+Following the standard rules of Linear Algebra, a vector `z` without dimensions is taken to be a directional vector with direction 1.
 
 &nbsp;
 
@@ -381,7 +423,7 @@ tt(foo)
 In the documentation of 'broadcast', the reader may come across the term "orthogonal arrays" here and there.  
 "orthogonal" is a term that can mean a great many things; this section therefore explains what "orthogonal" means in the context of broadcasting.
 
-Consider a column-vector `x` and row-vector `y`:
+Consider the directional vectors `x` and `y`, where their directions are `1` and `2`, respectively:
 
 ```{r}
 x <- array(1:5, c(5, 1))
@@ -484,18 +526,18 @@ outer(as.vector(x), as.vector(y), "+")
 ```
 
 
-As you can see, performing a broadcasted operation between a column- and row- vector (in that order) is equivalent to using `outer()` on 2 dimensionless vectors.
+As you can see, performing a broadcasted operation between vectors with directions 1 and 2 (in that order) is equivalent to using `outer()` on 2 dimensionless vectors.
 
 The `outer()` approach has the same problems as the `x[, rep(1L, 5L)] + y[rep(1L, 5L),]` approach: it consumes a lot of unnecessary memory, and is slow.
 
-Broadcasting can thus be used as a more efficient alternative to `outer()` in case of vector inputs, simply by making the inputs orthogonal vectors.
+Broadcasting can thus be used as a more efficient alternative to `outer()` in case of vector inputs, simply by making the inputs orthogonal directional vectors.
 
 &nbsp;
 
 # Broadcasted Binding
 
 
-The [bind_array()](/man/bind_array.qmd) comes with the `ndim2bc` argument (an abbreviation of " maximum number of dimensions to broadcast"), which allows users to specify the maximum number of dimensions that are allowed to be broadcasted while binding arrays. This way, users won't get unpleasant surprises.
+The [bind_array()](/man/bind_array.qmd) comes with the `ndim2bc` argument (an abbreviation of "maximum number of dimensions to broadcast"), which allows users to specify the maximum number of dimensions that are allowed to be broadcasted while binding arrays. This way, users won't get unpleasant surprises.
 
 This should be fairly obvious, but the dimension specified in `along` is never broadcasted.
 

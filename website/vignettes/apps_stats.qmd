@@ -84,6 +84,13 @@ text(
 )
 ```
 
+
+::: {.callout-note}
+
+When you plot vectors with 'tinyplot', ensure they are *not* `broadcaster` vectors, as that seems to conflict with the recycling assumptions of 'tinyplot'
+
+:::
+
 So which of the classifications is closest to our observation?
 Broadcasting can help get that answer.
 
@@ -98,7 +105,7 @@ The answer is: the basketball player is the closest.
 
 ::: {.callout-note}
 
-When you plot vectors with 'tinyplot', ensure they are *not* `broadcaster` vectors, as that seems to conflict with the recycling assumptions of 'tinyplot'
+For simplicity, the example here used unnormalized vectors. In a proper VQ computation, one may want to normalize the vectors first.
 
 :::
 
@@ -117,8 +124,6 @@ But sometimes one may want to compute spline intervals manually, like in the fol
  - One may want to use a type of spline **not** covered by the package you're using (this is especially true when using a novel spline). In such cases, you'll have to compute the spline mean and confidence/credible intervals on your own.
 
 So one practical application of [sd_lc()](/man/linear_algebra_stats.qmd) is computing confidence/credible intervals of splines when a package does not provide that service in a user-friendly way.
-
-Please note that the [sd_lc()](/man/linear_algebra_stats.qmd) functions is just a linear algebra function, not specific to any type/class of model (so this function assumes you know what you're doing).
 
 For a demonstration of [sd_lc()](/man/linear_algebra_stats.qmd), the following will be done:
 
@@ -219,6 +224,7 @@ lc %$% tinyplot( # plot means over it
 )
 
 ```
+
 
 
 &nbsp;

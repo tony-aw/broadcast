@@ -113,7 +113,7 @@ After application of these 2 broadcasting rules, the sizes of the input arrays m
 Base `r fa("r-project")` comes with relational (==, !=, etc.), arithmetic (+, -, *, /, etc.), logical (&, |) and bit-wise (&, |) operators.
 'broadcast' provides 2 ways to use these operators with broadcasting.
 
-The first (and simple) way is to use the [broadcaster()](/man/broadcaster.qmd) class, which comes with it's own method dispatch for the above mentioned operators.
+The first (and simple) way is to mark each array involved in the operation as a [broadcaster()](/man/broadcaster.qmd), which comes with it's own method dispatch for the above mentioned operators.
 This approach supports operator precedence, and for the average `r fa("r-project")` user, this is sufficient.
 
 For example:
