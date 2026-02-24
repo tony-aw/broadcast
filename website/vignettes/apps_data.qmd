@@ -125,16 +125,20 @@ x <- array(sample(0:9), c(3,3,3))
 print(x)
 ```
 
-Suppose one wishes to add `10` to all values of the second column, and `100` to all values of the third column.  
-This can be done with 'broadcast', by creating a modification vector whose dimensional direction is aligned with - in this case - the columns, and performing broadcasted addition between the array and said vector.  
+Suppose one wishes to add `10` to all values of the second column, and `100` to all values of the third column.
+
+This can be done with 'broadcast', as follows:  
+First, create a modification broadcaster vector, whose dimensional direction is aligned with - in this case - the columns; this can be done easily using, for example, `vector2array(v, direction = direction, ndim  = ndim, broadcaster = TRUE)` (see the help page of [vector2array()](/man/vector2array.qmd) for details).  
+Second, make `x` a broadcaster, and perform the broadcasted addition between the array and directional vector.
+
 We don't want to change the first column, so we add `0` to the first column.  
 
 So we can do this as follows:
 
 ```{r}
-v <- array(c(0, 10, 100), c(1, 3))
+v <- vector2array(c(0, 10, 100), 2, 2, TRUE)
 print(v)
-bcr(x) <- bcr(v) <- TRUE
+bcr(x) <- TRUE
 
 x + v
 
@@ -146,7 +150,7 @@ x + v
 
 Suppose that, instead of adding `{0, 10, 100}` to the 3 columns, we wish to add these to the rows instead.
 
-This again can by creating a modifcation vector - this time aligned with the rows.  
+This again can by creating a modifcation broadcaster vector - this time aligned with the rows.  
 Note that in the 'broadcast' package, a vector without dimensions is interpreted as a vector aligned with rows (confusingly called a "column vector" in mathematics).
 Like so:
 
@@ -164,12 +168,12 @@ x + v
 ## Along layers
 
 As a final example, we want to add `{0, 10, 100}` to the layers (3rd dimension) of `x`.  
-As you may have guessed, one can do so by creating a modification vector aligned with the layers, and adding that vector to the array, like so:
+As you may have guessed, one can do so by creating a modification broadcaster vector aligned with the layers, and adding that vector to the array, like so:
 
 ```{r}
-v <- array(c(0, 10, 100), c(1, 1, 3))
+v <- vector2array(c(0, 10, 100), 3, 3, TRUE)
 print(v)
-bcr(x) <- bcr(v) <- TRUE
+bcr(x) <- TRUE
 
 x + v
 

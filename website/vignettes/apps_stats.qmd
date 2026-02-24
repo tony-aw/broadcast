@@ -248,7 +248,8 @@ $$
 \displaystyle
 r_i = Q_\text{Norm}(\text{CDF}(y_i | \mu_i, \theta))
 $$
-where $Q_\text{Norm}$ is the quantile function of the standard Normal distribution, and CDF is the cumulative distribution function of the model.
+where $Q_\text{Norm}$ is the quantile function of the standard Normal distribution, CDF is the cumulative distribution function of the model evaluated at model parameters $\mu_i$ and $\theta$, and $y_i$ is the response value at observation $i$.
+
 
 ::: {.callout-note}
 
@@ -275,7 +276,7 @@ As stated, computing Dunn-Smyth residuals is fairly easy... **if** the CDF and i
 There is an alternative to sleuthing: empirically approximating the cumulative probabilities using [ecumprob()](/man/linear_algebra_stats.qmd).
 
 
-Let's run a Gamma GLM with log-link function on the `datasets::ChickWeight`.
+A Gamma GLM is run with log-link function on the `datasets::ChickWeight`.
 For the sake of this demonstration, I'll forgo some crucially mandatory steps in statistical modelling - like data exploration, model diagnostics, and model interpretation.
 
 

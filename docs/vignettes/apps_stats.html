@@ -480,7 +480,7 @@ Let’s use the ‘tinyplot’ framework to compute the plot manually:</p>
 <p><span class="math display">\[
 \displaystyle
 r_i = Q_\text{Norm}(\text{CDF}(y_i | \mu_i, \theta))
-\]</span> where <span class="math inline">\(Q_\text{Norm}\)</span> is the quantile function of the standard Normal distribution, and CDF is the cumulative distribution function of the model.</p>
+\]</span> where <span class="math inline">\(Q_\text{Norm}\)</span> is the quantile function of the standard Normal distribution, CDF is the cumulative distribution function of the model evaluated at model parameters <span class="math inline">\(\mu_i\)</span> and <span class="math inline">\(\theta\)</span>, and <span class="math inline">\(y_i\)</span> is the response value at observation <span class="math inline">\(i\)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -505,7 +505,7 @@ a_i = \text{CDF}(y_i - 1 | \mu_i, \theta) \enspace ; \enspace b_i = \text{CDF}(y
 <p>The only real difference is that the discrete definition jitters between the CDF evaluated at <span class="math inline">\(y_i - 1\)</span> and <span class="math inline">\(y_i\)</span>.</p>
 <p>As stated, computing Dunn-Smyth residuals is fairly easy… <strong>if</strong> the CDF and it’s exact parametrization is known. If the exact parametrization of the CDF is not known, or it’s not clear how to extract the parameters from the model object, then it suddenly becomes a matter of statistical and software-engineering sleuthing.</p>
 <p>There is an alternative to sleuthing: empirically approximating the cumulative probabilities using <a href="../man/linear_algebra_stats.html">ecumprob()</a>.</p>
-<p>Let’s run a Gamma GLM with log-link function on the <code>datasets::ChickWeight</code>. For the sake of this demonstration, I’ll forgo some crucially mandatory steps in statistical modelling - like data exploration, model diagnostics, and model interpretation.</p>
+<p>A Gamma GLM is run with log-link function on the <code>datasets::ChickWeight</code>. For the sake of this demonstration, I’ll forgo some crucially mandatory steps in statistical modelling - like data exploration, model diagnostics, and model interpretation.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">glm</span>(weight <span class="sc">~</span> Time <span class="sc">*</span> Diet, <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> ChickWeight)</span>

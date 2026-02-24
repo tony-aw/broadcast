@@ -245,9 +245,16 @@ print(y)
 
 Since dimensionless vectors are interpreted as directional vectors (which is necessary to meaningfully perform broadcasting), when may wonder: how does the 'broadcast' package deal with  `long` vectors?
 
-The answer is simple:  
+The answer is simple.  
+Given some broadcasted operation involving arrays or vectors `x` and `y` (for example `x + y`), the following holds.  
 If the result will be a vector, long vectors are supported. I.e. if `x` and `y` are both vectors, than `x` and/or `y` may be long vectors.  
-However, if, for example, `x` is a long vector, and `y` is a directional vector with direction `2`, an error is returned: this is because arrays in `r fa("r-project")` cannot have dimensions larger than `2^31 - 1`.
+However, if, for example, `x` is a long vector, and `y` is an array (regardless if it is a directional vector or not), an error is returned: this is because arrays in `r fa("r-project")` cannot have dimensions larger than `2^31 - 1`.
+
+::: {.callout-tip}
+
+One can easily create a directional vector using the [vector2array()](/man/vector2array.qmd) function provided by 'broadcast'.
+
+:::
 
 
 &nbsp;
