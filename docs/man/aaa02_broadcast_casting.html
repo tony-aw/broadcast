@@ -570,12 +570,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sex    character,10 character,10</span></span>
 <span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[<span class="dv">1</span>,<span class="dv">1</span>,,<span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
 <span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class1', 'group1']`</span></span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 172.1432 170.6823 169.9301 168.0996 169.4572 171.3652 170.9631 171.3833</span></span>
-<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.9740 170.4217</span></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 168.7520 169.6417 170.4506 170.8020 169.6793 170.2776 170.9308 170.1150</span></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.3229 168.8202</span></span>
 <span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class1', 'group2']`</span></span>
-<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.8732 169.2028 169.0660 171.3514 172.0937 168.7266 170.4531 171.4369</span></span>
-<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.2751 169.4447</span></span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 170.1328 170.7844 171.0167 169.0007 169.5499 167.7374 171.3952 170.8436</span></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.6516 169.2522</span></span>
 <span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="co"># in2out = FALSE:</span></span>
 <span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">cast_hier2dim</span>(x, <span class="at">in2out =</span> <span class="cn">FALSE</span>)</span>
@@ -600,15 +600,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group2 character,10 character,10</span></span>
 <span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[<span class="dv">1</span>,<span class="dv">1</span>,,<span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
 <span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['group1', 'class1', 'height']`</span></span>
-<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 172.1432 170.6823 169.9301 168.0996 169.4572 171.3652 170.9631 171.3833</span></span>
-<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.9740 170.4217</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 168.7520 169.6417 170.4506 170.8020 169.6793 170.2776 170.9308 170.1150</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.3229 168.8202</span></span>
 <span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['group1', 'class1', 'weight']`</span></span>
-<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 81.43329 82.86851 80.21774 80.26715 80.22534 79.40294 79.53202 79.24184</span></span>
-<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 79.15828 79.92187</span></span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 78.37455 79.16705 80.00932 80.88768 79.81446 79.95394 78.80715 81.49352</span></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 78.75834 79.95890</span></span>
 <span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['group1', 'class1', 'sex']`</span></span>
-<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "M" NA  "F" "F" "F" "F" "F" "M" "F" "M"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "F" NA  "M" NA  NA  NA  "M" "F" NA  "M"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
