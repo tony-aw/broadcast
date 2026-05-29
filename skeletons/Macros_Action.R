@@ -26,17 +26,13 @@ cat(introcomments)
 # General ====
 #
 
-macro_action1 <- "
+macro_action <- "
 
 #define MACRO_ACTION1(DOCODE) do {      \\
   DOCODE;                                     \\
 } while(0)
 
-"
 
-
-
-macro_action2 <- "
 
 #define MACRO_ACTION2(NACHECK, NACODE, DOCODE) do {      \\
   if(NACHECK) {                                                   \\
@@ -47,11 +43,6 @@ macro_action2 <- "
   	}                                                               \\
 } while(0)
 
-"
-
-
-
-macro_action3 <- "
 
 #define MACRO_ACTION3(RULECHECK, RULECODE, DOCODE) do {      \\
   if(RULECHECK) {                                                   \\
@@ -61,12 +52,6 @@ macro_action3 <- "
 	  DOCODE;                                                       \\
 	}                                                               \\
 } while(0)
-
-"
-
-
-
-macro_action4 <- "
 
 #define MACRO_ACTION4(RULECHECK, RULECODE, NACHECK, NACODE, DOCODE) do {      \\
   if(RULECHECK) {                                                   \\
@@ -89,6 +74,18 @@ macro_doublepass <- "
 } while(0)
 "
 
+
+
+macro_assign <- "
+#define MACRO_ASSIGN_C(INPUTCODE) do {  \\
+  tempout = INPUTCODE;              \\
+  pout[flatind_out] = tempout;      \\
+} while(0)
+
+#define MACRO_ASSIGN_RCPP(INPUTCODE) do {  \\
+  out[flatind_out] = INPUTCODE;      \\
+} while(0)
+"
 
 ################################################################################
 # Integer ====
@@ -270,15 +267,11 @@ macro_action <- stri_c(
   "\n",
   introcomments, 
   "\n",
+  macro_assign,
+  "\n",
   macro_overflow,
   "\n",
-  macro_action1,
-  "\n",
-  macro_action2,
-  "\n",
-  macro_action3,
-  "\n",
-  macro_action4,
+  macro_action,
   "\n",
   macro_action_integer1,
   "\n",

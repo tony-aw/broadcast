@@ -35,7 +35,7 @@ A logical array as a result of the broadcasted integer relational comparison. \c
 \cr
 }
 \description{
-The \code{bc.i()} function
+The \code{bc.i()} method
 performs broadcasted integer numeric operations on 2 numeric or logical arrays. \cr
 \cr
 Please note that these operations will treat the input as (\code{double} typed) integers,

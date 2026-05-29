@@ -86,7 +86,7 @@ with the elements arranged such that the dimensions are <code>c(max(lengths(x)),
 If <code>x</code> has no dimensions, <code>dim(x)</code> is replaced with <code>length(x)</code>, thus treating <code>x</code> as an 1d array. <br>
 This will therefore always produce an atomic array with at least 2 dimensions. <br>
 The <code>dimnames</code>, if possible to construct,
-will be <code>c(names(x[[comnames_from]]), dimnames(x))</code>. <br>
+will be <code>c(dimnames(x[[comnames_from]]), dimnames(x))</code>. <br>
 <br>
 If <code>arrangement = -1L</code>, <br>
 <code>cast_shallow2atomic()</code> will produce an atomic array,

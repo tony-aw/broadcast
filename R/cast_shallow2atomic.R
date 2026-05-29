@@ -38,7 +38,7 @@
 #' If `x` has no dimensions, `dim(x)` is replaced with `length(x)`, thus treating `x` as an 1d array. \cr
 #' This will therefore always produce an atomic array with at least 2 dimensions. \cr
 #' The `dimnames`, if possible to construct,
-#' will be `c(names(x[[comnames_from]]), dimnames(x))`. \cr
+#' will be `c(dimnames(x[[comnames_from]]), dimnames(x))`. \cr
 #' \cr
 #' If `arrangement = -1L`, \cr
 #' `cast_shallow2atomic()` will produce an atomic array,

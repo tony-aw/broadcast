@@ -10,9 +10,8 @@ bc.str(array(letters), array(letters), "==")
 bc.str(array(letters), array(letters), "!=")
 
 
-# string distance (Levenshtein):
-x <- array(month.name, c(12, 1))
-y <- array(month.abb, c(1, 12))
-out <- bc.str(x, y, "levenshtein")
-dimnames(out) <- list(month.name, month.abb)
-print(out)
+# string distances:
+x <- setNames(month.name, month.name) |> vector2array(1L)
+y <- setNames(month.abb, month.abb) |> vector2array(2L)
+bc.str(x, y, "levenshtein") # levenshtein
+bc.str(x, y, "lcss") # longest common sub-string

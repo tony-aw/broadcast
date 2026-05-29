@@ -5,7 +5,6 @@
   return(c("==", "!=", "<", ">", "<=", ">="))
 }
 
-
 #' @keywords internal
 #' @noRd
 .op_dec_math <- function() {
@@ -47,7 +46,7 @@
 #' @keywords internal
 #' @noRd
 .op_b <- function() {
-  return(c("&", "|", "xor", "nand"))
+  return(c("&", "|", "xor", "nand", "nor"))
 }
 
 #' @keywords internal
@@ -66,7 +65,7 @@
 #' @keywords internal
 #' @noRd
 .op_str_dist <- function() {
-  return(c("levenshtein"))
+  return(c("levenshtein", "lcss"))
 }
 
 #' @keywords internal
@@ -85,7 +84,7 @@
 #' @keywords internal
 #' @noRd
 .op_bit <- function() {
-  return(c("&", "|", "xor", "nand", "<<", ">>"))
+  return(c("&", "|", "xor", "nand", "nor", "<<", ">>"))
 }
 
 

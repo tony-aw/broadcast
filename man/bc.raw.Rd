@@ -30,7 +30,7 @@ and \code{00} codes for \code{FALSE} results. \cr
 \cr
 }
 \description{
-The \code{bc.raw()} function
+The \code{bc.raw()} method
 performs broadcasted operations
 on arrays of type \code{raw}, and the return type is \bold{always} \code{raw}. \cr
 \cr

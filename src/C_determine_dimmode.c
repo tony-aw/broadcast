@@ -78,24 +78,33 @@ SEXP C_determine_dimmode( SEXP xdim, SEXP ydim, SEXP xlen0, SEXP ylen0 ) {
   if( ndim == 3 ) {
     // for 3 dimensions, the big2vector MACRO I made only supports sandwiched vectors, so this must be checked carefully
     
-    int sandwichx = (pxdim[0] == 1) && (pxdim[1] > 1) && (pxdim[2] == 1);
-    int sandwichy = (pydim[0] == 1) && (pydim[1] > 1) && (pydim[2] == 1);
+    const int middlex = (pxdim[0] == 1) && (pxdim[1] > 1) && (pxdim[2] == 1);
+    const int middley = (pydim[0] == 1) && (pydim[1] > 1) && (pydim[2] == 1);
+    const int bigx = (pxdim[0] >= pydim[0]) && (pxdim[1] >= pydim[1]) && (pxdim[2] >= pydim[2]);
+    const int bigy = (pydim[0] >= pxdim[0]) && (pydim[1] >= pxdim[1]) && (pydim[2] >= pxdim[2]);
     
-    if(sandwichx || sandwichy) {
-      
-      int bigx = (pxdim[0] >= pydim[0]) && (pxdim[1] >= pydim[1]) && (pxdim[2] >= pydim[2]);
-      int bigy = (pydim[0] >= pxdim[0]) && (pydim[1] >= pxdim[1]) && (pydim[2] >= pxdim[2]);
-      
-      if(bigx || bigy) {
-        return(Rf_ScalarInteger(3));
-      }
+    if(middlex && bigy) {
+      return(Rf_ScalarInteger(3));
     }
+    if(middley && bigx) {
+      return(Rf_ScalarInteger(3));
+    }
+    
+    const int sandwichx = (pxdim[0] > 1) && (pxdim[1] == 1) && (pxdim[2] > 1);
+    const int sandwichy = (pydim[0] > 1) && (pydim[1] == 1) && (pydim[2] > 1);
+    
+    if(middlex && sandwichy) {
+      return(Rf_ScalarInteger(4));
+    }
+    if(middley && sandwichx) {
+      return(Rf_ScalarInteger(4));
+    }
+    
   }
   
   
-  
   // Use General Mode ==========================================================
-  return(Rf_ScalarInteger(4));
+  return(Rf_ScalarInteger(5));
   
 
 }

@@ -13,7 +13,7 @@ bc.bit(x, y, op, ...)
 \item{x, y}{conformable raw or integer (32 bit) vectors/arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported bit-wise operators: &, |, xor, nand, <<, >>, ==, !=, <, >, <=, >=.}
+Supported bit-wise operators: &, |, xor, nand, nor, <<, >>, ==, !=, <, >, <=, >=.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
@@ -24,7 +24,7 @@ as a result of the broadcasted bit-wise operation. \cr
 \cr
 }
 \description{
-The \code{bc.bit()} function
+The \code{bc.bit()} method
 performs broadcasted bit-wise operations
 on pairs of arrays, where both arrays are of type \code{raw} or both arrays are of type \code{integer}. \cr
 \cr

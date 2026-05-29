@@ -15,7 +15,8 @@ bc.str(x, y, op, ...)
 \item{op}{a single string, giving the operator. \cr
 Supported concatenation operators: +. \cr
 Supported relational operators: ==, !=. \cr
-Supported distance operators: levenshtein.}
+Supported distance operators: levenshtein, lcss. \cr
+"lcss" stands for Longest Common Sub-String.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
@@ -31,7 +32,7 @@ An integer array as a result of the broadcasted distance measurement. \cr
 \cr
 }
 \description{
-The \code{bc.str()} function
+The \code{bc.str()} method
 performs broadcasted string operations on pairs of arrays. \cr \cr
 }
 \examples{
@@ -47,12 +48,11 @@ bc.str(array(letters), array(letters), "==")
 bc.str(array(letters), array(letters), "!=")
 
 
-# string distance (Levenshtein):
-x <- array(month.name, c(12, 1))
-y <- array(month.abb, c(1, 12))
-out <- bc.str(x, y, "levenshtein")
-dimnames(out) <- list(month.name, month.abb)
-print(out)
+# string distances:
+x <- setNames(month.name, month.name) |> vector2array(1L)
+y <- setNames(month.abb, month.abb) |> vector2array(2L)
+bc.str(x, y, "levenshtein") # levenshtein
+bc.str(x, y, "lcss") # longest common sub-string
 }
 \references{
 The 'C++' code for the Levenshtein edit string distance is based on the code found in

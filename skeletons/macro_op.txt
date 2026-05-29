@@ -11,12 +11,6 @@
 // 
 // 
 
-#define MACRO_ASSIGN_C(INPUTCODE) do {  \
-  tempout = INPUTCODE;              \
-  pout[flatind_out] = tempout;      \
-} while(0)
-
-
 #define MACRO_OP_DEC_MATH(DIMCODE) do {	\
   switch(op) {	\
     case 1:	\
@@ -335,7 +329,7 @@
   switch(op) {	\
   case 1:	\
   {	\
-    MACRO_TYPESWITCH_INTEGER1(	\
+    MACRO_TYPESWITCH_INTEGER_REL(	\
       DIMCODE,	\
       MACRO_ASSIGN_C(NA_LOGICAL), \
       MACRO_ASSIGN_C(e1 == e2)  \
@@ -344,7 +338,7 @@
   }	\
   case 2:	\
   {	\
-    MACRO_TYPESWITCH_INTEGER1(	\
+    MACRO_TYPESWITCH_INTEGER_REL(	\
       DIMCODE,	\
       MACRO_ASSIGN_C(NA_LOGICAL), \
       MACRO_ASSIGN_C(e1 != e2)  \
@@ -353,7 +347,7 @@
   }	\
   case 3:	\
   {	\
-    MACRO_TYPESWITCH_INTEGER1(	\
+    MACRO_TYPESWITCH_INTEGER_REL(	\
       DIMCODE,	\
       MACRO_ASSIGN_C(NA_LOGICAL), \
       MACRO_ASSIGN_C(e1 < e2)  \
@@ -362,7 +356,7 @@
   }	\
   case 4:	\
   {	\
-    MACRO_TYPESWITCH_INTEGER1(	\
+    MACRO_TYPESWITCH_INTEGER_REL(	\
       DIMCODE,	\
       MACRO_ASSIGN_C(NA_LOGICAL), \
       MACRO_ASSIGN_C(e1 > e2)  \
@@ -371,7 +365,7 @@
   }	\
   case 5:	\
   {	\
-    MACRO_TYPESWITCH_INTEGER1(	\
+    MACRO_TYPESWITCH_INTEGER_REL(	\
       DIMCODE,	\
       MACRO_ASSIGN_C(NA_LOGICAL), \
       MACRO_ASSIGN_C(e1 <= e2)  \
@@ -380,7 +374,7 @@
   }	\
   case 6:	\
   {	\
-    MACRO_TYPESWITCH_INTEGER1(	\
+    MACRO_TYPESWITCH_INTEGER_REL(	\
       DIMCODE,	\
       MACRO_ASSIGN_C(NA_LOGICAL), \
       MACRO_ASSIGN_C(e1 >= e2)  \
@@ -479,10 +473,23 @@
       DIMCODE(                                                          \
         MACRO_ACTION_BOOLEAN(                                           \
           px[flatind_x], py[flatind_y],       \
+          xFALSE || yFALSE,                   \
+          MACRO_ASSIGN_C(1),                                            \
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
+          MACRO_ASSIGN_C(((bool)px[flatind_x] + (bool)py[flatind_y] < 2))  \
+        )                                                       \
+      );                                                        \
+      break;	\
+    }	\
+    case 5:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ACTION_BOOLEAN(                                           \
+          px[flatind_x], py[flatind_y],       \
           xTRUE || yTRUE,                   \
           MACRO_ASSIGN_C(0),                                            \
           MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C(!(bool)px[flatind_x] && !(bool)py[flatind_y])  \
+          MACRO_ASSIGN_C(!((bool)px[flatind_x] || (bool)py[flatind_y]))  \
         )                                                       \
       );                                                        \
       break;	\
@@ -521,7 +528,14 @@
     case 4:	\
     {	\
       DIMCODE(                                                          \
-        MACRO_ASSIGN_C(!(bool)px[flatind_x] && !(bool)py[flatind_y])  \
+        MACRO_ASSIGN_C(((bool)px[flatind_x] + (bool)py[flatind_y] < 2))  \
+      );                                                        \
+      break;	\
+    }	\
+    case 5:	\
+    {	\
+      DIMCODE(                                                          \
+        MACRO_ASSIGN_C(!((bool)px[flatind_x] || (bool)py[flatind_y]))  \
       );                                                        \
       break;	\
     }	\
@@ -781,6 +795,13 @@
     );                                                                \
     break;	\
   }	\
+  case 2:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_str_dist_lcss(px[flatind_x], py[flatind_y])   \
+    );                                                                \
+    break;	\
+  }	\
   default:	\
   {	\
     stop("given operator not supported in the given context");	\
@@ -955,6 +976,17 @@
         MACRO_ACTION2(                                                    \
           px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
           pout[flatind_out] = NA_INTEGER,                                                     \
+          pout[flatind_out] = ~(px[flatind_x] & py[flatind_y])         \
+        ) \
+      );                                                                \
+      break;	\
+    }	\
+    case 5:	\
+    {	\
+      DIMCODE(  \
+        MACRO_ACTION2(                                                    \
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
+          pout[flatind_out] = NA_INTEGER,                                                     \
           pout[flatind_out] = (~px[flatind_x]) & (~py[flatind_y])         \
         ) \
       );                                                                \
@@ -994,18 +1026,25 @@
     case 4:	\
     {	\
       DIMCODE(  \
-        pout[flatind_out] = (~px[flatind_x] & ~py[flatind_y]) \
+        pout[flatind_out] = ~(px[flatind_x] & py[flatind_y]) \
       );                                                                \
       break;	\
     }	\
     case 5:	\
     {	\
       DIMCODE(  \
-        pout[flatind_out] = rcpp_bit_ls(px[flatind_x], py[flatind_y]) \
+        pout[flatind_out] = ~(px[flatind_x] | py[flatind_y]) \
       );                                                                \
       break;	\
     }	\
     case 6:	\
+    {	\
+      DIMCODE(  \
+        pout[flatind_out] = rcpp_bit_ls(px[flatind_x], py[flatind_y]) \
+      );                                                                \
+      break;	\
+    }	\
+    case 7:	\
     {	\
       DIMCODE(  \
         pout[flatind_out] = rcpp_bit_rs(px[flatind_x], py[flatind_y]) \

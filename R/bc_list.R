@@ -1,7 +1,8 @@
 #' Broadcasted Operations for Recursive Arrays
 #'
 #' @description
-#' The `bc.list()` function performs broadcasted operations on 2 Recursive arrays. \cr
+#' The `bc.list()` method
+#' performs broadcasted operations on 2 Recursive arrays. \cr
 #' 
 #' @param x,y conformable Recursive vectors/arrays (i.e. vectors/arrays of type `list`).
 #' @param f a function that takes in exactly \bold{2} arguments,
@@ -71,18 +72,11 @@ setMethod(
   out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bc_list_v(x, y, out.len, f)
+  if(dimmode < 4L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bc_list_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, f)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bc_list_ov(x, y, RxC, out.dimsimp, out.len, f)
-  }
-  else if(dimmode == 3L) {
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bc_list_bv(x, y, bigx, out.dimsimp, out.len, f)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

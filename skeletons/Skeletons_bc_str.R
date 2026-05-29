@@ -67,8 +67,8 @@ txt1 <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_str_v, rng = false)]]
 SEXP rcpp_bc_str_v(
-  SEXP x, SEXP y, 
-  R_xlen_t nout, int op
+  SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
+  R_xlen_t nout, int dimmode, bool vectorx, int op
 ) {
 
 const SEXP *px = STRING_PTR_RO(x);
@@ -76,7 +76,7 @@ const SEXP *py = STRING_PTR_RO(y);
 
 CharacterVector out(nout);
 MACRO_OP_STR_PLUS(
-  MACRO_DIM_VECTOR
+  MACRO_DIM_VECTORSPECIAL
 );
 
 
@@ -86,68 +86,13 @@ return out;
 
 
 "
+
+
+
 
 
 
 txt2 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_str_ov, rng = false)]]
-SEXP rcpp_bc_str_ov(
-  SEXP x, SEXP y,  bool RxC, SEXP out_dim,
-  R_xlen_t nout, int op
-) {
-
-const SEXP *px = STRING_PTR_RO(x);
-const SEXP *py = STRING_PTR_RO(y);
-
-CharacterVector out(nout);
-
-MACRO_OP_STR_PLUS(
-  MACRO_DIM_ORTHOVECTOR
-);
-
-
-return out;
-
-}
-
-
-"
-
-
-
-txt3 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_str_bv, rng = false)]]
-SEXP rcpp_bc_str_bv(
-  SEXP x, SEXP y,  bool bigx, SEXP out_dim,
-  R_xlen_t nout, int op
-) {
-
-const SEXP *px = STRING_PTR_RO(x);
-const SEXP *py = STRING_PTR_RO(y);
-
-CharacterVector out(nout);
-
-MACRO_OP_STR_PLUS(
-  MACRO_DIM_BIG2VECTOR
-);
-
-
-return out;
-
-}
-
-
-"
-
-
-
-txt4 <- "
 
 //' @keywords internal
 //' @noRd
@@ -180,7 +125,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2, 
   collapse = "\n\n"
 )
 
@@ -190,7 +135,7 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2, 
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bc_str.cpp")

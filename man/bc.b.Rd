@@ -14,7 +14,7 @@ bc.b(x, y, op, ...)
 Note that input with type of \code{double} will be coerced to \code{integer}.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported Boolean operators: &, |, xor, nand, ==, !=, <, >, <=, >=.}
+Supported Boolean operators: &, |, xor, nand, nor, ==, !=, <, >, <=, >=.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
@@ -28,7 +28,7 @@ where \code{01} codes for \code{TRUE} and \code{00} codes for \code{FALSE}. \cr
 This is convenient as \code{raw} requires less memory space than \code{logical}. \cr \cr
 }
 \description{
-The \code{bc.b()} function
+The \code{bc.b()} method
 performs broadcasted logical (or Boolean) operations on 2 arrays. \cr
 \cr
 Please note that these operations will treat the input as \code{logical}. \cr
@@ -46,8 +46,11 @@ Since the input is treated as logical, the following equalities hold for \code{b
 \item "<" is equivalent to \code{(!x & y)}, but faster;
 \item ">" is equivalent to \code{(x & !y)}, but faster;
 \item "<=" is equivalent to \code{(!x & y) | (y == x)}, but faster;
-\item ">=" is equivalent to \code{(x & !y) | (y == x)}, but faster. \cr \cr
+\item ">=" is equivalent to \code{(x & !y) | (y == x)}, but faster. \cr
 }
+
+Note that these are only equal in the absence of \code{NA}s,
+since \code{&} and \code{|} handle \code{NA}s diffently from the relational operators. \cr \cr
 }
 \examples{
 x.dim <- c(4:2)

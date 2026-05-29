@@ -68,7 +68,7 @@ with the elements arranged such that the dimensions are \code{c(max(lengths(x)),
 If \code{x} has no dimensions, \code{dim(x)} is replaced with \code{length(x)}, thus treating \code{x} as an 1d array. \cr
 This will therefore always produce an atomic array with at least 2 dimensions. \cr
 The \code{dimnames}, if possible to construct,
-will be \code{c(names(x[[comnames_from]]), dimnames(x))}. \cr
+will be \code{c(dimnames(x[[comnames_from]]), dimnames(x))}. \cr
 \cr
 If \code{arrangement = -1L}, \cr
 \code{cast_shallow2atomic()} will produce an atomic array,

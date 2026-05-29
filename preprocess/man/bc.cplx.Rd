@@ -27,7 +27,8 @@ A logical array as a result of the broadcasted relational comparison. \cr
 \cr
 }
 \description{
-The \code{bc.cplx()} function performs broadcasted complex numeric operations on pairs of arrays. \cr
+The \code{bc.cplx()} method
+performs broadcasted complex numeric operations on pairs of arrays. \cr
 \cr
 }
 \details{

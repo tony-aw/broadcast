@@ -219,6 +219,21 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p><strong>Fixes:</strong></p>
+<ul>
+<li>Added a note in the help page of the <code>broadcaster</code> class regarding possibly incompatible functions (<a href="https://github.com/tony-aw/broadcast/issues/4">#4</a>).</li>
+<li>Fixed the “nand” operator to be correctly defined as <code>!(x &amp; y)</code>, and bypasses the low-level ‘C++’ short-circuit evaluation issues.</li>
+</ul>
+<p><strong>New operators:</strong></p>
+<ul>
+<li>Added new Boolean &amp; bit-wise operation: “nor”, defined as <code>!(x | y)</code></li>
+<li>Added new string operation: “lcss” (longest common sub-string).</li>
+</ul>
+<p><strong>Other:</strong></p>
+<ul>
+<li>Slight performance improvement for integer relational operations.</li>
+</ul>
+<p><br></p>
 <section id="broadcast-0.1.8" class="level1">
 <h1>broadcast 0.1.8</h1>
 <ul>

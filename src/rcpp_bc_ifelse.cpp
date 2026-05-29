@@ -19,8 +19,8 @@ inline Rcomplex rcpp_cplx_returnNA() {
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_ifelse_v, rng = false)]]
 SEXP rcpp_bc_ifelse_v(
-  SEXP cond, SEXP x, SEXP y,
-  R_xlen_t nout
+  SEXP cond, SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
+  R_xlen_t nout, int dimmode, bool vectorx
 ) {
 
 
@@ -28,84 +28,20 @@ SEXP rcpp_bc_ifelse_v(
     const int *pcond = INTEGER_RO(cond);
     
     MACRO_OP_IFELSE_INT(
-      MACRO_DIM_VECTOR
+      MACRO_DIM_VECTORSPECIAL
     );
   }
   else if(TYPEOF(cond) == RAWSXP) {
     const Rbyte *pcond = RAW_RO(cond);
     
     MACRO_OP_IFELSE_RAW(
-      MACRO_DIM_VECTOR
+      MACRO_DIM_VECTORSPECIAL
     );
   }
   else {
     stop("unsupported type given");
   }
 
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_ifelse_ov, rng = false)]]
-SEXP rcpp_bc_ifelse_ov(
-  SEXP cond, SEXP x, SEXP y, bool RxC, SEXP out_dim,
-  R_xlen_t nout
-) {
-
-
-  if(TYPEOF(cond) == LGLSXP || TYPEOF(cond) == INTSXP) {
-    const int *pcond = INTEGER_RO(cond);
-    
-    MACRO_OP_IFELSE_INT(
-      MACRO_DIM_ORTHOVECTOR
-    );
-  }
-  else if(TYPEOF(cond) == RAWSXP) {
-    const Rbyte *pcond = RAW_RO(cond);
-    
-    MACRO_OP_IFELSE_RAW(
-      MACRO_DIM_ORTHOVECTOR
-    );
-  }
-  else {
-    stop("unsupported type given");
-  }
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_ifelse_bv, rng = false)]]
-SEXP rcpp_bc_ifelse_bv(
-  SEXP cond, SEXP x, SEXP y, bool bigx, SEXP out_dim,
-  R_xlen_t nout
-) {
-
-
-  if(TYPEOF(cond) == LGLSXP || TYPEOF(cond) == INTSXP) {
-    const int *pcond = INTEGER_RO(cond);
-    
-    MACRO_OP_IFELSE_INT(
-      MACRO_DIM_BIG2VECTOR
-    );
-  }
-  else if(TYPEOF(cond) == RAWSXP) {
-    const Rbyte *pcond = RAW_RO(cond);
-    
-    MACRO_OP_IFELSE_RAW(
-      MACRO_DIM_BIG2VECTOR
-    );
-  }
-  else {
-    stop("unsupported type given");
-  }
 
 }
 

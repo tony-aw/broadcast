@@ -108,19 +108,11 @@ setMethod(
   
   
   # Broadcast:
-  
-  if(dimmode == 1L) { # vector mode
-    .rcpp_bcapply_v(out, x, y, out.len, fnew)
+  if(dimmode < 4L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    .rcpp_bcapply_v(out, x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, fnew)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    .rcpp_bcapply_ov(out, x, y, RxC, out.dimsimp, out.len, fnew)
-  }
-  else if(dimmode == 3L) {
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    .rcpp_bcapply_bv(out, x, y, bigx, out.dimsimp, out.len, fnew)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

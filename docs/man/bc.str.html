@@ -271,6 +271,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
           <li class="sidebar-item">
+ <span class="menu-text">man/recast_dirvector.qmd</span>
+  </li>
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/cast_hier2dim.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">cast_hier2dim</span></a>
@@ -308,24 +311,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/bc_ifelse.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">bc_ifelse</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../man/bcapply.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">General pair-wise functions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bcapply.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bcapply</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc_ifelse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc_ifelse</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc_strrep.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc_strrep</span></a>
   </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/linear_algebra_stats.html" class="sidebar-item-text sidebar-link">
@@ -342,11 +356,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../man/checkmissing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Helper Functions</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/checkmissing.html" class="sidebar-item-text sidebar-link">
@@ -426,7 +440,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="broadcasted-string-operations">Broadcasted String Operations</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>The <code>bc.str()</code> function performs broadcasted string operations on pairs of arrays. <br> <br></p>
+<p>The <code>bc.str()</code> method performs broadcasted string operations on pairs of arrays. <br> <br></p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -453,7 +467,7 @@ conformable vectors/arrays of type <code>character</code>.
 <code id="op">op</code>
 </td>
 <td>
-a single string, giving the operator. <br> Supported concatenation operators: +. <br> Supported relational operators: ==, !=. <br> Supported distance operators: levenshtein.
+a single string, giving the operator. <br> Supported concatenation operators: +. <br> Supported relational operators: ==, !=. <br> Supported distance operators: levenshtein, lcss. <br> "lcss" stands for Longest Common Sub-String.
 </td>
 </tr>
 <tr>
@@ -514,25 +528,37 @@ further arguments passed to or from methods. <br> <br>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] FALSE FALSE</span></span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># string distance (Levenshtein):</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(month.name, <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">1</span>))</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(month.abb, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">12</span>))</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">bc.str</span>(x, y, <span class="st">"levenshtein"</span>)</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(out) <span class="ot">&lt;-</span> <span class="fu">list</span>(month.name, month.abb)</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out)</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; January     4   7   5   6   5   5   5   6   7   7   7   7</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; February    7   5   6   7   6   7   7   7   7   8   8   7</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; March       4   5   2   4   3   5   5   5   5   4   5   4</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; April       5   5   4   2   5   5   4   4   5   5   5   5</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; May         2   3   1   3   0   3   3   3   3   3   3   3</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; June        2   4   4   4   4   1   2   3   4   4   4   4</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; July        3   4   4   4   3   2   1   3   4   4   4   4</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; August      6   6   6   5   6   5   5   3   6   5   6   6</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; September   9   7   8   7   9   9   9   9   6   8   9   8</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; October     7   6   6   6   7   7   7   7   6   4   6   6</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; November    8   6   7   7   8   8   8   8   7   8   5   7</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; December    8   6   7   7   8   8   8   8   7   7   8   5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># string distances:</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">setNames</span>(month.name, month.name) <span class="sc">|&gt;</span> <span class="fu">vector2array</span>(1L)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">setNames</span>(month.abb, month.abb) <span class="sc">|&gt;</span> <span class="fu">vector2array</span>(2L)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.str</span>(x, y, <span class="st">"levenshtein"</span>) <span class="co"># levenshtein</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; January     4   7   5   6   5   5   5   6   7   7   7   7</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; February    7   5   6   7   6   7   7   7   7   8   8   7</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; March       4   5   2   4   3   5   5   5   5   4   5   4</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; April       5   5   4   2   5   5   4   4   5   5   5   5</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; May         2   3   1   3   0   3   3   3   3   3   3   3</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; June        2   4   4   4   4   1   2   3   4   4   4   4</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; July        3   4   4   4   3   2   1   3   4   4   4   4</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; August      6   6   6   5   6   5   5   3   6   5   6   6</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; September   9   7   8   7   9   9   9   9   6   8   9   8</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; October     7   6   6   6   7   7   7   7   6   4   6   6</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; November    8   6   7   7   8   8   8   8   7   8   5   7</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; December    8   6   7   7   8   8   8   8   7   7   8   5</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="fu">bc.str</span>(x, y, <span class="st">"lcss"</span>) <span class="co"># longest common sub-string</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; January     3   0   2   1   1   1   1   1   0   0   0   0</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; February    1   3   2   1   1   1   1   1   1   0   0   1</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; March       1   0   3   1   2   0   0   0   0   1   0   1</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; April       0   0   1   3   0   0   1   1   1   0   0   0</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; May         1   0   2   0   3   0   0   0   0   0   0   0</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; June        1   1   0   0   0   3   2   1   1   0   0   1</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; July        1   0   0   0   1   2   3   1   0   0   0   0</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; August      0   0   0   1   0   1   1   3   0   1   0   0</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; September   0   1   1   1   0   0   0   0   3   1   0   1</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; October     0   1   1   1   0   0   0   0   1   3   1   1</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; November    0   1   1   1   0   0   0   0   1   0   3   1</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; December    0   1   1   1   0   0   0   0   1   1   0   3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

@@ -1,0 +1,84 @@
+
+// 
+// 
+// 
+// ********************************************************************************
+// MACROs for ternary
+// 
+// The following MACROs define the ternary operations.
+// 
+// ********************************************************************************
+// 
+// 
+
+
+
+#define MACRO_TERNARY_ACTION_INT(RELCODE) do { \
+  if(px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER) {  \
+    pout[flatind_out] = navalue; \
+  } \
+  else if(RELCODE) {  \
+    pout[flatind_out] = truevalue;  \
+  } \
+  else {  \
+    pout[flatind_out] = falsevalue;  \
+  } \
+} while(0)
+
+
+#define MACRO_TERNARY_RELOP_INT(DIMCODE) do { \
+  const int *px = INTEGER_RO(x);  \
+  const int *py = INTEGER_RO(y);  \
+  switch(op) {	\
+    case 1:	\
+    {	\
+      DIMCODE(  \
+        MACRO_TERNARY_ACTION_INT(px[flatind_x] == py[flatind_y])  \
+      );	\
+      break;	\
+    }	\
+    case 2:	\
+    {	\
+      DIMCODE(  \
+        MACRO_TERNARY_ACTION_INT(px[flatind_x] != py[flatind_y])  \
+      );	\
+      break;	\
+    }	\
+    case 3:	\
+    {	\
+      DIMCODE(  \
+        MACRO_TERNARY_ACTION_INT(px[flatind_x] < py[flatind_y])  \
+      );	\
+      break;	\
+    }	\
+    case 4:	\
+    {	\
+      DIMCODE(  \
+        MACRO_TERNARY_ACTION_INT(px[flatind_x] > py[flatind_y])  \
+      );	\
+      break;	\
+    }	\
+    case 5:	\
+    {	\
+      DIMCODE(  \
+        MACRO_TERNARY_ACTION_INT(px[flatind_x] <= py[flatind_y])  \
+      );	\
+      break;	\
+    }	\
+    case 6:	\
+    {	\
+      DIMCODE(  \
+        MACRO_TERNARY_ACTION_INT(px[flatind_x] >= py[flatind_y])  \
+      );	\
+      break;	\
+    }	\
+    default:	\
+    {	\
+      stop("given operator not supported in the given context");	\
+    }	\
+  }	\
+} while(0)
+
+
+
+

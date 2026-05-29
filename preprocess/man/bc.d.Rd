@@ -34,7 +34,7 @@ A logical array as a result of the broadcasted decimal relational comparison. \c
 \cr
 }
 \description{
-The \code{bc.d()} function
+The \code{bc.d()} method
 performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr
 \cr \cr
 }

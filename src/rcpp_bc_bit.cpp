@@ -32,8 +32,8 @@ inline Rbyte rcpp_bit_rs(Rbyte x, Rbyte y) {
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_bit_v, rng = false)]]
 SEXP rcpp_bc_bit_v(
-  SEXP x, SEXP y,
-  R_xlen_t nout, int op
+  SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
+  R_xlen_t nout, int dimmode, bool vectorx, int op
 ) {
 
   
@@ -44,7 +44,7 @@ SEXP rcpp_bc_bit_v(
     const Rbyte *px = RAW(x);
     const Rbyte *py = RAW(y);
     
-    MACRO_OP_BIT_ANDOR_RAW(MACRO_DIM_VECTOR);
+    MACRO_OP_BIT_ANDOR_RAW(MACRO_DIM_VECTORSPECIAL);
     
     UNPROTECT(1);
     return out;
@@ -55,7 +55,7 @@ SEXP rcpp_bc_bit_v(
     const int *px = INTEGER_RO(x);
     const int *py = INTEGER_RO(y);
     
-    MACRO_OP_BIT_ANDOR_INT(MACRO_DIM_VECTOR);
+    MACRO_OP_BIT_ANDOR_INT(MACRO_DIM_VECTORSPECIAL);
     
     UNPROTECT(1);
     return out;
@@ -63,90 +63,6 @@ SEXP rcpp_bc_bit_v(
   else {
     stop("unsupported combinations of types given");
   }
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_bit_ov, rng = false)]]
-SEXP rcpp_bc_bit_ov(
-  SEXP x, SEXP y, bool RxC, SEXP out_dim,
-  R_xlen_t nout, int op
-) {
-
-
-  if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
-    
-    SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
-    Rbyte *pout = RAW(out);
-    const Rbyte *px = RAW(x);
-    const Rbyte *py = RAW(y);
-    
-    MACRO_OP_BIT_ANDOR_RAW(MACRO_DIM_ORTHOVECTOR);
-    
-    UNPROTECT(1);
-    return out;
-  }
-  else if(TYPEOF(x) == INTSXP && TYPEOF(y) == INTSXP) {
-    SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
-    int *pout = INTEGER(out);
-    const int *px = INTEGER_RO(x);
-    const int *py = INTEGER_RO(y);
-    
-    MACRO_OP_BIT_ANDOR_INT(MACRO_DIM_ORTHOVECTOR);
-    
-    UNPROTECT(1);
-    return out;
-  }
-  else {
-    stop("unsupported combinations of types given");
-  }
-
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_bit_bv, rng = false)]]
-SEXP rcpp_bc_bit_bv(
-  SEXP x, SEXP y, bool bigx, SEXP out_dim,
-  R_xlen_t nout, int op
-) {
-
-
-  if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
-    
-    SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
-    Rbyte *pout = RAW(out);
-    const Rbyte *px = RAW(x);
-    const Rbyte *py = RAW(y);
-    
-    MACRO_OP_BIT_ANDOR_RAW(MACRO_DIM_BIG2VECTOR);
-    
-    UNPROTECT(1);
-    return out;
-  }
-  else if(TYPEOF(x) == INTSXP && TYPEOF(y) == INTSXP) {
-    SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
-    int *pout = INTEGER(out);
-    const int *px = INTEGER_RO(x);
-    const int *py = INTEGER_RO(y);
-    
-    MACRO_OP_BIT_ANDOR_INT(MACRO_DIM_BIG2VECTOR);
-    
-    UNPROTECT(1);
-    return out;
-  }
-  else {
-    stop("unsupported combinations of types given");
-  }
-
 
 }
 

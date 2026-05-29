@@ -20,12 +20,12 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p><code>broadcaster()</code> checks if an array or vector has the &quot;broadcaster&quot; attribute. <br>
+<p><code>broadcaster()</code> checks if an array or vector is marked as a &quot;broadcaster&quot;. <br>
 <code>bcr()</code> is a short-hand alias for <code>broadcaster()</code>. <br>
 <br>
-<code style="white-space: pre;">&#8288;broadcaster()&lt;-&#8288;</code> (or <code style="white-space: pre;">&#8288;bcr()&lt;-&#8288;</code>) sets or un-sets the class attribute &quot;broadcaster&quot; on an array or vector. <br>
+<code style="white-space: pre;">&#8288;broadcaster()&lt;-&#8288;</code> (or <code style="white-space: pre;">&#8288;bcr()&lt;-&#8288;</code>) marks or un-marks the object as a &quot;broadcaster&quot;. <br>
 <br>
-<code>mbroadcasters()</code> sets or un-sets multiple objects in an environment as broadcaster. <br>
+<code>mbroadcasters()</code> marks or un-marks multiple objects in an environment as broadcaster. <br>
 <br>
 The <code>broadcaster</code> class attribute exists purely to overload the
 arithmetic, Boolean, bit-wise, and relational infix operators,
@@ -59,7 +59,7 @@ bcr(x) &lt;- value
 <table role = "presentation">
 <tr><td><code id="x">x</code></td>
 <td>
-<p>object to check or set. <br>
+<p>object to check or mark. <br>
 Only S3 vectors and arrays are supported, and only up to 16 dimensions.</p>
 </td></tr>
 <tr><td><code id="value">value</code></td>
@@ -86,21 +86,34 @@ If <code>NULL</code>, the environment from which the function was called is used
 <br>
 For <code style="white-space: pre;">&#8288;broadcaster()&lt;-&#8288;</code>: <br>
 Returns nothing,
-but sets (if right hand side is <code>TRUE</code>)
-or removes (if right hand side is <code>FALSE</code>)
-the &quot;broadcaster&quot; class attribute. <br>
+but marks (if right hand side is <code>TRUE</code>)
+or un-marks (if right hand side is <code>FALSE</code>)
+the object as a &quot;broadcaster&quot;. <br>
 <br>
 For <code>mbroadcasters()</code>: <br>
 Returns nothing,
-but sets (if <code>value = TRUE</code>)
-or removes (<code>value = FALSE</code>)
-the &quot;broadcaster&quot; class attribute. <br>
+but marks (if right hand side is <code>TRUE</code>)
+or un-marks (if right hand side is <code>FALSE</code>)
+the objects as broadcasters. <br>
 If <code>value = TRUE</code>,
 objects that cannot become a broadcaster or are already a broadcaster
 will be ignored. <br>
 If <code>value = FALSE</code>,
 objects that are not broadcasters (according to <code>broadcaster()</code>)
 will be ignored. <br>
+<br>
+</p>
+
+
+<h3>Note</h3>
+
+<p>The 'broadcaster' class will make arithmetic and relational operators operate with broadcasting. <br>
+Functions that rely on non-broadcasted functionality of these operators
+will produce unexpected results. <br>
+Thus functions like <code>pmin()</code> and <code>pmax()</code>,
+and some functions from the 'tinyplot' package,
+are <b>not</b> compatible with 'broadcaster' vectors/arrays. <br>
+Please ensure an object is not a 'broadcaster' before applying these functions on it. <br>
 <br>
 </p>
 

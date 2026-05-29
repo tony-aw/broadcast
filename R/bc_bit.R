@@ -1,7 +1,7 @@
 #' Broadcasted Bit-wise Operations
 #'
 #' @description
-#' The `bc.bit()` function
+#' The `bc.bit()` method
 #' performs broadcasted bit-wise operations
 #' on pairs of arrays, where both arrays are of type `raw` or both arrays are of type `integer`. \cr
 #' \cr
@@ -112,18 +112,11 @@ setMethod(
   out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bc_bit_v(x, y, out.len, op)
+  if(dimmode < 5L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bc_bit_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bc_bit_ov(x, y, RxC, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 3L) {
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bc_bit_bv(x, y, bigx, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
@@ -162,18 +155,11 @@ setMethod(
   out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bcRel_bit_v(x, y, out.len, op)
+  if(dimmode < 5L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bcRel_bit_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bcRel_bit_ov(x, y, RxC, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 3L) {
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bcRel_bit_bv(x, y, bigx, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

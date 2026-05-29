@@ -27,8 +27,8 @@ inline bool rcpp_isFALSE(
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_b_v, rng = false)]]
 SEXP rcpp_bc_b_v(
-  SEXP x, SEXP y,
-  R_xlen_t nout, int op
+  SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
+  R_xlen_t nout, int dimmode, bool vectorx, int op
 ) {
   
   int tempout;
@@ -41,7 +41,7 @@ SEXP rcpp_bc_b_v(
      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
      Rbyte *pout;
      pout = RAW(out);
-     MACRO_OP_BOOL_ANDOR_RAW(MACRO_DIM_VECTOR);
+     MACRO_OP_BOOL_ANDOR_RAW(MACRO_DIM_VECTORSPECIAL);
      UNPROTECT(1);
      return out;
   }
@@ -51,83 +51,11 @@ SEXP rcpp_bc_b_v(
      SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
      int *pout;
      pout = LOGICAL(out); 
-     MACRO_OP_BOOL_ANDOR_INT(MACRO_DIM_VECTOR);
+     MACRO_OP_BOOL_ANDOR_INT(MACRO_DIM_VECTORSPECIAL);
      UNPROTECT(1);
      return out;
   }
 
-
-}
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_b_ov, rng = false)]]
-SEXP rcpp_bc_b_ov(
-  SEXP x, SEXP y, bool RxC, SEXP out_dim,
-  R_xlen_t nout, int op
-) {
-
-  int tempout;
-  
-  int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-  if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
-     const Rbyte *px = RAW_RO(x);
-     const Rbyte *py = RAW_RO(y);
-     SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
-     Rbyte *pout;
-     pout = RAW(out);
-     MACRO_OP_BOOL_ANDOR_RAW(MACRO_DIM_ORTHOVECTOR);
-     UNPROTECT(1);
-     return out;
-  
-  }
-  else {
-     const int *px = INTEGER_RO(x);
-     const int *py = INTEGER_RO(y);
-     SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-     int *pout;
-     pout = LOGICAL(out); 
-     MACRO_OP_BOOL_ANDOR_INT(MACRO_DIM_ORTHOVECTOR);
-     UNPROTECT(1);
-     return out;
-  }
-
-}
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_b_bv, rng = false)]]
-SEXP rcpp_bc_b_bv(
-  SEXP x, SEXP y, bool bigx, SEXP out_dim,
-  R_xlen_t nout, int op
-) {
-  
-  int tempout;
-  
-  int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
-  if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
-     const Rbyte *px = RAW_RO(x);
-     const Rbyte *py = RAW_RO(y);
-     SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
-     Rbyte *pout;
-     pout = RAW(out);
-     MACRO_OP_BOOL_ANDOR_RAW(MACRO_DIM_BIG2VECTOR);
-     UNPROTECT(1);
-     return out;
-  
-  }
-  else {
-     const int *px = INTEGER_RO(x);
-     const int *py = INTEGER_RO(y);
-     SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-     int *pout;
-     pout = LOGICAL(out); 
-     MACRO_OP_BOOL_ANDOR_INT(MACRO_DIM_BIG2VECTOR);
-     UNPROTECT(1);
-     return out;
-  }
 
 }
 

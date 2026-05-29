@@ -50,7 +50,7 @@ expect_equal(
   expected, out
 )
 
-# sandwhich:
+# big2vector:
 x <- array(rnorm(10), c(100L, 90L, 50L))
 y <- array(rnorm(10), c(1L, 90L, 1L))
 out.dim <- pmax(dim(x), dim(y))
@@ -65,6 +65,21 @@ expect_equal(
   expected, out
 )
 
+# sandwich:
+x <- array(rnorm(10), c(100L, 1L, 50L))
+y <- array(rnorm(10), c(1L, 90L, 1L))
+out.dim <- pmax(dim(x), dim(y))
+out <- .binary_prep(x, y)
+expected <- list(
+  x.dim = c(dim(x), 1L),
+  y.dim = c(dim(y), 1L),
+  out.dimorig = out.dim, out.dimsimp = c(out.dim, 1L), out.len = prod(out.dim),
+  dimmode = 4L
+)
+expect_equal(
+  expected, out
+)
+
 # general:
 x <- array(rnorm(10), c(100L, 90L, 50L, 1L))
 y <- array(rnorm(10), c(1L, 90L, 1L, 30L))
@@ -74,7 +89,7 @@ expected <- list(
   x.dim = dim(x),
   y.dim = dim(y),
   out.dimorig = out.dim, out.dimsimp = out.dim, out.len = prod(out.dim),
-  dimmode = 4L
+  dimmode = 5L
 )
 expect_equal(
   expected, out
@@ -168,7 +183,7 @@ enumerate <- enumerate + 1L
 
 
 
-# test merge sandwich ====
+# test merge big2vector ====
 x <- array(rnorm(10L), c(1, 1, 1, 1, 7, 8, 9, 1, 1, 1, 1, 1))
 y <- array(rnorm(10L), c(5, 3, 4, 1, 7, 8, 9, 1, 3, 5, 4, 1))
 out.dim <- pmax(dim(x), dim(y))
@@ -185,8 +200,7 @@ expect_equal(
 enumerate <- enumerate + 1L
 
 
-
-# test merge general ====
+# test merge sandwhich ====
 x <- array(rnorm(10L), c(1, 1, 1, 1, 7, 8, 9, 1, 1, 1, 1, 1))
 y <- array(rnorm(10L), c(5, 3, 4, 1, 1, 1, 1, 1, 3, 5, 4, 1))
 out.dim <- pmax(dim(x), dim(y))
@@ -196,6 +210,23 @@ expected <- list(
   y.dim = c(5*3*4, 1, 3*5*4, 1),
   out.dimorig = out.dim, out.dimsimp = c(5*3*4, 7*8*9, 3*5*4, 1), out.len = prod(out.dim),
   dimmode = 4L
+)
+expect_equal(
+  expected, out
+)
+enumerate <- enumerate + 1L
+
+
+# test merge general ====
+x <- array(rnorm(10L), c(1, 1, 1, 1, 1, 7, 8, 9, 1, 1, 1, 1, 5, 6, 7, 1))
+y <- array(rnorm(10L), c(1, 5, 3, 4, 1, 1, 1, 1, 1, 3, 5, 4, 1, 1, 1, 1))
+out.dim <- pmax(dim(x), dim(y))
+out <- .binary_prep(x, y, sys.call())
+expected <- list(
+  x.dim = c(1, 7*8*9, 1, 5*6*7),
+  y.dim = c(5*3*4, 1, 3*5*4, 1),
+  out.dimorig = out.dim, out.dimsimp = c(5*3*4, 7*8*9, 3*5*4, 5*6*7), out.len = prod(out.dim),
+  dimmode = 5L
 )
 expect_equal(
   expected, out

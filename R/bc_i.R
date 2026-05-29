@@ -1,7 +1,7 @@
 #' Broadcasted Integer Numeric Operations with Extra Overflow Protection
 #'
 #' @description
-#' The `bc.i()` function
+#' The `bc.i()` method
 #' performs broadcasted integer numeric operations on 2 numeric or logical arrays. \cr
 #' \cr
 #' Please note that these operations will treat the input as (`double` typed) integers,
@@ -122,18 +122,11 @@ setMethod(
   out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bc_int_v(x, y, out.len, op)
+  if(dimmode < 4L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bc_int_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bc_int_ov(x, y, RxC, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 3L) { # big-vector mode
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bc_int_bv(x, y, bigx, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
@@ -179,18 +172,11 @@ setMethod(
   out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bcD_int_v(x, y, out.len, op)
+  if(dimmode < 5L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bcD_int_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bcD_int_ov(x, y, RxC, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 3L) { # orthogonal vector mode
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bcD_int_bv(x, y, bigx, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
@@ -233,18 +219,11 @@ setMethod(
   dimmode <- prep[[6L]]
   
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bcRel_int_v(x, y, out.len, op)
+  if(dimmode < 4L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bcRel_int_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bcRel_int_ov(x, y, RxC, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 3L) { # orthogonal vector mode
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bcRel_int_bv(x, y, bigx, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

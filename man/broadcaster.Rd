@@ -19,7 +19,7 @@ bcr(x)
 bcr(x) <- value
 }
 \arguments{
-\item{x}{object to check or set. \cr
+\item{x}{object to check or mark. \cr
 Only S3 vectors and arrays are supported, and only up to 16 dimensions.}
 
 \item{value}{set to \code{TRUE} to make an array a broadcaster,
@@ -36,15 +36,15 @@ For \code{broadcaster()}: \cr
 \cr
 For \verb{broadcaster()<-}: \cr
 Returns nothing,
-but sets (if right hand side is \code{TRUE})
-or removes (if right hand side is \code{FALSE})
-the "broadcaster" class attribute. \cr
+but marks (if right hand side is \code{TRUE})
+or un-marks (if right hand side is \code{FALSE})
+the object as a "broadcaster". \cr
 \cr
 For \code{mbroadcasters()}: \cr
 Returns nothing,
-but sets (if \code{value = TRUE})
-or removes (\code{value = FALSE})
-the "broadcaster" class attribute. \cr
+but marks (if right hand side is \code{TRUE})
+or un-marks (if right hand side is \code{FALSE})
+the objects as broadcasters. \cr
 If \code{value = TRUE},
 objects that cannot become a broadcaster or are already a broadcaster
 will be ignored. \cr
@@ -54,12 +54,12 @@ will be ignored. \cr
 \cr
 }
 \description{
-\code{broadcaster()} checks if an array or vector has the "broadcaster" attribute. \cr
+\code{broadcaster()} checks if an array or vector is marked as a "broadcaster". \cr
 \code{bcr()} is a short-hand alias for \code{broadcaster()}. \cr
 \cr
-\verb{broadcaster()<-} (or \verb{bcr()<-}) sets or un-sets the class attribute "broadcaster" on an array or vector. \cr
+\verb{broadcaster()<-} (or \verb{bcr()<-}) marks or un-marks the object as a "broadcaster". \cr
 \cr
-\code{mbroadcasters()} sets or un-sets multiple objects in an environment as broadcaster. \cr
+\code{mbroadcasters()} marks or un-marks multiple objects in an environment as broadcaster. \cr
 \cr
 The \code{broadcaster} class attribute exists purely to overload the
 arithmetic, Boolean, bit-wise, and relational infix operators,
@@ -71,6 +71,16 @@ Like in the following calculation: \cr
 \code{x / (y + z)} \cr
 \cr
 See \link{broadcast_operators} for more information. \cr
+}
+\note{
+The 'broadcaster' class will make arithmetic and relational operators operate with broadcasting. \cr
+Functions that rely on non-broadcasted functionality of these operators
+will produce unexpected results. \cr
+Thus functions like \code{pmin()} and \code{pmax()},
+and some functions from the 'tinyplot' package,
+are \bold{not} compatible with 'broadcaster' vectors/arrays. \cr
+Please ensure an object is not a 'broadcaster' before applying these functions on it. \cr
+\cr
 }
 \examples{
 

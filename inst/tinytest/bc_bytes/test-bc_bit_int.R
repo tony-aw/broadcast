@@ -100,11 +100,11 @@ op <- "nand"
 i <- 1L
 
 basefun <- function(x, y) {
-  out <- bitwAnd(bitwNot(x), bitwNot(y))
+  out <- bitwNot(bitwAnd(x, y))
   dim(out) <- bc_dim(x, y)
   return(out)
 }
-bc.fun <- \(x, y) bc.bit(x, y, "nand")
+bc.fun <- \(x, y) bc.bit(x, y, op)
 res <- .test_binary(bc.fun, basefun, "integer", "integer")
 expect_equal(
   res$expected, res$out
@@ -112,9 +112,29 @@ expect_equal(
 enumerate <- enumerate + res$i
 
 
+
+# bitwise nor ====
+nres <- 10 * 5 * 5 * 3 # number of tests performed here
+
+op <- "nor"
+
+i <- 1L
+
+basefun <- function(x, y) {
+  out <- bitwNot(bitwOr(x, y))
+  dim(out) <- bc_dim(x, y)
+  return(out)
+}
+bc.fun <- \(x, y) bc.bit(x, y, op)
+res <- .test_binary(bc.fun, basefun, "integer", "integer")
+expect_equal(
+  res$expected, res$out
+)
+enumerate <- enumerate + res$i
+
+
+
 # bitwise equal ====
-
-
 op <- "=="
 
 i <- 1L

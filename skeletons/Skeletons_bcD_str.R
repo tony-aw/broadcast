@@ -108,6 +108,43 @@ inline int rcpp_str_dist_led(String x, String y) {
 }
 
 
+int rcpp_str_dist_lcss(String x, String y) {
+
+    if(x == NA_STRING || y == NA_STRING) {
+      return NA_INTEGER;
+    }
+  
+    std::string s1 = x;
+    std::string s2 = y;
+
+    int m = s1.length();
+    int n = s2.length();
+
+    std::vector<int> prev(n + 1, 0);
+    
+    int res = 0;
+    for (int i = 1; i <= m; i++) {
+      
+      std::vector<int> curr(n + 1, 0);
+      
+      for (int j = 1; j <= n; j++) {
+      
+        if (s1[i - 1] == s2[j - 1]) {
+            curr[j] = prev[j - 1] + 1;
+            res = std::max(res, curr[j]);
+        } else {
+            curr[j] = 0;
+        }
+        
+      }
+      prev = curr;
+    }
+    
+    return res;
+}
+
+
+
 "
 
 txt1 <- "
@@ -116,8 +153,8 @@ txt1 <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_bcD_str_v, rng = false)]]
 SEXP rcpp_bcD_str_v(
-  SEXP x, SEXP y, 
-  R_xlen_t nout, int op
+  SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
+  R_xlen_t nout, int dimmode, bool vectorx, int op
 ) {
 
 
@@ -128,7 +165,7 @@ SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
 int *pout;
 pout = INTEGER(out);
 
-MACRO_OP_STR_DIST(MACRO_DIM_VECTOR);
+MACRO_OP_STR_DIST(MACRO_DIM_VECTORSPECIAL);
 
 
 UNPROTECT(1);
@@ -138,69 +175,8 @@ return out;
 
 
 "
-
-
 
 txt2 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcD_str_ov, rng = false)]]
-SEXP rcpp_bcD_str_ov(
-  SEXP x, SEXP y,  bool RxC, SEXP out_dim,
-  R_xlen_t nout, int op
-) {
-
-
-const SEXP *px = STRING_PTR_RO(x);
-const SEXP *py = STRING_PTR_RO(y);
-
-SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
-int *pout;
-pout = INTEGER(out);
-
-MACRO_OP_STR_DIST(MACRO_DIM_ORTHOVECTOR);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-"
-
-
-
-txt3 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcD_str_bv, rng = false)]]
-SEXP rcpp_bcD_str_bv(
-  SEXP x, SEXP y,  bool bigx, SEXP out_dim,
-  R_xlen_t nout, int op
-) {
-
-
-const SEXP *px = STRING_PTR_RO(x);
-const SEXP *py = STRING_PTR_RO(y);
-
-SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
-int *pout;
-pout = INTEGER(out);
-
-MACRO_OP_STR_DIST(MACRO_DIM_BIG2VECTOR);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-"
-
-
-txt4 <- "
 
 //' @keywords internal
 //' @noRd
@@ -233,7 +209,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2,
   collapse = "\n\n"
 )
 
@@ -243,7 +219,7 @@ setwd("..")
 
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bcD_str.cpp")

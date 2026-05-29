@@ -11,7 +11,7 @@ format:
 
 ### Description
 
-The <code>bc.b()</code> function
+The <code>bc.b()</code> method
 performs broadcasted logical (or Boolean) operations on 2 arrays. <br>
 <br>
 Please note that these operations will treat the input as <code>logical</code>. <br>
@@ -42,7 +42,7 @@ Note that input with type of <code>double</code> will be coerced to <code>intege
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
 a single string, giving the operator. <br>
-Supported Boolean operators: &amp;, |, xor, nand, ==, !=, &lt;, &gt;, &lt;=, &gt;=.
+Supported Boolean operators: &amp;, |, xor, nand, nor, ==, !=, &lt;, &gt;, &lt;=, &gt;=.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
@@ -73,9 +73,12 @@ Since the input is treated as logical, the following equalities hold for <code>b
 <li> &quot;&lt;=&quot; is equivalent to <code>(!x &amp; y) | (y == x)</code>, but faster;
 
 </li>
-<li> &quot;&gt;=&quot; is equivalent to <code>(x &amp; !y) | (y == x)</code>, but faster. <br> <br>
+<li> &quot;&gt;=&quot; is equivalent to <code>(x &amp; !y) | (y == x)</code>, but faster. <br>
 
 </li></ul>
+
+Note that these are only equal in the absence of <code>NA</code>s,
+since <code>&amp;</code> and <code>|</code> handle <code>NA</code>s diffently from the relational operators. <br> <br>
 
 
 

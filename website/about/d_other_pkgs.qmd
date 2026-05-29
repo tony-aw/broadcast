@@ -23,7 +23,7 @@ At the time of writing, the only alternative to the 'broadcast' package with res
 
 For example: Using the 'reticulate' package to access 'Python', and via that connection accessing the 'Numpy' module, which supports (and perhaps even had the first implementation) of broadcasting.
 
-Another example is the 'xtensor' package (and extensiosn to that package, like 'rray'), that allows `r fa("r-project")` - users to access the 'C++' module of the same name.
+Another example is the 'xtensor' package (and extensions to that package, like 'rray'), that allows `r fa("r-project")` - users to access the 'C++' module of the same name.
 
 These alternatives all need access to a different programming language, which brings with it a host of problems:
 
@@ -31,7 +31,7 @@ These alternatives all need access to a different programming language, which br
  - **Wasteful translations**: Using libraries from other languages, such as 'xtensor' ('C++') or 'Numpy' ('Python') means that - at some point - one needs to convert between the structure of `r fa("r-project")` to that of the other language, and vice-versa, which wastes precious time, memory, and power.
  - **Inconsistent behaviour**: Using libraries from other languages also means one cannot always guarantee consistent behaviour for some operations.  
  For example: both 'Numpy' and 'xtensor' have only limited support for missing values, whereas `r fa("r-project")` supports missing values for both atomic and recursive array/vector types (except type of 'Raw').
- - **Access to CRAN's quality control**:  `r fa("r-project")` is unique in that it has access to CRAN's quality control; most other languages (including Python) don't have a real comparable organization like CRAN.
+ - **No access to CRAN's quality control**:  `r fa("r-project")` is unique in that it has access to CRAN's quality control; most other languages (including Python) don't have a real comparable organization like CRAN.
  
 Since the 'broadcast' package does not rely on any external library, other than linking to 'Rcpp', 'broadcast' avoids all of the above issues.
 

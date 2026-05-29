@@ -79,7 +79,27 @@ expect_equal(
 # nand ====
 bc.fun <- function(x, y) bc.b(x, y, "nand")
 base.fun <- function(x, y) {
-  out <- !as_bool(x) & !as_bool(y)
+  out <- !(as_bool(x) & as_bool(y))
+  if(is.raw(x) && is.raw(y)) {
+    out <- as_raw(out)
+  }
+  return(out)
+  
+}
+res <- .test_binary(bc.fun, base.fun, types, types)
+
+enumerate <- enumerate + res$i # count number of tests
+# test results:
+expect_equal(
+  res$expected, res$out
+)
+
+
+
+# nor ====
+bc.fun <- function(x, y) bc.b(x, y, "nor")
+base.fun <- function(x, y) {
+  out <- !(as_bool(x) | as_bool(y))
   if(is.raw(x) && is.raw(y)) {
     out <- as_raw(out)
   }

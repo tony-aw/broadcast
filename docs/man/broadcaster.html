@@ -271,6 +271,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
           <li class="sidebar-item">
+ <span class="menu-text">man/recast_dirvector.qmd</span>
+  </li>
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/cast_hier2dim.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">cast_hier2dim</span></a>
@@ -308,24 +311,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/bc_ifelse.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">bc_ifelse</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../man/bcapply.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">General pair-wise functions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bcapply.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bcapply</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/bc_ifelse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bc_ifelse</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/bc_strrep.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bc_strrep</span></a>
   </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/linear_algebra_stats.html" class="sidebar-item-text sidebar-link">
@@ -342,11 +356,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../man/checkmissing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Helper Functions</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../man/checkmissing.html" class="sidebar-item-text sidebar-link">
@@ -395,6 +409,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
   <li><a href="#value" id="toc-value" class="nav-link" data-scroll-target="#value">Value</a></li>
+  <li><a href="#note" id="toc-note" class="nav-link" data-scroll-target="#note">Note</a></li>
   <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul></li>
@@ -425,7 +440,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="check-or-set-if-an-array-is-a-broadcaster">Check or Set if an Array is a Broadcaster</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p><code>broadcaster()</code> checks if an array or vector has the "broadcaster" attribute. <br> <code>bcr()</code> is a short-hand alias for <code>broadcaster()</code>. <br> <br> <code style="white-space: pre;">broadcaster()&lt;-</code> (or <code style="white-space: pre;">bcr()&lt;-</code>) sets or un-sets the class attribute "broadcaster" on an array or vector. <br> <br> <code>mbroadcasters()</code> sets or un-sets multiple objects in an environment as broadcaster. <br> <br> The <code>broadcaster</code> class attribute exists purely to overload the arithmetic, Boolean, bit-wise, and relational infix operators, to support broadcasting. <br> This makes mathematical expressions with multiple variables, where precedence may be important, far more convenient. <br> Like in the following calculation: <br> <code>x / (y + z)</code> <br> <br> See <a href="../man/aaa01_broadcast_operators.html">broadcast_operators</a> for more information. <br></p>
+<p><code>broadcaster()</code> checks if an array or vector is marked as a "broadcaster". <br> <code>bcr()</code> is a short-hand alias for <code>broadcaster()</code>. <br> <br> <code style="white-space: pre;">broadcaster()&lt;-</code> (or <code style="white-space: pre;">bcr()&lt;-</code>) marks or un-marks the object as a "broadcaster". <br> <br> <code>mbroadcasters()</code> marks or un-marks multiple objects in an environment as broadcaster. <br> <br> The <code>broadcaster</code> class attribute exists purely to overload the arithmetic, Boolean, bit-wise, and relational infix operators, to support broadcasting. <br> This makes mathematical expressions with multiple variables, where precedence may be important, far more convenient. <br> Like in the following calculation: <br> <code>x / (y + z)</code> <br> <br> See <a href="../man/aaa01_broadcast_operators.html">broadcast_operators</a> for more information. <br></p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -449,7 +464,7 @@ bcr(x) &lt;- value
 <code id="x">x</code>
 </td>
 <td>
-object to check or set. <br> Only S3 vectors and arrays are supported, and only up to 16 dimensions.
+object to check or mark. <br> Only S3 vectors and arrays are supported, and only up to 16 dimensions.
 </td>
 </tr>
 <tr>
@@ -481,7 +496,11 @@ the environment where to look for the variable names specified in <code>nms</cod
 </section>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
-<p>For <code>broadcaster()</code>: <br> <code>TRUE</code> if an array or vector is a broadcaster, or <code>FALSE</code> if it is not. <br> <br> For <code style="white-space: pre;">broadcaster()&lt;-</code>: <br> Returns nothing, but sets (if right hand side is <code>TRUE</code>) or removes (if right hand side is <code>FALSE</code>) the "broadcaster" class attribute. <br> <br> For <code>mbroadcasters()</code>: <br> Returns nothing, but sets (if <code>value = TRUE</code>) or removes (<code>value = FALSE</code>) the "broadcaster" class attribute. <br> If <code>value = TRUE</code>, objects that cannot become a broadcaster or are already a broadcaster will be ignored. <br> If <code>value = FALSE</code>, objects that are not broadcasters (according to <code>broadcaster()</code>) will be ignored. <br> <br></p>
+<p>For <code>broadcaster()</code>: <br> <code>TRUE</code> if an array or vector is a broadcaster, or <code>FALSE</code> if it is not. <br> <br> For <code style="white-space: pre;">broadcaster()&lt;-</code>: <br> Returns nothing, but marks (if right hand side is <code>TRUE</code>) or un-marks (if right hand side is <code>FALSE</code>) the object as a "broadcaster". <br> <br> For <code>mbroadcasters()</code>: <br> Returns nothing, but marks (if right hand side is <code>TRUE</code>) or un-marks (if right hand side is <code>FALSE</code>) the objects as broadcasters. <br> If <code>value = TRUE</code>, objects that cannot become a broadcaster or are already a broadcaster will be ignored. <br> If <code>value = FALSE</code>, objects that are not broadcasters (according to <code>broadcaster()</code>) will be ignored. <br> <br></p>
+</section>
+<section id="note" class="level3">
+<h3 class="anchored" data-anchor-id="note">Note</h3>
+<p>The ‘broadcaster’ class will make arithmetic and relational operators operate with broadcasting. <br> Functions that rely on non-broadcasted functionality of these operators will produce unexpected results. <br> Thus functions like <code>pmin()</code> and <code>pmax()</code>, and some functions from the ‘tinyplot’ package, are <b>not</b> compatible with ‘broadcaster’ vectors/arrays. <br> Please ensure an object is not a ‘broadcaster’ before applying these functions on it. <br> <br></p>
 </section>
 <section id="see-also" class="level3">
 <h3 class="anchored" data-anchor-id="see-also">See Also</h3>
@@ -668,65 +687,65 @@ the environment where to look for the variable names specified in <code>nms</cod
 <span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y <span class="sc">/</span> x</span>
 <span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]</span></span>
-<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  5.500000  6.500000  6.000000  4.250000  5.750000  5.250000  5.000000</span></span>
-<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  7.000000  7.666667  7.333333  6.166667  7.166667  6.833333  6.666667</span></span>
-<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 10.600000 11.000000 10.800000 10.100000 10.700000 10.500000 10.400000</span></span>
-<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  9.666667 10.111111  9.888889  9.111111  9.777778  9.555556  9.444444</span></span>
-<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]  6.200000  7.000000  6.600000  5.200000  6.400000  6.000000  5.800000</span></span>
-<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  5.000000  6.333333  5.666667  3.333333  5.333333  4.666667  4.333333</span></span>
-<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  8.750000  9.250000  9.000000  8.125000  8.875000  8.625000  8.500000</span></span>
-<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  5.000000  7.000000  6.000000  2.500000  5.500000  4.500000  4.000000</span></span>
-<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  7.857143  8.428571  8.142857  7.142857  8.000000  7.714286  7.571429</span></span>
-<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]  7.000000 11.000000  9.000000  2.000000  8.000000  6.000000  5.000000</span></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  9.333333  9.888889  9.555556 10.111111  9.444444  9.666667  9.111111</span></span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  6.500000  7.333333  6.833333  7.666667  6.666667  7.000000  6.166667</span></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]  4.000000  5.666667  4.666667  6.333333  4.333333  5.000000  3.333333</span></span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 10.300000 10.800000 10.500000 11.000000 10.400000 10.600000 10.100000</span></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]  4.750000  6.000000  5.250000  6.500000  5.000000  5.500000  4.250000</span></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  7.428571  8.142857  7.714286  8.428571  7.571429  7.857143  7.142857</span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  5.600000  6.600000  6.000000  7.000000  5.800000  6.200000  5.200000</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  8.375000  9.000000  8.625000  9.250000  8.500000  8.750000  8.125000</span></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  3.500000  6.000000  4.500000  7.000000  4.000000  5.000000  2.500000</span></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]  4.000000  9.000000  6.000000 11.000000  5.000000  7.000000  2.000000</span></span>
 <span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            [,8]      [,9]     [,10]</span></span>
-<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  6.250000  4.750000  4.500000</span></span>
-<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  7.500000  6.500000  6.333333</span></span>
-<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 10.900000 10.300000 10.200000</span></span>
-<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 10.000000  9.333333  9.222222</span></span>
-<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]  6.800000  5.600000  5.400000</span></span>
-<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  6.000000  4.000000  3.666667</span></span>
-<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  9.125000  8.375000  8.250000</span></span>
-<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  6.500000  3.500000  3.000000</span></span>
-<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  8.285714  7.428571  7.285714</span></span>
-<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 10.000000  4.000000  3.000000</span></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  9.222222  9.777778 10.000000</span></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]  6.333333  7.166667  7.500000</span></span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]  3.666667  5.333333  6.000000</span></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 10.200000 10.700000 10.900000</span></span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]  4.500000  5.750000  6.250000</span></span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]  7.285714  8.000000  8.285714</span></span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  5.400000  6.400000  6.800000</span></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]  8.250000  8.875000  9.125000</span></span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]  3.000000  5.500000  6.500000</span></span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]  3.000000  8.000000 10.000000</span></span>
 <span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">+</span> y) <span class="sc">/</span> x</span>
-<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           [,1]      [,2]     [,3]     [,4]     [,5]     [,6]     [,7]      [,8]</span></span>
-<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] 2.500000  3.500000 3.000000 1.250000 2.750000 2.250000 2.000000  3.250000</span></span>
-<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] 2.000000  2.666667 2.333333 1.166667 2.166667 1.833333 1.666667  2.500000</span></span>
-<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 1.600000  2.000000 1.800000 1.100000 1.700000 1.500000 1.400000  1.900000</span></span>
-<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 1.666667  2.111111 1.888889 1.111111 1.777778 1.555556 1.444444  2.000000</span></span>
-<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 2.200000  3.000000 2.600000 1.200000 2.400000 2.000000 1.800000  2.800000</span></span>
-<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] 3.000000  4.333333 3.666667 1.333333 3.333333 2.666667 2.333333  4.000000</span></span>
-<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] 1.750000  2.250000 2.000000 1.125000 1.875000 1.625000 1.500000  2.125000</span></span>
-<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] 4.000000  6.000000 5.000000 1.500000 4.500000 3.500000 3.000000  5.500000</span></span>
-<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] 1.857143  2.428571 2.142857 1.142857 2.000000 1.714286 1.571429  2.285714</span></span>
-<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 7.000000 11.000000 9.000000 2.000000 8.000000 6.000000 5.000000 10.000000</span></span>
-<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           [,9]    [,10]</span></span>
-<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] 1.750000 1.500000</span></span>
-<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] 1.500000 1.333333</span></span>
-<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 1.300000 1.200000</span></span>
-<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 1.333333 1.222222</span></span>
-<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 1.600000 1.400000</span></span>
-<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] 2.000000 1.666667</span></span>
-<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] 1.375000 1.250000</span></span>
-<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] 2.500000 2.000000</span></span>
-<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] 1.428571 1.285714</span></span>
-<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 4.000000 3.000000</span></span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           [,1]     [,2]     [,3]      [,4]     [,5]     [,6]     [,7]     [,8]</span></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] 1.333333 1.888889 1.555556  2.111111 1.444444 1.666667 1.111111 1.222222</span></span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] 1.500000 2.333333 1.833333  2.666667 1.666667 2.000000 1.166667 1.333333</span></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 2.000000 3.666667 2.666667  4.333333 2.333333 3.000000 1.333333 1.666667</span></span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 1.300000 1.800000 1.500000  2.000000 1.400000 1.600000 1.100000 1.200000</span></span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 1.750000 3.000000 2.250000  3.500000 2.000000 2.500000 1.250000 1.500000</span></span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] 1.428571 2.142857 1.714286  2.428571 1.571429 1.857143 1.142857 1.285714</span></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] 1.600000 2.600000 2.000000  3.000000 1.800000 2.200000 1.200000 1.400000</span></span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] 1.375000 2.000000 1.625000  2.250000 1.500000 1.750000 1.125000 1.250000</span></span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] 2.500000 5.000000 3.500000  6.000000 3.000000 4.000000 1.500000 2.000000</span></span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 4.000000 9.000000 6.000000 11.000000 5.000000 7.000000 2.000000 3.000000</span></span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           [,9]     [,10]</span></span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] 1.777778  2.000000</span></span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] 2.166667  2.500000</span></span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 3.333333  4.000000</span></span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 1.700000  1.900000</span></span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 2.750000  3.250000</span></span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] 2.000000  2.285714</span></span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] 2.400000  2.800000</span></span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] 1.875000  2.125000</span></span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] 4.500000  5.500000</span></span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 8.000000 10.000000</span></span>
 <span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">+</span> y) <span class="sc">*</span> x</span>
 <span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
-<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]   40   56   48   20   44   36   32   52   28    24</span></span>
-<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]   72   96   84   42   78   66   60   90   54    48</span></span>
-<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]  160  200  180  110  170  150  140  190  130   120</span></span>
-<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  135  171  153   90  144  126  117  162  108    99</span></span>
-<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]   55   75   65   30   60   50   45   70   40    35</span></span>
-<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]   27   39   33   12   30   24   21   36   18    15</span></span>
-<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]  112  144  128   72  120  104   96  136   88    80</span></span>
-<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]   16   24   20    6   18   14   12   22   10     8</span></span>
-<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]   91  119  105   56   98   84   77  112   70    63</span></span>
-<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]    7   11    9    2    8    6    5   10    4     3</span></span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]  108  153  126  171  117  135   90   99  144   162</span></span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]   54   84   66   96   60   72   42   48   78    90</span></span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]   18   33   24   39   21   27   12   15   30    36</span></span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]  130  180  150  200  140  160  110  120  170   190</span></span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]   28   48   36   56   32   40   20   24   44    52</span></span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]   70  105   84  119   77   91   56   63   98   112</span></span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]   40   65   50   75   45   55   30   35   60    70</span></span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]   88  128  104  144   96  112   72   80  120   136</span></span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]   10   20   14   24   12   16    6    8   18    22</span></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]    4    9    6   11    5    7    2    3    8    10</span></span>
 <span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; broadcaster</span></span>
 <span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a></span>

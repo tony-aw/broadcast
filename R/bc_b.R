@@ -1,7 +1,7 @@
 #' Broadcasted Boolean Operations
 #'
 #' @description
-#' The `bc.b()` function
+#' The `bc.b()` method
 #' performs broadcasted logical (or Boolean) operations on 2 arrays. \cr
 #' \cr
 #' Please note that these operations will treat the input as `logical`. \cr
@@ -25,7 +25,10 @@
 #'  - "<" is equivalent to `(!x & y)`, but faster;
 #'  - ">" is equivalent to `(x & !y)`, but faster;
 #'  - "<=" is equivalent to `(!x & y) | (y == x)`, but faster;
-#'  - ">=" is equivalent to `(x & !y) | (y == x)`, but faster. \cr \cr
+#'  - ">=" is equivalent to `(x & !y) | (y == x)`, but faster. \cr
+#'  
+#'  Note that these are only equal in the absence of `NA`s,
+#'  since `&` and `|` handle `NA`s diffently from the relational operators. \cr \cr
 #'
 #'
 #' @returns
@@ -112,18 +115,11 @@ setMethod(
   out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bc_b_v(x, y, out.len, op)
+  if(dimmode < 5L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bc_b_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bc_b_ov(x, y, RxC, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 3L) {
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bc_b_bv(x, y, bigx, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
@@ -172,18 +168,11 @@ setMethod(
   out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bcRel_b_v(x, y, out.len, op)
+  if(dimmode < 5L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bcRel_b_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bcRel_b_ov(x, y, RxC, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 3L) {
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bcRel_b_bv(x, y, bigx, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

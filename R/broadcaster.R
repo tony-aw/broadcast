@@ -1,12 +1,12 @@
 #' Check or Set if an Array is a Broadcaster
 #'
 #' @description
-#' `broadcaster()` checks if an array or vector has the "broadcaster" attribute. \cr
+#' `broadcaster()` checks if an array or vector is marked as a "broadcaster". \cr
 #' `bcr()` is a short-hand alias for `broadcaster()`. \cr
 #' \cr
-#' `broadcaster()<-` (or `bcr()<-`) sets or un-sets the class attribute "broadcaster" on an array or vector. \cr
+#' `broadcaster()<-` (or `bcr()<-`) marks or un-marks the object as a "broadcaster". \cr
 #' \cr
-#' `mbroadcasters()` sets or un-sets multiple objects in an environment as broadcaster. \cr
+#' `mbroadcasters()` marks or un-marks multiple objects in an environment as broadcaster. \cr
 #' \cr
 #' The `broadcaster` class attribute exists purely to overload the
 #' arithmetic, Boolean, bit-wise, and relational infix operators,
@@ -19,7 +19,7 @@
 #' \cr
 #' See \link{broadcast_operators} for more information. \cr
 #'
-#' @param x object to check or set. \cr
+#' @param x object to check or mark. \cr
 #' Only S3 vectors and arrays are supported, and only up to 16 dimensions.
 #' @param value set to `TRUE` to make an array a broadcaster,
 #' or `FALSE` to remove the broadcaster class attribute from an array.
@@ -28,21 +28,31 @@
 #' If `NULL`, the environment from which the function was called is used. \cr
 #' 
 #' 
+#' @note
+#' The 'broadcaster' class will make arithmetic and relational operators operate with broadcasting. \cr
+#' Functions that rely on non-broadcasted functionality of these operators
+#' will produce unexpected results. \cr
+#' Thus functions like `pmin()` and `pmax()`,
+#' and some functions from the 'tinyplot' package,
+#' are \bold{not} compatible with 'broadcaster' vectors/arrays. \cr
+#' Please ensure an object is not a 'broadcaster' before applying these functions on it. \cr
+#' \cr
+#' 
 #' @returns
 #' For `broadcaster()`: \cr
 #' `TRUE` if an array or vector is a broadcaster, or `FALSE` if it is not. \cr
 #' \cr
 #' For `broadcaster()<-`: \cr
 #' Returns nothing,
-#' but sets (if right hand side is `TRUE`)
-#' or removes (if right hand side is `FALSE`)
-#' the "broadcaster" class attribute. \cr
+#' but marks (if right hand side is `TRUE`)
+#' or un-marks (if right hand side is `FALSE`)
+#' the object as a "broadcaster". \cr
 #' \cr
 #' For `mbroadcasters()`: \cr
 #' Returns nothing,
-#' but sets (if `value = TRUE`)
-#' or removes (`value = FALSE`)
-#' the "broadcaster" class attribute. \cr
+#' but marks (if right hand side is `TRUE`)
+#' or un-marks (if right hand side is `FALSE`)
+#' the objects as broadcasters. \cr
 #' If `value = TRUE`, 
 #' objects that cannot become a broadcaster or are already a broadcaster
 #' will be ignored. \cr

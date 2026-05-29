@@ -117,27 +117,46 @@ expect_equal(
 enumerate <- enumerate + 2L
 
 
+# ortho-sandwhich mode ====
+for(iSample in 1:10) {
+  n1 <- sample(2:10, 1L)
+  n2 <- sample(2:10, 1L)
+  n3 <- sample(2:10, 1L)
+  x <- array(1:20, c(n1, 1L, n3))
+  y <- array(1:5, c(1L, n2, 1L))
+  expect_equal(
+    .C_determine_dimmode(dim(x), dim(y), length(x), length(y)),
+    4L
+  ) |> errorfun()
+  expect_equal(
+    .C_determine_dimmode(dim(y), dim(x), length(y), length(x)),
+    4L
+  ) |> errorfun()
+  enumerate <- enumerate + 2L
+}
+
+
 # general, non-sandwiched big2vector ===
 x <- array(1:20, 5:3)
 y <- array(1:5, c(1, 1, 3))
 expect_equal(
   .C_determine_dimmode(dim(x), dim(y), length(x), length(y)),
-  4L
+  5L
 )
 expect_equal(
   .C_determine_dimmode(dim(y), dim(x), length(y), length(x)),
-  4L
+  5L
 )
 
 x <- array(1:20, 5:3)
 y <- array(1:5, c(5, 1, 1))
 expect_equal(
   .C_determine_dimmode(dim(x), dim(y), length(x), length(y)),
-  4L
+  5L
 )
 expect_equal(
   .C_determine_dimmode(dim(y), dim(x), length(y), length(x)),
-  4L
+  5L
 )
 enumerate <- enumerate + 4L
 
@@ -147,11 +166,11 @@ x <- array(1:27, c(3,3,3))
 y <- array(1:5, c(3, 1, 3))
 expect_equal(
   .C_determine_dimmode(dim(x), dim(y), length(x), length(y)),
-  4L
+  5L
 )
 expect_equal(
   .C_determine_dimmode(dim(y), dim(x), length(y), length(x)),
-  4L
+  5L
 )
 enumerate <- enumerate + 2L
 

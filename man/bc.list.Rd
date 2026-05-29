@@ -21,7 +21,8 @@ and \bold{returns} a result that can be stored in a single element of a list.}
 A recursive array. \cr \cr
 }
 \description{
-The \code{bc.list()} function performs broadcasted operations on 2 Recursive arrays. \cr
+The \code{bc.list()} method
+performs broadcasted operations on 2 Recursive arrays. \cr
 }
 \examples{
 

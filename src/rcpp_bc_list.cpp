@@ -12,62 +12,16 @@ using namespace Rcpp;
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_list_v, rng = false)]]
 SEXP rcpp_bc_list_v(
-  List x, List y, 
-  R_xlen_t nout, Function f
+  List x, List y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
+  R_xlen_t nout, int dimmode, bool vectorx, Function f
 ) {
 
 
 List out(nout);
 
-MACRO_DIM_VECTOR(
+MACRO_DIM_VECTORSPECIAL(
   out[flatind_out] = f(x[flatind_x], y[flatind_y])
 );
-
-
-return out;
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_list_ov, rng = false)]]
-SEXP rcpp_bc_list_ov(
-  List x, List y,  bool RxC, SEXP out_dim,
-  R_xlen_t nout, Function f
-) {
-
-List out(nout);
-
-MACRO_DIM_ORTHOVECTOR(
-  out[flatind_out] = f(x[flatind_x], y[flatind_y])
-);
-
-
-
-return out;
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_list_bv, rng = false)]]
-SEXP rcpp_bc_list_bv(
-  List x, List y,  bool bigx, SEXP out_dim,
-  R_xlen_t nout, Function f
-) {
-
-List out(nout);
-
-MACRO_DIM_BIG2VECTOR(
-  out[flatind_out] = f(x[flatind_x], y[flatind_y])
-);
-
 
 
 return out;

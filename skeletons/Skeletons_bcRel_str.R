@@ -51,8 +51,8 @@ txt1 <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_bcRel_str_v, rng = false)]]
 SEXP rcpp_bcRel_str_v(
-  SEXP x, SEXP y,
-  R_xlen_t nout, int op
+  SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
+  R_xlen_t nout, int dimmode, bool vectorx, int op
 ) {
 
 
@@ -65,7 +65,7 @@ SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
 int *pout;
 pout = LOGICAL(out);
 
-MACRO_OP_STR_REL(MACRO_DIM_VECTOR);
+MACRO_OP_STR_REL(MACRO_DIM_VECTORSPECIAL);
 
 
 UNPROTECT(1);
@@ -79,68 +79,6 @@ return out;
 
 
 txt2 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcRel_str_ov, rng = false)]]
-SEXP rcpp_bcRel_str_ov(
-  SEXP x, SEXP y, bool RxC, SEXP out_dim,
-  R_xlen_t nout, int op
-) {
-
-
-int tempout;
-
-const SEXP *px = STRING_PTR_RO(x);
-const SEXP *py = STRING_PTR_RO(y);
-
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
-
-MACRO_OP_STR_REL(MACRO_DIM_ORTHOVECTOR);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-"
-
-
-txt3 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcRel_str_bv, rng = false)]]
-SEXP rcpp_bcRel_str_bv(
-  SEXP x, SEXP y, bool bigx, SEXP out_dim,
-  R_xlen_t nout, int op
-) {
-
-
-int tempout;
-
-const SEXP *px = STRING_PTR_RO(x);
-const SEXP *py = STRING_PTR_RO(y);
-
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout;
-pout = LOGICAL(out);
-
-MACRO_OP_STR_REL(MACRO_DIM_BIG2VECTOR);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-"
-
-
-txt4 <- "
 
 //' @keywords internal
 //' @noRd
@@ -177,7 +115,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt1, txt2, txt3, txt4,
+  txt1, txt2,
   collapse = "\n\n"
 )
 
@@ -188,7 +126,7 @@ setwd("..")
 
 txt <- stringi::stri_c(
   header_for_package,
-  txt1, txt2, txt3, txt4,
+  txt1, txt2,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bcRel_str.cpp")

@@ -2,6 +2,30 @@
 title: News
 ---
 
+
+**Fixes:**
+
+* Added a note in the help page of the `broadcaster` class regarding possibly incompatible functions
+([#4](https://github.com/tony-aw/broadcast/issues/4)).
+* Fixed the "nand" operator to be correctly defined as `!(x & y)`,
+and bypasses the low-level 'C++' short-circuit evaluation issues.
+
+
+**New operators:**
+
+* Added new Boolean & bit-wise operation: "nor", defined as `!(x | y)`
+* Added new string operation: "lcss" (longest common sub-string).
+
+
+**Other:**
+
+* Slight performance improvement for integer relational operations.
+
+
+<br>
+
+
+
 # broadcast 0.1.8
 
 * Slightly relaxed the behaviour for `NA`s/`NaN`s for the `+` and `-` operators involving complex numbers.

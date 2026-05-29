@@ -84,7 +84,7 @@ enumerate <- enumerate + res$i
 
 # bitwise nand ====
 basefun <- function(x, y) {
-  out <- !x & !y
+  out <- !(x & y)
   dim(out) <- bc_dim(x, y)
   return(out)
 }
@@ -95,6 +95,20 @@ expect_equal(
 )
 enumerate <- enumerate + res$i
 
+
+
+# bitwise nor ====
+basefun <- function(x, y) {
+  out <- !(x | y)
+  dim(out) <- bc_dim(x, y)
+  return(out)
+}
+bc.fun <- \(x, y) bc.bit(x, y, "nor")
+res <- .test_binary(bc.fun, basefun, "raw", "raw")
+expect_equal(
+  res$expected, res$out
+)
+enumerate <- enumerate + res$i
 
 
 

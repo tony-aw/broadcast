@@ -77,6 +77,36 @@
   return(TRUE)
 }
 
+
+#' @keywords internal
+#' @noRd
+.is.natural_scalar <- function(x, min = 0) {
+  
+  if(!is.numeric(x)) return(FALSE)
+  if(length(x) != 1L) return(FALSE)
+  
+  if(is.na(x) || is.infinite(x)) return(FALSE)
+  if(round(x) != x) return(FALSE)
+  if(x < min) return(FALSE)
+  
+  return(TRUE)
+}
+
+
+#' @keywords internal
+#' @noRd
+.missing <- function() {
+  return(structure(list(), class = "missing"))
+}
+
+
+#' @keywords internal
+#' @noRd
+.is.missing <- function(x) {
+  return(is.list(x) && class(x) == "missing")
+}
+
+
 #' @keywords internal
 #' @noRd
 .ellipsis <- function(ellipsis, abortcall) {

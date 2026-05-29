@@ -35,61 +35,15 @@ inline String rcpp_string_mult(
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_strrep_v, rng = false)]]
 SEXP rcpp_bc_strrep_v(
-  SEXP x, SEXP y, 
-  R_xlen_t nout
+  SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
+  R_xlen_t nout, int dimmode, bool vectorx
 ) {
 
 const SEXP *px = STRING_PTR_RO(x);
 const int *py = INTEGER_RO(y);
 
 CharacterVector out(nout);
-MACRO_DIM_VECTOR(out[flatind_out] = rcpp_string_mult(px[flatind_x], py[flatind_y]));
-
-
-return out;
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_strrep_ov, rng = false)]]
-SEXP rcpp_bc_strrep_ov(
-  SEXP x, SEXP y,  bool RxC, SEXP out_dim,
-  R_xlen_t nout
-) {
-
-const SEXP *px = STRING_PTR_RO(x);
-const int *py = INTEGER_RO(y);
-
-CharacterVector out(nout);
-
-MACRO_DIM_ORTHOVECTOR(out[flatind_out] = rcpp_string_mult(px[flatind_x], py[flatind_y]));
-
-
-return out;
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_strrep_bv, rng = false)]]
-SEXP rcpp_bc_strrep_bv(
-  SEXP x, SEXP y,  bool bigx, SEXP out_dim,
-  R_xlen_t nout
-) {
-
-const SEXP *px = STRING_PTR_RO(x);
-const int *py = INTEGER_RO(y);
-
-CharacterVector out(nout);
-
-MACRO_DIM_BIG2VECTOR(out[flatind_out] = rcpp_string_mult(px[flatind_x], py[flatind_y]));
+MACRO_DIM_VECTORSPECIAL(out[flatind_out] = rcpp_string_mult(px[flatind_x], py[flatind_y]));
 
 
 return out;

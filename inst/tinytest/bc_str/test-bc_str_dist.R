@@ -55,12 +55,35 @@ expect_equal(
   array(1L)
 )
 
+
 expect_equal(
   bc.str(month.name, array(month.abb, c(1, 12)), "levenshtein"),
   adist(month.name, month.abb)
 )
 
-enumerate <- enumerate + 6L
+expect_equal(
+  bc.str(array("hello"), array("hello"), "lcss"),
+  array(5L)
+)
+expect_equal(
+  bc.str(array("kitten"), array("sitting"), "lcss"),
+  array(3L)
+)
+expect_equal(
+  bc.str(array("kitten"), array("kkkitten"), "lcss"),
+  array(6L)
+)
+expect_equal(
+  bc.str(array("hello"), array("hellok"), "lcss"),
+  array(5L)
+)
+expect_equal(
+  bc.str(array("helklo"), array("hello"), "lcss"),
+  array(3L)
+)
+
+
+enumerate <- enumerate + 11L
 
 
 # NA tests ====
@@ -76,7 +99,19 @@ expect_equal(
   bc.str(rep(NA_character_, 26), rep(NA_character_, 26), "levenshtein"),
   rep(NA_integer_, 26)
 )
-enumerate <- enumerate + 3L
+expect_equal(
+  bc.str(month.abb, rep(NA_character_, 12), "lcss"),
+  rep(NA_integer_, 12)
+)
+expect_equal(
+  bc.str(rep(NA_character_, 12), month.abb, "lcss"),
+  rep(NA_integer_, 12)
+)
+expect_equal(
+  bc.str(rep(NA_character_, 26), rep(NA_character_, 26), "lcss"),
+  rep(NA_integer_, 26)
+)
+enumerate <- enumerate + 6L
 
 
 # dimensional tests ====

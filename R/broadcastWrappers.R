@@ -63,8 +63,8 @@
 
 #' @keywords Internal
 #' @noRd
-.C_dims_allge <- function(xdim, ydim) {
-  .Call("C_dims_allge", xdim, ydim)
+.C_dims_is_vector <- function(xdim) {
+  .Call("C_dims_is_vector", xdim)
 }
 
 #' @keywords Internal

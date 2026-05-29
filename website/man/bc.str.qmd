@@ -11,7 +11,7 @@ format:
 
 ### Description
 
-The <code>bc.str()</code> function
+The <code>bc.str()</code> method
 performs broadcasted string operations on pairs of arrays. <br> <br>
 
 
@@ -37,7 +37,8 @@ conformable vectors/arrays of type <code>character</code>.
 a single string, giving the operator. <br>
 Supported concatenation operators: +. <br>
 Supported relational operators: ==, !=. <br>
-Supported distance operators: levenshtein.
+Supported distance operators: levenshtein, lcss. <br>
+&quot;lcss&quot; stands for Longest Common Sub-String.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
@@ -89,12 +90,11 @@ bc.str(array(letters), array(letters), "==")
 bc.str(array(letters), array(letters), "!=")
 
 
-# string distance (Levenshtein):
-x <- array(month.name, c(12, 1))
-y <- array(month.abb, c(1, 12))
-out <- bc.str(x, y, "levenshtein")
-dimnames(out) <- list(month.name, month.abb)
-print(out)
+# string distances:
+x <- setNames(month.name, month.name) |> vector2array(1L)
+y <- setNames(month.abb, month.abb) |> vector2array(2L)
+bc.str(x, y, "levenshtein") # levenshtein
+bc.str(x, y, "lcss") # longest common sub-string
 
 
 ```

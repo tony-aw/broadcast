@@ -20,7 +20,7 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>The <code>bc.str()</code> function
+<p>The <code>bc.str()</code> method
 performs broadcasted string operations on pairs of arrays. <br> <br>
 </p>
 
@@ -46,7 +46,8 @@ bc.str(x, y, op)
 <p>a single string, giving the operator. <br>
 Supported concatenation operators: +. <br>
 Supported relational operators: ==, !=. <br>
-Supported distance operators: levenshtein.</p>
+Supported distance operators: levenshtein, lcss. <br>
+&quot;lcss&quot; stands for Longest Common Sub-String.</p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
@@ -96,12 +97,11 @@ bc.str(array(letters), array(letters), "==")
 bc.str(array(letters), array(letters), "!=")
 
 
-# string distance (Levenshtein):
-x &lt;- array(month.name, c(12, 1))
-y &lt;- array(month.abb, c(1, 12))
-out &lt;- bc.str(x, y, "levenshtein")
-dimnames(out) &lt;- list(month.name, month.abb)
-print(out)
+# string distances:
+x &lt;- setNames(month.name, month.name) |&gt; vector2array(1L)
+y &lt;- setNames(month.abb, month.abb) |&gt; vector2array(2L)
+bc.str(x, y, "levenshtein") # levenshtein
+bc.str(x, y, "lcss") # longest common sub-string
 </code></pre>
 
 </main>

@@ -130,7 +130,7 @@
       ndim <- length(x.dim)
     }
   }
-  if(dimmode == 4L && ndim < 16L) { # make dimensions fit the general MACRO
+  if(dimmode >= 4L && ndim < 16L) { # make dimensions fit the general MACRO
     x.dim <- .chunkify_dims(x.dim)
     y.dim <-  .chunkify_dims(y.dim)
     out.dimsimp <- .C_pmax(x.dim, y.dim)

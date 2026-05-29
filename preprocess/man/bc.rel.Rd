@@ -21,7 +21,7 @@ Supported relational operators: ==, !=, <, >, <=, >=.}
 A logical array as a result of the broadcasted general relational operation. \cr \cr
 }
 \description{
-The \code{bc.rel()} function
+The \code{bc.rel()} method
 performs broadcasted general relational operations on 2 arrays. \cr
 }
 \examples{

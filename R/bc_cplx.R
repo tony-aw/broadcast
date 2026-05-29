@@ -1,7 +1,8 @@
 #' Broadcasted Complex Numeric Operations
 #'
 #' @description
-#' The `bc.cplx()` function performs broadcasted complex numeric operations on pairs of arrays. \cr
+#' The `bc.cplx()` method
+#' performs broadcasted complex numeric operations on pairs of arrays. \cr
 #' \cr
 #' 
 #' @param x,y conformable vectors/arrays of type `complex`.
@@ -89,18 +90,11 @@ setMethod(
   out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bc_cplx_v(x, y, out.len, op)
+  if(dimmode < 4L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bc_cplx_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bc_cplx_ov(x, y, RxC, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 3L) {
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bc_cplx_bv(x, y, bigx, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
@@ -139,18 +133,11 @@ setMethod(
   out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bcRel_cplx_v(x, y, out.len, op)
+  if(dimmode < 5L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bcRel_cplx_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bcRel_cplx_ov(x, y, RxC, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 3L) {
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bcRel_cplx_bv(x, y, bigx, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

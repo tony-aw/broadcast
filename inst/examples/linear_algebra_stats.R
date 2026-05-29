@@ -13,7 +13,7 @@ sd_lc(X, vc)
 
 # ecumprob() ====
 
-sim <- rnbinom(10 * 5000L, mu = 3, size = 2) |> matrix(10, 5000)
+sim <- rnbinom(10 * 1e4, mu = 3, size = 2) |> matrix(10, 1e4)
 y <- sample(0:9)
 
 # vector:
@@ -21,9 +21,15 @@ pnbinom(y[1], mu = 3, size = 2) # real probability
 ecumprob(y[1], sim[1, , drop = TRUE]) # approximation
 
 # matrix:
-pnbinom(y, mu = 3, size = 2) # real probability
-ecumprob(y, sim) # approximation
+cbind(
+  real = pnbinom(y, mu = 3, size = 2), # real probability
+  approx = ecumprob(y, sim) # approximation
+)
 
 # data.frame:
-pnbinom(y, mu = 3, size = 2) # real probability
-ecumprob(y, as.data.frame(sim)) # approximation
+cbind(
+  real = pnbinom(y, mu = 3, size = 2), # real probability
+  approx = ecumprob(y, as.data.frame(sim)) # approximation
+)
+
+

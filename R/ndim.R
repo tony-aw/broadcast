@@ -22,7 +22,7 @@ NULL
 #' @rdname ndim
 #' @export
 ndim <- function(x) {
-  return(length(dim(x)))
+  return(.rcpp_clone(length(dim(x))))
 }
 
 

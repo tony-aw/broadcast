@@ -12,6 +12,7 @@ macro_action <- readr::read_file("macro_action.txt")
 macro_op <- readr::read_file("macro_op.txt")
 macro_acast <- readr::read_file("macro_acast.txt")
 macro_checkmissing <- readr::read_file("macro_checkmissing.txt")
+macro_ternary <- readr::read_file("macro_ternary.txt")
 
 header <- stri_c("
 

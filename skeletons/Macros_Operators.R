@@ -34,25 +34,6 @@ cat(introcomments)
 
 
 ################################################################################
-# Assignment ====
-#
-
-
-macro_assign_C <- "
-#define MACRO_ASSIGN_C(INPUTCODE) do {  \\
-  tempout = INPUTCODE;              \\
-  pout[flatind_out] = tempout;      \\
-} while(0)
-"
-
-
-macro_assign_Rcpp <- "
-#define MACRO_ASSIGN_RCPP(INPUTCODE) do {  \\
-  out[flatind_out] = INPUTCODE;      \\
-} while(0)
-"
-
-################################################################################
 # Decimal ====
 #
 
@@ -430,7 +411,7 @@ macro_op_int_rel <- "
   switch(op) {	\\
   case 1:	\\
   {	\\
-    MACRO_TYPESWITCH_INTEGER1(	\\
+    MACRO_TYPESWITCH_INTEGER_REL(	\\
       DIMCODE,	\\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
       MACRO_ASSIGN_C(e1 == e2)  \\
@@ -439,7 +420,7 @@ macro_op_int_rel <- "
   }	\\
   case 2:	\\
   {	\\
-    MACRO_TYPESWITCH_INTEGER1(	\\
+    MACRO_TYPESWITCH_INTEGER_REL(	\\
       DIMCODE,	\\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
       MACRO_ASSIGN_C(e1 != e2)  \\
@@ -448,7 +429,7 @@ macro_op_int_rel <- "
   }	\\
   case 3:	\\
   {	\\
-    MACRO_TYPESWITCH_INTEGER1(	\\
+    MACRO_TYPESWITCH_INTEGER_REL(	\\
       DIMCODE,	\\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
       MACRO_ASSIGN_C(e1 < e2)  \\
@@ -457,7 +438,7 @@ macro_op_int_rel <- "
   }	\\
   case 4:	\\
   {	\\
-    MACRO_TYPESWITCH_INTEGER1(	\\
+    MACRO_TYPESWITCH_INTEGER_REL(	\\
       DIMCODE,	\\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
       MACRO_ASSIGN_C(e1 > e2)  \\
@@ -466,7 +447,7 @@ macro_op_int_rel <- "
   }	\\
   case 5:	\\
   {	\\
-    MACRO_TYPESWITCH_INTEGER1(	\\
+    MACRO_TYPESWITCH_INTEGER_REL(	\\
       DIMCODE,	\\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
       MACRO_ASSIGN_C(e1 <= e2)  \\
@@ -475,7 +456,7 @@ macro_op_int_rel <- "
   }	\\
   case 6:	\\
   {	\\
-    MACRO_TYPESWITCH_INTEGER1(	\\
+    MACRO_TYPESWITCH_INTEGER_REL(	\\
       DIMCODE,	\\
       MACRO_ASSIGN_C(NA_LOGICAL), \\
       MACRO_ASSIGN_C(e1 >= e2)  \\
@@ -541,10 +522,23 @@ macro_op_bool_andor_int <- "
       DIMCODE(                                                          \\
         MACRO_ACTION_BOOLEAN(                                           \\
           px[flatind_x], py[flatind_y],       \\
+          xFALSE || yFALSE,                   \\
+          MACRO_ASSIGN_C(1),                                            \\
+          MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
+          MACRO_ASSIGN_C(((bool)px[flatind_x] + (bool)py[flatind_y] < 2))  \\
+        )                                                       \\
+      );                                                        \\
+      break;	\\
+    }	\\
+    case 5:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        MACRO_ACTION_BOOLEAN(                                           \\
+          px[flatind_x], py[flatind_y],       \\
           xTRUE || yTRUE,                   \\
           MACRO_ASSIGN_C(0),                                            \\
           MACRO_ASSIGN_C(NA_LOGICAL),                                   \\
-          MACRO_ASSIGN_C(!(bool)px[flatind_x] && !(bool)py[flatind_y])  \\
+          MACRO_ASSIGN_C(!((bool)px[flatind_x] || (bool)py[flatind_y]))  \\
         )                                                       \\
       );                                                        \\
       break;	\\
@@ -663,7 +657,14 @@ macro_op_bool_andor_raw <- "
     case 4:	\\
     {	\\
       DIMCODE(                                                          \\
-        MACRO_ASSIGN_C(!(bool)px[flatind_x] && !(bool)py[flatind_y])  \\
+        MACRO_ASSIGN_C(((bool)px[flatind_x] + (bool)py[flatind_y] < 2))  \\
+      );                                                        \\
+      break;	\\
+    }	\\
+    case 5:	\\
+    {	\\
+      DIMCODE(                                                          \\
+        MACRO_ASSIGN_C(!((bool)px[flatind_x] || (bool)py[flatind_y]))  \\
       );                                                        \\
       break;	\\
     }	\\
@@ -852,6 +853,13 @@ macro_op_str_dist <- "
   {	\\
     DIMCODE(                                                          \\
       pout[flatind_out] = rcpp_str_dist_led(px[flatind_x], py[flatind_y])   \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 2:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = rcpp_str_dist_lcss(px[flatind_x], py[flatind_y])   \\
     );                                                                \\
     break;	\\
   }	\\
@@ -1053,18 +1061,25 @@ macro_op_bit_andor_raw <- "
     case 4:	\\
     {	\\
       DIMCODE(  \\
-        pout[flatind_out] = (~px[flatind_x] & ~py[flatind_y]) \\
+        pout[flatind_out] = ~(px[flatind_x] & py[flatind_y]) \\
       );                                                                \\
       break;	\\
     }	\\
     case 5:	\\
     {	\\
       DIMCODE(  \\
-        pout[flatind_out] = rcpp_bit_ls(px[flatind_x], py[flatind_y]) \\
+        pout[flatind_out] = ~(px[flatind_x] | py[flatind_y]) \\
       );                                                                \\
       break;	\\
     }	\\
     case 6:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = rcpp_bit_ls(px[flatind_x], py[flatind_y]) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 7:	\\
     {	\\
       DIMCODE(  \\
         pout[flatind_out] = rcpp_bit_rs(px[flatind_x], py[flatind_y]) \\
@@ -1171,6 +1186,17 @@ macro_op_bit_andor_int <- "
       break;	\\
     }	\\
     case 4:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION2(                                                    \\
+          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \\
+          pout[flatind_out] = NA_INTEGER,                                                     \\
+          pout[flatind_out] = ~(px[flatind_x] & py[flatind_y])         \\
+        ) \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 5:	\\
     {	\\
       DIMCODE(  \\
         MACRO_ACTION2(                                                    \\
@@ -1610,8 +1636,6 @@ macro_op_bcapply <- "
 macro_op <- stri_c(
   "\n",
   introcomments,
-  "\n",
-  macro_assign_C,
   "\n",
   macro_op_dec_math,
   "\n",

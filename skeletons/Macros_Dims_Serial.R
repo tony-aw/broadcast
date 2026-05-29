@@ -21,10 +21,8 @@ The following MACROs define the loops used for broadcasted element-wise binary o
 In the context of a broadcasted operation involving exactly 2 arrays,
 'broadcast' uses different techniques for looping through the elements for broadcasting.
 The techniques are the following, ordered from high to low priority:
- 1) vector broadcasting
- 2) ortho-vector broadcasting
- 3) big-to-vector broadcasting
- 4) regular broadcasting
+ 1) broadcasting where one of the arrays is a vector
+ 2) regular broadcasting
 
 The dimensions of both arrays are first NORMALIZED and SIMPLIFIED (see 'R' code),
 before determining which technique to use.
@@ -67,10 +65,10 @@ cat(introcomments)
 
 
 ################################################################################
-# Vector ====
+# Vector Modes ====
 #
 
-macro_dim_vector <- "
+macro_dim_vectorspecial <- "
 
 #define MACRO_DIM_VECTOR(DOCODE) do {                               \\
   R_xlen_t flatind_x = 0;                                           \\
@@ -105,20 +103,13 @@ macro_dim_vector <- "
                                                                       \\
 } while(0)
 
-"
 
-
-
-################################################################################
-# Orthogonal Vectors (i.e. row vector by column vector or vice-versa) ====
-#
-
-macro_dim_orthovector <- "
 
 #define MACRO_DIM_ORTHOVECTOR(DOCODE) do {      \\
   R_xlen_t flatind_out = 0;         \\
   const int N1 = INTEGER_RO(out_dim)[0];      \\
   const int N2 = INTEGER_RO(out_dim)[1];       \\
+  bool RxC = INTEGER_RO(x_dim)[0] != 1; \\
   if(RxC) { \\
     for(int flatind_y = 0; flatind_y < N2; ++flatind_y) {	\\
   	  for(int flatind_x = 0; flatind_x < N1; ++flatind_x) {	\\
@@ -137,35 +128,13 @@ macro_dim_orthovector <- "
   } \\
 } while(0)
 
-"
 
-
-################################################################################
-# Big x Vector ====
-#
-
-
-
-macro_dim_big2vector <- "
 
 #define MACRO_DIM_BIG2VECTOR(DOCODE) do {      \\
   const int N1 = INTEGER_RO(out_dim)[0];    \\
   const int N2 = INTEGER_RO(out_dim)[1];    \\
   const int N3 = INTEGER_RO(out_dim)[2];    \\
-  if(bigx) { \\
-    R_xlen_t flatind_x = 0;                                   \\
-    R_xlen_t flatind_out = 0;                                 \\
-    for(int iter3 = 0; iter3 < N3; ++iter3) {                 \\
-      for(int flatind_y = 0; flatind_y < N2; ++flatind_y) {   \\
-        for(int iter1 = 0; iter1 <N1; ++iter1) {              \\
-          DOCODE;                                             \\
-          ++flatind_x;                                        \\
-          ++flatind_out;                                      \\
-        }                                                     \\
-      }                                                       \\
-    }                                                         \\
-  } \\
-  else {  \\
+  if(vectorx) { \\
     R_xlen_t flatind_y = 0;                                   \\
     R_xlen_t flatind_out = 0;                                 \\
     for(int iter3 = 0; iter3 < N3; ++iter3) {                 \\
@@ -178,7 +147,82 @@ macro_dim_big2vector <- "
       }                                                       \\
     }                                                         \\
   } \\
+  else {  \\
+    R_xlen_t flatind_x = 0;                                   \\
+    R_xlen_t flatind_out = 0;                                 \\
+    for(int iter3 = 0; iter3 < N3; ++iter3) {                 \\
+      for(int flatind_y = 0; flatind_y < N2; ++flatind_y) {   \\
+        for(int iter1 = 0; iter1 <N1; ++iter1) {              \\
+          DOCODE;                                             \\
+          ++flatind_x;                                        \\
+          ++flatind_out;                                      \\
+        }                                                     \\
+      }                                                       \\
+    }                                                         \\
+  } \\
 } while(0)
+
+
+#define MACRO_DIM_SANDWICH2VECTOR(DOCODE) do {      \\
+  \\
+  if(vectorx) {  \\
+    R_xlen_t flatind_out = 0; \\
+    const int *pydim = INTEGER_RO(y_dim); \\
+    const R_xlen_t stride_y = (double)pydim[0] * (double)pydim[1];  \\
+    const int N1 = INTEGER_RO(out_dim)[0];  \\
+    const int N2 = INTEGER_RO(out_dim)[1];  \\
+    const R_xlen_t N3 = INTEGER_RO(out_dim)[2] * stride_y;  \\
+    R_xlen_t flatind_y;\\
+    for(R_xlen_t iter3 = 0; iter3 < N3; iter3 += stride_y) {  \\
+      for(int flatind_x = 0; flatind_x < N2; ++flatind_x) { \\
+        for(R_xlen_t iter1 = 0; iter1 < N1; ++iter1) {  \\
+          flatind_y = iter3 + iter1; \\
+            DOCODE; \\
+            ++flatind_out;  \\
+        } \\
+      } \\
+    } \\
+  } \\
+  else {  \\
+    R_xlen_t flatind_out = 0; \\
+    const int *pxdim = INTEGER_RO(x_dim); \\
+    const R_xlen_t stride_x = (double)pxdim[0] * (double)pxdim[1];  \\
+    const int N1 = INTEGER_RO(out_dim)[0];  \\
+    const int N2 = INTEGER_RO(out_dim)[1];  \\
+    const R_xlen_t N3 = INTEGER_RO(out_dim)[2] * stride_x;  \\
+    R_xlen_t flatind_x;\\
+    for(R_xlen_t iter3 = 0; iter3 < N3; iter3 += stride_x) {  \\
+      for(int flatind_y = 0; flatind_y < N2; ++flatind_y) { \\
+        for(R_xlen_t iter1 = 0; iter1 < N1; ++iter1) {  \\
+          flatind_x = iter3 + iter1; \\
+            DOCODE; \\
+            ++flatind_out;  \\
+        } \\
+      } \\
+    } \\
+  } \\
+} while(0)
+
+
+
+#define MACRO_DIM_VECTORSPECIAL(DOCODE) do {  \\
+  if(dimmode == 1) {  \\
+    MACRO_DIM_VECTOR(DOCODE); \\
+  } \\
+  else if(dimmode == 2) { \\
+    MACRO_DIM_ORTHOVECTOR(DOCODE);  \\
+  } \\
+  else if(dimmode == 3) { \\
+    MACRO_DIM_BIG2VECTOR(DOCODE); \\
+  } \\
+  else if(dimmode == 4) { \\
+    MACRO_DIM_SANDWICH2VECTOR(DOCODE); \\
+  } \\
+  else {  \\
+    stop(\"dimmode is not a vector mode\"); \\
+  } \\
+} while(0)
+
 
 "
 
@@ -711,11 +755,7 @@ macro_dim <- stri_c(
   "\n",
   introcomments,
   "\n",
-  macro_dim_vector,
-  "\n",
-  macro_dim_orthovector,
-  "\n",
-  macro_dim_big2vector,
+  macro_dim_vectorspecial,
   "\n",
   macro_dim_d,
   "\n",

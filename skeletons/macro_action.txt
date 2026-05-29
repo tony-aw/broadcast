@@ -10,6 +10,16 @@
 // 
 // 
 
+#define MACRO_ASSIGN_C(INPUTCODE) do {  \
+  tempout = INPUTCODE;              \
+  pout[flatind_out] = tempout;      \
+} while(0)
+
+#define MACRO_ASSIGN_RCPP(INPUTCODE) do {  \
+  out[flatind_out] = INPUTCODE;      \
+} while(0)
+
+
 
 #define MACRO_OVERFLOW(REF) ((REF) < intmin || (REF) > intmax)
 
@@ -19,7 +29,6 @@
 #define MACRO_ACTION1(DOCODE) do {      \
   DOCODE;                                     \
 } while(0)
-
 
 
 
@@ -33,8 +42,6 @@
 } while(0)
 
 
-
-
 #define MACRO_ACTION3(RULECHECK, RULECODE, DOCODE) do {      \
   if(RULECHECK) {                                                   \
     RULECODE;                                                       \
@@ -43,9 +50,6 @@
 	  DOCODE;                                                       \
 	}                                                               \
 } while(0)
-
-
-
 
 #define MACRO_ACTION4(RULECHECK, RULECODE, NACHECK, NACODE, DOCODE) do {      \
   if(RULECHECK) {                                                   \

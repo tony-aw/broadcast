@@ -117,13 +117,13 @@ For simplicity, the example here used unnormalized vectors. In a proper VQ compu
 
 The [sd_lc()](/man/linear_algebra_stats.qmd) function computes the standard deviation for a linear combination of random variables. One of its notable use-cases is to compute the confidence interval (or credible interval if you're going Bayesian) of a spline.
 
-Packages like 'mgcv' provides the user to plot and analyse the smoothers with confidence from a fitted GAM.  
+Packages like 'mgcv' provide ways to plot and analyse the smoothers from a fitted GAM with confidence intervals.  
 But sometimes one may want to compute spline intervals manually, like in the following cases:
 
  - Some `r fa("r-project")` packages (like the 'INLA' `r fa("r-project")` package), do not provide a clear and consistent way to compute the confidence intervals of a spline.
- - One may want to use a type of spline **not** covered by the package you're using (this is especially true when using a novel spline). In such cases, you'll have to compute the spline mean and confidence/credible intervals on your own.
+ - One may want to use a type of spline **not** covered by the package you're using (this is especially true when using a novel spline). In such cases, you'll have to compute the spline means and confidence/credible intervals on your own.
 
-So one practical application of [sd_lc()](/man/linear_algebra_stats.qmd) is computing confidence/credible intervals of splines when a package does not provide that service in a user-friendly way.
+So one practical application of [sd_lc()](/man/linear_algebra_stats.qmd) is computing confidence/credible intervals of splines, when a package does not provide that service in a user-friendly way.
 
 For a demonstration of [sd_lc()](/man/linear_algebra_stats.qmd), the following will be done:
 
@@ -362,9 +362,9 @@ Not exactly the same, but reasonably similar.
 Some important problems on computing Dunn-Smyth residuals via simulation-based empirically approximated CDFs:
 
  - It is faster and more memory-efficient to compute exact Dunn-Smyth residuals, rather than approximating from simulations. This is because the simulations themselves need to be produced first, which wastes time and memory.
- - Cumulative probabilites based on simulations are **approximations**. The more simulated values, the better the approximations. But exact Dunn-Smyth residuals are virtually always better than those based on simulated values.
+ - Cumulative probabilities based on simulations are **approximations**. The more simulated values, the better the approximations. But exact Dunn-Smyth residuals are virtually always more accurate than those based on simulated values.
  - The approximated cumulative probabilities are only as good as the simulated values, so make sure these simulations correctly represent your model. For a mixed model, pay special attention if random effects are re-simulates. For a weighted model, check if the simulated values take the weights into considerations. Etc.
- - Just like the parametrization of a model can be poorly documented, how a model generates simulated values can also be poorly documented. There is no free lunch.
+ - Just like the parametrization of a model can be poorly documented, how a model generates simulated values can also be poorly documented.
 
  
 ::: {.callout-note}

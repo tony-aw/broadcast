@@ -1,14 +1,15 @@
 #' Broadcasted String Operations
 #'
 #' @description
-#' The `bc.str()` function
+#' The `bc.str()` method
 #' performs broadcasted string operations on pairs of arrays. \cr \cr
 #' 
 #' @param x,y conformable vectors/arrays of type `character`.
 #' @param op a single string, giving the operator. \cr
 #' Supported concatenation operators: `r paste0(broadcast:::.op_str_conc(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_str_rel(), collapse = ", ")`. \cr
-#' Supported distance operators: `r paste0(broadcast:::.op_str_dist(), collapse = ", ")`.
+#' Supported distance operators: `r paste0(broadcast:::.op_str_dist(), collapse = ", ")`. \cr
+#' "lcss" stands for Longest Common Sub-String.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #'
@@ -108,18 +109,11 @@ setMethod(
   out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bc_str_v(x, y, out.len, op)
+  if(dimmode < 4L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bc_str_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bc_str_ov(x, y, RxC, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 3L) {
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bc_str_bv(x, y, bigx, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
@@ -158,18 +152,11 @@ setMethod(
   dimmode <- prep[[6L]]
   
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bcRel_str_v(x, y, out.len, op)
+  if(dimmode < 5L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bcRel_str_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bcRel_str_ov(x, y, RxC, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 3L) {
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bcRel_str_bv(x, y, bigx, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)
@@ -208,18 +195,11 @@ setMethod(
   out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode == 1L) { # vector mode
-    out <- .rcpp_bcD_str_v(x, y, out.len, op)
+  if(dimmode < 5L) { # vector mode
+    vectorx <- .C_dims_is_vector(x.dim)
+    out <- .rcpp_bcD_str_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
   }
-  else if(dimmode == 2L) { # orthogonal vector mode
-    RxC <- x.dim[1L] != 1L # check if `x` is a column-vector (and thus y is a row-vector)
-    out <- .rcpp_bcD_str_ov(x, y, RxC, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 3L) {
-    bigx <- .C_dims_allge(x.dim, y.dim)
-    out <- .rcpp_bcD_str_bv(x, y, bigx, out.dimsimp, out.len, op)
-  }
-  else if(dimmode == 4L) { # general mode
+  else { # general mode
     
     by_x <- .C_make_by(x.dim)
     by_y <- .C_make_by(y.dim)

@@ -140,8 +140,8 @@ txt1 <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_bcD_int_v, rng = false)]]
 SEXP rcpp_bcD_int_v(
-  SEXP x, SEXP y,
-  R_xlen_t nout, int op
+  SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
+  R_xlen_t nout, int dimmode, bool vectorx, int op
 ) {
 
 double tempout;
@@ -150,7 +150,7 @@ SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
 double *pout;
 pout = REAL(out);
 
-MACRO_OP_INT_FACT(MACRO_DIM_VECTOR);
+MACRO_OP_INT_FACT(MACRO_DIM_VECTORSPECIAL);
 
 UNPROTECT(1);
 return out;
@@ -159,65 +159,9 @@ return out;
 
 
 "
-
 
 
 txt2 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcD_int_ov, rng = false)]]
-SEXP rcpp_bcD_int_ov(
-  SEXP x, SEXP y, bool RxC, SEXP out_dim,
-  R_xlen_t nout, int op
-) {
-
-double tempout;
-
-SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
-double *pout;
-pout = REAL(out);
-
-MACRO_OP_INT_FACT(MACRO_DIM_ORTHOVECTOR);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-"
-
-
-
-txt3 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcD_int_bv, rng = false)]]
-SEXP rcpp_bcD_int_bv(
-  SEXP x, SEXP y, bool bigx, SEXP out_dim,
-  R_xlen_t nout, int op
-) {
-
-double tempout;
-
-SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
-double *pout;
-pout = REAL(out);
-
-MACRO_OP_INT_FACT(MACRO_DIM_BIG2VECTOR);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-"
-
-
-txt4 <- "
 
 //' @keywords internal
 //' @noRd
@@ -250,7 +194,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2,
   collapse = "\n\n"
 )
 
@@ -259,7 +203,7 @@ Rcpp::sourceCpp(code = txt)
 
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2, txt3, txt4,
+  txt0, txt1, txt2,
   collapse = "\n\n"
 )
 
