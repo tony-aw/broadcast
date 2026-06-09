@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>package broadcast - Benchmarks with NumPy</title>
+<title>Benchmarks with NumPy – package broadcast</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -21,6 +24,7 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -83,22 +87,28 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="..//man/figures/r-project-brands-solid-full.svg" rel="icon" type="image/svg+xml">
-<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-31b59d95c3a7203f851c742faee4c7ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -107,6 +117,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -116,63 +127,63 @@ div.csl-indent {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed">
+<body class="nav-sidebar docked nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title"><img src="../man/figures/r-project-brands-solid-full.svg" width="30" height="30"> package broadcast</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../vignettes/a_readme.html" rel="" target="">
- <span class="menu-text">🗺️ Guides and Vignettes</span></a>
+    <a class="nav-link" href="../vignettes/a_readme.html"> 
+<span class="menu-text">🗺️ Guides and Vignettes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../man/aaa00_broadcast_help.html" rel="" target="">
- <span class="menu-text">📖 Reference Manual</span></a>
+    <a class="nav-link" href="../man/aaa00_broadcast_help.html"> 
+<span class="menu-text">📖 Reference Manual</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../about/a_acknowledgements.html" rel="" target="" aria-current="page">
- <span class="menu-text">📰 About</span></a>
+    <a class="nav-link active" href="../about/a_acknowledgements.html" aria-current="page"> 
+<span class="menu-text">📰 About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/tony-aw/broadcast" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/tony-aw/broadcast"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../about/e_benchmarks_numpy.html">Benchmarks with NumPy</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../about/e_benchmarks_numpy.html">Benchmarks with NumPy</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -229,7 +240,7 @@ div.csl-indent {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -249,7 +260,7 @@ div.csl-indent {
   <li><a href="#conclusion-discussion" id="toc-conclusion-discussion" class="nav-link" data-scroll-target="#conclusion-discussion">Conclusion &amp; Discussion</a></li>
   <li><a href="#the-code" id="toc-the-code" class="nav-link" data-scroll-target="#the-code">The code</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -269,7 +280,9 @@ div.csl-indent {
   </div>
   
 
+
 </header>
+
 
 <p>&nbsp;</p>
 <section id="summary" class="level1">
@@ -280,7 +293,7 @@ div.csl-indent {
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions without allocating additional memory, which is considerably faster and more memory-efficient than R’s regular dimensions replication mechanism.</p>
-<p>Before the emergence of the ‘broadcast’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package, if <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> users wished to employ broadcasting, they essentially had to use broadcasting as it existed in a different programming language. For example, they might use the broadcasting as available in the ‘Python’ module ‘Numpy’ <span class="citation" data-cites="numpy">(<a href="#ref-numpy" role="doc-biblioref">Harris et al. 2020</a>)</span> (perhaps via the ‘reticulate’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package <span class="citation" data-cites="reticulate">(<a href="#ref-reticulate" role="doc-biblioref">Ushey, Allaire, and Tang 2024</a>)</span>). Or perhaps they might use the ‘C++’ library ‘xtensor’ <span class="citation" data-cites="xtensor">(<a href="#ref-xtensor" role="doc-biblioref">https://github.com/xtensor-stack/xtensor/graphs/contributors, n.d.</a>)</span> via the <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package of the same name (or an extension thereof, like ‘rray’ <span class="citation" data-cites="rray">(<a href="#ref-rray" role="doc-biblioref">Vaughan, n.d.</a>)</span>).</p>
+<p>Before the emergence of the ‘broadcast’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package, if <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> users wished to employ broadcasting, they essentially had to use broadcasting as it existed in a different programming language. For example, they might use the broadcasting as available in the ‘Python’ module ‘Numpy’ <span class="citation" data-cites="numpy">(<a href="#ref-numpy" role="doc-biblioref">Harris et al. 2020</a>)</span> (perhaps via the ‘reticulate’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package <span class="citation" data-cites="reticulate">(<a href="#ref-reticulate" role="doc-biblioref">Ushey et al. 2024</a>)</span>). Or perhaps they might use the ‘C++’ library ‘xtensor’ <span class="citation" data-cites="xtensor">(<a href="#ref-xtensor" role="doc-biblioref"><span class="nocase">https://github.com/xtensor-stack/xtensor/graphs/contributors</span>, n.d.</a>)</span> via the <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package of the same name (or an extension thereof, like ‘rray’ <span class="citation" data-cites="rray">(<a href="#ref-rray" role="doc-biblioref">Vaughan, n.d.</a>)</span>).</p>
 <p>With the emergence of the ‘broadcast’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package <span class="citation" data-cites="broadcast">(<a href="#ref-broadcast" role="doc-biblioref">Wilkes 2025</a>)</span>, users can now call broadcasted implementations without using external libraries, which spares the computing power needed for translating between object structures of different languages.</p>
 <p>The “broadcasting” implementation in the ‘broadcast’ package is conceptually inspired by the broadcasting employed by the ‘Numpy’ module for ‘Python’ - though ‘broadcast’ does not use/borrow any of ‘Numpy’ source code. ‘Numpy’ might have the first implementation of broadcasting. More importantly, ‘Numpy’ is remarkably fast, and the ‘broadcast’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package aims to be somewhat comparably fast.</p>
 <p>This page presents the comparisons in the speed of broadcasted operations, between ‘broadcast’ and ‘Numpy’. The operation that is compared is a simple, element-wise, broadcasted addition. This given by the code <code>x + y</code> in the ‘Numpy’ module for ‘Python’, where <code>x</code> and <code>y</code> are NumPy arrays. And it is given by the code <code>x + y</code> in the ‘broadcast’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package, where <code>x</code> and <code>y</code> arrays with the ‘broadcaster’ attribute (apart from that attribute, they are the same as regular arrays in base <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg>).</p>
@@ -336,7 +349,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <p>The <code>bench::mark()</code> function from the ‘bench’ <span class="citation" data-cites="bench">(<a href="#ref-bench" role="doc-biblioref">Hester and Vaughan 2023</a>)</span> package was used for measuring the execution time in <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg>, as this package can also be used to check and filter for garbage collector calls.</p>
 <p>In ‘Python’, the <code>time.perf_counter()</code> function was used to accurately measure the execution time of an operation. To ensure no time was wasted on printing the result in ‘Python’, the operation <code>a + b</code> was wrapped inside a trivial function without a return statement.</p>
 <p>Thus both in <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> and ‘Python’, execution time (AKA “runtime”) was measured (instead of something like CPU time).</p>
-<p>The figures in the Results section were created using the ‘tinyplot’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package <span class="citation" data-cites="tinyplot">(<a href="#ref-tinyplot" role="doc-biblioref">McDermott, Arel-Bundock, and Zeileis 2025</a>)</span>, to display the median, first quartile, and third quartile, of the computation times.</p>
+<p>The figures in the Results section were created using the ‘tinyplot’ <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg> package <span class="citation" data-cites="tinyplot">(<a href="#ref-tinyplot" role="doc-biblioref">McDermott et al. 2025</a>)</span>, to display the median, first quartile, and third quartile, of the computation times.</p>
 <p>The benchmarks were all run on the same computer (processor: 12th Gen Intel(R) Core(TM) i5-12500H @ 2.50 GHz) with 32GB of RAM and running the Windows 11 OS (64 bit).</p>
 <p>&nbsp;</p>
 </section>
@@ -345,7 +358,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <h1>Results</h1>
 <p>&nbsp;</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">2d arrays</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">3d arrays</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">4d arrays</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">5d arrays</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false">6d arrays</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false">7d arrays</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">2d arrays</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">3d arrays</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">4d arrays</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">5d arrays</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">6d arrays</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">7d arrays</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
@@ -353,7 +366,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="768"></p>
-<figcaption class="figure-caption">Figure 1: Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>x + y</code> in the ‘broadcast’ ‘R’-package. <br>Both arrays are 2 - dimensional arrays. <br>The dimensions of <code>x</code> are {n, 1}; <br>the dimensions of <code>y</code> are {1, n}. <br>Here, <code>n</code> is shown on the x-axis. <br>The y-axis shows the time (in ms) it took to run the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.</figcaption>
+<figcaption>Figure 1: Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>x + y</code> in the ‘broadcast’ ‘R’-package. <br>Both arrays are 2 - dimensional arrays. <br>The dimensions of <code>x</code> are {n, 1}; <br>the dimensions of <code>y</code> are {1, n}. <br>Here, <code>n</code> is shown on the x-axis. <br>The y-axis shows the time (in ms) it took to run the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.</figcaption>
 </figure>
 </div>
 </div>
@@ -366,7 +379,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="768"></p>
-<figcaption class="figure-caption">Figure 2: Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>x + y</code> in the ‘broadcast’ ‘R’-package. <br>Both arrays are 3 - dimensional arrays. <br>The dimensions of <code>x</code> are {n, 1, n}; <br>the dimensions of <code>y</code> are {1, n, 1}. <br>Here, <code>n</code> is shown on the x-axis. <br>The y-axis shows the time (in ms) it took to run the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.</figcaption>
+<figcaption>Figure 2: Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>x + y</code> in the ‘broadcast’ ‘R’-package. <br>Both arrays are 3 - dimensional arrays. <br>The dimensions of <code>x</code> are {n, 1, n}; <br>the dimensions of <code>y</code> are {1, n, 1}. <br>Here, <code>n</code> is shown on the x-axis. <br>The y-axis shows the time (in ms) it took to run the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.</figcaption>
 </figure>
 </div>
 </div>
@@ -379,7 +392,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="768"></p>
-<figcaption class="figure-caption">Figure 3: Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>x + y</code> in the ‘broadcast’ ‘R’-package. <br>Both arrays are 4 - dimensional arrays. <br>The dimensions of <code>x</code> are {n, 1, n, 1}; <br>the dimensions of <code>y</code> are {1, n, 1, n}. <br>Here, <code>n</code> is shown on the x-axis. <br>The y-axis shows the time (in ms) it took to run the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.</figcaption>
+<figcaption>Figure 3: Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>x + y</code> in the ‘broadcast’ ‘R’-package. <br>Both arrays are 4 - dimensional arrays. <br>The dimensions of <code>x</code> are {n, 1, n, 1}; <br>the dimensions of <code>y</code> are {1, n, 1, n}. <br>Here, <code>n</code> is shown on the x-axis. <br>The y-axis shows the time (in ms) it took to run the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.</figcaption>
 </figure>
 </div>
 </div>
@@ -392,7 +405,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="768"></p>
-<figcaption class="figure-caption">Figure 4: Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>x + y</code> in the ‘broadcast’ ‘R’-package. <br>Both arrays are 5 - dimensional arrays. <br>The dimensions of <code>x</code> are {n, 1, n, 1, n}; <br>the dimensions of <code>y</code> are {1, n, 1, n, 1}. <br>Here, <code>n</code> is shown on the x-axis. <br>The y-axis shows the time (in ms) it took to run the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.</figcaption>
+<figcaption>Figure 4: Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>x + y</code> in the ‘broadcast’ ‘R’-package. <br>Both arrays are 5 - dimensional arrays. <br>The dimensions of <code>x</code> are {n, 1, n, 1, n}; <br>the dimensions of <code>y</code> are {1, n, 1, n, 1}. <br>Here, <code>n</code> is shown on the x-axis. <br>The y-axis shows the time (in ms) it took to run the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.</figcaption>
 </figure>
 </div>
 </div>
@@ -405,7 +418,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="768"></p>
-<figcaption class="figure-caption">Figure 5: Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>x + y</code> in the ‘broadcast’ ‘R’-package. <br>Both arrays are 6 - dimensional arrays. <br>The dimensions of <code>x</code> are {n, 1, n, 1, n, 1}; <br>the dimensions of <code>y</code> are {1, n, 1, n, 1, n}. <br>Here, <code>n</code> is shown on the x-axis. <br>The y-axis shows the time (in ms) it took to run the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.</figcaption>
+<figcaption>Figure 5: Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>x + y</code> in the ‘broadcast’ ‘R’-package. <br>Both arrays are 6 - dimensional arrays. <br>The dimensions of <code>x</code> are {n, 1, n, 1, n, 1}; <br>the dimensions of <code>y</code> are {1, n, 1, n, 1, n}. <br>Here, <code>n</code> is shown on the x-axis. <br>The y-axis shows the time (in ms) it took to run the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.</figcaption>
 </figure>
 </div>
 </div>
@@ -418,7 +431,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="e_benchmarks_numpy_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="768"></p>
-<figcaption class="figure-caption">Figure 6: Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>x + y</code> in the ‘broadcast’ ‘R’-package. <br>Both arrays are 7 - dimensional arrays. <br>The dimensions of <code>x</code> are {n, 1, n, 1, n, 1, n}; <br>the dimensions of <code>y</code> are {1, n, 1, n, 1, n, 1}. <br>Here, <code>n</code> is shown on the x-axis. <br>The y-axis shows the time (in ms) it took to run the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.</figcaption>
+<figcaption>Figure 6: Benchmarks of the element-wise broadcasted addition of 2 decimal numeric arrays, comparing the code <code>x + y</code> in the ‘Numpy’ ‘Python’-module, against the code <code>x + y</code> in the ‘broadcast’ ‘R’-package. <br>Both arrays are 7 - dimensional arrays. <br>The dimensions of <code>x</code> are {n, 1, n, 1, n, 1, n}; <br>the dimensions of <code>y</code> are {1, n, 1, n, 1, n, 1}. <br>Here, <code>n</code> is shown on the x-axis. <br>The y-axis shows the time (in ms) it took to run the code. The solid line gives the median time, and the shaded ribbon gives the first and third quartiles. The higher a value is on the y-axis, the more time it takes to run the code, the slower the code.</figcaption>
 </figure>
 </div>
 </div>
@@ -441,18 +454,18 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <section id="the-code" class="level1">
 <h1>The code</h1>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python code</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Python code</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># set-up ====</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broadcast)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>get_times <span class="ot">&lt;-</span> <span class="cf">function</span>(obj) {</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove calls with &gt; 0 GC:</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  idx <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(obj<span class="sc">$</span>gc[[1L]][, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]) <span class="sc">==</span> <span class="dv">0</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  times <span class="ot">&lt;-</span> obj<span class="sc">$</span>time[[1L]][idx]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  idx <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(obj<span class="sc">$</span>gc[[<span class="dv">1</span>L]][, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]) <span class="sc">==</span> <span class="dv">0</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  times <span class="ot">&lt;-</span> obj<span class="sc">$</span>time[[<span class="dv">1</span>L]][idx]</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># exclude first 10 for warm up:</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  times <span class="ot">&lt;-</span> times[<span class="sc">-</span><span class="dv">1</span><span class="sc">:-</span><span class="dv">10</span>]</span>
@@ -463,17 +476,17 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># loop 2d ====</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>dimsizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(1250L, 9500L,  <span class="at">by =</span> 750L)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>dimsizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1250</span>L, <span class="dv">9500</span>L,  <span class="at">by =</span> <span class="dv">750</span>L)</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dimsizes)</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>niter <span class="ot">&lt;-</span> <span class="fu">length</span>(dimsizes)</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> q1_bc <span class="ot">&lt;-</span> q3_bc <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, niter)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> 1L</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> <span class="dv">1</span>L</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(dimsizes)) {</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> dimsizes[i]</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">c</span>(n, 1L)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">c</span>(1L, n)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">c</span>(n, <span class="dv">1</span>L)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>L, n)</span>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), x.dims)</span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), y.dims)</span>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">broadcaster</span>(a) <span class="ot">&lt;-</span> <span class="fu">broadcaster</span>(b) <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
@@ -492,7 +505,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  q1_bc[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(bc_all, <span class="fl">0.25</span>)</span>
 <span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  q3_bc[counter] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(bc_all, <span class="fl">0.75</span>)</span>
 <span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> 1L</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> <span class="dv">1</span>L</span>
 <span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> median_bc <span class="sc">*</span> <span class="dv">1000</span></span>
@@ -508,17 +521,17 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="co"># loop 3d ====</span></span>
 <span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>dimsizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(65L, 450L,  <span class="at">by =</span> 35L)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>dimsizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">65</span>L, <span class="dv">450</span>L,  <span class="at">by =</span> <span class="dv">35</span>L)</span>
 <span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dimsizes)</span>
 <span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>niter <span class="ot">&lt;-</span> <span class="fu">length</span>(dimsizes)</span>
 <span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> q1_bc <span class="ot">&lt;-</span> q3_bc <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, niter)</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> 1L</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> <span class="dv">1</span>L</span>
 <span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(dimsizes)) {</span>
 <span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
 <span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> dimsizes[i]</span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, 1L), <span class="dv">2</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(1L, n), <span class="dv">2</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, <span class="dv">1</span>L), <span class="dv">2</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>L, n), <span class="dv">2</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
 <span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), x.dims)</span>
 <span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), y.dims)</span>
@@ -540,7 +553,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> 1L</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> <span class="dv">1</span>L</span>
 <span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> median_bc <span class="sc">*</span> <span class="dv">1000</span></span>
@@ -555,17 +568,17 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="co"># loop 4d ====</span></span>
 <span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>dimsizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(9L, 99L,  <span class="at">by =</span> 10L)</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>dimsizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">9</span>L, <span class="dv">99</span>L,  <span class="at">by =</span> <span class="dv">10</span>L)</span>
 <span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dimsizes)</span>
 <span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>niter <span class="ot">&lt;-</span> <span class="fu">length</span>(dimsizes)</span>
 <span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> q1_bc <span class="ot">&lt;-</span> q3_bc <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, niter)</span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> 1L</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> <span class="dv">1</span>L</span>
 <span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(dimsizes)) {</span>
 <span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
 <span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> dimsizes[i]</span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, 1L), <span class="dv">2</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(1L, n), <span class="dv">2</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, <span class="dv">1</span>L), <span class="dv">2</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>L, n), <span class="dv">2</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
 <span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), x.dims)</span>
 <span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), y.dims)</span>
@@ -587,7 +600,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> 1L</span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> <span class="dv">1</span>L</span>
 <span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> median_bc <span class="sc">*</span> <span class="dv">1000</span></span>
@@ -604,17 +617,17 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="co"># loop 5d ====</span></span>
 <span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
-<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>dimsizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(6L, 39L,  <span class="at">by =</span> 3L)</span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>dimsizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">6</span>L, <span class="dv">39</span>L,  <span class="at">by =</span> <span class="dv">3</span>L)</span>
 <span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dimsizes)</span>
 <span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>niter <span class="ot">&lt;-</span> <span class="fu">length</span>(dimsizes)</span>
 <span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> q1_bc <span class="ot">&lt;-</span> q3_bc <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, niter)</span>
-<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> 1L</span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> <span class="dv">1</span>L</span>
 <span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(dimsizes)) {</span>
 <span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
 <span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> dimsizes[i]</span>
-<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, 1L), <span class="dv">3</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
-<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(1L, n), <span class="dv">3</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, <span class="dv">1</span>L), <span class="dv">3</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>L, n), <span class="dv">3</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
 <span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), x.dims)</span>
 <span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), y.dims)</span>
@@ -636,7 +649,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> 1L</span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> <span class="dv">1</span>L</span>
 <span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a></span>
@@ -653,17 +666,17 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="co"># loop 6d ====</span></span>
 <span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
-<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a>dimsizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(3L, 21L,  <span class="at">by =</span> 2L)</span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a>dimsizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">3</span>L, <span class="dv">21</span>L,  <span class="at">by =</span> <span class="dv">2</span>L)</span>
 <span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dimsizes)</span>
 <span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a>niter <span class="ot">&lt;-</span> <span class="fu">length</span>(dimsizes)</span>
 <span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> q1_bc <span class="ot">&lt;-</span> q3_bc <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, niter)</span>
-<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> 1L</span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> <span class="dv">1</span>L</span>
 <span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(dimsizes)) {</span>
 <span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
 <span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> dimsizes[i]</span>
-<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, 1L), <span class="dv">3</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
-<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(1L, n), <span class="dv">3</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, <span class="dv">1</span>L), <span class="dv">3</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>L, n), <span class="dv">3</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
 <span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), x.dims)</span>
 <span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), y.dims)</span>
@@ -685,7 +698,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> 1L</span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> <span class="dv">1</span>L</span>
 <span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> median_bc <span class="sc">*</span> <span class="dv">1000</span></span>
@@ -701,17 +714,17 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a><span class="co"># loop 7d ====</span></span>
 <span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
-<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a>dimsizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(2L, 14L,  <span class="at">by =</span> 1L)</span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a>dimsizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>L, <span class="dv">14</span>L,  <span class="at">by =</span> <span class="dv">1</span>L)</span>
 <span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dimsizes)</span>
 <span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a>niter <span class="ot">&lt;-</span> <span class="fu">length</span>(dimsizes)</span>
 <span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a>median_bc <span class="ot">&lt;-</span> q1_bc <span class="ot">&lt;-</span> q3_bc <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, niter)</span>
-<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> 1L</span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> <span class="dv">1</span>L</span>
 <span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(dimsizes)) {</span>
 <span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
 <span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> dimsizes[i]</span>
-<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, 1L), <span class="dv">4</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]</span>
-<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(1L, n), <span class="dv">4</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]</span>
+<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a>  x.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(n, <span class="dv">1</span>L), <span class="dv">4</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]</span>
+<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a>  y.dims <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>L, n), <span class="dv">4</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]</span>
 <span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), x.dims)</span>
 <span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(<span class="dv">100</span>), y.dims)</span>
@@ -733,7 +746,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> 1L</span>
+<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> <span class="dv">1</span>L</span>
 <span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a></span>
@@ -745,12 +758,12 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a>  dimsizes, median_bc, q1_bc, q3_bc,</span>
 <span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"bm_bc_7d.RData"</span></span>
 <span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># !{sys.executable} -m pip install numpy --upgrade</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set-up #</span></span>
@@ -982,7 +995,7 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 <span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a>np.savetxt(<span class="st">"bm_py_7d_median.txt"</span>, median_np)</span>
 <span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a>np.savetxt(<span class="st">"bm_py_7d_q1.txt"</span>, q1_np)</span>
 <span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>np.savetxt(<span class="st">"bm_py_7d_q3.txt"</span>, q3_np)</span>
-<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a><span class="co"># end 7d array #</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a><span class="co"># end 7d array #</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -993,33 +1006,33 @@ The value of <code>n</code>, so the size of each dimension, varied as follows:</
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-jupyter" class="csl-entry" role="listitem">
 Granger, Brian E., and Fernando Pérez. 2021. <span>“Jupyter: Thinking and Storytelling with Code and Data.”</span> <em>Computing in Science &amp; Engineering</em> 23 (2): 7–14. <a href="https://doi.org/10.1109/MCSE.2021.3059263">https://doi.org/10.1109/MCSE.2021.3059263</a>.
 </div>
 <div id="ref-numpy" class="csl-entry" role="listitem">
-Harris, Charles R., K. Jarrod Millman, Stéfan J. van der Walt, Ralf Gommers, Pauli Virtanen, David Cournapeau, Eric Wieser, et al. 2020. <span>“Array Programming with <span>NumPy</span>.”</span> <em>Nature</em> 585 (7825): 357–62. <a href="https://doi.org/10.1038/s41586-020-2649-2">https://doi.org/10.1038/s41586-020-2649-2</a>.
+Harris, Charles R., K. Jarrod Millman, Stéfan J. van der Walt, et al. 2020. <span>“Array Programming with <span>NumPy</span>.”</span> <em>Nature</em> 585 (7825): 357–62. <a href="https://doi.org/10.1038/s41586-020-2649-2">https://doi.org/10.1038/s41586-020-2649-2</a>.
 </div>
 <div id="ref-bench" class="csl-entry" role="listitem">
 Hester, Jim, and Davis Vaughan. 2023. <em>Bench: High Precision Timing of r Expressions</em>. <a href="https://CRAN.R-project.org/package=bench">https://CRAN.R-project.org/package=bench</a>.
 </div>
 <div id="ref-xtensor" class="csl-entry" role="listitem">
-https://github.com/xtensor-stack/xtensor/graphs/contributors. n.d. <span>“Xtensor: C++ Tensors with Broadcasting and Lazy Computing.”</span> <a href="https://github.com/xtensor-stack/xtensor">https://github.com/xtensor-stack/xtensor</a>.
+<span class="nocase">https://github.com/xtensor-stack/xtensor/graphs/contributors</span>. n.d. <em>Xtensor: C++ Tensors with Broadcasting and Lazy Computing</em>. <a href="https://github.com/xtensor-stack/xtensor">https://github.com/xtensor-stack/xtensor</a>.
 </div>
 <div id="ref-tinyplot" class="csl-entry" role="listitem">
 McDermott, Grant, Vincent Arel-Bundock, and Achim Zeileis. 2025. <em>Tinyplot: Lightweight Extension of the Base r Graphics System</em>. <a href="https://CRAN.R-project.org/package=tinyplot">https://CRAN.R-project.org/package=tinyplot</a>.
 </div>
 <div id="ref-rstudio" class="csl-entry" role="listitem">
-Posit team. 2025. <em>RStudio: Integrated Development Environment for r</em>. Boston, MA: Posit Software, PBC. <a href="http://www.posit.co/">http://www.posit.co/</a>.
+Posit team. 2025. <em>RStudio: Integrated Development Environment for r</em>. Posit Software, PBC. <a href="http://www.posit.co/">http://www.posit.co/</a>.
 </div>
 <div id="ref-r" class="csl-entry" role="listitem">
-R Core Team. 2024. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+R Core Team. 2024. <em>R: A Language and Environment for Statistical Computing</em>. R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
 </div>
 <div id="ref-reticulate" class="csl-entry" role="listitem">
 Ushey, Kevin, JJ Allaire, and Yuan Tang. 2024. <em>Reticulate: Interface to ’Python’</em>. <a href="https://CRAN.R-project.org/package=reticulate">https://CRAN.R-project.org/package=reticulate</a>.
 </div>
 <div id="ref-python" class="csl-entry" role="listitem">
-Van Rossum, Guido, and Fred L. Drake. 2009. <em>Python 3 Reference Manual</em>. Scotts Valley, CA: CreateSpace.
+Van Rossum, Guido, and Fred L. Drake. 2009. <em>Python 3 Reference Manual</em>. CreateSpace.
 </div>
 <div id="ref-rray" class="csl-entry" role="listitem">
 Vaughan, Davis. n.d. <em>Rray: Simple Arrays</em>. <a href="https://github.com/r-lib/rray">https://github.com/r-lib/rray</a>.
@@ -1029,43 +1042,58 @@ Wilkes, Tony. 2025. <em>Broadcast: Broadcasted Array Operations Like ’NumPy’
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
@@ -1073,206 +1101,361 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
       return codeEl.innerText;
     }
-  });
-  clipboard.on('success', function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  });
-  function tippyHover(el, contentFn) {
-    const config = {
-      allowHTML: true,
-      content: contentFn,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start'
-    };
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      return note.innerHTML;
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
       });
     }
-  }
-});
-</script>
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left">Developed by Tony Wilkes</div>   
+    <div class="nav-footer-left">
+<p>Developed by Tony Wilkes</p>
+</div>   
     <div class="nav-footer-center">
       &nbsp;
-    </div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/tony-aw/broadcast/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
   </div>
 </footer>
+
 
 
 

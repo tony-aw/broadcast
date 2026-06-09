@@ -1,4 +1,13 @@
 
+
+# broadcast 0.1.9.1
+
+* Small documentation improvements here and there.
+* Added more unit tests on GitHub.
+* The website now runs on the latest version of Quarto.
+
+<br>
+
 # broadcast 0.1.9
 
 **Fixes:**

@@ -51,7 +51,9 @@ Note that input with type of <code>double</code> will be coerced to <code>intege
 <tr><td><code id="op">op</code></td>
 <td>
 <p>a single string, giving the operator. <br>
-Supported Boolean operators: &amp;, |, xor, nand, nor, ==, !=, &lt;, &gt;, &lt;=, &gt;=.</p>
+Supported Boolean operators:
+&amp;, |, xor, nand, nor, ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br>
+&quot;nand&quot; is defined here as <code>!(x &amp; y)</code>, and &quot;nor&quot; is defined here as <code>!(x | y)</code>.</p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
@@ -67,7 +69,7 @@ Since the input is treated as logical, the following equalities hold for <code>b
 </p>
 
 <ul>
-<li><p> &quot;==&quot; is equivalent to <code>(x &amp; y) | (!x &amp; !y)</code>, but faster;
+<li><p> &quot;==&quot; is equivalent to <code>!xor(x, y)</code>, but faster;
 </p>
 </li>
 <li><p> &quot;!=&quot; is equivalent to <code>xor(x, y)</code>;
@@ -86,8 +88,8 @@ Since the input is treated as logical, the following equalities hold for <code>b
 </p>
 </li></ul>
 
-<p>Note that these are only equal in the absence of <code>NA</code>s,
-since <code>&amp;</code> and <code>|</code> handle <code>NA</code>s diffently from the relational operators. <br> <br>
+<p>Note that the above equalities only hold in the absence of <code>NA</code>s,
+since the <code>&amp;</code> and <code>|</code> operators handle <code>NA</code>s differently than the relational operators. <br> <br>
 </p>
 
 

@@ -237,7 +237,6 @@ macro_relop_int <- "
 } while(0)
 
 
-
 "
 
 

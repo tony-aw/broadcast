@@ -388,5 +388,81 @@
   return(res)
   
 }
-
-
+#' 
+#' #' @keywords internal
+#' #' @noRd
+#' .test_binary_vectormode <- function(
+#'     bc.fun, x.types, y.types, nconfigs = 5L
+#' ) {
+#' 
+#'   i <- 1L
+#'   
+#'   nres <-  * ndims^2 * length(x.types) * length(y.types) # number of tests performed here
+#'   expected <- out <- vector("list", nres)
+#'   
+#'   for(iSample in seq_len(nconfigs)) { # re-do tests with different random configurations
+#'     
+#'     x.data <- list(
+#'       logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
+#'       integer = sample(c(-10:10, NA), datasize, TRUE),
+#'       int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
+#'       double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
+#'       complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
+#'       character = sample(c(letters, LETTERS, month.abb, NA), datasize, TRUE),
+#'       raw = sample(as.raw(0:255), datasize, TRUE),
+#'       list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
+#'     )[x.types]
+#'     
+#'     y.data <- list(
+#'       logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
+#'       integer = sample(c(-10:10, NA), datasize, TRUE),
+#'       int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
+#'       double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
+#'       complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
+#'       character = sample(c(letters, LETTERS, month.abb, NA), datasize, TRUE),
+#'       raw = sample(as.raw(0:255), datasize, TRUE),
+#'       list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
+#'     )[y.types]
+#'   
+#'     for(iDataX in seq_along(x.data)) { # different data types for x
+#'      
+#'       for(iDataY in seq_along(y.data)) { 
+#'             
+#'         for(iLen in 1:10) {
+#'           
+#'           # vector by vector ====
+#'           x <- x.data[[iDataX]][seq_len(iLen)]
+#'           y <- x.data[[iDataX]][seq_len(iLen)]
+#'           out[[i]] <- list(bc.fun(x, y) |> dim(), bc.fun(x, y) |> length())
+#'           expected[[i]] <- list(NULL, iLen)
+#'           i <- i + 1L
+#'           
+#'           # vector by scalar ====
+#'           x <- x.data[[iDataX]][seq_len(iLen)]
+#'           y <- x.data[[iDataX]][seq_len(1L)]
+#'           out[[i]] <- list(bc.fun(x, y) |> dim(), bc.fun(x, y) |> length())
+#'           expected[[i]] <- list(NULL, iLen)
+#'           i <- i + 1L
+#'           
+#'           # scalar by vector ====
+#'           x <- x.data[[iDataX]][seq_len(1L)]
+#'           y <- x.data[[iDataX]][seq_len(iLen)]
+#'           out[[i]] <- list(bc.fun(x, y) |> dim(), bc.fun(x, y) |> length())
+#'           expected[[i]] <- list(NULL, iLen)
+#'           i <- i + 1L
+#'           
+#'           # scalar by scalar ====
+#'           x <- x.data[[iDataX]][seq_len(1L)]
+#'           y <- x.data[[iDataX]][seq_len(1L)]
+#'           out[[i]] <- list(bc.fun(x, y) |> dim(), bc.fun(x, y) |> length())
+#'           expected[[i]] <- list(NULL, 1L)
+#'           i <- i + 1L
+#'         }
+#'       }
+#'     }
+#'   }
+#'   
+#'   out <- list(expected = expected, out = out)
+#'   return(out)
+#' }
+#' 

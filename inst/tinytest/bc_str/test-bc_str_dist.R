@@ -114,6 +114,23 @@ expect_equal(
 enumerate <- enumerate + 6L
 
 
+
+
+
+# empty strings tests ====
+x <- rep("", 10)
+y <- rep("", 10)
+expect_equal(
+  bc.str(x, y, "levenshtein"),
+  rep(0L, 10L)
+)
+expect_equal(
+  bc.str(x, y, "lcss"),
+  rep(0L, 10L)
+)
+enumerate <- enumerate + 2L
+
+
 # dimensional tests ====
 
 nres <- 5 * 5 # number of tests performed here

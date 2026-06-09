@@ -17,7 +17,7 @@ bc.fun <- function(x, y) bc.b(x, y, "==")
 base.fun <- function(x, y) {
   x2 <- as_bool(x)
   y2 <- as_bool(y)
-  out <- (x2 & y2) | (!x2 & !y2)
+  out <- !xor(x2, y2)
   if(is.raw(x) && is.raw(y)) {
     out <- as_raw(out)
   }

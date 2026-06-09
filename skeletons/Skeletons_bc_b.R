@@ -2,6 +2,7 @@
 
 library(stringi)
 
+inlines <- readr::read_file("inlines.txt")
 macro_dim <- readr::read_file("macro_dim.txt")
 macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
 macro_action <- readr::read_file("macro_action.txt")
@@ -13,6 +14,8 @@ header_for_sourcing <- stri_c(
   
   using namespace Rcpp;
   ",
+  inlines,
+  "\n",
   macro_action,
   "\n",
   macro_dim,
@@ -44,24 +47,6 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 #
 
 
-txt0 <- "
-
-
-inline bool rcpp_isTRUE(
-  int x
-) {
-  return(x != NA_INTEGER && x != 0);
-}
-
-inline bool rcpp_isFALSE(
-  int x
-) {
-  return(x != NA_INTEGER && x == 0);
-}
-
-"
-
-
 
 
 txt1 <- "
@@ -76,7 +61,6 @@ SEXP rcpp_bc_b_v(
   
   int tempout;
   
-  int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
   
   if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
      const Rbyte *px = RAW_RO(x);
@@ -118,7 +102,6 @@ SEXP rcpp_bc_b_d(
 
   
   int tempout;
-  int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
   
   if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
      const Rbyte *px = RAW_RO(x);
@@ -151,7 +134,7 @@ SEXP rcpp_bc_b_d(
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2,
+  txt1, txt2,
   collapse = "\n\n"
 )
 
@@ -160,7 +143,7 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2,
+  txt1, txt2,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bc_b.cpp")

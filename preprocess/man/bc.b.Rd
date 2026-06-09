@@ -14,7 +14,9 @@ bc.b(x, y, op, ...)
 Note that input with type of \code{double} will be coerced to \code{integer}.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported Boolean operators: &, |, xor, nand, nor, ==, !=, <, >, <=, >=.}
+Supported Boolean operators:
+&, |, xor, nand, nor, ==, !=, <, >, <=, >=. \cr
+"nand" is defined here as \code{!(x & y)}, and "nor" is defined here as \code{!(x | y)}.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
@@ -41,7 +43,7 @@ For regular relational operators, see \code{[bc.rel](bc.rel.qmd)}. \cr \cr
 \code{bc.b()} efficiently casts the input to logical. \cr
 Since the input is treated as logical, the following equalities hold for \code{bc.b()}:
 \itemize{
-\item "==" is equivalent to \code{(x & y) | (!x & !y)}, but faster;
+\item "==" is equivalent to \code{!xor(x, y)}, but faster;
 \item "!=" is equivalent to \code{xor(x, y)};
 \item "<" is equivalent to \code{(!x & y)}, but faster;
 \item ">" is equivalent to \code{(x & !y)}, but faster;
@@ -49,8 +51,8 @@ Since the input is treated as logical, the following equalities hold for \code{b
 \item ">=" is equivalent to \code{(x & !y) | (y == x)}, but faster. \cr
 }
 
-Note that these are only equal in the absence of \code{NA}s,
-since \code{&} and \code{|} handle \code{NA}s diffently from the relational operators. \cr \cr
+Note that the above equalities only hold in the absence of \code{NA}s,
+since the \code{&} and \code{|} operators handle \code{NA}s differently than the relational operators. \cr \cr
 }
 \examples{
 x.dim <- c(4:2)

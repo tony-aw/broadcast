@@ -5,7 +5,7 @@ library(stringi)
 # macros <- stri_c(dMacro_skeletons, collapse = "\n")
 
 
-
+inlines <- readr::read_file("inlines.txt")
 macro_dim <- readr::read_file("macro_dim.txt")
 macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
 macro_action <- readr::read_file("macro_action.txt")
@@ -19,7 +19,11 @@ header <- stri_c("
 #ifndef BROADCAST_H
 #define BROADCAST_H
 
+#include <Rcpp.h>
+
 ",
+inlines,
+"\n",
 macro_action,
 "\n",
 macro_typeswitch_numeric,

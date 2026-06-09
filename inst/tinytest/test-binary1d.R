@@ -8,6 +8,8 @@ errorfun <- function(tt) {
 source(file.path(getwd(), "source.R"))
 
 
+# test orthogonal vectors equivalence ====
+
 for(i in seq_along(funs)) {
   x <- array(datagens[[i]](), c(10, 1))
   y <- array(datagens[[i]](), c(1, 10))
@@ -23,6 +25,8 @@ for(i in seq_along(funs)) {
   enumerate <- enumerate + 3L
 }
 
+
+# test if dimension is correctly 1d or NULL ====
 
 for(i in seq_along(funs)) {
   x <- array(datagens[[i]](), 10L)

@@ -148,9 +148,9 @@
     R_xlen_t flatind_out = 0; \
     const int *pydim = INTEGER_RO(y_dim); \
     const R_xlen_t stride_y = (double)pydim[0] * (double)pydim[1];  \
-    const int N1 = INTEGER_RO(out_dim)[0];  \
+    const R_xlen_t N1 = INTEGER_RO(out_dim)[0];  \
     const int N2 = INTEGER_RO(out_dim)[1];  \
-    const R_xlen_t N3 = INTEGER_RO(out_dim)[2] * stride_y;  \
+    const R_xlen_t N3 = (R_xlen_t)INTEGER_RO(out_dim)[2] * stride_y;  \
     R_xlen_t flatind_y;\
     for(R_xlen_t iter3 = 0; iter3 < N3; iter3 += stride_y) {  \
       for(int flatind_x = 0; flatind_x < N2; ++flatind_x) { \
@@ -166,7 +166,7 @@
     R_xlen_t flatind_out = 0; \
     const int *pxdim = INTEGER_RO(x_dim); \
     const R_xlen_t stride_x = (double)pxdim[0] * (double)pxdim[1];  \
-    const int N1 = INTEGER_RO(out_dim)[0];  \
+    const R_xlen_t N1 = INTEGER_RO(out_dim)[0];  \
     const int N2 = INTEGER_RO(out_dim)[1];  \
     const R_xlen_t N3 = INTEGER_RO(out_dim)[2] * stride_x;  \
     R_xlen_t flatind_x;\

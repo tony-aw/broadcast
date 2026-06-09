@@ -8,21 +8,6 @@ using namespace Rcpp;
 
 
 
-
-inline bool rcpp_isTRUE(
-  int x
-) {
-  return(x != NA_INTEGER && x != 0);
-}
-
-inline bool rcpp_isFALSE(
-  int x
-) {
-  return(x != NA_INTEGER && x == 0);
-}
-
-
-
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_b_v, rng = false)]]
@@ -33,7 +18,6 @@ SEXP rcpp_bc_b_v(
   
   int tempout;
   
-  int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
   
   if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
      const Rbyte *px = RAW_RO(x);
@@ -72,7 +56,6 @@ SEXP rcpp_bc_b_d(
 
   
   int tempout;
-  int xTRUE, xFALSE, xNA, yTRUE, yFALSE, yNA;
   
   if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
      const Rbyte *px = RAW_RO(x);

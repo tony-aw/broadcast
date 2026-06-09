@@ -3,6 +3,101 @@
 #ifndef BROADCAST_H
 #define BROADCAST_H
 
+#include <Rcpp.h>
+
+
+// 
+// 
+// ********************************************************************************
+// INLINE FUNCTIONS
+// 
+// ********************************************************************************
+// 
+// 
+
+
+
+inline int inline_bool_AND(
+  int x, int y
+) {
+  bool xFALSE = x != NA_INTEGER && x == 0;
+  bool yFALSE = y != NA_INTEGER && y == 0;
+  if(xFALSE || yFALSE) {
+    return 0;
+  }
+  else if(x == NA_INTEGER || y == NA_INTEGER) {
+    return NA_LOGICAL;
+  }
+  else {
+    return ((bool)x && bool(y));
+  }
+}
+
+inline int inline_bool_OR(
+  int x, int y
+) {
+  bool xTRUE = x != NA_INTEGER && x != 0;
+  bool yTRUE = y != NA_INTEGER && y != 0;
+  if(xTRUE || yTRUE) {
+    return 1;
+  }
+  else if(x == NA_INTEGER || y == NA_INTEGER) {
+    return NA_LOGICAL;
+  }
+  else {
+    return ((bool)x || bool(y));
+  }
+}
+
+inline int inline_bool_XOR(
+  int x, int y
+) {
+  if(x == NA_INTEGER || y == NA_INTEGER) {
+    return NA_LOGICAL;
+  }
+  else {
+    return ((bool)x != bool(y));
+  }
+}
+
+
+inline int inline_bool_NAND(
+  int x, int y
+) {
+  bool xFALSE = x != NA_INTEGER && x == 0;
+  bool yFALSE = y != NA_INTEGER && y == 0;
+  if(xFALSE || yFALSE) {
+    return 1;
+  }
+  else if(x == NA_INTEGER || y == NA_INTEGER) {
+    return NA_LOGICAL;
+  }
+  else {
+    int out = ((bool)x + bool(y)) < 2;
+    return out;
+  }
+}
+
+
+inline int inline_bool_NOR(
+  int x, int y
+) {
+  bool xTRUE = x != NA_INTEGER && x != 0;
+  bool yTRUE = y != NA_INTEGER && y != 0;
+  if(xTRUE || yTRUE) {
+    return 0;
+  }
+  else if(x == NA_INTEGER || y == NA_INTEGER) {
+    return NA_LOGICAL;
+  }
+  else {
+    int out = !((bool)x || bool(y));
+    return out;
+  }
+}
+
+
+
 
 // 
 // 
@@ -971,63 +1066,35 @@
     case 1:	\
     {	\
       DIMCODE(                      \
-        MACRO_ACTION_BOOLEAN(       \
-          px[flatind_x], py[flatind_y],       \
-          xFALSE || yFALSE,         \
-          MACRO_ASSIGN_C(0),        \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                 \
-          MACRO_ASSIGN_C((bool)px[flatind_x] && (bool)py[flatind_y])  \
-        )                                                       \
+        pout[flatind_out] = inline_bool_AND(px[flatind_x], py[flatind_y]) \
       );                                                       \
       break;	\
     }	\
     case 2:	\
     {	\
       DIMCODE(                                                          \
-        MACRO_ACTION_BOOLEAN(                                           \
-          px[flatind_x], py[flatind_y],       \
-          xTRUE || yTRUE,                   \
-          MACRO_ASSIGN_C(1),                                            \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C((bool)px[flatind_x] || (bool)py[flatind_y])  \
-        )                                                       \
+        pout[flatind_out] = inline_bool_OR(px[flatind_x], py[flatind_y]) \
       );                                                        \
       break;	\
     }	\
     case 3:	\
     {	\
       DIMCODE(                                                          \
-        MACRO_ACTION2(                                                  \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,   \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \
-        )                                                       \
+        pout[flatind_out] = inline_bool_XOR(px[flatind_x], py[flatind_y]) \
       );                                                                \
       break;	\
     }	\
     case 4:	\
     {	\
       DIMCODE(                                                          \
-        MACRO_ACTION_BOOLEAN(                                           \
-          px[flatind_x], py[flatind_y],       \
-          xFALSE || yFALSE,                   \
-          MACRO_ASSIGN_C(1),                                            \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C(((bool)px[flatind_x] + (bool)py[flatind_y] < 2))  \
-        )                                                       \
+        pout[flatind_out] = inline_bool_NAND(px[flatind_x], py[flatind_y])  \
       );                                                        \
       break;	\
     }	\
     case 5:	\
     {	\
       DIMCODE(                                                          \
-        MACRO_ACTION_BOOLEAN(                                           \
-          px[flatind_x], py[flatind_y],       \
-          xTRUE || yTRUE,                   \
-          MACRO_ASSIGN_C(0),                                            \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C(!((bool)px[flatind_x] || (bool)py[flatind_y]))  \
-        )                                                       \
+        pout[flatind_out] = inline_bool_NOR(px[flatind_x], py[flatind_y]) \
       );                                                        \
       break;	\
     }	\
@@ -2197,9 +2264,9 @@
     R_xlen_t flatind_out = 0; \
     const int *pydim = INTEGER_RO(y_dim); \
     const R_xlen_t stride_y = (double)pydim[0] * (double)pydim[1];  \
-    const int N1 = INTEGER_RO(out_dim)[0];  \
+    const R_xlen_t N1 = INTEGER_RO(out_dim)[0];  \
     const int N2 = INTEGER_RO(out_dim)[1];  \
-    const R_xlen_t N3 = INTEGER_RO(out_dim)[2] * stride_y;  \
+    const R_xlen_t N3 = (R_xlen_t)INTEGER_RO(out_dim)[2] * stride_y;  \
     R_xlen_t flatind_y;\
     for(R_xlen_t iter3 = 0; iter3 < N3; iter3 += stride_y) {  \
       for(int flatind_x = 0; flatind_x < N2; ++flatind_x) { \
@@ -2215,7 +2282,7 @@
     R_xlen_t flatind_out = 0; \
     const int *pxdim = INTEGER_RO(x_dim); \
     const R_xlen_t stride_x = (double)pxdim[0] * (double)pxdim[1];  \
-    const int N1 = INTEGER_RO(out_dim)[0];  \
+    const R_xlen_t N1 = INTEGER_RO(out_dim)[0];  \
     const int N2 = INTEGER_RO(out_dim)[1];  \
     const R_xlen_t N3 = INTEGER_RO(out_dim)[2] * stride_x;  \
     R_xlen_t flatind_x;\
