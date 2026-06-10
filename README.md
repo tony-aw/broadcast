@@ -1,14 +1,18 @@
 
+
 <p align="center">
+
 <img src="man/figures/broadcast.png" height="300"/>
 </p>
+
 <p align="center">
+
 ‘R’-package ‘broadcast’: Broadcasted Array Operations Like ‘NumPy’
 </p>
+
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/tony-aw/broadcast/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/broadcast/actions)
+[![R-CMD-check-overkill](https://github.com/tony-aw/broadcast/actions/workflows/R-CMD-check-overkill.yaml/badge.svg)](https://github.com/tony-aw/broadcast/actions/workflows/R-CMD-check-overkill.yaml)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -34,7 +38,9 @@ regular dimensions replication mechanism.
 Key Features (click on the 🔍 to show or hide):
 
 <details>
+
 <summary>
+
 <b><a style="cursor: pointer;">Broadcasted Infix Operators 🔍 </a></b>
 </summary>
 
@@ -55,15 +61,23 @@ This cannot be done efficiently in base ‘R’; it **can** be done fast and
 memory-efficiently with the ‘broadcast’ package:
 
 <table>
+
 <tr>
+
 <td height="1">
+
 Base ‘R’
 </th>
+
 <td height="1">
+
 ‘broadcast’ package
 </th>
+
 </tr>
+
 <tr>
+
 <td>
 
 ``` r
@@ -77,6 +91,7 @@ Error: cannot allocate vector of size
 ```
 
 </td>
+
 <td>
 
 ``` r
@@ -91,15 +106,20 @@ x + y
 ```
 
 </td>
+
 </tr>
+
 </table>
 
 ‘broadcast’ supports a wide range of infix operators, including
 arithmetic-, relational-, Boolean- string- and bit-wise operators.
 
 </details>
+
 <details>
+
 <summary>
+
 <b><a style="cursor: pointer;">Broadcasted Array Binding 🔍 </a></b>
 </summary>
 
@@ -123,15 +143,23 @@ This cannot be done efficiently in base ‘R’; it **can** be done fast and
 memory-efficiently with the ‘broadcast’ package:
 
 <table cellspacing="0" cellpadding="0">
+
 <tr>
+
 <td>
+
 Base ‘R’
 </th>
+
 <td>
+
 ‘broadcast’ package
 </th>
+
 </tr>
+
 <tr>
+
 <td>
 
 ``` r
@@ -146,6 +174,7 @@ Error: cannot allocate vector of size
 ```
 
 </td>
+
 <td>
 
 ``` r
@@ -157,7 +186,9 @@ bind_array(list(x, y), along = 2L)
 ```
 
 </td>
+
 </tr>
+
 </table>
 
 `bind_array()` is also considerably faster and more memory efficient
@@ -165,8 +196,11 @@ than `abind()`. See the
 [benchmarks](https://tony-aw.github.io/broadcast/about/f_benchmarks_other.html).
 
 </details>
+
 <details>
+
 <summary>
+
 <b><a style="cursor: pointer;">Broadcasted General Functions 🔍 </a></b>
 </summary>
 
@@ -176,8 +210,11 @@ apply-like function), `bc_ifelse()` (broadcasted version of `ifelse()`),
 `bc_strrep()` (broadcasted version of `strrep()`).
 
 </details>
+
 <details>
+
 <summary>
+
 <b><a style="cursor: pointer;">Casting Methods 🔍 </a></b>
 </summary>
 
@@ -263,8 +300,11 @@ print(x3)
 ```
 
 </details>
+
 <details>
+
 <summary>
+
 <b><a style="cursor: pointer;">A few Linear Algebra Functions for
 Statistics 🔍 </a></b>
 </summary>
