@@ -46,7 +46,8 @@ A vector of standard deviations. \cr
 \cr
 For \code{ecumprob()}: \cr
 A vector of cumulative probabilities. \cr
-If for any observation \code{i} (after broadcasting,) \code{y[i]} is NA/NaN or any of \code{sim[i,]} is NA/NaN,
+If for any observation \code{i} (after broadcasting),
+\code{y[i]} is NA/NaN or any of \code{sim[i,]} is NA/NaN,
 the result for \code{i} will be \code{NA}. \cr
 If zero-length \code{y} or \code{sim} is given, a zero-length numeric vector is returned. \cr
 \cr

@@ -6,7 +6,7 @@
 \alias{array2vector}
 \title{Turn Vector to Array and Vice-Versa}
 \usage{
-vector2array(x, direction, ndim = direction, broadcaster = NULL)
+vector2array(x, orient, ndim = orient, broadcaster = NULL)
 
 undim(x, broadcaster = NULL)
 
@@ -16,11 +16,11 @@ array2vector(x, broadcaster = NULL)
 \item{x}{an vector (for \code{vector2array()} or an array (for \code{undim()}/\code{array2vector()}). \cr
 All atomic types, and the recursive type \code{list}, are supported.}
 
-\item{direction}{a positive integer scalar, giving the direction of the vector. \cr
+\item{orient}{a positive integer scalar, giving the orientation of the vector. \cr
 In other words: give here which dimension should have size \code{length(x)} - all other dimensions will have size \code{1}.}
 
 \item{ndim}{the number of dimensions in total. \cr
-It must be the case that \code{ndim >= direction}, and \code{ndim <= 16L}.}
+It must be the case that \code{ndim >= orient}, and \code{ndim <= 16L}.}
 
 \item{broadcaster}{\code{TRUE} or \code{FALSE}, indicating if the result should be a broadcaster. \cr
 If \code{NULL}, \code{broadcaster(x)} will be used. \cr}
@@ -28,12 +28,12 @@ If \code{NULL}, \code{broadcaster(x)} will be used. \cr}
 \value{
 For \code{vector2array()}: \cr
 If \code{x} is already an array, \code{x} is returned unchanged. \cr
-Otherwise, given \code{out <- vector2array(x, direction, ndim)},
+Otherwise, given \code{out <- vector2array(x, orient, ndim)},
 \code{out} will be an array with the following properties:
 \itemize{
 \item \code{ndim(out) == ndim};
-\item \code{dim(out)[direction] == length(x)}, and all other dimensions will be \code{1};
-\item \code{dimnames(out)[[direction]] == names(x)}, and all other \code{dimnames} will be \code{NULL}. \cr \cr
+\item \code{dim(out)[orient] == length(x)}, and all other dimensions will be \code{1};
+\item \code{dimnames(out)[[orient]] == names(x)}, and all other \code{dimnames} will be \code{NULL}. \cr \cr
 }
 
 For \code{undim()}: \cr
@@ -43,7 +43,7 @@ but keeping names and \link{broadcaster} attribute as far as possible. \cr \cr
 }
 \description{
 \code{vector2array()} turns a vector into an array,
-with a specific vector direction,
+with a specific vector orientation,
 and turning the names into dimnames, and keeping (or forcing) \link{broadcaster} attribute. \cr
 \cr
 \code{undim()} returns a copy of an object, but with its dimensions removed,

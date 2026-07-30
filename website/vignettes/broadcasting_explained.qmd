@@ -210,9 +210,9 @@ tt(foo, theme = "grid") |> style_tt(line = "tlbr")
 &nbsp;
 
 
-# Vector Direction & Length
+# Vector Orientation & Length
 
-In the documentation of 'broadcast', the reader may occasionally find references to the "direction" of a vector. The direction of a vector can mean several different things, depending on the context. Before going further, we need to address what the direction of a vector means in the context of broadcasting.
+In the documentation of 'broadcast', the reader may occasionally find references to the "orientation" of a vector. The orientation of a vector can mean several different things, depending on the context. Before going further, we need to address what the orientation of a vector means in the context of broadcasting.
 
 Let's consider the following array `z`:
 
@@ -224,13 +224,13 @@ print(z)
 Here, `z` has 1 row and 10 columns.
 It is an array, but effectively it is also a vector: it has only one dimension with size larger than 1.
 
-A directional vector is an array where only one dimension is larger than 1.
-The direction of a vector refers to **which** dimension is larger than 1.
+An oriented vector is an array where only one dimension is larger than 1.
+The orientation of a vector refers to **which** dimension is larger than 1.
 
-`z` is a directional vector, and its direction is 2.
+`z` is an oriented vector, and its orientation is 2.
 
 Now the most important part:  
-Following the standard rules of Linear Algebra, a vector `z` without dimensions is interpreted by the 'broadcast' package as a vector with direction `1`.
+Following the standard rules of Linear Algebra, a vector `z` without dimensions is interpreted by the 'broadcast' package as a vector with orientation `1`.
 For example, the vectors `x` and `y` below are treated equally by the 'broadcast' package:
 
 ```{r}
@@ -243,16 +243,16 @@ print(y)
 
 &nbsp;
 
-Since dimensionless vectors are interpreted as directional vectors (which is necessary to meaningfully perform broadcasting), when may wonder: how does the 'broadcast' package deal with  `long` vectors?
+Since dimensionless vectors are interpreted as oriented vectors (which is necessary to meaningfully perform broadcasting), when may wonder: how does the 'broadcast' package deal with  `long` vectors?
 
 The answer is simple.  
 Given some broadcasted operation involving arrays or vectors `x` and `y` (for example `x + y`), the following holds.  
 If the result will be a vector, long vectors are supported. I.e. if `x` and `y` are both vectors, than `x` and/or `y` may be long vectors.  
-However, if, for example, `x` is a long vector, and `y` is an array (regardless if it is a directional vector or not), an error is returned: this is because arrays in `r fa("r-project")` cannot have dimensions larger than `2^31 - 1`.
+However, if, for example, `x` is a long vector, and `y` is an array (regardless if it is an oriented vector or not), an error is returned: this is because arrays in `r fa("r-project")` cannot have dimensions larger than `2^31 - 1`.
 
 ::: {.callout-tip}
 
-One can easily create a directional vector using the [vector2array()](/man/vector2array.qmd) function provided by 'broadcast'.
+One can easily change the orientation of an oriented vector using the new `%orientbc<-%` operator (available from version 0.1.9.5).
 
 :::
 
@@ -277,7 +277,7 @@ This normalization is achieved by appending dimensions of size 1 to the array wi
 
 For example, if `dim(x) = c(3, 4, 3)` and `dim(y) = c(3, 4)`, then internally `dim(y)` is *interpreted* to be `c(3, 4, 1)`. This does not actually copy or even modify array `y`.
 
-Following the standard rules of Linear Algebra, a vector `z` without dimensions is taken to be a directional vector with direction 1.
+Following the standard rules of Linear Algebra, a vector `z` without dimensions is taken to be an oriented vector with orientation 1.
 
 &nbsp;
 
@@ -430,7 +430,7 @@ tt(foo)
 In the documentation of 'broadcast', the reader may come across the term "orthogonal arrays" here and there.  
 "orthogonal" is a term that can mean a great many things; this section therefore explains what "orthogonal" means in the context of broadcasting.
 
-Consider the directional vectors `x` and `y`, where their directions are `1` and `2`, respectively:
+Consider the oriented vectors `x` and `y`, where their orientations are `1` and `2`, respectively:
 
 ```{r}
 x <- array(1:5, c(5, 1))
@@ -533,11 +533,11 @@ outer(as.vector(x), as.vector(y), "+")
 ```
 
 
-As you can see, performing a broadcasted operation between vectors with directions 1 and 2 (in that order) is equivalent to using `outer()` on 2 dimensionless vectors.
+As you can see, performing a broadcasted operation between vectors with orientations 1 and 2 (in that order) is equivalent to using `outer()` on 2 dimensionless vectors.
 
 The `outer()` approach has the same problems as the `x[, rep(1L, 5L)] + y[rep(1L, 5L),]` approach: it consumes a lot of unnecessary memory, and is slow.
 
-Broadcasting can thus be used as a more efficient alternative to `outer()` in case of vector inputs, simply by making the inputs orthogonal directional vectors.
+Broadcasting can thus be used as a more efficient alternative to `outer()` in case of vector inputs, simply by making the inputs orthogonal oriented vectors.
 
 &nbsp;
 

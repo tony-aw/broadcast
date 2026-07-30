@@ -22,15 +22,14 @@
 #' `bc.b()` efficiently casts the input to logical. \cr
 #' Since the input is treated as logical, the following equalities hold for `bc.b()`:
 #' 
-#'  - "==" is equivalent to `!xor(x, y)`, but faster;
+#'  - "==" is equivalent to `!xor(x, y)` (i.e. bi-conditional operation), but faster;
 #'  - "!=" is equivalent to `xor(x, y)`;
-#'  - "<" is equivalent to `(!x & y)`, but faster;
-#'  - ">" is equivalent to `(x & !y)`, but faster;
-#'  - "<=" is equivalent to `(!x & y) | (y == x)`, but faster;
-#'  - ">=" is equivalent to `(x & !y) | (y == x)`, but faster. \cr
+#'  - "<" is equivalent to `(!x & y)` (i.e. only y), but faster;
+#'  - ">" is equivalent to `(x & !y)` (i.e. only x), but faster;
+#'  - "<=" is equivalent to `(!x & y) | (y == x)` (i.e. material implication), but faster;
+#'  - ">=" is equivalent to `(x & !y) | (y == x)` (i.e. converse implication), but faster. \cr
 #'  
-#'  Note that the above equalities only hold in the absence of `NA`s,
-#'  since the `&` and `|` operators handle `NA`s differently than the relational operators. \cr \cr
+#'  Note that the `&` and `|` operators handle `NA`s slightly differently than the relational operators. \cr \cr
 #'
 #'
 #' @returns
@@ -109,7 +108,7 @@ setMethod(
     return(.binary_return_zerolen(x, y, TRUE, out.type))
   }
   
-  prep <- .binary_prep(x, y, abortcall)
+  prep <- .binary_prep(x, y)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   out.dimorig <- prep[[3L]]
@@ -162,7 +161,7 @@ setMethod(
     return(.binary_return_zerolen(x, y, TRUE, out.type))
   }
   
-  prep <- .binary_prep(x, y, abortcall)
+  prep <- .binary_prep(x, y)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   out.dimorig <- prep[[3L]]

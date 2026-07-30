@@ -4,6 +4,15 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
     "broadcast", testdir = "tinytest"
   )
   tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "aaa_binary_prep_part1")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "aaa_binary_prep_part2")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "aaa_binary_prep_part3")
+  )
+  tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "acast")
   )
   tinytest::test_package(
@@ -34,9 +43,6 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
     "broadcast", testdir = file.path("tinytest", "binary_names")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "binary_prep")
-  )
-  tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bind_array_1_basic")
   )
   tinytest::test_package(
@@ -55,7 +61,7 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
     "broadcast", testdir = file.path("tinytest", "bind_array_6_post")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "cast")
+    "broadcast", testdir = file.path("tinytest", "cast_lists")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "checkmissing")
@@ -74,6 +80,9 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "overload")
+  )
+  tinytest::test_package(
+    "broadcast", testdir = file.path("tinytest", "reorient_vector")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "shallow2atomic")

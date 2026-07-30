@@ -24,7 +24,10 @@
 #'  Casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. \cr
 #'  Mostly useful for printing or summarizing dimensional lists.
 #'  - \link{dropnests}: \cr
-#'  Drop redundant nesting in lists; mostly used for facilitating the above casting functions. \cr \cr
+#'  Drop redundant nesting in lists; mostly used for facilitating the above casting functions.
+#'  - The \link[=reorient_vector]{reorient_vector} (`%orientbc<-%`) operator: \cr
+#'  Changes the orientation of an oriented vector. \cr
+#'  Oriented vectors can be used to modify an array along a dimension. \cr \cr
 #' 
 #' @section Shared argument `recurse_all`:
 #' The \link{dropnests}, \link{hier2dim}, \link{hiernames2dimnames}, and \link{cast_hier2dim} methods

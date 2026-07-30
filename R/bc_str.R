@@ -9,7 +9,11 @@
 #' Supported concatenation operators: `r paste0(broadcast:::.op_str_conc(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_str_rel(), collapse = ", ")`. \cr
 #' Supported distance operators: `r paste0(broadcast:::.op_str_dist(), collapse = ", ")`. \cr
-#' "lcss" stands for Longest Common Sub-String.
+#' "levenshtein" is a distance measure of remoteness
+#' (i.e. greater distance = higher levenshtein). \cr
+#' "lcss" stands for Longest Common Sub-String,
+#' and is a distance measure of closeness
+#' (i.e. smaller distance = higher lcss). \cr
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #'
@@ -101,7 +105,7 @@ setMethod(
     return(.binary_return_zerolen(x, y))
   }
   
-  prep <- .binary_prep(x, y, abortcall)
+  prep <- .binary_prep(x, y)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   out.dimorig <- prep[[3L]]
@@ -143,7 +147,7 @@ setMethod(
     return(.binary_return_zerolen(x, y, TRUE, "logical"))
   }
   
-  prep <- .binary_prep(x, y, abortcall)
+  prep <- .binary_prep(x, y)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   out.dimorig <- prep[[3L]]
@@ -187,7 +191,7 @@ setMethod(
     return(.binary_return_zerolen(x, y, TRUE, "integer"))
   }
   
-  prep <- .binary_prep(x, y, abortcall)
+  prep <- .binary_prep(x, y)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   out.dimorig <- prep[[3L]]

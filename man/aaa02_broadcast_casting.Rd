@@ -28,7 +28,10 @@ Useful because atomic vectors/arrays have access to many vectorized (broadcasted
 Casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions. \cr
 Mostly useful for printing or summarizing dimensional lists.
 \item \link{dropnests}: \cr
-Drop redundant nesting in lists; mostly used for facilitating the above casting functions. \cr \cr
+Drop redundant nesting in lists; mostly used for facilitating the above casting functions.
+\item The \link[=reorient_vector]{reorient_vector} (\verb{\%orientbc<-\%}) operator: \cr
+Changes the orientation of an oriented vector. \cr
+Oriented vectors can be used to modify an array along a dimension. \cr \cr
 }
 }
 \section{Shared argument \code{recurse_all}}{

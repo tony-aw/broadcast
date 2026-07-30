@@ -16,7 +16,11 @@ bc.str(x, y, op, ...)
 Supported concatenation operators: +. \cr
 Supported relational operators: ==, !=. \cr
 Supported distance operators: levenshtein, lcss. \cr
-"lcss" stands for Longest Common Sub-String.}
+"levenshtein" is a distance measure of remoteness
+(i.e. greater distance = higher levenshtein). \cr
+"lcss" stands for Longest Common Sub-String,
+and is a distance measure of closeness
+(i.e. smaller distance = higher lcss). \cr}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }

@@ -62,9 +62,6 @@ bind_array <- function(
   if(.rcpp_bindhelper_anyinput_hasclass(input, "broadcaster")) {
     .rcpp_set_attr(out, "class", "broadcaster")
   }
-  if(is.atomic(out) && .rcpp_bindhelper_anyinput_hasclass(input, "mutatomic")) {
-    .rcpp_set_ma(out, c("mutatomic", oldClass(out)))
-  }
   
   
   # return output:

@@ -1,10 +1,30 @@
 
 
-# broadcast 0.1.9.1
+# broadcast 0.1.9.5
 
+**Performance Improvement:**
+
+* Reduced the overhead of the pairwise operators and functions.
+
+
+**Behaviour Changes:**
+
+* The `direction` argument in the `vector2array()` function has been replaced with the `orient` argument.
+* The `vector2array()` function now gives a proper error if a vector longer than `2^31 -1` is given.
+* Improved safety of the `mbroadcasters()` function.
+
+
+**New Features:**
+
+Added new casting operator: `%orientbc<-%`.
+
+
+**Other Changes:**
+
+* Replaced the term "directional vector" with "oriented vector",
+to avoid confusion with the term as used in maths and statistics.
 * Small documentation improvements here and there.
-* Added more unit tests on GitHub.
-* The website now runs on the latest version of Quarto.
+* Added more unit tests.
 
 <br>
 

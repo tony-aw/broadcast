@@ -1,0 +1,132 @@
+---
+title: reorient_vector
+
+format:
+  html:
+    css: /man.css
+
+---
+## Change Orientation of An Oriented Vector and Make it a Broadcaster {.unnumbered}
+
+
+### Description
+
+The <code>lhs %orientbc<-% rhs</code> operator
+takes an oriented vector (<code>lhs</code>),
+and changes its orientation. <br>
+It also makes <code>lhs</code> a broadcaster if it wasn't already. <br>
+<br>
+The modification is done directly on <code>lhs</code> itself,
+using R's native semantics. <br>
+<br>
+
+
+
+### Usage
+
+<pre><code class='language-R'>lhs %orientbc<-% rhs
+</code></pre>
+
+
+### Arguments
+
+<table role = "presentation">
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="lhs">lhs</code></td>
+<td>
+an atomic or recursive oriented vector.
+</td></tr>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="rhs">rhs</code></td>
+<td>
+an integer vector. <br>
+The first value must be the new orientation,
+referred to as <code>orient</code>. <br>
+The second value, optional,
+must be the number of dimensions, referred to as <code>ndim</code>. <br>
+If no second value is given, it will be set at <code>max(ndim(lhs), rhs[1])</code>. <br>
+<br>
+</td></tr>
+</table>
+
+
+### Details
+
+In the context of broadcasting,
+an oriented vector <code>x</code> is a vector or array that satisfies the following conditions:
+
+
+<ul>
+<li> It has length <code style="white-space: pre;">&gt; 1</code> and <code style="white-space: pre;">&lt;= (2^31 - 1)</code>;
+
+</li>
+<li> It has no dimensions,
+or one dimension is <code>length(x)</code> and all other dimensions are <code>1</code>. <br>
+
+</li></ul>
+
+The orientation of an oriented vector is the index of the dimension with size &gt; 1. <br>
+For example, if array <code>lhs</code> has dimensions <code>c(1, 10, 1)</code>,
+its orientation is <code>2L</code>,
+since the second dimension has size &gt; 1. <br>
+A vector with no dimensions has orientation <code>1L</code>. <br>
+<br>
+In the context of broadcasted operations,
+oriented vectors can be used to modify an array along a dimension. <br>
+The examples section gives several examples of this. <br>
+<br>
+
+
+
+### Value
+
+Nothing, but changes <code>lhs</code> directly. <br>
+<br>
+
+
+
+### See Also
+
+[broadcast_casting](aaa02_broadcast_casting.qmd) <br>
+<br>
+
+
+
+### Examples
+```{r, warning=FALSE, message=FALSE, eval=TRUE, collapse = TRUE, comment = "#>"}
+library("broadcast")
+
+
+
+# basic usage ====
+x <- setNames(1:10, letters[1:10])
+print(x)
+
+x %orientbc<-% 2L
+print(x)
+x %orientbc<-% 3L
+print(x)
+x %orientbc<-% 1:2
+print(x)
+x %orientbc<-% c(1, 3)
+print(x)
+
+
+
+# modify an array along one specific dimension ====
+x <- array(sample(0:9), c(3,3,3))
+print(x)
+
+# add 10 to second column, and 100 to third column:
+v <- vector2array(c(0, 10, 100), 2, 2, TRUE)
+x + v
+
+# add 10 to second row, and 100 to third row:
+v %orientbc<-% 1L
+x + v
+
+# add 10 to second layer, and 100 to third layer:
+v %orientbc<-% 3L
+x + v
+
+
+
+```

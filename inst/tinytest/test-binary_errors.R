@@ -47,7 +47,7 @@ for(i in 1:7) {
 
 
 # non-conformable vectors ====
-message <- "`x` and `y` are not conformable"
+message <- "arrays not conformable for broadcasting"
 for(i in seq_along(funs)) {
   
   x <- datagens[[i]]()
@@ -68,7 +68,7 @@ for(i in seq_along(funs)) {
 
 
 # non-conformable arrays ====
-message <- "`x` and `y` are not conformable"
+message <- "arrays not conformable for broadcasting"
 for(i in seq_along(funs)) {
   
   x <- array(datagens[[i]](), c(2, 10))

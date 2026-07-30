@@ -1,0 +1,73 @@
+/* 1. Reset: remove blue underline for active links */
+.navbar-nav .nav-link.active, 
+.navbar-nav .show > .nav-link {
+    border-bottom: none;
+}
+
+/* 2. Standard button (unpressed) */
+.navbar-nav .nav-item .nav-link {
+    background: #F5F5F5 !important;
+    color: black !important;
+    padding: 4px 10px !important;
+    margin: 2px 5px !important;
+    border-top: 2px solid #ffffff !important;
+    border-left: 2px solid #ffffff !important;
+    border-bottom: 2px solid #808080 !important;
+    border-right: 2px solid #808080 !important;
+    text-decoration: none !important;
+    display: inline-block;
+}
+
+/* 3. Active/pressed button */
+/* Targeting both link as link within item */
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-item.active .nav-link,
+.navbar-nav .nav-link:active {
+    background: #F5F5F5 !important;
+    /* Draai de borders om voor het diepte-effect */
+    border-top: 2px solid #808080 !important;
+    border-left: 2px solid #808080 !important;
+    border-bottom: 2px solid #ffffff !important;
+    border-right: 2px solid #ffffff !important;
+    /* Verschuif de tekst 1px voor de mechanische 'klik' */
+    padding: 5px 9px 3px 11px !important; 
+    /* De klassieke Windows focus-indicator */
+    outline: 1px dotted #222 !important;
+    outline-offset: -6px;
+}
+
+/* 4. Prevent hovering from ruining it all */
+.navbar-nav .nav-link:hover {
+    background: #c0c0c0 !important;
+    color: black !important;
+}
+
+
+/* CODE BLOCKS */
+
+pre.sourceCode, 
+.cell pre { 
+    /* Sunken Border */
+    border-top: 2px solid #808080 !important;
+    border-left: 2px solid #808080 !important;
+    border-bottom: 2px solid #ffffff !important;
+    border-right: 2px solid #ffffff !important;
+    box-shadow: inset 1px 1px 0px #000000 !important;
+    border-radius: 0 !important;
+    
+    /* Scroll-fix */
+    max-width: 100%;
+    overflow-x: auto !important;
+    display: block;
+    padding: 0 !important; /* Padding gaat naar de code-tag hieronder */
+}
+
+/* Content within scrolling box */
+code.sourceCode {
+    display: block;
+    width: max-content; 
+    min-width: 100%;
+    padding: 12px !important; /* Hier de witruimte toevoegen */
+}
+
+

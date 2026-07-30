@@ -21,38 +21,20 @@ The following MACROs define the loops used for broadcasted element-wise binary o
 In the context of a broadcasted operation involving exactly 2 arrays,
 'broadcast' uses different techniques for looping through the elements for broadcasting.
 The techniques are the following, ordered from high to low priority:
- 1) broadcasting where one of the arrays is a vector
- 2) regular broadcasting
+ 1) Vector mode:
+  This mode is usedbroadcasting where one or both of the arrays is actually vector or 1d-array.
+  This mode is also used when no broadcasting needs to occur.
+ 2) General mode:
+  For regular broadcasting.
 
-The dimensions of both arrays are first NORMALIZED and SIMPLIFIED (see 'R' code),
+The dimensions of both arrays are first NORMALIZED and SIMPLIFIED virtually
+(see 'rcpp_virt_binary_prep' code),
 before determining which technique to use.
 
-'vector broadcasting' occurs when at least one of the following is true:
- - x and/or y is a scalar (i.e. length of 1)
- - x and y are vectors or 1d array (i.e. ndims() <= 1L)
- - x and y have the exact same dimensions
-
-When vector broadcasting does not hold,
-'ortho-vector broadcasting' occurs when the following is true:
- - x is a row-vector and y is a column-vector, or vice-versa
-
-When both vector and orth-vector broadcasting does not hold,
-'big-to-vector' broadcasting occurs when ALL of the following is true
-(again, AFTER normalization and simplification):
- - the arrays have 2 or 3 dimensions
- - x is a vector or y is a vector (i.e. only one dimension has size > 1)
- - all(dim(x) > dim(y)) || all(dim(y) > dim(x))
- - if the larger array is a 3d array, the smaller array had dimension in the form c(1, n, 1)
-
-When none of the above techniques hold, The regular broadcasting technique is used.
 The MACROs for regular broadcasting were written for 4 and 16 dimensions.
 These MACROs were written via a simple 'R' script,
 to minimize the risk of human error.
 
-For broadcasting dimmodes 'big-to-vector' and 'regular'
-the dimensions of the involved arrays are internally chunkified,
-to ensure they fit the MACROs.
-This has some overhead, but not too much.
 
 
 ********************************************************************************

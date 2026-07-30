@@ -41,9 +41,14 @@ for(iMutX in c(TRUE, FALSE)) {
               expect_true(
                 is.mutatomic(bc_strrep(as_chr(x2), as_int(y2)))
               ) |> errorfun()
+              cond <- as.mutatomic(x2 | y2)
               expect_true(
-                is.mutatomic(bind_array(list(x2, y2), 1L))
+                is.mutatomic(bc_ifelse(cond, x2, y2))
               ) |> errorfun()
+              
+              # expect_true(
+              #   is.mutatomic(bind_array(list(x2, y2), 1L))
+              # ) |> errorfun()
               enumerate <- enumerate + 2L
               
             }

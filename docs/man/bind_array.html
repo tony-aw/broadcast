@@ -283,6 +283,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/reorient_vector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">%orientbc&lt;-%</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/cast_hier2dim.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">cast_hier2dim</span></a>
   </div>
@@ -786,7 +792,7 @@ either an integer scalar or <code>NULL</code>. <br> Indicates which object in <c
 <span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a><span class="co"># binding vectors and arrays ====</span></span>
-<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]) <span class="sc">|&gt;</span> <span class="fu">vector2array</span>(<span class="at">direction =</span> <span class="dv">2</span>L, <span class="at">ndim =</span> <span class="dv">2</span>L)</span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]) <span class="sc">|&gt;</span> <span class="fu">vector2array</span>(<span class="at">orient =</span> <span class="dv">2</span>L, <span class="at">ndim =</span> <span class="dv">2</span>L)</span>
 <span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>), <span class="fu">list</span>(<span class="cn">NULL</span>, LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
 <span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">list</span>(x, y)</span>
 <span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_array</span>(input, <span class="dv">1</span>L, <span class="at">comnames_from =</span> <span class="dv">1</span>L) <span class="co"># row-bind, with names from vector `x`</span></span>

@@ -1,7 +1,8 @@
 #' Cast Shallow List to Atomic Object
 #'
 #' @description
-#' `cast_shallow2atomic()` casts a shallow (i.e. non-nested) list to an atomic object. \cr
+#' `cast_shallow2atomic()`
+#' casts a shallow (i.e. non-nested) list to an atomic vector/array. \cr
 #' \cr
 #' 
 #' 
@@ -58,19 +59,17 @@
 #' one can get an \emph{approximation} of the original shallow list back using just base 'R' functions. \cr
 #' This section describes how to do so. \cr
 #' \cr
-#' \bold{`arrangement = 0L`} \cr
-#' If `arrangement = 0L`, one can transform an atomic object `out` back to a shallow list using: \cr
+#' If `arrangement = 0L`, \cr
+#' one can transform an atomic object `out` back to a shallow list using: \cr
 #' `back <- as.list(out)` \cr
 #' `names(back) <- names(out)` \cr
 #' \cr
-#' 
-#' \bold{`arrangement = 1L`} \cr
-#' If `arrangement = 1L`, one can transform an atomic object `out` back to a shallow list using: \cr
+#' If `arrangement = 1L`, \cr
+#' one can transform an atomic object `out` back to a shallow list using: \cr
 #' `asplit(out, seq(2, ndim(out)))` \cr
 #' \cr
-#' 
-#' \bold{`arrangement = -1L`} \cr
-#' If `arrangement = -1L`, one can transform an atomic object `out` back to a shallow list using: \cr
+#' If `arrangement = -1L`, \cr
+#' one can transform an atomic object `out` back to a shallow list using: \cr
 #' `asplit(out, seq(1, ndim(out) - 1L))` \cr
 #' \cr
 #' \cr

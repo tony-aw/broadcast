@@ -408,7 +408,7 @@ This is considerably <strong>faster</strong> and <strong>more memory-efficient</
 <section id="array-binding" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Array binding</h1>
 <p>The battle-tested <code>abind()</code> function is often used to bind arrays along any arbitrary dimension.</p>
-<p>‘broadcast’ provides an alternative to this, namely the <a href="../man/bind_array.html">bind_array()</a> function, which allows for broadcasting (obviously), and is also notably faster and more memory efficient than <code>abind()</code>.</p>
+<p>‘broadcast’ provides an alternative to this, namely the <a href="../man/bind_array.html">bind_array()</a> function, which allows for broadcasting (obviously), and is also notably faster and more memory efficient than <code>abind()</code>. Moreover, <a href="../man/bind_array.html">bind_array()</a> supports recursive arrays (<code>abind()</code> does not support recursive arrays: it often coerces recursive arrays to character arrays, ruining their structure).</p>
 <p>Consider the following arrays:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
@@ -446,7 +446,7 @@ This is considerably <strong>faster</strong> and <strong>more memory-efficient</
 <h1 data-number="6"><span class="header-section-number">6</span> Casting</h1>
 <section id="overview" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">6.1</span> Overview</h2>
-<p>‘broadcast’ provides several “casting” functions. These can facility complex forms of broadcasting that would normally not be possible.<br>
+<p>‘broadcast’ provides several “casting” functions. These can facilitate complex forms of broadcasting that would normally not be possible.<br>
 But these “casting” functions also have their own merit, beside empowering complex broadcasting.</p>
 <p>The following casting functions are currently available:</p>
 <ul>
@@ -460,6 +460,7 @@ Useful because atomic vectors/arrays have access to many vectorized (broadcasted
 <li><p><a href="../man/cast_dim2flat.html">cast_dim2flat()</a>: casts a dimensional list into a flattened list, but with names that indicate their original dimensional positions.<br>
 Mostly useful for printing or summarizing dimensional lists.</p></li>
 <li><p><a href="../man/dropnests.html">dropnests()</a>: drop redundant nesting in lists; mostly used for facilitating the above casting functions.</p></li>
+<li><p>The <code>%orientbc&lt;-%</code> operator: changes the orientation of an oriented vector. Oriented vectors can be used to modify an array along a dimension.</p></li>
 </ul>
 <p>&nbsp;</p>
 </section>
@@ -519,22 +520,22 @@ Mostly useful for printing or summarizing dimensional lists.</p></li>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;list&gt;</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├─group1: &lt;list&gt;</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ ├─class1: &lt;list&gt;</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─height&lt;int [5]&gt;: 171, 171, 170, 169, 170</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─weight&lt;int [5]&gt;: 80, 80, 80, 80, 80</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ └─sex&lt;chr [5]&gt;: "NA", "NA", "NA", "NA", "M"</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─height&lt;int [5]&gt;: 170, 169, 169, 171, 170</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─weight&lt;int [5]&gt;: 80, 80, 80, 79, 79</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ └─sex&lt;chr [5]&gt;: "F", "F", "F", "NA", "NA"</span></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ └─class2: &lt;list&gt;</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─height&lt;int [5]&gt;: 171, 169, 170, 171, 170</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─weight&lt;int [5]&gt;: 79, 79, 80, 80, 79</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └─sex&lt;chr [5]&gt;: "F", "F", "M", "F", "NA"</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─height&lt;int [5]&gt;: 170, 169, 168, 169, 169</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─weight&lt;int [5]&gt;: 79, 81, 82, 82, 79</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └─sex&lt;chr [5]&gt;: "NA", "M", "M", "M", "F"</span></span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; └─group2: &lt;list&gt;</span></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ├─class1: &lt;list&gt;</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─height&lt;int [5]&gt;: 171, 170, 168, 169, 169</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─weight&lt;int [5]&gt;: 82, 79, 79, 78, 79</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ └─sex&lt;chr [5]&gt;: "NA", "M", "NA", "F", "NA"</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─height&lt;int [5]&gt;: 170, 168, 169, 169, 170</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─weight&lt;int [5]&gt;: 78, 82, 80, 79, 80</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ └─sex&lt;chr [5]&gt;: "F", "M", "NA", "M", "NA"</span></span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   └─class2: &lt;list&gt;</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─height&lt;int [5]&gt;: 169, 169, 171, 170, 170</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─weight&lt;int [5]&gt;: 80, 81, 80, 78, 79</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └─sex&lt;chr [5]&gt;: "NA", "F", "F", "NA", "NA"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─height&lt;int [5]&gt;: 170, 170, 169, 170, 170</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─weight&lt;int [5]&gt;: 81, 79, 79, 80, 79</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └─sex&lt;chr [5]&gt;: "M", "NA", "NA", "F", "F"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>&nbsp;</p>
 </section>
@@ -542,7 +543,7 @@ Mostly useful for printing or summarizing dimensional lists.</p></li>
 <section id="other-functions" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Other Functions</h1>
 <p>‘broadcast’ provides the <a href="../man/bcapply.html">bcapply()</a> method, which is a broadcasted apply-like function.</p>
-<p>‘broadcast’ also provides the <a href="../man/bc_ifelse.html">bc_ifelse()</a> and <a href="../man/bc_strrep.html">bc_strrep()</a>methods, which are broadcasted versions of <code>ifelse()</code> and <code>strrep()</code>, respectively.</p>
+<p>‘broadcast’ also provides the <a href="../man/bc_ifelse.html">bc_ifelse()</a> and <a href="../man/bc_strrep.html">bc_strrep()</a> methods, which are broadcasted versions of <code>ifelse()</code> and <code>strrep()</code>, respectively.</p>
 <p>‘broadcast’ provides a small set of simple linear algebra functions for usage in statistics. See <a href="../man/linear_algebra_stats.html">linear_algebra_stats</a>.</p>
 <p>‘broadcast’ offers type-casting functions. Unlike base <svg aria-hidden="true" role="img" viewbox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"></path></svg>‘s type-casting functions (<code>as.logical()</code>, <code>as.integer()</code>, etc.), the type-casting functions from ’broadcast’ preserve names and dimensions. See <a href="../man/typecast.html">typecast</a>.</p>
 <p>&nbsp;</p>

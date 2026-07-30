@@ -214,8 +214,14 @@
                   x <- array(x.data[[iDataX]], x.dim)
                   y <- array(y.data[[iDataY]], y.dim)
                   
-                  if(xMA) class(x) <- "mutatomic"
-                  if(yMA) class(y) <- "mutatomic"
+                  if(xMA && is.atomic(x)) {
+                    class(x) <- "mutatomic"
+                    attr(x, "serial") <- 202326021992
+                  }
+                  if(yMA && is.atomic(y)) {
+                    class(y) <- "mutatomic"
+                    attr(y, "serial") <- 202326021992
+                  }
                   broadcaster(x) <- xBC
                   broadcaster(y) <- yBC
                   comment(x) <- xCom

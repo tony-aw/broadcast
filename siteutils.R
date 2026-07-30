@@ -213,8 +213,12 @@ rd2qmd <- function(source_file, temp_html, target_dir, path) {
   tmp <- gsub("<p>", "", tmp, fixed = TRUE)
   tmp <- gsub("</p>", "", tmp, fixed = TRUE)
   
+  # clean up operators
+  tmp <- gsub("&lt;-", "<-", tmp, fixed = TRUE)
+  
   # write to file
   fn <- file.path(target_dir, sub("Rd$", "qmd", basename(source_file)))
   writeLines(tmp, con = fn)
+  
 }
 

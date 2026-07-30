@@ -202,10 +202,8 @@ Pre-processing the dimensions does not affect the actual arrays involved in the 
 
 After pre-processing, the "dimensional mode" of the simplified arrays is determined. The following modes are available:
 
- - Vector mode: This mode is used when no actual broadcasting occurs, and thus the arrays can be treated as dimensionless vectors.
- - Orthovector mode: This mode is used when broadcasting the simplified dimensions constitutes an operation between orthogonal vectors.
- - Sandwich mode: This mode is used when the broadcasted operation involves a array and a (directional) vector, where all dimensions of the array are greater than or equal to the dimensions of the vector. Note that a directional vector is an array where (after simplification) one dimension is greater than 1, and all other dimensions are equal to 1.
- - General mode: This mode is used for general broadcasting, that cannot be simplified to any of the above cases.
+ - Vector mode: This mode is used when one or both of the arrays are actually vectors or 1d arrays. It is also used when no broadcasting needs to occur.
+ - General mode: This mode is used for general broadcasting, that cannot be simplified to the vector mode.
  
  
 &nbsp;

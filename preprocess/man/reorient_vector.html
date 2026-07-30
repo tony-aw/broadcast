@@ -1,0 +1,142 @@
+<!DOCTYPE html><html><head><title>R: Change Orientation of An Oriented Vector and Make it a...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script>
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>reorient_vector</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Change Orientation of An Oriented Vector and Make it a Broadcaster</h2>
+
+<h3>Description</h3>
+
+<p>The <code>lhs %orientbc&lt;-% rhs</code> operator
+takes an oriented vector (<code>lhs</code>),
+and changes its orientation. <br>
+It also makes <code>lhs</code> a broadcaster if it wasn't already. <br>
+<br>
+The modification is done directly on <code>lhs</code> itself,
+using R's native semantics. <br>
+<br>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>lhs %orientbc&lt;-% rhs
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="lhs">lhs</code></td>
+<td>
+<p>an atomic or recursive oriented vector.</p>
+</td></tr>
+<tr><td><code id="rhs">rhs</code></td>
+<td>
+<p>an integer vector. <br>
+The first value must be the new orientation,
+referred to as <code>orient</code>. <br>
+The second value, optional,
+must be the number of dimensions, referred to as <code>ndim</code>. <br>
+If no second value is given, it will be set at <code>max(ndim(lhs), rhs[1])</code>. <br>
+<br></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>In the context of broadcasting,
+an oriented vector <code>x</code> is a vector or array that satisfies the following conditions:
+</p>
+
+<ul>
+<li><p> It has length <code style="white-space: pre;">&#8288;&gt; 1&#8288;</code> and <code style="white-space: pre;">&#8288;&lt;= (2^31 - 1)&#8288;</code>;
+</p>
+</li>
+<li><p> It has no dimensions,
+or one dimension is <code>length(x)</code> and all other dimensions are <code>1</code>. <br>
+</p>
+</li></ul>
+
+<p>The orientation of an oriented vector is the index of the dimension with size &gt; 1. <br>
+For example, if array <code>lhs</code> has dimensions <code>c(1, 10, 1)</code>,
+its orientation is <code>2L</code>,
+since the second dimension has size &gt; 1. <br>
+A vector with no dimensions has orientation <code>1L</code>. <br>
+<br>
+In the context of broadcasted operations,
+oriented vectors can be used to modify an array along a dimension. <br>
+The examples section gives several examples of this. <br>
+<br>
+</p>
+
+
+<h3>Value</h3>
+
+<p>Nothing, but changes <code>lhs</code> directly. <br>
+<br>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>[broadcast_casting](aaa02_broadcast_casting.qmd)</code> <br>
+<br>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+
+# basic usage ====
+x &lt;- setNames(1:10, letters[1:10])
+print(x)
+
+x %orientbc&lt;-% 2L
+print(x)
+x %orientbc&lt;-% 3L
+print(x)
+x %orientbc&lt;-% 1:2
+print(x)
+x %orientbc&lt;-% c(1, 3)
+print(x)
+
+
+
+# modify an array along one specific dimension ====
+x &lt;- array(sample(0:9), c(3,3,3))
+print(x)
+
+# add 10 to second column, and 100 to third column:
+v &lt;- vector2array(c(0, 10, 100), 2, 2, TRUE)
+x + v
+
+# add 10 to second row, and 100 to third row:
+v %orientbc&lt;-% 1L
+x + v
+
+# add 10 to second layer, and 100 to third layer:
+v %orientbc&lt;-% 3L
+x + v
+
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

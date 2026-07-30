@@ -44,7 +44,9 @@
 #' \cr
 #' The following functions for simple operations are available:
 #' 
-#'  * \link{bc.rel}: General relational operations.
+#'  * \link{bc.rel}: General relational operations
+#'  (`==, !=, <, >, <=, >=`). \cr
+#'  The various other `bc.` methods below have specialised relational operators available for specialised needs.
 #'  * \link{bc.b}: Boolean (i.e. logical) operations;
 #'  * \link{bc.i}: integer arithmetic operations;
 #'  * \link{bc.d}: decimal arithmetic operations;
@@ -53,15 +55,7 @@
 #'  * \link{bc.raw}: operations that take in arrays of type `raw` and return an array of type `raw`;
 #'  * \link{bc.bit}: BIT-WISE operations, supporting the `raw` and `integer` types;
 #'  * \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
-#' 
-#' 
-#' Note that the \link{bc.rel} method is the primary method for relational operators
-#' (`r paste0(broadcast:::.op_rel(), collapse = ", ")`),
-#' and provides what most user usually need in relational operators.\cr
-#' The various other `bc.` methods have specialized relational operators available for very specialised needs. \cr
-#' \cr
-#' 
-#' 
+#'  
 #' 
 #' @section Attribute Handling: 
 #' The `bc.` functions and the overloaded operators generally do \bold{not}

@@ -99,7 +99,7 @@ If <code>fill_val</code> is missing, it is specified as follows: <br>
 For the sake of illustration, consider a matrix <code>x</code> and a grouping factor <code>grp</code>. <br>
 Let the integer scalar <code>k</code> represent a group in <code>grp</code>, such that <code>k</code> $\in$ <code>1:nlevels(grp)</code>. <br>
 Then the code <br>
-<code>out &lt;- acast(x, margin = 1, grp = grp)</code> <br>
+<code>out <- acast(x, margin = 1, grp = grp)</code> <br>
 essentially performs the following for every group <code>k</code>:
 
 
@@ -122,9 +122,9 @@ An array with dimensions <code style="white-space: pre;">c(dim(x), max(tabulate(
 ### Back transformation
 
 From the casted array, <br>
-<code>out &lt;- acast(x, margin, grp)</code>, <br>
+<code>out <- acast(x, margin, grp)</code>, <br>
 one can get the original <code>x</code> back by using <br>
-<code>back &lt;- asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br>
+<code>back <- asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br>
 Note, however, the following about the back-transformed array <code>back</code>:
 
 

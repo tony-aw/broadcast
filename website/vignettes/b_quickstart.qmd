@@ -157,6 +157,7 @@ bc.i(x, y, "gcd") # calculate greatest common divisor between x and y
 The battle-tested `abind()` function is often used to bind arrays along any arbitrary dimension.
 
 'broadcast' provides an alternative to this, namely the [bind_array()](/man/bind_array.qmd) function, which allows for broadcasting (obviously), and is also notably faster and more memory efficient than `abind()`.
+Moreover, [bind_array()](/man/bind_array.qmd) supports recursive arrays (`abind()` does not support recursive arrays: it often coerces recursive arrays to character arrays, ruining their structure).
 
 
 Consider the following arrays:
@@ -194,7 +195,7 @@ bind_array(list(x, y), 2L)
 ## Overview
 
 'broadcast' provides several "casting" functions.
-These can facility complex forms of broadcasting that would normally not be possible.  
+These can facilitate complex forms of broadcasting that would normally not be possible.  
 But these "casting" functions also have their own merit, beside empowering complex broadcasting.
 
 The following casting functions are currently available:
@@ -215,6 +216,9 @@ Useful because atomic vectors/arrays have access to many vectorized (broadcasted
 Mostly useful for printing or summarizing dimensional lists.
 
  - [dropnests()](/man/dropnests.qmd): drop redundant nesting in lists; mostly used for facilitating the above casting functions.
+ 
+ - The `%orientbc<-%` operator: changes the orientation of an oriented vector.
+Oriented vectors can be used to modify an array along a dimension.
 
 
 &nbsp;
@@ -279,7 +283,7 @@ lobstr::tree(x3)
 
 'broadcast' provides the [bcapply()](/man/bcapply.qmd) method, which is a broadcasted apply-like function.  
 
-'broadcast' also provides the [bc_ifelse()](/man/bc_ifelse.qmd) and [bc_strrep()](/man/bc_strrep.qmd)methods, which are broadcasted versions of `ifelse()` and `strrep()`, respectively.
+'broadcast' also provides the [bc_ifelse()](/man/bc_ifelse.qmd) and [bc_strrep()](/man/bc_strrep.qmd) methods, which are broadcasted versions of `ifelse()` and `strrep()`, respectively.
 
 
 'broadcast' provides a small set of simple linear algebra functions for usage in statistics. See [linear_algebra_stats](/man/linear_algebra_stats.qmd).

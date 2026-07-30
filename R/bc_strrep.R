@@ -72,7 +72,7 @@ setMethod(
     return(.binary_return_zerolen(x, y, FALSE, "character"))
   }
   
-  prep <- .binary_prep(x, y, abortcall)
+  prep <- .binary_prep(x, y)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   out.dimorig <- prep[[3L]]

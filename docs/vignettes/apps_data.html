@@ -422,8 +422,8 @@ But intuitively, binding <code>x</code> and <code>y</code> should be possible, w
 </div>
 <p>Suppose one wishes to add <code>10</code> to all values of the second column, and <code>100</code> to all values of the third column.</p>
 <p>This can be done with ‘broadcast’, as follows:<br>
-First, create a modification broadcaster vector, whose dimensional direction is aligned with - in this case - the columns; this can be done easily using, for example, <code>vector2array(v, direction = direction, ndim  = ndim, broadcaster = TRUE)</code> (see the help page of <a href="../man/vector2array.html">vector2array()</a> for details).<br>
-Second, make <code>x</code> a broadcaster, and perform the broadcasted addition between the array and directional vector.</p>
+First, create a modification broadcaster vector, whose dimensional orientation is aligned with - in this case - the columns; this can be done easily using, for example, <code>%orientbc&lt;-%</code> (see the help page of <a href="../man/vector2array.html">vector2array()</a> for details).<br>
+Second, make <code>x</code> a broadcaster, and perform the broadcasted addition between the array and oriented vector.</p>
 <p>We don’t want to change the first column, so we add <code>0</code> to the first column.</p>
 <p>So we can do this as follows:</p>
 <div class="cell">
@@ -502,7 +502,7 @@ Note that in the ‘broadcast’ package, a vector without dimensions is interpr
 <p>As a final example, we want to add <code>{0, 10, 100}</code> to the layers (3rd dimension) of <code>x</code>.<br>
 As you may have guessed, one can do so by creating a modification broadcaster vector aligned with the layers, and adding that vector to the array, like so:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">vector2array</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">100</span>), <span class="dv">3</span>, <span class="dv">3</span>, <span class="cn">TRUE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>v <span class="sc">%orientbc&lt;-%</span> <span class="dv">3</span>L <span class="co"># change orientation of oriented vector to 3L</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(v)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , 1</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>

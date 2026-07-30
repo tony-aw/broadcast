@@ -61,17 +61,6 @@
 
 #' @keywords internal
 #' @noRd
-.is_mutatomic <- function(x) {
-  good_type <- is.logical(x) || is.integer(x) || is.double(x) || is.complex(x) || is.character(x) || is.raw(x)
-  good_form <- !is.null(x) && !is.factor(x)
-  good_class <- inherits(x, "mutatomic")
-  good_serial <- .rcpp_is_ma(x)
-  return(good_type && good_form && good_class && good_serial)
-}
-
-
-#' @keywords internal
-#' @noRd
 .types <- function() {
   return(c("unknown", "raw", "logical", "integer", "double", "complex", "character", "list", "expression"))
 }

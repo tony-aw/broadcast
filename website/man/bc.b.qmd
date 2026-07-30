@@ -60,27 +60,26 @@ Since the input is treated as logical, the following equalities hold for <code>b
 
 
 <ul>
-<li> &quot;==&quot; is equivalent to <code>!xor(x, y)</code>, but faster;
+<li> &quot;==&quot; is equivalent to <code>!xor(x, y)</code> (i.e. bi-conditional operation), but faster;
 
 </li>
 <li> &quot;!=&quot; is equivalent to <code>xor(x, y)</code>;
 
 </li>
-<li> &quot;&lt;&quot; is equivalent to <code>(!x &amp; y)</code>, but faster;
+<li> &quot;&lt;&quot; is equivalent to <code>(!x &amp; y)</code> (i.e. only y), but faster;
 
 </li>
-<li> &quot;&gt;&quot; is equivalent to <code>(x &amp; !y)</code>, but faster;
+<li> &quot;&gt;&quot; is equivalent to <code>(x &amp; !y)</code> (i.e. only x), but faster;
 
 </li>
-<li> &quot;&lt;=&quot; is equivalent to <code>(!x &amp; y) | (y == x)</code>, but faster;
+<li> &quot;&lt;=&quot; is equivalent to <code>(!x &amp; y) | (y == x)</code> (i.e. material implication), but faster;
 
 </li>
-<li> &quot;&gt;=&quot; is equivalent to <code>(x &amp; !y) | (y == x)</code>, but faster. <br>
+<li> &quot;&gt;=&quot; is equivalent to <code>(x &amp; !y) | (y == x)</code> (i.e. converse implication), but faster. <br>
 
 </li></ul>
 
-Note that the above equalities only hold in the absence of <code>NA</code>s,
-since the <code>&amp;</code> and <code>|</code> operators handle <code>NA</code>s differently than the relational operators. <br> <br>
+Note that the <code>&amp;</code> and <code>|</code> operators handle <code>NA</code>s slightly differently than the relational operators. <br> <br>
 
 
 

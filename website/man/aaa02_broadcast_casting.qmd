@@ -40,7 +40,12 @@ Mostly useful for printing or summarizing dimensional lists.
 
 </li>
 <li> [dropnests](dropnests.qmd): <br>
-Drop redundant nesting in lists; mostly used for facilitating the above casting functions. <br> <br>
+Drop redundant nesting in lists; mostly used for facilitating the above casting functions.
+
+</li>
+<li> The [reorient_vector](reorient_vector.qmd) (<code style="white-space: pre;">%orientbc<-%</code>) operator: <br>
+Changes the orientation of an oriented vector. <br>
+Oriented vectors can be used to modify an array along a dimension. <br> <br>
 
 </li></ul>
 
@@ -68,13 +73,13 @@ all have the <code>in2out</code> argument. <br>
 <img src="../help/figures/in2out-TRUE-green.svg" alt='[TRUE]'> <br>
 By default <code>in2out</code> is <code>TRUE</code>. <br>
 This means the call <br>
-<code>y &lt;- cast_hier2dim(x)</code> <br>
+<code>y <- cast_hier2dim(x)</code> <br>
 will cast the elements of the deepest valid depth of <code>x</code> to the rows of <code>y</code>,
 and elements of the depth above that to the columns of <code>y</code>,
 and so on until the surface-level elements of <code>x</code> are cast to the last dimension of <code>y</code>. <br>
 <br>
 Similarly, the call <br>
-<code>x &lt;- cast_dim2hier(y)</code> <br>
+<code>x <- cast_dim2hier(y)</code> <br>
 will cast the rows of <code>y</code> to the inner most elements of <code>x</code>,
 and the columns of <code>y</code> to one depth above that,
 and so on until the last dimension of <code>y</code> is cast to the surface-level elements of <code>x</code>. <br>
@@ -82,8 +87,8 @@ and so on until the last dimension of <code>y</code> is cast to the surface-leve
 Consider the nested list <code>x</code> with a depth of <code>3</code>,
 and the recursive array <code>y</code> with 3 dimensions,
 where their relationship can described as the following code: <br>
-<code>y &lt;- cast_hier2dim(x)</code> <br>
-<code>x &lt;- cast_dim2hier(y)</code>. <br>
+<code>y <- cast_hier2dim(x)</code> <br>
+<code>x <- cast_dim2hier(y)</code>. <br>
 Then it holds that: <br>
 <code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[k, j, i]]</code>, <br>
 $\forall$(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br>
@@ -91,13 +96,13 @@ $\forall$(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]
 <br>
 <img src="../help/figures/in2out-FALSE-red.svg" alt='[FALSE]'> <br>
 If <code>in2out = FALSE</code>, the call <br>
-<code>y &lt;- cast_hier2dim(x, in2out = FALSE)</code> <br>
+<code>y <- cast_hier2dim(x, in2out = FALSE)</code> <br>
 will cast the surface-level elements of <code>x</code> to the rows of <code>y</code>,
 and elements of the depth below that to the columns of <code>y</code>,
 and so on until the elements of the deepest valid depth of <code>x</code> are cast to the last dimension of <code>y</code>. <br>
 <br>
 Similarly, the call <br>
-<code>x &lt;- cast_dim2hier(y, in2out = FALSE)</code> <br>
+<code>x <- cast_dim2hier(y, in2out = FALSE)</code> <br>
 will cast the rows of <code>y</code> to the surface-level elements of <code>x</code>,
 and the columns of <code>y</code> to one depth below that,
 and so on until the last dimension of <code>y</code> is cast to the inner most elements of <code>x</code>. <br>
@@ -105,8 +110,8 @@ and so on until the last dimension of <code>y</code> is cast to the inner most e
 Consider the nested list <code>x</code> with a depth of <code>3</code>,
 and the recursive array <code>y</code> with 3 dimensions,
 where their relationship can described with the following code: <br>
-<code>y &lt;- cast_hier2dim(x, in2out = FALSE)</code> <br>
-<code>x &lt;- cast_dim2hier(y, in2out = FALSE)</code>. <br>
+<code>y <- cast_hier2dim(x, in2out = FALSE)</code> <br>
+<code>x <- cast_dim2hier(y, in2out = FALSE)</code>. <br>
 Then it holds that : <br>
 <code>x[[i]][[j]][[k]]</code> corresponds to <code>y[[i, j, k]]</code>, <br>
 $\forall$(<code>i</code>, <code>j</code>, <code>k</code>) , provided <code>x[[i]][[j]][[k]]</code> exists. <br> <br>

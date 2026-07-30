@@ -12,7 +12,7 @@ format:
 ### Description
 
 <code>vector2array()</code> turns a vector into an array,
-with a specific vector direction,
+with a specific vector orientation,
 and turning the names into dimnames, and keeping (or forcing) [broadcaster](broadcaster.qmd) attribute. <br>
 <br>
 <code>undim()</code> returns a copy of an object, but with its dimensions removed,
@@ -26,7 +26,7 @@ but still trying to keep the names if possible
 
 ### Usage
 
-<pre><code class='language-R'>vector2array(x, direction, ndim = direction, broadcaster = NULL)
+<pre><code class='language-R'>vector2array(x, orient, ndim = orient, broadcaster = NULL)
 
 undim(x, broadcaster = NULL)
 
@@ -42,15 +42,15 @@ array2vector(x, broadcaster = NULL)
 an vector (for <code>vector2array()</code> or an array (for <code>undim()</code>/<code>array2vector()</code>). <br>
 All atomic types, and the recursive type <code>list</code>, are supported.
 </td></tr>
-<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="direction">direction</code></td>
+<tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="orient">orient</code></td>
 <td>
-a positive integer scalar, giving the direction of the vector. <br>
+a positive integer scalar, giving the orientation of the vector. <br>
 In other words: give here which dimension should have size <code>length(x)</code> - all other dimensions will have size <code>1</code>.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="ndim">ndim</code></td>
 <td>
 the number of dimensions in total. <br>
-It must be the case that <code>ndim &gt;= direction</code>, and <code>ndim &lt;= 16L</code>.
+It must be the case that <code>ndim &gt;= orient</code>, and <code>ndim &lt;= 16L</code>.
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="broadcaster">broadcaster</code></td>
 <td>
@@ -64,7 +64,7 @@ If <code>NULL</code>, <code>broadcaster(x)</code> will be used. <br>
 
 For <code>vector2array()</code>: <br>
 If <code>x</code> is already an array, <code>x</code> is returned unchanged. <br>
-Otherwise, given <code>out &lt;- vector2array(x, direction, ndim)</code>,
+Otherwise, given <code>out <- vector2array(x, orient, ndim)</code>,
 <code>out</code> will be an array with the following properties:
 
 
@@ -72,10 +72,10 @@ Otherwise, given <code>out &lt;- vector2array(x, direction, ndim)</code>,
 <li> <code>ndim(out) == ndim</code>;
 
 </li>
-<li> <code>dim(out)[direction] == length(x)</code>, and all other dimensions will be <code>1</code>;
+<li> <code>dim(out)[orient] == length(x)</code>, and all other dimensions will be <code>1</code>;
 
 </li>
-<li> <code>dimnames(out)[[direction]] == names(x)</code>, and all other <code>dimnames</code> will be <code>NULL</code>. <br> <br>
+<li> <code>dimnames(out)[[orient]] == names(x)</code>, and all other <code>dimnames</code> will be <code>NULL</code>. <br> <br>
 
 </li></ul>
 

@@ -12,7 +12,7 @@ SEXP C_arraysize_overflow(SEXP xdim, SEXP xlen0) {
     xlen = REAL(xlen0)[0];
   }
   
-  const double maxlong = pow(2, 52);
+  const double maxlong = pow(2, 52) - 1;
   if(xlen > maxlong) {
     return Rf_ScalarLogical(1);
   }

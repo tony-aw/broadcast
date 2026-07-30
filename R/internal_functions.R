@@ -12,14 +12,6 @@
 
 #' @keywords internal
 #' @noRd
-.chunkify_dims <- function(dims) {
-  chunks <- c(4L, 16L)
-  return(.C_chunkify_dims(dims, chunks))
-}
-
-
-#' @keywords internal
-#' @noRd
 .transform_function <- function(f) {
   
   # this function is used for `bcapply()`
@@ -93,19 +85,6 @@
 }
 
 
-#' @keywords internal
-#' @noRd
-.missing <- function() {
-  return(structure(list(), class = "missing"))
-}
-
-
-#' @keywords internal
-#' @noRd
-.is.missing <- function(x) {
-  return(is.list(x) && class(x) == "missing")
-}
-
 
 #' @keywords internal
 #' @noRd
@@ -115,6 +94,8 @@
   }
 }
 
+#' @keywords internal
+#' @noRd
 .set_dimnames <- function(x, newdimnames) {
   if(.rcpp_dimnames_fit(x, newdimnames)) {
     .rcpp_set_attr(x, "dimnames", newdimnames)

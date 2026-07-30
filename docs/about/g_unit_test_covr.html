@@ -216,47 +216,49 @@ ul.task-list li input[type="checkbox"] {
 <p>&nbsp;</p>
 <p>The unit tests employed by the ‘broadcast’ package have a test coverage of over 95%.<br>
 For the sake of transparency, the unit tests coverage report, produced by the <a href="https://github.com/r-lib/covr">covr</a> package, is provided here:</p>
-<pre><code>broadcast Coverage: 96.06%
-R/internal_functions.R: 75.00%
-R/internal_typefuns.R: 79.66%
+<pre><code>broadcast Coverage: 96.25%
+R/internal_functions.R: 80.56%
 src/C_arraysize_overflow.c: 85.71%
+R/internal_typefuns.R: 87.04%
 R/internal_hiercast.R: 87.10%
 src/rcpp_bc_ifelse.cpp: 87.50%
+src/C_dims_is_vector.c: 88.89%
 R/overload_ops_math.R: 89.23%
+R/broadcastWrappers.R: 90.00%
 src/rcpp_any_nonarray.cpp: 90.00%
 src/rcpp_bc_bit.cpp: 90.00%
 R/hier2dim.R: 90.32%
+R/internal_binary.R: 91.30%
 R/linear_algebra_stats.R: 92.00%
 R/internal_acast.R: 92.11%
 src/rcpp_hier2dim.cpp: 92.20%
+R/bc_strrep.R: 92.31%
 R/internal_bind.R: 92.31%
 src/rcpp_bcRel_cplx.cpp: 92.31%
-R/broadcastWrappers.R: 92.86%
 src/rcpp_ecp.cpp: 92.86%
 src/rcpp_lst_ndims.cpp: 92.86%
 R/rep_dim.R: 93.33%
-R/broadcaster.R: 93.62%
 src/C_make_dcp.c: 93.75%
 R/bc_list.R: 93.94%
 R/overload_relops.R: 94.12%
 R/typecast.R: 94.64%
 src/rcpp_bcRel_bit.cpp: 94.74%
-R/bc_strrep.R: 94.87%
 src/rcpp_binames.cpp: 94.92%
 src/C_seq_Clen.c: 95.00%
+R/broadcaster.R: 95.08%
 R/overload_ops_andor.R: 95.45%
 src/C_bindhelper_max_type.c: 95.45%
-R/vector2array.R: 95.56%
-src/C_determine_dimmode.c: 95.65%
+R/vector2array.R: 95.65%
+R/reorient_vector.R: 95.70%
 src/rcpp_cast_shallow2atomic.cpp: 95.71%
 R/cast_shallow2atomic.R: 95.89%
 R/acast.R: 96.00%
-R/internal_binary.R: 96.12%
 R/internal_bind_names.R: 96.30%
 src/rcpp_bcD_int.cpp: 96.43%
-src/rcpp_bcD_str.cpp: 96.77%
-src/rcpp_bindhelpers.cpp: 97.70%
+src/rcpp_bindhelpers.cpp: 97.62%
 R/checkmissing.R: 98.00%
+src/rcpp_virt_binary_prep.cpp: 98.18%
+src/rcpp_bcD_str.cpp: 98.39%
 R/bc_bit.R: 98.44%
 R/bc_str.R: 98.91%
 R/bc_b.R: 100.00%
@@ -277,17 +279,13 @@ R/dropnests.R: 100.00%
 R/internal_acast_names.R: 100.00%
 R/internal_opfuns.R: 100.00%
 R/ndim.R: 100.00%
+src/broadcast.h: 100.00%
 src/C_any_nonNULL.c: 100.00%
 src/C_bind_which_comdims.c: 100.00%
 src/C_bindhelper_get_alongdims.c: 100.00%
 src/C_bindhelper_need_coerce.c: 100.00%
 src/C_bindhelper_sum_along.c: 100.00%
-src/C_check_conf_dim.c: 100.00%
-src/C_chunkify_dims.c: 100.00%
-src/C_dims_is_vector.c: 100.00%
 src/C_make_by.c: 100.00%
-src/C_make_outdim.c: 100.00%
-src/C_pmax.c: 100.00%
 src/C_recycle_seq_dim.c: 100.00%
 src/C_sd_lc.c: 100.00%
 src/C_unlisthelper_maxlen.c: 100.00%
@@ -311,7 +309,6 @@ src/rcpp_bcRel_str.cpp: 100.00%
 src/rcpp_cast_dim2hier.cpp: 100.00%
 src/rcpp_cast_hier2dim.cpp: 100.00%
 src/rcpp_checkmissing.cpp: 100.00%
-src/rcpp_mergedims.cpp: 100.00%
 src/rcpp_set_attr.cpp: 100.00%</code></pre>
 <p>&nbsp;</p>
 

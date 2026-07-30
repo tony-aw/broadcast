@@ -8,8 +8,8 @@
 #' ```{r echo = FALSE, eval = TRUE, results = 'asis'}
 #' 
 #' txt <- packageDescription("broadcast", fields = "Description")
-#' p <- c("\t", ",\n", ".\n", "\n(", "following.")
-#' rp <- c("", ", ", ".\n\n",  " (", "following:")
+#' p <- c("\t", ",\n", ".\n", "\n(", "following.", "    ")
+#' rp <- c("", ", ", ".\n\n",  " (", "following:", " ")
 #' for(i in 1:length(rp)) {
 #'  txt <- gsub(p[i], rp[i], txt, fixed = TRUE)
 #' }

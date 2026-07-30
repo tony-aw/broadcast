@@ -26,6 +26,10 @@ function processMathHTML() {
 <code style="white-space: pre;">&#8288;broadcaster()&lt;-&#8288;</code> (or <code style="white-space: pre;">&#8288;bcr()&lt;-&#8288;</code>) marks or un-marks the object as a &quot;broadcaster&quot;. <br>
 <br>
 <code>mbroadcasters()</code> marks or un-marks multiple objects in an environment as broadcaster. <br>
+<code>mbroadcasters()</code> may be more memory efficient for large arrays than <code style="white-space: pre;">&#8288;broadcaster()&lt;-&#8288;</code>,
+as <code>mbroadcasters()</code> calls <code style="white-space: pre;">&#8288;class(x)&lt;-&#8288;</code> directly in the given environment. <br>
+<br>
+<code>.couldb.broadcaster()</code> is used internally to check if an object could become a broadcaster vector/array. <br>
 <br>
 The <code>broadcaster</code> class attribute exists purely to overload the
 arithmetic, Boolean, bit-wise, and relational infix operators,
@@ -51,6 +55,8 @@ mbroadcasters(nms, value, env = NULL)
 bcr(x)
 
 bcr(x) &lt;- value
+
+.couldb.broadcaster(x)
 </code></pre>
 
 
@@ -92,8 +98,8 @@ the object as a &quot;broadcaster&quot;. <br>
 <br>
 For <code>mbroadcasters()</code>: <br>
 Returns nothing,
-but marks (if right hand side is <code>TRUE</code>)
-or un-marks (if right hand side is <code>FALSE</code>)
+but marks (if value is <code>TRUE</code>)
+or un-marks (if value is <code>FALSE</code>)
 the objects as broadcasters. <br>
 If <code>value = TRUE</code>,
 objects that cannot become a broadcaster or are already a broadcaster

@@ -54,7 +54,8 @@ will be coerced to type of \code{character}. \cr
 \cr
 }
 \description{
-\code{cast_shallow2atomic()} casts a shallow (i.e. non-nested) list to an atomic object. \cr
+\code{cast_shallow2atomic()}
+casts a shallow (i.e. non-nested) list to an atomic vector/array. \cr
 \cr
 }
 \details{
@@ -88,19 +89,17 @@ From the casted atomic object, \cr
 one can get an \emph{approximation} of the original shallow list back using just base 'R' functions. \cr
 This section describes how to do so. \cr
 \cr
-\bold{\code{arrangement = 0L}} \cr
-If \code{arrangement = 0L}, one can transform an atomic object \code{out} back to a shallow list using: \cr
+If \code{arrangement = 0L}, \cr
+one can transform an atomic object \code{out} back to a shallow list using: \cr
 \code{back <- as.list(out)} \cr
 \code{names(back) <- names(out)} \cr
 \cr
-
-\bold{\code{arrangement = 1L}} \cr
-If \code{arrangement = 1L}, one can transform an atomic object \code{out} back to a shallow list using: \cr
+If \code{arrangement = 1L}, \cr
+one can transform an atomic object \code{out} back to a shallow list using: \cr
 \code{asplit(out, seq(2, ndim(out)))} \cr
 \cr
-
-\bold{\code{arrangement = -1L}} \cr
-If \code{arrangement = -1L}, one can transform an atomic object \code{out} back to a shallow list using: \cr
+If \code{arrangement = -1L}, \cr
+one can transform an atomic object \code{out} back to a shallow list using: \cr
 \code{asplit(out, seq(1, ndim(out) - 1L))} \cr
 \cr
 \cr

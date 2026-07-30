@@ -66,7 +66,7 @@ enumerate <- enumerate + 4L
 
 
 # non-conformable vectors ====
-message <- "`x` and `y` are not conformable"
+message <- "arrays not conformable"
 x <- 1:10
 y <- x[1:2]
 expect_error(
@@ -89,7 +89,7 @@ enumerate <- enumerate + 4L
 
 
 # non-conformable arrays ====
-message <- "`x` and `y` are not conformable"
+message <- "arrays not conformable"
 x <- array(1:10, c(2, 10))
 y <- array(1:10, c(10, 2))
 cond <- array(logical(10), c(10,10))

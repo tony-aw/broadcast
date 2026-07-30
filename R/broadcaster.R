@@ -7,6 +7,10 @@
 #' `broadcaster()<-` (or `bcr()<-`) marks or un-marks the object as a "broadcaster". \cr
 #' \cr
 #' `mbroadcasters()` marks or un-marks multiple objects in an environment as broadcaster. \cr
+#' `mbroadcasters()` may be more memory efficient for large arrays than `broadcaster()<-`,
+#' as `mbroadcasters()` calls `class(x)<-` directly in the given environment. \cr
+#' \cr
+#' `.couldb.broadcaster()` is used internally to check if an object could become a broadcaster vector/array. \cr
 #' \cr
 #' The `broadcaster` class attribute exists purely to overload the
 #' arithmetic, Boolean, bit-wise, and relational infix operators,
@@ -50,8 +54,8 @@
 #' \cr
 #' For `mbroadcasters()`: \cr
 #' Returns nothing,
-#' but marks (if right hand side is `TRUE`)
-#' or un-marks (if right hand side is `FALSE`)
+#' but marks (if value is `TRUE`)
+#' or un-marks (if value is `FALSE`)
 #' the objects as broadcasters. \cr
 #' If `value = TRUE`, 
 #' objects that cannot become a broadcaster or are already a broadcaster
@@ -126,29 +130,39 @@ mbroadcasters <- function(nms, value, env = NULL) {
     env <- parent.frame(n = 1L)
   }
   
-  # NOTE: using string evaluation instead of direct environment access for 2 reasons:
-  # 1) Environment access may lead to memory leak
-  # 2) Environment access results (according to my tests) to unnecessary copying,
-  #     whereas directly evaluating something like `class(x) <- "broadcaster"` does not create unnecessary copies.
-  # Why is 'R' sometimes so bad at memory handling?
-  
   # FUNCTION:
   if(isTRUE(value)) {
     for(i in nms) {
-      txt <- sprintf(
-        "if(!broadcaster(%s) && broadcast:::.couldb.broadcaster(%s)) { 
-          class(%s) <- c(oldClass(%s), 'broadcaster')
-        }",
-        i, i, i, i
+      sym <- as.name(i)
+      subs <- list(
+        X = sym,
+        broadcaster = broadcaster,
+        .couldb.broadcaster = .couldb.broadcaster,
+        `<-` = `<-`
       )
-      expr <- parse(text = txt)
+      expr <- substitute(
+        {
+          if(!broadcaster(X) && .couldb.broadcaster(X)) { 
+            base::class(X) <- c(base::oldClass(X), 'broadcaster')
+          }
+        }, subs
+      )
       eval(expr, env)
     }
   }
   if(isFALSE(value)) {
     for(i in nms) {
-      txt <- sprintf("if(broadcaster(%s)) class(%s) <- setdiff(oldClass(%s), 'broadcaster')", i, i, i)
-      expr <- parse(text = txt)
+      sym <- as.name(i)
+      subs <- list(
+        X = sym,
+        broadcaster = broadcaster,
+        `<-` = `<-`
+      )
+      expr <- substitute(
+        {
+          if(broadcaster(X)) base::class(X) <- base::setdiff(base::oldClass(X), 'broadcaster')
+        }, subs
+      )
       eval(expr, env)
     }
   }
@@ -180,12 +194,12 @@ bcr <- broadcaster
   }
 }
 
-
 #' @keywords internal
 #' @noRd
 .couldb.broadcaster <- function(x) {
   return(.is_array_like(x) && .is_supported_type(x) && ndim(x) <= 16L)
 }
+
 
 
 setOldClass("broadcaster")

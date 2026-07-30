@@ -193,7 +193,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#website-github" id="toc-website-github" class="nav-link active" data-scroll-target="#website-github">Website &amp; GitHub</a></li>
+  <li><a href="#broadcast-0.1.9.5-under-development" id="toc-broadcast-0.1.9.5-under-development" class="nav-link active" data-scroll-target="#broadcast-0.1.9.5-under-development">broadcast 0.1.9.5 (Under Development)</a></li>
   <li><a href="#broadcast-0.1.9" id="toc-broadcast-0.1.9" class="nav-link" data-scroll-target="#broadcast-0.1.9">broadcast 0.1.9</a></li>
   <li><a href="#broadcast-0.1.8" id="toc-broadcast-0.1.8" class="nav-link" data-scroll-target="#broadcast-0.1.8">broadcast 0.1.8</a></li>
   <li><a href="#broadcast-0.1.7" id="toc-broadcast-0.1.7" class="nav-link" data-scroll-target="#broadcast-0.1.7">broadcast 0.1.7</a></li>
@@ -233,12 +233,24 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="website-github" class="level1">
-<h1>Website &amp; GitHub</h1>
+<section id="broadcast-0.1.9.5-under-development" class="level1">
+<h1>broadcast 0.1.9.5 (Under Development)</h1>
+<p><strong>Performance Improvement:</strong></p>
 <ul>
-<li>The website now runs on the latest version of Quarto.</li>
+<li>Reduced the overhead of the pairwise operators and functions.</li>
+</ul>
+<p><strong>Behaviour Changes:</strong></p>
+<ul>
+<li>The <code>direction</code> argument in the <a href="../man/vector2array.html">vector2array()</a> function has been replaced with the <code>orient</code> argument.</li>
+<li>The <a href="../man/vector2array.html">vector2array()</a> function now gives a proper error if a vector longer than <code>2^31 -1</code> is given.</li>
+<li>Improved safety of the <a href="../man/broadcaster.html">mbroadcasters()</a> function.</li>
+</ul>
+<p><strong>New Features:</strong></p>
+<p>Added new casting operator: <code>%orientbc&lt;-%</code>.</p>
+<p><strong>Other Changes:</strong></p>
+<ul>
 <li>Small documentation improvements here and there.</li>
-<li>Added more unit tests on GitHub.</li>
+<li>Added more unit tests.</li>
 </ul>
 <p><br></p>
 </section>

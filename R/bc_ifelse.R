@@ -94,7 +94,7 @@ setMethod(
   y <- no
   
   # Prep:
-  prep <- .binary_prep(x, y, abortcall)
+  prep <- .binary_prep(x, y)
   x.dim <- prep[[1L]]
   y.dim <- prep[[2L]]
   out.dimorig <- prep[[3L]]
@@ -136,7 +136,8 @@ setMethod(
     .rcpp_set_attr(out, "class", "broadcaster")
   }
   if(is.atomic(out) && inherits(test, "mutatomic")) {
-    .rcpp_set_ma(out, c("mutatomic", oldClass(out)))
+    .rcpp_set_attr(out, "class", c("mutatomic", oldClass(out)))
+    .rcpp_set_attr(out, "serial", attr(test, "serial"))
   }
   if(!is.null(comment(test))) {
     .rcpp_set_attr(out, "comment", comment(test))

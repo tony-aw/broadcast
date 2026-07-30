@@ -42,8 +42,8 @@ the object as a "broadcaster". \cr
 \cr
 For \code{mbroadcasters()}: \cr
 Returns nothing,
-but marks (if right hand side is \code{TRUE})
-or un-marks (if right hand side is \code{FALSE})
+but marks (if value is \code{TRUE})
+or un-marks (if value is \code{FALSE})
 the objects as broadcasters. \cr
 If \code{value = TRUE},
 objects that cannot become a broadcaster or are already a broadcaster
@@ -60,6 +60,10 @@ will be ignored. \cr
 \verb{broadcaster()<-} (or \verb{bcr()<-}) marks or un-marks the object as a "broadcaster". \cr
 \cr
 \code{mbroadcasters()} marks or un-marks multiple objects in an environment as broadcaster. \cr
+\code{mbroadcasters()} may be more memory efficient for large arrays than \verb{broadcaster()<-},
+as \code{mbroadcasters()} calls \verb{class(x)<-} directly in the given environment. \cr
+\cr
+\code{.couldb.broadcaster()} is used internally to check if an object could become a broadcaster vector/array. \cr
 \cr
 The \code{broadcaster} class attribute exists purely to overload the
 arithmetic, Boolean, bit-wise, and relational infix operators,

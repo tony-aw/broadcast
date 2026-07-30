@@ -128,8 +128,8 @@ print(x)
 Suppose one wishes to add `10` to all values of the second column, and `100` to all values of the third column.
 
 This can be done with 'broadcast', as follows:  
-First, create a modification broadcaster vector, whose dimensional direction is aligned with - in this case - the columns; this can be done easily using, for example, `vector2array(v, direction = direction, ndim  = ndim, broadcaster = TRUE)` (see the help page of [vector2array()](/man/vector2array.qmd) for details).  
-Second, make `x` a broadcaster, and perform the broadcasted addition between the array and directional vector.
+First, create a modification broadcaster vector, whose dimensional orientation is aligned with - in this case - the columns; this can be done easily using, for example, `%orientbc<-%` (see the help page of [vector2array()](/man/vector2array.qmd) for details).  
+Second, make `x` a broadcaster, and perform the broadcasted addition between the array and oriented vector.
 
 We don't want to change the first column, so we add `0` to the first column.  
 
@@ -171,7 +171,7 @@ As a final example, we want to add `{0, 10, 100}` to the layers (3rd dimension) 
 As you may have guessed, one can do so by creating a modification broadcaster vector aligned with the layers, and adding that vector to the array, like so:
 
 ```{r}
-v <- vector2array(c(0, 10, 100), 3, 3, TRUE)
+v %orientbc<-% 3L # change orientation of oriented vector to 3L
 print(v)
 bcr(x) <- TRUE
 

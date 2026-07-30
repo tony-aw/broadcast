@@ -48,7 +48,9 @@ These functions use an API similar to the \link[base]{outer} function. \cr
 \cr
 The following functions for simple operations are available:
 \itemize{
-\item \code{[bc.rel](bc.rel.qmd)}: General relational operations.
+\item \code{[bc.rel](bc.rel.qmd)}: General relational operations
+(\verb{==, !=, <, >, <=, >=}). \cr
+The various other \code{bc.} methods below have specialised relational operators available for specialised needs.
 \item \code{[bc.b](bc.b.qmd)}: Boolean (i.e. logical) operations;
 \item \code{[bc.i](bc.i.qmd)}: integer arithmetic operations;
 \item \code{[bc.d](bc.d.qmd)}: decimal arithmetic operations;
@@ -58,12 +60,6 @@ The following functions for simple operations are available:
 \item \code{[bc.bit](bc.bit.qmd)}: BIT-WISE operations, supporting the \code{raw} and \code{integer} types;
 \item \code{[bc.list](bc.list.qmd)}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 }
-
-Note that the \code{[bc.rel](bc.rel.qmd)} method is the primary method for relational operators
-(==, !=, <, >, <=, >=),
-and provides what most user usually need in relational operators.\cr
-The various other \code{bc.} methods have specialized relational operators available for very specialised needs. \cr
-\cr
 }
 
 \section{Attribute Handling}{

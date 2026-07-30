@@ -325,7 +325,9 @@ On the left side the list is casted as dimensional using the default of `in2out 
 On the right side the list is casted as dimensional using `in2out = FALSE`, again with proper names assigned.  
 For the sake of this example, we will set the `dimnames` manually via [hiernames2dimnames()](/man/hier2dim.qmd).
 
-:::{layout-ncol="2"}
+:::: {.columns}
+
+::: {.column width="50%"}
 
 ```{r}
 x2 <- cast_hier2dim(x)
@@ -334,6 +336,11 @@ print(x2)
 
 ```
 
+:::
+
+
+::: {.column width="50%"}
+
 ```{r}
 x2 <- cast_hier2dim(x, in2out = FALSE)
 dimnames(x2) <- hiernames2dimnames(x, in2out = FALSE)
@@ -341,6 +348,8 @@ print(x2)
 ```
 
 :::
+
+::::
 
 
 &nbsp;
@@ -369,7 +378,9 @@ Like [cast_hier2dim()](/man/cast_hier2dim.qmd) also has the `in2out` argument, w
 Let's cast the above dimensional list to a nested list, and compare the results when using `in2out = TRUE` (on the left) versus `in2out = FALSE` (on the right):
 
 
-:::{layout-ncol="2"}
+:::: {.columns}
+
+::: {.column width="50%"}
 
 ```{r}
 
@@ -380,6 +391,9 @@ lobstr::tree(x2)
            
 ```
 
+:::
+
+::: {.column width="50%"}
 
 ```{r}
 
@@ -392,6 +406,7 @@ lobstr::tree(x2)
 
 :::
 
+::::
 
 The added `distr.names = TRUE` argument will distribute the `dimnames` in a logical way over the nested elements.
 

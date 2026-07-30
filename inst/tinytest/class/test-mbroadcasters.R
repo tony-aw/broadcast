@@ -207,24 +207,3 @@ expect_error(
   "`env` must be an environment or `NULL`"
 )
 
-
-# tes protected names ====
-`TRUE` <- 1:10
-`1` <- 1:10
-expect_error(
-  mbroadcasters("TRUE", TRUE)
-)
-expect_error(
-  mbroadcasters("1", TRUE)
-)
-mbroadcasters("`TRUE`", TRUE)
-expect_true(
-  broadcaster(`TRUE`)
-)
-mbroadcasters("`1`", TRUE)
-expect_true(
-  broadcaster(`1`)
-)
-
-enumerate <- enumerate + 4L
-

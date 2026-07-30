@@ -95,7 +95,7 @@ bind_array(input, 2L)
 
 
 # binding vectors and arrays ====
-x <- setNames(1:4, letters[1:4]) |> vector2array(direction = 2L, ndim = 2L)
+x <- setNames(1:4, letters[1:4]) |> vector2array(orient = 2L, ndim = 2L)
 y <- array(1:20, c(5, 4), list(NULL, LETTERS[1:4]))
 input <- list(x, y)
 bind_array(input, 1L, comnames_from = 1L) # row-bind, with names from vector `x`

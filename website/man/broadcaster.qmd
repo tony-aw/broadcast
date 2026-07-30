@@ -14,9 +14,13 @@ format:
 <code>broadcaster()</code> checks if an array or vector is marked as a &quot;broadcaster&quot;. <br>
 <code>bcr()</code> is a short-hand alias for <code>broadcaster()</code>. <br>
 <br>
-<code style="white-space: pre;">broadcaster()&lt;-</code> (or <code style="white-space: pre;">bcr()&lt;-</code>) marks or un-marks the object as a &quot;broadcaster&quot;. <br>
+<code style="white-space: pre;">broadcaster()<-</code> (or <code style="white-space: pre;">bcr()<-</code>) marks or un-marks the object as a &quot;broadcaster&quot;. <br>
 <br>
 <code>mbroadcasters()</code> marks or un-marks multiple objects in an environment as broadcaster. <br>
+<code>mbroadcasters()</code> may be more memory efficient for large arrays than <code style="white-space: pre;">broadcaster()<-</code>,
+as <code>mbroadcasters()</code> calls <code style="white-space: pre;">class(x)<-</code> directly in the given environment. <br>
+<br>
+<code>.couldb.broadcaster()</code> is used internally to check if an object could become a broadcaster vector/array. <br>
 <br>
 The <code>broadcaster</code> class attribute exists purely to overload the
 arithmetic, Boolean, bit-wise, and relational infix operators,
@@ -35,13 +39,13 @@ See [broadcast_operators](aaa01_broadcast_operators.qmd) for more information. <
 
 <pre><code class='language-R'>broadcaster(x)
 
-broadcaster(x) &lt;- value
+broadcaster(x) <- value
 
 mbroadcasters(nms, value, env = NULL)
 
 bcr(x)
 
-bcr(x) &lt;- value
+bcr(x) <- value
 </code></pre>
 
 
@@ -75,7 +79,7 @@ If <code>NULL</code>, the environment from which the function was called is used
 For <code>broadcaster()</code>: <br>
 <code>TRUE</code> if an array or vector is a broadcaster, or <code>FALSE</code> if it is not. <br>
 <br>
-For <code style="white-space: pre;">broadcaster()&lt;-</code>: <br>
+For <code style="white-space: pre;">broadcaster()<-</code>: <br>
 Returns nothing,
 but marks (if right hand side is <code>TRUE</code>)
 or un-marks (if right hand side is <code>FALSE</code>)
@@ -83,8 +87,8 @@ the object as a &quot;broadcaster&quot;. <br>
 <br>
 For <code>mbroadcasters()</code>: <br>
 Returns nothing,
-but marks (if right hand side is <code>TRUE</code>)
-or un-marks (if right hand side is <code>FALSE</code>)
+but marks (if value is <code>TRUE</code>)
+or un-marks (if value is <code>FALSE</code>)
 the objects as broadcasters. <br>
 If <code>value = TRUE</code>,
 objects that cannot become a broadcaster or are already a broadcaster

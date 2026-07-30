@@ -43,16 +43,15 @@ For regular relational operators, see \code{[bc.rel](bc.rel.qmd)}. \cr \cr
 \code{bc.b()} efficiently casts the input to logical. \cr
 Since the input is treated as logical, the following equalities hold for \code{bc.b()}:
 \itemize{
-\item "==" is equivalent to \code{!xor(x, y)}, but faster;
+\item "==" is equivalent to \code{!xor(x, y)} (i.e. bi-conditional operation), but faster;
 \item "!=" is equivalent to \code{xor(x, y)};
-\item "<" is equivalent to \code{(!x & y)}, but faster;
-\item ">" is equivalent to \code{(x & !y)}, but faster;
-\item "<=" is equivalent to \code{(!x & y) | (y == x)}, but faster;
-\item ">=" is equivalent to \code{(x & !y) | (y == x)}, but faster. \cr
+\item "<" is equivalent to \code{(!x & y)} (i.e. only y), but faster;
+\item ">" is equivalent to \code{(x & !y)} (i.e. only x), but faster;
+\item "<=" is equivalent to \code{(!x & y) | (y == x)} (i.e. material implication), but faster;
+\item ">=" is equivalent to \code{(x & !y) | (y == x)} (i.e. converse implication), but faster. \cr
 }
 
-Note that the above equalities only hold in the absence of \code{NA}s,
-since the \code{&} and \code{|} operators handle \code{NA}s differently than the relational operators. \cr \cr
+Note that the \code{&} and \code{|} operators handle \code{NA}s slightly differently than the relational operators. \cr \cr
 }
 \examples{
 x.dim <- c(4:2)

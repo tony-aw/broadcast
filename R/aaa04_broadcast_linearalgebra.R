@@ -76,7 +76,8 @@
 #' \cr
 #' For `ecumprob()`: \cr
 #' A vector of cumulative probabilities. \cr
-#' If for any observation `i` (after broadcasting,) `y[i]` is NA/NaN or any of `sim[i,]` is NA/NaN,
+#' If for any observation `i` (after broadcasting),
+#' `y[i]` is NA/NaN or any of `sim[i,]` is NA/NaN,
 #' the result for `i` will be `NA`. \cr
 #' If zero-length `y` or `sim` is given, a zero-length numeric vector is returned. \cr
 #' \cr

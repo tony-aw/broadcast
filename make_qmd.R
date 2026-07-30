@@ -11,6 +11,7 @@ source("siteutils.R")
 # make vector of function and topic names ====
 funs <- c(
   getNamespaceExports("broadcast"),
+  "reorient_vector",
   "broadcast_help", "broadcast_operators", "broadcast_casting",
   "broadcast_bind", "broadcast_linearalgebra", "broadcast_typecast"
 )

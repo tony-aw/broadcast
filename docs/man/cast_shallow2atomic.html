@@ -283,6 +283,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/reorient_vector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">%orientbc&lt;-%</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/cast_hier2dim.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">cast_hier2dim</span></a>
   </div>
@@ -451,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="cast-shallow-list-to-atomic-object">Cast Shallow List to Atomic Object</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p><code>cast_shallow2atomic()</code> casts a shallow (i.e.&nbsp;non-nested) list to an atomic object. <br> <br></p>
+<p><code>cast_shallow2atomic()</code> casts a shallow (i.e.&nbsp;non-nested) list to an atomic vector/array. <br> <br></p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -516,9 +522,7 @@ an integer scalar or <code>NULL</code>, and only relevant if <code>arrangement</
 </section>
 <section id="back-transformation" class="level3">
 <h3 class="anchored" data-anchor-id="back-transformation">Back transformation</h3>
-<p>From the casted atomic object, <br> <code>out &lt;- cast_shallow2atomic(x, …)</code>, <br> one can get an <em>approximation</em> of the original shallow list back using just base ‘R’ functions. <br> This section describes how to do so. <br> <br> <b><code>arrangement = 0L</code></b> <br> If <code>arrangement = 0L</code>, one can transform an atomic object <code>out</code> back to a shallow list using: <br> <code>back &lt;- as.list(out)</code> <br> <code>names(back) &lt;- names(out)</code> <br> <br></p>
-<p><b><code>arrangement = 1L</code></b> <br> If <code>arrangement = 1L</code>, one can transform an atomic object <code>out</code> back to a shallow list using: <br> <code>asplit(out, seq(2, ndim(out)))</code> <br> <br></p>
-<p><b><code>arrangement = -1L</code></b> <br> If <code>arrangement = -1L</code>, one can transform an atomic object <code>out</code> back to a shallow list using: <br> <code>asplit(out, seq(1, ndim(out) - 1L))</code> <br> <br> <br></p>
+<p>From the casted atomic object, <br> <code>out &lt;- cast_shallow2atomic(x, …)</code>, <br> one can get an <em>approximation</em> of the original shallow list back using just base ‘R’ functions. <br> This section describes how to do so. <br> <br> If <code>arrangement = 0L</code>, <br> one can transform an atomic object <code>out</code> back to a shallow list using: <br> <code>back &lt;- as.list(out)</code> <br> <code>names(back) &lt;- names(out)</code> <br> <br> If <code>arrangement = 1L</code>, <br> one can transform an atomic object <code>out</code> back to a shallow list using: <br> <code>asplit(out, seq(2, ndim(out)))</code> <br> <br> If <code>arrangement = -1L</code>, <br> one can transform an atomic object <code>out</code> back to a shallow list using: <br> <code>asplit(out, seq(1, ndim(out) - 1L))</code> <br> <br> <br></p>
 </section>
 <section id="see-also" class="level3">
 <h3 class="anchored" data-anchor-id="see-also">See Also</h3>

@@ -3,14 +3,33 @@ title: News
 ---
 
 
-# Website & GitHub
 
-* The website now runs on the latest version of Quarto.
+# broadcast 0.1.9.5 (Under Development)
+
+**Performance Improvement:**
+
+* Reduced the overhead of the pairwise operators and functions.
+
+
+**Behaviour Changes:**
+
+* The `direction` argument in the [vector2array()](/man/vector2array.qmd) function has been replaced with the `orient` argument.
+* The [vector2array()](/man/vector2array.qmd) function now gives a proper error if a vector longer than `2^31 -1` is given.
+* Improved safety of the [mbroadcasters()](/man/broadcaster.qmd) function.
+
+
+**New Features:**
+
+Added new casting operator: `%orientbc<-%`.
+
+
+**Other Changes:**
+
 * Small documentation improvements here and there.
-* Added more unit tests on GitHub.
-
+* Added more unit tests.
 
 <br>
+
 
 
 # broadcast 0.1.9

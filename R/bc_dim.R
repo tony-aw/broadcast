@@ -22,7 +22,7 @@ bc_dim <- function(
 ) {
   
   .binary_stop_general(x, y, "", sys.call())
-  prep <- .binary_prep(x, y, sys.call())
+  prep <- .binary_prep(x, y)
   out <- prep$out.dimorig
   if(is.null(out)) out <- prep$out.len
   return(out)

@@ -112,11 +112,18 @@ enumerate <- enumerate + 1L
 
 
 # errors ====
+x <- 1:(2^31 + 10)
+expect_error(
+  vector2array(x, 1L),
+  pattern = "length"
+)
+
+
 x <- setNames(1:19, sample(letters, 19))
 for(iDir in c(NA, -1, 0)) {
   expect_error(
     vector2array(x, NA, 10L),
-    pattern = "`direction` must be a strictly positive integer scalar"
+    pattern = "`orient` must be a strictly positive integer scalar"
   ) |> errorfun()
   enumerate <- enumerate + 1L
 }
@@ -130,7 +137,7 @@ for(iNdim in c(NA, -1, 0)) {
 
 expect_error(
   vector2array(x, 2L, 1L),
-  pattern = "`ndim` must be a strictly positive integer scalar, and `>= direction` and `<= 16`"
+  pattern = "`ndim` must be a strictly positive integer scalar, and `>= orient` and `<= 16`"
 )
 expect_error(
   vector2array(~ foo, 1L, 2L),

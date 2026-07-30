@@ -1,26 +1,4 @@
 
-#' @keywords Internal
-#' @noRd
-.C_check_conf_dim <- function(xdim, ydim, xlen, ylen) {
-  .Call("C_check_conf_dim", xdim, ydim, xlen, ylen)
-}
-
-#' @keywords Internal
-#' @noRd
-.C_pmax <- function(x, y) {
-  .Call("C_pmax", x = as.integer(x), y = as.integer(y))
-}
-
-
-#' @keywords Internal
-#' @noRd
-.C_make_outdim <- function(x.dim, y.dim) {
-  .Call("C_make_outdim",
-        as.integer(x.dim), as.integer(y.dim),
-        as.integer(length(x.dim)), as.integer(length(y.dim))
-  )
-}
-
 
 #' @keywords Internal
 #' @noRd
@@ -77,20 +55,8 @@
 
 #' @keywords Internal
 #' @noRd
-.C_chunkify_dims <- function(dims, chunks) {
-  .Call("C_chunkify_dims", as.integer(dims), as.integer(chunks))
-}
-
-#' @keywords Internal
-#' @noRd
 .C_unlisthelper_maxlen <- function(x) {
   .Call("C_unlisthelper_maxlen", x)
-}
-
-#' @keywords Internal
-#' @noRd
-.C_determine_dimmode <- function(xdim, ydim, xlen, ylen) {
-  .Call("C_determine_dimmode", xdim, ydim, xlen, ylen)
 }
 
 
