@@ -6,6 +6,11 @@ title: News
 
 # broadcast 0.1.9.5 (Under Development)
 
+**Fixes:**
+
+* Changes in 'C' and 'C++' code that should fix the Valgrind issue reported by CRAN.
+
+
 **Performance Improvement:**
 
 * Reduced the overhead of the pairwise operators and functions.
@@ -13,9 +18,9 @@ title: News
 
 **Behaviour Changes:**
 
-* The `direction` argument in the [vector2array()](/man/vector2array.qmd) function has been replaced with the `orient` argument.
-* The [vector2array()](/man/vector2array.qmd) function now gives a proper error if a vector longer than `2^31 -1` is given.
-* Improved safety of the [mbroadcasters()](/man/broadcaster.qmd) function.
+* The `direction` argument in the `vector2array()` function has been replaced with the `orient` argument.
+* The `vector2array()` function now gives a proper error if a vector longer than `2^31 -1` is given.
+* Improved safety checks for the `mbroadcasters()` function.
 
 
 **New Features:**
@@ -25,8 +30,11 @@ Added new casting operator: `%orientbc<-%`.
 
 **Other Changes:**
 
+* Replaced the term "directional vector" with "oriented vector" in the documentation,
+to avoid confusion with the term as used in maths and statistics.
 * Small documentation improvements here and there.
 * Added more unit tests.
+
 
 <br>
 

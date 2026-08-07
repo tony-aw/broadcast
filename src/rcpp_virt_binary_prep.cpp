@@ -6,7 +6,11 @@ using namespace Rcpp;
 //' @noRd
 // [[Rcpp::export(.rcpp_max_ndim)]]
 int rcpp_max_ndim(SEXP xndim0, SEXP yndim0) {
-
+  
+  if (TYPEOF(xndim0) != INTSXP || Rf_length(xndim0) != 1 ||
+      TYPEOF(yndim0) != INTSXP || Rf_length(yndim0) != 1) {
+    stop("Bad inputs given in `rcpp_max_ndim()`");
+  }
 
   const int xndim = INTEGER(xndim0)[0];
   const int yndim = INTEGER(yndim0)[0];
@@ -34,7 +38,13 @@ IntegerVector rcpp_virt_alloc_dim(
   SEXP x, int ndim
 ) {
   
-  int nx = Rf_length(x);
+  if(ndim < 0) {
+    stop("bad input given in `rcpp_virt_alloc_dim()`: `ndim` cannot be negative");
+  }
+  const int nx = Rf_length(x);
+  if(nx > 0 && TYPEOF(x) != INTSXP) {
+    stop("bad input given in `rcpp_virt_alloc_dim()`:  `x` is not INTEGER or zero-length");
+  }
   
   IntegerVector out(ndim);
   int *pout = INTEGER(out);
@@ -45,7 +55,7 @@ IntegerVector rcpp_virt_alloc_dim(
     }
     return out;
   }
-  
+
   int *px = INTEGER(x);
   
   if(nx == ndim) {
@@ -65,7 +75,7 @@ IntegerVector rcpp_virt_alloc_dim(
     return out;
   }
   
-  stop("bad input given in rcpp_virt_alloc_dim");
+  stop("bad input given in `rcpp_virt_alloc_dim()`");
 }
 
 
@@ -75,6 +85,15 @@ IntegerVector rcpp_virt_alloc_dim(
   void rcpp_virt_conformalize(
     SEXP x_dim, SEXP y_dim, SEXP x_ndim, SEXP y_ndim, R_xlen_t xlen, R_xlen_t ylen
   ) {
+    
+    if (TYPEOF(x_ndim) != INTSXP || Rf_length(x_ndim) != 1 ||
+        TYPEOF(y_ndim) != INTSXP || Rf_length(y_ndim) != 1) {
+      stop("Bad inputs given in `rcpp_virt_conformalize()`");
+    }
+    
+    if(TYPEOF(x_dim) != INTSXP || TYPEOF(y_dim) != INTSXP) {
+      stop("Bad inputs given in `rcpp_virt_conformalize()`");
+    }
     
     // NORMALIZE:
     double intmax = pow(2, 31) - 1;
@@ -187,6 +206,9 @@ R_xlen_t rcpp_virt_make_outlen(
     return xlen > ylen ? xlen : ylen;
   }
   
+  if(TYPEOF(out_dim) != INTSXP) {
+    stop("bad input given in `rcpp_virt_make_outlen()`");
+  }
   R_xlen_t outprod = 1;
   int n = Rf_length(out_dim);
   const int *pout_dim = INTEGER_RO(out_dim);
@@ -267,8 +289,8 @@ void rcpp_virt_drop_dims(
   const int ndim = py_ndim[0] > px_ndim[0] ? py_ndim[0] : px_ndim[0];
   if(ndim > 1) {
     
-    int *bufx = (int *) R_alloc(ndim, sizeof(int));
-    int *bufy = (int *) R_alloc(ndim, sizeof(int));
+    std::vector<int> bufx(ndim);
+    std::vector<int> bufy(ndim);
     int count = 0;
     for(int i = 0; i < ndim; ++i) {
       if(px[i] != 1 || py[i] != 1) {
@@ -458,7 +480,16 @@ void rcpp_virt_drop_dims(
 // [[Rcpp::export(.rcpp_mergedims_set)]]
 void rcpp_mergedims_set(SEXP x_dim, SEXP y_dim, SEXP x_ndim, SEXP y_ndim) {
   
-  SEXP mergedims = rcpp_mergedims(x_dim, y_dim);
+  if (TYPEOF(x_ndim) != INTSXP || Rf_length(x_ndim) != 1 ||
+      TYPEOF(y_ndim) != INTSXP || Rf_length(y_ndim) != 1) {
+    stop("Bad inputs given in `rcpp_mergedims_set()`");
+  }
+  
+  if(TYPEOF(x_dim) != INTSXP || TYPEOF(y_dim) != INTSXP) {
+    stop("Bad inputs given in `rcpp_mergedims_set()`");
+  }
+  
+  SEXP mergedims = PROTECT(rcpp_mergedims(x_dim, y_dim));
   
   // get properties:
   SEXP mx = VECTOR_ELT(mergedims, 0);
@@ -488,6 +519,8 @@ void rcpp_mergedims_set(SEXP x_dim, SEXP y_dim, SEXP x_ndim, SEXP y_ndim) {
     px[i] = pmx[i];
     py[i] = pmy[i];
   }
+  
+  UNPROTECT(1);
    
 }
 
@@ -594,6 +627,10 @@ RObject rcpp_virt_make_outdim_simp(
   
   if(n == 0) {
     return R_NilValue;
+  }
+  
+  if(Rf_length(x_dim) != Rf_length(y_dim)) {
+    stop("bad input given in `rcpp_virt_make_outdim_simp`");
   }
   
   int nout;

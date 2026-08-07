@@ -6,7 +6,6 @@
 \alias{mbroadcasters}
 \alias{bcr}
 \alias{bcr<-}
-\alias{.couldb.broadcaster}
 \title{Check or Set if an Array is a Broadcaster}
 \usage{
 broadcaster(x)
@@ -18,8 +17,6 @@ mbroadcasters(nms, value, env = NULL)
 bcr(x)
 
 bcr(x) <- value
-
-.couldb.broadcaster(x)
 }
 \arguments{
 \item{x}{object to check or mark. \cr

@@ -90,7 +90,7 @@
   # determine output type & and make output of type:
   out.type <- returntype
   if(is.null(returntype)) {
-    out.type <- .C_bindhelper_max_type(list(x, y))
+    out.type <- .C_max_type(list(x, y))
     out.type <- .types()[out.type]
   }
   out <- vector(out.type, 0L)

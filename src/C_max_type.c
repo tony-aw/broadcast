@@ -4,7 +4,7 @@
 #include <R_ext/Error.h>
 
 
-SEXP C_bindhelper_max_type(
+SEXP C_max_type(
     SEXP x
 ) {
   int n = Rf_length(x);

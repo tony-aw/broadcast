@@ -909,6 +909,30 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// rcpp_bindhelper_get_alongdims
+IntegerVector rcpp_bindhelper_get_alongdims(List lst, int along);
+RcppExport SEXP _broadcast_rcpp_bindhelper_get_alongdims(SEXP lstSEXP, SEXP alongSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type lst(lstSEXP);
+    Rcpp::traits::input_parameter< int >::type along(alongSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_get_alongdims(lst, along));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bindhelper_sum_along
+double rcpp_bindhelper_sum_along(List lst_dims, int along);
+RcppExport SEXP _broadcast_rcpp_bindhelper_sum_along(SEXP lst_dimsSEXP, SEXP alongSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type lst_dims(lst_dimsSEXP);
+    Rcpp::traits::input_parameter< int >::type along(alongSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_sum_along(lst_dims, along));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_bindhelper_setnames
 void rcpp_bindhelper_setnames(SEXP x, const SEXP ind, SEXP rp);
 RcppExport SEXP _broadcast_rcpp_bindhelper_setnames(SEXP xSEXP, SEXP indSEXP, SEXP rpSEXP) {
@@ -922,16 +946,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_bindhelper_conf_dims_all
-int rcpp_bindhelper_conf_dims_all(SEXP lst_dims, SEXP target, int along, int max_bc);
-RcppExport SEXP _broadcast_rcpp_bindhelper_conf_dims_all(SEXP lst_dimsSEXP, SEXP targetSEXP, SEXP alongSEXP, SEXP max_bcSEXP) {
+int rcpp_bindhelper_conf_dims_all(SEXP lst_dims, SEXP target, int along);
+RcppExport SEXP _broadcast_rcpp_bindhelper_conf_dims_all(SEXP lst_dimsSEXP, SEXP targetSEXP, SEXP alongSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type lst_dims(lst_dimsSEXP);
     Rcpp::traits::input_parameter< SEXP >::type target(targetSEXP);
     Rcpp::traits::input_parameter< int >::type along(alongSEXP);
-    Rcpp::traits::input_parameter< int >::type max_bc(max_bcSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_conf_dims_all(lst_dims, target, along, max_bc));
+    rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_conf_dims_all(lst_dims, target, along));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -948,12 +971,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_bindhelper_make_input_dims
-SEXP rcpp_bindhelper_make_input_dims(SEXP dims_old, int start, int max_ndim);
+SEXP rcpp_bindhelper_make_input_dims(List dims_old, int start, int max_ndim);
 RcppExport SEXP _broadcast_rcpp_bindhelper_make_input_dims(SEXP dims_oldSEXP, SEXP startSEXP, SEXP max_ndimSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type dims_old(dims_oldSEXP);
+    Rcpp::traits::input_parameter< List >::type dims_old(dims_oldSEXP);
     Rcpp::traits::input_parameter< int >::type start(startSEXP);
     Rcpp::traits::input_parameter< int >::type max_ndim(max_ndimSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_bindhelper_make_input_dims(dims_old, start, max_ndim));
@@ -1464,13 +1487,11 @@ END_RCPP
 RcppExport SEXP C_any_nonNULL(SEXP);
 RcppExport SEXP C_arraysize_overflow(SEXP, SEXP);
 RcppExport SEXP C_bind_which_comdims(SEXP, SEXP, SEXP);
-RcppExport SEXP C_bindhelper_get_alongdims(SEXP, SEXP);
-RcppExport SEXP C_bindhelper_max_type(SEXP);
 RcppExport SEXP C_bindhelper_need_coerce(SEXP, SEXP);
-RcppExport SEXP C_bindhelper_sum_along(SEXP, SEXP);
 RcppExport SEXP C_dims_is_vector(SEXP);
 RcppExport SEXP C_make_by(SEXP);
 RcppExport SEXP C_make_dcp(SEXP);
+RcppExport SEXP C_max_type(SEXP);
 RcppExport SEXP C_recycle_seq_dim(SEXP, SEXP);
 RcppExport SEXP C_sd_lc(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 RcppExport SEXP C_seq_Clen(SEXP, SEXP);
@@ -1529,8 +1550,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_make_dimnames_between", (DL_FUNC) &_broadcast_rcpp_make_dimnames_between, 3},
     {"_broadcast_rcpp_make_dimnames1", (DL_FUNC) &_broadcast_rcpp_make_dimnames1, 3},
     {"_broadcast_rcpp_binames_set", (DL_FUNC) &_broadcast_rcpp_binames_set, 3},
+    {"_broadcast_rcpp_bindhelper_get_alongdims", (DL_FUNC) &_broadcast_rcpp_bindhelper_get_alongdims, 2},
+    {"_broadcast_rcpp_bindhelper_sum_along", (DL_FUNC) &_broadcast_rcpp_bindhelper_sum_along, 2},
     {"_broadcast_rcpp_bindhelper_setnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_setnames, 3},
-    {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 4},
+    {"_broadcast_rcpp_bindhelper_conf_dims_all", (DL_FUNC) &_broadcast_rcpp_bindhelper_conf_dims_all, 3},
     {"_broadcast_rcpp_bindhelper_get_dimnames", (DL_FUNC) &_broadcast_rcpp_bindhelper_get_dimnames, 2},
     {"_broadcast_rcpp_bindhelper_make_input_dims", (DL_FUNC) &_broadcast_rcpp_bindhelper_make_input_dims, 3},
     {"_broadcast_rcpp_bindhelper_anyinput_hasclass", (DL_FUNC) &_broadcast_rcpp_bindhelper_anyinput_hasclass, 2},
@@ -1571,20 +1594,18 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_virt_dimmode", (DL_FUNC) &_broadcast_rcpp_virt_dimmode, 5},
     {"_broadcast_rcpp_virt_make_outdim_simp", (DL_FUNC) &_broadcast_rcpp_virt_make_outdim_simp, 3},
     {"_broadcast_rcpp_virt_binary_prep", (DL_FUNC) &_broadcast_rcpp_virt_binary_prep, 4},
-    {"C_any_nonNULL",              (DL_FUNC) &C_any_nonNULL,              1},
-    {"C_arraysize_overflow",       (DL_FUNC) &C_arraysize_overflow,       2},
-    {"C_bind_which_comdims",       (DL_FUNC) &C_bind_which_comdims,       3},
-    {"C_bindhelper_get_alongdims", (DL_FUNC) &C_bindhelper_get_alongdims, 2},
-    {"C_bindhelper_max_type",      (DL_FUNC) &C_bindhelper_max_type,      1},
-    {"C_bindhelper_need_coerce",   (DL_FUNC) &C_bindhelper_need_coerce,   2},
-    {"C_bindhelper_sum_along",     (DL_FUNC) &C_bindhelper_sum_along,     2},
-    {"C_dims_is_vector",           (DL_FUNC) &C_dims_is_vector,           1},
-    {"C_make_by",                  (DL_FUNC) &C_make_by,                  1},
-    {"C_make_dcp",                 (DL_FUNC) &C_make_dcp,                 1},
-    {"C_recycle_seq_dim",          (DL_FUNC) &C_recycle_seq_dim,          2},
-    {"C_sd_lc",                    (DL_FUNC) &C_sd_lc,                    6},
-    {"C_seq_Clen",                 (DL_FUNC) &C_seq_Clen,                 2},
-    {"C_unlisthelper_maxlen",      (DL_FUNC) &C_unlisthelper_maxlen,      1},
+    {"C_any_nonNULL",            (DL_FUNC) &C_any_nonNULL,            1},
+    {"C_arraysize_overflow",     (DL_FUNC) &C_arraysize_overflow,     2},
+    {"C_bind_which_comdims",     (DL_FUNC) &C_bind_which_comdims,     3},
+    {"C_bindhelper_need_coerce", (DL_FUNC) &C_bindhelper_need_coerce, 2},
+    {"C_dims_is_vector",         (DL_FUNC) &C_dims_is_vector,         1},
+    {"C_make_by",                (DL_FUNC) &C_make_by,                1},
+    {"C_make_dcp",               (DL_FUNC) &C_make_dcp,               1},
+    {"C_max_type",               (DL_FUNC) &C_max_type,               1},
+    {"C_recycle_seq_dim",        (DL_FUNC) &C_recycle_seq_dim,        2},
+    {"C_sd_lc",                  (DL_FUNC) &C_sd_lc,                  6},
+    {"C_seq_Clen",               (DL_FUNC) &C_seq_Clen,               2},
+    {"C_unlisthelper_maxlen",    (DL_FUNC) &C_unlisthelper_maxlen,    1},
     {NULL, NULL, 0}
 };
 

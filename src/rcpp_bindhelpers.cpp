@@ -4,6 +4,51 @@ using namespace Rcpp;
 
 
 //' @keywords internal
+ //' @noRd
+ // [[Rcpp::export(.rcpp_bindhelper_get_alongdims)]]
+IntegerVector rcpp_bindhelper_get_alongdims(
+    List lst, int along
+) {
+  
+  int n = Rf_length(lst);
+  IntegerVector out(n);
+  int *pout = INTEGER(out);
+  
+  for(int i = 0; i < n; ++i) {
+    IntegerVector temp = lst[i];
+    if(along >= Rf_length(temp)) {
+      stop("out-of-memory access at `rcpp_bindhelper_get_alongdims()`");
+    }
+    pout[i] = temp[along];
+  }
+  
+  return out;
+}
+
+
+//' @keywords internal
+ //' @noRd
+ // [[Rcpp::export(.rcpp_bindhelper_sum_along)]]
+double rcpp_bindhelper_sum_along(
+    List lst_dims, int along
+) {
+  
+  int n = Rf_length(lst_dims);
+  double out = 0;
+  
+  for(int i = 0; i < n; ++i) {
+    IntegerVector tempdim = lst_dims[i];
+    if(along >= Rf_length(tempdim)) {
+      stop("out-of-memory access at `rcpp_bindhelper_sum_along()`");
+    }
+    out += tempdim[along];
+  }
+  
+  return out;
+}
+
+
+//' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_bindhelper_setnames)]]
 void rcpp_bindhelper_setnames(
@@ -30,8 +75,13 @@ void rcpp_bindhelper_setnames(
 
 
 inline int rcpp_bindhelper_conf_dims_2(
-  SEXP x, SEXP y, int along, int max_bc
+  SEXP x, SEXP y, int along
 ) {
+  
+  if (TYPEOF(x) != INTSXP || TYPEOF(y) != INTSXP) {
+    Rcpp::stop("Dimensions of 'x' and 'y' must be integer vectors");
+  }
+  
   if(Rf_length(x) != Rf_length(y)) {
     return -1;
   }
@@ -59,7 +109,7 @@ inline int rcpp_bindhelper_conf_dims_2(
 //' @noRd
 // [[Rcpp::export(.rcpp_bindhelper_conf_dims_all)]]
 int rcpp_bindhelper_conf_dims_all(
-  SEXP lst_dims, SEXP target, int along, int max_bc
+  SEXP lst_dims, SEXP target, int along
 ) {
 
   int n = Rf_length(lst_dims);
@@ -68,7 +118,7 @@ int rcpp_bindhelper_conf_dims_all(
   SEXP tempout;
   for(int i = 0; i< n; ++i) {
     tempout = VECTOR_ELT(lst_dims, i);
-    conf = rcpp_bindhelper_conf_dims_2(target, tempout, along, max_bc);
+    conf = rcpp_bindhelper_conf_dims_2(target, tempout, along);
     if(conf < 0 ) {
       return -1;
     }
@@ -102,17 +152,15 @@ List rcpp_bindhelper_get_dimnames(
 
 
 
-inline SEXP rcpp_rep_new_int(
+inline IntegerVector rcpp_rep_new_int(
     int n, int val
 ) {
   
-  SEXP out = PROTECT(Rf_allocVector(INTSXP, n));
+  IntegerVector out(n);
   int *pout = INTEGER(out);
   for(int i = 0; i < n; ++i) {
     pout[i] = val;
   }
-  
-  UNPROTECT(1);
   return(out);
 }
 
@@ -120,15 +168,15 @@ inline SEXP rcpp_rep_new_int(
  //' @noRd
  // [[Rcpp::export(.rcpp_bindhelper_make_input_dims)]]
  SEXP rcpp_bindhelper_make_input_dims(
-     SEXP dims_old, int start, int max_ndim
+     List dims_old, int start, int max_ndim
  ) {
    int n = Rf_length(dims_old);
    
-   SEXP out = PROTECT(Rf_allocVector(VECSXP, n));
+   List out(n);
    
    for(int i = 0; i < n; ++i) {
-     SEXP temp_new = rcpp_rep_new_int(max_ndim, 1);
-     RObject foo = VECTOR_ELT(dims_old, i);
+     IntegerVector temp_new = rcpp_rep_new_int(max_ndim, 1);
+     RObject foo = dims_old[i];
      RObject temp_old = foo.attr("dim");
      
      int m = Rf_length(temp_old);
@@ -136,18 +184,18 @@ inline SEXP rcpp_rep_new_int(
      int *pnew = INTEGER(temp_new);
      const int *pold = INTEGER_RO(temp_old);
      
+     if(Rf_length(temp_new) < (m + start) || Rf_length(temp_old) < m) {
+       stop("out-of-memory access at `rcpp_bindhelper_make_input_dims()`");
+     }
+     
      for(int j = 0; j < m; ++j) {
        pnew[j + start] = pold[j];
      }
      
-     SET_VECTOR_ELT(out, i, temp_new);
+     out[i] = temp_new;
      
    }
-   
-   UNPROTECT(1);
    return out;
-   
-   
  }
 
 

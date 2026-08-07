@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "textbox",
-  "limit": 50,
+  "limit": 100,
   "keyboard-shortcut": [
     "f",
     "/",
@@ -235,20 +235,25 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="broadcast-0.1.9.5-under-development" class="level1">
 <h1>broadcast 0.1.9.5 (Under Development)</h1>
+<p><strong>Fixes:</strong></p>
+<ul>
+<li>Changes in ‘C’ and ‘C++’ code that should fix the Valgrind issue reported by CRAN.</li>
+</ul>
 <p><strong>Performance Improvement:</strong></p>
 <ul>
 <li>Reduced the overhead of the pairwise operators and functions.</li>
 </ul>
 <p><strong>Behaviour Changes:</strong></p>
 <ul>
-<li>The <code>direction</code> argument in the <a href="../man/vector2array.html">vector2array()</a> function has been replaced with the <code>orient</code> argument.</li>
-<li>The <a href="../man/vector2array.html">vector2array()</a> function now gives a proper error if a vector longer than <code>2^31 -1</code> is given.</li>
-<li>Improved safety of the <a href="../man/broadcaster.html">mbroadcasters()</a> function.</li>
+<li>The <code>direction</code> argument in the <code>vector2array()</code> function has been replaced with the <code>orient</code> argument.</li>
+<li>The <code>vector2array()</code> function now gives a proper error if a vector longer than <code>2^31 -1</code> is given.</li>
+<li>Improved safety checks for the <code>mbroadcasters()</code> function.</li>
 </ul>
 <p><strong>New Features:</strong></p>
 <p>Added new casting operator: <code>%orientbc&lt;-%</code>.</p>
 <p><strong>Other Changes:</strong></p>
 <ul>
+<li>Replaced the term “directional vector” with “oriented vector” in the documentation, to avoid confusion with the term as used in maths and statistics.</li>
 <li>Small documentation improvements here and there.</li>
 <li>Added more unit tests.</li>
 </ul>

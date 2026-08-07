@@ -139,7 +139,7 @@
   if(name_along && !extra_dimensional) {
     # note: dimension `along` never gets broadcasted, so no need to worry about that
     arg.dimnames <- .rcpp_bindhelper_get_dimnames(input, along)
-    arg.marginlen <- .C_bindhelper_get_alongdims(input.dims, along - 1L)
+    arg.marginlen <- .rcpp_bindhelper_get_alongdims(input.dims, along - 1L)
     name_along <- .bind_name_along_reasonable(input, arg.dimnames)
   }
   
@@ -156,7 +156,7 @@
   
   
   # check if input is conformable:
-  conf <- .rcpp_bindhelper_conf_dims_all(input.dims, out.dimorig, along - 1L, ndim2bc)
+  conf <- .rcpp_bindhelper_conf_dims_all(input.dims, out.dimorig, along - 1L)
   if(conf < 0) {
     stop(simpleError("arrays are not conformable for binding", call = abortcall))
   }
@@ -174,7 +174,7 @@
   
   
   # determine out.dim (padded):
-  size_along <- .C_bindhelper_sum_along(input.dims, along - 1L)
+  size_along <- .rcpp_bindhelper_sum_along(input.dims, along - 1L)
   out.dim <- rep(1L, chunksize)
   out.dim[seq_len(max_ndims)] <- do.call(pmax, input.dims)
   out.dim[along] <- size_along
@@ -187,7 +187,7 @@
   
   
   # determine "highest" type:
-  out.type <- .C_bindhelper_max_type(input)
+  out.type <- .C_max_type(input)
   out.type <- .types()[out.type]
   if(out.type == "unknown") {
     stop(simpleError("unknown type of array given", call = abortcall))
@@ -218,6 +218,7 @@
     # construct parameters:
     x <- input[[i]]
     x.dim <- input.dims[[i]]
+    x.dim <- c(x.dim, rep(1L, chunksize - length(x.dim)))
     size_along <- x.dim[along]
     
     

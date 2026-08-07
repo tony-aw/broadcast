@@ -72,22 +72,11 @@
 
 # bindhelpers ====
 
-#' @keywords Internal
-#' @noRd
-.C_bindhelper_sum_along <- function(lst_dims, along) {
-  .Call("C_bindhelper_sum_along", lst_dims, as.integer(along))
-}
 
 #' @keywords Internal
 #' @noRd
-.C_bindhelper_max_type <- function(x) {
-  .Call("C_bindhelper_max_type", x)
-}
-
-#' @keywords Internal
-#' @noRd
-.C_bindhelper_get_alongdims <- function(lst, along) {
-  .Call("C_bindhelper_get_alongdims", lst, as.integer(along))
+.C_max_type <- function(x) {
+  .Call("C_max_type", x)
 }
 
 

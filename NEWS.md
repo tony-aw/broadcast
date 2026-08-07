@@ -2,6 +2,11 @@
 
 # broadcast 0.1.9.5
 
+**Fixes:**
+
+* Changes in 'C' and 'C++' code that should fix the Valgrind issue reported by CRAN.
+
+
 **Performance Improvement:**
 
 * Reduced the overhead of the pairwise operators and functions.
@@ -11,7 +16,7 @@
 
 * The `direction` argument in the `vector2array()` function has been replaced with the `orient` argument.
 * The `vector2array()` function now gives a proper error if a vector longer than `2^31 -1` is given.
-* Improved safety of the `mbroadcasters()` function.
+* Improved safety checks for the `mbroadcasters()` function.
 
 
 **New Features:**
@@ -21,7 +26,7 @@ Added new casting operator: `%orientbc<-%`.
 
 **Other Changes:**
 
-* Replaced the term "directional vector" with "oriented vector",
+* Replaced the term "directional vector" with "oriented vector" in the documentation,
 to avoid confusion with the term as used in maths and statistics.
 * Small documentation improvements here and there.
 * Added more unit tests.

@@ -323,6 +323,20 @@ NULL
 NULL
 
 #' @keywords internal
+NULL
+
+#' @keywords internal
+NULL
+
+.rcpp_bindhelper_get_alongdims <- function(lst, along) {
+    .Call(`_broadcast_rcpp_bindhelper_get_alongdims`, lst, along)
+}
+
+.rcpp_bindhelper_sum_along <- function(lst_dims, along) {
+    .Call(`_broadcast_rcpp_bindhelper_sum_along`, lst_dims, along)
+}
+
+#' @keywords internal
 #' @noRd
 .rcpp_bindhelper_setnames <- function(x, ind, rp) {
     invisible(.Call(`_broadcast_rcpp_bindhelper_setnames`, x, ind, rp))
@@ -330,8 +344,8 @@ NULL
 
 #' @keywords internal
 #' @noRd
-.rcpp_bindhelper_conf_dims_all <- function(lst_dims, target, along, max_bc) {
-    .Call(`_broadcast_rcpp_bindhelper_conf_dims_all`, lst_dims, target, along, max_bc)
+.rcpp_bindhelper_conf_dims_all <- function(lst_dims, target, along) {
+    .Call(`_broadcast_rcpp_bindhelper_conf_dims_all`, lst_dims, target, along)
 }
 
 #' @keywords internal

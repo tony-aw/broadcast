@@ -61,6 +61,13 @@ void rcpp_bc_bind_prep(
   const int *pdim_out = INTEGER_RO(dim_out);
   const int *pdim_x = INTEGER_RO(dim_x);
   
+  // check lens:
+  if(Rf_length(starts) != n) stop(\"improper length for `starts`\");
+  if(Rf_length(ends) != n) stop(\"improper length for `ends`\");
+  if(Rf_length(by_x) != n) stop(\"improper length for `by_x`\");
+  if(Rf_length(dim_x) != n) stop(\"improper length for `dim_x`\");
+  if(Rf_length(dim_out) != n) stop(\"improper length for `dim_out`\");
+  if(Rf_length(dcp_x) != (n+1)) stop(\"improper length for `dcp_x`\");
   
   // starts:
   int *pstart = INTEGER(starts);
