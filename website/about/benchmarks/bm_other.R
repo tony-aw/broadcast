@@ -76,7 +76,7 @@ save(bm_collapse_row, file = "bm_collapse_row.RData")
 
 
 # base replication ====
-n <- 450
+n <- 400
 x <- array(rnorm(10), c(1, n, 1))
 y <- array(rnorm(10), c(n, 1, n))
 
@@ -108,24 +108,24 @@ summary(bm_sweep)
 plot(bm_sweep)
 save(bm_sweep, file = "bm_sweep.RData")
 
-
-# base outer ====
-n <- 2000
-x <- array(rnorm(10), c(1, n))
-y <- array(rnorm(10), c(n, 1))
-xv <- as.vector(x)
-yv <- as.vector(y)
-
-gc()
-bm_base_outer <- bench::mark(
-  outer = outer(xv, yv, "=="),
-  broadcast = bc.d(x, y, "=="),
-  min_iterations = 100
-)
-summary(bm_base_outer)
-plot(bm_base_outer)
-save(bm_base_outer, file = "bm_base_outer.RData")
-
+# 
+# # base outer ====
+# n <- 2000
+# x <- array(rnorm(10), c(1, n))
+# y <- array(rnorm(10), c(n, 1))
+# xv <- as.vector(x)
+# yv <- as.vector(y)
+# 
+# gc()
+# bm_base_outer <- bench::mark(
+#   outer = outer(xv, yv, "=="),
+#   broadcast = bc.d(x, y, "=="),
+#   min_iterations = 100
+# )
+# summary(bm_base_outer)
+# plot(bm_base_outer)
+# save(bm_base_outer, file = "bm_base_outer.RData")
+# 
 
 
 # cinv ====

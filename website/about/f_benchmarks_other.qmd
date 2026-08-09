@@ -30,7 +30,7 @@ suppressMessages(
 
 # Introduction
 
-This page benchmarks some of the functions from the latest version (`0.1.8`) of 'broadcast' with some near-equivalent functions from base `r fa("r-project")` and other packages. The code is given here also.
+This page benchmarks some of the functions from the latest version (`0.1.9.5`) of 'broadcast' with some near-equivalent functions from base `r fa("r-project")` and other packages. The code is given here also.
 
 Because all these benchmarks are within `r fa("r-project")`, not only speed but also memory usage is compared.
 
@@ -57,7 +57,7 @@ The 'benchmark' package was used for measuring speed and memory usage, and for p
 
 The benchmarks were all run on the same computer (processor: 12th Gen Intel(R) Core(TM) i5-12500H @ 2.50 GHz) with 32GB of RAM and running the Windows 11 OS (64 bit).
 
-`r fa("r-project")` version 4.5.1 with 'Rstudio' version 2025.09.1 was used to run the `r fa("r-project")` code.
+`r fa("r-project")` version 4.6.1 with 'Rstudio' version 2025.09.1 was used to run the `r fa("r-project")` code.
 
 The various comparisons are split over several sections. The code used to run the benchmarks is given in each section, just before the results.
 
@@ -73,7 +73,7 @@ The following code was used:
 
 ```{r echo=TRUE, eval=FALSE}
 
-n <- 450
+n <- 400
 x <- array(rnorm(10), c(1, n, 1))
 y <- array(rnorm(10), c(n, 1, n))
 
