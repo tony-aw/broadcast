@@ -63,8 +63,6 @@ will be ignored. \cr
 \code{mbroadcasters()} may be more memory efficient for large arrays than \verb{broadcaster()<-},
 as \code{mbroadcasters()} calls \verb{class(x)<-} directly in the given environment. \cr
 \cr
-\code{.couldb.broadcaster()} is used internally to check if an object could become a broadcaster vector/array. \cr
-\cr
 The \code{broadcaster} class attribute exists purely to overload the
 arithmetic, Boolean, bit-wise, and relational infix operators,
 to support broadcasting. \cr

@@ -1,6 +1,10 @@
 
 
 #' @export
+chooseOpsMethod.broadcaster <- function(x, y, mx, my, cl, reverse) FALSE
+
+
+#' @export
 `[.broadcaster` <- function(x, ..., drop = FALSE) {
   
   if(!broadcaster(x)) {

@@ -10,8 +10,6 @@
 #' `mbroadcasters()` may be more memory efficient for large arrays than `broadcaster()<-`,
 #' as `mbroadcasters()` calls `class(x)<-` directly in the given environment. \cr
 #' \cr
-#' `.couldb.broadcaster()` is used internally to check if an object could become a broadcaster vector/array. \cr
-#' \cr
 #' The `broadcaster` class attribute exists purely to overload the
 #' arithmetic, Boolean, bit-wise, and relational infix operators,
 #' to support broadcasting. \cr

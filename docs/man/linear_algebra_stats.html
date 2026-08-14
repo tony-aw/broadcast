@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-31b59d95c3a7203f851c742faee4c7ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-8d86dd83179ae1dbccd9d8d42453a9b5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -283,12 +283,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/reorient_vector.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">%orientbc&lt;-%</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../man/cast_hier2dim.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">cast_hier2dim</span></a>
   </div>
@@ -321,6 +315,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/dropnests.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">dropnests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/reorient_vector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">%orientbc&lt;-%</span></a>
   </div>
 </li>
       </ul>
@@ -601,23 +601,23 @@ a non-negative numeric scaler smaller than <code>0.1</code>, giving the cut-off 
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="fu">sd_lc</span>(X, vc)</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1] 11.5928290 52.8535827 22.7506325 64.6058028 14.0655896 20.5576235</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [7] 33.0394675 17.6271244 59.8236418 44.3157723 29.8385848 61.1999577</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [13]  0.9365396 44.1955807  7.8604818 13.4393264 45.6104796 14.2369321</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [19] 40.5913227  5.9731199 19.6576817 21.0756460 15.7386599 15.5185337</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [25] 27.1183308  0.3060628 29.9833131 25.2511701 19.1500918 51.6673941</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [31] 25.0337444  7.1206393 19.8202384 42.9103911 18.7119069 32.4763536</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [37] 10.7462578  6.4940554 27.9968676 25.0134450  3.6606861 11.5543286</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [43] 30.6755158  5.2025154 25.5542635 25.6962961  6.3659255 25.5140139</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [49] 59.4017731 59.2284374  7.6816823 10.0444674 13.9649464 19.7776824</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [55] 33.3173943 43.7160011 34.1708935 22.1838422 13.5711869 10.7422392</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [61] 44.5050162 16.6385346  0.8844275 21.2441751 16.2286884 30.3978218</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [67]  3.0006396 40.2160066 13.3391860 35.5176701 41.5252169 35.4964593</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [73] 15.6513160 54.8121658  3.9297913 32.2974291 24.1128664 37.2114545</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [79]  5.4399428 14.0550664 22.4557926  7.2626846 22.7501376  4.0191417</span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [85] 16.8154625 12.0268788 23.7454807 39.2281932 54.5069724 59.3006914</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [91] 14.4923235  7.3737433  5.8957448  3.0959555 41.9808263 23.7841260</span></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [97]  1.7367927 42.5109655 12.0862148 69.2939385</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1] 74.6760371 37.8994086 23.2733892 12.5455434 14.8555690 48.9042041</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [7] 48.4806474 10.5523141 27.4958719  4.4059297  8.3554658  3.1958137</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [13] 27.1013730 14.3808993  5.9400421 41.1842038 11.2670456 32.6965143</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [19] 19.0942020 13.3341523 18.0479604 54.0330621 75.4016632 47.2602637</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [25]  2.7758687 18.0152040  4.2628959 21.4602561 31.0208285 37.8319279</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [31] 25.0219473  7.4986879 11.3422292 22.9592236 59.9813515 62.2501501</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [37] 38.1360007 31.7969979 37.7728653 27.2056159 45.7934990  8.1043954</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [43] 51.2946382 15.5865964 46.6384921  9.3107135  0.1403690  8.5554554</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [49] 56.5064468 43.2937526  5.9810666 17.9107144  3.7001945 35.6926608</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [55]  0.9230644 24.4618652 26.0920933 47.4523265 33.0229069 43.0454684</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [61] 27.6771776 30.4186473  6.6768582 27.2716700  6.7240884 13.8057466</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [67] 51.6128813 27.1168712 40.9326572 76.4019234 22.2827855 28.5385069</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [73]  8.6492573  3.2087309  8.8438999 28.7770152 21.6580449 24.9793735</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [79] 18.5719850 33.0847638 58.5625934 12.0141633  9.1452514  9.1230764</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [85]  7.0448378 20.9152431  8.1128594 61.5697111  4.0660728 26.9480713</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [91] 27.1085464 57.5110567 77.9546320 55.5553992 22.9363060  6.9790190</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [97] 19.7346066  9.0303086 31.9841509  7.3864032</span></span>
 <span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
@@ -630,7 +630,7 @@ a non-negative numeric scaler smaller than <code>0.1</code>, giving the cut-off 
 <span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="fu">pnbinom</span>(y[<span class="dv">1</span>], <span class="at">mu =</span> <span class="dv">3</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="co"># real probability</span></span>
 <span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9536426</span></span>
 <span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="fu">ecumprob</span>(y[<span class="dv">1</span>], sim[<span class="dv">1</span>, , <span class="at">drop =</span> <span class="cn">TRUE</span>]) <span class="co"># approximation</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9539</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9566</span></span>
 <span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="co"># matrix:</span></span>
 <span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(</span>
@@ -638,16 +638,16 @@ a non-negative numeric scaler smaller than <code>0.1</code>, giving the cut-off 
 <span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>  <span class="at">approx =</span> <span class="fu">ecumprob</span>(y, sim) <span class="co"># approximation</span></span>
 <span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            real approx</span></span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] 0.9536426 0.9539</span></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] 0.8413696 0.8445</span></span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 0.7667200 0.7587</span></span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 0.9294561 0.9341</span></span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 0.8936243 0.9023</span></span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] 0.1600000 0.1611</span></span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] 0.9697669 0.9709</span></span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] 0.3520000 0.3468</span></span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] 0.6630400 0.6573</span></span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 0.5248000 0.5259</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] 0.9536426 0.9566</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] 0.6630400 0.6604</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 0.8413696 0.8462</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 0.5248000 0.5290</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 0.9697669 0.9719</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] 0.1600000 0.1650</span></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] 0.9294561 0.9297</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] 0.8936243 0.8980</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] 0.3520000 0.3530</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 0.7667200 0.7674</span></span>
 <span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="co"># data.frame:</span></span>
 <span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(</span>
@@ -655,16 +655,16 @@ a non-negative numeric scaler smaller than <code>0.1</code>, giving the cut-off 
 <span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>  <span class="at">approx =</span> <span class="fu">ecumprob</span>(y, <span class="fu">as.data.frame</span>(sim)) <span class="co"># approximation</span></span>
 <span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            real approx</span></span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] 0.9536426 0.9539</span></span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] 0.8413696 0.8445</span></span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 0.7667200 0.7587</span></span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 0.9294561 0.9341</span></span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 0.8936243 0.9023</span></span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] 0.1600000 0.1611</span></span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] 0.9697669 0.9709</span></span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] 0.3520000 0.3468</span></span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] 0.6630400 0.6573</span></span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 0.5248000 0.5259</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] 0.9536426 0.9566</span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] 0.6630400 0.6604</span></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] 0.8413696 0.8462</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] 0.5248000 0.5290</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] 0.9697669 0.9719</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] 0.1600000 0.1650</span></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] 0.9294561 0.9297</span></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] 0.8936243 0.8980</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] 0.3520000 0.3530</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] 0.7667200 0.7674</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
