@@ -1591,7 +1591,7 @@ inline int inline_bool_NOR(
         MACRO_ACTION2(                                                    \
           px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
           pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = (~px[flatind_x]) & (~py[flatind_y])         \
+          pout[flatind_out] = ~ (px[flatind_x] | py[flatind_y])         \
         ) \
       );                                                                \
       break;	\
@@ -1671,7 +1671,7 @@ inline int inline_bool_NOR(
         MACRO_ACTION2(                                                    \
           px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
           pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = (px[flatind_x] & py[flatind_y]) | (~px[flatind_x] & ~py[flatind_y]) \
+          pout[flatind_out] = ~(px[flatind_x] ^ py[flatind_y]) \
         ) \
       );                                                                \
       break;  \
@@ -1715,7 +1715,7 @@ inline int inline_bool_NOR(
         MACRO_ACTION2(                                                    \
           px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
           pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = rcpp_bit_se_int(px[flatind_x], py[flatind_y]) \
+          pout[flatind_out] = (~px[flatind_x] | py[flatind_y]) \
         ) \
       );                                                                \
       break;  \
@@ -1726,7 +1726,7 @@ inline int inline_bool_NOR(
         MACRO_ACTION2(                                                    \
           px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
           pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = rcpp_bit_ge_int(px[flatind_x], py[flatind_y]) \
+          pout[flatind_out] = (px[flatind_x] | ~py[flatind_y]) \
         ) \
       );                                                                \
       break;  \
@@ -1744,7 +1744,7 @@ inline int inline_bool_NOR(
     case 1:	\
     {	\
       DIMCODE(  \
-        pout[flatind_out] = (px[flatind_x] & py[flatind_y]) | (~px[flatind_x] & ~py[flatind_y]) \
+        pout[flatind_out] = ~(px[flatind_x] ^ py[flatind_y]) \
       );                                                                \
       break;	\
     }	\
@@ -1772,14 +1772,14 @@ inline int inline_bool_NOR(
     case 5:	\
     {	\
       DIMCODE(  \
-        pout[flatind_out] = rcpp_bit_se_raw(px[flatind_x], py[flatind_y]) \
+        pout[flatind_out] = (~px[flatind_x] | py[flatind_y]) \
       );                                                                \
       break;	\
     }	\
     case 6:	\
     {	\
       DIMCODE(  \
-        pout[flatind_out] = rcpp_bit_ge_raw(px[flatind_x], py[flatind_y]) \
+        pout[flatind_out] = (px[flatind_x] | ~py[flatind_y]) \
       );                                                                \
       break;	\
     }	\

@@ -94,7 +94,7 @@
 #' 
 #' @references Harris, C.R., Millman, K.J., van der Walt, S.J. et al. \emph{Array programming with NumPy}. Nature 585, 357–362 (2020). \doi{10.1038/s41586-020-2649-2}. (\href{https://www.nature.com/articles/s41586-020-2649-2}{Publisher link}).
 #' 
-#' @author \strong{Author, Maintainer}: Tony Wilkes \email{tony_a_wilkes@outlook.com} (\href{https://orcid.org/0000-0001-9498-8379}{ORCID})
+#' @author \strong{Author, Maintainer}: Tony Wilkes \email{tonywilkes.nl@gmail.com} (\href{https://orcid.org/0000-0001-9498-8379}{ORCID})
 #' 
 #' 
 #' @name aaa00_broadcast_help

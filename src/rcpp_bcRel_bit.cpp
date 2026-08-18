@@ -8,27 +8,6 @@ using namespace Rcpp;
 
 
 
-inline Rbyte rcpp_bit_se_raw(Rbyte x, Rbyte y) {
-  return (~x & y) | (x & y) | (~x & ~y);
-}
-
-inline Rbyte rcpp_bit_ge_raw(Rbyte x, Rbyte y) {
-  return (x & ~y) | (x & y) | (~x & ~y);
-}
-
-inline int rcpp_bit_se_int(int x, int y) {
-  return (~x & y) | (x & y) | (~x & ~y);
-}
-
-inline int rcpp_bit_ge_int(int x, int y) {
-  return (x & ~y) | (x & y) | (~x & ~y);
-}
-
-
-
-
-
-
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_bcRel_bit_v, rng = false)]]

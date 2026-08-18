@@ -12,17 +12,17 @@
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' @details
-#' The "&", "|", "xor", and "nand" operators given in `bc.bit()`
-#' perform BIT-WISE AND, OR, XOR, and NAND operations, respectively. \cr
+#' The "&", "|", "xor", "nand" and "nor" operators given in `bc.bit()`
+#' perform BIT-WISE AND, OR, XOR, NAND and NOR operations, respectively. \cr
 #' \cr
 #' The relational operators given in `bc.bit()` perform BIT-WISE relational operations:
 #' 
-#'  - "==" is equivalent to bit-wise `(x & y) | (!x & !y)`, but faster;
+#'  - "==" is equivalent to bit-wise `!xor(x, y)`, but faster;
 #'  - "!=" is equivalent to bit-wise `xor(x, y)`;
 #'  - "<" is equivalent to bit-wise `(!x & y)`, but faster;
 #'  - ">" is equivalent to bit-wise `(x & !y)`, but faster;
-#'  - "<=" is equivalent to bit-wise `(!x & y) | (y == x)`, but faster;
-#'  - ">=" is equivalent to bit-wise `(x & !y) | (y == x)`, but faster. \cr \cr
+#'  - "<=" is equivalent to bit-wise `(!x | y)`, but faster;
+#'  - ">=" is equivalent to bit-wise `(x | !y)`, but faster. \cr \cr
 #'
 #' The "<<" and ">>" operators perform bit-wise left-shift and right-shift,
 #' respectively,

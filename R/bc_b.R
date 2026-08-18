@@ -13,23 +13,10 @@
 #' @param x,y conformable vectors/arrays of type `logical`, `numeric`, or `raw`. \cr
 #' Note that input with type of `double` will be coerced to `integer`.
 #' @param op a single string, giving the operator. \cr
-#' Supported Boolean operators:
-#' `r paste0(c(broadcast:::.op_b(), broadcast:::.op_rel()), collapse = ", ")`. \cr
+#' Supported Boolean operators: `r paste0(broadcast:::.op_b(), collapse = ", ")` \cr
+#' Supported relational operators: `r paste0(broadcast:::.op_rel(), collapse = ", ")`. \cr
 #' "nand" is defined here as `!(x & y)`, and "nor" is defined here as `!(x | y)`.
 #' @param ... further arguments passed to or from methods. \cr \cr
-#'
-#' @details
-#' `bc.b()` efficiently casts the input to logical. \cr
-#' Since the input is treated as logical, the following equalities hold for `bc.b()`:
-#' 
-#'  - "==" is equivalent to `!xor(x, y)` (i.e. bi-conditional operation), but faster;
-#'  - "!=" is equivalent to `xor(x, y)`;
-#'  - "<" is equivalent to `(!x & y)` (i.e. only y), but faster;
-#'  - ">" is equivalent to `(x & !y)` (i.e. only x), but faster;
-#'  - "<=" is equivalent to `(!x & y) | (y == x)` (i.e. material implication), but faster;
-#'  - ">=" is equivalent to `(x & !y) | (y == x)` (i.e. converse implication), but faster. \cr
-#'  
-#'  Note that the `&` and `|` operators handle `NA`s slightly differently than the relational operators. \cr \cr
 #'
 #'
 #' @returns

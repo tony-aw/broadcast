@@ -51,8 +51,8 @@ Note that input with type of <code>double</code> will be coerced to <code>intege
 <tr><td><code id="op">op</code></td>
 <td>
 <p>a single string, giving the operator. <br>
-Supported Boolean operators:
-&amp;, |, xor, nand, nor, ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br>
+Supported Boolean operators: &amp;, |, xor, nand, nor <br>
+Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br>
 &quot;nand&quot; is defined here as <code>!(x &amp; y)</code>, and &quot;nor&quot; is defined here as <code>!(x | y)</code>.</p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
@@ -60,36 +60,6 @@ Supported Boolean operators:
 <p>further arguments passed to or from methods. <br> <br></p>
 </td></tr>
 </table>
-
-
-<h3>Details</h3>
-
-<p><code>bc.b()</code> efficiently casts the input to logical. <br>
-Since the input is treated as logical, the following equalities hold for <code>bc.b()</code>:
-</p>
-
-<ul>
-<li><p> &quot;==&quot; is equivalent to <code>!xor(x, y)</code> (i.e. bi-conditional operation), but faster;
-</p>
-</li>
-<li><p> &quot;!=&quot; is equivalent to <code>xor(x, y)</code>;
-</p>
-</li>
-<li><p> &quot;&lt;&quot; is equivalent to <code>(!x &amp; y)</code> (i.e. only y), but faster;
-</p>
-</li>
-<li><p> &quot;&gt;&quot; is equivalent to <code>(x &amp; !y)</code> (i.e. only x), but faster;
-</p>
-</li>
-<li><p> &quot;&lt;=&quot; is equivalent to <code>(!x &amp; y) | (y == x)</code> (i.e. material implication), but faster;
-</p>
-</li>
-<li><p> &quot;&gt;=&quot; is equivalent to <code>(x &amp; !y) | (y == x)</code> (i.e. converse implication), but faster. <br>
-</p>
-</li></ul>
-
-<p>Note that the <code>&amp;</code> and <code>|</code> operators handle <code>NA</code>s slightly differently than the relational operators. <br> <br>
-</p>
 
 
 <h3>Value</h3>

@@ -26,6 +26,7 @@ Added new casting operator: `%orientbc<-%`.
 
 **Other Changes:**
 
+* Changed the e-mail provider for this package.
 * Replaced the term "directional vector" with "oriented vector" in the documentation,
 to avoid confusion with the term as used in maths and statistics.
 * Small documentation improvements here and there.

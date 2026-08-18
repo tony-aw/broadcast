@@ -43,29 +43,6 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 #
 
 
-txt0 <- "
-
-inline Rbyte rcpp_bit_se_raw(Rbyte x, Rbyte y) {
-  return (~x & y) | (x & y) | (~x & ~y);
-}
-
-inline Rbyte rcpp_bit_ge_raw(Rbyte x, Rbyte y) {
-  return (x & ~y) | (x & y) | (~x & ~y);
-}
-
-inline int rcpp_bit_se_int(int x, int y) {
-  return (~x & y) | (x & y) | (~x & ~y);
-}
-
-inline int rcpp_bit_ge_int(int x, int y) {
-  return (x & ~y) | (x & y) | (~x & ~y);
-}
-
-
-
-
-"
-
 txt1 <- "
 
 //' @keywords internal
@@ -161,7 +138,7 @@ SEXP rcpp_bcRel_bit_d(
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2,
+  txt1, txt2,
   collapse = "\n\n"
 )
 
@@ -171,7 +148,7 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2,
+  txt1, txt2,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bcRel_bit.cpp")

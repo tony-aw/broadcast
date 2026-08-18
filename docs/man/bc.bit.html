@@ -497,10 +497,10 @@ further arguments passed to or from methods. <br> <br>
 </section>
 <section id="details" class="level3">
 <h3 class="anchored" data-anchor-id="details">Details</h3>
-<p>The "&amp;", "|", "xor", and "nand" operators given in <code>bc.bit()</code> perform BIT-WISE AND, OR, XOR, and NAND operations, respectively. <br> <br> The relational operators given in <code>bc.bit()</code> perform BIT-WISE relational operations:</p>
+<p>The "&amp;", "|", "xor", "nand" and "nor" operators given in <code>bc.bit()</code> perform BIT-WISE AND, OR, XOR, NAND and NOR operations, respectively. <br> <br> The relational operators given in <code>bc.bit()</code> perform BIT-WISE relational operations:</p>
 <ul>
 <li>
-<p>"==" is equivalent to bit-wise <code>(x &amp; y) | (!x &amp; !y)</code>, but faster;</p>
+<p>"==" is equivalent to bit-wise <code>!xor(x, y)</code>, but faster;</p>
 </li>
 <li>
 <p>"!=" is equivalent to bit-wise <code>xor(x, y)</code>;</p>
@@ -512,10 +512,10 @@ further arguments passed to or from methods. <br> <br>
 <p>"&gt;" is equivalent to bit-wise <code>(x &amp; !y)</code>, but faster;</p>
 </li>
 <li>
-<p>"&lt;=" is equivalent to bit-wise <code>(!x &amp; y) | (y == x)</code>, but faster;</p>
+<p>"&lt;=" is equivalent to bit-wise <code>(!x | y)</code>, but faster;</p>
 </li>
 <li>
-<p>"&gt;=" is equivalent to bit-wise <code>(x &amp; !y) | (y == x)</code>, but faster. <br> <br></p>
+<p>"&gt;=" is equivalent to bit-wise <code>(x | !y)</code>, but faster. <br> <br></p>
 </li>
 </ul>
 <p>The "&lt;&lt;" and "&gt;&gt;" operators perform bit-wise left-shift and right-shift, respectively, on <code>x</code> by unit <code>y</code>. <br> For these shift operations, <code>y</code> being larger than the number of bits of <code>x</code> results in an error. <br> Shift operations are only supported for type of <code>raw</code>. <br> <br></p>

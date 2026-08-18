@@ -57,14 +57,14 @@ Supported bit-wise operators: &amp;, |, xor, nand, nor, &lt;&lt;, &gt;&gt;, ==, 
 
 <h3>Details</h3>
 
-<p>The &quot;&amp;&quot;, &quot;|&quot;, &quot;xor&quot;, and &quot;nand&quot; operators given in <code>bc.bit()</code>
-perform BIT-WISE AND, OR, XOR, and NAND operations, respectively. <br>
+<p>The &quot;&amp;&quot;, &quot;|&quot;, &quot;xor&quot;, &quot;nand&quot; and &quot;nor&quot; operators given in <code>bc.bit()</code>
+perform BIT-WISE AND, OR, XOR, NAND and NOR operations, respectively. <br>
 <br>
 The relational operators given in <code>bc.bit()</code> perform BIT-WISE relational operations:
 </p>
 
 <ul>
-<li><p> &quot;==&quot; is equivalent to bit-wise <code>(x &amp; y) | (!x &amp; !y)</code>, but faster;
+<li><p> &quot;==&quot; is equivalent to bit-wise <code>!xor(x, y)</code>, but faster;
 </p>
 </li>
 <li><p> &quot;!=&quot; is equivalent to bit-wise <code>xor(x, y)</code>;
@@ -76,10 +76,10 @@ The relational operators given in <code>bc.bit()</code> perform BIT-WISE relatio
 <li><p> &quot;&gt;&quot; is equivalent to bit-wise <code>(x &amp; !y)</code>, but faster;
 </p>
 </li>
-<li><p> &quot;&lt;=&quot; is equivalent to bit-wise <code>(!x &amp; y) | (y == x)</code>, but faster;
+<li><p> &quot;&lt;=&quot; is equivalent to bit-wise <code>(!x | y)</code>, but faster;
 </p>
 </li>
-<li><p> &quot;&gt;=&quot; is equivalent to bit-wise <code>(x &amp; !y) | (y == x)</code>, but faster. <br> <br>
+<li><p> &quot;&gt;=&quot; is equivalent to bit-wise <code>(x | !y)</code>, but faster. <br> <br>
 </p>
 </li></ul>
 

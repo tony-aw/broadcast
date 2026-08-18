@@ -30,17 +30,17 @@ on pairs of arrays, where both arrays are of type \code{raw} or both arrays are 
 \cr
 }
 \details{
-The "&", "|", "xor", and "nand" operators given in \code{bc.bit()}
-perform BIT-WISE AND, OR, XOR, and NAND operations, respectively. \cr
+The "&", "|", "xor", "nand" and "nor" operators given in \code{bc.bit()}
+perform BIT-WISE AND, OR, XOR, NAND and NOR operations, respectively. \cr
 \cr
 The relational operators given in \code{bc.bit()} perform BIT-WISE relational operations:
 \itemize{
-\item "==" is equivalent to bit-wise \code{(x & y) | (!x & !y)}, but faster;
+\item "==" is equivalent to bit-wise \code{!xor(x, y)}, but faster;
 \item "!=" is equivalent to bit-wise \code{xor(x, y)};
 \item "<" is equivalent to bit-wise \code{(!x & y)}, but faster;
 \item ">" is equivalent to bit-wise \code{(x & !y)}, but faster;
-\item "<=" is equivalent to bit-wise \code{(!x & y) | (y == x)}, but faster;
-\item ">=" is equivalent to bit-wise \code{(x & !y) | (y == x)}, but faster. \cr \cr
+\item "<=" is equivalent to bit-wise \code{(!x | y)}, but faster;
+\item ">=" is equivalent to bit-wise \code{(x | !y)}, but faster. \cr \cr
 }
 
 The "<<" and ">>" operators perform bit-wise left-shift and right-shift,

@@ -27,8 +27,8 @@ test_make_dims <- function(n) {
 `%&%` <- bitwAnd
 `%|%` <- bitwOr
 `%xor%` <- bitwXor
-`%nand%` <- function(x, y) bitwAnd(bitwNot(x), bitwNot(y))
-`%==%` <- function(x, y) (x %&% y) %|% (x %nand% y)
+`%nand%` <- function(x, y) bitwNot(bitwAnd(x, y))
+`%==%` <- function(x, y) bitwNot(bitwXor(x, y))
 
 
 # bitwise & ====
@@ -133,6 +133,43 @@ expect_equal(
 enumerate <- enumerate + res$i
 
 
+# sanity tests ====
+for(i in c(TRUE, FALSE)) {
+  for(j in c(TRUE, FALSE)) {
+    expect_equal(
+      i == j,
+      !xor(i, j)
+    ) |> errorfun()
+    
+    expect_equal(
+      i != j,
+      xor(i, j)
+    ) |> errorfun()
+    
+    expect_equal(
+      i < j,
+      !i & j
+    ) |> errorfun()
+    
+    expect_equal(
+      i > j,
+      i & !j
+    ) |> errorfun()
+    
+    expect_equal(
+      i <= j,
+      !i | j
+    ) |> errorfun()
+    
+    expect_equal(
+      i >= j,
+      i | !j
+    ) |> errorfun()
+    
+  }
+}
+enumerate <- enumerate + 6L
+
 
 # bitwise equal ====
 op <- "=="
@@ -219,7 +256,7 @@ op <- "<="
 i <- 1L
 
 basefun <- function(x, y) {
-  out <- (bitwNot(x) %&% y) %|% (x %&% y) %|% (x %nand% y)
+  out <- bitwNot(x) %|% y
   dim(out) <- bc_dim(x, y)
   return(out)
 }
@@ -240,7 +277,7 @@ op <- ">="
 i <- 1L
 
 basefun <- function(x, y) {
-  out <- (x %&% bitwNot(y)) %|% (x %&% y) %|% (x %nand% y)
+  out <- x %|% bitwNot(y)
   dim(out) <- bc_dim(x, y)
   return(out)
 }
