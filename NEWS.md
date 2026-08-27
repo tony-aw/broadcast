@@ -1,4 +1,10 @@
 
+# broadcast 0.1.9.6
+
+* Fixed a mistake in one of the unit tests.
+
+<br>
+
 
 # broadcast 0.1.9.5
 

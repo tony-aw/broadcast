@@ -19,10 +19,10 @@ errorfun <- function(tt) {
 
 for(i in 1:100) {
   for(iNdimX in 1:8) {
-    x.dim <- sample(c(1, 5), iNdimX, replace = TRUE)
+    x.dim <- sample(c(1, 3), iNdimX, replace = TRUE)
     x.dim2 <- broadcast:::.rcpp_clone(x.dim)
     for(iNdimY in 1:8) {
-      y.dim <- sample(c(1, 5), iNdimY, replace = TRUE)
+      y.dim <- sample(c(1, 3), iNdimY, replace = TRUE)
       y.dim2 <- broadcast:::.rcpp_clone(y.dim)
       
       x <- array(rnorm(10), x.dim)

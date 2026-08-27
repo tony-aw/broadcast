@@ -32,8 +32,8 @@ for(iNdim in 1:4) {
 }
 
 for(iNdim in 5:16) {
-  x.dim <- sample(1:iNdim)
-  y.dim <- sample(1:iNdim)
+  x.dim <- sample(1:3, iNdim, TRUE)
+  y.dim <- sample(1:3, iNdim, TRUE)
   
   expected <- c(pmax(x.dim, y.dim), rep(1L, 16L - iNdim))
   

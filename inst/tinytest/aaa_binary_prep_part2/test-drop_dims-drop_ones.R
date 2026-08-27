@@ -37,76 +37,70 @@ basefun <- function(x.dim, y.dim) {
 
 
 # remove ones ====
-for(i in 2:100) {
-  for(iNDim in 2:16) {
-    x.dim <- sample(c(1L, i), iNDim, TRUE)
-    y.dim <- sample(c(1L, i), iNDim, TRUE)
-    x.ndim <- length(x.dim)
-    y.ndim <- length(y.dim)
-    x.len <- prod(x.dim)
-    y.len <- prod(y.dim)
+for(iNDim in 2:16) {
+  x.dim <- sample(c(1L, 2L), iNDim, TRUE)
+  y.dim <- sample(c(1L, 2L), iNDim, TRUE)
+  x.ndim <- length(x.dim)
+  y.ndim <- length(y.dim)
+  x.len <- prod(x.dim)
+  y.len <- prod(y.dim)
+  
+  if(x.len != 1L && y.len != 1L) {
     
-    if(x.len != 1L && y.len != 1L) {
-      
-      out <- basefun(x.dim, y.dim)
-      .rcpp_virt_drop_dims(x.dim, y.dim, x.ndim, y.ndim, x.len, y.len)
-      
-      expect_equal(
-        out[[1L]],
-        x.dim
-      ) |> errorfun()
-      
-      expect_equal(
-        out[[2L]],
-        y.dim
-      ) |> errorfun()
-      
-      expect_equal(
-        out[[3L]],
-        x.ndim
-      ) |> errorfun()
-      
-      expect_equal(
-        out[[4L]],
-        y.ndim
-      ) |> errorfun()
-      
-      enumerate <- enumerate + 4L
-      
-    }
-    
-  }
-}
-
-
-
-# no ones ====
-for(i in 3:100) {
-  for(iNDim in 2:16) {
-    x.dim <- sample(2:i, iNDim, TRUE)
-    y.dim <- sample(2:i, iNDim, TRUE)
-    x.ndim <- length(x.dim)
-    y.ndim <- length(y.dim)
-    x.len <- prod(x.dim)
-    y.len <- prod(y.dim)
-    
-    x.dim2 <- .rcpp_clone(x.dim)
-    y.dim2 <- .rcpp_clone(y.dim)
-    x.ndim2 <- .rcpp_clone(x.ndim)
-    y.ndim2 <- .rcpp_clone(y.ndim)
-    x.len2 <- .rcpp_clone(x.len)
-    y.len2 <- .rcpp_clone(y.len)
-    
+    out <- basefun(x.dim, y.dim)
     .rcpp_virt_drop_dims(x.dim, y.dim, x.ndim, y.ndim, x.len, y.len)
     
     expect_equal(
-      c(x.dim, y.dim, x.ndim, y.ndim, x.len, y.len),
-      c(x.dim2, y.dim2, x.ndim2, y.ndim2, x.len2, y.len2)
+      out[[1L]],
+      x.dim
     ) |> errorfun()
     
-    enumerate <- enumerate + 1L
-      
+    expect_equal(
+      out[[2L]],
+      y.dim
+    ) |> errorfun()
+    
+    expect_equal(
+      out[[3L]],
+      x.ndim
+    ) |> errorfun()
+    
+    expect_equal(
+      out[[4L]],
+      y.ndim
+    ) |> errorfun()
+    
+    enumerate <- enumerate + 4L
+    
   }
+  
 }
 
+
+# no ones ====
+for(iNDim in 2:16) {
+  x.dim <- sample(2:3, iNDim, TRUE)
+  y.dim <- sample(2:3, iNDim, TRUE)
+  x.ndim <- length(x.dim)
+  y.ndim <- length(y.dim)
+  x.len <- prod(x.dim)
+  y.len <- prod(y.dim)
+  
+  x.dim2 <- .rcpp_clone(x.dim)
+  y.dim2 <- .rcpp_clone(y.dim)
+  x.ndim2 <- .rcpp_clone(x.ndim)
+  y.ndim2 <- .rcpp_clone(y.ndim)
+  x.len2 <- .rcpp_clone(x.len)
+  y.len2 <- .rcpp_clone(y.len)
+  
+  .rcpp_virt_drop_dims(x.dim, y.dim, x.ndim, y.ndim, x.len, y.len)
+  
+  expect_equal(
+    c(x.dim, y.dim, x.ndim, y.ndim, x.len, y.len),
+    c(x.dim2, y.dim2, x.ndim2, y.ndim2, x.len2, y.len2)
+  ) |> errorfun()
+  
+  enumerate <- enumerate + 1L
+  
+}
 

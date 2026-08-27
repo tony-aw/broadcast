@@ -1,5 +1,8 @@
 
 if ( requireNamespace("tinytest", quietly = TRUE) ){
+  
+  options(warn=1) # as requested by CRAN
+  
   tinytest::test_package(
     "broadcast", testdir = "tinytest"
   )

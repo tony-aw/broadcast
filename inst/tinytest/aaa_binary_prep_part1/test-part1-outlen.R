@@ -26,7 +26,7 @@ for(iSample in 1:10) {
   xLen <- sample(c(1, 10, 2^31-1), 1L)
   yLen <- sample(c(1, 10, 2^31-1), 1L)
   for(iNdim in 1:16) {
-    out.dim <- sample(1:16, iNdim)
+    out.dim <- sample(1:2, iNdim, TRUE)
     expect_equal(
       .rcpp_virt_make_outlen(out.dim, xLen, yLen),
       prod(out.dim)

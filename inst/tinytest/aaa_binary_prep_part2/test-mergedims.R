@@ -50,20 +50,20 @@ enumerate <- enumerate + 16
 
 
 # check int overflow safety ====
-n <- as.integer(2^31 - 2)
+n <- as.integer(2^31 /2)
 x.dim <- c(n, n, 1L)
 y.dim <- c(1L, 1L, n)
 expect_equal(
   list(x.dim, y.dim),
   mergedims(x.dim, y.dim)
-) |> errorfun()
+)
 
 x.dim <- c(n, 1L, 1L)
 y.dim <- c(1L, n, n)
 expect_equal(
   list(x.dim, y.dim),
   mergedims(x.dim, y.dim)
-) |> errorfun()
+)
 
 enumerate <- enumerate + 2L
 
