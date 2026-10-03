@@ -48,3 +48,12 @@ expect_equal(
 )
 enumerate <- enumerate + 1L
 
+
+# bind many, many scalars ====
+input <- sample(as.raw(0:255), 2^16, TRUE) |> as.list()
+input <- lapply(input, as.array)
+expect_equal(
+  bind_array(input, 1L),
+  as.array(do.call(c, input))
+)
+enumerate <- enumerate + 1L
