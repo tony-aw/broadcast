@@ -46,7 +46,13 @@
 #' @keywords internal
 #' @noRd
 .op_b <- function() {
-  return(c("&", "|", "xor", "nand", "nor"))
+  return(c("&", "|", "xor"))
+}
+
+#' @keywords internal
+#' @noRd
+.op_b_rel <- function() {
+  return(c("==", "!="))
 }
 
 #' @keywords internal

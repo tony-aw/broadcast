@@ -29,7 +29,7 @@ The functions are as follows: <br>
 </p>
 
 <ul>
-<li> <p><code>as_bool()</code>: converts object to atomic type <code>logical</code> (<code>TRUE, FALSE, NA</code>).
+<li> <p><code>as_lgl()</code>: converts object to atomic type <code>logical</code> (<code>TRUE, FALSE, NA</code>).
 </p>
 </li>
 <li> <p><code>as_int()</code>: converts object to atomic type <code>integer</code>.
@@ -53,6 +53,7 @@ The functions are as follows: <br>
 
 <p><code>as_num()</code> is an alias for <code>as_dbl()</code>. <br>
 <code>as_str()</code> is an alias for <code>as_chr()</code>. <br>
+<code>as_bool()</code> is an alias for <code>as_lgl()</code>. <br>
 <br>
 See also typeof. <br> <br>
 </p>
@@ -60,7 +61,9 @@ See also typeof. <br> <br>
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>as_bool(x, ...)
+<pre><code class='language-R'>as_lgl(x, ...)
+
+as_bool(x, ...)
 
 as_int(x, ...)
 
@@ -110,7 +113,7 @@ rownames(x) &lt;- month.abb[1:6]
 names(x) &lt;- c(letters[1:20], LETTERS[1:10])
 print(x)
 
-as_bool(x)
+as_lgl(x)
 as_int(x)
 as_dbl(x)
 as_chr(x)
@@ -125,7 +128,7 @@ x &lt;- factor(month.abb, levels = month.abb)
 names(x) &lt;- month.name
 print(x)
 
-as_bool(as_int(x) &gt; 6)
+as_lgl(as_int(x) &gt; 6)
 as_int(x)
 as_dbl(x)
 as_chr(x)

@@ -36,7 +36,9 @@ base.fun <- function(x, y) {
 
 # main tests ====
 
-res <- .test_binary(bc.fun, base.fun, "character", c("integer", "int53"))
+res <- suppressWarnings(
+  .test_binary(bc.fun, base.fun, "character", c("integer", "int53"))
+)
 
 enumerate <- enumerate + res$i # count number of tests
 # test results:
@@ -48,7 +50,9 @@ expect_equal(
 
 
 # attributes tests ====
-res <- .test_binary_class(bc_strrep, "character", c("integer", "int53"))
+res <- suppressWarnings(
+  .test_binary_class(bc_strrep, "character", c("integer", "int53"))
+)
 expect_equal(
   res$expected_bc, res$out_bc
 )
@@ -62,7 +66,9 @@ enumerate <- enumerate + res$i
 
 
 # zerolen tests ====
-res <- .test_binary_zerolen(bc_strrep, is.character, "character", c("integer", "int53"))
+res <- suppressWarnings(
+  .test_binary_zerolen(bc_strrep, is.character, "character", c("integer", "int53"))
+)
 expect_true(all(res$is_OK_type))
 expect_equal(
   res$expected_bc, res$out_bc

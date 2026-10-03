@@ -29,7 +29,7 @@ inline int inline_bool_AND(
     return NA_LOGICAL;
   }
   else {
-    return ((bool)x && bool(y));
+    return ((bool)x && (bool)y);
   }
 }
 
@@ -45,9 +45,10 @@ inline int inline_bool_OR(
     return NA_LOGICAL;
   }
   else {
-    return ((bool)x || bool(y));
+    return ((bool)x || (bool)y);
   }
 }
+
 
 inline int inline_bool_XOR(
   int x, int y
@@ -61,40 +62,174 @@ inline int inline_bool_XOR(
 }
 
 
-inline int inline_bool_NAND(
+inline int inline_bool_IRIGHT(
   int x, int y
 ) {
   bool xFALSE = x != NA_INTEGER && x == 0;
-  bool yFALSE = y != NA_INTEGER && y == 0;
-  if(xFALSE || yFALSE) {
+  bool yTRUE = y != NA_INTEGER && y != 0;
+  if(xFALSE || yTRUE) {
     return 1;
   }
   else if(x == NA_INTEGER || y == NA_INTEGER) {
     return NA_LOGICAL;
   }
   else {
-    int out = ((bool)x + bool(y)) < 2;
-    return out;
+    return (!(bool)x || (bool)y);
   }
 }
 
 
-inline int inline_bool_NOR(
+inline int inline_bool_ILEFT(
   int x, int y
 ) {
   bool xTRUE = x != NA_INTEGER && x != 0;
+  bool yFALSE = y != NA_INTEGER && y == 0;
+  if(xTRUE || yFALSE) {
+    return 1;
+  }
+  else if(x == NA_INTEGER || y == NA_INTEGER) {
+    return NA_LOGICAL;
+  }
+  else {
+    return (!(bool)x || (bool)y);
+  }
+}
+
+
+
+inline int inline_bool_XLEFT(
+  int x, int y
+) {
+  bool xFALSE = x != NA_INTEGER && x == 0;
   bool yTRUE = y != NA_INTEGER && y != 0;
-  if(xTRUE || yTRUE) {
+  if(xFALSE || yTRUE) {
     return 0;
   }
   else if(x == NA_INTEGER || y == NA_INTEGER) {
     return NA_LOGICAL;
   }
   else {
-    int out = !((bool)x || bool(y));
-    return out;
+    return ((bool)x && !(bool)y);
   }
 }
+
+
+inline int inline_bool_XRIGHT(
+  int x, int y
+) {
+  bool xTRUE = x != NA_INTEGER && x != 0;
+  bool yFALSE = y != NA_INTEGER && y == 0;
+  if(xTRUE || yFALSE) {
+    return 0;
+  }
+  else if(x == NA_INTEGER || y == NA_INTEGER) {
+    return NA_LOGICAL;
+  }
+  else {
+    return (!(bool)x && (bool)y);
+  }
+}
+
+
+
+
+
+inline Rcomplex inline_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
+  
+  Rcomplex out;
+  
+  out.r = x.r + y.r;
+  out.i = x.i + y.i;
+  return out;
+}
+
+
+inline Rcomplex inline_cplx_min( const Rcomplex& x, const Rcomplex& y) {
+  
+  Rcomplex out;
+  
+  out.r = x.r - y.r ;
+  out.i = x.i - y.i ;
+  return out;
+}
+
+
+inline Rcomplex inline_cplx_mult( const Rcomplex& x, const Rcomplex& y) {
+  
+  Rcomplex out;
+  
+  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
+    out.r = NA_REAL;
+    out.i = NA_REAL;
+    return out;
+  }
+  
+  out.r = x.r * y.r - x.i * y.i;
+  out.i = x.r * y.i + y.r * x.i;
+  return out;
+}
+
+
+
+inline Rcomplex inline_cplx_div( const Rcomplex& x, const Rcomplex& y) {
+  
+  Rcomplex out;
+  
+  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
+    out.r = NA_REAL;
+    out.i = NA_REAL;
+    return out;
+  }
+  
+  
+  double ratio, den;
+  double abr, abi;
+
+  if( (abr = y.r) < 0) abr = - abr;
+  if( (abi = y.i) < 0) abi = - abi;
+  if( abr <= abi ) {
+    ratio = y.r / y.i ;
+    den = y.i * (1 + ratio*ratio);
+    out.r = (x.r*ratio + x.i) / den;
+    out.i = (x.i*ratio - x.r) / den;
+  }
+  else {
+    ratio = y.i / y.r ;
+    den = y.r * (1 + ratio*ratio);
+    out.r = (x.r + x.i*ratio) / den;
+    out.i = (x.i - x.r*ratio) / den;
+  }
+  return out;
+
+}
+
+
+inline int inline_cplx_equal(
+    const Rcomplex& x, const Rcomplex& y
+) {
+  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
+    return(NA_LOGICAL);
+  }
+  else if(x.r == y.r && x.i == y.i) {
+    return(1);
+  }
+  else return(0);
+}
+
+
+inline int inline_cplx_unequal(
+    const Rcomplex& x, const Rcomplex& y
+) {
+  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
+    return(NA_LOGICAL);
+  }
+  else if(x.r != y.r || x.i != y.i) {
+    return(1);
+  }
+  else return(0);
+}
+
+
 
 
 
@@ -1081,20 +1216,6 @@ inline int inline_bool_NOR(
     {	\
       DIMCODE(                                                          \
         pout[flatind_out] = inline_bool_XOR(px[flatind_x], py[flatind_y]) \
-      );                                                                \
-      break;	\
-    }	\
-    case 4:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = inline_bool_NAND(px[flatind_x], py[flatind_y])  \
-      );                                                        \
-      break;	\
-    }	\
-    case 5:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = inline_bool_NOR(px[flatind_x], py[flatind_y]) \
       );                                                        \
       break;	\
     }	\
@@ -1129,20 +1250,6 @@ inline int inline_bool_NOR(
       );                                                                \
       break;	\
     }	\
-    case 4:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ASSIGN_C(((bool)px[flatind_x] + (bool)py[flatind_y] < 2))  \
-      );                                                        \
-      break;	\
-    }	\
-    case 5:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ASSIGN_C(!((bool)px[flatind_x] || (bool)py[flatind_y]))  \
-      );                                                        \
-      break;	\
-    }	\
     default:	\
     {	\
       stop("given operator not supported in the given context");	\
@@ -1175,50 +1282,6 @@ inline int inline_bool_NOR(
       );                                                        \
       break;	\
     }	\
-    case 3:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ACTION_BOOLEAN_REL(                                           \
-          px[flatind_x], py[flatind_y],       \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C((bool)px[flatind_x] < (bool)py[flatind_y])  \
-        )                                                       \
-      );                                                        \
-      break;	\
-    }	\
-    case 4:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ACTION_BOOLEAN_REL(                                           \
-          px[flatind_x], py[flatind_y],       \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C((bool)px[flatind_x] > (bool)py[flatind_y])  \
-        )                                                       \
-      );                                                        \
-      break;	\
-    }	\
-    case 5:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ACTION_BOOLEAN_REL(                                           \
-          px[flatind_x], py[flatind_y],       \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C((bool)px[flatind_x] <= (bool)py[flatind_y])  \
-        )                                                       \
-      );                                                        \
-      break;	\
-    }	\
-    case 6:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ACTION_BOOLEAN_REL(                                           \
-          px[flatind_x], py[flatind_y],       \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C((bool)px[flatind_x] >= (bool)py[flatind_y])  \
-        )                                                       \
-      );                                                        \
-      break;	\
-    }	\
     default:	\
     {	\
       stop("given operator not supported in the given context");	\
@@ -1243,34 +1306,6 @@ inline int inline_bool_NOR(
       );                                                     \
       break;	\
     }	\
-    case 3:	\
-    { \
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] < (bool)py[flatind_y])  \
-      );                                                     \
-        break;	\
-    }	\
-    case 4:	\
-    {	\
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] > (bool)py[flatind_y])  \
-      );                                                      \
-      break;	\
-    }	\
-    case 5:	\
-    {	\
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] <= (bool)py[flatind_y])  \
-      );                                                     \
-      break;	\
-    }	\
-    case 6:	\
-    {	\
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] >= (bool)py[flatind_y])  \
-      );                                                    \
-      break;	\
-    }	\
     default:	\
     {	\
       stop("given operator not supported in the given context");	\
@@ -1284,28 +1319,28 @@ inline int inline_bool_NOR(
   case 1:	\
   {	\
     DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_cplx_plus(px[flatind_x], py[flatind_y])  \
+      pout[flatind_out] = inline_cplx_plus(px[flatind_x], py[flatind_y])  \
     );                                                                \
     break;	\
   }	\
   case 2:	\
   {	\
     DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_cplx_min(px[flatind_x], py[flatind_y])  \
+      pout[flatind_out] = inline_cplx_min(px[flatind_x], py[flatind_y])  \
     );                                                                \
     break;	\
   }	\
   case 3:	\
   {	\
     DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_cplx_mult(px[flatind_x], py[flatind_y])  \
+      pout[flatind_out] = inline_cplx_mult(px[flatind_x], py[flatind_y])  \
     );                                                                \
     break;	\
   }	\
   case 4:	\
   {	\
     DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_cplx_div(px[flatind_x], py[flatind_y])   \
+      pout[flatind_out] = inline_cplx_div(px[flatind_x], py[flatind_y])   \
     );                                                                \
     break;	\
   }	\
@@ -1322,14 +1357,14 @@ inline int inline_bool_NOR(
   case 1:	\
   {	\
     DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_cplx_equal(px[flatind_x], py[flatind_y])  \
+      pout[flatind_out] = inline_cplx_equal(px[flatind_x], py[flatind_y])  \
     );                                                                \
     break;	\
   }	\
   case 2:	\
   {	\
     DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_cplx_unequal(px[flatind_x], py[flatind_y])  \
+      pout[flatind_out] = inline_cplx_unequal(px[flatind_x], py[flatind_y])  \
     );                                                                \
     break;	\
   }	\
@@ -2174,8 +2209,8 @@ inline int inline_bool_NOR(
   }                                                                 \
   for(R_xlen_t flatind_out = 0; flatind_out < nout; ++flatind_out) {  \
     DOCODE;                                                           \
-    flatind_x = flatind_x + by_x;                                     \
-    flatind_y = flatind_y + by_y;                                     \
+    flatind_x += by_x;                                     \
+    flatind_y += by_y;                                     \
   }                                                                   \
                                                                       \
 } while(0)

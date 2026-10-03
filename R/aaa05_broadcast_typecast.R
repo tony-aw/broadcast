@@ -8,7 +8,7 @@
 #' \cr
 #' The functions are as follows: \cr
 #'
-#'  * \code{as_bool()}: converts object to atomic type \code{logical} (\code{TRUE, FALSE, NA}).
+#'  * \code{as_lgl()}: converts object to atomic type \code{logical} (\code{TRUE, FALSE, NA}).
 #'  * \code{as_int()}: converts object to atomic type \code{integer}.
 #'  * \code{as_dbl()}: converts object to atomic type \code{double} (AKA numeric).
 #'  * \code{as_cplx()}: converts object to atomic type \code{complex}.
@@ -18,6 +18,7 @@
 #' 
 #' `as_num()` is an alias for `as_dbl()`. \cr
 #' `as_str()` is an alias for `as_chr()`. \cr
+#' `as_bool()` is an alias for `as_lgl()`. \cr
 #' \cr
 #' See also \link[base]{typeof}. \cr \cr
 #' 

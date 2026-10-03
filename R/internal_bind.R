@@ -11,7 +11,7 @@
   if(length(input) < 2L) {
     stop(simpleError("`input` must be a list with at least 2 elements", call = abortcall))
   }
-  if(length(input) > (2L^16L)) {
+  if(length(input) > (2L^31L - 1L)) {
     stop(simpleError("too many objects given in `input`", call = abortcall))
   }
   input <- input[lengths(input) > 0L]

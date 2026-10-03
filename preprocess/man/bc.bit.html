@@ -46,7 +46,10 @@ bc.bit(x, y, op)
 <tr><td><code id="op">op</code></td>
 <td>
 <p>a single string, giving the operator. <br>
-Supported bit-wise operators: &amp;, |, xor, nand, nor, &lt;&lt;, &gt;&gt;, ==, !=, &lt;, &gt;, &lt;=, &gt;=.</p>
+Supported bit-wise operators:
+&amp;, |, xor, nand, nor, &lt;&lt;, &gt;&gt;, ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br>
+&quot;nand&quot; is defined as bit-wise <code>!(x &amp; y)</code>,
+and &quot;nor&quot; is defined as bit-wise <code>!(x | y)</code>.</p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
@@ -57,8 +60,8 @@ Supported bit-wise operators: &amp;, |, xor, nand, nor, &lt;&lt;, &gt;&gt;, ==, 
 
 <h3>Details</h3>
 
-<p>The &quot;&amp;&quot;, &quot;|&quot;, &quot;xor&quot;, &quot;nand&quot; and &quot;nor&quot; operators given in <code>bc.bit()</code>
-perform BIT-WISE AND, OR, XOR, NAND and NOR operations, respectively. <br>
+<p>The &quot;&amp;&quot;, &quot;|&quot;, &quot;xor&quot;, &quot;nand&quot;, and &quot;nor&quot; operators given in <code>bc.bit()</code>
+perform BIT-WISE AND, OR, XOR, NAND, and NOR operations, respectively. <br>
 <br>
 The relational operators given in <code>bc.bit()</code> perform BIT-WISE relational operations:
 </p>
@@ -97,6 +100,15 @@ Shift operations are only supported for type of <code>raw</code>. <br> <br>
 <p>For bit-wise operators: <br>
 An array of the same type as <code>x</code> and <code>y</code>,
 as a result of the broadcasted bit-wise operation. <br>
+<br>
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>bc.bit(x, x, "nand")</code> and <code>bc.bit(x, x, "nor")</code> are equivalent to bit-wise negation of <code>x</code>. <br>
+I.e.: <br>
+<code>!x</code> if <code>x</code> is type of <code>raw</code>, or <code>bitwNot(x)</code> if <code>x</code> is type of <code>integer</code>. <br>
 <br>
 </p>
 

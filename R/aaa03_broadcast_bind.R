@@ -9,8 +9,7 @@
 #' If argument `input` has length `0`,
 #' or it contains exclusively objects where one or more dimensions are `0`,
 #' an error is returned. \cr
-#' If `input` has length `1`, `bind_array()` simply returns `input[[1L]]`. \cr
-#' `input` may not contain more than `2^16` objects. \cr
+#' `input` may not contain more than `2^31 - 1` objects, and no less than 2 objects. \cr
 #' If the user wishes to include vectors to bind in `input`,
 #' the vectors must be turned into arrays; for example using \link{vector2array}.
 #' @param along a single integer,

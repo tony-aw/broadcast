@@ -6,7 +6,7 @@ rownames(x) <- month.abb[1:6]
 names(x) <- c(letters[1:20], LETTERS[1:10])
 print(x)
 
-as_bool(x)
+as_lgl(x)
 as_int(x)
 as_dbl(x)
 as_chr(x)
@@ -21,7 +21,7 @@ x <- factor(month.abb, levels = month.abb)
 names(x) <- month.name
 print(x)
 
-as_bool(as_int(x) > 6)
+as_lgl(as_int(x) > 6)
 as_int(x)
 as_dbl(x)
 as_chr(x)

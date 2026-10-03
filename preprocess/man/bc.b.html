@@ -51,9 +51,8 @@ Note that input with type of <code>double</code> will be coerced to <code>intege
 <tr><td><code id="op">op</code></td>
 <td>
 <p>a single string, giving the operator. <br>
-Supported Boolean operators: &amp;, |, xor, nand, nor <br>
-Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br>
-&quot;nand&quot; is defined here as <code>!(x &amp; y)</code>, and &quot;nor&quot; is defined here as <code>!(x | y)</code>.</p>
+Supported Boolean operators: &amp;, |, xor <br>
+Supported relational operators: ==, !=. <br></p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
@@ -91,7 +90,6 @@ y &lt;- array(1:50, c(4,1,1))
 bc.b(x, y, "&amp;")
 bc.b(x, y, "|")
 bc.b(x, y, "xor")
-bc.b(x, y, "nand")
 bc.b(x, y, "==")
 bc.b(x, y, "!=")
 

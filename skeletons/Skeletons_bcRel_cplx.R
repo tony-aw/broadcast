@@ -2,6 +2,7 @@
 
 library(stringi)
 
+inlines <- readr::read_file("inlines.txt")
 macro_dim <- readr::read_file("macro_dim.txt")
 macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
 macro_action <- readr::read_file("macro_action.txt")
@@ -13,6 +14,8 @@ header_for_sourcing <- stri_c(
   
   using namespace Rcpp;
   ",
+  inlines,
+  "\n",
   macro_action,
   "\n",
   macro_dim,
@@ -45,34 +48,6 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 #
 
 
-txt0 <- "
-
-inline int rcpp_cplx_equal(
-    const Rcomplex& x, const Rcomplex& y
-) {
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    return(NA_LOGICAL);
-  }
-  else if(x.r == y.r && x.i == y.i) {
-    return(1);
-  }
-  else return(0);
-}
-
-
-inline int rcpp_cplx_unequal(
-    const Rcomplex& x, const Rcomplex& y
-) {
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    return(NA_LOGICAL);
-  }
-  else if(x.r != y.r || x.i != y.i) {
-    return(1);
-  }
-  else return(0);
-}
-
-"
 
 
 txt1 <- "
@@ -144,7 +119,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2,
+   txt1, txt2,
   collapse = "\n\n"
 )
 
@@ -153,7 +128,7 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2,
+   txt1, txt2,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bcRel_cplx.cpp")

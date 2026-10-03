@@ -62,7 +62,7 @@ for(iSample in 1:5) { # re-do tests with different random configurations
             cond <- as_int(cond)
           }
           if(iTestType == "raw") {
-            cond <- as_raw(cond)
+            cond <- suppressWarnings(as_raw(cond))
           }
           if(sample(0:1, 1)) {
             dim(cond) <- NULL # randomly make `test` argument without dimensions
@@ -149,3 +149,4 @@ expect_error(
   pattern = "`test` of incorrect length"
 )
 enumerate <- enumerate + 3L
+

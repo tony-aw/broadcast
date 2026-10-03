@@ -74,12 +74,12 @@ expect_equal(
 
 for(i in 1:16) {
   
-  print(i)
+  # print(i)
   
   n <- floor((2^52 - 1)^(1/i))
   n <- ifelse(n >= (2^31 - 1), 2^31 - 1, n)
   n <- ifelse(n^i >= (2^52 - 1), floor(sqrt(n)), n)
-  print(n)
+  # print(n)
   
   x.dim <- rep(c(n, 1L), 16L)[1:i] |> as.integer()
   y.dim <- rep(c(1L, n), 16L)[1:i] |> as.integer()

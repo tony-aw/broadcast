@@ -1489,6 +1489,7 @@ RcppExport SEXP C_arraysize_overflow(SEXP, SEXP);
 RcppExport SEXP C_bind_which_comdims(SEXP, SEXP, SEXP);
 RcppExport SEXP C_bindhelper_need_coerce(SEXP, SEXP);
 RcppExport SEXP C_dims_is_vector(SEXP);
+RcppExport SEXP C_inputOK_relop_gs(SEXP, SEXP);
 RcppExport SEXP C_make_by(SEXP);
 RcppExport SEXP C_make_dcp(SEXP);
 RcppExport SEXP C_max_type(SEXP);
@@ -1599,6 +1600,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"C_bind_which_comdims",     (DL_FUNC) &C_bind_which_comdims,     3},
     {"C_bindhelper_need_coerce", (DL_FUNC) &C_bindhelper_need_coerce, 2},
     {"C_dims_is_vector",         (DL_FUNC) &C_dims_is_vector,         1},
+    {"C_inputOK_relop_gs",       (DL_FUNC) &C_inputOK_relop_gs,       2},
     {"C_make_by",                (DL_FUNC) &C_make_by,                1},
     {"C_make_dcp",               (DL_FUNC) &C_make_dcp,               1},
     {"C_max_type",               (DL_FUNC) &C_max_type,               1},

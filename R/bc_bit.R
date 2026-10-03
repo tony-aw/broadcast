@@ -8,12 +8,15 @@
 #' 
 #' @param x,y conformable raw or integer (32 bit) vectors/arrays.
 #' @param op a single string, giving the operator. \cr
-#' Supported bit-wise operators: `r paste0(c(broadcast:::.op_bit(), broadcast:::.op_rel()), collapse = ", ")`.
+#' Supported bit-wise operators:
+#' `r paste0(c(broadcast:::.op_bit(), broadcast:::.op_rel()), collapse = ", ")`. \cr
+#' "nand" is defined as bit-wise `!(x & y)`,
+#' and "nor" is defined as bit-wise `!(x | y)`.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' @details
-#' The "&", "|", "xor", "nand" and "nor" operators given in `bc.bit()`
-#' perform BIT-WISE AND, OR, XOR, NAND and NOR operations, respectively. \cr
+#' The "&", "|", "xor", "nand", and "nor" operators given in `bc.bit()`
+#' perform BIT-WISE AND, OR, XOR, NAND, and NOR operations, respectively. \cr
 #' \cr
 #' The relational operators given in `bc.bit()` perform BIT-WISE relational operations:
 #' 
@@ -30,7 +33,12 @@
 #' For these shift operations,
 #' `y` being larger than the number of bits of `x` results in an error. \cr
 #' Shift operations are only supported for type of `raw`. \cr \cr
-#'  
+#'
+#' @note
+#' `bc.bit(x, x, "nand")` and `bc.bit(x, x, "nor")` are equivalent to bit-wise negation of `x`. \cr
+#' I.e.: \cr
+#' `!x` if `x` is type of `raw`, or `bitwNot(x)` if `x` is type of `integer`. \cr
+#' \cr
 #'
 #' @returns
 #' For bit-wise operators: \cr

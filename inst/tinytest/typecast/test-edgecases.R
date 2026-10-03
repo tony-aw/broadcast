@@ -7,7 +7,7 @@ errorfun <- function(tt) {
 }
 
 funlist <- list(
-  as_bool,
+  as_lgl,
   as_int,
   as_dbl,
   as_cplx,

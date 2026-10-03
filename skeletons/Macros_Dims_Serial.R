@@ -79,8 +79,8 @@ macro_dim_vectorspecial <- "
   }                                                                 \\
   for(R_xlen_t flatind_out = 0; flatind_out < nout; ++flatind_out) {  \\
     DOCODE;                                                           \\
-    flatind_x = flatind_x + by_x;                                     \\
-    flatind_y = flatind_y + by_y;                                     \\
+    flatind_x += by_x;                                     \\
+    flatind_y += by_y;                                     \\
   }                                                                   \\
                                                                       \\
 } while(0)

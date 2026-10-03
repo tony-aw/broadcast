@@ -14,10 +14,9 @@
 #' Note that input with type of `double` will be coerced to `integer`.
 #' @param op a single string, giving the operator. \cr
 #' Supported Boolean operators: `r paste0(broadcast:::.op_b(), collapse = ", ")` \cr
-#' Supported relational operators: `r paste0(broadcast:::.op_rel(), collapse = ", ")`. \cr
-#' "nand" is defined here as `!(x & y)`, and "nor" is defined here as `!(x | y)`.
+#' Supported relational operators: `r paste0(broadcast:::.op_b_rel(), collapse = ", ")`. \cr
 #' @param ... further arguments passed to or from methods. \cr \cr
-#'
+#' 
 #'
 #' @returns
 #' Normally: \cr

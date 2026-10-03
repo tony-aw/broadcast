@@ -53,39 +53,6 @@
 
 
 
-
-#' @keywords internal
-#' @noRd
-.is.even <- function(x) {
-  return(round(x/2) == x/2)
-}
-
-#' @keywords internal
-#' @noRd
-.is.integer_scalar <- function(x) {
-  if(!is.numeric(x) || length(x) != 1) return(FALSE)
-  x <- as.integer(x)
-  if(is.na(x)) return(FALSE)
-  return(TRUE)
-}
-
-
-#' @keywords internal
-#' @noRd
-.is.natural_scalar <- function(x, min = 0) {
-  
-  if(!is.numeric(x)) return(FALSE)
-  if(length(x) != 1L) return(FALSE)
-  
-  if(is.na(x) || is.infinite(x)) return(FALSE)
-  if(round(x) != x) return(FALSE)
-  if(x < min) return(FALSE)
-  
-  return(TRUE)
-}
-
-
-
 #' @keywords internal
 #' @noRd
 .ellipsis <- function(ellipsis, abortcall) {

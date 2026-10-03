@@ -12,7 +12,7 @@ myattr[["class"]] <- NULL
 
 out <- as.logical(x)
 attributes(out) <- myattr
-expect_equal(as_bool(x), out)
+expect_equal(as_lgl(x), out)
 
 out <- as.integer(x)
 attributes(out) <- myattr
@@ -53,7 +53,7 @@ myattr <- attributes(x)
 myattr[["class"]] <- NULL
 
 out <- expect <- x
-out[1] <- as_bool(out[1])
+out[1] <- as_lgl(out[1])
 expect[1] <- as.logical(out[1])
 expect_equal(out, expect)
 
@@ -95,7 +95,7 @@ initials <- list(
   1L:10L, seq(-2.5, 2, by =0.5), as.character(1:10)
 )
 as.funs1 <- as.funs2 <- list(as.logical, as.integer, as.double, as.character, as.complex, as.raw)
-tiny.funs1 <- tiny.funs2 <- list(as_bool, as_int, as_dbl, as_chr, as_cplx, as_raw)
+tiny.funs1 <- tiny.funs2 <- list(as_lgl, as_int, as_dbl, as_chr, as_cplx, as_raw)
 outs <- list()
 expects<- list()
 iter <- 1
@@ -132,7 +132,7 @@ myattr[["class"]] <- NULL
 
 out <- as.logical(x)
 attributes(out) <- myattr
-expect_equal(as_bool(x), out)
+expect_equal(as_lgl(x), out)
 
 out <- as.integer(x)
 attributes(out) <- myattr
@@ -177,7 +177,7 @@ myattr <- attributes(x)
 myattr[["class"]] <- NULL
 
 out <- expect <- x
-out[, 1] <- as_bool(out[, 1])
+out[, 1] <- as_lgl(out[, 1])
 expect[, 1] <- as.logical(out[, 1])
 expect_equal(out, expect)
 
@@ -219,7 +219,7 @@ initials <- list(
   1L:10L, seq(-2.5, 2, by =0.5), as.character(1:10)
 )
 as.funs1 <- as.funs2 <- list(as.logical, as.integer, as.double, as.character, as.complex, as.raw)
-tiny.funs1 <- tiny.funs2 <- list(as_bool, as_int, as_dbl, as_chr, as_cplx, as_raw)
+tiny.funs1 <- tiny.funs2 <- list(as_lgl, as_int, as_dbl, as_chr, as_cplx, as_raw)
 outs <- list()
 expects<- list()
 iter <- 1

@@ -2,6 +2,7 @@
 
 library(stringi)
 
+inlines <- readr::read_file("inlines.txt")
 macro_dim <- readr::read_file("macro_dim.txt")
 macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
 macro_action <- readr::read_file("macro_action.txt")
@@ -13,6 +14,8 @@ header_for_sourcing <- stri_c(
   
   using namespace Rcpp;
   ",
+  inlines,
+  "\n",
   macro_action,
   "\n",
   macro_dim,
@@ -43,82 +46,6 @@ Rcpp::sourceCpp(code = header_for_sourcing)
 # Functions ====
 #
 
-
-txt0 <- "
-
-inline Rcomplex rcpp_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
-  
-  Rcomplex out;
-  
-  out.r = x.r + y.r;
-  out.i = x.i + y.i;
-  return out;
-}
-
-
-inline Rcomplex rcpp_cplx_min( const Rcomplex& x, const Rcomplex& y) {
-  
-  Rcomplex out;
-  
-  out.r = x.r - y.r ;
-  out.i = x.i - y.i ;
-  return out;
-}
-
-
-inline Rcomplex rcpp_cplx_mult( const Rcomplex& x, const Rcomplex& y) {
-  
-  Rcomplex out;
-  
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    out.r = NA_REAL;
-    out.i = NA_REAL;
-    return out;
-  }
-  
-  out.r = x.r * y.r - x.i * y.i;
-  out.i = x.r * y.i + y.r * x.i;
-  return out;
-}
-
-
-
-inline Rcomplex rcpp_cplx_div( const Rcomplex& x, const Rcomplex& y) {
-  
-  Rcomplex out;
-  
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    out.r = NA_REAL;
-    out.i = NA_REAL;
-    return out;
-  }
-  
-  
-  double ratio, den;
-  double abr, abi;
-
-  if( (abr = y.r) < 0) abr = - abr;
-  if( (abi = y.i) < 0) abi = - abi;
-  if( abr <= abi ) {
-    ratio = y.r / y.i ;
-    den = y.i * (1 + ratio*ratio);
-    out.r = (x.r*ratio + x.i) / den;
-    out.i = (x.i*ratio - x.r) / den;
-  }
-  else {
-    ratio = y.i / y.r ;
-    den = y.r * (1 + ratio*ratio);
-    out.r = (x.r + x.i*ratio) / den;
-    out.i = (x.i - x.r*ratio) / den;
-  }
-  return out ;
-
-}
-
-
-
-
-"
 
 txt1 <- "
 
@@ -185,7 +112,7 @@ return out;
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2,
+  txt1, txt2,
   collapse = "\n\n"
 )
 
@@ -195,7 +122,7 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2,
+  txt1, txt2,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bc_cplx.cpp")

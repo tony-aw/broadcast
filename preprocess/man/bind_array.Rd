@@ -18,8 +18,7 @@ bind_array(
 If argument \code{input} has length \code{0},
 or it contains exclusively objects where one or more dimensions are \code{0},
 an error is returned. \cr
-If \code{input} has length \code{1}, \code{bind_array()} simply returns \code{input[[1L]]}. \cr
-\code{input} may not contain more than \code{2^16} objects. \cr
+\code{input} may not contain more than \code{2^31 - 1} objects, and no less than 2 objects. \cr
 If the user wishes to include vectors to bind in \code{input},
 the vectors must be turned into arrays; for example using \code{[vector2array](vector2array.qmd)}.}
 

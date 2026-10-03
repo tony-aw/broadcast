@@ -14,9 +14,8 @@ bc.b(x, y, op, ...)
 Note that input with type of \code{double} will be coerced to \code{integer}.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported Boolean operators: &, |, xor, nand, nor \cr
-Supported relational operators: ==, !=, <, >, <=, >=. \cr
-"nand" is defined here as \code{!(x & y)}, and "nor" is defined here as \code{!(x | y)}.}
+Supported Boolean operators: &, |, xor \cr
+Supported relational operators: ==, !=. \cr}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
@@ -49,7 +48,6 @@ y <- array(1:50, c(4,1,1))
 bc.b(x, y, "&")
 bc.b(x, y, "|")
 bc.b(x, y, "xor")
-bc.b(x, y, "nand")
 bc.b(x, y, "==")
 bc.b(x, y, "!=")
 

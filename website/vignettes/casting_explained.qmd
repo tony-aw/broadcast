@@ -49,6 +49,8 @@ Familiarity with nested lists and dimensional lists (i.e. arrays of type `list`)
 
 ## Example 1: Basics
 
+### Casting
+
 For a first example, consider the following list:
 
 ```{r}
@@ -101,18 +103,32 @@ print(x2)
 Using the default arguments, element `x[[i]][[j]][[k]]` corresponds to element `x2[k, j, i]` (for all `i`, `j`, and `k`).  
 This can be changed, as will be shown in a later example.
 
+&nbsp;
 
-As shown in the results above, [cast_hier2dim()](/man/cast_hier2dim.qmd) will obviously not preserve names by default.  
-It is trivially easy to set the `dimnames` of `x2`, using [hiernames2dimnames()](/man/hier2dim.qmd):
+### Naming
+
+As shown in the results above, [cast_hier2dim()](/man/cast_hier2dim.qmd) will not preserve names by default.  
+This is because there is no guaranteed unique way to distribute nested names over dimensional names.  
+It is trivially easy to set the `dimnames` of `x2` yourself, using [hiernames2dimnames()](/man/hier2dim.qmd):
 
 ```{r}
-dimnames(x2) <- hiernames2dimnames(x)
+dimnames(x2) <- hiernames2dimnames(x, direction = 1)
+print(x2)
+
+```
+
+Alternatively, you can tell [cast_hier2dim()](/man/cast_hier2dim.qmd) to **attempt** to choose logical dimensional names, using the `direction.names` argument (this argument corresponds to the `direction` argument of [hiernames2dimnames()](/man/hier2dim.qmd)):
+
+```{r}
+x2 <- cast_hier2dim(x, direction.names = 1)
 print(x2)
 ```
 
-There, the names are now correct.
+&nbsp;
 
-As shown above, `r fa("r-project")` will display a dimensional list more compactly than a nested list.  
+### Printing
+
+`r fa("r-project")` will display a dimensional list more compactly than a nested list.  
 Depending on the situation this may be either be desirable or undesirable.  
 
 One can print `x2` less compactly without much effort by flattening it, using the [cast_dim2flat()](/man/cast_dim2flat.qmd) function.  
@@ -123,6 +139,8 @@ cast_dim2flat(x2[, 1, "group1", drop = FALSE])
 ```
 
 &nbsp;
+
+### Application
 
 Dimensional lists can be easier to work with than hierarchical lists.  
 Consider, for example, printing the height of the first class of every group in a list - let's compare how to do this in a nested list vs a dimensional list.

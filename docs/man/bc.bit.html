@@ -424,6 +424,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
   <li><a href="#details" id="toc-details" class="nav-link" data-scroll-target="#details">Details</a></li>
   <li><a href="#value" id="toc-value" class="nav-link" data-scroll-target="#value">Value</a></li>
+  <li><a href="#note" id="toc-note" class="nav-link" data-scroll-target="#note">Note</a></li>
   <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul></li>
@@ -482,7 +483,7 @@ conformable raw or integer (32 bit) vectors/arrays.
 <code id="op">op</code>
 </td>
 <td>
-a single string, giving the operator. <br> Supported bit-wise operators: &amp;, |, xor, nand, nor, &lt;&lt;, &gt;&gt;, ==, !=, &lt;, &gt;, &lt;=, &gt;=.
+a single string, giving the operator. <br> Supported bit-wise operators: &amp;, |, xor, nand, nor, &lt;&lt;, &gt;&gt;, ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br> "nand" is defined as bit-wise <code>!(x &amp; y)</code>, and "nor" is defined as bit-wise <code>!(x | y)</code>.
 </td>
 </tr>
 <tr>
@@ -497,7 +498,7 @@ further arguments passed to or from methods. <br> <br>
 </section>
 <section id="details" class="level3">
 <h3 class="anchored" data-anchor-id="details">Details</h3>
-<p>The "&amp;", "|", "xor", "nand" and "nor" operators given in <code>bc.bit()</code> perform BIT-WISE AND, OR, XOR, NAND and NOR operations, respectively. <br> <br> The relational operators given in <code>bc.bit()</code> perform BIT-WISE relational operations:</p>
+<p>The "&amp;", "|", "xor", "nand", and "nor" operators given in <code>bc.bit()</code> perform BIT-WISE AND, OR, XOR, NAND, and NOR operations, respectively. <br> <br> The relational operators given in <code>bc.bit()</code> perform BIT-WISE relational operations:</p>
 <ul>
 <li>
 <p>"==" is equivalent to bit-wise <code>!xor(x, y)</code>, but faster;</p>
@@ -523,6 +524,10 @@ further arguments passed to or from methods. <br> <br>
 <section id="value" class="level3">
 <h3 class="anchored" data-anchor-id="value">Value</h3>
 <p>For bit-wise operators: <br> An array of the same type as <code>x</code> and <code>y</code>, as a result of the broadcasted bit-wise operation. <br> <br></p>
+</section>
+<section id="note" class="level3">
+<h3 class="anchored" data-anchor-id="note">Note</h3>
+<p><code>bc.bit(x, x, “nand”)</code> and <code>bc.bit(x, x, “nor”)</code> are equivalent to bit-wise negation of <code>x</code>. <br> I.e.: <br> <code>!x</code> if <code>x</code> is type of <code>raw</code>, or <code>bitwNot(x)</code> if <code>x</code> is type of <code>integer</code>. <br> <br></p>
 </section>
 <section id="see-also" class="level3">
 <h3 class="anchored" data-anchor-id="see-also">See Also</h3>

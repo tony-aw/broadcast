@@ -2,6 +2,7 @@
 % Please edit documentation in R/aaa05_broadcast_typecast.R, R/typecast.R
 \name{typecast}
 \alias{typecast}
+\alias{as_lgl}
 \alias{as_bool}
 \alias{as_int}
 \alias{as_dbl}
@@ -13,6 +14,8 @@
 \alias{as_list}
 \title{Atomic and List Type Casting With Names and Dimensions Preserved}
 \usage{
+as_lgl(x, ...)
+
 as_bool(x, ...)
 
 as_int(x, ...)
@@ -47,7 +50,7 @@ which may be more convenient for arrays and array-like objects. \cr
 \cr
 The functions are as follows: \cr
 \itemize{
-\item \code{as_bool()}: converts object to atomic type \code{logical} (\code{TRUE, FALSE, NA}).
+\item \code{as_lgl()}: converts object to atomic type \code{logical} (\code{TRUE, FALSE, NA}).
 \item \code{as_int()}: converts object to atomic type \code{integer}.
 \item \code{as_dbl()}: converts object to atomic type \code{double} (AKA numeric).
 \item \code{as_cplx()}: converts object to atomic type \code{complex}.
@@ -58,6 +61,7 @@ The functions are as follows: \cr
 
 \code{as_num()} is an alias for \code{as_dbl()}. \cr
 \code{as_str()} is an alias for \code{as_chr()}. \cr
+\code{as_bool()} is an alias for \code{as_lgl()}. \cr
 \cr
 See also \link[base]{typeof}. \cr \cr
 }
@@ -70,7 +74,7 @@ rownames(x) <- month.abb[1:6]
 names(x) <- c(letters[1:20], LETTERS[1:10])
 print(x)
 
-as_bool(x)
+as_lgl(x)
 as_int(x)
 as_dbl(x)
 as_chr(x)
@@ -85,7 +89,7 @@ x <- factor(month.abb, levels = month.abb)
 names(x) <- month.name
 print(x)
 
-as_bool(as_int(x) > 6)
+as_lgl(as_int(x) > 6)
 as_int(x)
 as_dbl(x)
 as_chr(x)

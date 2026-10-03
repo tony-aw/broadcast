@@ -7,7 +7,6 @@ y <- array(1:50, c(4,1,1))
 bc.b(x, y, "&")
 bc.b(x, y, "|")
 bc.b(x, y, "xor")
-bc.b(x, y, "nand")
 bc.b(x, y, "==")
 bc.b(x, y, "!=")
 

@@ -8,6 +8,28 @@ errorfun <- function(tt) {
 source(file.path(getwd(), "source.R"))
 
 
+# test 1d equivalence ====
+
+for(i in seq_along(funs)) {
+  x <- array(datagens[[i]](), c(10, 1))
+  y <- array(datagens[[i]](), c(10, 1))
+  expect_equal(
+    funs[[i]](x, y, ops[[i]]),
+    funs[[i]](undim(x), y, ops[[i]])
+  ) |> errorfun()
+  expect_equal(
+    funs[[i]](y, x, ops[[i]]),
+    funs[[i]](y, undim(x), ops[[i]])
+  ) |> errorfun()
+  expect_equal(
+    funs[[i]](y, x, ops[[i]]) |> undim(),
+    funs[[i]](undim(y), undim(x), ops[[i]])
+  ) |> errorfun()
+  
+  enumerate <- enumerate + 3L
+}
+
+
 # test orthogonal vectors equivalence ====
 
 for(i in seq_along(funs)) {
@@ -22,7 +44,7 @@ for(i in seq_along(funs)) {
     funs[[i]](y, undim(x), ops[[i]])
   ) |> errorfun()
   
-  enumerate <- enumerate + 3L
+  enumerate <- enumerate + 2L
 }
 
 

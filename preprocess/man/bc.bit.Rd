@@ -13,7 +13,10 @@ bc.bit(x, y, op, ...)
 \item{x, y}{conformable raw or integer (32 bit) vectors/arrays.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported bit-wise operators: &, |, xor, nand, nor, <<, >>, ==, !=, <, >, <=, >=.}
+Supported bit-wise operators:
+&, |, xor, nand, nor, <<, >>, ==, !=, <, >, <=, >=. \cr
+"nand" is defined as bit-wise \code{!(x & y)},
+and "nor" is defined as bit-wise \code{!(x | y)}.}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
@@ -30,8 +33,8 @@ on pairs of arrays, where both arrays are of type \code{raw} or both arrays are 
 \cr
 }
 \details{
-The "&", "|", "xor", "nand" and "nor" operators given in \code{bc.bit()}
-perform BIT-WISE AND, OR, XOR, NAND and NOR operations, respectively. \cr
+The "&", "|", "xor", "nand", and "nor" operators given in \code{bc.bit()}
+perform BIT-WISE AND, OR, XOR, NAND, and NOR operations, respectively. \cr
 \cr
 The relational operators given in \code{bc.bit()} perform BIT-WISE relational operations:
 \itemize{
@@ -49,6 +52,12 @@ on \code{x} by unit \code{y}. \cr
 For these shift operations,
 \code{y} being larger than the number of bits of \code{x} results in an error. \cr
 Shift operations are only supported for type of \code{raw}. \cr \cr
+}
+\note{
+\code{bc.bit(x, x, "nand")} and \code{bc.bit(x, x, "nor")} are equivalent to bit-wise negation of \code{x}. \cr
+I.e.: \cr
+\code{!x} if \code{x} is type of \code{raw}, or \code{bitwNot(x)} if \code{x} is type of \code{integer}. \cr
+\cr
 }
 \examples{
 x.dim <- c(4:2)

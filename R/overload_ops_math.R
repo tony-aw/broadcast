@@ -6,8 +6,16 @@
     return(e1) 
   }
   .binary_stop_general(e1, e2, "+", sys.call())
+  if(!is.complex(e1) && !.is_numeric_like(e1)) {
+    stop("non-numeric argument to binary operator")
+  }
+  if(!is.complex(e2) && !.is_numeric_like(e2)) {
+    stop("non-numeric argument to binary operator")
+  }
   
   op <- 1L
+  
+  
   if(is.complex(e1) || is.complex(e2)) {
     if(!is.complex(e1)) e1 <- as_cplx(e1)
     if(!is.complex(e2)) e2 <- as_cplx(e2)
@@ -33,7 +41,12 @@
     return(y)
   }
   .binary_stop_general(e1, e2, "-", sys.call())
-  
+  if(!is.complex(e1) && !.is_numeric_like(e1)) {
+    stop("non-numeric argument to binary operator")
+  }
+  if(!is.complex(e2) && !.is_numeric_like(e2)) {
+    stop("non-numeric argument to binary operator")
+  }
   
   op <- 2L
   if(is.complex(e1) || is.complex(e2)) {
@@ -57,7 +70,12 @@
 #' @export
 `*.broadcaster` <- function(e1, e2) {
   .binary_stop_general(e1, e2, "*", sys.call())
-  
+  if(!is.complex(e1) && !.is_numeric_like(e1)) {
+    stop("non-numeric argument to binary operator")
+  }
+  if(!is.complex(e2) && !.is_numeric_like(e2)) {
+    stop("non-numeric argument to binary operator")
+  }
   
   op <- 3L
   if(is.complex(e1) || is.complex(e2)) {
@@ -81,7 +99,12 @@
 #' @export
 `/.broadcaster` <- function(e1, e2) {
   .binary_stop_general(e1, e2, "/", sys.call())
-  
+  if(!is.complex(e1) && !.is_numeric_like(e1)) {
+    stop("non-numeric argument to binary operator")
+  }
+  if(!is.complex(e2) && !.is_numeric_like(e2)) {
+    stop("non-numeric argument to binary operator")
+  }
   
   if(is.complex(e1) || is.complex(e2)) {
     if(!is.complex(e1)) e1 <- as_cplx(e1)

@@ -36,8 +36,7 @@ smaller <- c(rep(FALSE, 6), rep(TRUE, 3), rep(NA, 6))
 bigger <- c(rep(FALSE, 3), rep(TRUE, 3), rep(FALSE, 3), rep(NA, 6))
 
 out <- testfun(x, y, "d==", tol = tol)
-print(out)
-print(equal)
+
 expect_equal(out |> as.vector(), equal)
 expect_equal(testfun(x, y, "d<=") |> as.vector(), equal | smaller)
 expect_equal(testfun(x, y, "d>=") |> as.vector(), equal | bigger)
@@ -171,8 +170,7 @@ for(i in tol) {
   bigger <- c(rep(FALSE, 3), rep(TRUE, 3), rep(FALSE, 3), rep(NA, 6))
   
   out <- testfun(x, y, "d==", tol = i)
-  print(out)
-  print(equal)
+
   expect_equal(out |> as.vector(), equal) |> errorfun()
   expect_equal(testfun(x, y, "d<=", tol = i) |> as.vector(), equal | smaller) |> errorfun()
   expect_equal(testfun(x, y, "d>=", tol = i) |> as.vector(), equal | bigger) |> errorfun()

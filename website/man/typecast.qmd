@@ -20,7 +20,7 @@ The functions are as follows: <br>
 
 
 <ul>
-<li> <code>as_bool()</code>: converts object to atomic type <code>logical</code> (<code>TRUE, FALSE, NA</code>).
+<li> <code>as_lgl()</code>: converts object to atomic type <code>logical</code> (<code>TRUE, FALSE, NA</code>).
 
 </li>
 <li> <code>as_int()</code>: converts object to atomic type <code>integer</code>.
@@ -44,6 +44,7 @@ The functions are as follows: <br>
 
 <code>as_num()</code> is an alias for <code>as_dbl()</code>. <br>
 <code>as_str()</code> is an alias for <code>as_chr()</code>. <br>
+<code>as_bool()</code> is an alias for <code>as_lgl()</code>. <br>
 <br>
 See also typeof. <br> <br>
 
@@ -51,7 +52,9 @@ See also typeof. <br> <br>
 
 ### Usage
 
-<pre><code class='language-R'>as_bool(x, ...)
+<pre><code class='language-R'>as_lgl(x, ...)
+
+as_bool(x, ...)
 
 as_int(x, ...)
 
@@ -103,7 +106,7 @@ rownames(x) <- month.abb[1:6]
 names(x) <- c(letters[1:20], LETTERS[1:10])
 print(x)
 
-as_bool(x)
+as_lgl(x)
 as_int(x)
 as_dbl(x)
 as_chr(x)
@@ -118,7 +121,7 @@ x <- factor(month.abb, levels = month.abb)
 names(x) <- month.name
 print(x)
 
-as_bool(as_int(x) > 6)
+as_lgl(as_int(x) > 6)
 as_int(x)
 as_dbl(x)
 as_chr(x)

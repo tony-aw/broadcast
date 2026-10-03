@@ -46,12 +46,7 @@ expect_error(
   bind_array(list(array(numeric(0L)), array(numeric(0L))), 1L),
   pattern = "`input` must contain at least one non-zero array/vector"
 )
-input <- rep(list(array(1L)), 2^17)
-expect_error(
-  bind_array(input, 1L),
-  pattern = "too many objects given in `input`"
-)
-enumerate <- enumerate + 6L
+enumerate <- enumerate + 5L
 
 
 

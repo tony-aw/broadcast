@@ -19,7 +19,7 @@ datal <- list(
 )
 
 funs <- list(
-  as_bool,
+  as_lgl,
   as_int,
   as_dbl,
   as_cplx,
@@ -39,7 +39,7 @@ for(iFun in seq_along(funs)) {
           y <- x
           broadcaster(y) <- iBC
           expect_equal(
-            broadcaster(fun(y)),
+            broadcaster(suppressWarnings(fun(y))),
             iBC
           ) |> errorfun()
           
@@ -50,18 +50,18 @@ for(iFun in seq_along(funs)) {
           
           if(iMA) {
             expect_true(
-              inherits(fun(y), "mutatomic")
+              inherits(suppressWarnings(fun(y)), "mutatomic")
             ) |> errorfun()
           }
           else {
             expect_false(
-              inherits(fun(y), "mutatomic")
+              inherits(suppressWarnings(fun(y)), "mutatomic")
             ) |> errorfun()
           }
           
           comment(y) <- "test comment"
           expect_equal(
-            fun(y) |> comment(),
+            suppressWarnings(fun(y)) |> comment(),
             comment(y)
           ) |> errorfun()
           

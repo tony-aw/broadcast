@@ -2,6 +2,13 @@
 
 #' @keywords Internal
 #' @noRd
+.C_inputOK_relop_gs <- function(x, y) {
+  .Call("C_inputOK_relop_gs", x, y)
+}
+
+
+#' @keywords Internal
+#' @noRd
 .C_any_nonNULL <- function(x) {
   .Call("C_any_nonNULL", x = x)
 }

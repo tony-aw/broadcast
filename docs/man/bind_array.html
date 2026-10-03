@@ -478,7 +478,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <code id="input">input</code>
 </td>
 <td>
-a list of arrays; both atomic and recursive arrays are supported, and can be mixed. <br> If argument <code>input</code> has length <code>0</code>, or it contains exclusively objects where one or more dimensions are <code>0</code>, an error is returned. <br> If <code>input</code> has length <code>1</code>, <code>bind_array()</code> simply returns <code>input[[1L]]</code>. <br> <code>input</code> may not contain more than <code>2^16</code> objects. <br> If the user wishes to include vectors to bind in <code>input</code>, the vectors must be turned into arrays; for example using <a href="../man/vector2array.html">vector2array</a>.
+a list of arrays; both atomic and recursive arrays are supported, and can be mixed. <br> If argument <code>input</code> has length <code>0</code>, or it contains exclusively objects where one or more dimensions are <code>0</code>, an error is returned. <br> <code>input</code> may not contain more than <code>2^31 - 1</code> objects, and no less than 2 objects. <br> If the user wishes to include vectors to bind in <code>input</code>, the vectors must be turned into arrays; for example using <a href="../man/vector2array.html">vector2array</a>.
 </td>
 </tr>
 <tr>

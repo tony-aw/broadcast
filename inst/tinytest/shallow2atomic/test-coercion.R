@@ -40,8 +40,6 @@ enumerate <- enumerate + 1L
 
 
 # arrangement = 1 or -1 ====
-
-
 x.data <- list(
   sample(as.raw(0:255), 10L, TRUE),
   sample(c(TRUE, FALSE, NA), 10L, TRUE),
@@ -55,12 +53,12 @@ for(i in seq_along(x.data)) {
   for(j in seq(1, 24, 2)) {
     x <- x.data[sample(1:i, j, TRUE)]
     expect_equal(
-      cast_shallow2atomic(x, 1L),
+      suppressWarnings(cast_shallow2atomic(x, 1L)),
       simplify2array(x)
     ) |> errorfun()
     
     expect_equal(
-      cast_shallow2atomic(x, -1L),
+      suppressWarnings(cast_shallow2atomic(x, -1L)),
       simplify2array(x) |> t()
     ) |> errorfun()
     

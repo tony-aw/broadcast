@@ -8,33 +8,6 @@ using namespace Rcpp;
 
 
 
-inline int rcpp_cplx_equal(
-    const Rcomplex& x, const Rcomplex& y
-) {
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    return(NA_LOGICAL);
-  }
-  else if(x.r == y.r && x.i == y.i) {
-    return(1);
-  }
-  else return(0);
-}
-
-
-inline int rcpp_cplx_unequal(
-    const Rcomplex& x, const Rcomplex& y
-) {
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    return(NA_LOGICAL);
-  }
-  else if(x.r != y.r || x.i != y.i) {
-    return(1);
-  }
-  else return(0);
-}
-
-
-
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_bcRel_cplx_v, rng = false)]]

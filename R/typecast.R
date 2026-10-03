@@ -1,7 +1,7 @@
 
 #' @rdname typecast
 #' @export
-as_bool <- function(x, ...) {
+as_lgl <- function(x, ...) {
   
   out <- as.logical(x, ...)
   
@@ -14,6 +14,10 @@ as_bool <- function(x, ...) {
   return(out)
 }
 
+
+#' @rdname typecast
+#' @export
+as_bool <- as_lgl
 
 #' @rdname typecast
 #' @export
