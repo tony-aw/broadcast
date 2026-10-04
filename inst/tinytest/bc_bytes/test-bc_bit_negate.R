@@ -23,12 +23,12 @@ expect_equal(
 
 
 # bit-wise negation for integer ====
-x <- sample(0:100)
+x <- sample(c(-100:100, NA))
 expect_equal(
   bitwNot(x),
   bc.bit(x, x, "nand")
 )
-x <- sample(0:100)
+x <- sample(c(-100:100, NA))
 expect_equal(
   bitwNot(x),
   bc.bit(x, x, "nor")
