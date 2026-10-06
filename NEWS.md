@@ -1,9 +1,9 @@
 
 # broadcast 0.1.9.8
 
-* **Breaking Change:** Removed the nand, nor, and asymmetric operators from `bc.b()`.
-* fixed a few mistakes in the documentation of `bind_array()`.
-* added `as_lgl()`, as an alias for `as_bool()`.
+* **Operators Change:** Removed the nand, nor, and asymmetric operators from `bc.b()`.
+* Fixed a few mistakes in the documentation of `bind_array()`.
+* Added `as_lgl()`, as an alias for `as_bool()`.
 * The relational operators now more strictly check for incomparable types.
 * Reduced the log output of the unit tests.
 
