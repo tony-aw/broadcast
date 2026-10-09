@@ -67,7 +67,10 @@ The various comparisons are split over several sections. The code used to run th
 
 # Base `r fa("r-project")` replication
 
-Here replicating array dimensions using base `r fa("r-project")` is benchmarked against broadcasting.
+Consider two arrays, `x` and `y`, with fully orthogonal dimensions. To compute element-wise additions between these 2 arrays in base `r fa("r-project")`, the dimensions need to be replicated. The 'broadcast' package, however, can *virtually* replicate dimensions without actually allocating additional memory.
+
+The benchmark considered here compares physically replicating dimensions in base `r fa("r-project")` with the virtual broadcasting of the 'broadcast' package in the context of a simple addition operation.
+
 
 The following code was used:
 
@@ -98,13 +101,13 @@ plot(bm_base)
 ```
 
 
-'broadcasting' is **5 to 5.5** times (!) faster than replicating array dimensions, and uses approximately 2 times less memory.
+The virtual dimension broadcasting from the 'broadcast' package is about **5 to 5.5** times faster than phsyically replicating array dimensions in base `r fa("r-project")`, and uses approximately 2 times less memory in this case.
 
 &nbsp;
 
 # `sweep()`
 
-Here the `sweep()` function from base `r fa("r-project")` is benchmarked against broadcasting.
+A common way to perform "NumPy"-like operation in base `r fa("r-project")` is via the `sweep()` function. So here the `sweep()` function from base `r fa("r-project")` is benchmarked against broadcasting.
 
 The following code was used:
 

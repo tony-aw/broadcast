@@ -23,13 +23,17 @@ library(tinyplot)
 
 # Summary
 
+In the context of operations involving 2 (or more) arrays, “broadcasting” refers to (fast) recycling of array dimensions without allocating additional memory.
+
+The "broadcasting" implementation in the 'broadcast' package is conceptually inspired by the broadcasting employed by the 'Numpy' module for 'Python'. The computation time of broadcasted operations from the 'broadcast' package were compared with those from the 'NumPy' Python module.
+
 Benchmarks show that 'broadcast' is about as fast as - and sometimes even slightly faster than - 'NumPy'. Click [here](#results) to jump to the results. Please keep in mind that comparing benchmarks between different programming languages can be challenging, and the benchmarks presented here should be taken with a grain of salt.
 
 &nbsp;
 
 # Introduction
 
-In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions without allocating additional memory, which is considerably faster and more memory-efficient than R’s regular dimensions replication mechanism.
+In the context of operations involving 2 (or more) arrays, “broadcasting” refers to recycling array dimensions without allocating additional memory, which is considerably faster and more memory-efficient than `r fa("r-project")` ’s regular dimensions replication mechanism.
 
 Before the emergence of the 'broadcast' `r fa("r-project")` package, if `r fa("r-project")` users wished to employ broadcasting, they essentially had to use broadcasting as it existed in a different programming language. For example, they might use the broadcasting as available in the 'Python' module 'Numpy' [@numpy] (perhaps via the 'reticulate' `r fa("r-project")` package [@reticulate]). Or perhaps they might use the 'C++' library 'xtensor' [@xtensor] via the `r fa("r-project")` package of the same name (or an extension thereof, like 'rray' [@rray]).
 
@@ -64,7 +68,7 @@ Here `x` and `y` were both decimal numeric arrays (type of 64 bit `double` in `r
 This operation was run for pairs of arrays with different number of dimensions, going from 2 dimensional to 7 dimensional.  
 So we have `x + y` where both arrays were 2-dimensional (i.e. matrices), and `x + y` where both arrays were 3-dimensional, and so on up to 7-dimensional arrays.  
 
-The pairs of arrays are fully orthogonal ("orthogonal" in the sense as explained [here](/vignettes/broadcasting_explained.qmd)), thus the maximum amount of broadcasting will be employed.  
+The pairs of arrays are fully orthogonal ("orthogonal" in the sense as explained [here](https://tony-aw.github.io/broadcast/vignettes/broadcasting_explained.html#orthogonal-arrays)), thus the maximum amount of broadcasting will be employed.  
 Given, for example, 4-dimensional arrays, the dimensions of `x` are `(n, 1, n, 1)` and the dimensions of `y` are `(1, n, 1, n)`.  
 The value of `n`, so the size of each dimension, varied as follows: 
 
