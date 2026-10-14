@@ -327,7 +327,7 @@ The **Quick-Start Guide** can be found
 
 **Efficiency**
 
-Broadcasting as implemented in the ‘broadcasting’ package is much faster
+Broadcasting as implemented in the ‘broadcast’ package is much faster
 and much more memory efficient than using base solutions like
 `sweep()`.  
 The implementations in the ‘broadcast’ package are also about as fast
