@@ -1,6 +1,7 @@
 
-# first, terminate R
-# then, set working directory to source file location
+# close all other tabs
+# terminate and restart R
+# set working directory to source file location
 
 library(quarto)
 
