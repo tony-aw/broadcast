@@ -85,7 +85,7 @@ x + y
 Error in x + y : non-conformable arrays
 
 # You *could* do the following....
-x + y[rep(1L, 3L),]
+x + y[rep(1L, nrow(x)), ]
 # ... but if x or y is very large: 
 Error: cannot allocate vector of size
 ```
@@ -168,7 +168,7 @@ Error in cbind(x, y) :
   number of rows of matrices must match
 
 # You *could* do the following....
-cbind(x, y[rep(1L, 3L),])
+cbind(x, y[rep(1L, nrow(x)), ])
 # ... but if x or y is very large:
 Error: cannot allocate vector of size
 ```
@@ -193,7 +193,7 @@ bind_array(list(x, y), along = 2L)
 
 `bind_array()` is also considerably faster and more memory efficient
 than `abind()`. See the
-[benchmarks](https://tony-aw.github.io/broadcast/about/f_benchmarks_other.html).
+[benchmarks](https://tony-aw.github.io/broadcast/about/benchmarks_other.html).
 
 </details>
 
@@ -327,11 +327,11 @@ The **Quick-Start Guide** can be found
 
 **Efficiency**
 
-Broadcasting as implemented in the ‘broadcasting’ package is about as
-fast as - and sometimes even faster than - NumPy.  
-The implementations in the ‘broadcast’ package are also much faster and
-much more memory efficient than using base ‘R’ solutions like
+Broadcasting as implemented in the ‘broadcasting’ package is much faster
+and much more memory efficient than using base solutions like
 `sweep()`.  
+The implementations in the ‘broadcast’ package are also about as fast
+as - and sometimes even faster than - ‘NumPy’.  
 Efficient programs use less energy and resources, and is thus better for
 the environment.  
 Benchmarks can be found in the “About” section on the website.
@@ -362,8 +362,10 @@ package for you.
 **Minimal Dependencies**
 
 Besides linking to ‘Rcpp’, ‘broadcast’ does not depend on, vendor, link
-to, include, or otherwise use any external libraries; ‘broadcast’ was
-essentially made from scratch and can be installed out-of-the-box.
+to, include, or otherwise use any external libraries. Moreover, no
+generative AI of any sort was used in developing ‘broadcast’.
+‘broadcast’ was essentially made from scratch and can be installed
+out-of-the-box.
 
 Not using external libraries brings a number of advantages:
 
@@ -375,7 +377,7 @@ Not using external libraries brings a number of advantages:
   organization exists for most other programming languages).
 
 See the [Other
-Packages](https://tony-aw.github.io/broadcast/about/d_other_pkgs.html)
+Packages](https://tony-aw.github.io/broadcast/about/other_pkgs.html)
 page for more details on the above points regarding the advantages of
 minimizing dependencies.
 
@@ -386,7 +388,7 @@ minimizing dependencies.
 The ‘broadcast’ package is frequently checked using a large suite of
 unit tests via the [tinytest](https://github.com/markvanderloo/tinytest)
 package. These tests have a
-[coverage](https://tony-aw.github.io/broadcast/about/g_unit_test_covr.html)
+[coverage](https://tony-aw.github.io/broadcast/about/unit_test_covr.html)
 of over 95%. So the chance of a function from this package breaking
 completely is relatively low.
 
@@ -432,7 +434,7 @@ parts:
 - [Reference
   Manual](https://tony-aw.github.io/broadcast/man/aaa00_broadcast_help.html):
   contains the function-oriented reference manual.
-- [About](https://tony-aw.github.io/broadcast/about/a_acknowledgements.html):
+- [About](https://tony-aw.github.io/broadcast/about/acknowledgements.html):
   Contains the Acknowledgements, Change logs and License file. Here
   you’ll also find some information regarding the relationship between
   ‘broadcast’ and other packages/modules. Benchmarks can also be found
