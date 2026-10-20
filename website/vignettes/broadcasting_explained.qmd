@@ -212,9 +212,9 @@ tt(foo, theme = "grid") |> style_tt(line = "tlbr")
 
 # Oriented Vectors
 
-In the documentation of 'broadcast', the reader may occasionally find references to the "orientation" of a vector. The orientation of a vector can mean several different things, depending on the context. Before going further, we need to address what the orientation of a vector means in the context of broadcasting.
+In the documentation of 'broadcast', the reader may occasionally find references to the "orientation" of a vector. The meaning the "orientation" of a vector means in the context of broadcasting is addressed in this section.
 
-Let's consider the following array `z`:
+Consider the following array `z`:
 
 ```{r}
 z <- array(1:10, c(1, 10))
@@ -224,12 +224,11 @@ print(z)
 Here, `z` has 1 row and 10 columns.
 It is an array, but effectively it is also a vector: it has only one dimension with size larger than 1.
 
-An oriented vector is an array where only one dimension is larger than 1.
-The orientation of a vector refers to **which** dimension is larger than 1.
+An *oriented vector* is an array where only one dimension is larger than 1.
+The *orientation* of a vector refers to **which** dimension is larger than 1.
 
-`z` is an oriented vector, and its orientation is 2.
+`z` is an oriented vector, and its orientation is equal to `2`.
 
-Now the most important part:  
 Following the standard rules of Linear Algebra, a vector `z` without dimensions is interpreted by the 'broadcast' package as a vector with orientation `1`.
 For example, the vectors `x` and `y` below are treated equally by the 'broadcast' package:
 
@@ -244,7 +243,7 @@ print(y)
 
 ::: {.callout-tip}
 
-One can easily change the orientation of an oriented vector using the new `%orientbc<-%` operator (available from version 0.1.9.5).
+One can easily change the orientation of an oriented vector using the `%orientbc<-%` operator.
 
 :::
 
@@ -277,7 +276,12 @@ This normalization is achieved by appending dimensions of size 1 to the array wi
 
 For example, if `dim(x) = c(3, 4, 3)` and `dim(y) = c(3, 4)`, then internally `dim(y)` is *interpreted* to be `c(3, 4, 1)`. This does not actually copy or even modify array `y`.
 
-Following the standard rules of Linear Algebra, a vector `z` without dimensions is taken to be an oriented vector with orientation 1.
+
+::: {.callout-note}
+
+'NumPy' also normalizes dimensions before broadcasting. But 'NumPy' *prepends* dimensions of size 1 at the *start* of the dimensions. This is different from the 'broadcast' package, which *appends* dimensions of size 1 at the *end* of the dimensions.
+
+:::
 
 &nbsp;
 

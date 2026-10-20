@@ -408,15 +408,15 @@ We only need to see a portion of the list in detail, so let’s look at class1 f
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[, <span class="dv">1</span>, <span class="st">"group1"</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class1', 'group1']`</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.1413 169.7928 170.5740 170.6317 170.3175 169.9005 169.1732 171.4837</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.6528 169.9423</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.8819 168.8958 168.9004 169.8652 170.4496 170.7286 170.6612 171.0425</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 171.2875 168.5698</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['weight', 'class1', 'group1']`</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 78.85616 79.14402 80.99764 79.52720 78.05477 80.29378 79.56985 78.82492</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 80.66183 80.54020</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80.52519 79.17879 81.88739 80.55694 77.91417 79.27776 79.76873 79.36580</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 80.68254 78.85244</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['sex', 'class1', 'group1']`</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "F" NA  "F" "F" "F" "F" "M" "F" "M" "M"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "M" NA  NA  NA  "M" NA  "M" "M" NA  "M"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>&nbsp;</p>
 </section>
@@ -432,32 +432,32 @@ Consider, for example, printing the height of the first class of every group in 
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  x[[i]][[<span class="dv">1</span>]][[<span class="st">"height"</span>]] <span class="sc">|&gt;</span> <span class="fu">print</span>() <span class="co"># slow for-loop, messy code</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "group1"</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.1413 169.7928 170.5740 170.6317 170.3175 169.9005 169.1732 171.4837</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.6528 169.9423</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.8819 168.8958 168.9004 169.8652 170.4496 170.7286 170.6612 171.0425</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 171.2875 168.5698</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "group2"</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.9932 171.9577 171.7441 170.5099 170.7265 171.1330 167.9764 170.6270</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.5928 168.3523</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 168.3575 170.4829 169.8738 170.5882 168.9769 168.4506 171.5644 170.0311</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.1109 168.9843</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>With a dimensional list, the very same thing can be done with sleek, vectorized code; no messy loop needed:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x2[<span class="st">"height"</span>, <span class="dv">1</span>L, ] <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $group1</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.1413 169.7928 170.5740 170.6317 170.3175 169.9005 169.1732 171.4837</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.6528 169.9423</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.8819 168.8958 168.9004 169.8652 170.4496 170.7286 170.6612 171.0425</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 171.2875 168.5698</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $group2</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.9932 171.9577 171.7441 170.5099 170.7265 171.1330 167.9764 170.6270</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.5928 168.3523</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 168.3575 170.4829 169.8738 170.5882 168.9769 168.4506 171.5644 170.0311</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.1109 168.9843</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>x2[<span class="st">"height"</span>, <span class="dv">1</span>L, , drop <span class="ot">=</span> <span class="cn">FALSE</span>] <span class="sc">|&gt;</span> <span class="fu">cast_dim2flat</span>() <span class="co"># same but more informative</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class1', 'group1']`</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.1413 169.7928 170.5740 170.6317 170.3175 169.9005 169.1732 171.4837</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.6528 169.9423</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.8819 168.8958 168.9004 169.8652 170.4496 170.7286 170.6612 171.0425</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 171.2875 168.5698</span></span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class1', 'group2']`</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.9932 171.9577 171.7441 170.5099 170.7265 171.1330 167.9764 170.6270</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.5928 168.3523</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 168.3575 170.4829 169.8738 170.5882 168.9769 168.4506 171.5644 170.0311</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.1109 168.9843</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>It is also easier to re-arrange dimensions - for example using <code>aperm()</code> - than it is to re-arrange hierarchies.</p>
 <p>&nbsp;</p>
@@ -536,15 +536,15 @@ We only need to see a portion of the list in detail, so let’s look at class1 f
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2[<span class="st">"group1"</span>, <span class="dv">1</span>, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['group1', 'class1', 'height']`</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 168.8794 169.8439 170.4618 171.1214 170.5418 170.3960 168.4451 167.8633</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.7016 168.9920</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.0828 168.7958 170.6638 168.7316 168.3813 171.2732 170.9248 170.5769</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.4204 168.5612</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['group1', 'class1', 'weight']`</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 79.45762 81.89927 80.21078 81.36242 78.99126 82.35823 81.19666 80.29299</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 81.44036 80.44520</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80.06262 79.58109 78.47515 80.86085 79.68518 79.20119 80.34550 81.42500</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 81.73073 81.31985</span></span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['group1', 'class1', 'sex']`</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] NA  "F" NA  NA  NA  NA  "M" "F" NA  "F"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "F" NA  "F" NA  "M" "M" "F" "F" "F" "F"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>&nbsp;</p>
 </section>
@@ -624,15 +624,15 @@ So let’s replace the padding value with something <strong>really</strong> obvi
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cast_dim2flat</span>(x2)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class1', 'group1']`</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.6270 169.4838 170.0944 170.5352 169.3873 169.3835 169.8760 169.7864</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.0128 170.0179</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 169.7505 170.7533 169.9029 170.8542 170.2518 170.2417 171.3676 171.4472</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.5023 170.1058</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['weight', 'class1', 'group1']`</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 78.55152 80.98766 79.92716 80.09824 79.01548 80.83677 78.36445 79.67655</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 80.34029 79.21871</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 79.54647 79.26836 79.41833 79.18597 81.63836 79.75723 78.36553 80.93380</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 79.89309 79.45940</span></span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['sex', 'class1', 'group1']`</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "M" "M" "M" "F" "M" NA  "F" NA  "F" "M"</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] NA  "F" NA  "M" "M" "M" NA  "M" "M" "F"</span></span>
 <span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class2', 'group1']`</span></span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ~"this is padding!"</span></span>
@@ -644,26 +644,26 @@ So let’s replace the padding value with something <strong>really</strong> obvi
 <span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ~"this is padding!"</span></span>
 <span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class1', 'group2']`</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 171.1253 170.3808 169.7829 172.2113 168.1122 170.3474 170.2353 169.2462</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.3567 170.2739</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 170.4196 170.1659 170.8188 170.7298 170.3407 167.8640 170.1944 168.7870</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.0666 170.5067</span></span>
 <span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['weight', 'class1', 'group2']`</span></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 78.52860 78.13314 80.48059 79.42155 79.58896 78.81188 79.53221 81.47835</span></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 79.82976 79.21217</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 78.56728 80.32830 80.57681 81.22609 79.28770 79.50950 80.03652 80.95697</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 80.40003 79.25534</span></span>
 <span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['sex', 'class1', 'group2']`</span></span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "F" "F" "F" NA  "M" NA  "F" "M" "F" NA </span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "F" NA  "M" "F" "M" NA  NA  "M" "M" "F"</span></span>
 <span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['height', 'class2', 'group2']`</span></span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 170.6308 169.7380 168.8135 170.9464 170.6548 168.4017 170.0243 169.5991</span></span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 170.1287 170.1911</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 168.8520 171.3608 169.8091 169.1883 171.5292 169.7636 169.9378 170.7002</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 169.9471 171.9934</span></span>
 <span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['weight', 'class2', 'group2']`</span></span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80.28075 80.59987 81.62236 79.70678 79.97047 81.77636 80.05947 80.65270</span></span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 80.50538 80.05342</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 80.74310 78.64318 80.35203 79.47308 79.44393 80.38874 78.75989 79.15695</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] 80.48299 79.99660</span></span>
 <span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`['sex', 'class2', 'group2']`</span></span>
-<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "M" NA  "M" "F" "M" "M" "M" "M" NA  NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] NA  "M" NA  NA  NA  NA  "M" "F" "M" NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>&nbsp;</p>
 </section>
@@ -938,25 +938,25 @@ The <code>direction.names</code> argument in <a href="../man/cast_hier2dim.html"
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;list&gt;</span></span>
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├─height: &lt;list&gt;</span></span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ ├─class1: &lt;list&gt;</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─group1&lt;int [5]&gt;: 168, 169, 169, 167, 169</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ └─group2&lt;int [5]&gt;: 169, 170, 171, 169, 168</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─group1&lt;int [5]&gt;: 169, 171, 171, 171, 168</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ └─group2&lt;int [5]&gt;: 170, 169, 171, 169, 170</span></span>
 <span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ └─class2: &lt;list&gt;</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─group1&lt;int [5]&gt;: 170, 171, 170, 169, 170</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └─group2&lt;int [5]&gt;: 169, 171, 168, 170, 168</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─group1&lt;int [5]&gt;: 170, 171, 171, 170, 171</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └─group2&lt;int [5]&gt;: 167, 168, 169, 171, 170</span></span>
 <span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├─weight: &lt;list&gt;</span></span>
 <span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ ├─class1: &lt;list&gt;</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─group1&lt;int [5]&gt;: 79, 80, 80, 79, 79</span></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ └─group2&lt;int [5]&gt;: 80, 79, 78, 79, 80</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ ├─group1&lt;int [5]&gt;: 80, 79, 78, 80, 81</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ │ └─group2&lt;int [5]&gt;: 78, 79, 78, 79, 79</span></span>
 <span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │ └─class2: &lt;list&gt;</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─group1&lt;int [5]&gt;: 80, 80, 80, 78, 79</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └─group2&lt;int [5]&gt;: 80, 80, 81, 80, 81</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├─group1&lt;int [5]&gt;: 78, 80, 82, 80, 81</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └─group2&lt;int [5]&gt;: 80, 79, 79, 78, 79</span></span>
 <span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; └─sex: &lt;list&gt;</span></span>
 <span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ├─class1: &lt;list&gt;</span></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─group1&lt;chr [5]&gt;: "NA", "F", "F", "M", "M"</span></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ └─group2&lt;chr [5]&gt;: "F", "M", "M", "M", "NA"</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ ├─group1&lt;chr [5]&gt;: "M", "NA", "M", "NA", "M"</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   │ └─group2&lt;chr [5]&gt;: "NA", "M", "NA", "NA", "M"</span></span>
 <span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   └─class2: &lt;list&gt;</span></span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─group1&lt;chr [5]&gt;: "M", "M", "M", "M", "F"</span></span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └─group2&lt;chr [5]&gt;: "F", "F", "NA", "F", "M"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├─group1&lt;chr [5]&gt;: "NA", "F", "M", "M", "M"</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └─group2&lt;chr [5]&gt;: "NA", "F", "NA", "M", "M"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We use <code>lobstr::tree()</code> to print the results more compactly;<br>
 as shown, the original nested list has now successfully been turned inside-out, with great ease.</p>
