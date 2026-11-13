@@ -247,15 +247,6 @@ One can easily change the orientation of an oriented vector using the `%orientbc
 
 :::
 
-
-::: {.callout-note}
-
-Given some broadcasted operation involving arrays or vectors `x` and `y` (for example `x + y`), the following holds.  
-If the result will be a vector, long vectors are supported. I.e. if `x` and `y` are both vectors, than `x` and/or `y` may be long vectors.  
-However, if, for example, `x` is a long vector, and `y` is an array (regardless if it is an oriented vector or not), an error is returned: this is because arrays in `r fa("r-project")` cannot have dimensions larger than `2^31 - 1`.
-
-:::
-
 &nbsp;
 
 # Broadcasting limitations and rules

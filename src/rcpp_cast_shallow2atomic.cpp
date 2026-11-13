@@ -4,6 +4,29 @@
 
 using namespace Rcpp;
 
+# define MACRO_UNLIST_DEEP(POINTERCODE, DOCODE) do {         \
+for(int i = 0; i < Rf_length(input); ++i) {                  \
+  SEXP tempin = VECTOR_ELT(input, i);                        \
+  POINTERCODE;                                               \
+  for(int j = 0; j < Rf_length(tempin); ++j) {               \
+    flatind = i + nrow * j;                                  \
+    DOCODE;                                                  \
+  }                                                          \
+}                                                            \
+} while(0);
+
+
+# define MACRO_UNLIST_DOWN(POINTERCODE, DOCODE) do {          \
+for(int i = 0; i < Rf_length(input); ++i) {                   \
+  SEXP tempin = VECTOR_ELT(input, i);                         \
+  POINTERCODE;                                                \
+  for(int j = 0; j < Rf_length(tempin); ++j) {                \
+    flatind = j + nrow * i;                                   \
+    DOCODE;                                                   \
+  }                                                           \
+}                                                             \
+} while(0);
+
 
 inline bool rcpp_unlisthelper_is_atomic(SEXP x) {
   switch (TYPEOF(x)) {

@@ -5,10 +5,10 @@
 
 library(stringi)
 
-macro_dim <- readr::read_file("macro_dim.txt")
-macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
-macro_action <- readr::read_file("macro_action.txt")
-macro_op <- readr::read_file("macro_op.txt")
+macro_dim <- readr::read_file("txt/macro_dim.txt")
+macro_typeswitch_numeric <- readr::read_file("txt/macro_typeswitch_numeric.txt")
+macro_action <- readr::read_file("txt/macro_action.txt")
+macro_op <- readr::read_file("txt/macro_op.txt")
 
 header_for_sourcing <- stri_c(
   "
@@ -54,7 +54,10 @@ txt <- "
 //' @noRd
 // [[Rcpp::export(.rcpp_bc_bind_prep)]]
 void rcpp_bc_bind_prep(
-  SEXP starts, SEXP ends, SEXP by_x, SEXP dcp_x, SEXP dim_x, SEXP dim_out, int along, int size_along, int counter, int n
+  SEXP starts, SEXP ends,
+  SEXP dim_x, SEXP by_x, SEXP dcp_x,
+  SEXP dim_out,
+  int along, int size_along, int counter, int n
 ) {
 
   // get properties:
@@ -159,6 +162,33 @@ void rcpp_bc_bind(
       MACRO_DIM_BIND_DOCALL(SET_VECTOR_ELT(out, flatind_out, VECTOR_ELT(x, flatind_x)));
       break;
     }
+  }
+
+}
+
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bc_bind_numeric)]]
+void rcpp_bc_bind_numeric(
+  SEXP out, SEXP x,
+  SEXP starts, SEXP ends,
+  SEXP input_dims,
+  SEXP properties_x, SEXP properties_out,
+  int along, int size_along, int counter, int n
+) {
+
+  SEXP dim_x = VECTOR_ELT(properties_x, 0);
+  SEXP by_x = VECTOR_ELT(properties_x, 1);
+  SEXP dcp_x = VECTOR_ELT(properties_x, 2);
+  
+  SEXP dim_out = VECTOR_ELT(properties_out, 0);
+  SEXP dcp_out = VECTOR_ELT(properties_out, 1);
+  
+  if(TYPEOF(out) == REALSXP && TYPEOF(x) == REALSXP) {
+    
+    
+    
   }
 
 }

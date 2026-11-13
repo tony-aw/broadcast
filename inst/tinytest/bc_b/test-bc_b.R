@@ -9,7 +9,7 @@ errorfun <- function(tt) {
 .test_binary <- broadcast:::.test_binary
 .test_binary_class <- broadcast:::.test_binary_class
 .test_binary_zerolen <- broadcast:::.test_binary_zerolen
-types <- c("logical", "integer", "raw")
+types <- c("logical", "integer", "raw", "int53")
 
 
 # and ====
@@ -75,8 +75,84 @@ expect_equal(
 
 
 
+# nand ====
+bc.fun <- function(x, y) bc.b(x, y, "nand")
+base.fun <- function(x, y) {
+  out <- !(as_bool(x) & as_bool(y))
+  if(is.raw(x) && is.raw(y)) {
+    out <- as_raw(out)
+  }
+  return(out)
+  
+}
+res <- .test_binary(bc.fun, base.fun, types, types)
 
-# attributes tests (and/or) ====
+enumerate <- enumerate + res$i # count number of tests
+# test results:
+expect_equal(
+  res$expected, res$out
+)
+
+
+# nor ====
+bc.fun <- function(x, y) bc.b(x, y, "nor")
+base.fun <- function(x, y) {
+  out <- !(as_bool(x) | as_bool(y))
+  if(is.raw(x) && is.raw(y)) {
+    out <- as_raw(out)
+  }
+  return(out)
+  
+}
+res <- .test_binary(bc.fun, base.fun, types, types)
+
+enumerate <- enumerate + res$i # count number of tests
+# test results:
+expect_equal(
+  res$expected, res$out
+)
+
+
+
+# equals ====
+bc.fun <- function(x, y) bc.b(x, y, "==")
+base.fun <- function(x, y) {
+  out <- as_bool(x) == as_bool(y)
+  if(is.raw(x) && is.raw(y)) {
+    out <- as_raw(out)
+  }
+  return(out)
+  
+}
+res <- .test_binary(bc.fun, base.fun, types, types)
+
+enumerate <- enumerate + res$i # count number of tests
+# test results:
+expect_equal(
+  res$expected, res$out
+)
+
+
+# unequals ====
+bc.fun <- function(x, y) bc.b(x, y, "!=")
+base.fun <- function(x, y) {
+  out <- as_bool(x) != as_bool(y)
+  if(is.raw(x) && is.raw(y)) {
+    out <- as_raw(out)
+  }
+  return(out)
+  
+}
+res <- .test_binary(bc.fun, base.fun, types, types)
+
+enumerate <- enumerate + res$i # count number of tests
+# test results:
+expect_equal(
+  res$expected, res$out
+)
+
+
+# attributes tests ====
 bc.fun <- function(x, y) { bc.b(x, y, "&")}
 
 types <- c("raw", "logical", "integer", "int53")
@@ -95,10 +171,9 @@ expect_false(
 enumerate <- enumerate + res$i
 
 
-# zerolen tests (and/or) ====
+# zerolen tests  ====
 bc.fun <- function(x, y) { bc.b(x, y, "&")}
 
-types <- c("raw", "logical", "integer", "int53")
 res <- .test_binary_zerolen(bc.fun, is.logical, "logical", types)
 expect_true(all(res$is_OK_type))
 expect_equal(
@@ -110,7 +185,6 @@ expect_false(
 enumerate <- enumerate + res$i
 
 
-types <- c("raw", "logical", "integer", "int53")
 res <- .test_binary_zerolen(bc.fun, is.logical, types, "logical")
 expect_true(all(res$is_OK_type))
 expect_equal(

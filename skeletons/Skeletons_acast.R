@@ -1,5 +1,5 @@
 
-macro_acast <- readr::read_file("macro_acast.txt")
+macro_acast <- readr::read_file("txt/macro_acast.txt")
 
 
 header_for_sourcing <- stri_c(

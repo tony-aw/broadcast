@@ -14,8 +14,7 @@ bc.b(x, y, op, ...)
 Note that input with type of \code{double} will be coerced to \code{integer}.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported Boolean operators: &, |, xor \cr
-Supported relational operators: ==, !=. \cr}
+Supported Boolean operators: &, |, xor, nand, nor, ==, !=}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }

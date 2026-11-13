@@ -9,7 +9,7 @@ using namespace Rcpp;
 
 
 
-inline int rcpp_str_dist_led(String x, String y) {
+int rcpp_str_dist_led(String x, String y) {
   
   if(x == NA_STRING || y == NA_STRING) {
      return NA_INTEGER;
@@ -107,56 +107,137 @@ int rcpp_str_dist_lcss(String x, String y) {
 
 
 
+#define MACRO_OP_STR_DIST(DIMCODE) do {	\
+  switch(op) {	\
+  case 1:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_str_dist_led(tempx, tempy),  \
+      const String tempx = px[flatind_x], \
+      const String tempy = py[flatind_y]  \
+    );                                                                \
+    break;	\
+  }	\
+  case 2:	\
+  {	\
+    DIMCODE(                                                          \
+      pout[flatind_out] = rcpp_str_dist_lcss(tempx, tempy),  \
+      const String tempx = px[flatind_x], \
+      const String tempy = py[flatind_y]  \
+    );                                                                \
+    break;	\
+  }	\
+  default:	\
+  {	\
+    stop("given operator not supported in the given context");	\
+  }	\
+}	\
+} while(0)
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcD_str_v, rng = false)]]
-SEXP rcpp_bcD_str_v(
-  SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
-  R_xlen_t nout, int dimmode, bool vectorx, int op
-) {
-
+  
+  //' @keywords internal
+  //' @noRd
+  // [[Rcpp::export(.rcpp_bcD_str_2v, rng = false)]]
+  SEXP rcpp_bcD_str_2v(
+    SEXP x, SEXP y, List prep, int op 
+  ) {
+  
+  RObject x_dim = prep[0];        (void)x_dim;
+  RObject y_dim = prep[1];        (void)y_dim;
+  RObject out_dimorig = prep[2];  (void)out_dimorig;
+  RObject out_dim = prep[3];      (void)out_dim;
+  R_xlen_t nout = prep[4];        (void)nout;
+  int dimmode = prep[5];          (void)dimmode;
+  
+  
+  IntegerVector out(no_init(nout));
+  
+  
 
 const SEXP *px = STRING_PTR_RO(x);
 const SEXP *py = STRING_PTR_RO(y);
-
-SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
-int *pout;
-pout = INTEGER(out);
-
-MACRO_OP_STR_DIST(MACRO_DIM_VECTORSPECIAL);
+int *pout  = INTEGER(out);
 
 
-UNPROTECT(1);
-return out;
-
-}
-
-
-
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcD_str_d, rng = false)]]
-SEXP rcpp_bcD_str_d(
-  SEXP x, SEXP y, 
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op
-) {
+  
+  MACRO_OP_STR_DIST(MACRO_DIM_TWOVECTORS);
+  
+  out.attr("dim") = out_dimorig;
+  
+  return out;
+  
+  }
+  
+  
+  
+  
+  //' @keywords internal
+  //' @noRd
+  // [[Rcpp::export(.rcpp_bcD_str_1v, rng = false)]]
+  SEXP rcpp_bcD_str_1v(
+    SEXP x, SEXP y, List prep, int op 
+  ) {
+  
+  
+  RObject x_dim = prep[0];        (void)x_dim;
+  RObject y_dim = prep[1];        (void)y_dim;
+  RObject out_dimorig = prep[2];  (void)out_dimorig;
+  RObject out_dim = prep[3];      (void)out_dim;
+  R_xlen_t nout = prep[4];        (void)nout;
+  int dimmode = prep[5];          (void)dimmode;
+  
+  
+  IntegerVector out(no_init(nout));
+  
+  
 
 const SEXP *px = STRING_PTR_RO(x);
 const SEXP *py = STRING_PTR_RO(y);
-
-SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
-int *pout;
-pout = INTEGER(out);
-
-MACRO_OP_STR_DIST(MACRO_DIM_DOCALL);
-
-UNPROTECT(1);
-return out;
-
-}
+int *pout  = INTEGER(out);
 
 
+  
+  MACRO_OP_STR_DIST(MACRO_DIM_ONEVECTOR);
+  
+  out.attr("dim") = out_dimorig;
+  
+  return out;
+  
+  }
+  
+  
+  //' @keywords internal
+  //' @noRd
+  // [[Rcpp::export(.rcpp_bcD_str_d, rng = false)]]
+  SEXP rcpp_bcD_str_d(
+    SEXP x, SEXP y, List prep, int op 
+  ) {
+  
+  
+  RObject x_dim = prep[0];        (void)x_dim;
+  RObject y_dim = prep[1];        (void)y_dim;
+  RObject out_dimorig = prep[2];  (void)out_dimorig;
+  RObject out_dim = prep[3];      (void)out_dim;
+  R_xlen_t nout = prep[4];        (void)nout;
+  
+  
+  IntegerVector out(no_init(nout));
+  
+  
+
+const SEXP *px = STRING_PTR_RO(x);
+const SEXP *py = STRING_PTR_RO(y);
+int *pout  = INTEGER(out);
+
+
+  
+  MACRO_OP_STR_DIST(MACRO_DIM_DOCALL);
+  
+  out.attr("dim") = out_dimorig;
+  
+  return out;
+  
+  }
+  
+  
+  

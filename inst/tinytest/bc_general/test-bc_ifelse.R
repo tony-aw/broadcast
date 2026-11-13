@@ -6,19 +6,8 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 
-test_make_dims <- function(n) {
-  
-  # make dimensions that are randomly of size 1 or 3:
-  out <- lapply(1:n, \(n)sample(c(1, 3), 1)) |> unlist()
-  
-  # check if the dimensions produce a too large object.
-  # If so, replace one >1L dimension with 1L
-  if(prod(out) > 5000L) {
-    ind <- which(out > 1L)[1L]
-    out[ind] <- 1L
-  }
-  return(out)
-}
+.test_make_dims <- broadcast:::.test_make_dims
+.test_make_dimpair_broadcastable <- broadcast:::.test_make_dimpair_broadcastable
 
 datagens <- list(
   \() sample(c(TRUE, FALSE, NA), 10L, TRUE),
@@ -31,25 +20,29 @@ datagens <- list(
 
 
 # main test ====
-i <- 1L
 
 op <- function(x, y) {
   c(length(x) == length(y), typeof(x) == typeof(y))
 }
 
-nres <- 5 * 3 * length(datagens)^2 * 4 * 4
-expected <- out <- list()
+nres <- 5 * 3 * length(datagens)* 4 * 4
+expected <- out <- vector("list", nres)
 
+i <- 1L
 for(iSample in 1:5) { # re-do tests with different random configurations
   for(iTestType in c("logical", "integer", "raw")) {
     for(iData in 1:length(datagens)) {
       yes.data <- datagens[[iData]]()
       no.data <- datagens[[iData]]()
       for(iDimX in c(1, 2, 5, 8)) { # different dimensions for x
-        yes.dim <- test_make_dims(iDimX)
-        yes.len <- prod(yes.dim)
+        yes.dim <- sample(c(1L, 1L, 2:5), iDimX, TRUE)
         for(iDimY in c(1, 2, 5, 8)) { # different dimensions for y
-          no.dim <- test_make_dims(iDimY)
+          no.dim <- sample(c(1L, 1L, 2:5), iDimX, TRUE)
+          
+          yesno.dim <- .test_make_dimpair_broadcastable(yes.dim, no.dim)
+          yes.dim <- yesno.dim[[1L]]
+          no.dim <- yesno.dim[[2L]]
+          yes.len <- prod(yes.dim)
           no.len <- prod(no.dim)
           
           # make data:
@@ -100,7 +93,7 @@ for(iSample in 1:5) { # re-do tests with different random configurations
           # ensure correct dimensions:
           dim(expected[[i]]) <- tdim
           
-          # give NULL for missing list:
+          # in expected[[i]], give NULL instead of NA for missing list-elements:
           if(is.list(out[[i]])) {
             expected[[i]] <- as.list(expected[[i]])
             dim(expected[[i]]) <- tdim
@@ -124,7 +117,7 @@ expect_equivalent( # equivalent instead of equal because ifelse() is a bit slopp
 enumerate <- enumerate + i # count number of tests
 
 
-# numeric types leniancy ====
+# numeric types leniency ====
 x <- array(sample(1:100), c(1, 100)) |> as_int()
 y <- array(sample(1:100), c(100, 1)) |> as_int()
 test <- bc.d(x, y, ">")

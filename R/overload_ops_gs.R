@@ -34,16 +34,22 @@
     stop(simpleError("invalid comparison with given types", call = abortcall))
   }
   
-  if(is.numeric(e1) || is.numeric(e2)) {
-    if(!is.numeric(e1)) e1 <- as_dbl(e1)
-    if(!is.numeric(e2)) e2 <- as_dbl(e2)
+  if(is.double(e1) || is.double(e2)) {
+    if(is.raw(e1)) e1 <- as_int(e1)
+    if(is.raw(e2)) e2 <- as_int(e2)
     return(.bc_dec_rel(e1, e2, op, abortcall))
+  }
+  else if(is.integer(e1) || is.integer(e2)) {
+    if(is.raw(e1)) e1 <- as_int(e1)
+    if(is.raw(e2)) e2 <- as_int(e2)
+    return(.bc_boolint_rel(e1, e2, op, abortcall))
   }
   else if(is.logical(e1) || is.logical(e2)) {
     # this is a separate branch so we can safely deal with raw by logical
-    if(!is.logical(e1)) e1 <- as_lgl(e1)
-    if(!is.logical(e2)) e2 <- as_lgl(e2)
-    return(.bc_dec_rel(e1, e2, op, abortcall))
+    # in `.bc_boolint_rel()`
+    if(is.raw(e1)) e1 <- as_lgl(e1)
+    if(is.raw(e2)) e2 <- as_lgl(e2)
+    return(.bc_boolint_rel(e1, e2, op, abortcall))
   }
   else if(is.raw(e1) && is.raw(e2)) {
     return(.bc_raw_rel(e1, e2, op, abortcall))

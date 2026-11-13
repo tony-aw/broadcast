@@ -13,8 +13,7 @@
 #' @param x,y conformable vectors/arrays of type `logical`, `numeric`, or `raw`. \cr
 #' Note that input with type of `double` will be coerced to `integer`.
 #' @param op a single string, giving the operator. \cr
-#' Supported Boolean operators: `r paste0(broadcast:::.op_b(), collapse = ", ")` \cr
-#' Supported relational operators: `r paste0(broadcast:::.op_b_rel(), collapse = ", ")`. \cr
+#' Supported Boolean operators: `r paste0(broadcast:::.op_b(), collapse = ", ")`
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #'
@@ -48,78 +47,69 @@ setMethod(
     
     mycall <- "bc.b"
     
-    # checks:
-    .binary_stop_general(x, y, op, mycall)
-    if(is.double(x)) x <- as_int(x)
-    if(is.double(y)) y <- as_int(y)
-    if(!.is_boolable(x) || !.is_boolable(y)) {
-      stop(simpleError("unsupported types given", call = mycall))
-    }
     
-    # get operator:
-    op_andor <- which(.op_b() == op)
-    op_rel <- which(.op_rel() == op)
     
-    if(length(op_andor)) {
-      return(.bc_b_andor(x, y, op_andor, mycall))
-    }
-    else if(length(op_rel)) {
-      return(.bc_b_rel(x, y, op_rel, mycall))
-    }
-    else {
-      stop(simpleError("given operator not supported in the given context", call = mycall))
-    }
+    
+    return(.bc_b(x, y, op, mycall))
   }
 )
 
 
 
+#' @keywords internal
+#' @noRd
+.bc_b <- function(x, y, op, abortcall) {
+  
+  
+  .binary_stop_general(x, y, op, abortcall)
+  if(is.double(x)) x <- as_bool(x)
+  if(is.double(y)) y <- as_bool(y)
+  
+  if(!.is_boolable(x) || !.is_boolable(y)) {
+    stop(simpleError("unsupported types given", call = abortcall))
+  }
+  
+  
+  op_b <- .C_which_op(.op_b(), op)
+  if(!op_b) {
+    stop(simpleError("given operator not supported in the given context", call = abortcall))
+  }
+  
+  if(is.raw(x) && is.raw(y)) {
+    return(.bc_b_raw(x, y, op_b, abortcall))
+  }
+  else {
+    return(.bc_b_int(x, y, op_b, abortcall))
+  }
+  
+}
+
 
 #' @keywords internal
 #' @noRd
-.bc_b_andor <- function(x, y, op, abortcall) {
+.bc_b_int <- function(x, y, op, abortcall) {
   
-  if(!is.raw(x) || !is.raw(y)) {
-    if(is.raw(x)) x <- as_int(x)
-    if(is.raw(y)) y <- as_int(y)
-  }
-  
+  if(is.raw(x)) x <- as_bool(x) |> suppressWarnings()
+  if(is.raw(y)) y <- as_bool(y) |> suppressWarnings()
+ 
   if(length(x) == 0L || length(y) == 0L) {
-    if(is.raw(x) && is.raw(y)) {
-      out.type <- "raw"
-    }
-    else {
-      out.type <- "logical"
-    }
-    return(.binary_return_zerolen(x, y, TRUE, out.type))
+    return(.binary_return_zerolen(x, y, TRUE, "logical"))
   }
   
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode < 5L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bc_b_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bc_b_int_2v(x, y, prep, op)
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bc_b_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
-    )
+  else if(dimmode <= 4L) {
+    out <- .rcpp_bc_b_int_1v(x, y, prep, op)
+  }
+  else {
+    out <- .rcpp_bc_b_int_d(x, y, prep, op)
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
+  
   
   .binary_set_attr_logical(out, x, y)
   
@@ -130,54 +120,30 @@ setMethod(
 
 #' @keywords internal
 #' @noRd
-.bc_b_rel <- function(x, y, op, abortcall) {
-  
-  if(!is.raw(x) || !is.raw(y)) {
-    if(is.raw(x)) x <- as_int(x)
-    if(is.raw(y)) y <- as_int(y)
-  }
+.bc_b_raw <- function(x, y, op, abortcall) {
   
   if(length(x) == 0L || length(y) == 0L) {
-    if(is.raw(x) && is.raw(y)) {
-      out.type <- "raw"
-    }
-    else {
-      out.type <- "logical"
-    }
-    return(.binary_return_zerolen(x, y, TRUE, out.type))
+    return(.binary_return_zerolen(x, y, TRUE, "raw"))
   }
   
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode < 5L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bcRel_b_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bc_b_raw_2v(x, y, prep, op)
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bcRel_b_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
-    )
+  else if(dimmode <= 4L) {
+    out <- .rcpp_bc_b_raw_1v(x, y, prep, op)
+  }
+  else {
+    out <- .rcpp_bc_b_raw_d(x, y, prep, op)
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
+  
   
   .binary_set_attr_logical(out, x, y)
   
   return(out)
   
 }
-
 

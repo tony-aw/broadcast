@@ -40,44 +40,80 @@
 
 #' @keywords internal
 #' @noRd
+.test_make_dimpair_broadcastable <- function(x.dim, y.dim) {
+  n <- min(length(x.dim), length(y.dim))
+  # ensure the dimensions are broadcastable:
+  for(i in 1:n) {
+    if(x.dim[i] != y.dim[i] && x.dim[i] > 1 && y.dim[i] > 1) {
+      size <- sample(2:5, 1L)
+      x.dim[i] <- size
+      y.dim[i] <- size
+    }
+  }
+  return(list(x.dim, y.dim))
+}
+
+
+
+
+#' @keywords internal
+#' @noRd
 .test_binary <- function(
     bc.fun, base.fun, x.types, y.types,
-    nconfigs = 5L, datasize = 100L, ndims = 3L, correctNaN = TRUE, print = FALSE
-    ) {
-  i <- 1L
+    nconfigs = 5L, datasize = 100L, ndims = 3L, correctNaN = TRUE, print = FALSE, debug = FALSE
+) {
   
+  supported.types <- c(
+    "logical", "uint", "integer", "int53", "double", "complex", "character", "raw", "list"
+  )
+  
+  if(any(!x.types %in% supported.types)) {
+    stop("unsupported type given")
+  }
+  if(any(!y.types %in% supported.types)) {
+    stop("unsupported type given")
+  }
+
+  i <- 1L
   nres <- nconfigs * ndims^2 * length(x.types) * length(y.types) # number of tests performed here
   expected <- out <- vector("list", nres)
-
+  
   for(iSample in seq_len(nconfigs)) { # re-do tests with different random configurations
     
     x.data <- list(
       logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
+      uint = as.integer(0:(2^16)) |> sample(datasize, TRUE),
       integer = sample(c(-10:10, NA), datasize, TRUE),
       int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
       double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
       complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
-      character = sample(c(letters, LETTERS, month.abb, NA), datasize, TRUE),
+      character = sample(c(letters, LETTERS, month.abb, month.name, NA), datasize, TRUE),
       raw = sample(as.raw(0:255), datasize, TRUE),
       list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
     )[x.types]
     
     y.data <- list(
       logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
+      uint = as.integer(0:(2^16), NA) |> sample(datasize, TRUE),
       integer = sample(c(-10:10, NA), datasize, TRUE),
       int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
       double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
       complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
-      character = sample(c(letters, LETTERS, month.abb, NA), datasize, TRUE),
+      character = sample(c(letters, LETTERS, month.abb, month.name, NA), datasize, TRUE),
       raw = sample(as.raw(0:255), datasize, TRUE),
       list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
     )[y.types]
     
     for(iDimX in sample(1:8, ndims)) { # number of dimensions for x
-      x.dim <- .test_make_dims(iDimX)
-      x.len <- prod(x.dim)
+      x.dim <- sample(c(1L, 1L, 2:5), iDimX, TRUE)
+      
       for(iDimY in sample(1:8, ndims)) { # number of dimensions for y
-        y.dim <- .test_make_dims(iDimY)
+        y.dim <- sample(c(1L, 1L, 2:5), iDimX, TRUE)
+        
+        xy.dim <- .test_make_dimpair_broadcastable(x.dim, y.dim)
+        x.dim <- xy.dim[[1L]]
+        y.dim <- xy.dim[[2L]]
+        x.len <- prod(x.dim)
         y.len <- prod(y.dim)
         
         for(iDataX in seq_along(x.data)) { # different data types for x
@@ -142,10 +178,16 @@
             # ensure correct dimensions:
             dim(expected[[i]]) <- tdim
             
-            # expect_equal(
-            #   expected[[i]],
-            #   out[[i]]
-            # ) |> errorfun()
+            # if(debug) {
+            #   testres <- expect_equal(
+            #     expected[[i]],
+            #     out[[i]]
+            #   )
+            #   if(!testres) {
+            #     return(list(x = x, y = y, expected = expected[[i]], out = out[[i]]))
+            #   }
+            # }
+            # 
             
             i <- i + 1L
           }
@@ -162,34 +204,35 @@
 #' @keywords internal
 #' @noRd
 .test_binary_class <- function(bc.fun, x.types, y.types, datasize = 100L) {
-
+  
   
   # I know it says "class", but for convenience it also checks comments
   x.data <- list(
     logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
+    uint = as.integer(0:(2^16)) |> sample(datasize, TRUE),
     integer = sample(c(-10:10, NA), datasize, TRUE),
     int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
     double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
     complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
-    character = sample(c(letters, LETTERS, month.abb, NA), datasize, TRUE),
+    character = sample(c(letters, LETTERS, month.abb, month.name, NA), datasize, TRUE),
     raw = sample(as.raw(0:255), datasize, TRUE),
     list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
   )[x.types]
-
+  
   y.data <- list(
     logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
+    uint = as.integer(0:(2^16), NA) |> sample(datasize, TRUE),
     integer = sample(c(-10:10, NA), datasize, TRUE),
     int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
     double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
     complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
-    character = sample(c(letters, LETTERS, month.abb, NA), datasize, TRUE),
+    character = sample(c(letters, LETTERS, month.abb, month.name, NA), datasize, TRUE),
     raw = sample(as.raw(0:255), datasize, TRUE),
     list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
   )[y.types]
-
-
+  
   nres <- 2^4 * length(x.types) * length(y.types) # number of tests performed here
-
+  
   expected_bc <- vector("logical", nres)
   out_bc <- vector("logical", nres)
   expected_ma <- vector("logical", nres)
@@ -198,7 +241,7 @@
   out_comm <- vector("logical", nres)
   
   i <- 1L
-
+  
   for(iDataX in seq_along(x.data)) {
     for(iDataY in seq_along(y.data)) {
       for(xBC in c(TRUE, FALSE)) {
@@ -249,7 +292,8 @@
                   else if(!is.null(yCom)) {
                     expected_comm[i] <- list(yCom)
                   }
-                  out_comm[i] <-list(comment(out))
+                  out_comm[i] <- list(comment(out))
+
                   
                   i <- i + 1
                   
@@ -261,7 +305,7 @@
       }
     }
   }
-
+  
   res <- list(
     expected_bc = expected_bc,
     out_bc = out_bc,
@@ -285,22 +329,24 @@
   # I know it says "class", but for convenience it also checks comments
   x.data <- list(
     logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
+    uint = as.integer(0:(2^16)) |> sample(datasize, TRUE),
     integer = sample(c(-10:10, NA), datasize, TRUE),
     int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
     double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
     complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
-    character = sample(c(letters, LETTERS, month.abb, NA), datasize, TRUE),
+    character = sample(c(letters, LETTERS, month.abb, month.name, NA), datasize, TRUE),
     raw = sample(as.raw(0:255), datasize, TRUE),
     list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
   )[x.types]
   
   y.data <- list(
     logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
+    uint = as.integer(0:(2^16), NA) |> sample(datasize, TRUE),
     integer = sample(c(-10:10, NA), datasize, TRUE),
     int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
     double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
     complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
-    character = sample(c(letters, LETTERS, month.abb, NA), datasize, TRUE),
+    character = sample(c(letters, LETTERS, month.abb, month.name, NA), datasize, TRUE),
     raw = sample(as.raw(0:255), datasize, TRUE),
     list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
   )[y.types]
@@ -342,7 +388,7 @@
                 
                 x <- array(x.data[[iDataX]], x.dim)
                 y <- array(y.data[[iDataY]], y.dim)
-
+                
                 
                 broadcaster(x) <- xBC
                 broadcaster(y) <- yBC
@@ -398,7 +444,7 @@
 #' #' @keywords internal
 #' #' @noRd
 #' .test_binary_vectormode <- function(
-#'     bc.fun, x.types, y.types, nconfigs = 5L
+    #'     bc.fun, x.types, y.types, nconfigs = 5L
 #' ) {
 #' 
 #'   i <- 1L

@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-sidebar docked nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -99,7 +99,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">📖 Reference Manual</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../about/acknowledgements.html"> 
+    <a class="nav-link active" href="../about/acknowledgements.html" aria-current="page"> 
 <span class="menu-text">📰 About</span></a>
   </li>  
 </ul>
@@ -115,17 +115,80 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../about/NEWS.html">News</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+ <span class="menu-text">Guides and Vignettes</span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about/acknowledgements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Acknowledgements</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about/NEWS.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">News</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about/other_pkgs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Other Packages</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about/benchmarks_numpy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks with NumPy</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about/benchmarks_other.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Other Benchmarks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about/covr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit Test Coverage Report</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about/technical_details.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Technical Details</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#broadcast-0.1.9.8" id="toc-broadcast-0.1.9.8" class="nav-link active" data-scroll-target="#broadcast-0.1.9.8">broadcast 0.1.9.8</a></li>
+  <li><a href="#broadcast-0.2.0-under-development" id="toc-broadcast-0.2.0-under-development" class="nav-link active" data-scroll-target="#broadcast-0.2.0-under-development">broadcast 0.2.0 (Under Development)</a></li>
+  <li><a href="#broadcast-0.1.9.8" id="toc-broadcast-0.1.9.8" class="nav-link" data-scroll-target="#broadcast-0.1.9.8">broadcast 0.1.9.8</a></li>
   <li><a href="#broadcast-0.1.9.6" id="toc-broadcast-0.1.9.6" class="nav-link" data-scroll-target="#broadcast-0.1.9.6">broadcast 0.1.9.6</a></li>
   <li><a href="#broadcast-0.1.9.5" id="toc-broadcast-0.1.9.5" class="nav-link" data-scroll-target="#broadcast-0.1.9.5">broadcast 0.1.9.5</a></li>
   <li><a href="#broadcast-0.1.9" id="toc-broadcast-0.1.9" class="nav-link" data-scroll-target="#broadcast-0.1.9">broadcast 0.1.9</a></li>
@@ -167,6 +230,35 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="broadcast-0.2.0-under-development" class="level1">
+<h1>broadcast 0.2.0 (Under Development)</h1>
+<p><strong>Major Changes:</strong></p>
+<ul>
+<li>General performance improvement in all broadcasted binary operations.</li>
+<li>The <code>%orientbc&lt;-%</code> operator no longer automatically makes the left-hand side object a <code>broadcaster</code>.</li>
+<li>The <a href="../man/bc.i.html">bc.i()</a> method now strictly only supports the integer operators (“%%”, “%/%”, “gcd”, “pmin”, “pmax”) and truncated relational operators.</li>
+<li>Added the <a href="../man/bc.i.html">trunc2int53()</a> function.</li>
+</ul>
+<p><strong>Minor Changes:</strong></p>
+<ul>
+<li>If both sides are 32 bit integers, the <a href="../man/bc.i.html">bc.i()</a> method will return 32 bit integers for operators: “%%”, “%/%”, “gcd”, “pmin”, “pmax”.</li>
+<li>If both sides are 32 bit integers, the <a href="../man/bc.d.html">bc.d()</a> method will return 32 bit integers for operators: “pmin”, “pmax”.</li>
+</ul>
+<p><strong>Bug fixes:</strong></p>
+<ul>
+<li>Found a bug where <code>checkmissing(x, "which")</code> would lead to integer overflow when used on long vectors.<br>
+This is now fixed.</li>
+</ul>
+<p><strong>Technical Changes in ‘C++’/‘C’ code:</strong></p>
+<ul>
+<li>Heavily re-organized the internal source code.</li>
+<li>Deeply nested loop macro used for broadcasted binary operations replaced with an odometer-like macro.</li>
+<li>Change in <code>NA</code>s/<code>NaN</code>s checking on either side of any relational operator: sometimes a faster branch-less “OR” will be used instead of short-circuited “OR”.</li>
+<li>Change in how <code>NA</code>s/<code>NaN</code>s are checked for decimal arrays in all operations: <code>std::isnan()</code> is now used instead of <code>R_isnancpp()</code> (benchmarks have shown <code>std::isnan()</code> to be faster).</li>
+<li>the “gcd” operator in <a href="../man/bc.i.html">bc.i()</a> now uses a non-recursive modulo based Euclidean algorithm.</li>
+</ul>
+<p><br></p>
+</section>
 <section id="broadcast-0.1.9.8" class="level1">
 <h1>broadcast 0.1.9.8</h1>
 <ul>

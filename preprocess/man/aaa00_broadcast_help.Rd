@@ -8,13 +8,13 @@
 \title{broadcast Package Overview}
 \description{
 broadcast: \cr
-Broadcasted Array Operations Like 'NumPy' \cr \cr
+Efficient Broadcasted Array Operations Like 'NumPy' \cr \cr
 
 Implements efficient 'NumPy'-like broadcasted operations for atomic and recursive arrays.
 
 In the context of operations involving 2 (or more) arrays,  “broadcasting” (AKA singleton expansion) refers to efficiently recycling array dimensions,  without making copies.
 
-Besides linking to 'Rcpp', 'broadcast' does not use any external libraries in any way;
+Besides linking to 'Rcpp', 'broadcast' does not use any external libraries or generative AI in any way;
 'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 
 The implementations available in 'broadcast' include, but are not limited to, the following:
@@ -39,7 +39,7 @@ The functions in the 'broadcast' package strive to minimize computation time and
 }
 }
 
-\section{Functions}{
+\section{Methods/Functions}{
 
 
 \bold{Broadcasted Operators} \cr
@@ -67,20 +67,20 @@ to bind arrays along an arbitrary dimension,
 with support for broadcasting. \cr
 See \code{[bind_array](bind_array.qmd)}. \cr\cr
 
-\bold{Casting Functions} \cr
-'broadcast' provides several "casting" functions. \cr
+\bold{Casting Methods} \cr
+'broadcast' provides several "casting" methods. \cr
 These can facility complex forms of broadcasting that would normally not be possible. \cr
-But these "casting" functions also have their own merit, beside empowering complex broadcasting. \cr
+But these "casting" methods also have their own merit, beside empowering complex broadcasting. \cr
 \cr
-More information about the casting functions can be found here: \cr
+More information about the casting methods can be found here: \cr
 \code{[broadcast_casting](aaa02_broadcast_casting.qmd)}. \cr
 \cr
 
-\bold{General Pairwise Broadcasted Functions} \cr
-'broadcast' also comes with a few general pairwise broadcasted functions:
+\bold{General Pairwise Broadcasted Methods} \cr
+'broadcast' also comes with a few general pairwise broadcasted methods:
 \itemize{
 \item \code{[bc_ifelse](bc_ifelse.qmd)}: Broadcasted version of \link[base]{ifelse}.
-\item \code{[bcapply](bcapply.qmd)}: Broadcasted apply-like function.
+\item \code{[bcapply](bcapply.qmd)}: Broadcasted apply-like method.
 \item \code{[bc_strrep](bc_strrep.qmd)}: Broadcasted version of \link[base]{strrep}. \cr \cr
 }
 
@@ -105,6 +105,27 @@ and atomic/recursive vectors. \cr
 As in standard Linear Algebra convention,
 dimensionless vectors are interpreted as column-vectors in broadcasted array operations. \cr
 \cr
+}
+
+\section{Method dispatch and Attribute handling}{
+
+The broadcasted methods
+(i.e. all \code{bc_} methods, all \code{bc.} methods, and the operaters overloaded by the \code{[broadcaster](broadcaster.qmd)} class)
+generally only preserve the "special" attributes between the arrays involved: \cr
+\code{names}, \code{dimnames}, \code{comment} (if appropriate), and the \code{[broadcaster](broadcaster.qmd)} class attribute (and related attributes). \cr
+Other (usually class-specific) attributes are not preserved , unlike the base 'R' operators. \cr
+\cr
+The reason only special attributes are preserved,
+is because  broadcasting often results in an object with more dimensions, larger dimensions,
+and/or larger length than the original objects. \cr
+This is relevant as some class-specific attributes are only appropriate for certain dimensions or lengths. \cr
+Custom matrix classes, for example, presumes an object to have exactly 2 dimensions. \cr
+And the various classes provided by the 'bit' package have length-related attributes. \cr
+So class attributes cannot be guaranteed to hold for the resulting objects when broadcasting is involved. \cr
+\cr
+Almost all functions provided by 'broadcast' are S3 or S4 generics; \cr
+methods can be written for them for specific classes,
+so that class-specific attributes can be supported when needed. \cr
 }
 
 \references{

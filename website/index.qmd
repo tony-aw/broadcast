@@ -55,7 +55,7 @@ Consider computing the addition of these arrays `x` and `y`:
 (y <- array(1:4 * 100, c(1, 4)))
 ```
 
-This cannot be done efficiently in base 'R'; it **can** be done fast and memory-efficiently with the 'broadcast' package:
+This cannot be done efficiently in base `r fa("r-project")`; it **can** be done fast and memory-efficiently with the 'broadcast' package:
 
 ::: {.panel-tabset}
 
@@ -97,7 +97,7 @@ Using broadcasting, [bind_array()](/man/bind_array.qmd) from the 'broadcast' pac
 (y <- array(1:4 * 100, c(1, 4)))
 ```
 
-This cannot be done efficiently in base 'R'; it **can** be done fast and memory-efficiently with the 'broadcast' package:
+This cannot be done efficiently in base `r fa("r-project")`; it **can** be done fast and memory-efficiently with the 'broadcast' package:
 
 ::: {.panel-tabset}
 
@@ -143,7 +143,7 @@ The idea of broadcasted infix operations and broadcasted array binding has been 
 <details>
   <summary><b><a style="cursor: pointer;">Casting Methods 🔍 </a></b> </summary>
 
-Broadcast provides casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.  
+The 'broadcast' package provides casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.  
 These functions are useful for facilitating complex broadcasted operations, though they also have much merit beside broadcasting.
 
 For example, you cannot broadcast through hierarchies of a list, but you **can** broadcast along dimensions. So suppose you have the following list:
@@ -212,6 +212,22 @@ Your code will use less time and less memory, and might save you some money in t
 Benchmarks can be found in the "About" section on the website.
 
 &nbsp;
+
+
+**Wide Support**
+
+'broadcast' provides a very wide support for broadcasting:
+
+ - More than the same-old numeric, relational and Boolean computations (like in the original broadcasting implementations from 'NumPy' and 'xtensor), 'broadcast' additionally supports broadcasted string, bit-wise, integer-centric, and even recursive/list operations.
+ - Where typical array-related packages limit themselves to only atomic arrays, 'broadcast' also has full support for *recursive*  arrays (i.e. arrays of type `list`), which allows for some *very* complex and fast operations that would normally require slow and convoluted loops.
+ - 'broadcast' supports arrays up to 16 dimensions, and these arrays may have as many elements as 'R' can support (which is `2^52 -1` elements; i.e. up to a staggering 4.5 *quadrillion* elements).
+ - Almost every function provided by 'broadcast' is a *generic method*, and thus 'broadcast' can in principle support *any* array-like class, provided someone has written a method for it.
+ - 'broadcast' even provides an *optional* extra class - the "broadcaster class" - to overload base 'R' operators.
+ - And 'broadcast' provides much more, all in the hope to lower your Carbon footprint while doing important multi-dimensional research.
+
+
+&nbsp;
+
 
 **Convenience**
 

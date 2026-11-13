@@ -2,6 +2,7 @@
 
 library(stringi)
 
+macro_checkmissing <- readr::read_file("txt/macro_checkmissing.txt")
 
 header_for_sourcing <- stri_c(
   "
@@ -17,14 +18,13 @@ header_for_sourcing <- stri_c(
 header_for_package <- "
 
 #include <Rcpp/Lightest>
-#include \"broadcast.h\"
+#include \"misc.h\"
 
 using namespace Rcpp;
 
 
 "
 
-macro_checkmissing <- readr::read_file("macro_checkmissing.txt")
 
 ################################################################################
 # code ====
@@ -40,12 +40,11 @@ SEXP rcpp_checkmissing_is_raw(
 ) {
   R_xlen_t n = Rf_xlength(y);
   
-  SEXP out = PROTECT(Rf_allocVector(RAWSXP, n));
+  RawVector out(no_init(n));
   Rbyte *pout = RAW(out);
   
   MACRO_CHECKMISSING_TYPESWITCH(MACRO_CHECKMISSING_IS, pout[i]);
-  
-  UNPROTECT(1);
+
   return out;
 }
 
@@ -57,12 +56,11 @@ SEXP rcpp_checkmissing_is_logical(
 ) {
   R_xlen_t n = Rf_xlength(y);
   
-  SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
+  LogicalVector out(no_init(n));
   int *pout = LOGICAL(out);
   
   MACRO_CHECKMISSING_TYPESWITCH(MACRO_CHECKMISSING_IS, pout[i]);
   
-  UNPROTECT(1);
   return out;
 }
 
@@ -104,42 +102,21 @@ R_xlen_t rcpp_checkmissing_last(
 }
 
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_checkmissing_which32)]]
-SEXP rcpp_checkmissing_which32(
-  SEXP y, bool invert, int size
-) {
-  R_xlen_t n = Rf_xlength(y);
-  
-  SEXP out = PROTECT(Rf_allocVector(INTSXP, size));
-  int *pout = INTEGER(out);
-  int counter = 0;
-  
-  MACRO_CHECKMISSING_TYPESWITCH(MACRO_CHECKMISSING_FW, pout[counter] = i + 1; counter++);
-  
-  UNPROTECT(1);
-  return out;
-  
-}
-
-
 
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_checkmissing_which64)]]
 SEXP rcpp_checkmissing_which64(
-  SEXP y, bool invert, int size
+  SEXP y, bool invert, R_xlen_t size
 ) {
   R_xlen_t n = Rf_xlength(y);
   
-  SEXP out = PROTECT(Rf_allocVector(REALSXP, size));
+  NumericVector out(no_init(size));
   double *pout = REAL(out);
   R_xlen_t counter = 0;
   
   MACRO_CHECKMISSING_TYPESWITCH(MACRO_CHECKMISSING_FW, pout[counter] = i + 1; counter++);
   
-  UNPROTECT(1);
   return out;
   
 }

@@ -22,9 +22,6 @@ for(i in seq_along(x.data)) {
   x2 <- x
   x %orientbc<-% 1L
   expect_true(
-    broadcaster(x)
-  ) |> errorfun()
-  expect_true(
     is.array(x)
   ) |> errorfun()
   expect_equal(
@@ -42,9 +39,6 @@ for(i in seq_along(x.data)) {
   x <- setNames(x.data[[i]], month.abb[1:10])
   x2 <- x
   x %orientbc<-% 2L
-  expect_true(
-    broadcaster(x)
-  ) |> errorfun()
   expect_true(
     is.array(x)
   ) |> errorfun()
@@ -64,9 +58,6 @@ for(i in seq_along(x.data)) {
   x <- setNames(x.data[[i]], month.abb[1:10])
   x2 <- x
   x %orientbc<-% 3L
-  expect_true(
-    broadcaster(x)
-  ) |> errorfun()
   expect_true(
     is.array(x)
   ) |> errorfun()

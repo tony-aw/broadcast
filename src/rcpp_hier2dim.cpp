@@ -2,7 +2,7 @@
 using namespace Rcpp;
 
 
-inline bool rcpp_OK_listclass(
+bool rcpp_OK_listclass(
   RObject x, bool recurse_all
 ) {
   if(TYPEOF(x) != VECSXP) {
@@ -17,7 +17,7 @@ inline bool rcpp_OK_listclass(
   return (check_class && check_dim);
 }
 
-inline void rcpp_rec_depth_range(
+void rcpp_rec_depth_range(
   SEXP x, SEXP range, int depth, int depth_limit, bool recurse_all, double maxint
 ) {
   R_xlen_t n = Rf_xlength(x);
@@ -66,7 +66,7 @@ SEXP rcpp_depth_range(SEXP x, int depth_limit, bool recurse_all) {
 }
 
 
-inline void rcpp_rec_lenrange_atdepth(
+void rcpp_rec_lenrange_atdepth(
   SEXP x, SEXP range, int depth, int depth_target, bool recurse_all, double maxint
 ) {
   R_xlen_t n = Rf_xlength(x);
@@ -144,7 +144,7 @@ bool rcpp_hier2dim_surface_OK(
 }
 
 
-inline void rcpp_rec_dropnests(
+void rcpp_rec_dropnests(
   SEXP x, SEXP out, SEXP index, int depth, int maxdepth, bool recurse_all
 ) {
   double n = Rf_xlength(x);
@@ -176,7 +176,7 @@ SEXP rcpp_dropnests(
 
 
 
-inline void rcpp_rec_firstnames_atdepth(
+void rcpp_rec_firstnames_atdepth(
   SEXP x, SEXP out, int len_target, int depth, int depth_target, bool recurse_all, double maxint
 ) {
   if(VECTOR_ELT(out, 0) != R_NilValue) {
@@ -213,7 +213,7 @@ inline void rcpp_rec_firstnames_atdepth(
 
 
 
-inline void rcpp_rec_lastnames_atdepth(
+void rcpp_rec_lastnames_atdepth(
   SEXP x, SEXP out, int len_target, int depth, int depth_target, bool recurse_all, double maxint
 ) {
   if(VECTOR_ELT(out, 0) != R_NilValue) {

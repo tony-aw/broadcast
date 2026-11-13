@@ -1,4 +1,6 @@
+
 library(stringi)
+
 
 
 ################################################################################
@@ -19,244 +21,88 @@ introcomments <- stri_c("// ", introcomments) |> paste0(collapse = "\n")
 cat(introcomments)
 
 
-
 ################################################################################
-# Boolean ====
+# General ====
 #
 
-inline_bool <- "
+inline_general <- "
 
 
-inline int inline_bool_AND(
-  int x, int y
-) {
-  bool xFALSE = x != NA_INTEGER && x == 0;
-  bool yFALSE = y != NA_INTEGER && y == 0;
-  if(xFALSE || yFALSE) {
-    return 0;
-  }
-  else if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return ((bool)x && (bool)y);
-  }
-}
+#define DEF_INT53MAX std::pow(2, 53) - 1;
 
-inline int inline_bool_OR(
-  int x, int y
-) {
-  bool xTRUE = x != NA_INTEGER && x != 0;
-  bool yTRUE = y != NA_INTEGER && y != 0;
-  if(xTRUE || yTRUE) {
-    return 1;
+#define DEF_INT32MAX std::pow(2, 31) - 1;
+
+inline bool inline_dims_is_vector(SEXP x) {
+  
+  if(x == R_NilValue) {
+    return true;
   }
-  else if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
+  
+  const int n = Rf_xlength(x);
+  const int *px = INTEGER_RO(x);
+  int count_big = 0;
+  
+  for(int i = 0; i < n; ++i) {
+    count_big += px[i] > 1;
   }
-  else {
-    return ((bool)x || (bool)y);
-  }
+  
+  
+  return (count_big <= 1);
 }
 
 
-inline int inline_bool_XOR(
-  int x, int y
-) {
-  if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return ((bool)x != bool(y));
-  }
+inline bool inline_branchless_or(bool x, bool y) {
+  // This operation uses bit-wise `OR` since that is branchless and thus faster...
+  // boolean `OR` uses short-circuit, but that's only faster if either side is a heavy computation
+  
+  // bit-wise `OR` only works properly like boolean `OR` if input is trictly 0 or 1 INTEGERS
+  // therefore, input declared as (bool), and shortly before operation coerce to (int).
+  
+  return (int)x | (int)y;
 }
 
 
-inline int inline_bool_IRIGHT(
-  int x, int y
-) {
-  bool xFALSE = x != NA_INTEGER && x == 0;
-  bool yTRUE = y != NA_INTEGER && y != 0;
-  if(xFALSE || yTRUE) {
-    return 1;
-  }
-  else if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return (!(bool)x || (bool)y);
-  }
+inline double inline_mod_body(double x, double y) {
+  double q = x / y;
+  double tmp = x - floor(q) * y;
+  double out = (double) (tmp - floorl(tmp / y) * y);
+  return out;
 }
 
-
-inline int inline_bool_ILEFT(
-  int x, int y
-) {
-  bool xTRUE = x != NA_INTEGER && x != 0;
-  bool yFALSE = y != NA_INTEGER && y == 0;
-  if(xTRUE || yFALSE) {
-    return 1;
+inline double inline_idiv_body(double x, double y, double q) {
+  if(std::abs(q) < 1) {
+    double z = (q < 0) ? -1
+    : ((x < 0 && y > 0) ||
+       (x > 0 && y < 0) // differing signs
+       ? -1 : 0);
+    return z;
   }
-  else if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return (!(bool)x || (bool)y);
-  }
+  
+  double tmp = (double)(x - floor(q) * (double)y);
+  return (double) (floor(q) + floorl(tmp/y));
 }
 
+inline double inline_gcd_body(long long x, long long y) {
 
-
-inline int inline_bool_XLEFT(
-  int x, int y
-) {
-  bool xFALSE = x != NA_INTEGER && x == 0;
-  bool yTRUE = y != NA_INTEGER && y != 0;
-  if(xFALSE || yTRUE) {
-    return 0;
+  long long a = std::abs(x);
+  long long b = std::abs(y);
+  if(a == 0) return b;
+  if(b == 0) return a;
+  
+  while (b != 0) {
+    long long remainder = a % b;
+    a = b;
+    b = remainder;
   }
-  else if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return ((bool)x && !(bool)y);
-  }
-}
-
-
-inline int inline_bool_XRIGHT(
-  int x, int y
-) {
-  bool xTRUE = x != NA_INTEGER && x != 0;
-  bool yFALSE = y != NA_INTEGER && y == 0;
-  if(xTRUE || yFALSE) {
-    return 0;
-  }
-  else if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return (!(bool)x && (bool)y);
-  }
+  
+  return a;
+  
 }
 
 
 "
 
-################################################################################
-# Numeric ====
-#
 
-# NOT doing numeric inline functions:
-# - slower than MACROs
-# - need multiple inline versions due to NA handling, making MACROs more natural
-
-
-
-################################################################################
-# Complex ====
-#
-
-inline_cplx <- "
-
-inline Rcomplex inline_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
-  
-  Rcomplex out;
-  
-  out.r = x.r + y.r;
-  out.i = x.i + y.i;
-  return out;
-}
-
-
-inline Rcomplex inline_cplx_min( const Rcomplex& x, const Rcomplex& y) {
-  
-  Rcomplex out;
-  
-  out.r = x.r - y.r ;
-  out.i = x.i - y.i ;
-  return out;
-}
-
-
-inline Rcomplex inline_cplx_mult( const Rcomplex& x, const Rcomplex& y) {
-  
-  Rcomplex out;
-  
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    out.r = NA_REAL;
-    out.i = NA_REAL;
-    return out;
-  }
-  
-  out.r = x.r * y.r - x.i * y.i;
-  out.i = x.r * y.i + y.r * x.i;
-  return out;
-}
-
-
-
-inline Rcomplex inline_cplx_div( const Rcomplex& x, const Rcomplex& y) {
-  
-  Rcomplex out;
-  
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    out.r = NA_REAL;
-    out.i = NA_REAL;
-    return out;
-  }
-  
-  
-  double ratio, den;
-  double abr, abi;
-
-  if( (abr = y.r) < 0) abr = - abr;
-  if( (abi = y.i) < 0) abi = - abi;
-  if( abr <= abi ) {
-    ratio = y.r / y.i ;
-    den = y.i * (1 + ratio*ratio);
-    out.r = (x.r*ratio + x.i) / den;
-    out.i = (x.i*ratio - x.r) / den;
-  }
-  else {
-    ratio = y.i / y.r ;
-    den = y.r * (1 + ratio*ratio);
-    out.r = (x.r + x.i*ratio) / den;
-    out.i = (x.i - x.r*ratio) / den;
-  }
-  return out;
-
-}
-
-
-inline int inline_cplx_equal(
-    const Rcomplex& x, const Rcomplex& y
-) {
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    return(NA_LOGICAL);
-  }
-  else if(x.r == y.r && x.i == y.i) {
-    return(1);
-  }
-  else return(0);
-}
-
-
-inline int inline_cplx_unequal(
-    const Rcomplex& x, const Rcomplex& y
-) {
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    return(NA_LOGICAL);
-  }
-  else if(x.r != y.r || x.i != y.i) {
-    return(1);
-  }
-  else return(0);
-}
-
-
-
-"
 
 ################################################################################
 # Save ====
@@ -266,10 +112,10 @@ inlines <- stri_c(
   "\n",
   introcomments, 
   "\n",
-  inline_bool,
-  "\n",
-  inline_cplx,
+  inline_general,
   "\n"
 )
 
-readr::write_file(inlines, "inlines.txt")
+
+
+readr::write_file(inlines, "txt/inlines.txt")

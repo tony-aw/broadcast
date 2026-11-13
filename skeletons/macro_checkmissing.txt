@@ -1,3 +1,15 @@
+// 
+// 
+// 
+// ********************************************************************************
+// MACROs for checkmissing
+// 
+// The following MACROs are all specific to the `checkNA` and `checkNULL` functions
+// 
+// 
+// ********************************************************************************
+// 
+// 
 
 #define MACRO_CHECKMISSING_TYPESWITCH(MACROCODE, DOCODE) do { \
   switch(TYPEOF(y)) {                                                         \
@@ -11,7 +23,7 @@
     case REALSXP:                                                             \
     {                                                                         \
       const double *py = REAL_RO(y);                                          \
-      MACROCODE(DOCODE, R_isnancpp(py[i]), !R_isnancpp(py[i]));               \
+      MACROCODE(DOCODE, std::isnan(py[i]), !std::isnan(py[i]));               \
       break;                                                                  \
     }                                                                         \
     case CPLXSXP:                                                             \
@@ -19,8 +31,8 @@
       const Rcomplex *py = COMPLEX_RO(y);                                     \
       MACROCODE(                                                              \
         DOCODE,                                                               \
-        R_isnancpp(py[i].r) || R_isnancpp(py[i].i),                           \
-        !R_isnancpp(py[i].i) && !R_isnancpp(py[i].r)                          \
+        std::isnan(py[i].r) || std::isnan(py[i].i),                           \
+        !std::isnan(py[i].i) && !std::isnan(py[i].r)                          \
       );                                                                      \
       break;                                                                  \
     }                                                                         \

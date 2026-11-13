@@ -1,10 +1,9 @@
-#' Change Orientation of An Oriented Vector and Make it a Broadcaster
+#' Change Orientation of An Oriented Vector For Broadcasting
 #'
 #' @description
 #' The `lhs %orientbc<-% rhs` operator
 #' takes an oriented vector (`lhs`),
 #' and changes its orientation. \cr
-#' It also makes `lhs` a broadcaster if it wasn't already. \cr
 #' \cr
 #' The modification is done directly on `lhs` itself,
 #' using R's native semantics. \cr
@@ -113,7 +112,6 @@ NULL
     }, subs
   )
   eval(expr, envir = env)
-  mbroadcasters(as.character(x_expr), TRUE, env)
   
   
 }

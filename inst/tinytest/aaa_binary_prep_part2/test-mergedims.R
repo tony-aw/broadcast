@@ -13,7 +13,7 @@ mergedims <- function(x.dim, y.dim) {
   x.ndim <- ndim(x.dim)
   y.ndim <- ndim(y.dim)
   
-  broadcast:::.rcpp_mergedims_set(x.dim2, y.dim2, x.ndim, y.ndim)
+  broadcast:::.rcpp_mergedims(x.dim2, y.dim2, x.ndim, y.ndim)
   out <- list(
     x.dim2[seq_len(x.ndim)],
     y.dim2[seq_len(y.ndim)]
@@ -69,7 +69,7 @@ enumerate <- enumerate + 2L
 
 
 # check regular functionality ====
-n <- 10
+n <- 10L
 x <- c(n, n, 1, n, n, n, n) |> as.integer()
 y <- c(1, 1, n, 1, 1, 1, 1) |> as.integer()
 expected <- list(
@@ -83,3 +83,37 @@ expect_equal(
 
 enumerate <- enumerate + 1L
 
+
+# check prepended 1s are removed ====
+n <- 10L
+x <- c(1, 1, 1, n, 1, n, 1) |> as.integer()
+y <- c(1, 1, n, 1, n, 1, n) |> as.integer()
+expected <- list(
+  x[-1:-2] |> as.integer(),
+  y[-1:-2] |> as.integer()
+)
+out <- mergedims(x, y)
+expect_equal(
+  expected, out
+)
+
+enumerate <- enumerate + 1L
+
+
+
+# check appended 1s are removed ====
+n <- 10L
+x <- c(1, n, 1, n, 1, 1, 1) |> as.integer()
+y <- c( n, 1, n, 1, n, 1, 1) |> as.integer()
+nx <- length(x)
+ny <- length(y)
+expected <- list(
+  x[-nx:-(nx-1)] |> as.integer(),
+  y[-ny:-(ny-1)] |> as.integer()
+)
+out <- mergedims(x, y)
+expect_equal(
+  expected, out
+)
+
+enumerate <- enumerate + 1L

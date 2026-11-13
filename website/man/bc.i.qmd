@@ -6,20 +6,22 @@ format:
     css: /man.css
 
 ---
-## Broadcasted Integer Numeric Operations with Extra Overflow Protection {.unnumbered}
+## Broadcasted Integer Operations {.unnumbered}
 
 
 ### Description
 
 The <code>bc.i()</code> method
-performs broadcasted integer numeric operations on 2 numeric or logical arrays. <br>
+performs broadcasted integer operations on 2 numeric or logical arrays. <br>
 <br>
-Please note that these operations will treat the input as (<code>double</code> typed) integers,
-and will efficiently truncate when necessary. <br>
+Please note that these operations will treat the input as (53 or 32 bit) integers,
+and will efficiently truncate using <code>trunc2int53()</code> when necessary. <br>
 Therefore, something like <code>bc.i(1, 1.5, "==")</code> returns <code>TRUE</code>,
 because <code>trunc(1.5)</code> equals <code>1</code>. <br>
 <br>
-For regular relational operators, see [bc.rel](bc.rel.qmd). <br> <br>
+For regular relational operators, see [bc.rel](bc.rel.qmd). <br>
+<br>
+<br>
 
 
 
@@ -29,6 +31,8 @@ For regular relational operators, see [bc.rel](bc.rel.qmd). <br> <br>
 
 ## S4 method for signature 'ANY'
 bc.i(x, y, op)
+
+trunc2int53(x)
 </code></pre>
 
 
@@ -42,8 +46,7 @@ conformable vectors/arrays of type logical or numeric.
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="op">op</code></td>
 <td>
 a single string, giving the operator. <br>
-Supported simple arithmetic operators: +, -, *, ^, pmin, pmax. <br>
-Supported special division arithmetic operators: gcd, %%, %/%. <br>
+Supported integer operators: gcd, %%, %/%, pmin, pmax. <br>
 Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=. <br>
 The &quot;gcd&quot; operator performs the &quot;Greatest Common Divisor&quot; operation,
 using the Euclidean algorithm.
@@ -57,17 +60,32 @@ further arguments passed to or from methods. <br> <br>
 
 ### Value
 
-For arithmetic operators: <br>
-A numeric array of whole numbers,
-as a result of the broadcasted arithmetic operation. <br>
-Base 'R' supports integers from <code>-2^53</code> to <code>2^53</code>,
+For <code>trunc2int53()</code>: <br>
+Base 'R' supports 53 bit integers from <code>-1 * (2^53 - 1)</code> to <code>2^53 - 1</code>,
 which thus range from approximately <code>-9</code> quadrillion to <code>+9</code> quadrillion. <br>
-Values outside of this range will be returned as <code>-Inf</code> or <code>Inf</code>,
-as an extra protection against integer overflow. <br>
+<code>trunc2int53()</code> will truncate a numeric vector (like <code>trunc()</code>),
+and replace all values above <code>2^53 - 1</code> with <code>Inf</code>,
+and values below <code>-1 * (2^53 - 1)</code> with <code>-Inf</code>. <br>
+<br>
+
+For integer operators: <br>
+A numeric (<code>double</code> or <code>integer</code>, depending on the situation) array of whole numbers,
+as a result of the broadcasted arithmetic operation. <br>
+Values outside of the 53 bit integer range will be returned as <code>-Inf</code> or <code>Inf</code>,
+as in <code>trunc2int53()</code>,
+as an extra protection against integer precision loss. <br>
 <br>
 For relational operators: <br>
 A logical array as a result of the broadcasted integer relational comparison. <br>
+The relational operators efficiently truncate the input during broadcasting using <code>trunc2int53()</code>. <br>
 <br>
+
+
+
+### References
+
+On the integer division and remainder (modulo) computations, %% and %/%: <br>
+<a href="https://en.wikipedia.org/wiki/Modulo">https://en.wikipedia.org/wiki/Modulo</a>
 
 
 
@@ -87,11 +105,9 @@ x.data <- sample(c(NA, 1.1:1000.1), x.len, TRUE)
 x <- array(x.data, x.dim)
 y <- array(1:50, c(4,1,1))
 
-bc.i(x, y, "+")
-bc.i(x, y, "-")
-bc.i(x, y, "*")
+bc.i(x, y, "%%")
+bc.i(x, y, "%/%")
 bc.i(x, y, "gcd") # greatest common divisor
-bc.i(x, y, "^")
 
 bc.i(x, y, "==")
 bc.i(x, y, "!=")
@@ -99,6 +115,7 @@ bc.i(x, y, "<")
 bc.i(x, y, ">")
 bc.i(x, y, "<=")
 bc.i(x, y, ">=")
+
 
 
 ```

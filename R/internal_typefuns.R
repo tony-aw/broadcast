@@ -9,15 +9,16 @@
 
 #' @keywords internal
 #' @noRd
-.make_int53scalar <- function(x) {
-  if(is.na(x) || is.infinite(x)) {
-    return(x)
-  }
-  intmax <- 2^52 - 1
+.trymake_simple_int_scalar <- function(x) {
+  
+  if(is.nan(x) || is.infinite(x)) return(x)
+  if(is.na(x)) return(as_lgl(x))
+  if(x == 1L || x == 0L) return(as_lgl(x))
+  
+  intmax <- 2^31 - 1
   intmin <- -1 * intmax
-  if(x >= intmin && x <= intmax) {
-    return(as_int(x))
-  }
+  if(x >= intmin && x <= intmax && round(x) == x) return(as_int(x))
+  
   return(x)
 }
 

@@ -3,7 +3,7 @@
 \name{reorient_vector}
 \alias{reorient_vector}
 \alias{\%orientbc<-\%}
-\title{Change Orientation of An Oriented Vector and Make it a Broadcaster}
+\title{Change Orientation of An Oriented Vector For Broadcasting}
 \usage{
 lhs \%orientbc<-\% rhs
 }
@@ -26,7 +26,6 @@ Nothing, but changes \code{lhs} directly. \cr
 The \code{lhs \%orientbc<-\% rhs} operator
 takes an oriented vector (\code{lhs}),
 and changes its orientation. \cr
-It also makes \code{lhs} a broadcaster if it wasn't already. \cr
 \cr
 The modification is done directly on \code{lhs} itself,
 using R's native semantics. \cr
@@ -72,6 +71,7 @@ print(x)
 
 # modify an array along one specific dimension ====
 x <- array(sample(0:9), c(3,3,3))
+broadcaster(x) <- TRUE
 print(x)
 
 # add 10 to second column, and 100 to third column:

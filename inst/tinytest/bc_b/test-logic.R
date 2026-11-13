@@ -35,7 +35,17 @@ expect_equal(
   logic_gates$XOR
 )
 
-enumerate <- enumerate + 3L
+expect_equal(
+  bc.b(x, y, "nand") |> as.integer(),
+  logic_gates$NAND
+)
+
+expect_equal(
+  bc.b(x, y, "nor") |> as.integer(),
+  logic_gates$NOR
+)
+
+enumerate <- enumerate + 5L
 
 
 # raw ====
@@ -57,6 +67,17 @@ expect_equal(
   bc.b(x, y, "xor") |> as.integer(),
   logic_gates$XOR
 )
+
+expect_equal(
+  bc.b(x, y, "nand") |> as.integer(),
+  logic_gates$NAND
+)
+
+expect_equal(
+  bc.b(x, y, "nor") |> as.integer(),
+  logic_gates$NOR
+)
+
 
 enumerate <- enumerate + 3L
 

@@ -1,13 +1,13 @@
 
 
 #include <Rcpp/Lightest>
-#include "broadcast.h"
+#include "misc.h"
 
 using namespace Rcpp;
 
 
 
-inline int rcpp_factor_count(
+int rcpp_factor_count(
   SEXP grp, int j
 ) {
   const int *pgrp = INTEGER_RO(grp);
@@ -22,7 +22,7 @@ inline int rcpp_factor_count(
 }
 
 
-inline SEXP rcpp_factor_which(
+SEXP rcpp_factor_which(
   SEXP grp, int j, int size
 ) {
   SEXP out = PROTECT(Rf_allocVector(INTSXP, size));

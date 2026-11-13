@@ -56,10 +56,10 @@ setMethod(
 #' @noRd
 .bc.rel <- function(x, y, op, abortcall) {
   if(op %in% c(1L, 2L)) {
-    .overload_relop_equneq(x, y, op, abortcall)
+    return(.overload_relop_equneq(x, y, op, abortcall))
   }
   else {
-    .overload_relop_gs(x, y, op, abortcall)
+    return(.overload_relop_gs(x, y, op, abortcall))
   }
 }
 
@@ -74,34 +74,17 @@ setMethod(
   }
   
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  # x.len <- prep[[3L]]
-  # y.len <- prep[[4L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  
-  if(dimmode < 5L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bcRel_raw_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bcRel_raw_2v(x, y, prep, op)
+  }
+  else if(dimmode <= 4L) {
+    out <- .rcpp_bcRel_raw_1v(x, y, prep, op)
   }
   else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bcRel_raw_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
-    )
+    out <- .rcpp_bcRel_raw_d(x, y, prep, op)
   }
-  
-  .rcpp_set_attr(out, "dim", out.dimorig)
   
   .binary_set_attr(out, x, y)
   

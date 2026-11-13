@@ -79,7 +79,7 @@ expect_equal(
 # power ====
 bc.fun <- function(x, y) bc.d(x, y, "^")
 base.fun <- function(x, y) {
-  as_dbl(x) ^ as_dbl(y)
+ x^y
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
 

@@ -5,36 +5,34 @@ library(stringi)
 # macros <- stri_c(dMacro_skeletons, collapse = "\n")
 
 
-inlines <- readr::read_file("inlines.txt")
-macro_dim <- readr::read_file("macro_dim.txt")
-macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
-macro_action <- readr::read_file("macro_action.txt")
-macro_op <- readr::read_file("macro_op.txt")
-macro_acast <- readr::read_file("macro_acast.txt")
-macro_checkmissing <- readr::read_file("macro_checkmissing.txt")
-macro_ternary <- readr::read_file("macro_ternary.txt")
+inlines <- readr::read_file("txt/inlines.txt")
+macro_dim <- readr::read_file("txt/macro_dim.txt")
 
-header <- stri_c("
+header_body <- stri_c(
+  inlines,
+  "\n",
+  macro_dim,
+  "\n"
+)
+
+header_for_sourcing <- stri_c(
+  "
+  #include <Rcpp/Lightest>
+  ",
+  header_body,
+  "\n"
+)
+
+
+header_for_package <- stri_c("
 
 #ifndef BROADCAST_H
 #define BROADCAST_H
 
-#include <Rcpp.h>
+#include <Rcpp/Lightest>
 
 ",
-inlines,
-"\n",
-macro_action,
-"\n",
-macro_typeswitch_numeric,
-"\n",
-macro_op,
-"\n",
-macro_dim,
-"\n",
-macro_acast,
-"\n",
-macro_checkmissing,
+header_body,
 
 "
 
@@ -42,9 +40,11 @@ macro_checkmissing,
 "
 )
 
-cat(header)
-readr::write_file(header, "header.txt")
-Rcpp::sourceCpp(code = header)
+
+Rcpp::sourceCpp(code = header_for_sourcing)
+
+readr::write_file(header_for_package, "header.txt")
+
 setwd("..")
-readr::write_file(header, "src/broadcast.h")
+readr::write_file(header_for_package, "src/broadcast.h")
 

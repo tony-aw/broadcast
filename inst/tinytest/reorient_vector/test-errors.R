@@ -98,3 +98,4 @@ expect_error(
   (1:10) %orientbc<-% c(1,2)
 )
 enumerate <- enumerate + 1L
+

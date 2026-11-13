@@ -336,7 +336,7 @@ enumerate <- enumerate + res$i
 
 # bitwise se ====
 basefun <- function(x, y) {
-  out <- mapply(\(x, y)scalar_relop_fun(x, y, `<=`), x, y)
+  out <- !x | y
   dim(out) <- bc_dim(x, y)
   return(out)
 }
@@ -351,7 +351,7 @@ enumerate <- enumerate + res$i
 
 # bitwise ge ====
 basefun <- function(x, y) {
-  out <- mapply(\(x, y)scalar_relop_fun(x, y, `>=`), x, y)
+  out <- x | !y
   dim(out) <- bc_dim(x, y)
   return(out)
 }
@@ -429,3 +429,4 @@ expect_false(
   identical(res$expected_comm, res$out_comm)
 )
 enumerate <- enumerate + res$i
+

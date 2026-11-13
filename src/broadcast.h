@@ -3,7 +3,7 @@
 #ifndef BROADCAST_H
 #define BROADCAST_H
 
-#include <Rcpp.h>
+#include <Rcpp/Lightest>
 
 
 // 
@@ -17,2172 +17,101 @@
 
 
 
-inline int inline_bool_AND(
-  int x, int y
-) {
-  bool xFALSE = x != NA_INTEGER && x == 0;
-  bool yFALSE = y != NA_INTEGER && y == 0;
-  if(xFALSE || yFALSE) {
-    return 0;
-  }
-  else if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return ((bool)x && (bool)y);
-  }
-}
+#define DEF_INT53MAX std::pow(2, 53) - 1;
 
-inline int inline_bool_OR(
-  int x, int y
-) {
-  bool xTRUE = x != NA_INTEGER && x != 0;
-  bool yTRUE = y != NA_INTEGER && y != 0;
-  if(xTRUE || yTRUE) {
-    return 1;
-  }
-  else if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return ((bool)x || (bool)y);
-  }
-}
+#define DEF_INT32MAX std::pow(2, 31) - 1;
 
-
-inline int inline_bool_XOR(
-  int x, int y
-) {
-  if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return ((bool)x != bool(y));
-  }
-}
-
-
-inline int inline_bool_IRIGHT(
-  int x, int y
-) {
-  bool xFALSE = x != NA_INTEGER && x == 0;
-  bool yTRUE = y != NA_INTEGER && y != 0;
-  if(xFALSE || yTRUE) {
-    return 1;
-  }
-  else if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return (!(bool)x || (bool)y);
-  }
-}
-
-
-inline int inline_bool_ILEFT(
-  int x, int y
-) {
-  bool xTRUE = x != NA_INTEGER && x != 0;
-  bool yFALSE = y != NA_INTEGER && y == 0;
-  if(xTRUE || yFALSE) {
-    return 1;
-  }
-  else if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return (!(bool)x || (bool)y);
-  }
-}
-
-
-
-inline int inline_bool_XLEFT(
-  int x, int y
-) {
-  bool xFALSE = x != NA_INTEGER && x == 0;
-  bool yTRUE = y != NA_INTEGER && y != 0;
-  if(xFALSE || yTRUE) {
-    return 0;
-  }
-  else if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return ((bool)x && !(bool)y);
-  }
-}
-
-
-inline int inline_bool_XRIGHT(
-  int x, int y
-) {
-  bool xTRUE = x != NA_INTEGER && x != 0;
-  bool yFALSE = y != NA_INTEGER && y == 0;
-  if(xTRUE || yFALSE) {
-    return 0;
-  }
-  else if(x == NA_INTEGER || y == NA_INTEGER) {
-    return NA_LOGICAL;
-  }
-  else {
-    return (!(bool)x && (bool)y);
-  }
-}
-
-
-
-
-
-inline Rcomplex inline_cplx_plus( const Rcomplex& x, const Rcomplex& y) {
+inline bool inline_dims_is_vector(SEXP x) {
   
-  Rcomplex out;
+  if(x == R_NilValue) {
+    return true;
+  }
   
-  out.r = x.r + y.r;
-  out.i = x.i + y.i;
+  const int n = Rf_xlength(x);
+  const int *px = INTEGER_RO(x);
+  int count_big = 0;
+  
+  for(int i = 0; i < n; ++i) {
+    count_big += px[i] > 1;
+  }
+  
+  
+  return (count_big <= 1);
+}
+
+
+inline bool inline_branchless_or(bool x, bool y) {
+  // This operation uses bit-wise `OR` since that is branchless and thus faster...
+  // boolean `OR` uses short-circuit, but that's only faster if either side is a heavy computation
+  
+  // bit-wise `OR` only works properly like boolean `OR` if input is trictly 0 or 1 INTEGERS
+  // therefore, input declared as (bool), and shortly before operation coerce to (int).
+  
+  return (int)x | (int)y;
+}
+
+
+inline double inline_mod_body(double x, double y) {
+  double q = x / y;
+  double tmp = x - floor(q) * y;
+  double out = (double) (tmp - floorl(tmp / y) * y);
   return out;
 }
 
-
-inline Rcomplex inline_cplx_min( const Rcomplex& x, const Rcomplex& y) {
+inline double inline_idiv_body(double x, double y, double q) {
+  if(std::abs(q) < 1) {
+    double z = (q < 0) ? -1
+    : ((x < 0 && y > 0) ||
+       (x > 0 && y < 0) // differing signs
+       ? -1 : 0);
+    return z;
+  }
   
-  Rcomplex out;
-  
-  out.r = x.r - y.r ;
-  out.i = x.i - y.i ;
-  return out;
+  double tmp = (double)(x - floor(q) * (double)y);
+  return (double) (floor(q) + floorl(tmp/y));
 }
 
+inline double inline_gcd_body(long long x, long long y) {
 
-inline Rcomplex inline_cplx_mult( const Rcomplex& x, const Rcomplex& y) {
+  long long a = std::abs(x);
+  long long b = std::abs(y);
+  if(a == 0) return b;
+  if(b == 0) return a;
   
-  Rcomplex out;
-  
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    out.r = NA_REAL;
-    out.i = NA_REAL;
-    return out;
-  }
-  
-  out.r = x.r * y.r - x.i * y.i;
-  out.i = x.r * y.i + y.r * x.i;
-  return out;
-}
-
-
-
-inline Rcomplex inline_cplx_div( const Rcomplex& x, const Rcomplex& y) {
-  
-  Rcomplex out;
-  
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    out.r = NA_REAL;
-    out.i = NA_REAL;
-    return out;
+  while (b != 0) {
+    long long remainder = a % b;
+    a = b;
+    b = remainder;
   }
   
+  return a;
   
-  double ratio, den;
-  double abr, abi;
-
-  if( (abr = y.r) < 0) abr = - abr;
-  if( (abi = y.i) < 0) abi = - abi;
-  if( abr <= abi ) {
-    ratio = y.r / y.i ;
-    den = y.i * (1 + ratio*ratio);
-    out.r = (x.r*ratio + x.i) / den;
-    out.i = (x.i*ratio - x.r) / den;
-  }
-  else {
-    ratio = y.i / y.r ;
-    den = y.r * (1 + ratio*ratio);
-    out.r = (x.r + x.i*ratio) / den;
-    out.i = (x.i - x.r*ratio) / den;
-  }
-  return out;
-
-}
-
-
-inline int inline_cplx_equal(
-    const Rcomplex& x, const Rcomplex& y
-) {
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    return(NA_LOGICAL);
-  }
-  else if(x.r == y.r && x.i == y.i) {
-    return(1);
-  }
-  else return(0);
-}
-
-
-inline int inline_cplx_unequal(
-    const Rcomplex& x, const Rcomplex& y
-) {
-  if(R_isnancpp(x.r) || R_isnancpp(x.i) || R_isnancpp(y.r) || R_isnancpp(y.i)) {
-    return(NA_LOGICAL);
-  }
-  else if(x.r != y.r || x.i != y.i) {
-    return(1);
-  }
-  else return(0);
 }
 
 
 
 
 
-
-// 
-// 
-// ********************************************************************************
-// MACROs for "actions"
-// 
-// The following MACROs define small pieces of code that are used at various places in other MACROs.
-// 
-// ********************************************************************************
-// 
-// 
-
-#define MACRO_ASSIGN_C(INPUTCODE) do {  \
-  tempout = INPUTCODE;              \
-  pout[flatind_out] = tempout;      \
-} while(0)
-
-#define MACRO_ASSIGN_RCPP(INPUTCODE) do {  \
-  out[flatind_out] = INPUTCODE;      \
-} while(0)
-
-
-
-#define MACRO_OVERFLOW(REF) ((REF) < intmin || (REF) > intmax)
-
-
-
-
-#define MACRO_ACTION1(DOCODE) do {      \
-  DOCODE;                                     \
-} while(0)
-
-
-
-#define MACRO_ACTION2(NACHECK, NACODE, DOCODE) do {      \
-  if(NACHECK) {                                                   \
-  	  NACODE;                                                       \
-  	}                                                               \
-  	else {                                                          \
-  	  DOCODE;                                                       \
-  	}                                                               \
-} while(0)
-
-
-#define MACRO_ACTION3(RULECHECK, RULECODE, DOCODE) do {      \
-  if(RULECHECK) {                                                   \
-    RULECODE;                                                       \
-  }                                                                 \
-	else {                                                          \
-	  DOCODE;                                                       \
-	}                                                               \
-} while(0)
-
-#define MACRO_ACTION4(RULECHECK, RULECODE, NACHECK, NACODE, DOCODE) do {      \
-  if(RULECHECK) {                                                   \
-    RULECODE;                                                       \
-  }                                                                 \
-  else if(NACHECK) {                                                \
-  	  NACODE;                                                       \
-  }                                                               \
-	else {                                                          \
-	  DOCODE;                                                       \
-	}                                                               \
-} while(0)
-
-
-
-
-#define MACRO_ACTION_INTEGER1(NACHECK, NACODE, DOLEFT, DORIGHT, DOCODE) do {      \
-  if(NACHECK) {                                                   \
-  	  NACODE;                                                     \
-  }                                                               \
-	else {                                                          \
-	  e1 = DOLEFT;                                                  \
-	  e2 = DORIGHT;                                                 \
-	  DOCODE;                                                       \
-	}                                                               \
-} while(0)
-
-
-
-
-#define MACRO_ACTION_INTEGER2(RULECHECK, RULECODE, NACHECK, NACODE, DOLEFT, DORIGHT, DOCODE) do {      \
-  if(RULECHECK) {                                                   \
-    RULECODE;                                                       \
-  }                                                                 \
-  else if(NACHECK) {                                                   \
-  	  NACODE;                                                     \
-  }                                                               \
-	else {                                                          \
-	  e1 = DOLEFT;                                                  \
-	  e2 = DORIGHT;                                                 \
-	  DOCODE;                                                       \
-	}                                                               \
-} while(0)
-
-
-
-
-#define MACRO_ACTION_INTEGER_GCD1(NACHECK, NACODE, DOCODE) do {      \
-  if(NACHECK) {                                                   \
-    NACODE;                                                     \
-  }                                                             \
-	else {                                                          \
-	  DOCODE;                                                       \
-	}                                                               \
-} while(0)
-
-
-
-
-#define MACRO_ACTION_INTEGER_GCD2(NACHECK, RULECHECK, NACODE, RULECODE, DOCODE) do {      \
-  if(NACHECK) {                                                   \
-    NACODE;                                                     \
-  }                                                                 \
-  else if(RULECHECK) {                                                   \
-    RULECODE;                                                       \
-  }                                                                 \
-	else {                                                          \
-	  DOCODE;                                                       \
-	}                                                               \
-} while(0)
-
-
-
-#define MACRO_ACTION_BOOLEAN(XREF, YREF, PRECHECK, PRECODE, NACODE, DOCODE) do { \
-                                          \
-  xTRUE = rcpp_isTRUE(XREF);                 \
-  xFALSE = rcpp_isFALSE(XREF);               \
-  xNA = XREF == NA_INTEGER;                  \
-  yTRUE = rcpp_isTRUE(YREF);                 \
-  yFALSE = rcpp_isFALSE(YREF);               \
-  yNA = YREF == NA_INTEGER;                  \
-  if(PRECHECK) {                          \
-    PRECODE;                              \
-  }                                       \
-  else if(xNA || yNA) {                   \
-    NACODE;                               \
-  }                                       \
-  else {                                  \
-    DOCODE;                               \
-  }                                       \
-} while(0)
-
-
-
-#define MACRO_ACTION_BOOLEAN_REL(XREF, YREF, NACODE, DOCODE) do { \
-  if(XREF == NA_INTEGER || YREF == NA_INTEGER) {                   \
-    NACODE;                               \
-  }                                       \
-  else {                                  \
-    DOCODE;                               \
-  }                                       \
-} while(0)
-
-
-
-#define MACRO_DOUBLEPASS(MACRO1, MACRO2) do{  \
-  MACRO1;                                     \
-  MACRO2;                                     \
-} while(0)
-
-
-#define MACRO_ACTION_VAPPLY(ASSIGNCODE, ERRORCHECK, ERRORCODE, DOCODE) do { \
-  ASSIGNCODE;   \
-  if(ERRORCHECK) {  \
-    ERRORCODE;  \
-  } \
-  else {  \
-    DOCODE; \
-  } \
-} while(0)
-
-
-
-
-# define MACRO_UNLIST_DEEP(POINTERCODE, DOCODE) do {         \
-  for(int i = 0; i < Rf_length(input); ++i) {     \
-    SEXP tempin = VECTOR_ELT(input, i);           \
-    POINTERCODE;                                  \
-    for(int j = 0; j < Rf_length(tempin); ++j) {  \
-      flatind = i + nrow * j;                     \
-      DOCODE;                                     \
-    }                                             \
-  }                                               \
-} while(0);
-
-
-# define MACRO_UNLIST_DOWN(POINTERCODE, DOCODE) do {          \
-  for(int i = 0; i < Rf_length(input); ++i) {     \
-    SEXP tempin = VECTOR_ELT(input, i);           \
-    POINTERCODE;                                  \
-    for(int j = 0; j < Rf_length(tempin); ++j) {  \
-      flatind = j + nrow * i;                     \
-      DOCODE;                                     \
-    }                                             \
-  }                                               \
-} while(0);
-
-
-
-
 // 
 // 
 // 
 // ********************************************************************************
-// MACROs for numeric type-switching
+// MACROs for broadcasted binary operations where one or both sides are vectors
 // 
-// There are several numeric-like types (exclusing complex type):
-// logical, integer, and double.
-// The following MACROs define various if-else constructs,
-// used to decide what specific code should run for which numeric-like type.
-// 
-// ********************************************************************************
-// 
-// 
-
-
-#define MACRO_TYPESWITCH_DECIMAL_ARITH(DIMCODE, DECIMALCODE, INTEGERCODE, NACODE) do {      \
-    if(TYPEOF(x) == REALSXP && TYPEOF(y) == REALSXP) {  \
-      const double *px = REAL_RO(x);    \
-      const double *py = REAL_RO(y);    \
-      DIMCODE(            \
-        MACRO_ACTION1(    \
-          DECIMALCODE    \
-        )   \
-      );    \
-    }   \
-    else {  \
-      const int *px = INTEGER_RO(x);    \
-      const int *py = INTEGER_RO(y);    \
-      DIMCODE(            \
-        MACRO_ACTION2(                                           \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-          NACODE,                                               \
-          INTEGERCODE                                                \
-        )                                                       \
-      );    \
-    } \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_DECIMAL_CAREFUL(DIMCODE, NACODE, DOCODE) do {      \
-    if(TYPEOF(x) == REALSXP && TYPEOF(y) == REALSXP) {    \
-      const double *px = REAL_RO(x);                                           \
-      const double *py = REAL_RO(y);                                           \
-      DIMCODE(                                                          \
-        MACRO_ACTION2(                                           \
-          R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
-          NACODE,                                               \
-          DOCODE                                                \
-        )                                                       \
-      );                                                        \
-    }   \
-    else {    \
-      const int *px = INTEGER_RO(x);    \
-      const int *py = INTEGER_RO(y);    \
-      DIMCODE(                                                          \
-        MACRO_ACTION2(                                           \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-          NACODE,                                               \
-          DOCODE                                                \
-        )                                                       \
-      );    \
-    }   \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_DECIMAL_SPECIAL(DIMCODE, RULECHECK, RULECODE, NACODE, DOCODE) do {      \
-  if(TYPEOF(x) == REALSXP && TYPEOF(y) == REALSXP) {                                 \
-    const double *px = REAL_RO(x);                                           \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION3(                                           \
-        RULECHECK,                                                    \
-        RULECODE,                                                     \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else {                                        \
-    const int *px = INTEGER_RO(x);                                        \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION4(                                           \
-        RULECHECK,                                                    \
-        RULECODE,                                                     \
-        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_DECIMAL_DIST(DIMCODE, NACODE1, DOCODE1, NACODE2, DOCODE2) do {      \
-    if(TYPEOF(x) == REALSXP && TYPEOF(y) == REALSXP) {  \
-    const double *px = REAL_RO(x);                              \
-    const double *py = REAL_RO(y);                              \
-      DIMCODE(                                                    \
-        MACRO_DOUBLEPASS(                                         \
-          MACRO_ACTION2(                                           \
-            R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
-            NACODE1,                                               \
-            DOCODE1                                                \
-          ),                                                      \
-          MACRO_ACTION2(                                          \
-            R_isnancpp(tempcalc),                                   \
-            NACODE2,                                               \
-            DOCODE2                                               \
-          )                                                       \
-        )                                                         \
-      );                                                       \
-    } \
-    else {  \
-      const int *px = INTEGER_RO(x);                                \
-      const int *py = INTEGER_RO(y);                                \
-      DIMCODE(                                                      \
-        MACRO_DOUBLEPASS(                                           \
-          MACRO_ACTION2(                                           \
-            px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-            NACODE1,                                               \
-            DOCODE1                                                \
-          ),                                                      \
-          MACRO_ACTION2(                                          \
-            R_isnancpp(tempcalc),                                   \
-            NACODE2,                                               \
-            DOCODE2                                               \
-          )                                                       \
-        )                                                         \
-      );                                                          \
-    }   \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_INTEGER_UNGUARDED(DIMCODE, NACODE, DOCODE) do {      \
-    const int *px = INTEGER_RO(x);                                        \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                           \
-        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_INTEGER_COMMON(DIMCODE, NACODE, DOCODE) do {      \
-  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
-  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
-  if(xint && yint) {                                        \
-    const int *px = INTEGER_RO(x);                                        \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                           \
-        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(!xint && !yint) {                                 \
-    const double *px = REAL_RO(x);                                           \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION1(                                           \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_INTEGER_REL(DIMCODE, NACODE, DOCODE) do {      \
-  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
-  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
-  if(xint && yint) {                                        \
-    int e1;                                                 \
-    int e2;                                                 \
-    const int *px = INTEGER_RO(x);                                        \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION_INTEGER1(                                           \
-        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        px[flatind_x],                                   \
-        py[flatind_y],                                   \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(!xint && !yint) {                                 \
-    double e1;                                              \
-    double e2;                                              \
-    const double *px = REAL_RO(x);                                           \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION_INTEGER1(                                           \
-        R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
-        NACODE,                                               \
-        trunc(px[flatind_x]),                                   \
-        trunc(py[flatind_y]),                                   \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_INTEGER1(DIMCODE, NACODE, DOCODE) do {      \
-  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
-  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
-  double e1;                                                \
-  double e2;                                                \
-  if(xint && yint) {                                        \
-    const int *px = INTEGER_RO(x);                                        \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION_INTEGER1(                                           \
-        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        (double)px[flatind_x],                                   \
-        (double)py[flatind_y],                                   \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(!xint && !yint) {                                 \
-    const double *px = REAL_RO(x);                                           \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION_INTEGER1(                                           \
-        R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
-        NACODE,                                               \
-        trunc(px[flatind_x]),                                   \
-        trunc(py[flatind_y]),                                   \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_INTEGER2(DIMCODE, RULECHECK, RULECODE, NACODE, DOCODE) do {      \
-  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
-  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
-  double e1;                                                \
-  double e2;                                                \
-  if(xint && yint) {                                        \
-    const int *px = INTEGER_RO(x);                                        \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION_INTEGER2(                                           \
-        RULECHECK,                                                      \
-        RULECODE,                                                       \
-        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        (double)px[flatind_x],                                   \
-        (double)py[flatind_y],                                   \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(!xint && !yint) {                                 \
-    const double *px = REAL_RO(x);                                           \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION_INTEGER2(                                           \
-        RULECHECK,                                                      \
-        RULECODE,                                                       \
-        R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
-        NACODE,                                               \
-        trunc(px[flatind_x]),                                   \
-        trunc(py[flatind_y]),                                   \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-} while(0)
-
-
-
-
-#define MACRO_TYPESWITCH_INTEGER_GCD(DIMCODE, NACODE, RULECODE, DOCODE) do {      \
-  bool xint = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;   \
-  bool yint = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;   \
-  if(xint && yint) {                                        \
-    const int *px = INTEGER_RO(x);                                        \
-    const int *py = INTEGER_RO(y);                                        \
-    DIMCODE(                                                          \
-      MACRO_ACTION_INTEGER_GCD1(                                           \
-        px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,  \
-        NACODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-  else if(!xint && !yint) {                                 \
-    const double *px = REAL_RO(x);                                           \
-    const double *py = REAL_RO(y);                                           \
-    DIMCODE(                                                          \
-      MACRO_ACTION_INTEGER_GCD2(                                           \
-        R_isnancpp(px[flatind_x]) || R_isnancpp(py[flatind_y]),  \
-        MACRO_OVERFLOW(px[flatind_x]) || MACRO_OVERFLOW(py[flatind_y]),           \
-        NACODE,                                               \
-        RULECODE,                                               \
-        DOCODE                                                \
-      )                                                       \
-    );                                                       \
-  }                                                         \
-} while(0)
-
-
-
-
-// 
-// 
-// 
-// ********************************************************************************
-// MACROs for operations
-// 
-// The following MACROs define the various operations, like relational and arithmetic operations.
-// 
-// ********************************************************************************
-// 
-// 
-
-#define MACRO_OP_DEC_MATH(DIMCODE) do {	\
-  switch(op) {	\
-    case 1:	\
-    {	\
-      MACRO_TYPESWITCH_DECIMAL_ARITH(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(px[flatind_x] + py[flatind_y]),	\
-        MACRO_ASSIGN_C((double)px[flatind_x] + (double)py[flatind_y]),  \
-        MACRO_ASSIGN_C(NA_REAL) \
-      );	\
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      MACRO_TYPESWITCH_DECIMAL_ARITH(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(px[flatind_x] - py[flatind_y]),	\
-        MACRO_ASSIGN_C((double)px[flatind_x] - (double)py[flatind_y]),  \
-        MACRO_ASSIGN_C(NA_REAL) \
-      );	\
-      break;	\
-    }	\
-    case 3:	\
-    {	\
-      MACRO_TYPESWITCH_DECIMAL_ARITH(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(px[flatind_x] * py[flatind_y]),	\
-        MACRO_ASSIGN_C((double)px[flatind_x] * (double)py[flatind_y]),  \
-        MACRO_ASSIGN_C(NA_REAL) \
-      );	\
-      break;	\
-    }	\
-    case 4:	\
-    {	\
-      MACRO_TYPESWITCH_DECIMAL_ARITH(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(px[flatind_x] / py[flatind_y]),	\
-        MACRO_ASSIGN_C((double)px[flatind_x] / (double)py[flatind_y]),  \
-        MACRO_ASSIGN_C(NA_REAL) \
-      );	\
-      break;	\
-    }	\
-    case 5:	\
-    {	\
-      MACRO_TYPESWITCH_DECIMAL_SPECIAL(	\
-        DIMCODE,	\
-        px[flatind_x] == 1 || py[flatind_y] == 0,	\
-        MACRO_ASSIGN_C(1),	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C(R_pow((double)px[flatind_x], (double)py[flatind_y]))	\
-      );	\
-      break;	\
-    }	\
-    case 6:	\
-    {	\
-      MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C((px[flatind_x] < py[flatind_y]) ? px[flatind_x] : py[flatind_y]) 	\
-      );	\
-      break;	\
-    }	\
-    case 7:	\
-    {	\
-      MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C((px[flatind_x] > py[flatind_y]) ? px[flatind_x] : py[flatind_y]) 	\
-      );	\
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_OP_DEC_REL(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] == py[flatind_y])  \
-    );	\
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] != py[flatind_y])  \
-    );	\
-    break;	\
-  }	\
-  case 3:	\
-  {	\
-    MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] < py[flatind_y])  \
-    );	\
-    break;	\
-  }	\
-  case 4:	\
-  {	\
-    MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] > py[flatind_y])  \
-    );	\
-    break;	\
-  }	\
-  case 5:	\
-  {	\
-    MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] <= py[flatind_y])  \
-    );	\
-    break;	\
-  }	\
-  case 6:	\
-  {	\
-    MACRO_TYPESWITCH_DECIMAL_CAREFUL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(px[flatind_x] >= py[flatind_y])  \
-    );	\
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_DEC_DIST(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    MACRO_TYPESWITCH_DECIMAL_DIST(	\
-      DIMCODE,	\
-      tempcalc = NA_REAL,	\
-      tempcalc = std::abs(px[flatind_x] - py[flatind_y]), \
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(tempcalc <= prec)  \
-    );	\
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    MACRO_TYPESWITCH_DECIMAL_DIST(	\
-      DIMCODE,	\
-      tempcalc = NA_REAL,	\
-      tempcalc = std::abs(px[flatind_x] - py[flatind_y]),	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(tempcalc > prec)  \
-    );	\
-    break;	\
-  }	\
-  case 3:	\
-  {	\
-    MACRO_TYPESWITCH_DECIMAL_DIST(	\
-      DIMCODE,	\
-      tempcalc = NA_REAL,	\
-      tempcalc = (px[flatind_x] - py[flatind_y]),  \
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(tempcalc < -prec)  \
-    );	\
-    break;	\
-  }	\
-  case 4:	\
-  {	\
-    MACRO_TYPESWITCH_DECIMAL_DIST(	\
-      DIMCODE,	\
-      tempcalc = NA_REAL,	\
-      tempcalc = (px[flatind_x] - py[flatind_y]),  \
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(tempcalc > prec)  \
-    );	\
-    break;	\
-  }	\
-  case 5:	\
-  {	\
-    MACRO_TYPESWITCH_DECIMAL_DIST(	\
-      DIMCODE,	\
-      tempcalc = NA_REAL,	\
-      tempcalc = (px[flatind_x] - py[flatind_y]),  \
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(tempcalc <= prec)  \
-    );	\
-    break;	\
-  }	\
-  case 6:	\
-  {	\
-    MACRO_TYPESWITCH_DECIMAL_DIST(	\
-      DIMCODE,	\
-      tempcalc = NA_REAL,	\
-      tempcalc = (px[flatind_x] - py[flatind_y]),	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(tempcalc >= -prec)  \
-    );	\
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_INT_MATH(DIMCODE) do {	\
-  double intmax = pow(2, 53) - 1;           \
-  double intmin = -1 * intmax;          \
-  switch(op) {	\
-    case 1:	\
-    {	\
-      if(!rcpp_int53_need_guard1(x, y)) {    \
-        MACRO_TYPESWITCH_INTEGER_UNGUARDED(	\
-          DIMCODE,	\
-          MACRO_ASSIGN_C(NA_REAL),	\
-          MACRO_ASSIGN_C((double)px[flatind_x] + (double)py[flatind_y])	\
-        );	\
-      }   \
-      else {    \
-        MACRO_TYPESWITCH_INTEGER1(	\
-          DIMCODE,	\
-          MACRO_ASSIGN_C(NA_REAL),	\
-          MACRO_ASSIGN_C(rcpp_int53_guard(e1 + e2, intmin, intmax))	\
-        );	\
-      }   \
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      if(!rcpp_int53_need_guard1(x, y)) {    \
-        MACRO_TYPESWITCH_INTEGER_UNGUARDED(	\
-          DIMCODE,	\
-          MACRO_ASSIGN_C(NA_REAL),	\
-          MACRO_ASSIGN_C((double)px[flatind_x] - (double)py[flatind_y])	\
-        );	\
-      }   \
-      else {    \
-        MACRO_TYPESWITCH_INTEGER1(	\
-          DIMCODE,	\
-          MACRO_ASSIGN_C(NA_REAL),	\
-          MACRO_ASSIGN_C(rcpp_int53_guard(e1 - e2, intmin, intmax))	\
-        );	\
-      }   \
-      break;	\
-    }	\
-    case 3:	\
-    {	\
-      if(!rcpp_int53_need_guard2(x, y)) {    \
-        MACRO_TYPESWITCH_INTEGER_UNGUARDED(	\
-          DIMCODE,	\
-          MACRO_ASSIGN_C(NA_REAL),	\
-          MACRO_ASSIGN_C((double)px[flatind_x] * (double)py[flatind_y])	\
-        );	\
-      }   \
-      else {    \
-        MACRO_TYPESWITCH_INTEGER1(	\
-          DIMCODE,	\
-          MACRO_ASSIGN_C(NA_REAL),	\
-          MACRO_ASSIGN_C(rcpp_int53_guard(e1 * e2, intmin, intmax))	\
-        );	\
-      }   \
-      break;	\
-    }	\
-    case 4:	\
-    {	\
-      MACRO_TYPESWITCH_INTEGER2(	\
-        DIMCODE,	\
-        trunc(px[flatind_x]) == 1 || trunc(py[flatind_y]) == 0,	\
-        MACRO_ASSIGN_C(1),	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C(rcpp_int53_guard(trunc(R_pow(e1, e2)), intmin, intmax))	\
-      );	\
-      break;	\
-    }	\
-    case 5:	\
-    {	\
-      MACRO_TYPESWITCH_INTEGER1(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C((e1 < e2) ? e1 : e2) 	\
-      );	\
-      break;	\
-    }	\
-    case 6:	\
-    {	\
-      MACRO_TYPESWITCH_INTEGER1(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C((e1 > e2) ? e1 : e2) 	\
-      );	\
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_OP_INT_REL(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    MACRO_TYPESWITCH_INTEGER_REL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(e1 == e2)  \
-    );	\
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    MACRO_TYPESWITCH_INTEGER_REL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(e1 != e2)  \
-    );	\
-    break;	\
-  }	\
-  case 3:	\
-  {	\
-    MACRO_TYPESWITCH_INTEGER_REL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(e1 < e2)  \
-    );	\
-    break;	\
-  }	\
-  case 4:	\
-  {	\
-    MACRO_TYPESWITCH_INTEGER_REL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(e1 > e2)  \
-    );	\
-    break;	\
-  }	\
-  case 5:	\
-  {	\
-    MACRO_TYPESWITCH_INTEGER_REL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(e1 <= e2)  \
-    );	\
-    break;	\
-  }	\
-  case 6:	\
-  {	\
-    MACRO_TYPESWITCH_INTEGER_REL(	\
-      DIMCODE,	\
-      MACRO_ASSIGN_C(NA_LOGICAL), \
-      MACRO_ASSIGN_C(e1 >= e2)  \
-    );	\
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_INT_FACT(DIMCODE) do {	\
-  double intmax = pow(2, 53) - 1;           \
-  double intmin = -1 * intmax;          \
-  switch(op) {	\
-    case 1:	\
-    {	\
-      MACRO_TYPESWITCH_INTEGER_GCD(	\
-        DIMCODE,	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C(NA_REAL),	\
-        MACRO_ASSIGN_C((double)rcpp_int53_gcd(px[flatind_x], py[flatind_y]))	\
-      );    \
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      MACRO_TYPESWITCH_INTEGER1(	\
-          DIMCODE,	\
-          MACRO_ASSIGN_C(NA_REAL),	\
-          MACRO_ASSIGN_C(rcpp_int53_mod(e1, e2, intmin, intmax))	\
-        );	\
-      break;	\
-    }	\
-    case 3:	\
-    {	\
-      MACRO_TYPESWITCH_INTEGER1(	\
-          DIMCODE,	\
-          MACRO_ASSIGN_C(NA_REAL),	\
-          MACRO_ASSIGN_C(rcpp_int53_idiv(e1, e2, intmin, intmax))	\
-        );	\
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_OP_BOOL_ANDOR_INT(DIMCODE) do {	\
-  switch(op) {	\
-    case 1:	\
-    {	\
-      DIMCODE(                      \
-        pout[flatind_out] = inline_bool_AND(px[flatind_x], py[flatind_y]) \
-      );                                                       \
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = inline_bool_OR(px[flatind_x], py[flatind_y]) \
-      );                                                        \
-      break;	\
-    }	\
-    case 3:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = inline_bool_XOR(px[flatind_x], py[flatind_y]) \
-      );                                                        \
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_OP_BOOL_ANDOR_RAW(DIMCODE) do {	\
-  switch(op) {	\
-    case 1:	\
-    {	\
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] && (bool)py[flatind_y])  \
-      );                                                       \
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ASSIGN_C((bool)px[flatind_x] || (bool)py[flatind_y])  \
-      );                                                        \
-      break;	\
-    }	\
-    case 3:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \
-      );                                                                \
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_OP_BOOL_REL_INT(DIMCODE) do {	\
-  switch(op) {	\
-    case 1:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ACTION_BOOLEAN_REL(                                           \
-          px[flatind_x], py[flatind_y],       \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C((bool)px[flatind_x] == (bool)py[flatind_y])  \
-        )                                                       \
-      );                                                        \
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      DIMCODE(                                                          \
-        MACRO_ACTION_BOOLEAN_REL(                                           \
-          px[flatind_x], py[flatind_y],       \
-          MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-          MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \
-        )                                                       \
-      );                                                        \
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_OP_BOOL_REL_RAW(DIMCODE) do {	\
-  switch(op) {	\
-    case 1:	\
-    {	\
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] == (bool)py[flatind_y])  \
-      );                                                   \
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      DIMCODE(                      \
-        MACRO_ASSIGN_C((bool)px[flatind_x] != (bool)py[flatind_y])  \
-      );                                                     \
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_OP_CPLX_MATH(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = inline_cplx_plus(px[flatind_x], py[flatind_y])  \
-    );                                                                \
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = inline_cplx_min(px[flatind_x], py[flatind_y])  \
-    );                                                                \
-    break;	\
-  }	\
-  case 3:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = inline_cplx_mult(px[flatind_x], py[flatind_y])  \
-    );                                                                \
-    break;	\
-  }	\
-  case 4:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = inline_cplx_div(px[flatind_x], py[flatind_y])   \
-    );                                                                \
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_CPLX_REL(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = inline_cplx_equal(px[flatind_x], py[flatind_y])  \
-    );                                                                \
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = inline_cplx_unequal(px[flatind_x], py[flatind_y])  \
-    );                                                                \
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_STR_PLUS(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    DIMCODE(                                                          \
-      out[flatind_out] = rcpp_string_plus(px[flatind_x], py[flatind_y]) \
-    );                                                                \
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_STR_REL(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                                  \
-        px[flatind_x] == NA_STRING || py[flatind_y] == NA_STRING,   \
-        MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-        MACRO_ASSIGN_C((int)R_compute_identical(px[flatind_x], py[flatind_y], 0))  \
-      )                                                       \
-    );                                                                \
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    DIMCODE(                                                          \
-      MACRO_ACTION2(                                                  \
-        px[flatind_x] == NA_STRING || py[flatind_y] == NA_STRING,   \
-        MACRO_ASSIGN_C(NA_LOGICAL),                                   \
-        MACRO_ASSIGN_C((int)!R_compute_identical(px[flatind_x], py[flatind_y], 0))  \
-      )                                                       \
-    );         \
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_STR_DIST(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_str_dist_led(px[flatind_x], py[flatind_y])   \
-    );                                                                \
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_str_dist_lcss(px[flatind_x], py[flatind_y])   \
-    );                                                                \
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_RAW_REL(DIMCODE) do {	\
-  switch(op) {	\
-  case 1:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = px[flatind_x] == py[flatind_y]                \
-    );                                                                \
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = px[flatind_x] != py[flatind_y]                \
-    );                                                                \
-    break;	\
-  }	\
-  case 3:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = px[flatind_x] < py[flatind_y]                \
-    );                                                                \
-    break;	\
-  }	\
-  case 4:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = px[flatind_x] > py[flatind_y]                \
-    );                                                                \
-    break;	\
-  }	\
-  case 5:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = px[flatind_x] <= py[flatind_y]                \
-    );                                                                \
-    break;	\
-  }	\
-  case 6:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = px[flatind_x] >= py[flatind_y]                \
-    );                                                                \
-    break;	\
-  }	\
-  default:	\
-  {	\
-    stop("given operator not supported in the given context");	\
-  }	\
-}	\
-} while(0)
-
-
-#define MACRO_OP_RAW_BYTE(DIMCODE) do {	\
-  switch(op) {	\
-    case 1:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = px[flatind_x] == py[flatind_y]                \
-      );                                                                \
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = px[flatind_x] != py[flatind_y]                \
-      );                                                                \
-      break;	\
-    }	\
-    case 3:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = px[flatind_x] < py[flatind_y]                \
-      );                                                                \
-      break;	\
-    }	\
-    case 4:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = px[flatind_x] > py[flatind_y]                \
-      );                                                                \
-      break;	\
-    }	\
-    case 5:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = px[flatind_x] <= py[flatind_y]                \
-      );                                                                \
-      break;	\
-    }	\
-    case 6:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = px[flatind_x] >= py[flatind_y]                \
-      );                                                                \
-      break;	\
-    } \
-    case 7:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = (px[flatind_x] < py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \
-      );                                                                \
-      break;	\
-    }	\
-    case 8:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = (px[flatind_x] > py[flatind_y]) ? px[flatind_x] : py[flatind_y]               \
-      );                                                                \
-      break;	\
-    }	\
-    case 9:	\
-    {	\
-      DIMCODE(                                                          \
-        pout[flatind_out] = rcpp_raw_diff(px[flatind_x], py[flatind_y]) \
-      );                                                                \
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  } \
-} while(0)
-
-
-#define MACRO_OP_BIT_ANDOR_INT(DIMCODE) do {	\
-  switch(op) {	\
-    case 1:	\
-    {	\
-      DIMCODE(  \
-        MACRO_ACTION2(                                                    \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
-          pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = px[flatind_x] & py[flatind_y]                \
-        ) \
-      );                                                                \
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      DIMCODE(  \
-        MACRO_ACTION2(                                                    \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
-          pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = px[flatind_x] | py[flatind_y]                \
-        ) \
-      );                                                                \
-      break;	\
-    }	\
-    case 3:	\
-    {	\
-      DIMCODE(  \
-        MACRO_ACTION2(                                                    \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
-          pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = px[flatind_x] ^ py[flatind_y]                \
-        ) \
-      );                                                                \
-      break;	\
-    }	\
-    case 4:	\
-    {	\
-      DIMCODE(  \
-        MACRO_ACTION2(                                                    \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
-          pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = ~(px[flatind_x] & py[flatind_y])         \
-        ) \
-      );                                                                \
-      break;	\
-    }	\
-    case 5:	\
-    {	\
-      DIMCODE(  \
-        MACRO_ACTION2(                                                    \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
-          pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = ~ (px[flatind_x] | py[flatind_y])         \
-        ) \
-      );                                                                \
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  } \
-} while(0)
-
-
-#define MACRO_OP_BIT_ANDOR_RAW(DIMCODE) do {	\
-  switch(op) {	\
-    case 1:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = px[flatind_x] & py[flatind_y] \
-      );                                                                \
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = px[flatind_x] | py[flatind_y] \
-      );                                                                \
-      break;	\
-    }	\
-    case 3:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = px[flatind_x] ^ py[flatind_y] \
-      );                                                                \
-      break;	\
-    }	\
-    case 4:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = ~(px[flatind_x] & py[flatind_y]) \
-      );                                                                \
-      break;	\
-    }	\
-    case 5:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = ~(px[flatind_x] | py[flatind_y]) \
-      );                                                                \
-      break;	\
-    }	\
-    case 6:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = rcpp_bit_ls(px[flatind_x], py[flatind_y]) \
-      );                                                                \
-      break;	\
-    }	\
-    case 7:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = rcpp_bit_rs(px[flatind_x], py[flatind_y]) \
-      );                                                                \
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  } \
-} while(0)
-
-
-#define MACRO_OP_BIT_REL_INT(DIMCODE) do {	\
-  switch(op) {	\
-    case 1:	\
-    {	\
-      DIMCODE(  \
-        MACRO_ACTION2(                                                    \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
-          pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = ~(px[flatind_x] ^ py[flatind_y]) \
-        ) \
-      );                                                                \
-      break;  \
-    } \
-    case 2:	\
-    {	\
-      DIMCODE(  \
-        MACRO_ACTION2(                                                    \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
-          pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = px[flatind_x] ^ py[flatind_y] \
-        ) \
-      );                                                                \
-      break;  \
-    } \
-    case 3:	\
-    {	\
-      DIMCODE(  \
-        MACRO_ACTION2(                                                    \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
-          pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = (~px[flatind_x] & py[flatind_y]) \
-        ) \
-      );                                                                \
-      break;  \
-    } \
-    case 4:	\
-    {	\
-      DIMCODE(  \
-        MACRO_ACTION2(                                                    \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
-          pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = (px[flatind_x] & ~py[flatind_y]) \
-        ) \
-      );                                                                \
-      break;  \
-    } \
-    case 5:	\
-    {	\
-      DIMCODE(  \
-        MACRO_ACTION2(                                                    \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
-          pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = (~px[flatind_x] | py[flatind_y]) \
-        ) \
-      );                                                                \
-      break;  \
-    } \
-    case 6:	\
-    {	\
-      DIMCODE(  \
-        MACRO_ACTION2(                                                    \
-          px[flatind_x] == NA_INTEGER || py[flatind_y] == NA_INTEGER,     \
-          pout[flatind_out] = NA_INTEGER,                                                     \
-          pout[flatind_out] = (px[flatind_x] | ~py[flatind_y]) \
-        ) \
-      );                                                                \
-      break;  \
-    } \
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  } \
-} while(0)
-
-
-#define MACRO_OP_BIT_REL_RAW(DIMCODE) do {	\
-  switch(op) {	\
-    case 1:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = ~(px[flatind_x] ^ py[flatind_y]) \
-      );                                                                \
-      break;	\
-    }	\
-    case 2:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = px[flatind_x] ^ py[flatind_y] \
-      );                                                                \
-      break;	\
-    }	\
-    case 3:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = (~px[flatind_x] & py[flatind_y]) \
-      );                                                                \
-      break;	\
-    }	\
-    case 4:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = (px[flatind_x] & ~py[flatind_y]) \
-      );                                                                \
-      break;	\
-    }	\
-    case 5:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = (~px[flatind_x] | py[flatind_y]) \
-      );                                                                \
-      break;	\
-    }	\
-    case 6:	\
-    {	\
-      DIMCODE(  \
-        pout[flatind_out] = (px[flatind_x] | ~py[flatind_y]) \
-      );                                                                \
-      break;	\
-    }	\
-    default:	\
-    {	\
-      stop("given operator not supported in the given context");	\
-    }	\
-  } \
-} while(0)
-
-
-#define MACRO_OP_IFELSE_INT(DIMCODE) do {       \
-  switch(TYPEOF(x)) {	\
-    case LGLSXP:	\
-    case INTSXP:	\
-    {	\
-      const int *px = INTEGER_RO(x);	\
-      const int *py = INTEGER_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(TYPEOF(x), nout));	\
-      int *pout;	\
-      pout = INTEGER(out);	\
-      	\
-      DIMCODE(	\
-        MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_INTEGER,	\
-          pout[flatind_out] = NA_INTEGER,	\
-          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-        )	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case REALSXP:	\
-    {	\
-      const double *px = REAL_RO(x);	\
-      const double *py = REAL_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\
-      double *pout;	\
-      pout = REAL(out);	\
-      	\
-      DIMCODE(	\
-        MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_INTEGER,	\
-          pout[flatind_out] = NA_REAL,	\
-          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-        )	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case CPLXSXP:	\
-    {	\
-      const Rcomplex *px = COMPLEX_RO(x);	\
-      const Rcomplex *py = COMPLEX_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\
-      Rcomplex *pout;	\
-      pout = COMPLEX(out);	\
-      	\
-      DIMCODE(	\
-        MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_INTEGER,	\
-          pout[flatind_out] = rcpp_cplx_returnNA(),	\
-          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-        )	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case STRSXP:	\
-    {	\
-      const SEXP *px = STRING_PTR_RO(x);	\
-      const SEXP *py = STRING_PTR_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\
-      	\
-      DIMCODE(	\
-        MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_INTEGER,	\
-          SET_STRING_ELT(out, flatind_out, NA_STRING),	\
-          SET_STRING_ELT(out, flatind_out, pcond[flatind_out] ? px[flatind_x] : py[flatind_y])	\
-        )	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case RAWSXP:	\
-    {	\
-      const Rbyte *px = RAW_RO(x);	\
-      const Rbyte *py = RAW_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\
-      Rbyte *pout = RAW(out); \
-      	\
-      DIMCODE(	\
-        MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_INTEGER,	\
-          stop("NA condition not supported for type of `raw`"),	\
-          pout[flatind_out] = pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-        )	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case VECSXP:	\
-    {	\
-      SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\
-      	\
-      DIMCODE(	\
-        MACRO_ACTION2(	\
-          pcond[flatind_out] == NA_INTEGER,	\
-          SET_VECTOR_ELT(out, flatind_out, R_NilValue),	\
-          SET_VECTOR_ELT(out, flatind_out, pcond[flatind_out] ? VECTOR_ELT(x, flatind_x) : VECTOR_ELT(y, flatind_y))	\
-        )	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    default:	\
-    {	\
-      stop("unsupported type");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_OP_IFELSE_RAW(DIMCODE) do {       \
-  switch(TYPEOF(x)) {	\
-    case LGLSXP:	\
-    {	\
-      const int *px = LOGICAL_RO(x);	\
-      const int *py = LOGICAL_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));	\
-      int *pout;	\
-      pout = LOGICAL(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case INTSXP:	\
-    {	\
-      const int *px = INTEGER_RO(x);	\
-      const int *py = INTEGER_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));	\
-      int *pout;	\
-      pout = INTEGER(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case REALSXP:	\
-    {	\
-      const double *px = REAL_RO(x);	\
-      const double *py = REAL_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\
-      double *pout;	\
-      pout = REAL(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case CPLXSXP:	\
-    {	\
-      const Rcomplex *px = COMPLEX_RO(x);	\
-      const Rcomplex *py = COMPLEX_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\
-      Rcomplex *pout;	\
-      pout = COMPLEX(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case STRSXP:	\
-    {	\
-      const SEXP *px = STRING_PTR_RO(x);	\
-      const SEXP *py = STRING_PTR_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\
-      	\
-      DIMCODE(	\
-        SET_STRING_ELT(out, flatind_out, (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y])	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case RAWSXP:	\
-    {	\
-      const Rbyte *px = RAW_RO(x);	\
-      const Rbyte *py = RAW_RO(y);	\
-      	\
-      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\
-      Rbyte *pout = RAW(out); \
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = (bool)pcond[flatind_out] ? px[flatind_x] : py[flatind_y]	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    case VECSXP:	\
-    {	\
-      SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\
-      	                                                \
-      DIMCODE(	\
-        SET_VECTOR_ELT(out, flatind_out, (bool)pcond[flatind_out] ? VECTOR_ELT(x, flatind_x) : VECTOR_ELT(y, flatind_y))	\
-      );	\
-      	\
-      UNPROTECT(1);	\
-      return out;	\
-      	\
-    }	\
-    default:	\
-    {	\
-      stop("unsupported type");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_OP_BCAPPLY(DIMCODE) do {       \
-  switch(TYPEOF(out)) {	\
-    case LGLSXP:	\
-    {	\
-      int *pout;	\
-      pout = LOGICAL(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = LOGICAL(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
-      );	\
-      break; \
-    }	\
-    case INTSXP:	\
-    {	\
-      int *pout;	\
-      pout = INTEGER(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = INTEGER(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
-      );	\
-      break; \
-    }	\
-    case REALSXP:	\
-    {	\
-      double *pout;	\
-      pout = REAL(out);	\
-      DIMCODE(	\
-        pout[flatind_out] = REAL(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
-      );	\
-      break; \
-    }	\
-    case CPLXSXP:	\
-    {	\
-      Rcomplex *pout;	\
-      pout = COMPLEX(out);	\
-      DIMCODE(	\
-        pout[flatind_out] = COMPLEX(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
-      );	\
-      break; \
-    }	\
-    case STRSXP:	\
-    {	\
-      	\
-      DIMCODE(	\
-        SET_STRING_ELT(out, flatind_out, STRING_ELT(f(x, y, flatind_x + 1, flatind_y + 1), 0)) \
-      );	\
-      break; \
-    }	\
-    case RAWSXP:	\
-    {	\
-      Rbyte *pout;	\
-      pout = RAW(out);	\
-      	\
-      DIMCODE(	\
-        pout[flatind_out] = RAW(f(x, y, flatind_x + 1, flatind_y + 1))[0] \
-      );	\
-      break; \
-    }	\
-    case VECSXP:	\
-    {	\
-     DIMCODE(	\
-        SET_VECTOR_ELT(out, flatind_out, f(x, y, flatind_x + 1, flatind_y + 1))	\
-      );	\
-      break; \
-    }	\
-    default:	\
-    {	\
-      stop("unsupported type");	\
-    }	\
-  }	\
-} while(0)
-
-
-
-// 
-// 
-// 
-// ********************************************************************************
-// MACROs for broadcasted element-wise binary operations
-// 
-// The following MACROs define the loops used for broadcasted element-wise binary operations.
-// 
-// In the context of a broadcasted operation involving exactly 2 arrays,
-// 'broadcast' uses different techniques for looping through the elements for broadcasting.
-// The techniques are the following, ordered from high to low priority:
-//  1) Vector mode:
-//   This mode is usedbroadcasting where one or both of the arrays is actually vector or 1d-array.
-//   This mode is also used when no broadcasting needs to occur.
-//  2) General mode:
-//   For regular broadcasting.
+// The following MACROs define the loops used for broadcasted element-wise binary operations,
+// specifically where one or both sides are (oriented) vectors.
 // 
 // The dimensions of both arrays are first NORMALIZED and SIMPLIFIED virtually
 // (see 'rcpp_virt_binary_prep' code),
 // before determining which technique to use.
 // 
-// The MACROs for regular broadcasting were written for 4 and 16 dimensions.
-// These MACROs were written via a simple 'R' script,
-// to minimize the risk of human error.
-// 
-// 
 // 
 // ********************************************************************************
 // 
 // 
 
 
-#define MACRO_DIM_VECTOR(DOCODE) do {                               \
+#define MACRO_DIM_VECTOR(DOCODE, GETX, GETY) do {                               \
   R_xlen_t flatind_x = 0;                                           \
   R_xlen_t flatind_y = 0;                                           \
   int by_x = 0;                                                     \
@@ -2208,6 +137,8 @@ inline int inline_cplx_unequal(
     }                                                               \
   }                                                                 \
   for(R_xlen_t flatind_out = 0; flatind_out < nout; ++flatind_out) {  \
+    GETX; \
+    GETY; \
     DOCODE;                                                           \
     flatind_x += by_x;                                     \
     flatind_y += by_y;                                     \
@@ -2217,14 +148,16 @@ inline int inline_cplx_unequal(
 
 
 
-#define MACRO_DIM_ORTHOVECTOR(DOCODE) do {      \
+#define MACRO_DIM_ORTHOVECTOR(DOCODE, GETX, GETY) do {      \
   R_xlen_t flatind_out = 0;         \
   const int N1 = INTEGER_RO(out_dim)[0];      \
   const int N2 = INTEGER_RO(out_dim)[1];       \
   bool RxC = INTEGER_RO(x_dim)[0] != 1; \
   if(RxC) { \
     for(int flatind_y = 0; flatind_y < N2; ++flatind_y) {	\
+      GETY; \
   	  for(int flatind_x = 0; flatind_x < N1; ++flatind_x) {	\
+  	    GETX; \
         DOCODE;                         \
         ++flatind_out;                      \
     	 }	\
@@ -2232,7 +165,9 @@ inline int inline_cplx_unequal(
   } \
   else {  \
     for(int flatind_x = 0; flatind_x < N2; ++flatind_x) {	\
+      GETX; \
     	  for(int flatind_y = 0; flatind_y < N1; ++flatind_y) {	\
+    	    GETY; \
           DOCODE;                         \
           ++flatind_out;                      \
         }	\
@@ -2242,16 +177,36 @@ inline int inline_cplx_unequal(
 
 
 
-#define MACRO_DIM_BIG2VECTOR(DOCODE) do {      \
+#define MACRO_DIM_TWOVECTORS(DOCODE, GETX, GETY) do {  \
+  if(dimmode == 1) {  \
+    MACRO_DIM_VECTOR(DOCODE, GETX, GETY); \
+  } \
+  else if(dimmode == 2) { \
+    MACRO_DIM_ORTHOVECTOR(DOCODE, GETX, GETY);  \
+  } \
+  else {  \
+    stop("dimmode is not a two-vector mode"); \
+  } \
+} while(0)
+
+
+
+
+
+
+#define MACRO_DIM_BIG2VECTOR(DOCODE, GETX, GETY) do {      \
   const int N1 = INTEGER_RO(out_dim)[0];    \
   const int N2 = INTEGER_RO(out_dim)[1];    \
   const int N3 = INTEGER_RO(out_dim)[2];    \
+  \
   if(vectorx) { \
     R_xlen_t flatind_y = 0;                                   \
     R_xlen_t flatind_out = 0;                                 \
     for(int iter3 = 0; iter3 < N3; ++iter3) {                 \
       for(int flatind_x = 0; flatind_x < N2; ++flatind_x) {   \
+        GETX;                                                 \
         for(int iter1 = 0; iter1 <N1; ++iter1) {              \
+          GETY;                                               \
           DOCODE;                                             \
           ++flatind_y;                                        \
           ++flatind_out;                                      \
@@ -2264,7 +219,9 @@ inline int inline_cplx_unequal(
     R_xlen_t flatind_out = 0;                                 \
     for(int iter3 = 0; iter3 < N3; ++iter3) {                 \
       for(int flatind_y = 0; flatind_y < N2; ++flatind_y) {   \
+        GETY;                                                 \
         for(int iter1 = 0; iter1 <N1; ++iter1) {              \
+          GETX;                                               \
           DOCODE;                                             \
           ++flatind_x;                                        \
           ++flatind_out;                                      \
@@ -2275,7 +232,7 @@ inline int inline_cplx_unequal(
 } while(0)
 
 
-#define MACRO_DIM_SANDWICH2VECTOR(DOCODE) do {      \
+#define MACRO_DIM_SANDWICH2VECTOR(DOCODE, GETX, GETY) do {      \
   \
   if(vectorx) {  \
     R_xlen_t flatind_out = 0; \
@@ -2287,10 +244,12 @@ inline int inline_cplx_unequal(
     R_xlen_t flatind_y;\
     for(R_xlen_t iter3 = 0; iter3 < N3; iter3 += stride_y) {  \
       for(int flatind_x = 0; flatind_x < N2; ++flatind_x) { \
+        GETX; \
         for(R_xlen_t iter1 = 0; iter1 < N1; ++iter1) {  \
           flatind_y = iter3 + iter1; \
-            DOCODE; \
-            ++flatind_out;  \
+          GETY; \
+          DOCODE; \
+          ++flatind_out;  \
         } \
       } \
     } \
@@ -2305,10 +264,12 @@ inline int inline_cplx_unequal(
     R_xlen_t flatind_x;\
     for(R_xlen_t iter3 = 0; iter3 < N3; iter3 += stride_x) {  \
       for(int flatind_y = 0; flatind_y < N2; ++flatind_y) { \
+        GETY; \
         for(R_xlen_t iter1 = 0; iter1 < N1; ++iter1) {  \
           flatind_x = iter3 + iter1; \
-            DOCODE; \
-            ++flatind_out;  \
+          GETX; \
+          DOCODE; \
+          ++flatind_out;  \
         } \
       } \
     } \
@@ -2317,21 +278,166 @@ inline int inline_cplx_unequal(
 
 
 
-#define MACRO_DIM_VECTORSPECIAL(DOCODE) do {  \
-  if(dimmode == 1) {  \
-    MACRO_DIM_VECTOR(DOCODE); \
-  } \
-  else if(dimmode == 2) { \
-    MACRO_DIM_ORTHOVECTOR(DOCODE);  \
-  } \
-  else if(dimmode == 3) { \
-    MACRO_DIM_BIG2VECTOR(DOCODE); \
+#define MACRO_DIM_ONEVECTOR(DOCODE, GETX, GETY) do {  \
+  bool vectorx = inline_dims_is_vector(x_dim);  \
+  \
+  if(dimmode == 3) { \
+    MACRO_DIM_BIG2VECTOR(DOCODE, GETX, GETY); \
   } \
   else if(dimmode == 4) { \
-    MACRO_DIM_SANDWICH2VECTOR(DOCODE); \
+    MACRO_DIM_SANDWICH2VECTOR(DOCODE, GETX, GETY); \
   } \
   else {  \
-    stop("dimmode is not a vector mode"); \
+    stop("dimmode is not a one-vector mode"); \
+  } \
+} while(0)
+
+
+
+// 
+// 
+// ********************************************************************************
+// MACROs for the odometer
+// 
+// The following MACROs define the loops used for general broadcasted binary operations
+// 
+// The odometer itself works basically as follows:
+// 
+// 
+// inline void odometer_step(
+//   int ndim, int *iters, const int *N_bounds,
+//   R_xlen_t *current_x, R_xlen_t *current_y,
+//   const R_xlen_t *stride_x, const R_xlen_t *stride_y,
+//   const R_xlen_t *contrib_x, const R_xlen_t *contrib_y
+// ) {
+//   
+//   // basic relationship between flat index at one hand,
+//   // and the dimensional iterations and strides at the other hand:
+//   // flatind = iter1 * stride1 + iter2 * stride2 + etc.
+//   
+//   // at start, all iters are 0, thus flatind is 0:
+//   // flatind = 0 + 0 + etc. == 0.
+//   
+//   // as we go through the rows, flatind increases with iter1 * stride1:
+//   // flatind = iter1 * stride1
+//   
+//   // when all rows (d=0) have been passed,
+//   // we need to add the contribution of going to the next column:
+//   // (iter2 = 1) * stride2; this is simply +stride2
+//   // AND we need to RESET the row's contribution,
+//   // meaning we need to REMOVE what the rows have accumulated:
+//   // remove `iter1 * stride1 * (N1 - 1)`
+// 
+//   // then we once again accumulate rows.
+//   // everytime we've gone through all rows:
+//   // - REMOVE the contribution to the rows; i.e. remove `iter1 * stride1 * (N1 - 1)`
+//   // - we arleady have iter2=1; now we need iter2 = 2, so add +stride2 to the flatind.
+//   
+//   // and so we go on.
+//   
+//   // at some point, we've gone through all the columns and rows.
+//   // then we do to the columns what we do with the rows:
+//   // - remove the contribution of the columns
+//   // - remove the contribution of the rows also
+//   // - we need to add the contribution of going to the next layer:
+//   //      (iter3 = 1) * stride3; this is simply +stride3
+// 
+//   // and so we continue
+//   
+//   // notice that after each cycle, flatind is pushed back by the stride of the current dimension.
+//   // but flatind never gets pushed back further than the stride of one dimension.
+//   // this, in a lighting-shape, we eventually keep moving forward, not backward.
+//   // Like a cartesian product
+// 
+//     // We start at d = 1, since d=0 represents the rows
+//     
+//   for (int d = 1; d < ndim; ++d) {
+//     
+//     iters[d]++; // this always start with increasing the column iterator;
+//     // whether we can even reach further dimensions depends on the if-else statements below...
+//     
+//     if (iters[d] < N_bounds[d]) {
+//       // do the following if we have NOT gone through all iters of dimension `d`
+//     
+//       *current_x += stride_x[d]; // add contribution from column, layer, etc.
+//       *current_y += stride_y[d]; // add contribution from column, layer, etc.
+//       break; // done; do NOT run for the next `d`s
+//         
+//     } else {
+//       // dimension `d` (column, layer, etc.) is done; time to....
+//       iters[d] = 0; // reset iterator of current dimension (column, layer, etc.)
+//       *current_x -= contrib_x[d]; // remove its contribution
+//       *current_y -= contrib_y[d]; // remove its contribution
+//         
+//       // NO BREAK! we'll continue to d+1...
+//     }
+//   }
+// }
+// 
+// 
+// 
+// ********************************************************************************
+// 
+// 
+
+
+#define MACRO_DIM_DOCALL(DOCODE, GETX, GETY) do {     \
+  MACRO_DIM_ODOMETER(DOCODE, GETX, GETY);             \
+} while(0)
+
+
+#define MACRO_DIM_ODOMETER(DOCODE, GETX, GETY) do { \
+  \
+  /* Get const properties */  \
+  const int ndim = inline_determine_loopdepth(out_dim); \
+  const int *pout_dim = INTEGER_RO(out_dim);  \
+  const std::vector<R_xlen_t> alloc_stride_x = inline_alloc_strides(x_dim);  \
+  const std::vector<R_xlen_t> alloc_stride_y = inline_alloc_strides(y_dim);  \
+  const std::vector<int> alloc_N_bounds = inline_alloc_bounds(out_dim, ndim); \
+  const R_xlen_t outer_Niters = inline_determine_outer_Niters(alloc_N_bounds);  \
+  \
+  /* Declare variables */  \
+  R_xlen_t flatind_out = 0; \
+  R_xlen_t current_x = 0; \
+  R_xlen_t current_y = 0; \
+  int iters[16] = {0}; \
+  int N_bounds[16] = {0}; \
+  R_xlen_t stride_x[16] = {0}; \
+  R_xlen_t stride_y[16] = {0}; \
+  R_xlen_t contrib_x[16]= {0};  \
+  R_xlen_t contrib_y[16] = {0}; \
+  \
+  /*Initialise C-arrays */  \
+  const int N1 = pout_dim[0]; /* De bound voor de binnenste loop */ \
+  for (int d = 0; d < ndim; ++d) { \
+    N_bounds[d] = pout_dim[d]; \
+    stride_x[d] = alloc_stride_x[d]; \
+    stride_y[d] = alloc_stride_y[d]; \
+    N_bounds[d] = alloc_N_bounds[d]; \
+    contrib_x[d] = stride_x[d] * (N_bounds[d] - 1); \
+    contrib_y[d] = stride_y[d] * (N_bounds[d] - 1); \
+  } \
+  \
+  /* Outer-looop */ \
+  for (R_xlen_t outer = 0; outer < outer_Niters; ++outer) { \
+    R_xlen_t flatind_x = current_x; \
+    R_xlen_t flatind_y = current_y; \
+    const R_xlen_t stride_x1 = stride_x[0]; \
+    const R_xlen_t stride_y1 = stride_y[0]; \
+    /* Loop through rows */ \
+    for (int iter1 = 0; iter1 < N1; ++iter1) { \
+      GETX; \
+      GETY; \
+      DOCODE; \
+      \
+      flatind_out++; \
+      flatind_x += stride_x1; \
+      flatind_y += stride_y1; \
+    } \
+    \
+    odomacro(  \
+      ndim, iters, N_bounds, current_x, current_y, stride_x, stride_y, contrib_x, contrib_y \
+    ); \
   } \
 } while(0)
 
@@ -2339,163 +445,130 @@ inline int inline_cplx_unequal(
 
 
 
-#define MACRO_DIM_4(DOCODE) do {      \
-  R_xlen_t flatind_out = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
-  const double *pdcp_x = REAL_RO(dcp_x);        \
-  const double *pdcp_y = REAL_RO(dcp_y);        \
-  const int N1 = INTEGER_RO(out_dim)[0];	\
-const int N2 = INTEGER_RO(out_dim)[1];	\
-const int N3 = INTEGER_RO(out_dim)[2];	\
-const int N4 = INTEGER_RO(out_dim)[3];	\
-  \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  R_xlen_t i_x2, i_x3, i_x4; \
-  R_xlen_t i_y2, i_y3, i_y4; \
-  	 for(int iter4 = 0; iter4 <N4; ++iter4) {	\
-i_x4 = pby_x[3] * iter4 * pdcp_x[3];	\
-i_y4 = pby_y[3] * iter4 * pdcp_y[3];	\
-	 for(int iter3 = 0; iter3 <N3; ++iter3) {	\
-i_x3 = pby_x[2] * iter3 * pdcp_x[2] + i_x4;	\
-i_y3 = pby_y[2] * iter3 * pdcp_y[2] + i_y4;	\
-	 for(int iter2 = 0; iter2 <N2; ++iter2) {	\
-i_x2 = pby_x[1] * iter2 * pdcp_x[1] + i_x3;	\
-i_y2 = pby_y[1] * iter2 * pdcp_y[1] + i_y3;	\
-	 for(int iter1 = 0; iter1 <N1; ++iter1) {	\
-	\
-	\
-        flatind_x = pby_x[0] * iter1 + i_x2;       \
-        flatind_y = pby_y[0] * iter1 + i_y2;     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        flatind_out++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
+
+#define odomacro(ndim, iters, N_bounds, current_x, current_y, stride_x, stride_y, contrib_x, contrib_y) do { \
+  for (int d = 1; d < ndim; ++d) {  \
+    iters[d]++;                     \
+    if (iters[d] < N_bounds[d]) {   \
+      current_x += stride_x[d];     \
+      current_y += stride_y[d];     \
+      break;                        \
+    } else {                        \
+      iters[d] = 0;                 \
+      current_x -= contrib_x[d];    \
+      current_y -= contrib_y[d];    \
+    }                               \
+  }                                 \
 } while(0)
 
 
 
+inline std::vector<R_xlen_t> inline_alloc_strides(
+  SEXP target_dim
+) {
+  
+  // get properties:
+  int n = Rf_length(target_dim);
+  
+  if(n > 16) {
+    Rcpp::stop("dimensionality > 16 ");
+  }
+  
+  std::vector<R_xlen_t> out(16);
+  const int *ptarget = INTEGER_RO(target_dim);
+  
+  
+  // make dcp:
+  R_xlen_t temp_prod = ptarget[0];
+  out[0] = 1;
+  if(n > 1) {
+    out[1] = ptarget[0];
+  }
+  if(n > 2) {
+    for(int i = 2; i < n; ++i) {
+      temp_prod = temp_prod * ptarget[i-1];
+      out[i] = temp_prod;
+    }
+  }
 
-#define MACRO_DIM_16(DOCODE) do {      \
-  R_xlen_t flatind_out = 0;         \
-  const int *pby_x = INTEGER_RO(by_x);        \
-  const int *pby_y = INTEGER_RO(by_y);        \
-  const double *pdcp_x = REAL_RO(dcp_x);        \
-  const double *pdcp_y = REAL_RO(dcp_y);        \
-  const int N1 = INTEGER_RO(out_dim)[0];	\
-const int N2 = INTEGER_RO(out_dim)[1];	\
-const int N3 = INTEGER_RO(out_dim)[2];	\
-const int N4 = INTEGER_RO(out_dim)[3];	\
-const int N5 = INTEGER_RO(out_dim)[4];	\
-const int N6 = INTEGER_RO(out_dim)[5];	\
-const int N7 = INTEGER_RO(out_dim)[6];	\
-const int N8 = INTEGER_RO(out_dim)[7];	\
-const int N9 = INTEGER_RO(out_dim)[8];	\
-const int N10 = INTEGER_RO(out_dim)[9];	\
-const int N11 = INTEGER_RO(out_dim)[10];	\
-const int N12 = INTEGER_RO(out_dim)[11];	\
-const int N13 = INTEGER_RO(out_dim)[12];	\
-const int N14 = INTEGER_RO(out_dim)[13];	\
-const int N15 = INTEGER_RO(out_dim)[14];	\
-const int N16 = INTEGER_RO(out_dim)[15];	\
-  \
-  R_xlen_t flatind_x;       \
-  R_xlen_t flatind_y;       \
-  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12, i_x13, i_x14, i_x15, i_x16; \
-  R_xlen_t i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12, i_y13, i_y14, i_y15, i_y16; \
-  	 for(int iter16 = 0; iter16 <N16; ++iter16) {	\
-i_x16 = pby_x[15] * iter16 * pdcp_x[15];	\
-i_y16 = pby_y[15] * iter16 * pdcp_y[15];	\
-	 for(int iter15 = 0; iter15 <N15; ++iter15) {	\
-i_x15 = pby_x[14] * iter15 * pdcp_x[14] + i_x16;	\
-i_y15 = pby_y[14] * iter15 * pdcp_y[14] + i_y16;	\
-	 for(int iter14 = 0; iter14 <N14; ++iter14) {	\
-i_x14 = pby_x[13] * iter14 * pdcp_x[13] + i_x15;	\
-i_y14 = pby_y[13] * iter14 * pdcp_y[13] + i_y15;	\
-	 for(int iter13 = 0; iter13 <N13; ++iter13) {	\
-i_x13 = pby_x[12] * iter13 * pdcp_x[12] + i_x14;	\
-i_y13 = pby_y[12] * iter13 * pdcp_y[12] + i_y14;	\
-	 for(int iter12 = 0; iter12 <N12; ++iter12) {	\
-i_x12 = pby_x[11] * iter12 * pdcp_x[11] + i_x13;	\
-i_y12 = pby_y[11] * iter12 * pdcp_y[11] + i_y13;	\
-	 for(int iter11 = 0; iter11 <N11; ++iter11) {	\
-i_x11 = pby_x[10] * iter11 * pdcp_x[10] + i_x12;	\
-i_y11 = pby_y[10] * iter11 * pdcp_y[10] + i_y12;	\
-	 for(int iter10 = 0; iter10 <N10; ++iter10) {	\
-i_x10 = pby_x[9] * iter10 * pdcp_x[9] + i_x11;	\
-i_y10 = pby_y[9] * iter10 * pdcp_y[9] + i_y11;	\
-	 for(int iter9 = 0; iter9 <N9; ++iter9) {	\
-i_x9 = pby_x[8] * iter9 * pdcp_x[8] + i_x10;	\
-i_y9 = pby_y[8] * iter9 * pdcp_y[8] + i_y10;	\
-	 for(int iter8 = 0; iter8 <N8; ++iter8) {	\
-i_x8 = pby_x[7] * iter8 * pdcp_x[7] + i_x9;	\
-i_y8 = pby_y[7] * iter8 * pdcp_y[7] + i_y9;	\
-	 for(int iter7 = 0; iter7 <N7; ++iter7) {	\
-i_x7 = pby_x[6] * iter7 * pdcp_x[6] + i_x8;	\
-i_y7 = pby_y[6] * iter7 * pdcp_y[6] + i_y8;	\
-	 for(int iter6 = 0; iter6 <N6; ++iter6) {	\
-i_x6 = pby_x[5] * iter6 * pdcp_x[5] + i_x7;	\
-i_y6 = pby_y[5] * iter6 * pdcp_y[5] + i_y7;	\
-	 for(int iter5 = 0; iter5 <N5; ++iter5) {	\
-i_x5 = pby_x[4] * iter5 * pdcp_x[4] + i_x6;	\
-i_y5 = pby_y[4] * iter5 * pdcp_y[4] + i_y6;	\
-	 for(int iter4 = 0; iter4 <N4; ++iter4) {	\
-i_x4 = pby_x[3] * iter4 * pdcp_x[3] + i_x5;	\
-i_y4 = pby_y[3] * iter4 * pdcp_y[3] + i_y5;	\
-	 for(int iter3 = 0; iter3 <N3; ++iter3) {	\
-i_x3 = pby_x[2] * iter3 * pdcp_x[2] + i_x4;	\
-i_y3 = pby_y[2] * iter3 * pdcp_y[2] + i_y4;	\
-	 for(int iter2 = 0; iter2 <N2; ++iter2) {	\
-i_x2 = pby_x[1] * iter2 * pdcp_x[1] + i_x3;	\
-i_y2 = pby_y[1] * iter2 * pdcp_y[1] + i_y3;	\
-	 for(int iter1 = 0; iter1 <N1; ++iter1) {	\
-	\
-	\
-        flatind_x = pby_x[0] * iter1 + i_x2;       \
-        flatind_y = pby_y[0] * iter1 + i_y2;     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        flatind_out++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-} while(0)
+  // mulitply with by (i.e. make it zero when appropriate):
+  for(int i = 0; i < n; ++i) {
+    if(ptarget[i] <= 1) {
+      out[i] = 0;
+    }
+  }
+  
+  return out;
+  
+}
 
 
+inline std::vector<int> inline_alloc_bounds(
+  SEXP out_dim, int ndim
+) {
+
+  const int *pout_dim = INTEGER_RO(out_dim);
+  
+  if(ndim > 16 || Rf_length(out_dim) > 16) {
+    Rcpp::stop("dimensionality > 16 ");
+  }
+  
+  std::vector<int> N_bounds(16);
+  for (int d = 0; d < 16; ++d) {
+    N_bounds[d] = 1;
+  }
+  
+  for (int d = 0; d < ndim; ++d) {
+    N_bounds[d] = pout_dim[d];
+  }
+  return N_bounds;
+}
 
 
-#define MACRO_DIM_DOCALL(DOCODE) do {     \
-  int ndims = Rf_length(out_dim);         \
-                                          \
-  switch(ndims) {       \
-    case 4:                                       \
-  MACRO_DIM_4(DOCODE);    \
-  break;                                        \
-case 16:                                       \
-  MACRO_DIM_16(DOCODE);    \
-  break;                                        \
-       \
-  }       \
-} while(0)
+inline int inline_determine_loopdepth(
+  SEXP out_dim
+) {
+  
+  if(Rf_length(out_dim) > 16) {
+    Rcpp::stop("dimensionality > 16 ");
+  }
+  
+  int n = Rf_length(out_dim);
+  const int *pod = INTEGER_RO(out_dim);
+  int rm = 0;
+  for(int i = (n-1); i >= 0; --i) {
+    if(pod[i] == 1) {
+      rm++;
+    }
+    else {
+      break;
+    }
+  }
+  int loopdepth = n - rm;
+  if(loopdepth == 0) {
+   loopdepth = 1;
+  }
+  if(loopdepth > 16) {
+    loopdepth = 16;
+  }
+  return loopdepth;
+  
+}
+
+
+inline R_xlen_t inline_determine_outer_Niters(std::vector<int> alloc_N_bounds) {
+  // We multiply all alloc_N_bounds EXCEPT(!!!) the rows
+  R_xlen_t outer_Niters = 1;
+  int n = alloc_N_bounds.size();
+  if(n == 1) return outer_Niters;
+  
+  for(int i = 1; i < n; ++i) {
+    outer_Niters *= alloc_N_bounds[i];
+  }
+  return outer_Niters;
+}
+
+
 // 
 // 
 // ********************************************************************************
@@ -2549,60 +622,56 @@ const int end14 = INTEGER_RO(ends)[13];	\
 const int end15 = INTEGER_RO(ends)[14];	\
 const int end16 = INTEGER_RO(ends)[15];	\
                                         \
-  R_xlen_t flatind_out;                 \
-  R_xlen_t flatind_x;                   \
-  R_xlen_t i_out2, i_out3, i_out4, i_out5, i_out6, i_out7, i_out8, i_out9, i_out10, i_out11, i_out12, i_out13, i_out14, i_out15, i_out16;              \
-  R_xlen_t i_x2, i_x3, i_x4, i_x5, i_x6, i_x7, i_x8, i_x9, i_x10, i_x11, i_x12, i_x13, i_x14, i_x15, i_x16;                \
   	 for(int iter16 = start16; iter16 <= end16; ++iter16) {	\
-i_out16 = iter16 * pdcp_out[15];	\
-i_x16 = pby_x[15] * (iter16 - start16) * pdcp_x[15];	\
+R_xlen_t i_out16 = iter16 * pdcp_out[15];	\
+R_xlen_t i_x16 = pby_x[15] * (iter16 - start16) * pdcp_x[15];	\
 	 for(int iter15 = start15; iter15 <= end15; ++iter15) {	\
-i_out15 = iter15 * pdcp_out[14] + i_out16;	\
-i_x15 = pby_x[14] * (iter15 - start15) * pdcp_x[14] + i_x16;	\
+R_xlen_t i_out15 = iter15 * pdcp_out[14] + i_out16;	\
+R_xlen_t i_x15 = pby_x[14] * (iter15 - start15) * pdcp_x[14] + i_x16;	\
 	 for(int iter14 = start14; iter14 <= end14; ++iter14) {	\
-i_out14 = iter14 * pdcp_out[13] + i_out15;	\
-i_x14 = pby_x[13] * (iter14 - start14) * pdcp_x[13] + i_x15;	\
+R_xlen_t i_out14 = iter14 * pdcp_out[13] + i_out15;	\
+R_xlen_t i_x14 = pby_x[13] * (iter14 - start14) * pdcp_x[13] + i_x15;	\
 	 for(int iter13 = start13; iter13 <= end13; ++iter13) {	\
-i_out13 = iter13 * pdcp_out[12] + i_out14;	\
-i_x13 = pby_x[12] * (iter13 - start13) * pdcp_x[12] + i_x14;	\
+R_xlen_t i_out13 = iter13 * pdcp_out[12] + i_out14;	\
+R_xlen_t i_x13 = pby_x[12] * (iter13 - start13) * pdcp_x[12] + i_x14;	\
 	 for(int iter12 = start12; iter12 <= end12; ++iter12) {	\
-i_out12 = iter12 * pdcp_out[11] + i_out13;	\
-i_x12 = pby_x[11] * (iter12 - start12) * pdcp_x[11] + i_x13;	\
+R_xlen_t i_out12 = iter12 * pdcp_out[11] + i_out13;	\
+R_xlen_t i_x12 = pby_x[11] * (iter12 - start12) * pdcp_x[11] + i_x13;	\
 	 for(int iter11 = start11; iter11 <= end11; ++iter11) {	\
-i_out11 = iter11 * pdcp_out[10] + i_out12;	\
-i_x11 = pby_x[10] * (iter11 - start11) * pdcp_x[10] + i_x12;	\
+R_xlen_t i_out11 = iter11 * pdcp_out[10] + i_out12;	\
+R_xlen_t i_x11 = pby_x[10] * (iter11 - start11) * pdcp_x[10] + i_x12;	\
 	 for(int iter10 = start10; iter10 <= end10; ++iter10) {	\
-i_out10 = iter10 * pdcp_out[9] + i_out11;	\
-i_x10 = pby_x[9] * (iter10 - start10) * pdcp_x[9] + i_x11;	\
+R_xlen_t i_out10 = iter10 * pdcp_out[9] + i_out11;	\
+R_xlen_t i_x10 = pby_x[9] * (iter10 - start10) * pdcp_x[9] + i_x11;	\
 	 for(int iter9 = start9; iter9 <= end9; ++iter9) {	\
-i_out9 = iter9 * pdcp_out[8] + i_out10;	\
-i_x9 = pby_x[8] * (iter9 - start9) * pdcp_x[8] + i_x10;	\
+R_xlen_t i_out9 = iter9 * pdcp_out[8] + i_out10;	\
+R_xlen_t i_x9 = pby_x[8] * (iter9 - start9) * pdcp_x[8] + i_x10;	\
 	 for(int iter8 = start8; iter8 <= end8; ++iter8) {	\
-i_out8 = iter8 * pdcp_out[7] + i_out9;	\
-i_x8 = pby_x[7] * (iter8 - start8) * pdcp_x[7] + i_x9;	\
+R_xlen_t i_out8 = iter8 * pdcp_out[7] + i_out9;	\
+R_xlen_t i_x8 = pby_x[7] * (iter8 - start8) * pdcp_x[7] + i_x9;	\
 	 for(int iter7 = start7; iter7 <= end7; ++iter7) {	\
-i_out7 = iter7 * pdcp_out[6] + i_out8;	\
-i_x7 = pby_x[6] * (iter7 - start7) * pdcp_x[6] + i_x8;	\
+R_xlen_t i_out7 = iter7 * pdcp_out[6] + i_out8;	\
+R_xlen_t i_x7 = pby_x[6] * (iter7 - start7) * pdcp_x[6] + i_x8;	\
 	 for(int iter6 = start6; iter6 <= end6; ++iter6) {	\
-i_out6 = iter6 * pdcp_out[5] + i_out7;	\
-i_x6 = pby_x[5] * (iter6 - start6) * pdcp_x[5] + i_x7;	\
+R_xlen_t i_out6 = iter6 * pdcp_out[5] + i_out7;	\
+R_xlen_t i_x6 = pby_x[5] * (iter6 - start6) * pdcp_x[5] + i_x7;	\
 	 for(int iter5 = start5; iter5 <= end5; ++iter5) {	\
-i_out5 = iter5 * pdcp_out[4] + i_out6;	\
-i_x5 = pby_x[4] * (iter5 - start5) * pdcp_x[4] + i_x6;	\
+R_xlen_t i_out5 = iter5 * pdcp_out[4] + i_out6;	\
+R_xlen_t i_x5 = pby_x[4] * (iter5 - start5) * pdcp_x[4] + i_x6;	\
 	 for(int iter4 = start4; iter4 <= end4; ++iter4) {	\
-i_out4 = iter4 * pdcp_out[3] + i_out5;	\
-i_x4 = pby_x[3] * (iter4 - start4) * pdcp_x[3] + i_x5;	\
+R_xlen_t i_out4 = iter4 * pdcp_out[3] + i_out5;	\
+R_xlen_t i_x4 = pby_x[3] * (iter4 - start4) * pdcp_x[3] + i_x5;	\
 	 for(int iter3 = start3; iter3 <= end3; ++iter3) {	\
-i_out3 = iter3 * pdcp_out[2] + i_out4;	\
-i_x3 = pby_x[2] * (iter3 - start3) * pdcp_x[2] + i_x4;	\
+R_xlen_t i_out3 = iter3 * pdcp_out[2] + i_out4;	\
+R_xlen_t i_x3 = pby_x[2] * (iter3 - start3) * pdcp_x[2] + i_x4;	\
 	 for(int iter2 = start2; iter2 <= end2; ++iter2) {	\
-i_out2 = iter2 * pdcp_out[1] + i_out3;	\
-i_x2 = pby_x[1] * (iter2 - start2) * pdcp_x[1] + i_x3;	\
+R_xlen_t i_out2 = iter2 * pdcp_out[1] + i_out3;	\
+R_xlen_t i_x2 = pby_x[1] * (iter2 - start2) * pdcp_x[1] + i_x3;	\
 	 for(int iter1 = start1; iter1 <= end1; ++iter1) {	\
 	\
 	\
-        flatind_out = iter1 + i_out2;       \
-        flatind_x = pby_x[0] * (iter1 - start1) + i_x2;           \
+        R_xlen_t flatind_out = iter1 + i_out2;       \
+        R_xlen_t flatind_x = pby_x[0] * (iter1 - start1) + i_x2;           \
         DOCODE;                         \
   	 }	\
 	 }	\
@@ -2637,358 +706,6 @@ i_x2 = pby_x[1] * (iter2 - start2) * pdcp_x[1] + i_x3;	\
        \
   }       \
 } while(0)
-
-
-// 
-// 
-// 
-// ********************************************************************************
-// MACROs for acast
-// 
-// The following MACROs are all specific to the `acast()` function
-// 
-// 
-// ********************************************************************************
-// 
-// 
-
-
-#define MACRO_ACAST_DIM_16(DOCODE) do {              \
-                                                  \
-  const double *pdcp_out = REAL_RO(dcp_out);      \
-  const double *pdcp_y = REAL_RO(dcp_y);          \
-                                                  \
-  const int *pstarts = INTEGER_RO(starts);        \
-                                                  \
-                                                  \
-  const int N1 = INTEGER(lens)[0];	\
-const int N2 = INTEGER(lens)[1];	\
-const int N3 = INTEGER(lens)[2];	\
-const int N4 = INTEGER(lens)[3];	\
-const int N5 = INTEGER(lens)[4];	\
-const int N6 = INTEGER(lens)[5];	\
-const int N7 = INTEGER(lens)[6];	\
-const int N8 = INTEGER(lens)[7];	\
-const int N9 = INTEGER(lens)[8];	\
-const int N10 = INTEGER(lens)[9];	\
-const int N11 = INTEGER(lens)[10];	\
-const int N12 = INTEGER(lens)[11];	\
-const int N13 = INTEGER(lens)[12];	\
-const int N14 = INTEGER(lens)[13];	\
-const int N15 = INTEGER(lens)[14];	\
-const int N16 = INTEGER(lens)[15];	\
-                                                  \
-  const SEXP ind1 = VECTOR_ELT(subs2, 0);	\
-const SEXP ind2 = VECTOR_ELT(subs2, 1);	\
-const SEXP ind3 = VECTOR_ELT(subs2, 2);	\
-const SEXP ind4 = VECTOR_ELT(subs2, 3);	\
-const SEXP ind5 = VECTOR_ELT(subs2, 4);	\
-const SEXP ind6 = VECTOR_ELT(subs2, 5);	\
-const SEXP ind7 = VECTOR_ELT(subs2, 6);	\
-const SEXP ind8 = VECTOR_ELT(subs2, 7);	\
-const SEXP ind9 = VECTOR_ELT(subs2, 8);	\
-const SEXP ind10 = VECTOR_ELT(subs2, 9);	\
-const SEXP ind11 = VECTOR_ELT(subs2, 10);	\
-const SEXP ind12 = VECTOR_ELT(subs2, 11);	\
-const SEXP ind13 = VECTOR_ELT(subs2, 12);	\
-const SEXP ind14 = VECTOR_ELT(subs2, 13);	\
-const SEXP ind15 = VECTOR_ELT(subs2, 14);	\
-const SEXP ind16 = VECTOR_ELT(subs2, 15);	\
-                                                  \
-  const int *pind1 = INTEGER_RO(ind1);	\
-const int *pind2 = INTEGER_RO(ind2);	\
-const int *pind3 = INTEGER_RO(ind3);	\
-const int *pind4 = INTEGER_RO(ind4);	\
-const int *pind5 = INTEGER_RO(ind5);	\
-const int *pind6 = INTEGER_RO(ind6);	\
-const int *pind7 = INTEGER_RO(ind7);	\
-const int *pind8 = INTEGER_RO(ind8);	\
-const int *pind9 = INTEGER_RO(ind9);	\
-const int *pind10 = INTEGER_RO(ind10);	\
-const int *pind11 = INTEGER_RO(ind11);	\
-const int *pind12 = INTEGER_RO(ind12);	\
-const int *pind13 = INTEGER_RO(ind13);	\
-const int *pind14 = INTEGER_RO(ind14);	\
-const int *pind15 = INTEGER_RO(ind15);	\
-const int *pind16 = INTEGER_RO(ind16);	\
-                                                  \
-  R_xlen_t flatind_out;       \
-  R_xlen_t flatind_y;       \
-  R_xlen_t i_out1, i_out2, i_out3, i_out4, i_out5, i_out6, i_out7, i_out8, i_out9, i_out10, i_out11, i_out12, i_out13, i_out14, i_out15, i_out16; \
-  R_xlen_t i_y1, i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12, i_y13, i_y14, i_y15, i_y16; \
-  	 for(int iter16 = 0; iter16 < N16; ++iter16) {	\
-i_out16 = (pstarts[15] + iter16) * pdcp_out[15];	\
-i_y16 = (pind16[iter16] - 1) * pdcp_y[15];	\
-	 for(int iter15 = 0; iter15 < N15; ++iter15) {	\
-i_out15 = (pstarts[14] + iter15) * pdcp_out[14] + i_out16;	\
-i_y15 = (pind15[iter15] - 1) * pdcp_y[14] + i_y16;	\
-	 for(int iter14 = 0; iter14 < N14; ++iter14) {	\
-i_out14 = (pstarts[13] + iter14) * pdcp_out[13] + i_out15;	\
-i_y14 = (pind14[iter14] - 1) * pdcp_y[13] + i_y15;	\
-	 for(int iter13 = 0; iter13 < N13; ++iter13) {	\
-i_out13 = (pstarts[12] + iter13) * pdcp_out[12] + i_out14;	\
-i_y13 = (pind13[iter13] - 1) * pdcp_y[12] + i_y14;	\
-	 for(int iter12 = 0; iter12 < N12; ++iter12) {	\
-i_out12 = (pstarts[11] + iter12) * pdcp_out[11] + i_out13;	\
-i_y12 = (pind12[iter12] - 1) * pdcp_y[11] + i_y13;	\
-	 for(int iter11 = 0; iter11 < N11; ++iter11) {	\
-i_out11 = (pstarts[10] + iter11) * pdcp_out[10] + i_out12;	\
-i_y11 = (pind11[iter11] - 1) * pdcp_y[10] + i_y12;	\
-	 for(int iter10 = 0; iter10 < N10; ++iter10) {	\
-i_out10 = (pstarts[9] + iter10) * pdcp_out[9] + i_out11;	\
-i_y10 = (pind10[iter10] - 1) * pdcp_y[9] + i_y11;	\
-	 for(int iter9 = 0; iter9 < N9; ++iter9) {	\
-i_out9 = (pstarts[8] + iter9) * pdcp_out[8] + i_out10;	\
-i_y9 = (pind9[iter9] - 1) * pdcp_y[8] + i_y10;	\
-	 for(int iter8 = 0; iter8 < N8; ++iter8) {	\
-i_out8 = (pstarts[7] + iter8) * pdcp_out[7] + i_out9;	\
-i_y8 = (pind8[iter8] - 1) * pdcp_y[7] + i_y9;	\
-	 for(int iter7 = 0; iter7 < N7; ++iter7) {	\
-i_out7 = (pstarts[6] + iter7) * pdcp_out[6] + i_out8;	\
-i_y7 = (pind7[iter7] - 1) * pdcp_y[6] + i_y8;	\
-	 for(int iter6 = 0; iter6 < N6; ++iter6) {	\
-i_out6 = (pstarts[5] + iter6) * pdcp_out[5] + i_out7;	\
-i_y6 = (pind6[iter6] - 1) * pdcp_y[5] + i_y7;	\
-	 for(int iter5 = 0; iter5 < N5; ++iter5) {	\
-i_out5 = (pstarts[4] + iter5) * pdcp_out[4] + i_out6;	\
-i_y5 = (pind5[iter5] - 1) * pdcp_y[4] + i_y6;	\
-	 for(int iter4 = 0; iter4 < N4; ++iter4) {	\
-i_out4 = (pstarts[3] + iter4) * pdcp_out[3] + i_out5;	\
-i_y4 = (pind4[iter4] - 1) * pdcp_y[3] + i_y5;	\
-	 for(int iter3 = 0; iter3 < N3; ++iter3) {	\
-i_out3 = (pstarts[2] + iter3) * pdcp_out[2] + i_out4;	\
-i_y3 = (pind3[iter3] - 1) * pdcp_y[2] + i_y4;	\
-	 for(int iter2 = 0; iter2 < N2; ++iter2) {	\
-i_out2 = (pstarts[1] + iter2) * pdcp_out[1] + i_out3;	\
-i_y2 = (pind2[iter2] - 1) * pdcp_y[1] + i_y3;	\
-	 for(int iter1 = 0; iter1 < N1; ++iter1) {	\
-i_out1 = (pstarts[0] + iter1) * pdcp_out[0] + i_out2;	\
-i_y1 = (pind1[iter1] - 1) * pdcp_y[0] + i_y2;	\
-        flatind_out = i_out1;       \
-        flatind_y = i_y1;     \
-                                                                    \
-        DOCODE;                                                          \
-  	                                                                \
-        flatind_out++;                      \
-  	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-	 }	\
-} while(0)
-
-
-
-
-#define MACRO_ACAST_DOCALL(DOCODE) do {     \
-  int ndims = Rf_length(out_dim);         \
-                                          \
-  switch(ndims) {       \
-    case 16:                                       \
-  MACRO_ACAST_DIM_16(DOCODE);    \
-  break;                                        \
-       \
-  }       \
-} while(0)
-
-#define MACRO_OP_ACAST_LOOP(DOCODE) do {                  \
-                                                            \
-  for(int i = 0; i < grp_n; ++i) {                          \
-    grp_count = rcpp_factor_count(grp, i + 1);              \
-    if(grp_count > 0) {                                       \
-      grp_which = rcpp_factor_which(grp, i + 1, grp_count);   \
-      plens[margin] = grp_count;                              \
-      SET_VECTOR_ELT(subs2, margin, grp_which);                \
-      DOCODE;                                                 \
-      pstarts[newdim] = pstarts[newdim] + 1;                  \
-    }                                                         \
-  }                                                         \
-} while(0)
-
-
-
-#define MACRO_OP_ACAST do {       \
-  switch(TYPEOF(out)) {	\
-    case LGLSXP:	\
-    {	\
-      int *py = LOGICAL(y);                                 \
-      int *pout = LOGICAL(out);                             \
-      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));   \
-      break;                                                \
-    }	\
-    case INTSXP:	\
-    {	\
-      int *py = INTEGER(y);                                 \
-      int *pout = INTEGER(out);                             \
-      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));   \
-      break;                                                \
-    }	\
-    case REALSXP:	\
-    {	\
-      double *py = REAL(y);                                     \
-      double *pout = REAL(out);                                 \
-      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));       \
-      break;                                                \
-    }	\
-    case CPLXSXP:	\
-    {	\
-      Rcomplex *py = COMPLEX(y);                                 \
-      Rcomplex *pout = COMPLEX(out);                             \
-      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));   \
-      break;                                                \
-    }	\
-    case STRSXP:	\
-    {	\
-      const SEXP *py = STRING_PTR_RO(y);                                 \
-      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(SET_STRING_ELT(out, flatind_out, py[flatind_y])));   \
-      break;                                                \
-    }	\
-    case RAWSXP:	\
-    {	\
-      Rbyte *py = RAW(y);	                                  \
-      Rbyte *pout = RAW(out);	                              \
-      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));   \
-      break;                                                \
-    }	\
-    case VECSXP:	\
-    {	\
-      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(                                                \
-        SET_VECTOR_ELT(out, flatind_out, VECTOR_ELT(y, flatind_y))  \
-      ));                                                              \
-      break;                                                \
-    }	\
-    default:	\
-    {	\
-      stop("unsupported type");	\
-    }	\
-  }	\
-} while(0)
-
-
-#define MACRO_CHECKMISSING_TYPESWITCH(MACROCODE, DOCODE) do { \
-  switch(TYPEOF(y)) {                                                         \
-    case INTSXP:                                                              \
-    case LGLSXP:                                                              \
-    {                                                                         \
-      const int *py = INTEGER_RO(y);                                          \
-      MACROCODE(DOCODE, py[i] == NA_INTEGER, py[i] != NA_INTEGER);            \
-      break;                                                                  \
-    }                                                                         \
-    case REALSXP:                                                             \
-    {                                                                         \
-      const double *py = REAL_RO(y);                                          \
-      MACROCODE(DOCODE, R_isnancpp(py[i]), !R_isnancpp(py[i]));               \
-      break;                                                                  \
-    }                                                                         \
-    case CPLXSXP:                                                             \
-    {                                                                         \
-      const Rcomplex *py = COMPLEX_RO(y);                                     \
-      MACROCODE(                                                              \
-        DOCODE,                                                               \
-        R_isnancpp(py[i].r) || R_isnancpp(py[i].i),                           \
-        !R_isnancpp(py[i].i) && !R_isnancpp(py[i].r)                          \
-      );                                                                      \
-      break;                                                                  \
-    }                                                                         \
-    case STRSXP:                                                              \
-    {                                                                         \
-      const SEXP *py = STRING_PTR_RO(y);                                      \
-      MACROCODE(DOCODE, py[i] == NA_STRING, py[i] != NA_STRING);              \
-      break;                                                                  \
-    }                                                                         \
-    case VECSXP:                                                              \
-    {                                                                         \
-      MACROCODE(                                                              \
-        DOCODE,                                                               \
-        VECTOR_ELT(y, i) == R_NilValue,                                       \
-        VECTOR_ELT(y, i) != R_NilValue                                        \
-      );                                                                      \
-      break;                                                                  \
-    }                                                                         \
-    case RAWSXP:                                                              \
-    {                                                                         \
-      stop("NAs not defined for type `raw`");                               \
-      break;                                                                  \
-    }                                                                         \
-    default: stop("Unsupported type");                                      \
-  }                                                                           \
-} while(0)
-
-
-#define MACRO_CHECKMISSING_IS(DOCODE, ISNACODE, ISNOTNACODE) do {  \
-  if(!invert) {                                                         \
-    for(R_xlen_t i = 0; i < n; ++i) {                                     \
-      DOCODE = ISNACODE;                                                    \
-    }                                                                     \
-  }                                                                       \
-  else if(invert) {                                                   \
-    for(R_xlen_t i = 0; i < n; ++i) {                                     \
-      DOCODE = ISNOTNACODE;                                              \
-    }                                                                     \
-  }                                                                       \
-  else {                                                                  \
-    stop("`invert` must be `TRUE` or `FALSE`");                         \
-  }                                                                       \
-  break;                                                                  \
-} while(0)
-
-
-
-
-#define MACRO_CHECKMISSING_FW(DOCODE, ISNACODE, ISNOTNACODE) do {             \
-  if(!invert) {                                                         \
-    for(R_xlen_t i = 0; i < n; ++i) {                                     \
-      if(ISNACODE) {                                                      \
-        DOCODE;                                                           \
-      }                                                                   \
-    }                                                                     \
-  }                                                                       \
-  else if(invert) {                                                      \
-    for(R_xlen_t i = 0; i < n; ++i) {                                     \
-      if(ISNOTNACODE) {                                                   \
-        DOCODE;                                                           \
-      }                                                                   \
-    }                                                                     \
-  }                                                                       \
-  else {                                                                  \
-    stop("`invert` must be `TRUE` or `FALSE`");                         \
-  }                                                                       \
-} while(0)
-
-
-
-
-#define MACRO_CHECKMISSING_BW(DOCODE, ISNACODE, ISNOTNACODE) do {             \
-  if(!invert) {                                                         \
-    for(R_xlen_t i = (n-1); i >= 0; --i) {                                     \
-      if(ISNACODE) {                                                      \
-        DOCODE;                                                           \
-      }                                                                   \
-    }                                                                     \
-  }                                                                       \
-  else if(invert) {                                                      \
-    for(R_xlen_t i = (n-1); i >= 0; --i) {                                     \
-      if(ISNOTNACODE) {                                                   \
-        DOCODE;                                                           \
-      }                                                                   \
-    }                                                                     \
-  }                                                                       \
-  else {                                                                  \
-    stop("`invert` must be `TRUE` or `FALSE`");                         \
-  }                                                                       \
-} while(0)
-
 
 
 

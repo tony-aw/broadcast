@@ -1,14 +1,19 @@
 
+# general ====
+
 #' @keywords internal
 #' @noRd
 .op_rel <- function() {
   return(c("==", "!=", "<", ">", "<=", ">="))
 }
 
+
+# decimal numeric ====
+
 #' @keywords internal
 #' @noRd
 .op_dec_math <- function() {
-  return(c("+", "-", "*", "/", "^", "pmin", "pmax"))
+  return(c("+", "-", "*", "/", "^"))
 }
 
 #' @keywords internal
@@ -23,17 +28,25 @@
   return(c("d==", "d!=", "d<", "d>", "d<=", "d>="))
 }
 
-
 #' @keywords internal
 #' @noRd
-.op_int_math <- function() {
-  return(c("+", "-", "*", "^", "pmin", "pmax"))
+.op_dec_pminmax <- function() {
+  return(c("pmin", "pmax"))
 }
 
 #' @keywords internal
 #' @noRd
-.op_int_d <- function() {
-  return(c("gcd", "%%", "%/%"))
+.op_dec_boolint_rel <- function() {
+  return(c("==", "!=", "<", ">", "<=", ">=", "d==", "d!=", "d<", "d>", "d<=", "d>="))
+}
+
+
+# integer specific ====
+
+#' @keywords internal
+#' @noRd
+.op_int_main <- function() {
+  return(c("gcd", "%%", "%/%", "pmin", "pmax"))
 }
 
 #' @keywords internal
@@ -42,18 +55,21 @@
   return(c("==", "!=", "<", ">", "<=", ">="))
 }
 
+.op_int_boolint_math <- function() {
+  return(c("pmin", "pmax", "gcd", "%%", "%/%"))
+}
+
+
+# logical/boolean ====
 
 #' @keywords internal
 #' @noRd
 .op_b <- function() {
-  return(c("&", "|", "xor"))
+  return(c("&", "|", "xor", "nand", "nor", "==", "!="))
 }
 
-#' @keywords internal
-#' @noRd
-.op_b_rel <- function() {
-  return(c("==", "!="))
-}
+
+# string ====
 
 #' @keywords internal
 #' @noRd
@@ -74,6 +90,8 @@
   return(c("levenshtein", "lcss"))
 }
 
+# complex numeric ====
+
 #' @keywords internal
 #' @noRd
 .op_cplx_rel <- function() {
@@ -87,12 +105,16 @@
 }
 
 
+# bit-wise ====
+
 #' @keywords internal
 #' @noRd
 .op_bit <- function() {
   return(c("&", "|", "xor", "nand", "nor", "<<", ">>"))
 }
 
+
+# raw bytes ====
 
 #' @keywords internal
 #' @noRd

@@ -15,7 +15,7 @@ prec <- sqrt(.Machine$double.eps)
 # equals ====
 bc.fun <- function(x, y) bc.d(x, y, "d==")
 base.fun <- function(x, y) {
-  out <- abs(x - y) < prec
+  out <- abs(x - y) <= prec
   return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
@@ -31,7 +31,7 @@ expect_equal(
 # unequals ====
 bc.fun <- function(x, y) bc.d(x, y, "d!=")
 base.fun <- function(x, y) {
-  out <- abs(x - y) >= prec
+  out <- abs(x - y) > prec
   return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
@@ -46,7 +46,7 @@ expect_equal(
 # smaller ====
 bc.fun <- function(x, y) bc.d(x, y, "d<")
 base.fun <- function(x, y) {
-  out <- (x - y) <= -prec
+  out <- (x - y) < -prec
   return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
@@ -61,7 +61,7 @@ expect_equal(
 # greater ====
 bc.fun <- function(x, y) bc.d(x, y, "d>")
 base.fun <- function(x, y) {
-  out <- (x - y) >= prec
+  out <- (x - y) > prec
   return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
@@ -77,7 +77,7 @@ expect_equal(
 # se ====
 bc.fun <- function(x, y) bc.d(x, y, "d<=")
 base.fun <- function(x, y) {
-  out <- (x - y) < prec
+  out <- (x - y) <= prec
   return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
@@ -92,7 +92,7 @@ expect_equal(
 # ge ====
 bc.fun <- function(x, y) bc.d(x, y, "d>=")
 base.fun <- function(x, y) {
-  out <- (x - y) > -prec
+  out <- (x - y) >= -prec
   return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)

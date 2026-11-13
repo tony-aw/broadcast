@@ -32,7 +32,7 @@ set.seed(1)
 <!-- badges: end -->
 
 
- 
+&nbsp;
 
 ## 🗺️Overview
 
@@ -154,7 +154,7 @@ The idea of broadcasted infix operations and broadcasted array binding has been 
 <details>
   <summary><b><a style="cursor: pointer;">Casting Methods 🔍 </a></b> </summary>
 
-Broadcast provides casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.  
+The 'broadcast' package provides casting functions, that cast subset-groups of an array to a new dimension, cast nested lists to dimensional lists, and vice-versa.  
 These functions are useful for facilitating complex broadcasted operations, though they also have much merit beside broadcasting.
 
 For example, you cannot broadcast through hierarchies of a list, but you **can** broadcast along dimensions. So suppose you have the following list:
@@ -216,12 +216,28 @@ The **Quick-Start Guide** can be found [here](https://tony-aw.github.io/broadcas
 
 ## 🤷🏽Why use 'broadcast'
 
+
 **Efficiency**
 
-Broadcasting as implemented in the 'broadcast' package is much faster and much more memory efficient than using base `r fa("r-project")` solutions like `sweep()`.   
+Broadcasting as implemented in the 'broadcast' package is much faster and much more memory efficient than using base 'R' solutions like `sweep()`.   
 The implementations in the 'broadcast' package are also about as fast as - and sometimes even faster than - 'NumPy'.    
-Efficient programs use less energy and resources, and is thus better for the environment.  
+Your code will use less time and less memory, and might save you some money in the process.    
 Benchmarks can be found in the "About" section on the website.
+
+&nbsp;
+
+
+**Wide Support**
+
+'broadcast' provides a very wide support for broadcasting:
+
+ - More than the same-old numeric, relational and Boolean computations (like in the original broadcasting implementations from 'NumPy' and 'xtensor), 'broadcast' additionally supports broadcasted string, bit-wise, integer-centric, and even recursive/list operations.
+ - Where typical array-related packages limit themselves to only atomic arrays, 'broadcast' also has full support for *recursive*  arrays (i.e. arrays of type `list`), which allows for some *very* complex and fast operations that would normally require slow and convoluted loops.
+ - 'broadcast' supports arrays up to 16 dimensions, and these arrays may have as many elements as 'R' can support (which is `2^52 -1` elements; i.e. up to a staggering 4.5 *quadrillion* elements).
+ - Almost every function provided by 'broadcast' is a *generic method*, and thus 'broadcast' can in principle support *any* array-like class, provided someone has written a method for it.
+ - 'broadcast' even provides an *optional* extra class - the "broadcaster class" - to overload base 'R' operators.
+ - And 'broadcast' provides much more, all in the hope to lower your Carbon footprint while doing important multi-dimensional research.
+
 
 &nbsp;
 
@@ -239,11 +255,11 @@ Have you ever been bothered by any of the following while programming in 'R':
 
 If you answered "YES" to any of the above, 'broadcast' may be the 'R' - package for you.
 
- 
+&nbsp;
 
 **Minimal Dependencies**
 
-Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries. Moreover, no generative AI of any sort was used in developing 'broadcast'. 'broadcast' was essentially made from scratch and can be installed out-of-the-box.
+Besides linking to 'Rcpp', 'broadcast' does not depend on, vendor, link to, include, or otherwise use any external libraries. 'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 
 Not using external libraries brings a number of advantages:
 
@@ -254,13 +270,14 @@ Not using external libraries brings a number of advantages:
 
 See the [Other Packages](https://tony-aw.github.io/broadcast/about/other_pkgs.html) page for more details on the above points regarding the advantages of minimizing dependencies.
 
- 
+&nbsp;
 
 **Tested**
 
-The 'broadcast' package is frequently checked using a large suite of unit tests via the [tinytest](https://github.com/markvanderloo/tinytest) package. These tests have a [coverage](https://tony-aw.github.io/broadcast/about/unit_test_covr.html) of over 95%. So the chance of a function from this package breaking completely is relatively low.
+The 'broadcast' package is frequently checked using a large suite of unit tests via the [tinytest](https://github.com/markvanderloo/tinytest) package. These tests have a [coverage](https://tony-aw.github.io/broadcast/about/covr.html) of over 95%. So the chance of a function from this package breaking completely is relatively low.
 
 'broadcast' is still relatively new package, however, so (small) bugs are still very much possible. I encourage users who find bugs to report them promptly to the [issues](https://github.com/tony-aw/broadcast/issues) tab on the GitHub page, and I will fix them as soon as time permits.
+
 
 &nbsp;
 
@@ -280,7 +297,7 @@ install.packages("broadcast", type = "source")
 
 ## 📊Status
 
-'broadcast' is now available on CRAN! 🎉
+'broadcast' is available on CRAN! 🎉
 
 If you have any suggestions or feedback on the package, its documentation, or even the benchmarks, I encourage you to let me know (either as an [Issue](https://github.com/tony-aw/broadcast/issues) or a [Discussion](https://github.com/tony-aw/broadcast/discussions)).  
 I'm eager to read your input!

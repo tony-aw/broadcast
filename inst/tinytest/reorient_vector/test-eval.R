@@ -13,9 +13,6 @@ errorfun <- function(tt) {
 expect_silent(
   `TRUE` %orientbc<-% 2L
 )
-expect_true(
-  broadcaster(`TRUE`)
-)
 expect_equal(
   dim(`TRUE`),
   c(1L, 10L)
@@ -58,7 +55,7 @@ for(iOrient in 1:16) {
         out <- tempfun(x, iOrient, iNdim)
         
         expect_equal(
-            broadcaster(out), TRUE
+            broadcaster(out), broadcaster(x)
         ) |> errorfun()
         
         expect_equal(
@@ -102,7 +99,7 @@ for(iOrient in 1:16) {
         tempfun(out, iOrient, iNdim)
         
         expect_equal(
-          broadcaster(out), TRUE
+          broadcaster(out), broadcaster(x)
         ) |> errorfun()
         
         expect_equal(
@@ -173,9 +170,6 @@ dimnames <- function(x) stop("you're an idiot")
 
 expect_silent(
   x %orientbc<-% 2L
-)
-expect_true(
-  broadcast::broadcaster(x)
 )
 expect_equal(
   base::dim(x), c(1L, base::length(x))

@@ -10,28 +10,13 @@ errorfun <- function(tt) {
 # bc.i ====
 x <- as.integer(2^31 - 1)
 y <- as.double(x)
-expect_equal(
-  bc.i(x, 10L, "+"),
-  y + 10L
-)
-expect_equal(
-  bc.i(-x, 10L, "-"),
-  -y - 10L
-)
-expect_equal(
-  bc.i(x, 10L, "*"),
-  y * 10L
-)
+
 expect_equal(
   bc.i(x, 1L, "%/%"),
   y %/% 1L
 )
-expect_equal(
-  bc.i(as.integer(x/100L), 2L, "^"),
-  as.integer(y/100L) ^ 2L
-)
 
-enumerate <- enumerate + 5L
+enumerate <- enumerate + 1L
 
 
 # bc.d ====

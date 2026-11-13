@@ -143,6 +143,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../about/NEWS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">News</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../about/other_pkgs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Other Packages</span></a>
   </div>
@@ -204,98 +210,106 @@ ul.task-list li input[type="checkbox"] {
 <p>&nbsp;</p>
 <p>The unit tests employed by the ‘broadcast’ package have a test coverage of over 95%.<br>
 For the sake of transparency, the unit tests coverage report, produced by the <a href="https://github.com/r-lib/covr">covr</a> package, is provided here:</p>
-<pre><code>broadcast Coverage: 96.21%
+<pre><code>broadcast Coverage: 96.16%
 src/C_arraysize_overflow.c: 85.71%
 R/internal_hiercast.R: 87.10%
-src/rcpp_bc_ifelse.cpp: 87.50%
+src/broadcast.h: 87.10%
+R/bc_strrep.R: 88.46%
+R/overload_ops_arith.R: 88.89%
 src/C_dims_is_vector.c: 88.89%
-R/broadcastWrappers.R: 89.47%
+src/C_should_boolint_rel.c: 88.89%
 src/rcpp_any_nonarray.cpp: 90.00%
-src/rcpp_bc_bit.cpp: 90.00%
 R/hier2dim.R: 90.32%
-R/overload_ops_arith.R: 91.04%
+R/bc_list.R: 90.48%
+R/broadcastWrappers.R: 91.30%
 R/internal_binary.R: 91.30%
 R/internal_bind.R: 91.53%
+src/C_should_boolint_math.c: 91.67%
+R/bc_cplx.R: 91.89%
 R/linear_algebra_stats.R: 92.00%
 R/internal_acast.R: 92.11%
 src/rcpp_hier2dim.cpp: 92.20%
-R/bc_strrep.R: 92.31%
+R/bc_boolint.R: 92.31%
 R/internal_typefuns.R: 92.50%
 src/rcpp_ecp.cpp: 92.86%
 src/rcpp_lst_ndims.cpp: 92.86%
+src/rcpp_bc_ifelse.cpp: 93.02%
 R/rep_dim.R: 93.33%
-src/rcpp_bcRel_bit.cpp: 93.33%
-R/internal_oplists.R: 93.75%
+src/rcpp_bc_int.cpp: 93.42%
 src/C_make_dcp.c: 93.75%
-R/bc_list.R: 93.94%
+src/rcpp_bc_bit.cpp: 93.90%
 src/rcpp_bindhelpers.cpp: 94.34%
-R/overload_ops_gs.R: 94.44%
 R/typecast.R: 94.64%
 src/rcpp_binames.cpp: 94.92%
-R/overload_ops_equneq.R: 95.00%
 src/C_seq_Clen.c: 95.00%
+R/bc_raw.R: 95.24%
+R/bc_tolerance.R: 95.24%
 R/broadcaster.R: 95.24%
+R/overload_ops_gs.R: 95.45%
 src/C_max_type.c: 95.45%
 R/vector2array.R: 95.65%
-src/rcpp_virt_binary_prep.cpp: 95.68%
 src/rcpp_cast_shallow2atomic.cpp: 95.71%
+src/rcpp_bcRel_bit.cpp: 95.83%
 R/cast_shallow2atomic.R: 95.89%
-R/reorient_vector.R: 95.96%
+R/reorient_vector.R: 95.92%
 R/acast.R: 96.00%
+R/overload_ops_equneq.R: 96.15%
+src/rcpp_bcRel_cplx.cpp: 96.23%
 R/internal_bind_names.R: 96.30%
-src/rcpp_bcD_int.cpp: 96.43%
-src/broadcast.h: 96.83%
-R/checkmissing.R: 98.00%
-src/rcpp_bcD_str.cpp: 98.39%
-R/bc_bit.R: 98.44%
-R/bc_str.R: 98.91%
+src/rcpp_virt_binary_prep.cpp: 96.50%
+R/bc_bit.R: 97.56%
+src/rcpp_bc_boolint.cpp: 97.62%
+R/bc_i.R: 97.96%
+R/bc_str.R: 98.18%
+R/bc_d.R: 98.63%
+src/rcpp_bcD_str.cpp: 98.88%
 R/bc_b.R: 100.00%
-R/bc_cplx.R: 100.00%
-R/bc_d.R: 100.00%
 R/bc_dim.R: 100.00%
-R/bc_i.R: 100.00%
 R/bc_ifelse.R: 100.00%
-R/bc_raw.R: 100.00%
 R/bc_rel.R: 100.00%
 R/bcapply.R: 100.00%
 R/bind_array.R: 100.00%
 R/cast_dim2flat.R: 100.00%
 R/cast_dim2hier.R: 100.00%
 R/cast_hier2dim.R: 100.00%
+R/checkmissing.R: 100.00%
 R/class_methods.R: 100.00%
 R/dropnests.R: 100.00%
 R/internal_acast_names.R: 100.00%
 R/internal_functions.R: 100.00%
 R/internal_is.R: 100.00%
+R/internal_oplists.R: 100.00%
 R/ndim.R: 100.00%
 R/overload_ops_andor.R: 100.00%
 R/overload_ops_intops.R: 100.00%
 src/C_any_nonNULL.c: 100.00%
 src/C_bind_which_comdims.c: 100.00%
 src/C_bindhelper_need_coerce.c: 100.00%
+src/C_inputOK_arith.c: 100.00%
 src/C_inputOK_relop_gs.c: 100.00%
-src/C_make_by.c: 100.00%
 src/C_recycle_seq_dim.c: 100.00%
 src/C_sd_lc.c: 100.00%
+src/C_trunc2int53.c: 100.00%
 src/C_unlisthelper_maxlen.c: 100.00%
+src/C_which_op.c: 100.00%
 src/rcpp_acast.cpp: 100.00%
-src/rcpp_bc_b.cpp: 100.00%
+src/rcpp_bc_b_int.cpp: 100.00%
+src/rcpp_bc_b_raw.cpp: 100.00%
 src/rcpp_bc_bind.cpp: 100.00%
 src/rcpp_bc_cplx.cpp: 100.00%
 src/rcpp_bc_dec.cpp: 100.00%
-src/rcpp_bc_int.cpp: 100.00%
 src/rcpp_bc_list.cpp: 100.00%
 src/rcpp_bc_raw.cpp: 100.00%
 src/rcpp_bc_str.cpp: 100.00%
 src/rcpp_bc_strrep.cpp: 100.00%
+src/rcpp_bc_tolerance.cpp: 100.00%
 src/rcpp_bcapply.cpp: 100.00%
-src/rcpp_bcD_dec.cpp: 100.00%
-src/rcpp_bcRel_b.cpp: 100.00%
-src/rcpp_bcRel_cplx.cpp: 100.00%
-src/rcpp_bcRel_dec.cpp: 100.00%
-src/rcpp_bcRel_int.cpp: 100.00%
+src/rcpp_bcP_dec.cpp: 100.00%
+src/rcpp_bcRel_boolint.cpp: 100.00%
 src/rcpp_bcRel_raw.cpp: 100.00%
 src/rcpp_bcRel_str.cpp: 100.00%
+src/rcpp_bcRelEq_dec.cpp: 100.00%
+src/rcpp_bcRelGS_dec.cpp: 100.00%
 src/rcpp_cast_dim2hier.cpp: 100.00%
 src/rcpp_cast_hier2dim.cpp: 100.00%
 src/rcpp_checkmissing.cpp: 100.00%

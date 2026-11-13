@@ -1,4 +1,47 @@
 
+# broadcast 0.2.0
+
+**Major Changes:**
+
+* General performance improvement in all broadcasted binary operations.
+* The `%orientbc<-%` operator no longer automatically makes the left-hand side object a `broadcaster`.
+* The `bc.i()` method now strictly only supports the integer operators ("%%", "%/%", "gcd", "pmin", "pmax") and truncated relational operators.
+* the "gcd" operator in `bc.i()` now uses a non-recursive modulo based Euclidean algorithm.
+* Added the `trunc2int53()` function.
+
+
+**Minor Changes:**
+
+* If both sides are 32 bit integers, the `bc.i()` method will return 32 bit integers for operators:
+"%%", "%/%", "gcd", "pmin", "pmax".
+* If both sides are 32 bit integers, the `bc.d()` method will return 32 bit integers for operators:
+"pmin", "pmax".
+
+
+**Bug fixes:**
+
+* Found a bug where `checkmissing(x, "which")` would lead to integer overflow when used on long vectors.   
+This is now fixed.
+* Found a bug where the "gcd" integer operation would crash if the integers in question have *very* large difference in scale.   
+This is now fixed.
+
+
+**Technical Changes in 'C++'/'C' code:**
+
+* Heavily re-organized the internal source code.
+* Deeply nested loop macro used for broadcasted binary operations replaced with an odometer-like macro.
+* Change in `NA`s/`NaN`s checking on either side of any relational operator:
+sometimes a faster branch-less "OR" will be used instead of short-circuited "OR".
+* Change in how `NA`s/`NaN`s are checked for decimal arrays in all operations:
+`std::isnan()` is now used instead of `R_isnancpp()`
+(benchmarks have shown `std::isnan()` to be faster).
+* the "gcd" operator in `bc.i()` now uses a non-recursive modulo based Euclidean algorithm.
+
+
+
+<br>
+
+
 # broadcast 0.1.9.8
 
 * **Operators Change:** Removed the nand, nor, and asymmetric operators from `bc.b()`.

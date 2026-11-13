@@ -1,0 +1,374 @@
+
+
+#ifndef MISC_H
+#define MISC_H
+
+#include <Rcpp/Lightest>
+
+
+// 
+// 
+// 
+// ********************************************************************************
+// MACROs for acast
+// 
+// The following MACROs are all specific to the `acast()` function
+// 
+// 
+// ********************************************************************************
+// 
+// 
+
+
+#define MACRO_ACAST_DIM_16(DOCODE) do {              \
+                                                  \
+  const double *pdcp_out = REAL_RO(dcp_out);      \
+  const double *pdcp_y = REAL_RO(dcp_y);          \
+                                                  \
+  const int *pstarts = INTEGER_RO(starts);        \
+                                                  \
+                                                  \
+  const int N1 = INTEGER(lens)[0];	\
+const int N2 = INTEGER(lens)[1];	\
+const int N3 = INTEGER(lens)[2];	\
+const int N4 = INTEGER(lens)[3];	\
+const int N5 = INTEGER(lens)[4];	\
+const int N6 = INTEGER(lens)[5];	\
+const int N7 = INTEGER(lens)[6];	\
+const int N8 = INTEGER(lens)[7];	\
+const int N9 = INTEGER(lens)[8];	\
+const int N10 = INTEGER(lens)[9];	\
+const int N11 = INTEGER(lens)[10];	\
+const int N12 = INTEGER(lens)[11];	\
+const int N13 = INTEGER(lens)[12];	\
+const int N14 = INTEGER(lens)[13];	\
+const int N15 = INTEGER(lens)[14];	\
+const int N16 = INTEGER(lens)[15];	\
+                                                  \
+  const SEXP ind1 = VECTOR_ELT(subs2, 0);	\
+const SEXP ind2 = VECTOR_ELT(subs2, 1);	\
+const SEXP ind3 = VECTOR_ELT(subs2, 2);	\
+const SEXP ind4 = VECTOR_ELT(subs2, 3);	\
+const SEXP ind5 = VECTOR_ELT(subs2, 4);	\
+const SEXP ind6 = VECTOR_ELT(subs2, 5);	\
+const SEXP ind7 = VECTOR_ELT(subs2, 6);	\
+const SEXP ind8 = VECTOR_ELT(subs2, 7);	\
+const SEXP ind9 = VECTOR_ELT(subs2, 8);	\
+const SEXP ind10 = VECTOR_ELT(subs2, 9);	\
+const SEXP ind11 = VECTOR_ELT(subs2, 10);	\
+const SEXP ind12 = VECTOR_ELT(subs2, 11);	\
+const SEXP ind13 = VECTOR_ELT(subs2, 12);	\
+const SEXP ind14 = VECTOR_ELT(subs2, 13);	\
+const SEXP ind15 = VECTOR_ELT(subs2, 14);	\
+const SEXP ind16 = VECTOR_ELT(subs2, 15);	\
+                                                  \
+  const int *pind1 = INTEGER_RO(ind1);	\
+const int *pind2 = INTEGER_RO(ind2);	\
+const int *pind3 = INTEGER_RO(ind3);	\
+const int *pind4 = INTEGER_RO(ind4);	\
+const int *pind5 = INTEGER_RO(ind5);	\
+const int *pind6 = INTEGER_RO(ind6);	\
+const int *pind7 = INTEGER_RO(ind7);	\
+const int *pind8 = INTEGER_RO(ind8);	\
+const int *pind9 = INTEGER_RO(ind9);	\
+const int *pind10 = INTEGER_RO(ind10);	\
+const int *pind11 = INTEGER_RO(ind11);	\
+const int *pind12 = INTEGER_RO(ind12);	\
+const int *pind13 = INTEGER_RO(ind13);	\
+const int *pind14 = INTEGER_RO(ind14);	\
+const int *pind15 = INTEGER_RO(ind15);	\
+const int *pind16 = INTEGER_RO(ind16);	\
+                                                  \
+  R_xlen_t flatind_out;       \
+  R_xlen_t flatind_y;       \
+  R_xlen_t i_out1, i_out2, i_out3, i_out4, i_out5, i_out6, i_out7, i_out8, i_out9, i_out10, i_out11, i_out12, i_out13, i_out14, i_out15, i_out16; \
+  R_xlen_t i_y1, i_y2, i_y3, i_y4, i_y5, i_y6, i_y7, i_y8, i_y9, i_y10, i_y11, i_y12, i_y13, i_y14, i_y15, i_y16; \
+  	 for(int iter16 = 0; iter16 < N16; ++iter16) {	\
+i_out16 = (pstarts[15] + iter16) * pdcp_out[15];	\
+i_y16 = (pind16[iter16] - 1) * pdcp_y[15];	\
+	 for(int iter15 = 0; iter15 < N15; ++iter15) {	\
+i_out15 = (pstarts[14] + iter15) * pdcp_out[14] + i_out16;	\
+i_y15 = (pind15[iter15] - 1) * pdcp_y[14] + i_y16;	\
+	 for(int iter14 = 0; iter14 < N14; ++iter14) {	\
+i_out14 = (pstarts[13] + iter14) * pdcp_out[13] + i_out15;	\
+i_y14 = (pind14[iter14] - 1) * pdcp_y[13] + i_y15;	\
+	 for(int iter13 = 0; iter13 < N13; ++iter13) {	\
+i_out13 = (pstarts[12] + iter13) * pdcp_out[12] + i_out14;	\
+i_y13 = (pind13[iter13] - 1) * pdcp_y[12] + i_y14;	\
+	 for(int iter12 = 0; iter12 < N12; ++iter12) {	\
+i_out12 = (pstarts[11] + iter12) * pdcp_out[11] + i_out13;	\
+i_y12 = (pind12[iter12] - 1) * pdcp_y[11] + i_y13;	\
+	 for(int iter11 = 0; iter11 < N11; ++iter11) {	\
+i_out11 = (pstarts[10] + iter11) * pdcp_out[10] + i_out12;	\
+i_y11 = (pind11[iter11] - 1) * pdcp_y[10] + i_y12;	\
+	 for(int iter10 = 0; iter10 < N10; ++iter10) {	\
+i_out10 = (pstarts[9] + iter10) * pdcp_out[9] + i_out11;	\
+i_y10 = (pind10[iter10] - 1) * pdcp_y[9] + i_y11;	\
+	 for(int iter9 = 0; iter9 < N9; ++iter9) {	\
+i_out9 = (pstarts[8] + iter9) * pdcp_out[8] + i_out10;	\
+i_y9 = (pind9[iter9] - 1) * pdcp_y[8] + i_y10;	\
+	 for(int iter8 = 0; iter8 < N8; ++iter8) {	\
+i_out8 = (pstarts[7] + iter8) * pdcp_out[7] + i_out9;	\
+i_y8 = (pind8[iter8] - 1) * pdcp_y[7] + i_y9;	\
+	 for(int iter7 = 0; iter7 < N7; ++iter7) {	\
+i_out7 = (pstarts[6] + iter7) * pdcp_out[6] + i_out8;	\
+i_y7 = (pind7[iter7] - 1) * pdcp_y[6] + i_y8;	\
+	 for(int iter6 = 0; iter6 < N6; ++iter6) {	\
+i_out6 = (pstarts[5] + iter6) * pdcp_out[5] + i_out7;	\
+i_y6 = (pind6[iter6] - 1) * pdcp_y[5] + i_y7;	\
+	 for(int iter5 = 0; iter5 < N5; ++iter5) {	\
+i_out5 = (pstarts[4] + iter5) * pdcp_out[4] + i_out6;	\
+i_y5 = (pind5[iter5] - 1) * pdcp_y[4] + i_y6;	\
+	 for(int iter4 = 0; iter4 < N4; ++iter4) {	\
+i_out4 = (pstarts[3] + iter4) * pdcp_out[3] + i_out5;	\
+i_y4 = (pind4[iter4] - 1) * pdcp_y[3] + i_y5;	\
+	 for(int iter3 = 0; iter3 < N3; ++iter3) {	\
+i_out3 = (pstarts[2] + iter3) * pdcp_out[2] + i_out4;	\
+i_y3 = (pind3[iter3] - 1) * pdcp_y[2] + i_y4;	\
+	 for(int iter2 = 0; iter2 < N2; ++iter2) {	\
+i_out2 = (pstarts[1] + iter2) * pdcp_out[1] + i_out3;	\
+i_y2 = (pind2[iter2] - 1) * pdcp_y[1] + i_y3;	\
+	 for(int iter1 = 0; iter1 < N1; ++iter1) {	\
+i_out1 = (pstarts[0] + iter1) * pdcp_out[0] + i_out2;	\
+i_y1 = (pind1[iter1] - 1) * pdcp_y[0] + i_y2;	\
+        flatind_out = i_out1;       \
+        flatind_y = i_y1;     \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        flatind_out++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_ACAST_DOCALL(DOCODE) do {     \
+  int ndims = Rf_length(out_dim);         \
+                                          \
+  switch(ndims) {       \
+    case 16:                                       \
+  MACRO_ACAST_DIM_16(DOCODE);    \
+  break;                                        \
+       \
+  }       \
+} while(0)
+
+#define MACRO_OP_ACAST_LOOP(DOCODE) do {                  \
+                                                            \
+  for(int i = 0; i < grp_n; ++i) {                          \
+    grp_count = rcpp_factor_count(grp, i + 1);              \
+    if(grp_count > 0) {                                       \
+      grp_which = rcpp_factor_which(grp, i + 1, grp_count);   \
+      plens[margin] = grp_count;                              \
+      SET_VECTOR_ELT(subs2, margin, grp_which);                \
+      DOCODE;                                                 \
+      pstarts[newdim] = pstarts[newdim] + 1;                  \
+    }                                                         \
+  }                                                         \
+} while(0)
+
+
+
+#define MACRO_OP_ACAST do {       \
+  switch(TYPEOF(out)) {	\
+    case LGLSXP:	\
+    {	\
+      int *py = LOGICAL(y);                                 \
+      int *pout = LOGICAL(out);                             \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));   \
+      break;                                                \
+    }	\
+    case INTSXP:	\
+    {	\
+      int *py = INTEGER(y);                                 \
+      int *pout = INTEGER(out);                             \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));   \
+      break;                                                \
+    }	\
+    case REALSXP:	\
+    {	\
+      double *py = REAL(y);                                     \
+      double *pout = REAL(out);                                 \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));       \
+      break;                                                \
+    }	\
+    case CPLXSXP:	\
+    {	\
+      Rcomplex *py = COMPLEX(y);                                 \
+      Rcomplex *pout = COMPLEX(out);                             \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));   \
+      break;                                                \
+    }	\
+    case STRSXP:	\
+    {	\
+      const SEXP *py = STRING_PTR_RO(y);                                 \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(SET_STRING_ELT(out, flatind_out, py[flatind_y])));   \
+      break;                                                \
+    }	\
+    case RAWSXP:	\
+    {	\
+      Rbyte *py = RAW(y);	                                  \
+      Rbyte *pout = RAW(out);	                              \
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(pout[flatind_out] = py[flatind_y]));   \
+      break;                                                \
+    }	\
+    case VECSXP:	\
+    {	\
+      MACRO_OP_ACAST_LOOP(MACRO_ACAST_DOCALL(                                                \
+        SET_VECTOR_ELT(out, flatind_out, VECTOR_ELT(y, flatind_y))  \
+      ));                                                              \
+      break;                                                \
+    }	\
+    default:	\
+    {	\
+      stop("unsupported type");	\
+    }	\
+  }	\
+} while(0)
+
+// 
+// 
+// 
+// ********************************************************************************
+// MACROs for checkmissing
+// 
+// The following MACROs are all specific to the `checkNA` and `checkNULL` functions
+// 
+// 
+// ********************************************************************************
+// 
+// 
+
+#define MACRO_CHECKMISSING_TYPESWITCH(MACROCODE, DOCODE) do { \
+  switch(TYPEOF(y)) {                                                         \
+    case INTSXP:                                                              \
+    case LGLSXP:                                                              \
+    {                                                                         \
+      const int *py = INTEGER_RO(y);                                          \
+      MACROCODE(DOCODE, py[i] == NA_INTEGER, py[i] != NA_INTEGER);            \
+      break;                                                                  \
+    }                                                                         \
+    case REALSXP:                                                             \
+    {                                                                         \
+      const double *py = REAL_RO(y);                                          \
+      MACROCODE(DOCODE, std::isnan(py[i]), !std::isnan(py[i]));               \
+      break;                                                                  \
+    }                                                                         \
+    case CPLXSXP:                                                             \
+    {                                                                         \
+      const Rcomplex *py = COMPLEX_RO(y);                                     \
+      MACROCODE(                                                              \
+        DOCODE,                                                               \
+        std::isnan(py[i].r) || std::isnan(py[i].i),                           \
+        !std::isnan(py[i].i) && !std::isnan(py[i].r)                          \
+      );                                                                      \
+      break;                                                                  \
+    }                                                                         \
+    case STRSXP:                                                              \
+    {                                                                         \
+      const SEXP *py = STRING_PTR_RO(y);                                      \
+      MACROCODE(DOCODE, py[i] == NA_STRING, py[i] != NA_STRING);              \
+      break;                                                                  \
+    }                                                                         \
+    case VECSXP:                                                              \
+    {                                                                         \
+      MACROCODE(                                                              \
+        DOCODE,                                                               \
+        VECTOR_ELT(y, i) == R_NilValue,                                       \
+        VECTOR_ELT(y, i) != R_NilValue                                        \
+      );                                                                      \
+      break;                                                                  \
+    }                                                                         \
+    case RAWSXP:                                                              \
+    {                                                                         \
+      stop("NAs not defined for type `raw`");                               \
+      break;                                                                  \
+    }                                                                         \
+    default: stop("Unsupported type");                                      \
+  }                                                                           \
+} while(0)
+
+
+#define MACRO_CHECKMISSING_IS(DOCODE, ISNACODE, ISNOTNACODE) do {  \
+  if(!invert) {                                                         \
+    for(R_xlen_t i = 0; i < n; ++i) {                                     \
+      DOCODE = ISNACODE;                                                    \
+    }                                                                     \
+  }                                                                       \
+  else if(invert) {                                                   \
+    for(R_xlen_t i = 0; i < n; ++i) {                                     \
+      DOCODE = ISNOTNACODE;                                              \
+    }                                                                     \
+  }                                                                       \
+  else {                                                                  \
+    stop("`invert` must be `TRUE` or `FALSE`");                         \
+  }                                                                       \
+  break;                                                                  \
+} while(0)
+
+
+
+
+#define MACRO_CHECKMISSING_FW(DOCODE, ISNACODE, ISNOTNACODE) do {             \
+  if(!invert) {                                                         \
+    for(R_xlen_t i = 0; i < n; ++i) {                                     \
+      if(ISNACODE) {                                                      \
+        DOCODE;                                                           \
+      }                                                                   \
+    }                                                                     \
+  }                                                                       \
+  else if(invert) {                                                      \
+    for(R_xlen_t i = 0; i < n; ++i) {                                     \
+      if(ISNOTNACODE) {                                                   \
+        DOCODE;                                                           \
+      }                                                                   \
+    }                                                                     \
+  }                                                                       \
+  else {                                                                  \
+    stop("`invert` must be `TRUE` or `FALSE`");                         \
+  }                                                                       \
+} while(0)
+
+
+
+
+#define MACRO_CHECKMISSING_BW(DOCODE, ISNACODE, ISNOTNACODE) do {             \
+  if(!invert) {                                                         \
+    for(R_xlen_t i = (n-1); i >= 0; --i) {                                     \
+      if(ISNACODE) {                                                      \
+        DOCODE;                                                           \
+      }                                                                   \
+    }                                                                     \
+  }                                                                       \
+  else if(invert) {                                                      \
+    for(R_xlen_t i = (n-1); i >= 0; --i) {                                     \
+      if(ISNOTNACODE) {                                                   \
+        DOCODE;                                                           \
+      }                                                                   \
+    }                                                                     \
+  }                                                                       \
+  else {                                                                  \
+    stop("`invert` must be `TRUE` or `FALSE`");                         \
+  }                                                                       \
+} while(0)
+
+
+
+
+#endif

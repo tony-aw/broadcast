@@ -6,18 +6,23 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 x.data <- list(
+  # logical:
   sample(c(TRUE, FALSE), 100, TRUE),
   sample(c(TRUE, FALSE, NA), 100, TRUE),
   rep(NA, 100),
+  # integer:
   sample(-10:10, 100, TRUE),
   sample(c(-10:10, NA), 100, TRUE),
   rep(NA_integer_, 100),
+  # double:
   sample(c(rnorm(98), Inf, -Inf)),
   sample(c(rnorm(96), NA, NaN, -Inf, Inf)),
   rep(NA_real_, 100),
+  # complex:
   sample(c(rnorm(98), Inf, -Inf)) + sample(c(rnorm(98), Inf, -Inf)) * -1i,
   sample(c(rnorm(96), NA, NaN, -Inf, Inf)) + sample(c(rnorm(96), NA, NaN, -Inf, Inf)) * -1i,
   rep(NA_complex_, 100),
+  # character:
   sample(month.name, 100, TRUE),
   sample(c(month.name, NA), 100, TRUE),
   rep(NA_character_, 100)

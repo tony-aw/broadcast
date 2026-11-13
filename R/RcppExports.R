@@ -20,136 +20,138 @@ NULL
     .Call(`_broadcast_rcpp_any_nonarray`, x)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcD_dec_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op, prec) {
-    .Call(`_broadcast_rcpp_bcD_dec_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op, prec)
+.rcpp_bcD_str_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcD_str_2v`, x, y, prep, op)
+}
+
+.rcpp_bcD_str_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcD_str_1v`, x, y, prep, op)
+}
+
+.rcpp_bcD_str_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcD_str_d`, x, y, prep, op)
+}
+
+.rcpp_bcP_dec_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcP_dec_2v`, x, y, prep, op)
+}
+
+.rcpp_bcP_dec_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcP_dec_d`, x, y, prep, op)
+}
+
+.rcpp_bcRelEq_dec_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRelEq_dec_2v`, x, y, prep, op)
+}
+
+.rcpp_bcRelEq_dec_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRelEq_dec_1v`, x, y, prep, op)
+}
+
+.rcpp_bcRelEq_dec_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRelEq_dec_d`, x, y, prep, op)
+}
+
+.rcpp_bcRelGS_dec_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRelGS_dec_2v`, x, y, prep, op)
+}
+
+.rcpp_bcRelGS_dec_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRelGS_dec_1v`, x, y, prep, op)
+}
+
+.rcpp_bcRelGS_dec_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRelGS_dec_d`, x, y, prep, op)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bcD_dec_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op, prec) {
-    .Call(`_broadcast_rcpp_bcD_dec_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op, prec)
+.rcpp_bcRel_bit_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_bit_2v`, x, y, prep, op)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bcD_int_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bcD_int_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bcRel_bit_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_bit_1v`, x, y, prep, op)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bcD_int_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bcD_int_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bcRel_bit_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_bit_d`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcD_str_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bcD_str_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bcRel_boolint_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_boolint_2v`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcD_str_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bcD_str_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bcRel_boolint_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_boolint_1v`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_b_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bcRel_b_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bcRel_boolint_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_boolint_d`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_b_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bcRel_b_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bcRel_cplx_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_cplx_2v`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_bit_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bcRel_bit_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bcRel_cplx_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_cplx_1v`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_bit_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bcRel_bit_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bcRel_cplx_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_cplx_d`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_cplx_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bcRel_cplx_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bcRel_raw_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_raw_2v`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_cplx_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bcRel_cplx_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bcRel_raw_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_raw_1v`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_dec_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bcRel_dec_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bcRel_raw_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_raw_d`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_dec_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bcRel_dec_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bcRel_str_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_str_2v`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_int_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bcRel_int_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bcRel_str_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_str_1v`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_int_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bcRel_int_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bcRel_str_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bcRel_str_d`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_raw_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bcRel_raw_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bc_b_int_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_b_int_2v`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_raw_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bcRel_raw_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bc_b_int_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_b_int_1v`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_str_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bcRel_str_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bc_b_int_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_b_int_d`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bcRel_str_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bcRel_str_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bc_b_raw_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_b_raw_2v`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bc_b_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bc_b_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bc_b_raw_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_b_raw_1v`, x, y, prep, op)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_bc_b_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bc_b_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bc_b_raw_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_b_raw_d`, x, y, prep, op)
 }
 
 #' @keywords internal
@@ -166,122 +168,150 @@ NULL
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_bit_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bc_bit_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bc_bit_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_bit_2v`, x, y, prep, op)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_bit_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bc_bit_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bc_bit_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_bit_1v`, x, y, prep, op)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_cplx_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bc_cplx_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bc_bit_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_bit_d`, x, y, prep, op)
+}
+
+.rcpp_bc_boolint_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_boolint_2v`, x, y, prep, op)
+}
+
+.rcpp_bc_boolint_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_boolint_1v`, x, y, prep, op)
+}
+
+.rcpp_bc_boolint_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_boolint_d`, x, y, prep, op)
+}
+
+.rcpp_bc_cplx_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_cplx_2v`, x, y, prep, op)
+}
+
+.rcpp_bc_cplx_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_cplx_d`, x, y, prep, op)
+}
+
+.rcpp_bc_dec_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_dec_2v`, x, y, prep, op)
+}
+
+.rcpp_bc_dec_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_dec_d`, x, y, prep, op)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_cplx_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bc_cplx_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bc_ifelse_2v <- function(cond, x, y, prep) {
+    .Call(`_broadcast_rcpp_bc_ifelse_2v`, cond, x, y, prep)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_dec_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bc_dec_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bc_ifelse_1v <- function(cond, x, y, prep) {
+    .Call(`_broadcast_rcpp_bc_ifelse_1v`, cond, x, y, prep)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_dec_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bc_dec_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bc_ifelse_d <- function(cond, x, y, prep) {
+    .Call(`_broadcast_rcpp_bc_ifelse_d`, cond, x, y, prep)
+}
+
+.rcpp_bc_int_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_int_2v`, x, y, prep, op)
+}
+
+.rcpp_bc_int_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_int_d`, x, y, prep, op)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_ifelse_v <- function(cond, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx) {
-    .Call(`_broadcast_rcpp_bc_ifelse_v`, cond, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx)
+.rcpp_bc_list_2v <- function(x, y, prep, f) {
+    .Call(`_broadcast_rcpp_bc_list_2v`, x, y, prep, f)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_ifelse_d <- function(cond, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout) {
-    .Call(`_broadcast_rcpp_bc_ifelse_d`, cond, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout)
+.rcpp_bc_list_1v <- function(x, y, prep, f) {
+    .Call(`_broadcast_rcpp_bc_list_1v`, x, y, prep, f)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_int_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bc_int_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
+.rcpp_bc_list_d <- function(x, y, prep, f) {
+    .Call(`_broadcast_rcpp_bc_list_d`, x, y, prep, f)
+}
+
+.rcpp_bc_raw_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_raw_2v`, x, y, prep, op)
+}
+
+.rcpp_bc_raw_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_raw_1v`, x, y, prep, op)
+}
+
+.rcpp_bc_raw_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_raw_d`, x, y, prep, op)
+}
+
+.rcpp_bc_str_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_str_2v`, x, y, prep, op)
+}
+
+.rcpp_bc_str_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_str_d`, x, y, prep, op)
+}
+
+.rcpp_bc_strrep_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_strrep_2v`, x, y, prep, op)
+}
+
+.rcpp_bc_strrep_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_strrep_d`, x, y, prep, op)
+}
+
+.rcpp_bc_tolerance_2v <- function(x, y, prep, op, tol, use_int53guard) {
+    .Call(`_broadcast_rcpp_bc_tolerance_2v`, x, y, prep, op, tol, use_int53guard)
+}
+
+.rcpp_bc_tolerance_1v <- function(x, y, prep, op, tol, use_int53guard) {
+    .Call(`_broadcast_rcpp_bc_tolerance_1v`, x, y, prep, op, tol, use_int53guard)
+}
+
+.rcpp_bc_tolerance_d <- function(x, y, prep, op, tol, use_int53guard) {
+    .Call(`_broadcast_rcpp_bc_tolerance_d`, x, y, prep, op, tol, use_int53guard)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_int_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bc_int_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
+.rcpp_bcapply_2v <- function(out, x, y, prep, f) {
+    invisible(.Call(`_broadcast_rcpp_bcapply_2v`, out, x, y, prep, f))
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_list_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, f) {
-    .Call(`_broadcast_rcpp_bc_list_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, f)
+.rcpp_bcapply_1v <- function(out, x, y, prep, f) {
+    invisible(.Call(`_broadcast_rcpp_bcapply_1v`, out, x, y, prep, f))
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_bc_list_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, f) {
-    .Call(`_broadcast_rcpp_bc_list_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, f)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bc_raw_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bc_raw_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bc_raw_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bc_raw_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bc_str_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op) {
-    .Call(`_broadcast_rcpp_bc_str_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, op)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bc_str_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op) {
-    .Call(`_broadcast_rcpp_bc_str_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, op)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bc_strrep_v <- function(x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx) {
-    .Call(`_broadcast_rcpp_bc_strrep_v`, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bc_strrep_d <- function(x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout) {
-    .Call(`_broadcast_rcpp_bc_strrep_d`, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bcapply_v <- function(out, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, f) {
-    invisible(.Call(`_broadcast_rcpp_bcapply_v`, out, x, y, x_dim, y_dim, out_dim, nout, dimmode, vectorx, f))
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_bcapply_d <- function(out, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, f) {
-    invisible(.Call(`_broadcast_rcpp_bcapply_d`, out, x, y, by_x, by_y, dcp_x, dcp_y, out_dim, nout, f))
+.rcpp_bcapply_d <- function(out, x, y, prep, f) {
+    invisible(.Call(`_broadcast_rcpp_bcapply_d`, out, x, y, prep, f))
 }
 
 #' @keywords internal
@@ -432,12 +462,6 @@ NULL
 
 #' @keywords internal
 #' @noRd
-.rcpp_checkmissing_which32 <- function(y, invert, size) {
-    .Call(`_broadcast_rcpp_checkmissing_which32`, y, invert, size)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_checkmissing_which64 <- function(y, invert, size) {
     .Call(`_broadcast_rcpp_checkmissing_which64`, y, invert, size)
 }
@@ -526,13 +550,21 @@ NULL
 NULL
 
 #' @keywords internal
-#' @noRd
+NULL
+
+#' @keywords internal
+NULL
+
+#' @keywords internal
+NULL
+
+#' @keywords internal
+NULL
+
 .rcpp_max_ndim <- function(xndim0, yndim0) {
     .Call(`_broadcast_rcpp_max_ndim`, xndim0, yndim0)
 }
 
-#' @keywords internal
-#' @noRd
 .rcpp_virt_alloc_dim <- function(x, ndim) {
     .Call(`_broadcast_rcpp_virt_alloc_dim`, x, ndim)
 }
@@ -553,38 +585,18 @@ NULL
     .Call(`_broadcast_rcpp_virt_part1_test`, x, y, x_ndim, y_ndim)
 }
 
-#' @keywords internal
-#' @noRd
 .rcpp_virt_drop_dims <- function(x_dim, y_dim, x_ndim, y_ndim, xlen, ylen) {
     invisible(.Call(`_broadcast_rcpp_virt_drop_dims`, x_dim, y_dim, x_ndim, y_ndim, xlen, ylen))
 }
 
-.rcpp_mergedims_get_endrange <- function(x, y, pos, intmax) {
-    .Call(`_broadcast_rcpp_mergedims_get_endrange`, x, y, pos, intmax)
+.rcpp_mergedims <- function(x_dim, y_dim, x_ndim, y_ndim) {
+    invisible(.Call(`_broadcast_rcpp_mergedims`, x_dim, y_dim, x_ndim, y_ndim))
 }
 
-.rcpp_mergedims_get_prods <- function(x, y, start, end) {
-    .Call(`_broadcast_rcpp_mergedims_get_prods`, x, y, start, end)
-}
-
-.rcpp_mergedims <- function(x, y) {
-    .Call(`_broadcast_rcpp_mergedims`, x, y)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_mergedims_set <- function(x_dim, y_dim, x_ndim, y_ndim) {
-    invisible(.Call(`_broadcast_rcpp_mergedims_set`, x_dim, y_dim, x_ndim, y_ndim))
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_virt_dimmode <- function(xdim, ydim, xlen, ylen, ndim) {
     .Call(`_broadcast_rcpp_virt_dimmode`, xdim, ydim, xlen, ylen, ndim)
 }
 
-#' @keywords internal
-#' @noRd
 .rcpp_virt_make_outdim_simp <- function(x_dim, y_dim, n) {
     .Call(`_broadcast_rcpp_virt_make_outdim_simp`, x_dim, y_dim, n)
 }

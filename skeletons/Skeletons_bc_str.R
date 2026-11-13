@@ -1,52 +1,16 @@
 # set-up ====
 
 library(stringi)
-
-macro_dim <- readr::read_file("macro_dim.txt")
-macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
-macro_action <- readr::read_file("macro_action.txt")
-macro_op <- readr::read_file("macro_op.txt")
-
-header_for_sourcing <- stri_c(
-  "
-  #include <Rcpp/Lightest>
-  
-  using namespace Rcpp;
-  ",
-  macro_action,
-  "\n",
-  macro_dim,
-  "\n",
-  macro_typeswitch_numeric,
-  "\n",
-  macro_op
-)
-
-
-header_for_package <- "
-
-#include <Rcpp/Lightest>
-#include \"broadcast.h\"
-
-using namespace Rcpp;
-
-
-"
-
-readr::write_file(header_for_sourcing, "header.txt")
-
-Rcpp::sourceCpp(code = header_for_sourcing)
-
-
+source("SOURCE.R")
 
 ################################################################################
-# Functions ====
+# Inlines ====
 #
 
 
-txt0 <- "
+inlines <- "
 
-inline String rcpp_string_plus(
+inline SEXP inline_string_plus(
     String x, String y
   ) {
     if(x == NA_STRING || y == NA_STRING) {
@@ -55,77 +19,64 @@ inline String rcpp_string_plus(
     else {
       String out = x;
       out += y;
-      return(out);
+      return(out.get_sexp());
     }
 }
 
 "
 
-txt1 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_str_v, rng = false)]]
-SEXP rcpp_bc_str_v(
-  SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
-  R_xlen_t nout, int dimmode, bool vectorx, int op
-) {
-
-const SEXP *px = STRING_PTR_RO(x);
-const SEXP *py = STRING_PTR_RO(y);
-
-CharacterVector out(nout);
-MACRO_OP_STR_PLUS(
-  MACRO_DIM_VECTORSPECIAL
-);
+Rcpp::sourceCpp(code = paste0(header_for_sourcing, inlines, collapse = "\n"))
 
 
-return out;
+################################################################################
+# MACROs ====
+#
 
-}
-
-
+macro_op_str_plus <- "
+#define MACRO_OP_STR_PLUS(DIMCODE) do {	\\
+  switch(op) {	\\
+  case 1:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      SET_STRING_ELT(out, flatind_out, inline_string_plus(tempx, tempy)),  \\
+      const String tempx = px[flatind_x], \\
+      const String tempy = py[flatind_y]  \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  default:	\\
+  {	\\
+    stop(\"given operator not supported in the given context\");	\\
+  }	\\
+}	\\
+} while(0)
 "
 
 
+Rcpp::sourceCpp(code = paste0(header_for_sourcing, macro_op_str_plus, collapse = "\n"))
 
 
+################################################################################
+# Functions ====
+#
 
-
-txt2 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bc_str_d, rng = false)]]
-SEXP rcpp_bc_str_d(
-  SEXP x, SEXP y, 
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op
-) {
-
-
+prep <- "
 const SEXP *px = STRING_PTR_RO(x);
 const SEXP *py = STRING_PTR_RO(y);
-
-CharacterVector out(nout);
-
-MACRO_OP_STR_PLUS(
-  MACRO_DIM_DOCALL
-);
-
-return out;
-
-}
-
-
 "
 
+txt1 <- generate_functions(
+  "bc_str", "StringVector", prep, "MACRO_OP_STR_PLUS"
+)
+
+cat(txt1)
 
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2, 
+  inlines,
+  macro_op_str_plus,
+  txt1,
   collapse = "\n\n"
 )
 
@@ -135,7 +86,9 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2, 
+  inlines,
+  macro_op_str_plus,
+  txt1,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bc_str.cpp")

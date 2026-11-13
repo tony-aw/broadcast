@@ -8,6 +8,7 @@ errorfun <- function(tt) {
 
 source(file.path(getwd(), "source.R"))
 
+
 # too many dimensions error ====
 message <- "arrays with more than 16 dimensions are not supported"
 for(i in seq_along(funs)) {
@@ -128,47 +129,88 @@ for(i in 1:7) {
   enumerate <- enumerate + 1L
 }
 
-
-# type errors - numeric ====
-pattern <- "`x` and `y` must be "
-good_type <- broadcast:::.is_numeric_like
-
+# arithmetic errors ====
+pattern <- "non-numeric argument to binary operator"
+good_type <- \(x) broadcast:::.is_numeric_like(x)
 for(typeX in seq_along(datagens)) {
   for(typeY in seq_along(datagens)) {
     
-    x <- array(datagens[[typeX]]())
-    y <- array(datagens[[typeY]]())
+    x <- sample(datagens[[typeX]](), 100, TRUE) |> array()
+    y <- sample(datagens[[typeY]](), 100, TRUE) |> array()
     
     if(!good_type(x) || !good_type(y)) {
-      expect_error(
-        bc.i(x, y, "+"),
-        pattern = pattern,
-        fixed = TRUE
-      ) |> errorfun()
-      expect_error(
-        bc.i(x, y, "=="),
-        pattern = pattern,
-        fixed = TRUE
-      ) |> errorfun()
-      
-      expect_error(
-        bc.d(x, y, "+"),
-        pattern = pattern,
-        fixed = TRUE
-      ) |> errorfun()
-      expect_error(
-        bc.d(x, y, "=="),
-        pattern = pattern,
-        fixed = TRUE
-      ) |> errorfun()
-      
-      enumerate <- enumerate + 4L
-      
+      if(!is.complex(x) && !is.complex(y)) {
+        expect_error(
+          bc.d(x, y, "+"),
+          pattern = pattern,
+          fixed = TRUE
+        ) |> errorfun()
+        
+        enumerate <- enumerate + 1L
+      }
     }
   }
 }
 
-# type errors - Boolean ====
+
+
+# complex arithmetic errors ====
+pattern <- "non-numeric argument to binary operator"
+good_type <- \(x) broadcast:::.is_numeric_like(x) || is.complex(x)
+for(typeX in seq_along(datagens)) {
+  for(typeY in seq_along(datagens)) {
+    
+    x <- sample(datagens[[typeX]](), 100, TRUE) |> array()
+    y <- sample(datagens[[typeY]](), 100, TRUE) |> array()
+    
+    if(!good_type(x) || !good_type(y)) {
+      if(!is.complex(x) && !is.complex(y)) {
+        expect_error(
+          bc.cplx(x, y, "+"),
+          pattern = pattern,
+          fixed = TRUE
+        ) |> errorfun()
+        
+        enumerate <- enumerate + 1L
+      }
+    }
+  }
+}
+
+
+
+# integer ops errors ====
+pattern <- "non-numeric argument to binary operator"
+good_type <- \(x) broadcast:::.is_numeric_like(x)
+for(typeX in seq_along(datagens)) {
+  for(typeY in seq_along(datagens)) {
+    
+    x <- sample(datagens[[typeX]](), 100, TRUE) |> array()
+    y <- sample(datagens[[typeY]](), 100, TRUE) |> array()
+    
+    if(is.complex(x) || is.complex(y)) {
+      expect_error(
+        bc.i(x, y, "%%"),
+        pattern = "operator not supported for type `complex`",
+        fixed = TRUE
+      ) |> errorfun()
+      
+      enumerate <- enumerate + 1L
+    }
+    else if(!good_type(x) || !good_type(y)) {
+      expect_error(
+        bc.i(x, y, "%%"),
+        pattern = pattern,
+        fixed = TRUE
+      ) |> errorfun()
+      
+      enumerate <- enumerate + 1L
+    }
+  }
+}
+
+
+# Boolean and/or ====
 pattern <- "unsupported types given"
 good_type <- \(x) broadcast:::.is_boolable(x) || is.numeric(x)
 
@@ -196,25 +238,31 @@ for(typeX in seq_along(datagens)) {
   }
 }
 
-
-# type errors - complex ====
-pattern <- "`x` and `y` must be "
-good_type <- is.complex
-
+# greater/smaller ====
+pattern <- "invalid comparison with given types"
+good_type <- function(x) broadcast:::.is_numeric_like(x) || is.raw(x)
 for(typeX in seq_along(datagens)) {
   for(typeY in seq_along(datagens)) {
     
     x <- array(datagens[[typeX]]())
     y <- array(datagens[[typeY]]())
     
-    if(!good_type(x) || !good_type(y)) {
+    if(is.list(x) || is.list(y)) {
       expect_error(
-        bc.cplx(x, y, "+"),
+        bc.rel(x, y, ">"),
+        pattern = "only atomic arrays supported for general relational operators",
+        fixed = TRUE
+      ) |> errorfun()
+      enumerate <- enumerate + 1L
+    }
+    else if(!good_type(x) || !good_type(y)) {
+      expect_error(
+        bc.rel(x, y, ">"),
         pattern = pattern,
         fixed = TRUE
       ) |> errorfun()
       expect_error(
-        bc.cplx(x, y, "=="),
+        bc.d(x, y, ">"),
         pattern = pattern,
         fixed = TRUE
       ) |> errorfun()
@@ -361,5 +409,5 @@ expect_error(
   bc.rel(1:10, 1:10, "+"),
   pattern = "given operator not supported in the given context"
 )
-enumerate <- enumerate + 1L
+enumerate <- enumerate + 2L
 

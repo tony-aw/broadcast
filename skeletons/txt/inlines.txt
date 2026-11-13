@@ -1,0 +1,85 @@
+
+// 
+// 
+// ********************************************************************************
+// INLINE FUNCTIONS
+// 
+// ********************************************************************************
+// 
+// 
+
+
+
+#define DEF_INT53MAX std::pow(2, 53) - 1;
+
+#define DEF_INT32MAX std::pow(2, 31) - 1;
+
+inline bool inline_dims_is_vector(SEXP x) {
+  
+  if(x == R_NilValue) {
+    return true;
+  }
+  
+  const int n = Rf_xlength(x);
+  const int *px = INTEGER_RO(x);
+  int count_big = 0;
+  
+  for(int i = 0; i < n; ++i) {
+    count_big += px[i] > 1;
+  }
+  
+  
+  return (count_big <= 1);
+}
+
+
+inline bool inline_branchless_or(bool x, bool y) {
+  // This operation uses bit-wise `OR` since that is branchless and thus faster...
+  // boolean `OR` uses short-circuit, but that's only faster if either side is a heavy computation
+  
+  // bit-wise `OR` only works properly like boolean `OR` if input is trictly 0 or 1 INTEGERS
+  // therefore, input declared as (bool), and shortly before operation coerce to (int).
+  
+  return (int)x | (int)y;
+}
+
+
+inline double inline_mod_body(double x, double y) {
+  double q = x / y;
+  double tmp = x - floor(q) * y;
+  double out = (double) (tmp - floorl(tmp / y) * y);
+  return out;
+}
+
+inline double inline_idiv_body(double x, double y, double q) {
+  if(std::abs(q) < 1) {
+    double z = (q < 0) ? -1
+    : ((x < 0 && y > 0) ||
+       (x > 0 && y < 0) // differing signs
+       ? -1 : 0);
+    return z;
+  }
+  
+  double tmp = (double)(x - floor(q) * (double)y);
+  return (double) (floor(q) + floorl(tmp/y));
+}
+
+inline double inline_gcd_body(long long x, long long y) {
+
+  long long a = std::abs(x);
+  long long b = std::abs(y);
+  if(a == 0) return b;
+  if(b == 0) return a;
+  
+  while (b != 0) {
+    long long remainder = a % b;
+    a = b;
+    b = remainder;
+  }
+  
+  return a;
+  
+}
+
+
+

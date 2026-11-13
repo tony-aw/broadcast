@@ -8,6 +8,7 @@ errorfun <- function(tt) {
 
 .C_seq_Clen <- broadcast:::.C_seq_Clen
 .C_make_dcp <- broadcast:::.C_make_dcp
+.C_which_op <- broadcast:::.C_which_op
 
 
 expect_equal(
@@ -66,5 +67,19 @@ for(iSample in 1:10) {
 }
 
 
+
+# which op ====
+ops <- c(letters, LETTERS, month.abb, month.name) |> unique()
+for(i in seq_along(ops)) {
+  op <- ops[i]
+  expect_equal(
+    .C_which_op(ops, op),
+    i
+  ) |> errorfun()
+}
+expect_equal(
+  .C_which_op(ops, "foo"),
+  0L
+)
 
 

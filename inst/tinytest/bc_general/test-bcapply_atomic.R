@@ -31,10 +31,10 @@ enumerate <- enumerate + res$i
 # integer (32bit) ====
 
 op <- function(x, y) {
-  return(x + y)
+  return(x %/% y)
 }
 v <- "integer"
-bc.fun1 <- \(x, y) bc.i(x, y, "+")
+bc.fun1 <- \(x, y) bc.i(x, y, "%/%")
 bc.fun2 <- \(x, y) bcapply(x, y, op, v = "integer")
 
 res <- .test_binary(bc.fun1, bc.fun2, v, v, correctNaN = FALSE)

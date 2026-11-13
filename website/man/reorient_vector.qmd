@@ -6,7 +6,7 @@ format:
     css: /man.css
 
 ---
-## Change Orientation of An Oriented Vector and Make it a Broadcaster {.unnumbered}
+## Change Orientation of An Oriented Vector For Broadcasting {.unnumbered}
 
 
 ### Description
@@ -14,7 +14,6 @@ format:
 The <code>lhs %orientbc<-% rhs</code> operator
 takes an oriented vector (<code>lhs</code>),
 and changes its orientation. <br>
-It also makes <code>lhs</code> a broadcaster if it wasn't already. <br>
 <br>
 The modification is done directly on <code>lhs</code> itself,
 using R's native semantics. <br>
@@ -113,6 +112,7 @@ print(x)
 
 # modify an array along one specific dimension ====
 x <- array(sample(0:9), c(3,3,3))
+broadcaster(x) <- TRUE
 print(x)
 
 # add 10 to second column, and 100 to third column:

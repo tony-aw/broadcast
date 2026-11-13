@@ -1,54 +1,18 @@
 # set-up ====
 
 library(stringi)
-
-macro_dim <- readr::read_file("macro_dim.txt")
-macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
-macro_action <- readr::read_file("macro_action.txt")
-macro_op <- readr::read_file("macro_op.txt")
-
-header_for_sourcing <- stri_c(
-  "
-  #include <Rcpp/Lightest>
-  
-  using namespace Rcpp;
-  ",
-  macro_action,
-  "\n",
-  macro_dim,
-  "\n",
-  macro_typeswitch_numeric,
-  "\n",
-  macro_op,
-  "\n"
-)
-
-
-header_for_package <- "
-
-#include <Rcpp/Lightest>
-#include \"broadcast.h\"
-
-using namespace Rcpp;
-
-
-"
-
-readr::write_file(header_for_sourcing, "header.txt")
-
-Rcpp::sourceCpp(code = header_for_sourcing)
-
+source("SOURCE.R")
 
 
 ################################################################################
-# Functions ====
+# Helper Functions ====
 #
 
 
-txt0 <- "
+helpers <- "
 
 
-inline int rcpp_str_dist_led(String x, String y) {
+int rcpp_str_dist_led(String x, String y) {
   
   if(x == NA_STRING || y == NA_STRING) {
      return NA_INTEGER;
@@ -147,79 +111,84 @@ int rcpp_str_dist_lcss(String x, String y) {
 
 "
 
-txt1 <- "
 
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcD_str_v, rng = false)]]
-SEXP rcpp_bcD_str_v(
-  SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
-  R_xlen_t nout, int dimmode, bool vectorx, int op
-) {
+Rcpp::sourceCpp(code = paste0(header_for_sourcing, helpers, collapse = "\n"))
 
+
+################################################################################
+# MACROs ====
+#
+
+
+macro_op_str_dist <- "
+#define MACRO_OP_STR_DIST(DIMCODE) do {	\\
+  switch(op) {	\\
+  case 1:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = rcpp_str_dist_led(tempx, tempy),  \\
+      const String tempx = px[flatind_x], \\
+      const String tempy = py[flatind_y]  \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 2:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = rcpp_str_dist_lcss(tempx, tempy),  \\
+      const String tempx = px[flatind_x], \\
+      const String tempy = py[flatind_y]  \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  default:	\\
+  {	\\
+    stop(\"given operator not supported in the given context\");	\\
+  }	\\
+}	\\
+} while(0)
+"
+
+
+Rcpp::sourceCpp(code = paste0(header_for_sourcing, macro_op_str_dist, collapse = "\n"))
+
+
+
+################################################################################
+# Functions ====
+#
+
+prep <- "
 
 const SEXP *px = STRING_PTR_RO(x);
 const SEXP *py = STRING_PTR_RO(y);
-
-SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
-int *pout;
-pout = INTEGER(out);
-
-MACRO_OP_STR_DIST(MACRO_DIM_VECTORSPECIAL);
-
-
-UNPROTECT(1);
-return out;
-
-}
-
+int *pout  = INTEGER(out);
 
 "
 
-txt2 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcD_str_d, rng = false)]]
-SEXP rcpp_bcD_str_d(
-  SEXP x, SEXP y, 
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op
-) {
-
-const SEXP *px = STRING_PTR_RO(x);
-const SEXP *py = STRING_PTR_RO(y);
-
-SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
-int *pout;
-pout = INTEGER(out);
-
-MACRO_OP_STR_DIST(MACRO_DIM_DOCALL);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-"
-
+txt1 <- generate_functions(
+  "bcD_str", "IntegerVector", prep, "MACRO_OP_STR_DIST"
+)
+cat(txt1)
 
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2,
+  helpers,
+  macro_op_str_dist,
+  txt1,
   collapse = "\n\n"
 )
 
 Rcpp::sourceCpp(code = txt)
 
-setwd("..")
 
+setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2,
+  helpers,
+  macro_op_str_dist,
+  txt1,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bcD_str.cpp")

@@ -37,7 +37,7 @@ An integer array as a result of the broadcasted distance measurement. \cr
 }
 \description{
 The \code{bc.str()} method
-performs broadcasted string operations on pairs of arrays. \cr \cr
+performs broadcasted string operations on pairs of character arrays. \cr \cr
 }
 \examples{
 

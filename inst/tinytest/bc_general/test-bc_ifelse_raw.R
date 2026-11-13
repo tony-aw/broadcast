@@ -6,21 +6,8 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 
-test_make_dims <- function(n) {
-  
-  # make dimensions that are randomly of size 1 or 3:
-  out <- lapply(1:n, \(n)sample(c(1, 3), 1)) |> unlist()
-  
-  # check if the dimensions produce a too large object.
-  # If so, replace one >1L dimension with 1L
-  if(prod(out) > 5000L) {
-    ind <- which(out > 1L)[1L]
-    out[ind] <- 1L
-  }
-  return(out)
-}
-
-i <- 1L
+.test_make_dims <- broadcast:::.test_make_dims
+.test_make_dimpair_broadcastable <- broadcast:::.test_make_dimpair_broadcastable
 
 
 test_ifelse <- function(cond, yes, no) {
@@ -44,15 +31,21 @@ test_ifelse <- function(cond, yes, no) {
   return(out)
 }
 
+
+i <- 1L
 for(iSample in 1:5) { # re-do tests with different random configurations
   yes.data <- as.raw(sample(0:255))
   no.data <- as.raw(sample(0:255))
   for(iTestType in c("logical", "integer", "raw")) {
     for(iDimX in c(1, 2, 5, 8)) { # different dimensions for x
-      yes.dim <- test_make_dims(iDimX)
-      yes.len <- prod(yes.dim)
+      yes.dim <- sample(c(1L, 1L, 2:5), iDimX, TRUE)
       for(iDimY in c(1, 2, 5, 8)) { # different dimensions for y
-        no.dim <- test_make_dims(iDimY)
+        no.dim <- sample(c(1L, 1L, 2:5), iDimX, TRUE)
+        
+        yesno.dim <- .test_make_dimpair_broadcastable(yes.dim, no.dim)
+        yes.dim <- yesno.dim[[1L]]
+        no.dim <- yesno.dim[[2L]]
+        yes.len <- prod(yes.dim)
         no.len <- prod(no.dim)
         
         # make data:
@@ -115,8 +108,6 @@ for(iSample in 1:5) { # re-do tests with different random configurations
 }
 enumerate <- enumerate + i # count number of tests
 # test results:
-
-
 expect_error(
   bc_ifelse(
     sample(c(TRUE, FALSE, NA), 256, TRUE),

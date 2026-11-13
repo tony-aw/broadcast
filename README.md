@@ -218,9 +218,9 @@ apply-like function), `bc_ifelse()` (broadcasted version of `ifelse()`),
 <b><a style="cursor: pointer;">Casting Methods 🔍 </a></b>
 </summary>
 
-Broadcast provides casting functions, that cast subset-groups of an
-array to a new dimension, cast nested lists to dimensional lists, and
-vice-versa.  
+The ‘broadcast’ package provides casting functions, that cast
+subset-groups of an array to a new dimension, cast nested lists to
+dimensional lists, and vice-versa.  
 These functions are useful for facilitating complex broadcasted
 operations, though they also have much merit beside broadcasting.
 
@@ -328,13 +328,38 @@ The **Quick-Start Guide** can be found
 **Efficiency**
 
 Broadcasting as implemented in the ‘broadcast’ package is much faster
-and much more memory efficient than using base solutions like
+and much more memory efficient than using base ‘R’ solutions like
 `sweep()`.  
 The implementations in the ‘broadcast’ package are also about as fast
 as - and sometimes even faster than - ‘NumPy’.  
-Efficient programs use less energy and resources, and is thus better for
-the environment.  
+Your code will use less time and less memory, and might save you some
+money in the process.  
 Benchmarks can be found in the “About” section on the website.
+
+ 
+
+**Wide Support**
+
+‘broadcast’ provides a very wide support for broadcasting:
+
+- More than the same-old numeric, relational and Boolean computations
+  (like in the original broadcasting implementations from ‘NumPy’ and
+  ‘xtensor), ’broadcast’ additionally supports broadcasted string,
+  bit-wise, integer-centric, and even recursive/list operations.
+- Where typical array-related packages limit themselves to only atomic
+  arrays, ‘broadcast’ also has full support for *recursive* arrays
+  (i.e. arrays of type `list`), which allows for some *very* complex and
+  fast operations that would normally require slow and convoluted loops.
+- ‘broadcast’ supports arrays up to 16 dimensions, and these arrays may
+  have as many elements as ‘R’ can support (which is `2^52 -1` elements;
+  i.e. up to a staggering 4.5 *quadrillion* elements).
+- Almost every function provided by ‘broadcast’ is a *generic method*,
+  and thus ‘broadcast’ can in principle support *any* array-like class,
+  provided someone has written a method for it.
+- ‘broadcast’ even provides an *optional* extra class - the “broadcaster
+  class” - to overload base ‘R’ operators.
+- And ‘broadcast’ provides much more, all in the hope to lower your
+  Carbon footprint while doing important multi-dimensional research.
 
  
 
@@ -362,10 +387,8 @@ package for you.
 **Minimal Dependencies**
 
 Besides linking to ‘Rcpp’, ‘broadcast’ does not depend on, vendor, link
-to, include, or otherwise use any external libraries. Moreover, no
-generative AI of any sort was used in developing ‘broadcast’.
-‘broadcast’ was essentially made from scratch and can be installed
-out-of-the-box.
+to, include, or otherwise use any external libraries. ‘broadcast’ was
+essentially made from scratch and can be installed out-of-the-box.
 
 Not using external libraries brings a number of advantages:
 
@@ -388,9 +411,9 @@ minimizing dependencies.
 The ‘broadcast’ package is frequently checked using a large suite of
 unit tests via the [tinytest](https://github.com/markvanderloo/tinytest)
 package. These tests have a
-[coverage](https://tony-aw.github.io/broadcast/about/unit_test_covr.html)
-of over 95%. So the chance of a function from this package breaking
-completely is relatively low.
+[coverage](https://tony-aw.github.io/broadcast/about/covr.html) of over
+95%. So the chance of a function from this package breaking completely
+is relatively low.
 
 ‘broadcast’ is still relatively new package, however, so (small) bugs
 are still very much possible. I encourage users who find bugs to report
@@ -413,7 +436,7 @@ install.packages("broadcast", type = "source")
 
 ## 📊Status
 
-‘broadcast’ is now available on CRAN! 🎉
+‘broadcast’ is available on CRAN! 🎉
 
 If you have any suggestions or feedback on the package, its
 documentation, or even the benchmarks, I encourage you to let me know

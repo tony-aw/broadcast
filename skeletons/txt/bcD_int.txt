@@ -1,0 +1,915 @@
+
+  #include <Rcpp/Lightest>
+  
+  using namespace Rcpp;
+  
+
+// 
+// 
+// ********************************************************************************
+// INLINE FUNCTIONS
+// 
+// ********************************************************************************
+// 
+// 
+
+
+
+inline bool inline_dims_is_vector(SEXP x) {
+  
+  if(x == R_NilValue) {
+    return true;
+  }
+  
+  const int n = Rf_xlength(x);
+  const int *px = INTEGER_RO(x);
+  int count_big = 0;
+  
+  for(int i = 0; i < n; ++i) {
+    count_big += px[i] > 1;
+  }
+  
+  
+  return (count_big <= 1);
+}
+
+
+
+inline std::array<long long, 16> inline_make_strides(
+  SEXP target_dim
+) {
+  
+  // get properties:
+  int n = Rf_length(target_dim);
+  std::array<long long, 16> out{1};
+  long long *pout = out.data();
+  const int *ptarget = INTEGER_RO(target_dim);
+  
+  
+  // make dcp:
+  double temp_prod = ptarget[0];
+  pout[0] = 1;
+  pout[1] = ptarget[0];
+  if(n > 2) {
+    for(int i = 2; i < n; ++i) {
+      temp_prod = temp_prod * ptarget[i-1];
+      pout[i] = temp_prod;
+    }
+  }
+
+  // mulitply with by (i.e. make it zero when appropriate):
+  for(int i = 0; i < n; ++i) {
+    if(ptarget[i] <= 1) {
+      pout[i] = 0;
+    }
+  }
+  
+  return out;
+  
+}
+
+
+
+
+inline int inline_determine_loopdepth(
+  SEXP out_dim
+) {
+  int n = Rf_length(out_dim);
+  const int *pod = INTEGER_RO(out_dim);
+  int rm = 0;
+  for(int i = (n-1); i >= 0; --i) {
+    if(pod[i] == 1) {
+      rm++;
+    }
+    else {
+      break;
+    }
+  }
+  int loopdepth = n - rm;
+  if(loopdepth == 0) {
+   loopdepth = 1;
+  }
+  return loopdepth;
+  
+}
+
+
+
+
+
+// 
+// 
+// 
+// ********************************************************************************
+// MACROs for broadcasted element-wise binary operations
+// 
+// The following MACROs define the loops used for broadcasted element-wise binary operations.
+// 
+// In the context of a broadcasted operation involving exactly 2 arrays,
+// 'broadcast' uses different techniques for looping through the elements for broadcasting.
+// The techniques are the following, ordered from high to low priority:
+//  1) Vector mode:
+//   This mode is usedbroadcasting where one or both of the arrays is actually vector or 1d-array.
+//   This mode is also used when no broadcasting needs to occur.
+//  2) General mode:
+//   For regular broadcasting.
+// 
+// The dimensions of both arrays are first NORMALIZED and SIMPLIFIED virtually
+// (see 'rcpp_virt_binary_prep' code),
+// before determining which technique to use.
+// 
+// The "odometer trick" is inspired by various stackoverflow messages and a few blog posts,
+// though none of them gives a proper unified view.
+// 
+// 
+// 
+// 
+// ********************************************************************************
+// 
+// 
+
+
+#define MACRO_DIM_VECTOR(DOCODE, GETX, GETY) do {                               \
+  R_xlen_t flatind_x = 0;                                           \
+  R_xlen_t flatind_y = 0;                                           \
+  int by_x = 0;                                                     \
+  int by_y = 0;                                                     \
+  if(Rf_xlength(x) == Rf_xlength(y)) {                              \
+    if(Rf_xlength(x) == 1) {                                        \
+      by_x = 0;                                                     \
+      by_y = 0;                                                     \
+    }                                                               \
+    else {                                                          \
+      by_x = 1;                                                     \
+      by_y = 1;                                                     \
+    }                                                               \
+  }                                                                 \
+  if(Rf_xlength(x) != Rf_xlength(y)) {                              \
+    if(Rf_xlength(x) == 1) {                                        \
+      by_x = 0;                                                     \
+      by_y = 1;                                                     \
+    }                                                               \
+    else if(Rf_xlength(y) ==1) {                                    \
+      by_x = 1;                                                     \
+      by_y = 0;                                                     \
+    }                                                               \
+  }                                                                 \
+  for(R_xlen_t flatind_out = 0; flatind_out < nout; ++flatind_out) {  \
+    GETX; \
+    GETY; \
+    DOCODE;                                                           \
+    flatind_x += by_x;                                     \
+    flatind_y += by_y;                                     \
+  }                                                                   \
+                                                                      \
+} while(0)
+
+
+
+#define MACRO_DIM_ORTHOVECTOR(DOCODE, GETX, GETY) do {      \
+  R_xlen_t flatind_out = 0;         \
+  const int N1 = INTEGER_RO(out_dim)[0];      \
+  const int N2 = INTEGER_RO(out_dim)[1];       \
+  bool RxC = INTEGER_RO(x_dim)[0] != 1; \
+  if(RxC) { \
+    for(int flatind_y = 0; flatind_y < N2; ++flatind_y) {	\
+      GETY; \
+  	  for(int flatind_x = 0; flatind_x < N1; ++flatind_x) {	\
+  	    GETX; \
+        DOCODE;                         \
+        ++flatind_out;                      \
+    	 }	\
+  	 }	\
+  } \
+  else {  \
+    for(int flatind_x = 0; flatind_x < N2; ++flatind_x) {	\
+      GETX; \
+    	  for(int flatind_y = 0; flatind_y < N1; ++flatind_y) {	\
+    	    GETY; \
+          DOCODE;                         \
+          ++flatind_out;                      \
+        }	\
+    }	\
+  } \
+} while(0)
+
+
+
+#define MACRO_DIM_TWOVECTORS(DOCODE, GETX, GETY) do {  \
+  if(dimmode == 1) {  \
+    MACRO_DIM_VECTOR(DOCODE, GETX, GETY); \
+  } \
+  else if(dimmode == 2) { \
+    MACRO_DIM_ORTHOVECTOR(DOCODE, GETX, GETY);  \
+  } \
+  else {  \
+    stop("dimmode is not a two-vector mode"); \
+  } \
+} while(0)
+
+
+
+
+
+
+#define MACRO_DIM_BIG2VECTOR(DOCODE, GETX, GETY) do {      \
+  const int N1 = INTEGER_RO(out_dim)[0];    \
+  const int N2 = INTEGER_RO(out_dim)[1];    \
+  const int N3 = INTEGER_RO(out_dim)[2];    \
+  \
+  if(vectorx) { \
+    R_xlen_t flatind_y = 0;                                   \
+    R_xlen_t flatind_out = 0;                                 \
+    for(int iter3 = 0; iter3 < N3; ++iter3) {                 \
+      for(int flatind_x = 0; flatind_x < N2; ++flatind_x) {   \
+        GETX;                                                 \
+        for(int iter1 = 0; iter1 <N1; ++iter1) {              \
+          GETY;                                               \
+          DOCODE;                                             \
+          ++flatind_y;                                        \
+          ++flatind_out;                                      \
+        }                                                     \
+      }                                                       \
+    }                                                         \
+  } \
+  else {  \
+    R_xlen_t flatind_x = 0;                                   \
+    R_xlen_t flatind_out = 0;                                 \
+    for(int iter3 = 0; iter3 < N3; ++iter3) {                 \
+      for(int flatind_y = 0; flatind_y < N2; ++flatind_y) {   \
+        GETY;                                                 \
+        for(int iter1 = 0; iter1 <N1; ++iter1) {              \
+          GETX;                                               \
+          DOCODE;                                             \
+          ++flatind_x;                                        \
+          ++flatind_out;                                      \
+        }                                                     \
+      }                                                       \
+    }                                                         \
+  } \
+} while(0)
+
+
+#define MACRO_DIM_SANDWICH2VECTOR(DOCODE, GETX, GETY) do {      \
+  \
+  if(vectorx) {  \
+    R_xlen_t flatind_out = 0; \
+    const int *pydim = INTEGER_RO(y_dim); \
+    const R_xlen_t stride_y = (double)pydim[0] * (double)pydim[1];  \
+    const R_xlen_t N1 = INTEGER_RO(out_dim)[0];  \
+    const int N2 = INTEGER_RO(out_dim)[1];  \
+    const R_xlen_t N3 = (R_xlen_t)INTEGER_RO(out_dim)[2] * stride_y;  \
+    R_xlen_t flatind_y;\
+    for(R_xlen_t iter3 = 0; iter3 < N3; iter3 += stride_y) {  \
+      for(int flatind_x = 0; flatind_x < N2; ++flatind_x) { \
+        GETX; \
+        for(R_xlen_t iter1 = 0; iter1 < N1; ++iter1) {  \
+          flatind_y = iter3 + iter1; \
+          GETY; \
+          DOCODE; \
+          ++flatind_out;  \
+        } \
+      } \
+    } \
+  } \
+  else {  \
+    R_xlen_t flatind_out = 0; \
+    const int *pxdim = INTEGER_RO(x_dim); \
+    const R_xlen_t stride_x = (double)pxdim[0] * (double)pxdim[1];  \
+    const R_xlen_t N1 = INTEGER_RO(out_dim)[0];  \
+    const int N2 = INTEGER_RO(out_dim)[1];  \
+    const R_xlen_t N3 = INTEGER_RO(out_dim)[2] * stride_x;  \
+    R_xlen_t flatind_x;\
+    for(R_xlen_t iter3 = 0; iter3 < N3; iter3 += stride_x) {  \
+      for(int flatind_y = 0; flatind_y < N2; ++flatind_y) { \
+        GETY; \
+        for(R_xlen_t iter1 = 0; iter1 < N1; ++iter1) {  \
+          flatind_x = iter3 + iter1; \
+          GETX; \
+          DOCODE; \
+          ++flatind_out;  \
+        } \
+      } \
+    } \
+  } \
+} while(0)
+
+
+
+#define MACRO_DIM_ONEVECTOR(DOCODE, GETX, GETY) do {  \
+  bool vectorx = inline_dims_is_vector(x_dim);  \
+  \
+  if(dimmode == 3) { \
+    MACRO_DIM_BIG2VECTOR(DOCODE, GETX, GETY); \
+  } \
+  else if(dimmode == 4) { \
+    MACRO_DIM_SANDWICH2VECTOR(DOCODE, GETX, GETY); \
+  } \
+  else {  \
+    stop("dimmode is not a one-vector mode"); \
+  } \
+} while(0)
+
+
+
+
+
+#define MACRO_DIM_4(DOCODE, GETX, GETY) do {      \
+  R_xlen_t flatind_out = 0;         \
+  const int N1 = INTEGER_RO(out_dim)[0];	\
+const int N2 = INTEGER_RO(out_dim)[1];	\
+const int N3 = INTEGER_RO(out_dim)[2];	\
+const int N4 = INTEGER_RO(out_dim)[3];	\
+  \
+  	 for(int iter4 = 0; iter4 <N4; ++iter4) {	\
+R_xlen_t i_x4 = stride_x[3] * iter4;	\
+R_xlen_t i_y4 = stride_y[3] * iter4;	\
+	 for(int iter3 = 0; iter3 <N3; ++iter3) {	\
+R_xlen_t i_x3 = stride_x[2] * iter3 + i_x4;	\
+R_xlen_t i_y3 = stride_y[2] * iter3 + i_y4;	\
+	 for(int iter2 = 0; iter2 <N2; ++iter2) {	\
+R_xlen_t i_x2 = stride_x[1] * iter2 + i_x3;	\
+R_xlen_t i_y2 = stride_y[1] * iter2 + i_y3;	\
+	 for(int iter1 = 0; iter1 <N1; ++iter1) {	\
+	\
+	\
+        R_xlen_t flatind_x = stride_x[0] * iter1 + i_x2;       \
+        R_xlen_t flatind_y = stride_y[0] * iter1 + i_y2;     \
+        GETX;   \
+        GETY;   \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        flatind_out++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_DIM_16(DOCODE, GETX, GETY) do {      \
+  R_xlen_t flatind_out = 0;         \
+  const int N1 = INTEGER_RO(out_dim)[0];	\
+const int N2 = INTEGER_RO(out_dim)[1];	\
+const int N3 = INTEGER_RO(out_dim)[2];	\
+const int N4 = INTEGER_RO(out_dim)[3];	\
+const int N5 = INTEGER_RO(out_dim)[4];	\
+const int N6 = INTEGER_RO(out_dim)[5];	\
+const int N7 = INTEGER_RO(out_dim)[6];	\
+const int N8 = INTEGER_RO(out_dim)[7];	\
+const int N9 = INTEGER_RO(out_dim)[8];	\
+const int N10 = INTEGER_RO(out_dim)[9];	\
+const int N11 = INTEGER_RO(out_dim)[10];	\
+const int N12 = INTEGER_RO(out_dim)[11];	\
+const int N13 = INTEGER_RO(out_dim)[12];	\
+const int N14 = INTEGER_RO(out_dim)[13];	\
+const int N15 = INTEGER_RO(out_dim)[14];	\
+const int N16 = INTEGER_RO(out_dim)[15];	\
+  \
+  	 for(int iter16 = 0; iter16 <N16; ++iter16) {	\
+R_xlen_t i_x16 = stride_x[15] * iter16;	\
+R_xlen_t i_y16 = stride_y[15] * iter16;	\
+	 for(int iter15 = 0; iter15 <N15; ++iter15) {	\
+R_xlen_t i_x15 = stride_x[14] * iter15 + i_x16;	\
+R_xlen_t i_y15 = stride_y[14] * iter15 + i_y16;	\
+	 for(int iter14 = 0; iter14 <N14; ++iter14) {	\
+R_xlen_t i_x14 = stride_x[13] * iter14 + i_x15;	\
+R_xlen_t i_y14 = stride_y[13] * iter14 + i_y15;	\
+	 for(int iter13 = 0; iter13 <N13; ++iter13) {	\
+R_xlen_t i_x13 = stride_x[12] * iter13 + i_x14;	\
+R_xlen_t i_y13 = stride_y[12] * iter13 + i_y14;	\
+	 for(int iter12 = 0; iter12 <N12; ++iter12) {	\
+R_xlen_t i_x12 = stride_x[11] * iter12 + i_x13;	\
+R_xlen_t i_y12 = stride_y[11] * iter12 + i_y13;	\
+	 for(int iter11 = 0; iter11 <N11; ++iter11) {	\
+R_xlen_t i_x11 = stride_x[10] * iter11 + i_x12;	\
+R_xlen_t i_y11 = stride_y[10] * iter11 + i_y12;	\
+	 for(int iter10 = 0; iter10 <N10; ++iter10) {	\
+R_xlen_t i_x10 = stride_x[9] * iter10 + i_x11;	\
+R_xlen_t i_y10 = stride_y[9] * iter10 + i_y11;	\
+	 for(int iter9 = 0; iter9 <N9; ++iter9) {	\
+R_xlen_t i_x9 = stride_x[8] * iter9 + i_x10;	\
+R_xlen_t i_y9 = stride_y[8] * iter9 + i_y10;	\
+	 for(int iter8 = 0; iter8 <N8; ++iter8) {	\
+R_xlen_t i_x8 = stride_x[7] * iter8 + i_x9;	\
+R_xlen_t i_y8 = stride_y[7] * iter8 + i_y9;	\
+	 for(int iter7 = 0; iter7 <N7; ++iter7) {	\
+R_xlen_t i_x7 = stride_x[6] * iter7 + i_x8;	\
+R_xlen_t i_y7 = stride_y[6] * iter7 + i_y8;	\
+	 for(int iter6 = 0; iter6 <N6; ++iter6) {	\
+R_xlen_t i_x6 = stride_x[5] * iter6 + i_x7;	\
+R_xlen_t i_y6 = stride_y[5] * iter6 + i_y7;	\
+	 for(int iter5 = 0; iter5 <N5; ++iter5) {	\
+R_xlen_t i_x5 = stride_x[4] * iter5 + i_x6;	\
+R_xlen_t i_y5 = stride_y[4] * iter5 + i_y6;	\
+	 for(int iter4 = 0; iter4 <N4; ++iter4) {	\
+R_xlen_t i_x4 = stride_x[3] * iter4 + i_x5;	\
+R_xlen_t i_y4 = stride_y[3] * iter4 + i_y5;	\
+	 for(int iter3 = 0; iter3 <N3; ++iter3) {	\
+R_xlen_t i_x3 = stride_x[2] * iter3 + i_x4;	\
+R_xlen_t i_y3 = stride_y[2] * iter3 + i_y4;	\
+	 for(int iter2 = 0; iter2 <N2; ++iter2) {	\
+R_xlen_t i_x2 = stride_x[1] * iter2 + i_x3;	\
+R_xlen_t i_y2 = stride_y[1] * iter2 + i_y3;	\
+	 for(int iter1 = 0; iter1 <N1; ++iter1) {	\
+	\
+	\
+        R_xlen_t flatind_x = stride_x[0] * iter1 + i_x2;       \
+        R_xlen_t flatind_y = stride_y[0] * iter1 + i_y2;     \
+        GETX;   \
+        GETY;   \
+                                                                    \
+        DOCODE;                                                          \
+  	                                                                \
+        flatind_out++;                      \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+#define MACRO_DIM_DOCALL(DOCODE, GETX, GETY) do {     \
+  int ndims = Rf_length(out_dim);         \
+  std::array<long long, 16> stride_x = inline_make_strides(x_dim);  \
+  std::array<long long, 16> stride_y = inline_make_strides(y_dim);  \
+                                          \
+  switch(ndims) {       \
+    case 4:                                       \
+  MACRO_DIM_4(DOCODE, GETX, GETY);    \
+  break;                                        \
+case 16:                                       \
+  MACRO_DIM_16(DOCODE, GETX, GETY);    \
+  break;                                        \
+       \
+  }       \
+} while(0)
+// 
+// 
+// ********************************************************************************
+// MACROs for the binding implementation
+// 
+// The following MACROs define the loops used for broadcasted binding.
+// 
+// The MACROs were written for 16 dimensions.
+// These MACROs were written via a simple 'R' script,
+// to minimize the risk of human error.
+// 
+// ********************************************************************************
+// 
+// 
+
+#define MACRO_DIM_BIND_16(DOCODE) do {  \
+  const int *pby_x = INTEGER_RO(by_x);  \
+  const double *pdcp_out = REAL_RO(dcp_out);  \
+  const double *pdcp_x = REAL_RO(dcp_x);  \
+                                  \
+  const int start1 = INTEGER_RO(starts)[0];	\
+const int start2 = INTEGER_RO(starts)[1];	\
+const int start3 = INTEGER_RO(starts)[2];	\
+const int start4 = INTEGER_RO(starts)[3];	\
+const int start5 = INTEGER_RO(starts)[4];	\
+const int start6 = INTEGER_RO(starts)[5];	\
+const int start7 = INTEGER_RO(starts)[6];	\
+const int start8 = INTEGER_RO(starts)[7];	\
+const int start9 = INTEGER_RO(starts)[8];	\
+const int start10 = INTEGER_RO(starts)[9];	\
+const int start11 = INTEGER_RO(starts)[10];	\
+const int start12 = INTEGER_RO(starts)[11];	\
+const int start13 = INTEGER_RO(starts)[12];	\
+const int start14 = INTEGER_RO(starts)[13];	\
+const int start15 = INTEGER_RO(starts)[14];	\
+const int start16 = INTEGER_RO(starts)[15];	\
+  const int end1 = INTEGER_RO(ends)[0];	\
+const int end2 = INTEGER_RO(ends)[1];	\
+const int end3 = INTEGER_RO(ends)[2];	\
+const int end4 = INTEGER_RO(ends)[3];	\
+const int end5 = INTEGER_RO(ends)[4];	\
+const int end6 = INTEGER_RO(ends)[5];	\
+const int end7 = INTEGER_RO(ends)[6];	\
+const int end8 = INTEGER_RO(ends)[7];	\
+const int end9 = INTEGER_RO(ends)[8];	\
+const int end10 = INTEGER_RO(ends)[9];	\
+const int end11 = INTEGER_RO(ends)[10];	\
+const int end12 = INTEGER_RO(ends)[11];	\
+const int end13 = INTEGER_RO(ends)[12];	\
+const int end14 = INTEGER_RO(ends)[13];	\
+const int end15 = INTEGER_RO(ends)[14];	\
+const int end16 = INTEGER_RO(ends)[15];	\
+                                        \
+  	 for(int iter16 = start16; iter16 <= end16; ++iter16) {	\
+R_xlen_t i_out16 = iter16 * pdcp_out[15];	\
+R_xlen_t i_x16 = pby_x[15] * (iter16 - start16) * pdcp_x[15];	\
+	 for(int iter15 = start15; iter15 <= end15; ++iter15) {	\
+R_xlen_t i_out15 = iter15 * pdcp_out[14] + i_out16;	\
+R_xlen_t i_x15 = pby_x[14] * (iter15 - start15) * pdcp_x[14] + i_x16;	\
+	 for(int iter14 = start14; iter14 <= end14; ++iter14) {	\
+R_xlen_t i_out14 = iter14 * pdcp_out[13] + i_out15;	\
+R_xlen_t i_x14 = pby_x[13] * (iter14 - start14) * pdcp_x[13] + i_x15;	\
+	 for(int iter13 = start13; iter13 <= end13; ++iter13) {	\
+R_xlen_t i_out13 = iter13 * pdcp_out[12] + i_out14;	\
+R_xlen_t i_x13 = pby_x[12] * (iter13 - start13) * pdcp_x[12] + i_x14;	\
+	 for(int iter12 = start12; iter12 <= end12; ++iter12) {	\
+R_xlen_t i_out12 = iter12 * pdcp_out[11] + i_out13;	\
+R_xlen_t i_x12 = pby_x[11] * (iter12 - start12) * pdcp_x[11] + i_x13;	\
+	 for(int iter11 = start11; iter11 <= end11; ++iter11) {	\
+R_xlen_t i_out11 = iter11 * pdcp_out[10] + i_out12;	\
+R_xlen_t i_x11 = pby_x[10] * (iter11 - start11) * pdcp_x[10] + i_x12;	\
+	 for(int iter10 = start10; iter10 <= end10; ++iter10) {	\
+R_xlen_t i_out10 = iter10 * pdcp_out[9] + i_out11;	\
+R_xlen_t i_x10 = pby_x[9] * (iter10 - start10) * pdcp_x[9] + i_x11;	\
+	 for(int iter9 = start9; iter9 <= end9; ++iter9) {	\
+R_xlen_t i_out9 = iter9 * pdcp_out[8] + i_out10;	\
+R_xlen_t i_x9 = pby_x[8] * (iter9 - start9) * pdcp_x[8] + i_x10;	\
+	 for(int iter8 = start8; iter8 <= end8; ++iter8) {	\
+R_xlen_t i_out8 = iter8 * pdcp_out[7] + i_out9;	\
+R_xlen_t i_x8 = pby_x[7] * (iter8 - start8) * pdcp_x[7] + i_x9;	\
+	 for(int iter7 = start7; iter7 <= end7; ++iter7) {	\
+R_xlen_t i_out7 = iter7 * pdcp_out[6] + i_out8;	\
+R_xlen_t i_x7 = pby_x[6] * (iter7 - start7) * pdcp_x[6] + i_x8;	\
+	 for(int iter6 = start6; iter6 <= end6; ++iter6) {	\
+R_xlen_t i_out6 = iter6 * pdcp_out[5] + i_out7;	\
+R_xlen_t i_x6 = pby_x[5] * (iter6 - start6) * pdcp_x[5] + i_x7;	\
+	 for(int iter5 = start5; iter5 <= end5; ++iter5) {	\
+R_xlen_t i_out5 = iter5 * pdcp_out[4] + i_out6;	\
+R_xlen_t i_x5 = pby_x[4] * (iter5 - start5) * pdcp_x[4] + i_x6;	\
+	 for(int iter4 = start4; iter4 <= end4; ++iter4) {	\
+R_xlen_t i_out4 = iter4 * pdcp_out[3] + i_out5;	\
+R_xlen_t i_x4 = pby_x[3] * (iter4 - start4) * pdcp_x[3] + i_x5;	\
+	 for(int iter3 = start3; iter3 <= end3; ++iter3) {	\
+R_xlen_t i_out3 = iter3 * pdcp_out[2] + i_out4;	\
+R_xlen_t i_x3 = pby_x[2] * (iter3 - start3) * pdcp_x[2] + i_x4;	\
+	 for(int iter2 = start2; iter2 <= end2; ++iter2) {	\
+R_xlen_t i_out2 = iter2 * pdcp_out[1] + i_out3;	\
+R_xlen_t i_x2 = pby_x[1] * (iter2 - start2) * pdcp_x[1] + i_x3;	\
+	 for(int iter1 = start1; iter1 <= end1; ++iter1) {	\
+	\
+	\
+        R_xlen_t flatind_out = iter1 + i_out2;       \
+        R_xlen_t flatind_x = pby_x[0] * (iter1 - start1) + i_x2;           \
+        DOCODE;                         \
+  	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+	 }	\
+} while(0)
+
+
+
+
+
+
+#define MACRO_DIM_BIND_DOCALL(DOCODE) do {     \
+  int ndims = Rf_length(out_dim);         \
+                                          \
+  switch(ndims) {       \
+    case 16:                                       \
+  MACRO_DIM_BIND_16(DOCODE);    \
+  break;                                        \
+       \
+  }       \
+} while(0)
+
+
+#define MACRO_OVERFLOW_INT53(REF) ((REF) < int53min || (REF) > int53max)
+
+inline double inline_int53_overflow2NA(
+  double x, double int53min, double int53max
+) {
+  if(x < int53min) return NA_REAL;
+  if(x > int53max) return NA_REAL;
+  return trunc(x);
+}
+
+inline double inline_int53_overflow2Inf(
+  double x, double int53min, double int53max
+) {
+  if(x < int53min) return R_NegInf;
+  if(x > int53max) return R_PosInf;
+  return trunc(x);
+}
+
+
+inline double inline_int53_mod(double x, double y, double int53min, double int53max) {
+  if(y == 0) {
+    return R_NaN;
+  }
+  if(MACRO_OVERFLOW_INT53(x)) {
+    return R_NaN;
+  }
+  if(MACRO_OVERFLOW_INT53(y) && std::abs(x) <= std::abs(y)) {
+    double out1 = (std::abs(x) == std::abs(y)) ? 0 :
+	    ((x < 0 && y > 0) ||
+	     (y < 0 && x > 0))
+	     ? x+y  // differing signs
+	     : x;
+	   return out1;
+  }
+  
+  double q = x / y;
+  double tmp = x - floor(q) * y;
+  double out = (double) (tmp - floorl(tmp / y) * y);
+  return out;
+}
+
+
+inline double inline_int53_idiv(double x, double y, double int53min, double int53max) {
+    
+    double q = x / y;
+    
+    if (y == 0.0 || MACRO_OVERFLOW_INT53(q) || !R_FINITE(q)) {
+      return q;
+    }
+    
+    if(std::abs(q) < 1) {
+      double z = (q < 0) ? -1
+	    : ((x < 0 && y > 0) ||
+	       (x > 0 && y < 0) // differing signs
+	       ? -1 : 0);
+	    return z;
+    }
+    
+    double tmp = (double)(x - floor(q) * (double)y);
+    return (double) (floor(q) + floorl(tmp/y));
+  }
+
+
+
+
+
+#define MACRO_ACTION_INT_FACT(NACHECK, DOCODE) do {     \
+  if(NACHECK) {                                         \
+    pout[flatind_out] = NA_REAL;                        \
+  }                                                     \
+  else {                                                \
+    pout[flatind_out] = DOCODE;                         \
+  }                                                     \
+} while(0)
+
+
+
+
+
+#define TOKEN_DECLARE_double(var) const double *p##var = REAL_RO(var)
+#define TOKEN_DECLARE_int(var) const int *p##var = INTEGER_RO(var)
+#define TOKEN_NA_double(var) R_isnancpp(temp##var)
+#define TOKEN_NA_int(var) temp##var == NA_INTEGER
+#define TOKEN_STORE_double(var, OVERFLOWFUN)  const double temp##var = OVERFLOWFUN(p##var[flatind_##var], int53min, int53max)
+#define TOKEN_STORE_int(var, OVERFLOWFUN)  const double temp##var = (double)p##var[flatind_##var]
+
+#define TOKEN_TYPESWITCH(TYPE_X, TYPE_Y, DIMCODE, DOCODE, OVERFLOWFUN) do { \
+  TOKEN_DECLARE_##TYPE_X(x);  \
+  TOKEN_DECLARE_##TYPE_Y(y);  \
+  DIMCODE(                                                  \
+      MACRO_ACTION_INT_FACT(                               \
+        TOKEN_NA_##TYPE_X(x) || TOKEN_NA_##TYPE_Y(y),   \
+        DOCODE                                                \
+      ),                                                      \
+      TOKEN_STORE_##TYPE_X(x, OVERFLOWFUN),              \
+      TOKEN_STORE_##TYPE_Y(y, OVERFLOWFUN)               \
+    );                                                        \
+} while(0)
+
+#define MACRO_TYPESWITCH_INT_FACT(DIMCODE, DOCODE, OVERFLOWFUN) do {      \
+  bool isInt_x = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;    \
+  bool isInt_y = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;    \
+  double int53max = pow(2, 53);                                 \
+  double int53min = -1 * int53max;                                \
+  if(TYPEOF(x) == REALSXP && TYPEOF(y) == REALSXP) {  \
+      TOKEN_TYPESWITCH(double, double, DIMCODE, DOCODE, OVERFLOWFUN);  \
+    }                                                   \
+    else if(isInt_x && TYPEOF(y) == REALSXP) {                  \
+      TOKEN_TYPESWITCH(int, double, DIMCODE, DOCODE, OVERFLOWFUN); \
+    }                                                           \
+    else if(TYPEOF(x) == REALSXP && isInt_y) {                  \
+      TOKEN_TYPESWITCH(double, int, DIMCODE, DOCODE, OVERFLOWFUN); \
+    }                                                           \
+  else if(isInt_x && isInt_y) {        \
+     stop("use boolmath");           \
+  }                                                         \
+  else {                                                    \
+    stop("unsupported types given");                      \
+  }                                                         \
+} while(0)
+
+
+#define MACRO_OP_INT_FACT(DIMCODE) do {	\
+  switch(op) {	\
+    case 1:	\
+    {	\
+      MACRO_TYPESWITCH_INT_FACT(  \
+        DIMCODE,	\
+        (double)rcpp_int53_gcd(tempx, tempy), \
+        inline_int53_overflow2NA  \
+      );    \
+      break;	\
+    }	\
+    case 2:	\
+    {	\
+      MACRO_TYPESWITCH_INT_FACT(  \
+          DIMCODE,	\
+          inline_int53_mod(tempx, tempy, int53min, int53max), \
+          inline_int53_overflow2Inf \
+        );	\
+      break;	\
+    }	\
+    case 3:	\
+    {	\
+      MACRO_TYPESWITCH_INT_FACT(  \
+          DIMCODE,	\
+         inline_int53_idiv(tempx, tempy, int53min, int53max), \
+         inline_int53_overflow2Inf  \
+        );	\
+      break;	\
+    }	\
+    case 4:	\
+    {	\
+      MACRO_TYPESWITCH_INT_FACT( \
+          DIMCODE,	\
+         tempx < tempy ? tempx : tempy, \
+         inline_int53_overflow2Inf  \
+        );	\
+      break;	\
+    }	\
+    case 5:	\
+    {	\
+      MACRO_TYPESWITCH_INT_FACT( \
+          DIMCODE,	\
+         tempx > tempy ? tempx : tempy, \
+         inline_int53_overflow2Inf  \
+        );	\
+      break;	\
+    }	\
+    default:	\
+    {	\
+      stop("given operator not supported in the given context");	\
+    }	\
+  }	\
+} while(0)
+
+
+
+
+long long rcpp_int53_gcd_rec(
+  long long x, long long y
+) {
+
+  long long a = std::abs(x);
+  long long b = std::abs(y);
+  
+  if (a == 0) {
+    return b;
+  }
+  if (b == 0) {
+    return a;
+  }
+  if (a == b) {
+    return a;
+  }
+  if (a > b) {
+    return rcpp_int53_gcd_rec(a - b, b);
+  }
+  return rcpp_int53_gcd_rec(a, b - a);
+}
+
+
+long long rcpp_int53_gcd(
+  long long x, long long y
+) {
+  
+  if(x == 0 && y == 0) {
+    return NA_REAL;
+  }
+  else if(x == 0) {
+    return y;
+  }
+  else if(y == 0) {
+    return x;
+  }
+  
+  return rcpp_int53_gcd_rec(x, y);
+}
+
+
+
+
+
+  
+  //' @keywords internal
+  //' @noRd
+  // [[Rcpp::export(.rcpp_bcD_int_2v, rng = false)]]
+  SEXP rcpp_bcD_int_2v(
+    SEXP x, SEXP y, List prep, int op 
+  ) {
+  
+  RObject x_dim = prep[0];
+  RObject y_dim = prep[1];
+  RObject out_dimorig = prep[2];
+  RObject out_dim = prep[3];
+  R_xlen_t nout = prep[4];
+  int dimmode = prep[5];
+  
+  
+  SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
+  
+  
+double *pout = REAL(out);
+
+  
+  MACRO_OP_INT_FACT(MACRO_DIM_TWOVECTORS);
+  
+  UNPROTECT(1);
+  return out;
+  
+  }
+  
+  
+  
+  
+  //' @keywords internal
+  //' @noRd
+  // [[Rcpp::export(.rcpp_bcD_int_1v, rng = false)]]
+  SEXP rcpp_bcD_int_1v(
+    SEXP x, SEXP y, List prep, int op 
+  ) {
+  
+  
+  RObject x_dim = prep[0];
+  RObject y_dim = prep[1];
+  RObject out_dimorig = prep[2];
+  RObject out_dim = prep[3];
+  R_xlen_t nout = prep[4];
+  int dimmode = prep[5];
+  
+  SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
+  
+  
+double *pout = REAL(out);
+
+  
+  MACRO_OP_INT_FACT(MACRO_DIM_ONEVECTOR);
+  
+  UNPROTECT(1);
+  return out;
+  
+  }
+  
+  
+  //' @keywords internal
+  //' @noRd
+  // [[Rcpp::export(.rcpp_bcD_int_d, rng = false)]]
+  SEXP rcpp_bcD_int_d(
+    SEXP x, SEXP y, List prep, int op 
+  ) {
+  
+  RObject x_dim = prep[0];
+  RObject y_dim = prep[1];
+  RObject out_dimorig = prep[2];
+  RObject out_dim = prep[3];
+  R_xlen_t nout = prep[4];
+  int dimmode = prep[5];
+  
+  SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));
+  
+  
+double *pout = REAL(out);
+
+  
+  MACRO_OP_INT_FACT(MACRO_DIM_DOCALL);
+  
+  UNPROTECT(1);
+  return out;
+  
+  }
+  
+  
+  

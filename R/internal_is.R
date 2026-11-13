@@ -10,8 +10,6 @@
 }
 
 
-
-
 #' @keywords internal
 #' @noRd
 .is_numeric_like <- function(x) {

@@ -17,6 +17,7 @@ print(x)
 
 # modify an array along one specific dimension ====
 x <- array(sample(0:9), c(3,3,3))
+broadcaster(x) <- TRUE
 print(x)
 
 # add 10 to second column, and 100 to third column:

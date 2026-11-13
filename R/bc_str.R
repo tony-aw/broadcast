@@ -2,7 +2,7 @@
 #'
 #' @description
 #' The `bc.str()` method
-#' performs broadcasted string operations on pairs of arrays. \cr \cr
+#' performs broadcasted string operations on pairs of character arrays. \cr \cr
 #' 
 #' @param x,y conformable vectors/arrays of type `character`.
 #' @param op a single string, giving the operator. \cr
@@ -57,44 +57,52 @@ setMethod(
     
     mycall <- "bc.str"
     
-    # checks:
-    .binary_stop_general(x, y, op, mycall)
-    if(!is.character(x) || !is.character(y)) {
-      stop(simpleError("`x` and `y` must be character/string arrays", call = mycall))
-    }
-    
-    encodings <- c(
-      Encoding(x[1]),
-      Encoding(y[1]),
-      Encoding(x[length(x)]),
-      Encoding(y[length(y)])
-    )
-    if(length(unique(encodings)) > 1L) {
-      warning(simpleWarning("difference in encoding detected between `x` and `y`", call = mycall))
-    }
-    
-    
-    # get operator:
-    op_conc <- which(.op_str_conc() == op)
-    op_rel <- which(.op_str_rel() == op)
-    op_dist <- which(.op_str_dist() == op)
-    
-    if(length(op_conc)) {
-      return(.bc_str_conc(x, y, op_conc, mycall))
-    }
-    else if(length(op_rel)) {
-      return(.bc_str_rel(x, y, op_rel, mycall))
-    }
-    else if(length(op_dist)) {
-      return(.bc_str_dist(x, y, op_dist, mycall))
-    }
-    else {
-      stop(simpleError("given operator not supported in the given context", call = mycall))
-    }
-    
+    return(.bc_str(x, y, op, mycall))
   }
   
 )
+
+
+#' @keywords internal
+#' @noRd
+.bc_str <- function(x, y, op, abortcall) {
+  
+  # checks:
+  .binary_stop_general(x, y, op, abortcall)
+  if(!is.character(x) || !is.character(y)) {
+    stop(simpleError("`x` and `y` must be character/string arrays", call = abortcall))
+  }
+  
+  encodings <- c(
+    Encoding(x[1]),
+    Encoding(y[1]),
+    Encoding(x[length(x)]),
+    Encoding(y[length(y)])
+  )
+  if(length(unique(encodings)) > 1L) {
+    warning(simpleWarning("difference in encoding detected between `x` and `y`", call = abortcall))
+  }
+  
+  
+  # get operator:
+  op_conc <- .C_which_op(.op_str_conc(), op)
+  op_rel <- .C_which_op(.op_str_rel(), op)
+  op_dist <- .C_which_op(.op_str_dist(), op)
+  
+  if(op_conc) {
+    return(.bc_str_conc(x, y, op_conc, abortcall))
+  }
+  else if(op_rel) {
+    return(.bc_str_rel(x, y, op_rel, abortcall))
+  }
+  else if(op_dist) {
+    return(.bc_str_dist(x, y, op_dist, abortcall))
+  }
+  else {
+    stop(simpleError("given operator not supported in the given context", call = abortcall))
+  }
+  
+}
 
 
 #' @keywords internal
@@ -106,31 +114,16 @@ setMethod(
   }
   
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode < 4L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bc_str_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bc_str_2v(x, y, prep, op)
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bc_str_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
-    )
+  else {
+    out <- .rcpp_bc_str_d(x, y, prep, op)
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
+  
   
   .binary_set_attr(out, x, y)
   
@@ -148,32 +141,19 @@ setMethod(
   }
   
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  
-  if(dimmode < 5L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bcRel_str_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bcRel_str_2v(x, y, prep, op)
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bcRel_str_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
-    )
+  else if(dimmode <= 4L) {
+    out <- .rcpp_bcRel_str_1v(x, y, prep, op)
+  }
+  else {
+    out <- .rcpp_bcRel_str_d(x, y, prep, op)
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
+  
   
   .binary_set_attr_logical(out, x, y)
   
@@ -192,31 +172,19 @@ setMethod(
   }
   
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode < 5L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bcD_str_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bcD_str_2v(x, y, prep, op)
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bcD_str_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
-    )
+  else if(dimmode <= 4L) {
+    out <- .rcpp_bcD_str_1v(x, y, prep, op)
+  }
+  else {
+    out <- .rcpp_bcD_str_d(x, y, prep, op)
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
+  
   
   .binary_set_attr_logical(out, x, y)
   

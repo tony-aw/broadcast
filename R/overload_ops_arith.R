@@ -6,10 +6,7 @@
     return(e1) 
   }
   .binary_stop_general(e1, e2, "+", sys.call())
-  if(!is.complex(e1) && !.is_numeric_like(e1)) {
-    stop("non-numeric argument to binary operator")
-  }
-  if(!is.complex(e2) && !.is_numeric_like(e2)) {
+  if(!.C_inputOK_arith(e1, e2)) {
     stop("non-numeric argument to binary operator")
   }
   
@@ -19,18 +16,14 @@
   if(is.complex(e1) || is.complex(e2)) {
     if(!is.complex(e1)) e1 <- as_cplx(e1)
     if(!is.complex(e2)) e2 <- as_cplx(e2)
-    out <- .bc_cplx_math(e1, e2, op, sys.call())
+    return(.bc_cplx_math(e1, e2, op, sys.call()))
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
-    out <- .bc_dec_math(e1, e2, op, sys.call())
+    return(.bc_dec_math(e1, e2, op, sys.call()))
   }
   else {
     stop("non-numeric argument to binary operator")
   }
-  
- 
-  return(out)
-  
 }
 
 
@@ -41,10 +34,7 @@
     return(y)
   }
   .binary_stop_general(e1, e2, "-", sys.call())
-  if(!is.complex(e1) && !.is_numeric_like(e1)) {
-    stop("non-numeric argument to binary operator")
-  }
-  if(!is.complex(e2) && !.is_numeric_like(e2)) {
+  if(!.C_inputOK_arith(e1, e2)) {
     stop("non-numeric argument to binary operator")
   }
   
@@ -52,17 +42,14 @@
   if(is.complex(e1) || is.complex(e2)) {
     if(!is.complex(e1)) e1 <- as_cplx(e1)
     if(!is.complex(e2)) e2 <- as_cplx(e2)
-    out <- .bc_cplx_math(e1, e2, op, sys.call())
+    return(.bc_cplx_math(e1, e2, op, sys.call()))
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
-    out <- .bc_dec_math(e1, e2, op, sys.call())
+    return(.bc_dec_math(e1, e2, op, sys.call()))
   }
   else {
     stop("non-numeric argument to binary operator")
   }
-  
- 
-  return(out)
 }
 
 
@@ -70,10 +57,7 @@
 #' @export
 `*.broadcaster` <- function(e1, e2) {
   .binary_stop_general(e1, e2, "*", sys.call())
-  if(!is.complex(e1) && !.is_numeric_like(e1)) {
-    stop("non-numeric argument to binary operator")
-  }
-  if(!is.complex(e2) && !.is_numeric_like(e2)) {
+  if(!.C_inputOK_arith(e1, e2)) {
     stop("non-numeric argument to binary operator")
   }
   
@@ -81,17 +65,14 @@
   if(is.complex(e1) || is.complex(e2)) {
     if(!is.complex(e1)) e1 <- as_cplx(e1)
     if(!is.complex(e2)) e2 <- as_cplx(e2)
-    out <- .bc_cplx_math(e1, e2, op, sys.call())
+    return(.bc_cplx_math(e1, e2, op, sys.call()))
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
-    out <- .bc_dec_math(e1, e2, op, sys.call())
+    return(.bc_dec_math(e1, e2, op, sys.call()))
   }
   else {
     stop("non-numeric argument to binary operator")
   }
-  
- 
-  return(out)
 }
 
 
@@ -99,27 +80,22 @@
 #' @export
 `/.broadcaster` <- function(e1, e2) {
   .binary_stop_general(e1, e2, "/", sys.call())
-  if(!is.complex(e1) && !.is_numeric_like(e1)) {
-    stop("non-numeric argument to binary operator")
-  }
-  if(!is.complex(e2) && !.is_numeric_like(e2)) {
+  if(!.C_inputOK_arith(e1, e2)) {
     stop("non-numeric argument to binary operator")
   }
   
   if(is.complex(e1) || is.complex(e2)) {
     if(!is.complex(e1)) e1 <- as_cplx(e1)
     if(!is.complex(e2)) e2 <- as_cplx(e2)
-    out <- .bc_cplx_math(e1, e2, 4L, sys.call())
+    return(.bc_cplx_math(e1, e2, 4L, sys.call()))
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
-    out <- .bc_dec_math(e1, e2, 4L, sys.call())
+    return(.bc_dec_math(e1, e2, 4L, sys.call()))
   }
   else {
     stop("non-numeric argument to binary operator")
   }
-  
- 
-  return(out)
+
 }
 
 
@@ -132,12 +108,9 @@
     stop("operator not defined for complex numbers")
   }
   else if(.is_numeric_like(e1) && .is_numeric_like(e2)) {
-    out <- .bc_dec_math(e1, e2, 5L, sys.call())
+    return(.bc_dec_math(e1, e2, 5L, sys.call()))
   }
   else {
     stop("non-numeric argument to binary operator")
   }
-  
- 
-  return(out)
 }

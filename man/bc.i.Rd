@@ -3,18 +3,20 @@
 \name{bc.i}
 \alias{bc.i}
 \alias{bc.i,ANY-method}
-\title{Broadcasted Integer Numeric Operations with Extra Overflow Protection}
+\alias{trunc2int53}
+\title{Broadcasted Integer Operations}
 \usage{
 bc.i(x, y, op, ...)
 
 \S4method{bc.i}{ANY}(x, y, op)
+
+trunc2int53(x)
 }
 \arguments{
 \item{x, y}{conformable vectors/arrays of type logical or numeric.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported simple arithmetic operators: +, -, *, ^, pmin, pmax. \cr
-Supported special division arithmetic operators: gcd, \%\%, \%/\%. \cr
+Supported integer operators: gcd, \%\%, \%/\%, pmin, pmax. \cr
 Supported relational operators: ==, !=, <, >, <=, >=. \cr
 The "gcd" operator performs the "Greatest Common Divisor" operation,
 using the Euclidean algorithm.}
@@ -22,28 +24,38 @@ using the Euclidean algorithm.}
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
-For arithmetic operators: \cr
-A numeric array of whole numbers,
-as a result of the broadcasted arithmetic operation. \cr
-Base 'R' supports integers from \code{-2^53} to \code{2^53},
+For \code{trunc2int53()}: \cr
+Base 'R' supports 53 bit integers from \code{-1 * (2^53 - 1)} to \code{2^53 - 1},
 which thus range from approximately \code{-9} quadrillion to \code{+9} quadrillion. \cr
-Values outside of this range will be returned as \code{-Inf} or \code{Inf},
-as an extra protection against integer overflow. \cr
+\code{trunc2int53()} will truncate a numeric vector (like \code{trunc()}),
+and replace all values above \code{2^53 - 1} with \code{Inf},
+and values below \code{-1 * (2^53 - 1)} with \code{-Inf}. \cr
+\cr
+
+For integer operators: \cr
+A numeric (\code{double} or \code{integer}, depending on the situation) array of whole numbers,
+as a result of the broadcasted arithmetic operation. \cr
+Values outside of the 53 bit integer range will be returned as \code{-Inf} or \code{Inf},
+as in \code{trunc2int53()},
+as an extra protection against integer precision loss. \cr
 \cr
 For relational operators: \cr
 A logical array as a result of the broadcasted integer relational comparison. \cr
+The relational operators efficiently truncate the input during broadcasting using \code{trunc2int53()}. \cr
 \cr
 }
 \description{
 The \code{bc.i()} method
-performs broadcasted integer numeric operations on 2 numeric or logical arrays. \cr
+performs broadcasted integer operations on 2 numeric or logical arrays. \cr
 \cr
-Please note that these operations will treat the input as (\code{double} typed) integers,
-and will efficiently truncate when necessary. \cr
+Please note that these operations will treat the input as (53 or 32 bit) integers,
+and will efficiently truncate using \code{trunc2int53()} when necessary. \cr
 Therefore, something like \code{bc.i(1, 1.5, "==")} returns \code{TRUE},
 because \code{trunc(1.5)} equals \code{1}. \cr
 \cr
-For regular relational operators, see \link{bc.rel}. \cr \cr
+For regular relational operators, see \link{bc.rel}. \cr
+\cr
+\cr
 }
 \examples{
 x.dim <- c(4:2)
@@ -52,11 +64,9 @@ x.data <- sample(c(NA, 1.1:1000.1), x.len, TRUE)
 x <- array(x.data, x.dim)
 y <- array(1:50, c(4,1,1))
 
-bc.i(x, y, "+")
-bc.i(x, y, "-")
-bc.i(x, y, "*")
+bc.i(x, y, "\%\%")
+bc.i(x, y, "\%/\%")
 bc.i(x, y, "gcd") # greatest common divisor
-bc.i(x, y, "^")
 
 bc.i(x, y, "==")
 bc.i(x, y, "!=")
@@ -64,6 +74,11 @@ bc.i(x, y, "<")
 bc.i(x, y, ">")
 bc.i(x, y, "<=")
 bc.i(x, y, ">=")
+
+}
+\references{
+On the integer division and remainder (modulo) computations, \%\% and \%/\%: \cr
+\url{https://en.wikipedia.org/wiki/Modulo}
 }
 \seealso{
 \link{broadcast_operators} \cr

@@ -19,7 +19,7 @@ ops1 <- c(
   \(x, y) length(x)==length(y)
 )
 ops2 <- c(
-  list("&"), rep(list("+"), 4L), list("pmin", "&"), "!=", "",
+  list("&"), list("%/%"), rep(list("+"), 3L), list("pmin", "&"), "!=", "",
   \(x, y) length(x)==length(y)
 )
 ops <- c(ops1, ops2)

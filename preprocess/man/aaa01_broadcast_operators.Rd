@@ -6,7 +6,7 @@
 \title{Details on Broadcasted Operators}
 \description{
 Base 'R' comes with relational,
-arithmetic and logical/bit-wise (&, |) operators. \cr
+arithmetic, integer, logical, and bit-wise operators. \cr
 'broadcast' provides 2 ways to use these operators with broadcasting. \cr
 \cr
 The first (and simple) way is to use the \code{[broadcaster](broadcaster.qmd)} class,
@@ -30,13 +30,17 @@ broadcasting will be used. \cr
 \cr
 The following operators have a 'broadcaster' method:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{+, -, *, /, ^, \%\%, \%/\%
-==, !=, <, >, <=, >=
-&, |
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# relational operators       : ==, !=, <, >, <=, >=
+# arithmetic operators       : +, -, *, /, ^,
+# integer operators          : \%\%, \%/\%
+# logical operators          : &, |
+# bit-wise operators         : &, | (both sides type of `raw`)
 
 }\if{html}{\out{</div>}}
 
 See also the Examples section below. \cr
+Unary operations (i.e. \code{+ x}, \code{- x}) return the original object,
+with only the sign adjusted. \cr
 \cr
 }
 
@@ -51,8 +55,8 @@ The following functions for simple operations are available:
 \item \code{[bc.rel](bc.rel.qmd)}: General relational operations
 (\verb{==, !=, <, >, <=, >=}). \cr
 The various other \code{bc.} methods below have specialised relational operators available for specialised needs.
-\item \code{[bc.b](bc.b.qmd)}: Boolean (i.e. logical) operations;
-\item \code{[bc.i](bc.i.qmd)}: integer arithmetic operations;
+\item \code{[bc.b](bc.b.qmd)}: Boolean/logical operations;
+\item \code{[bc.i](bc.i.qmd)}: integer operations;
 \item \code{[bc.d](bc.d.qmd)}: decimal arithmetic operations;
 \item \code{[bc.cplx](bc.cplx.qmd)}: complex arithmetic operations;
 \item \code{[bc.str](bc.str.qmd)}: string (in)equality, concatenation, and distance operations;
@@ -60,30 +64,6 @@ The various other \code{bc.} methods below have specialised relational operators
 \item \code{[bc.bit](bc.bit.qmd)}: BIT-WISE operations, supporting the \code{raw} and \code{integer} types;
 \item \code{[bc.list](bc.list.qmd)}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 }
-}
-
-\section{Attribute Handling}{
-
-The \code{bc.} functions and the overloaded operators generally do \bold{not}
-preserve attributes, unlike the base 'R' operators,
-except for \code{names}, \code{dimnames}, \code{comment} (if appropriate), and the \code{[broadcaster](broadcaster.qmd)} class attribute (and related attributes). \cr
-\cr
-Broadcasting often results in an object with more dimensions, larger dimensions,
-and/or larger length than the original objects. \cr
-This is relevant as some class-specific attributes are only appropriate for certain dimensions or lengths. \cr
-Custom matrix classes, for example, presumes an object to have exactly 2 dimensions. \cr
-And the various classes provided by the 'bit' package have length-related attributes. \cr
-So class attributes cannot be guaranteed to hold for the resulting objects when broadcasting is involved. \cr
-\cr
-\cr
-Almost all functions provided by 'broadcast' are S3 or S4 generics; \cr
-methods can be written for them for specific classes,
-so that class-specific attributes can be supported when needed. \cr
-\cr
-Unary operations (i.e. \code{+ x}, \code{- x}) return the original object,
-with only the sign adjusted. \cr
-\cr
-\cr
 }
 
 \examples{

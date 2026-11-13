@@ -12,7 +12,7 @@ mergedims <- function(x.dim, y.dim) {
   x.ndim <- ndim(x.dim)
   y.ndim <- ndim(y.dim)
   
-  broadcast:::.rcpp_mergedims_set(x.dim2, y.dim2, x.ndim, y.ndim)
+  broadcast:::.rcpp_mergedims(x.dim2, y.dim2, x.ndim, y.ndim)
   out <- list(
     x.dim2[seq_len(x.ndim)],
     y.dim2[seq_len(y.ndim)]
@@ -88,11 +88,9 @@ enumerate <- enumerate + 1L
 
 
 # test drop ends, merge ins ====
-# note: a current limitation of mergedims is that the first common 1L is NOT dropped
-# but common 1L at the end IS dropped
 x.dim <- c(1, 10, 10, 1) |> as.integer()
 y.dim <-  c(1, 10, 10,  1) |> as.integer()
-expected <- list(c(1L, 100L), c(1L, 100L))
+expected <- list(c(100L), c(100L))
 out <- mergedims(x.dim, y.dim)
 expect_equal(
   expected, out

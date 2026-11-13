@@ -5,7 +5,8 @@
 #' performs broadcasted complex numeric operations on pairs of arrays. \cr
 #' \cr
 #' 
-#' @param x,y conformable vectors/arrays of type `complex`.
+#' @param x,y conformable vectors/arrays of type `complex`. \cr
+#' Numeric and logical arrays will be coerced to type `complex`. \cr
 #' @param op a single string, giving the operator. \cr
 #' Supported arithmetic operators: `r paste0(broadcast:::.op_cplx_math(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_cplx_rel(), collapse = ", ")`.
@@ -48,27 +49,7 @@ setMethod(
   function(x, y, op) {
     
     mycall <- "bc.cplx"
-    
-    # checks:
-    .binary_stop_general(x, y, op, mycall)
-    if(!is.complex(x) || !is.complex(y)) {
-      stop(simpleError("`x` and `y` must be complex arrays or vectors", call = mycall))
-    }
-    
-    # get operator:
-    op_math <- which(.op_cplx_math() == op)
-    op_rel <- which(.op_cplx_rel() == op)
-    
-    if(length(op_math)) {
-      return(.bc_cplx_math(x, y, op_math, mycall))
-    }
-    else if(length(op_rel)) {
-      return(.bc_cplx_rel(x, y, op_rel, mycall))
-    }
-    else {
-      stop(simpleError("given operator not supported in the given context", call = mycall))
-    }
-    
+    return(.bc_cplx(x, y, op, mycall))
     
   }
 )
@@ -76,38 +57,54 @@ setMethod(
 
 #' @keywords internal
 #' @noRd
+.bc_cplx <- function(x, y, op, abortcall) {
+  
+  # checks:
+  .binary_stop_general(x, y, op, abortcall)
+  
+  # get operator:
+  op_math <- .C_which_op(.op_cplx_math(), op)
+  op_rel <- .C_which_op(.op_cplx_rel(), op)
+  
+  if(op_math) {
+    return(.bc_cplx_math(x, y, op_math, abortcall))
+  }
+  else if(op_rel) {
+    return(.bc_cplx_rel(x, y, op_rel, abortcall))
+  }
+  else {
+    stop(simpleError("given operator not supported in the given context", call = abortcall))
+  }
+  
+}
+
+
+#' @keywords internal
+#' @noRd
 .bc_cplx_math <- function(x, y, op, abortcall) {
+  
+  if(!.C_inputOK_arith(x, y)) {
+    stop(simpleError("non-numeric argument to binary operator", call = abortcall))
+  }
+  if(!is.complex(x)) x <- as_cplx(x)
+  if(!is.complex(y)) y <- as_cplx(y)
   
   if(length(x) == 0L || length(y) == 0L) {
     return(.binary_return_zerolen(x, y, FALSE, "complex"))
   }
   
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode < 4L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bc_cplx_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bc_cplx_2v(x, y, prep, op)
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bc_cplx_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
-    )
+  else {
+    out <- .rcpp_bc_cplx_d(x, y, prep, op)
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
+  
+  
   
   .binary_set_attr(out, x, y)
   
@@ -120,37 +117,28 @@ setMethod(
 #' @noRd
 .bc_cplx_rel <- function(x, y, op, abortcall) {
   
+  if(!.C_inputOK_arith(x, y)) {
+    stop(simpleError("invalid comparison with given types", call = abortcall))
+  }
   
   if(length(x) == 0L || length(y) == 0L) {
     return(.binary_return_zerolen(x, y, TRUE, "logical"))
   }
   
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode < 5L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bcRel_cplx_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bcRel_cplx_2v(x, y, prep, op)
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bcRel_cplx_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
-    )
+  else if(dimmode <= 4L) {
+    out <- .rcpp_bcRel_cplx_1v(x, y, prep, op)
+  }
+  else {
+    out <- .rcpp_bcRel_cplx_d(x, y, prep, op)
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
+  
   
   .binary_set_attr_logical(out, x, y)
   

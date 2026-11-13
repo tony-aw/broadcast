@@ -1,109 +1,103 @@
 # set-up ====
 
 library(stringi)
+source("SOURCE.R")
+
+################################################################################
+# MACROs ====
+#
 
 
-macro_dim <- readr::read_file("macro_dim.txt")
-macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
-macro_action <- readr::read_file("macro_action.txt")
-macro_op <- readr::read_file("macro_op.txt")
-
-header_for_sourcing <- stri_c(
-  "
-  #include <Rcpp/Lightest>
-  
-  using namespace Rcpp;
-  ",
-  macro_action,
-  "\n",
-  macro_dim,
-  "\n",
-  macro_typeswitch_numeric,
-  "\n",
-  macro_op
-)
-
-
-header_for_package <- "
-
-#include <Rcpp/Lightest>
-#include \"broadcast.h\"
-
-using namespace Rcpp;
-
-
+macro_op_raw_rel <- "
+#define MACRO_OP_RAW_REL(DIMCODE) do {	\\
+  switch(op) {	\\
+  case 1:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = tempx == tempy, \\
+      const Rbyte tempx = px[flatind_x],  \\
+      const Rbyte tempy = py[flatind_y] \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 2:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = tempx != tempy, \\
+      const Rbyte tempx = px[flatind_x],  \\
+      const Rbyte tempy = py[flatind_y] \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 3:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = tempx < tempy, \\
+      const Rbyte tempx = px[flatind_x],  \\
+      const Rbyte tempy = py[flatind_y] \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 4:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = tempx > tempy, \\
+      const Rbyte tempx = px[flatind_x],  \\
+      const Rbyte tempy = py[flatind_y] \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 5:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = tempx <= tempy, \\
+      const Rbyte tempx = px[flatind_x],  \\
+      const Rbyte tempy = py[flatind_y] \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  case 6:	\\
+  {	\\
+    DIMCODE(                                                          \\
+      pout[flatind_out] = tempx >= tempy, \\
+      const Rbyte tempx = px[flatind_x],  \\
+      const Rbyte tempy = py[flatind_y] \\
+    );                                                                \\
+    break;	\\
+  }	\\
+  default:	\\
+  {	\\
+    stop(\"given operator not supported in the given context\");	\\
+  }	\\
+}	\\
+} while(0)
 "
 
-Rcpp::sourceCpp(code = header_for_sourcing)
 
+Rcpp::sourceCpp(code = paste0(header_for_sourcing, macro_op_raw_rel, collapse = "\n"))
 
 
 ################################################################################
 # Functions ====
 #
 
-
-txt1 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcRel_raw_v, rng = false)]]
-SEXP rcpp_bcRel_raw_v(
-  SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
-  R_xlen_t nout, int dimmode, bool vectorx, int op
-) {
-
-
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
+prep <- "
 int *pout = LOGICAL(out);
 Rbyte *px = RAW(x);
 Rbyte *py = RAW(y);
-
-MACRO_OP_RAW_REL(MACRO_DIM_VECTORSPECIAL);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
 "
 
+txt1 <- generate_functions(
+  "bcRel_raw", "LogicalVector", prep, "MACRO_OP_RAW_REL"
+)
 
-txt2 <- "
-
-//' @keywords internal
-//' @noRd
-// [[Rcpp::export(.rcpp_bcRel_raw_d, rng = false)]]
-SEXP rcpp_bcRel_raw_d(
-  SEXP x, SEXP y,
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op
-) {
-
-
-
-SEXP out = PROTECT(Rf_allocVector(LGLSXP, nout));
-int *pout = LOGICAL(out);
-Rbyte *px = RAW(x);
-Rbyte *py = RAW(y);
-
-MACRO_OP_RAW_REL(MACRO_DIM_DOCALL);
-
-UNPROTECT(1);
-return out;
-
-}
-
-
-"
-
+cat(txt1)
 
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt1, txt2,
+  macro_op_raw_rel,
+  txt1,
   collapse = "\n\n"
 )
 
@@ -113,7 +107,8 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt1, txt2,
+  macro_op_raw_rel,
+  txt1,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bcRel_raw.cpp")

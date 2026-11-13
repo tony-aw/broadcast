@@ -36,7 +36,7 @@ for(iLen in seq(2, 100, 10L)) {
           
           expect_equal(
             broadcaster(out),
-            TRUE
+            broadcaster(x)
           ) |> errorfun()
           
           expect_equal(

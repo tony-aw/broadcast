@@ -1,49 +1,35 @@
 # set-up ====
 
 library(stringi)
-
-macro_dim <- readr::read_file("macro_dim.txt")
-macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
-macro_action <- readr::read_file("macro_action.txt")
-macro_op <- readr::read_file("macro_op.txt")
-
+macro_dim <- readr::read_file("txt/macro_dim.txt")
+inlines <- readr::read_file("txt/inlines.txt")
 header_for_sourcing <- stri_c(
   "
   #include <Rcpp/Lightest>
-  
   using namespace Rcpp;
   ",
-  macro_action,
+  "\n",
+  inlines,
   "\n",
   macro_dim,
-  "\n",
-  macro_typeswitch_numeric,
-  "\n",
-  macro_op
+  "\n"
 )
-
-
 header_for_package <- "
-
 #include <Rcpp/Lightest>
 #include \"broadcast.h\"
-
 using namespace Rcpp;
-
-
 "
-
-
 Rcpp::sourceCpp(code = header_for_sourcing)
 
 
 
+
 ################################################################################
-# Functions ====
+# Inlines ====
 #
 
-txt0 <- "
-inline Rcomplex rcpp_cplx_returnNA() {
+inlines <- "
+static inline Rcomplex inline_cplx_returnNA() {
     Rcomplex out;
     out.r = NA_REAL;
     out.i = NA_REAL;
@@ -51,29 +37,348 @@ inline Rcomplex rcpp_cplx_returnNA() {
   }
 "
 
+Rcpp::sourceCpp(code = paste0(header_for_sourcing, inlines, collapse = "\n"))
+
+
+################################################################################
+# MACROs ====
+#
+
+macro_action_ifelse <- "
+
+#define MACRO_SET_C(VAR, INDEX, VALUE) do {   \\
+  VAR[INDEX] = VALUE;                         \\
+} while(0)
+
+
+#define MACRO_ACTION_IFELSE1(SETFUN, VAR) do {                               \\
+  SETFUN(VAR, flatind_out, (bool)pcond[flatind_out] ? tempx : tempy);   \\
+} while(0)                                                              \\
+
+
+#define MACRO_ACTION_IFELSE2(SETFUN, VAR, NACODE) do {                       \\
+  if(pcond[flatind_out] == NA_INTEGER) {                                \\
+    SETFUN(VAR, flatind_out, NACODE);                                   \\
+  }                                                                     \\
+  else {                                                                \\
+   SETFUN(VAR, flatind_out, (bool)pcond[flatind_out] ? tempx : tempy);  \\
+  }                                                                     \\
+} while(0)                                                              \\
+
+
+#define MACRO_ACTION_IFELSE3(NACHECK, NACODE, DOCODE) do {        \\
+  if(NACHECK) {                                                   \\
+    NACODE;                                                       \\
+  }                                                               \\
+  else {                                                          \\
+   DOCODE;                                                        \\
+  }                                                               \\
+} while(0)                                                        \\
+
+
+
+"
+
+macro_op_ifelse_int <- "
+
+#define MACRO_OP_IFELSE_INT(DIMCODE) do {       \\
+  switch(TYPEOF(x)) {	\\
+    case LGLSXP:	\\
+    case INTSXP:	\\
+    {	\\
+      const int *px = INTEGER_RO(x);	\\
+      const int *py = INTEGER_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(TYPEOF(x), nout));	\\
+      int *pout;	\\
+      pout = INTEGER(out);	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION_IFELSE2(	            \\
+          MACRO_SET_C,                 \\
+          pout,                         \\
+          NA_INTEGER                      \\
+        ),                                \\
+        const int tempx = px[flatind_x],  \\
+        const int tempy = py[flatind_y]   \\
+      );      \\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case REALSXP:	\\
+    {	\\
+      const double *px = REAL_RO(x);	\\
+      const double *py = REAL_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\\
+      double *pout;	\\
+      pout = REAL(out);	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION_IFELSE2(	              \\
+          MACRO_SET_C,                      \\
+          pout,                             \\
+          NA_REAL                           \\
+        ),                                  \\
+        const double tempx = px[flatind_x], \\
+        const double tempy = py[flatind_y]  \\
+      );      \\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case CPLXSXP:	\\
+    {	\\
+      const Rcomplex *px = COMPLEX_RO(x);	\\
+      const Rcomplex *py = COMPLEX_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\\
+      Rcomplex *pout;	\\
+      pout = COMPLEX(out);	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION_IFELSE2(	                \\
+          MACRO_SET_C,                        \\
+          pout,                               \\
+          inline_cplx_returnNA()              \\
+        ),                                    \\
+        const Rcomplex tempx = px[flatind_x], \\
+        const Rcomplex tempy = py[flatind_y]  \\
+      );      \\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case STRSXP:	\\
+    {	\\
+      const SEXP *px = STRING_PTR_RO(x);	\\
+      const SEXP *py = STRING_PTR_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION_IFELSE2(	            \\
+          SET_STRING_ELT,                 \\
+          out,                            \\
+          NA_STRING                       \\
+        ),                                \\
+        const SEXP tempx = px[flatind_x], \\
+        const SEXP tempy = py[flatind_y]  \\
+      );      \\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case RAWSXP:	\\
+    {	\\
+      const Rbyte *px = RAW_RO(x);	\\
+      const Rbyte *py = RAW_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\\
+      Rbyte *pout = RAW(out); \\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION_IFELSE3(	                \\
+          pcond[flatind_out] == NA_INTEGER,                       \\
+          stop(\"NA condition not supported for type of `raw`\"), \\
+          pout[flatind_out] = pcond[flatind_out] ? tempx : tempy	\\
+        ),                                    \\
+        const Rbyte tempx = px[flatind_x],    \\
+        const Rbyte tempy = py[flatind_y]     \\
+      );      \\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case VECSXP:	\\
+    {	\\
+      SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION_IFELSE2(	            \\
+          SET_VECTOR_ELT,                 \\
+          out,                            \\
+          R_NilValue                      \\
+        ),                                \\
+        const SEXP tempx = VECTOR_ELT(x, flatind_x),  \\
+        const SEXP tempy = VECTOR_ELT(y, flatind_y)   \\
+      );      \\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    default:	\\
+    {	\\
+      stop(\"unsupported type\");	\\
+    }	\\
+  }	\\
+} while(0)
+
+"
+
+macro_op_ifelse_raw <- "
+
+#define MACRO_OP_IFELSE_RAW(DIMCODE) do {       \\
+  switch(TYPEOF(x)) {	\\
+    case LGLSXP:	\\
+    case INTSXP:	\\
+    {	\\
+      const int *px = INTEGER_RO(x);	\\
+      const int *py = INTEGER_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));	\\
+      int *pout;	\\
+      pout = INTEGER(out);	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION_IFELSE1(MACRO_SET_C, pout),   \\
+        const int tempx = px[flatind_x],        \\
+        const int tempy = py[flatind_y]         \\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case REALSXP:	\\
+    {	\\
+      const double *px = REAL_RO(x);	\\
+      const double *py = REAL_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\\
+      double *pout;	\\
+      pout = REAL(out);	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION_IFELSE1(MACRO_SET_C, pout),   \\
+        const double tempx = px[flatind_x],        \\
+        const double tempy = py[flatind_y]         \\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case CPLXSXP:	\\
+    {	\\
+      const Rcomplex *px = COMPLEX_RO(x);	\\
+      const Rcomplex *py = COMPLEX_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\\
+      Rcomplex *pout;	\\
+      pout = COMPLEX(out);	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION_IFELSE1(MACRO_SET_C, pout),   \\
+        const Rcomplex tempx = px[flatind_x],        \\
+        const Rcomplex tempy = py[flatind_y]         \\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case STRSXP:	\\
+    {	\\
+      const SEXP *px = STRING_PTR_RO(x);	\\
+      const SEXP *py = STRING_PTR_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION_IFELSE1(SET_STRING_ELT, out),   \\
+        const SEXP tempx = px[flatind_x],       \\
+        const SEXP tempy = py[flatind_y]        \\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case RAWSXP:	\\
+    {	\\
+      const Rbyte *px = RAW_RO(x);	\\
+      const Rbyte *py = RAW_RO(y);	\\
+      	\\
+      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\\
+      Rbyte *pout = RAW(out); \\
+      	\\
+      DIMCODE(	\\
+        MACRO_ACTION_IFELSE1(MACRO_SET_C, pout),   \\
+        const Rbyte tempx = px[flatind_x],        \\
+        const Rbyte tempy = py[flatind_y]         \\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    case VECSXP:	\\
+    {	\\
+      SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\\
+      DIMCODE(	\\
+        MACRO_ACTION_IFELSE1(SET_VECTOR_ELT, out),   \\
+        const SEXP tempx = VECTOR_ELT(x, flatind_x),        \\
+        const SEXP tempy = VECTOR_ELT(y, flatind_y)         \\
+      );	\\
+      	\\
+      UNPROTECT(1);	\\
+      return out;	\\
+      	\\
+    }	\\
+    default:	\\
+    {	\\
+      stop(\"unsupported type\");	\\
+    }	\\
+  }	\\
+} while(0)
+
+"
+
+macros_ifelse <- paste0(macro_action_ifelse, macro_op_ifelse_int, macro_op_ifelse_raw, collapse = "\n")
+
+Rcpp::sourceCpp(code = paste0(header_for_sourcing, macros_ifelse, collapse = "\n"))
+
+
+################################################################################
+# Functions ====
+#
+
+
 txt1 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_ifelse_v, rng = false)]]
-SEXP rcpp_bc_ifelse_v(
-  SEXP cond, SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
-  R_xlen_t nout, int dimmode, bool vectorx
+// [[Rcpp::export(.rcpp_bc_ifelse_2v, rng = false)]]
+SEXP rcpp_bc_ifelse_2v(
+  SEXP cond, SEXP x, SEXP y, List prep
 ) {
 
+  RObject x_dim = prep[0];        (void)x_dim;
+  RObject y_dim = prep[1];        (void)y_dim;
+  RObject out_dimorig = prep[2];  (void)out_dimorig;
+  RObject out_dim = prep[3];      (void)out_dim;
+  R_xlen_t nout = prep[4];        (void)nout;
+  int dimmode = prep[5];          (void)dimmode;
 
   if(TYPEOF(cond) == LGLSXP || TYPEOF(cond) == INTSXP) {
     const int *pcond = INTEGER_RO(cond);
     
     MACRO_OP_IFELSE_INT(
-      MACRO_DIM_VECTORSPECIAL
+      MACRO_DIM_TWOVECTORS
     );
   }
   else if(TYPEOF(cond) == RAWSXP) {
     const Rbyte *pcond = RAW_RO(cond);
     
     MACRO_OP_IFELSE_RAW(
-      MACRO_DIM_VECTORSPECIAL
+      MACRO_DIM_TWOVECTORS
     );
   }
   else {
@@ -92,14 +397,58 @@ txt2 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_ifelse_d, rng = false)]]
-SEXP rcpp_bc_ifelse_d(
-  SEXP cond, SEXP x, SEXP y,
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout
+// [[Rcpp::export(.rcpp_bc_ifelse_1v, rng = false)]]
+SEXP rcpp_bc_ifelse_1v(
+  SEXP cond, SEXP x, SEXP y, List prep
 ) {
 
+  RObject x_dim = prep[0];        (void)x_dim;
+  RObject y_dim = prep[1];        (void)y_dim;
+  RObject out_dimorig = prep[2];  (void)out_dimorig;
+  RObject out_dim = prep[3];      (void)out_dim;
+  R_xlen_t nout = prep[4];        (void)nout;
+  int dimmode = prep[5];          (void)dimmode;
+
+  if(TYPEOF(cond) == LGLSXP || TYPEOF(cond) == INTSXP) {
+    const int *pcond = INTEGER_RO(cond);
+    
+    MACRO_OP_IFELSE_INT(
+      MACRO_DIM_ONEVECTOR
+    );
+  }
+  else if(TYPEOF(cond) == RAWSXP) {
+    const Rbyte *pcond = RAW_RO(cond);
+    
+    MACRO_OP_IFELSE_RAW(
+      MACRO_DIM_ONEVECTOR
+    );
+  }
+  else {
+    stop(\"unsupported type given\");
+  }
+
+
+}
+
+
+"
+
+
+txt3 <- "
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bc_ifelse_d, rng = false)]]
+SEXP rcpp_bc_ifelse_d(
+  SEXP cond, SEXP x, SEXP y, List prep
+) {
+  
+  RObject x_dim = prep[0];        (void)x_dim;
+  RObject y_dim = prep[1];        (void)y_dim;
+  RObject out_dimorig = prep[2];  (void)out_dimorig;
+  RObject out_dim = prep[3];      (void)out_dim;
+  R_xlen_t nout = prep[4];        (void)nout;
+  int dimmode = prep[5];          (void)dimmode;
 
   if(TYPEOF(cond) == LGLSXP || TYPEOF(cond) == INTSXP) {
     const int *pcond = INTEGER_RO(cond);
@@ -128,7 +477,8 @@ SEXP rcpp_bc_ifelse_d(
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2,
+  inlines, macros_ifelse,
+  txt1, txt2, txt3,
   collapse = "\n\n"
 )
 
@@ -137,10 +487,10 @@ Rcpp::sourceCpp(code = txt)
 
 
 setwd("..")
-
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2,
+  inlines, macros_ifelse,
+  txt1, txt2, txt3,
   collapse = "\n\n"
 )
 readr::write_file(txt, "src/rcpp_bc_ifelse.cpp")

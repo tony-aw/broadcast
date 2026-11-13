@@ -123,13 +123,7 @@ checkNULL.default <- function(x, op, inv = FALSE, ...) {
   }
   else if(op == "which") {
     count <- .rcpp_checkmissing_count(x, inv)
-    intmax <- 2^31 - 1L
-    if(length(x) < intmax) {
-      out <- .rcpp_checkmissing_which32(x, inv, count)
-    }
-    else {
-      out <- .rcpp_checkmissing_which64(x, inv, count)
-    }
+    out <- .rcpp_checkmissing_which64(x, inv, count)
     if(!is.null(names(x)) && length(out) == 0L) {
       names(out) <- character(0L)
     }

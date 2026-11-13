@@ -1,51 +1,34 @@
 # set-up ====
-
 library(stringi)
-
-
-macro_dim <- readr::read_file("macro_dim.txt")
-macro_typeswitch_numeric <- readr::read_file("macro_typeswitch_numeric.txt")
-macro_action <- readr::read_file("macro_action.txt")
-macro_op <- readr::read_file("macro_op.txt")
-
+macro_dim <- readr::read_file("txt/macro_dim.txt")
+inlines <- readr::read_file("inlines.txt")
 header_for_sourcing <- stri_c(
   "
   #include <Rcpp/Lightest>
-  
   using namespace Rcpp;
   ",
-  macro_action,
+  "\n",
+  inlines,
   "\n",
   macro_dim,
-  "\n",
-  macro_typeswitch_numeric,
-  "\n",
-  macro_op
+  "\n"
 )
-
-
 header_for_package <- "
-
 #include <Rcpp/Lightest>
 #include \"broadcast.h\"
-
 using namespace Rcpp;
-
-
 "
-
 Rcpp::sourceCpp(code = header_for_sourcing)
 
 
-
 ################################################################################
-# Functions ====
+# Inlines ====
 #
 
 
-txt0 <- "
+inlines <- "
 
-inline Rbyte rcpp_bit_ls(Rbyte x, Rbyte y) {
+inline Rbyte inline_bit_ls(Rbyte x, Rbyte y) {
   if(y > 8) {
     stop(\"shift cannot be larger than 8\");
   }
@@ -53,7 +36,7 @@ inline Rbyte rcpp_bit_ls(Rbyte x, Rbyte y) {
   return out;
 }
 
-inline Rbyte rcpp_bit_rs(Rbyte x, Rbyte y) {
+inline Rbyte inline_bit_rs(Rbyte x, Rbyte y) {
   if(y > 8) {
     stop(\"shift cannot be larger than 8\");
   }
@@ -65,39 +48,227 @@ inline Rbyte rcpp_bit_rs(Rbyte x, Rbyte y) {
 
 "
 
+
+Rcpp::sourceCpp(code = paste0(header_for_sourcing, inlines, collapse = "\n"))
+
+
+################################################################################
+# MACROs ====
+#
+
+macro_action_bit_andor_int <- "
+
+#define MACRO_ACTION_BIT_ANDOR_INT(DOCODE) do {     \\
+  if(tempx == NA_INTEGER || tempy == NA_INTEGER) {  \\
+    pout[flatind_out] = NA_INTEGER;                 \\
+  }                                                 \\
+  else {                                            \\
+    pout[flatind_out] = DOCODE;                     \\
+  }                                                 \\
+} while(0)
+
+"
+
+macro_op_bit_andor_raw <- "
+#define MACRO_OP_BIT_ANDOR_RAW(DIMCODE) do {	\\
+  switch(op) {	\\
+    case 1:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = tempx & tempy,  \\
+        const Rbyte tempx = px[flatind_x],  \\
+        const Rbyte tempy = py[flatind_y]   \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 2:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = tempx | tempy,  \\
+        const Rbyte tempx = px[flatind_x],  \\
+        const Rbyte tempy = py[flatind_y]   \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 3:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = tempx ^ tempy,  \\
+        const Rbyte tempx = px[flatind_x],  \\
+        const Rbyte tempy = py[flatind_y]   \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 4:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = ~(tempx & tempy),  \\
+        const Rbyte tempx = px[flatind_x],  \\
+        const Rbyte tempy = py[flatind_y]   \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 5:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = ~(tempx | tempy),  \\
+        const Rbyte tempx = px[flatind_x],  \\
+        const Rbyte tempy = py[flatind_y]   \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 6:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = inline_bit_ls(tempx, tempy),  \\
+        const Rbyte tempx = px[flatind_x],  \\
+        const Rbyte tempy = py[flatind_y]   \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 7:	\\
+    {	\\
+      DIMCODE(  \\
+        pout[flatind_out] = inline_bit_rs(tempx, tempy),  \\
+        const Rbyte tempx = px[flatind_x],  \\
+        const Rbyte tempy = py[flatind_y]   \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    default:	\\
+    {	\\
+      stop(\"given operator not supported in the given context\");	\\
+    }	\\
+  } \\
+} while(0)
+"
+
+
+macro_op_bit_andor_int <- "
+#define MACRO_OP_BIT_ANDOR_INT(DIMCODE) do {	\\
+  switch(op) {	\\
+    case 1:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION_BIT_ANDOR_INT(  \\
+          tempx & tempy                \\
+        ),  \\
+        const int tempx = px[flatind_x],  \\
+        const int tempy = py[flatind_y] \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 2:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION_BIT_ANDOR_INT(                                                    \\
+          tempx | tempy   \\
+        ),  \\
+        const int tempx = px[flatind_x],  \\
+        const int tempy = py[flatind_y] \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 3:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION_BIT_ANDOR_INT(                                                    \\
+          tempx ^ tempy                \\
+        ),  \\
+        const int tempx = px[flatind_x],  \\
+        const int tempy = py[flatind_y] \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 4:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION_BIT_ANDOR_INT(                                                    \\
+          ~(tempx & tempy)         \\
+        ),  \\
+        const int tempx = px[flatind_x],  \\
+        const int tempy = py[flatind_y] \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    case 5:	\\
+    {	\\
+      DIMCODE(  \\
+        MACRO_ACTION_BIT_ANDOR_INT(                                                    \\
+          ~ (tempx | tempy)         \\
+        ),  \\
+        const int tempx = px[flatind_x],  \\
+        const int tempy = py[flatind_y] \\
+      );                                                                \\
+      break;	\\
+    }	\\
+    default:	\\
+    {	\\
+      stop(\"given operator not supported in the given context\");	\\
+    }	\\
+  } \\
+} while(0)
+
+
+"
+
+macros <- paste0(
+  macro_action_bit_andor_int, macro_op_bit_andor_raw, macro_op_bit_andor_int,
+  collapse = "\n"
+)
+
+
+Rcpp::sourceCpp(code = paste0(header_for_sourcing, macros))
+
+
+################################################################################
+# Functions ====
+#
+
+
+
 txt1 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_bit_v, rng = false)]]
-SEXP rcpp_bc_bit_v(
-  SEXP x, SEXP y, SEXP x_dim, SEXP y_dim, SEXP out_dim,
-  R_xlen_t nout, int dimmode, bool vectorx, int op
+// [[Rcpp::export(.rcpp_bc_bit_2v, rng = false)]]
+SEXP rcpp_bc_bit_2v(
+  SEXP x, SEXP y, List prep, int op
 ) {
+
+RObject x_dim = prep[0];        (void)x_dim;
+RObject y_dim = prep[1];        (void)y_dim;
+RObject out_dimorig = prep[2];  (void)out_dimorig;
+RObject out_dim = prep[3];      (void)out_dim;
+R_xlen_t nout = prep[4];        (void)nout;
+int dimmode = prep[5];          (void)dimmode;
 
   
   if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
     
-    SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
+    RawVector out(no_init(nout));
     Rbyte *pout = RAW(out);
     const Rbyte *px = RAW(x);
     const Rbyte *py = RAW(y);
     
-    MACRO_OP_BIT_ANDOR_RAW(MACRO_DIM_VECTORSPECIAL);
+    MACRO_OP_BIT_ANDOR_RAW(MACRO_DIM_TWOVECTORS);
     
-    UNPROTECT(1);
+    out.attr(\"dim\") = out_dimorig;
+    
     return out;
   }
   else if(TYPEOF(x) == INTSXP && TYPEOF(y) == INTSXP) {
-    SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
+    IntegerVector out(no_init(nout));
     int *pout = INTEGER(out);
     const int *px = INTEGER_RO(x);
     const int *py = INTEGER_RO(y);
     
-    MACRO_OP_BIT_ANDOR_INT(MACRO_DIM_VECTORSPECIAL);
+    MACRO_OP_BIT_ANDOR_INT(MACRO_DIM_TWOVECTORS);
     
-    UNPROTECT(1);
+    out.attr(\"dim\") = out_dimorig;
+    
     return out;
+    
   }
   else {
     stop(\"unsupported combinations of types given\");
@@ -114,43 +285,100 @@ txt2 <- "
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_bc_bit_d, rng = false)]]
-SEXP rcpp_bc_bit_d(
-  SEXP x, SEXP y,
-  SEXP by_x,
-  SEXP by_y,
-  SEXP dcp_x, SEXP dcp_y, SEXP out_dim, R_xlen_t nout, int op
+// [[Rcpp::export(.rcpp_bc_bit_1v, rng = false)]]
+SEXP rcpp_bc_bit_1v(
+  SEXP x, SEXP y, List prep, int op
 ) {
 
+RObject x_dim = prep[0];        (void)x_dim;
+RObject y_dim = prep[1];        (void)y_dim;
+RObject out_dimorig = prep[2];  (void)out_dimorig;
+RObject out_dim = prep[3];      (void)out_dim;
+R_xlen_t nout = prep[4];        (void)nout;
+int dimmode = prep[5];          (void)dimmode;
 
-
+  
   if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
     
-    SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));
+    RawVector out(no_init(nout));
+    Rbyte *pout = RAW(out);
+    const Rbyte *px = RAW(x);
+    const Rbyte *py = RAW(y);
+    
+    MACRO_OP_BIT_ANDOR_RAW(MACRO_DIM_ONEVECTOR);
+    
+    out.attr(\"dim\") = out_dimorig;
+    
+    return out;
+  }
+  else if(TYPEOF(x) == INTSXP && TYPEOF(y) == INTSXP) {
+    IntegerVector out(no_init(nout));
+    int *pout = INTEGER(out);
+    const int *px = INTEGER_RO(x);
+    const int *py = INTEGER_RO(y);
+    
+    MACRO_OP_BIT_ANDOR_INT(MACRO_DIM_ONEVECTOR);
+    
+    out.attr(\"dim\") = out_dimorig;
+    
+    return out;
+    
+  }
+  else {
+    stop(\"unsupported combinations of types given\");
+  }
+}
+
+
+"
+
+
+txt3 <- "
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_bc_bit_d, rng = false)]]
+SEXP rcpp_bc_bit_d(
+  SEXP x, SEXP y, List prep, int op
+) {
+
+RObject x_dim = prep[0];        (void)x_dim;
+RObject y_dim = prep[1];        (void)y_dim;
+RObject out_dimorig = prep[2];  (void)out_dimorig;
+RObject out_dim = prep[3];      (void)out_dim;
+R_xlen_t nout = prep[4];        (void)nout;
+int dimmode = prep[5];          (void)dimmode;
+
+  
+  if(TYPEOF(x) == RAWSXP && TYPEOF(y) == RAWSXP) {
+    
+    RawVector out(no_init(nout));
     Rbyte *pout = RAW(out);
     const Rbyte *px = RAW(x);
     const Rbyte *py = RAW(y);
     
     MACRO_OP_BIT_ANDOR_RAW(MACRO_DIM_DOCALL);
     
-    UNPROTECT(1);
+    out.attr(\"dim\") = out_dimorig;
+    
     return out;
   }
   else if(TYPEOF(x) == INTSXP && TYPEOF(y) == INTSXP) {
-    SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));
+    IntegerVector out(no_init(nout));
     int *pout = INTEGER(out);
     const int *px = INTEGER_RO(x);
     const int *py = INTEGER_RO(y);
     
     MACRO_OP_BIT_ANDOR_INT(MACRO_DIM_DOCALL);
     
-    UNPROTECT(1);
+    out.attr(\"dim\") = out_dimorig;
+    
     return out;
+    
   }
   else {
     stop(\"unsupported combinations of types given\");
   }
-
 
 }
 
@@ -161,19 +389,19 @@ SEXP rcpp_bc_bit_d(
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  txt0, txt1, txt2,
+  inlines, macros,
+  txt1, txt2, txt3,
   collapse = "\n\n"
 )
 
 Rcpp::sourceCpp(code = txt)
 
-
+setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  txt0, txt1, txt2,
+  inlines, macros,
+  txt1, txt2, txt3,
   collapse = "\n\n"
 )
-
-setwd("..")
 readr::write_file(txt, "src/rcpp_bc_bit.cpp")
 

@@ -10,7 +10,8 @@ bc.cplx(x, y, op, ...)
 \S4method{bc.cplx}{ANY}(x, y, op)
 }
 \arguments{
-\item{x, y}{conformable vectors/arrays of type \code{complex}.}
+\item{x, y}{conformable vectors/arrays of type \code{complex}. \cr
+Numeric and logical arrays will be coerced to type \code{complex}. \cr}
 
 \item{op}{a single string, giving the operator. \cr
 Supported arithmetic operators: +, -, *, /. \cr

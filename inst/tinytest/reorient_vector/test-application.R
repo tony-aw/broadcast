@@ -11,6 +11,7 @@ errorfun <- function(tt) {
 # along rows ====
 x <- matrix(1, 5, 4)
 v <- 1:5
+broadcaster(v) <- TRUE
 v %orientbc<-% 1L
 
 expect_equivalent(
@@ -23,6 +24,7 @@ enumerate <- enumerate + 1L
 # along columns ====
 x <- matrix(1, 5, 4)
 v <- 1:4
+broadcaster(v) <- TRUE
 v %orientbc<-% 2L
 
 expect_equivalent(

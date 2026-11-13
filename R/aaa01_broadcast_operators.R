@@ -3,7 +3,7 @@
 #' @description
 #' 
 #' Base 'R' comes with relational,
-#' arithmetic and logical/bit-wise (&, |) operators. \cr
+#' arithmetic, integer, logical, and bit-wise operators. \cr
 #' 'broadcast' provides 2 ways to use these operators with broadcasting. \cr
 #' \cr
 #' The first (and simple) way is to use the \link{broadcaster} class,
@@ -28,12 +28,16 @@
 #' The following operators have a 'broadcaster' method:
 #' 
 #' ```{r, eval = FALSE, echo = TRUE}
-#' +, -, *, /, ^, %%, %/%
-#' ==, !=, <, >, <=, >=
-#' &, |
+#' # relational operators       : ==, !=, <, >, <=, >=
+#' # arithmetic operators       : +, -, *, /, ^,
+#' # integer operators          : %%, %/%
+#' # logical operators          : &, |
+#' # bit-wise operators         : &, | (both sides type of `raw`)
 #' 
 #' ```
 #' See also the Examples section below. \cr
+#' Unary operations (i.e. `+ x`, `- x`) return the original object,
+#' with only the sign adjusted. \cr
 #' \cr
 #' 
 #' 
@@ -47,8 +51,8 @@
 #'  * \link{bc.rel}: General relational operations
 #'  (`==, !=, <, >, <=, >=`). \cr
 #'  The various other `bc.` methods below have specialised relational operators available for specialised needs.
-#'  * \link{bc.b}: Boolean (i.e. logical) operations;
-#'  * \link{bc.i}: integer arithmetic operations;
+#'  * \link{bc.b}: Boolean/logical operations;
+#'  * \link{bc.i}: integer operations;
 #'  * \link{bc.d}: decimal arithmetic operations;
 #'  * \link{bc.cplx}: complex arithmetic operations;
 #'  * \link{bc.str}: string (in)equality, concatenation, and distance operations;
@@ -56,28 +60,6 @@
 #'  * \link{bc.bit}: BIT-WISE operations, supporting the `raw` and `integer` types;
 #'  * \link{bc.list}: apply any 'R' function to 2 recursive arrays with broadcasting. \cr \cr
 #'  
-#' 
-#' @section Attribute Handling: 
-#' The `bc.` functions and the overloaded operators generally do \bold{not}
-#' preserve attributes, unlike the base 'R' operators,
-#' except for `names`, `dimnames`, `comment` (if appropriate), and the \link{broadcaster} class attribute (and related attributes). \cr
-#' \cr
-#' Broadcasting often results in an object with more dimensions, larger dimensions,
-#' and/or larger length than the original objects. \cr
-#' This is relevant as some class-specific attributes are only appropriate for certain dimensions or lengths. \cr
-#' Custom matrix classes, for example, presumes an object to have exactly 2 dimensions. \cr
-#' And the various classes provided by the 'bit' package have length-related attributes. \cr
-#' So class attributes cannot be guaranteed to hold for the resulting objects when broadcasting is involved. \cr
-#' \cr
-#' \cr
-#' Almost all functions provided by 'broadcast' are S3 or S4 generics; \cr
-#' methods can be written for them for specific classes,
-#' so that class-specific attributes can be supported when needed. \cr
-#' \cr
-#' Unary operations (i.e. `+ x`, `- x`) return the original object,
-#' with only the sign adjusted. \cr
-#' \cr
-#' \cr
 #' 
 #' @example inst/examples/broadcaster.R
 #' 

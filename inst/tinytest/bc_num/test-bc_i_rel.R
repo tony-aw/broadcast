@@ -14,7 +14,8 @@ types <- c("logical", "integer", "int53") # remember that Debian is stupid ...
 # equals ====
 bc.fun <- function(x, y) bc.i(x, y, "==")
 base.fun <- function(x, y) {
-  as_dbl(trunc(x)) == as_dbl(trunc(y))
+  out <- abs(x - y) <= 0
+  return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
 
@@ -25,10 +26,12 @@ expect_equal(
 )
 
 
-# unequal ====
+
+# unequals ====
 bc.fun <- function(x, y) bc.i(x, y, "!=")
 base.fun <- function(x, y) {
-  as_dbl(trunc(x)) != as_dbl(trunc(y))
+  out <- abs(x - y) > 0
+  return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
 
@@ -37,13 +40,13 @@ enumerate <- enumerate + res$i # count number of tests
 expect_equal(
   res$expected, res$out
 )
-
 
 
 # smaller ====
 bc.fun <- function(x, y) bc.i(x, y, "<")
 base.fun <- function(x, y) {
-  as_dbl(trunc(x)) < as_dbl(trunc(y))
+  out <- (x - y) < -0
+  return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
 
@@ -52,14 +55,13 @@ enumerate <- enumerate + res$i # count number of tests
 expect_equal(
   res$expected, res$out
 )
-
-
 
 
 # greater ====
 bc.fun <- function(x, y) bc.i(x, y, ">")
 base.fun <- function(x, y) {
-  as_dbl(trunc(x)) > as_dbl(trunc(y))
+  out <- (x - y) > 0
+  return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
 
@@ -68,14 +70,14 @@ enumerate <- enumerate + res$i # count number of tests
 expect_equal(
   res$expected, res$out
 )
-
 
 
 
 # se ====
 bc.fun <- function(x, y) bc.i(x, y, "<=")
 base.fun <- function(x, y) {
-  as_dbl(trunc(x)) <= as_dbl(trunc(y))
+  out <- (x - y) <= 0
+  return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
 
@@ -84,13 +86,13 @@ enumerate <- enumerate + res$i # count number of tests
 expect_equal(
   res$expected, res$out
 )
-
 
 
 # ge ====
 bc.fun <- function(x, y) bc.i(x, y, ">=")
 base.fun <- function(x, y) {
-  as_dbl(trunc(x)) >= as_dbl(trunc(y))
+  out <- (x - y) >= -0
+  return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
 
@@ -99,8 +101,6 @@ enumerate <- enumerate + res$i # count number of tests
 expect_equal(
   res$expected, res$out
 )
-
-
 
 # attributes tests ====
 bc.fun <- function(x, y) { bc.i(x, y, "==")}

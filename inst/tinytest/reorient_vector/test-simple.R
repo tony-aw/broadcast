@@ -9,6 +9,7 @@ errorfun <- function(tt) {
 
 x <- setNames(1:10, letters[1:10])
 x2 <- x
+broadcaster(x) <- TRUE
 x %orientbc<-% 1L
 expect_true(
   broadcaster(x)
@@ -28,6 +29,7 @@ expect_equal(
 
 x <- setNames(1:10, letters[1:10])
 x2 <- x
+broadcaster(x) <- TRUE
 x %orientbc<-% 2L
 expect_true(
   broadcaster(x)
@@ -48,6 +50,7 @@ expect_equal(
 
 x <- setNames(1:10, letters[1:10])
 x2 <- x
+broadcaster(x) <- TRUE
 x %orientbc<-% 3L
 expect_true(
   broadcaster(x)

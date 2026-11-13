@@ -5,9 +5,9 @@
 #' performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr
 #' \cr \cr
 #' 
-#' @param x,y conformable vectors/arrays of type logical or numeric.
+#' @param x,y conformable vectors/arrays of type numeric or logical.
 #' @param op a single string, giving the operator. \cr
-#' Supported arithmetic operators: `r paste0(broadcast:::.op_dec_math(), collapse = ", ")`. \cr
+#' Supported arithmetic operators: `r paste0(c(broadcast:::.op_dec_math(), broadcast:::.op_dec_pminmax()), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(c(broadcast:::.op_dec_rel(), broadcast:::.op_dec_dist()), collapse = ", ")`. \cr
 #' @param tol a single number between 0 and 0.1, giving the machine tolerance to use for the relational operators. \cr
 #' Only relevant for the following operators: \cr
@@ -48,73 +48,84 @@ setMethod(
   function(x, y, op, tol = sqrt(.Machine$double.eps)) {
     
     mycall <- "bc.d"
-    
-    # checks:
-    .binary_stop_general(x, y, op, mycall)
-    if(!.is_numeric_like(x) || !.is_numeric_like(y)) {
-      stop(simpleError("`x` and `y` must be numeric or logical arrays or vectors", call = mycall))
-    }
-    
-    # get operator:
-    op_math <- which(.op_dec_math() == op)
-    op_rel <- which(.op_dec_rel() == op)
-    op_dist <- which(.op_dec_dist() == op)
-    
-    if(length(op_math)) {
-      return(.bc_dec_math(x, y, op_math, mycall))
-    }
-    else if(length(op_rel)) {
-      return(.bc_dec_rel(x, y, op_rel, mycall))
-    }
-    else if(length(op_dist)) {
-      return(.bc_dec_dist(x, y, op_dist, tol, mycall))
-    }
-    else {
-      stop(simpleError("given operator not supported in the given context", call = mycall))
-    }
+    return(.bc_d(x, y, op, tol, mycall))
   }
 )
 
 
 #' @keywords internal
 #' @noRd
+.bc_d <- function(x, y, op, tol, abortcall) {
+  
+  # checks:
+  .binary_stop_general(x, y, op, abortcall)
+  
+  if(length(x) == 1L) {
+    x <- .trymake_simple_int_scalar(x)
+  }
+  if(length(y) == 1L) {
+    y <- .trymake_simple_int_scalar(y)
+  }
+  
+  # get operator:
+  op_math <- .C_which_op(.op_dec_math(), op)
+  op_rel <- .C_which_op(.op_dec_rel(), op)
+  op_dist <- .C_which_op(.op_dec_dist(), op)
+  op_pminmax <- .C_which_op(.op_dec_pminmax(), op)
+  op_boolint_rel <- .C_which_op(.op_dec_boolint_rel(), op)
+  
+  if(.C_should_boolint_math(x, y, op_pminmax)) {
+    return(.bc_boolint_math(x, y, op_pminmax, abortcall))
+  }
+  else if(.C_should_boolint_rel(x, y, op_boolint_rel)) {
+    return(.bc_boolint_rel(x, y, op_boolint_rel, abortcall))
+  }
+  else if(op_math) {
+    return(.bc_dec_math(x, y, op_math, abortcall))
+  }
+  else if(op_rel) {
+    return(.bc_dec_rel(x, y, op_rel, abortcall))
+  }
+  else if(op_dist) {
+    return(.bc_tolerance(x, y, op_dist, tol, FALSE, abortcall))
+  }
+  else if(op_pminmax) {
+    return(.bc_dec_pminmax(x, y, op_pminmax, abortcall))
+  }
+  else {
+    stop(simpleError("given operator not supported in the given context", call = abortcall))
+  }
+}
+
+#' @keywords internal
+#' @noRd
 .bc_dec_math <- function(x, y, op, abortcall) {
   
-  if(is.double(x) || is.double(y)) {
-    if(!is.double(x)) x <- as_dbl(x)
-    if(!is.double(y)) y <- as_dbl(y)
+  if(!.C_inputOK_arith(x, y)) {
+    stop(simpleError("non-numeric argument to binary operator", call = abortcall))
   }
   
   if(length(x) == 0L || length(y) == 0L) {
     return(.binary_return_zerolen(x, y, FALSE, "double"))
   }
   
+  if(is.double(x) || is.double(y)) {
+    if(!is.double(x)) x <- as_dbl(x)
+    if(!is.double(y)) y <- as_dbl(y)
+  }
+  
+  
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode < 4L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bc_dec_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bc_dec_2v(x, y, prep, op)
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bc_dec_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
-    )
+  else {
+    out <- .rcpp_bc_dec_d(x, y, prep, op)
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
+
   
   .binary_set_attr(out, x, y)
   
@@ -127,11 +138,8 @@ setMethod(
 #' @noRd
 .bc_dec_rel <- function(x, y, op, abortcall) {
   
-  
-  # MAIN:
-  if(is.double(x) || is.double(y)) {
-    if(!is.double(x)) x <- as_dbl(x)
-    if(!is.double(y)) y <- as_dbl(y)
+  if(!.C_inputOK_relop_gs(x, y)) {
+    stop(simpleError("invalid comparison with given types", call = abortcall))
   }
   
   if(length(x) == 0L || length(y) == 0L) {
@@ -139,59 +147,48 @@ setMethod(
   }
   
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  # x.len <- prep[[3L]]
-  # y.len <- prep[[4L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  
-  if(dimmode < 5L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bcRel_dec_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
+  if(op <= 2L) {
+    if(dimmode <= 2L) {
+      out <- .rcpp_bcRelEq_dec_2v(x, y, prep, op)
+    }
+    else if(dimmode <= 4L) {
+      out <- .rcpp_bcRelEq_dec_1v(x, y, prep, op)
+    }
+    else {
+      out <- .rcpp_bcRelEq_dec_d(x, y, prep, op)
+    }
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bcRel_dec_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
-    )
+  else {
+    if(dimmode <= 2L) {
+      out <- .rcpp_bcRelGS_dec_2v(x, y, prep, op)
+    }
+    else if(dimmode <= 4L) {
+      out <- .rcpp_bcRelGS_dec_1v(x, y, prep, op)
+    }
+    else {
+      out <- .rcpp_bcRelGS_dec_d(x, y, prep, op)
+    }
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
   
   .binary_set_attr_logical(out, x, y)
   
   return(out)
   
 }
-
-
 
 #' @keywords internal
 #' @noRd
-.bc_dec_dist <- function(x, y, op, prec, abortcall) {
+.bc_dec_pminmax <- function(x, y, op, abortcall) {
   
-  # precision checks:
-  if(!is.numeric(prec) || length(prec) != 1L) {
-    stop(simpleError("`tol` must be a single decimal number", call = abortcall))
-  }
-  check <- prec >= 0 && prec <= 0.1
-  if(!check) {
-    stop(simpleError("`tol` must be >= 0 and <= 0.1", call = abortcall))
+  if(!.C_inputOK_arith(x, y)) {
+    stop(simpleError("non-numeric argument to binary operator", call = abortcall))
   }
   
-  # MAIN:
   if(length(x) == 0L || length(y) == 0L) {
-    return(.binary_return_zerolen(x, y, TRUE, "logical"))
+    return(.binary_return_zerolen(x, y, FALSE, "double"))
   }
   
   if(is.double(x) || is.double(y)) {
@@ -199,39 +196,21 @@ setMethod(
     if(!is.double(y)) y <- as_dbl(y)
   }
   
-  
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  # x.len <- prep[[3L]]
-  # y.len <- prep[[4L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  
-  if(dimmode < 5L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bcD_dec_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op, prec)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bcP_dec_2v(x, y, prep, op)
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bcD_dec_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op, prec
-    )
+  else {
+    out <- .rcpp_bcP_dec_d(x, y, prep, op)
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
+
   
-  .binary_set_attr_logical(out, x, y)
+  .binary_set_attr(out, x, y)
   
   return(out)
   
 }
+

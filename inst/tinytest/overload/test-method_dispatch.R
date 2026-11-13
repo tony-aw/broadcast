@@ -57,3 +57,4 @@ expect_equal(
 enumerate <- enumerate + 2L
 
 rm("+.myclass", "chooseOpsMethod.myclass")
+

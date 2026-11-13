@@ -65,31 +65,18 @@ setMethod(
   
   # general prep:
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode < 4L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bc_list_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, f)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bc_list_2v(x, y, prep, f)
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bc_list_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, f
-    )
+  else if(dimmode <= 4L) {
+    out <- .rcpp_bc_list_1v(x, y, prep, f)
+  }
+  else {
+    out <- .rcpp_bc_list_d(x, y, prep, f)
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
   
   .binary_set_attr(out, x, y)
   

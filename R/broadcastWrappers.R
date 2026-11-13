@@ -2,13 +2,6 @@
 
 #' @keywords Internal
 #' @noRd
-.C_inputOK_relop_gs <- function(x, y) {
-  .Call("C_inputOK_relop_gs", x, y)
-}
-
-
-#' @keywords Internal
-#' @noRd
 .C_any_nonNULL <- function(x) {
   .Call("C_any_nonNULL", x = x)
 }
@@ -23,17 +16,9 @@
 
 #' @keywords Internal
 #' @noRd
-.C_make_by <- function(x) {
-  .Call("C_make_by", target_dim = as.integer(x))
-}
-
-
-#' @keywords Internal
-#' @noRd
 .C_make_dcp <- function(x) {
   .Call("C_make_dcp", target_dim = as.integer(x))
 }
-
 
 
 #' @keywords Internal
@@ -46,11 +31,13 @@
   .Call("C_seq_Clen", start = start, len = len)
 }
 
+
 #' @keywords Internal
 #' @noRd
 .C_dims_is_vector <- function(xdim) {
   .Call("C_dims_is_vector", xdim)
 }
+
 
 #' @keywords Internal
 #' @noRd
@@ -67,6 +54,47 @@
 }
 
 
+# converters ====
+#' @keywords Internal
+#' @noRd
+.C_trunc2int53 <- function(x) {
+  .Call("C_trunc2int53", x)
+}
+
+# binary input checks ====
+
+#' @keywords Internal
+#' @noRd
+.C_which_op <- function(oplist, op) {
+  .Call("C_which_op", oplist, op)
+}
+
+#' @keywords Internal
+#' @noRd
+.C_should_boolint_math <- function(x, y, op) {
+  .Call("C_should_boolint_math", x, y, op)
+}
+
+#' @keywords Internal
+#' @noRd
+.C_should_boolint_rel<- function(x, y, op) {
+  .Call("C_should_boolint_rel", x, y, op)
+}
+
+#' @keywords Internal
+#' @noRd
+.C_inputOK_relop_gs <- function(x, y) {
+  .Call("C_inputOK_relop_gs", x, y)
+}
+
+#' @keywords Internal
+#' @noRd
+.C_inputOK_arith <- function(x, y) {
+  .Call("C_inputOK_arith", x, y)
+}
+
+
+
 # linear algebra =====
 
 #' @keywords Internal
@@ -79,20 +107,17 @@
 
 # bindhelpers ====
 
-
 #' @keywords Internal
 #' @noRd
 .C_max_type <- function(x) {
   .Call("C_max_type", x)
 }
 
-
 #' @keywords Internal
 #' @noRd
 .C_bindhelper_need_coerce <- function(lst, mytemplate) {
   .Call("C_bindhelper_need_coerce", lst, mytemplate)
 }
-
 
 #' @keywords Internal
 #' @noRd

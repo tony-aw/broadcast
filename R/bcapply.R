@@ -91,16 +91,11 @@ setMethod(
   
   # General prep:
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
   
   # Allocate output:
-  out <- vector(v, out.len)
+  out <- vector(v, prep[[5L]])
   
   
   # transform function:
@@ -108,24 +103,17 @@ setMethod(
   
   
   # Broadcast:
-  if(dimmode < 4L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    .rcpp_bcapply_v(out, x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, fnew)
+  if(dimmode <= 2L) {
+    .rcpp_bcapply_2v(out, x, y, prep, fnew)
+  }
+  else if(dimmode <= 4L) { # vector mode
+    .rcpp_bcapply_1v(out, x, y, prep, fnew)
   }
   else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    .rcpp_bcapply_d(
-      out, x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, fnew
-    )
+    .rcpp_bcapply_d(out, x, y, prep, fnew)
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
+  .rcpp_set_attr(out, "dim", prep[[3L]])
   
   .binary_set_attr(out, x, y)
   

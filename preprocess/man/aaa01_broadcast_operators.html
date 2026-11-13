@@ -21,7 +21,7 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>Base 'R' comes with relational,
-arithmetic and logical/bit-wise (&amp;, |) operators. <br>
+arithmetic, integer, logical, and bit-wise operators. <br>
 'broadcast' provides 2 ways to use these operators with broadcasting. <br>
 <br>
 The first (and simple) way is to use the <code>[broadcaster](broadcaster.qmd)</code> class,
@@ -47,12 +47,16 @@ broadcasting will be used. <br>
 <br>
 The following operators have a 'broadcaster' method:
 </p>
-<div class="sourceCode r"><pre>+, -, *, /, ^, %%, %/%
-==, !=, &lt;, &gt;, &lt;=, &gt;=
-&amp;, |
+<div class="sourceCode r"><pre># relational operators       : ==, !=, &lt;, &gt;, &lt;=, &gt;=
+# arithmetic operators       : +, -, *, /, ^,
+# integer operators          : %%, %/%
+# logical operators          : &amp;, |
+# bit-wise operators         : &amp;, | (both sides type of `raw`)
 
 </pre></div>
 <p>See also the Examples section below. <br>
+Unary operations (i.e. <code>+ x</code>, <code>- x</code>) return the original object,
+with only the sign adjusted. <br>
 <br>
 </p>
 
@@ -72,10 +76,10 @@ The following functions for simple operations are available:
 The various other <code>bc.</code> methods below have specialised relational operators available for specialised needs.
 </p>
 </li>
-<li> <p><code>[bc.b](bc.b.qmd)</code>: Boolean (i.e. logical) operations;
+<li> <p><code>[bc.b](bc.b.qmd)</code>: Boolean/logical operations;
 </p>
 </li>
-<li> <p><code>[bc.i](bc.i.qmd)</code>: integer arithmetic operations;
+<li> <p><code>[bc.i](bc.i.qmd)</code>: integer operations;
 </p>
 </li>
 <li> <p><code>[bc.d](bc.d.qmd)</code>: decimal arithmetic operations;
@@ -97,31 +101,6 @@ The various other <code>bc.</code> methods below have specialised relational ope
 </p>
 </li></ul>
 
-
-
-<h3>Attribute Handling</h3>
-
-<p>The <code>bc.</code> functions and the overloaded operators generally do <b>not</b>
-preserve attributes, unlike the base 'R' operators,
-except for <code>names</code>, <code>dimnames</code>, <code>comment</code> (if appropriate), and the <code>[broadcaster](broadcaster.qmd)</code> class attribute (and related attributes). <br>
-<br>
-Broadcasting often results in an object with more dimensions, larger dimensions,
-and/or larger length than the original objects. <br>
-This is relevant as some class-specific attributes are only appropriate for certain dimensions or lengths. <br>
-Custom matrix classes, for example, presumes an object to have exactly 2 dimensions. <br>
-And the various classes provided by the 'bit' package have length-related attributes. <br>
-So class attributes cannot be guaranteed to hold for the resulting objects when broadcasting is involved. <br>
-<br>
-<br>
-Almost all functions provided by 'broadcast' are S3 or S4 generics; <br>
-methods can be written for them for specific classes,
-so that class-specific attributes can be supported when needed. <br>
-<br>
-Unary operations (i.e. <code>+ x</code>, <code>- x</code>) return the original object,
-with only the sign adjusted. <br>
-<br>
-<br>
-</p>
 
 
 <h3>Examples</h3>

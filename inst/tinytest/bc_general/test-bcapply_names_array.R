@@ -142,3 +142,4 @@ for(i in seq_along(datagens)) {
 expect_true(
   all(res)
 )
+

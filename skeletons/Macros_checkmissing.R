@@ -12,6 +12,30 @@ header <- "
 
 
 ################################################################################
+# Introduction ====
+#
+
+introcomments <- "
+
+
+********************************************************************************
+MACROs for checkmissing
+
+The following MACROs are all specific to the `checkNA` and `checkNULL` functions
+
+
+********************************************************************************
+
+"
+
+introcomments <- stri_split(introcomments, fixed = "\n")[[1]]
+introcomments <- stri_c("// ", introcomments) |> paste0(collapse = "\n")
+cat(introcomments)
+
+
+
+
+################################################################################
 # MACROs ====
 #
 
@@ -29,7 +53,7 @@ macro_checkmissing_typeswitch <- "
     case REALSXP:                                                             \\
     {                                                                         \\
       const double *py = REAL_RO(y);                                          \\
-      MACROCODE(DOCODE, R_isnancpp(py[i]), !R_isnancpp(py[i]));               \\
+      MACROCODE(DOCODE, std::isnan(py[i]), !std::isnan(py[i]));               \\
       break;                                                                  \\
     }                                                                         \\
     case CPLXSXP:                                                             \\
@@ -37,8 +61,8 @@ macro_checkmissing_typeswitch <- "
       const Rcomplex *py = COMPLEX_RO(y);                                     \\
       MACROCODE(                                                              \\
         DOCODE,                                                               \\
-        R_isnancpp(py[i].r) || R_isnancpp(py[i].i),                           \\
-        !R_isnancpp(py[i].i) && !R_isnancpp(py[i].r)                          \\
+        std::isnan(py[i].r) || std::isnan(py[i].i),                           \\
+        !std::isnan(py[i].i) && !std::isnan(py[i].r)                          \\
       );                                                                      \\
       break;                                                                  \\
     }                                                                         \\
@@ -128,6 +152,8 @@ cat(macro_checkmissing_bw)
 
 
 macro_checkmissing <- paste0(
+  introcomments,
+  "\n",
   macro_checkmissing_typeswitch,
   "\n",
   macro_checkmissing_is,
@@ -140,4 +166,4 @@ cat(macro_checkmissing)
 
 Rcpp::sourceCpp(code = paste0(header, "\n", macro_checkmissing))
 
-readr::write_file(macro_checkmissing, "macro_checkmissing.txt")
+readr::write_file(macro_checkmissing, "txt/macro_checkmissing.txt")

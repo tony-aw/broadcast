@@ -57,7 +57,7 @@ setMethod(
       warning(simpleWarning("difference in encoding detected within `x`", call = mycall))
     }
     
-    .bc_strrep(x, y, mycall)
+    return(.bc_strrep(x, y, mycall))
     
   }
   
@@ -73,31 +73,15 @@ setMethod(
   }
   
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
+  op <- 1L
   
-  if(dimmode < 4L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bc_strrep_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bc_strrep_2v(x, y, prep, op)
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bc_strrep_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len
-    )
+  else {
+    out <- .rcpp_bc_strrep_d(x, y, prep, op)
   }
-  
-  .rcpp_set_attr(out, "dim", out.dimorig)
   
   .binary_set_attr(out, x, y)
   

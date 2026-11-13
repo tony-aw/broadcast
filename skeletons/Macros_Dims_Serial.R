@@ -2,7 +2,7 @@
 
 library(stringi)
 
-DTYPES <- c(4L, 16L)
+DTYPES <- 16L
 BINDTYPES <- c(16L)
 
 
@@ -14,27 +14,14 @@ introcomments <- "
 
 
 ********************************************************************************
-MACROs for broadcasted element-wise binary operations
+MACROs for broadcasted binary operations where one or both sides are vectors
 
-The following MACROs define the loops used for broadcasted element-wise binary operations.
-
-In the context of a broadcasted operation involving exactly 2 arrays,
-'broadcast' uses different techniques for looping through the elements for broadcasting.
-The techniques are the following, ordered from high to low priority:
- 1) Vector mode:
-  This mode is usedbroadcasting where one or both of the arrays is actually vector or 1d-array.
-  This mode is also used when no broadcasting needs to occur.
- 2) General mode:
-  For regular broadcasting.
+The following MACROs define the loops used for broadcasted element-wise binary operations,
+specifically where one or both sides are (oriented) vectors.
 
 The dimensions of both arrays are first NORMALIZED and SIMPLIFIED virtually
 (see 'rcpp_virt_binary_prep' code),
 before determining which technique to use.
-
-The MACROs for regular broadcasting were written for 4 and 16 dimensions.
-These MACROs were written via a simple 'R' script,
-to minimize the risk of human error.
-
 
 
 ********************************************************************************
@@ -46,13 +33,15 @@ introcomments <- stri_c("// ", introcomments) |> paste0(collapse = "\n")
 cat(introcomments)
 
 
+
 ################################################################################
-# Vector Modes ====
+# Two-Vectors Mode ====
 #
 
-macro_dim_vectorspecial <- "
 
-#define MACRO_DIM_VECTOR(DOCODE) do {                               \\
+macro_dim_twovectors <- "
+
+#define MACRO_DIM_VECTOR(DOCODE, GETX, GETY) do {                               \\
   R_xlen_t flatind_x = 0;                                           \\
   R_xlen_t flatind_y = 0;                                           \\
   int by_x = 0;                                                     \\
@@ -78,6 +67,8 @@ macro_dim_vectorspecial <- "
     }                                                               \\
   }                                                                 \\
   for(R_xlen_t flatind_out = 0; flatind_out < nout; ++flatind_out) {  \\
+    GETX; \\
+    GETY; \\
     DOCODE;                                                           \\
     flatind_x += by_x;                                     \\
     flatind_y += by_y;                                     \\
@@ -87,14 +78,16 @@ macro_dim_vectorspecial <- "
 
 
 
-#define MACRO_DIM_ORTHOVECTOR(DOCODE) do {      \\
+#define MACRO_DIM_ORTHOVECTOR(DOCODE, GETX, GETY) do {      \\
   R_xlen_t flatind_out = 0;         \\
   const int N1 = INTEGER_RO(out_dim)[0];      \\
   const int N2 = INTEGER_RO(out_dim)[1];       \\
   bool RxC = INTEGER_RO(x_dim)[0] != 1; \\
   if(RxC) { \\
     for(int flatind_y = 0; flatind_y < N2; ++flatind_y) {	\\
+      GETY; \\
   	  for(int flatind_x = 0; flatind_x < N1; ++flatind_x) {	\\
+  	    GETX; \\
         DOCODE;                         \\
         ++flatind_out;                      \\
     	 }	\\
@@ -102,7 +95,9 @@ macro_dim_vectorspecial <- "
   } \\
   else {  \\
     for(int flatind_x = 0; flatind_x < N2; ++flatind_x) {	\\
+      GETX; \\
     	  for(int flatind_y = 0; flatind_y < N1; ++flatind_y) {	\\
+    	    GETY; \\
           DOCODE;                         \\
           ++flatind_out;                      \\
         }	\\
@@ -112,16 +107,42 @@ macro_dim_vectorspecial <- "
 
 
 
-#define MACRO_DIM_BIG2VECTOR(DOCODE) do {      \\
+#define MACRO_DIM_TWOVECTORS(DOCODE, GETX, GETY) do {  \\
+  if(dimmode == 1) {  \\
+    MACRO_DIM_VECTOR(DOCODE, GETX, GETY); \\
+  } \\
+  else if(dimmode == 2) { \\
+    MACRO_DIM_ORTHOVECTOR(DOCODE, GETX, GETY);  \\
+  } \\
+  else {  \\
+    stop(\"dimmode is not a two-vector mode\"); \\
+  } \\
+} while(0)
+
+
+
+"
+
+
+################################################################################
+# One-Vector Modes ====
+#
+
+macro_dim_onevector <- "
+
+#define MACRO_DIM_BIG2VECTOR(DOCODE, GETX, GETY) do {      \\
   const int N1 = INTEGER_RO(out_dim)[0];    \\
   const int N2 = INTEGER_RO(out_dim)[1];    \\
   const int N3 = INTEGER_RO(out_dim)[2];    \\
+  \\
   if(vectorx) { \\
     R_xlen_t flatind_y = 0;                                   \\
     R_xlen_t flatind_out = 0;                                 \\
     for(int iter3 = 0; iter3 < N3; ++iter3) {                 \\
       for(int flatind_x = 0; flatind_x < N2; ++flatind_x) {   \\
+        GETX;                                                 \\
         for(int iter1 = 0; iter1 <N1; ++iter1) {              \\
+          GETY;                                               \\
           DOCODE;                                             \\
           ++flatind_y;                                        \\
           ++flatind_out;                                      \\
@@ -134,7 +155,9 @@ macro_dim_vectorspecial <- "
     R_xlen_t flatind_out = 0;                                 \\
     for(int iter3 = 0; iter3 < N3; ++iter3) {                 \\
       for(int flatind_y = 0; flatind_y < N2; ++flatind_y) {   \\
+        GETY;                                                 \\
         for(int iter1 = 0; iter1 <N1; ++iter1) {              \\
+          GETX;                                               \\
           DOCODE;                                             \\
           ++flatind_x;                                        \\
           ++flatind_out;                                      \\
@@ -145,7 +168,7 @@ macro_dim_vectorspecial <- "
 } while(0)
 
 
-#define MACRO_DIM_SANDWICH2VECTOR(DOCODE) do {      \\
+#define MACRO_DIM_SANDWICH2VECTOR(DOCODE, GETX, GETY) do {      \\
   \\
   if(vectorx) {  \\
     R_xlen_t flatind_out = 0; \\
@@ -157,10 +180,12 @@ macro_dim_vectorspecial <- "
     R_xlen_t flatind_y;\\
     for(R_xlen_t iter3 = 0; iter3 < N3; iter3 += stride_y) {  \\
       for(int flatind_x = 0; flatind_x < N2; ++flatind_x) { \\
+        GETX; \\
         for(R_xlen_t iter1 = 0; iter1 < N1; ++iter1) {  \\
           flatind_y = iter3 + iter1; \\
-            DOCODE; \\
-            ++flatind_out;  \\
+          GETY; \\
+          DOCODE; \\
+          ++flatind_out;  \\
         } \\
       } \\
     } \\
@@ -175,10 +200,12 @@ macro_dim_vectorspecial <- "
     R_xlen_t flatind_x;\\
     for(R_xlen_t iter3 = 0; iter3 < N3; iter3 += stride_x) {  \\
       for(int flatind_y = 0; flatind_y < N2; ++flatind_y) { \\
+        GETY; \\
         for(R_xlen_t iter1 = 0; iter1 < N1; ++iter1) {  \\
           flatind_x = iter3 + iter1; \\
-            DOCODE; \\
-            ++flatind_out;  \\
+          GETX; \\
+          DOCODE; \\
+          ++flatind_out;  \\
         } \\
       } \\
     } \\
@@ -187,214 +214,22 @@ macro_dim_vectorspecial <- "
 
 
 
-#define MACRO_DIM_VECTORSPECIAL(DOCODE) do {  \\
-  if(dimmode == 1) {  \\
-    MACRO_DIM_VECTOR(DOCODE); \\
-  } \\
-  else if(dimmode == 2) { \\
-    MACRO_DIM_ORTHOVECTOR(DOCODE);  \\
-  } \\
-  else if(dimmode == 3) { \\
-    MACRO_DIM_BIG2VECTOR(DOCODE); \\
+#define MACRO_DIM_ONEVECTOR(DOCODE, GETX, GETY) do {  \\
+  bool vectorx = inline_dims_is_vector(x_dim);  \\
+  \\
+  if(dimmode == 3) { \\
+    MACRO_DIM_BIG2VECTOR(DOCODE, GETX, GETY); \\
   } \\
   else if(dimmode == 4) { \\
-    MACRO_DIM_SANDWICH2VECTOR(DOCODE); \\
+    MACRO_DIM_SANDWICH2VECTOR(DOCODE, GETX, GETY); \\
   } \\
   else {  \\
-    stop(\"dimmode is not a vector mode\"); \\
+    stop(\"dimmode is not a one-vector mode\"); \\
   } \\
 } while(0)
 
 
 "
-
-
-################################################################################
-# General ====
-#
-
-
-all_N_decl <- sprintf("const int N%d = INTEGER_RO(out_dim)[%d];\t\\", 1:16, 0:15)
-
-all_for <- c(
-  sprintf("\t for(int iter%d = 0; iter%d <N%d; ++iter%d) {\t\\", 1:16, 1:16, 1:16, 1:16)
-)
-forx <- c(
-  "\t\\",
-  sprintf("i_x%d = pby_x[%d] * iter%d * pdcp_x[%d] + i_x%d;\t\\",
-          2:16, 1:15, 2:16, 1:15, 3:17)
-)
-fory <- c(
-  "\t\\",
-  sprintf("i_y%d = pby_y[%d] * iter%d * pdcp_y[%d] + i_y%d;\t\\",
-          2:16, 1:15, 2:16, 1:15, 3:17)
-)
-all_for <- stri_c(all_for, forx, fory, sep = "\n")
-cat(all_for[16])
-
-all_x_decl <- sprintf("i_x%d", 2:16)
-all_y_decl <- sprintf("i_y%d", 2:16)
- 
-
-temp <- "
-
-#define MACRO_DIM_<dtype>(DOCODE) do {      \\
-  R_xlen_t flatind_out = 0;         \\
-  const int *pby_x = INTEGER_RO(by_x);        \\
-  const int *pby_y = INTEGER_RO(by_y);        \\
-  const double *pdcp_x = REAL_RO(dcp_x);        \\
-  const double *pdcp_y = REAL_RO(dcp_y);        \\
-  <all_N_decl>
-  \\
-  R_xlen_t flatind_x;       \\
-  R_xlen_t flatind_y;       \\
-  R_xlen_t <all_x_decl>; \\
-  R_xlen_t <all_y_decl>; \\
-  <startfor>
-        flatind_x = pby_x[0] * iter1 + i_x2;       \\
-        flatind_y = pby_y[0] * iter1 + i_y2;     \\
-                                                                    \\
-        DOCODE;                                                          \\
-  	                                                                \\
-        flatind_out++;                      \\
-  <endfor>
-} while(0)
-
-"
-
-dMacro_skeletons <- character(length(DTYPES))
-names(dMacro_skeletons) <- DTYPES
-counter <- 1
-for(i in DTYPES) {
-  
-  current_N_decl <- stri_c(all_N_decl[1:i], collapse = "\n")
-  current_x_decl <- stri_c(all_x_decl[1:(i-1)], collapse = ", ")
-  current_y_decl <- stri_c(all_y_decl[1:(i-1)], collapse = ", ")
-  current_for <- stri_c(all_for[i:1], collapse = "\n")
-  find <- sprintf(c(" + i_x%d", " + i_y%d"), i + 1)
-  current_for <- stri_replace_all(
-    current_for, c("", ""), fixed = find, vectorise_all = FALSE
-  )
-  current_end <- stri_c(rep("\t }\t\\", i), collapse = "\n")
-  
-  current_fixed <- c(
-    "<dtype>",
-    "<all_N_decl>",
-    "<all_x_decl>",
-    "<all_y_decl>",
-    "<startfor>",
-    "<endfor>"
-  )
-  current_replacement <- c(
-    i,
-    current_N_decl,
-    current_x_decl,
-    current_y_decl,
-    current_for,
-    current_end
-  )
-  
-  out <- stri_replace_all(
-    temp,
-    fixed = current_fixed,
-    replacement = current_replacement,
-    case_insensitive = FALSE,
-    vectorize_all = FALSE
-  )
-  
-  dMacro_skeletons[counter] <- out
-  counter <- counter + 1
-}
-
-cat(dMacro_skeletons[[2]])
-
-
-macro_dim_d <- stri_c(dMacro_skeletons, collapse = "\n")
-
-
-
-################################################################################
-# do call ====
-#
-
-
-
-# cases:
-case <-
-"case %d:                                       \\
-  MACRO_DIM_%d(DOCODE);    \\
-  break;                                        \\
-"
-cases <- sprintf(case, DTYPES, DTYPES) |> stringi::stri_c(collapse = "")
-
-
-cat(cases)
-
-templatecode_docall <- "
-
-#define MACRO_DIM_DOCALL(DOCODE) do {     \\
-  int ndims = Rf_length(out_dim);         \\
-                                          \\
-  switch(ndims) {       \\
-    <cases>       \\
-  }       \\
-} while(0)"
-
-templatecode_docall2 <- stringi::stri_replace_all(
-  templatecode_docall,
-  fixed = c("<cases>"),
-  replacement = c(cases),
-  vectorize_all = FALSE
-)
-
-
-cat(templatecode_docall2)
-
-
-macro_dim_docall <- templatecode_docall2
-
-
-
-################################################################################
-# do call ====
-#
-
-
-
-# cases:
-case <-
-  "case %d:                                       \\
-  MACRO_DIM_DEC_%d(DOCODE);    \\
-  break;                                        \\
-"
-cases <- sprintf(case, DTYPES, DTYPES) |> stringi::stri_c(collapse = "")
-
-
-cat(cases)
-
-templatecode_docall <- "
-
-#define MACRO_DIM_DEC_DOCALL(DOCODE) do {     \\
-  int ndims = Rf_length(out_dim);         \\
-                                          \\
-  switch(ndims) {       \\
-    <cases>       \\
-  }       \\
-} while(0)"
-
-templatecode_docall2 <- stringi::stri_replace_all(
-  templatecode_docall,
-  fixed = c("<cases>"),
-  replacement = c(cases),
-  vectorize_all = FALSE
-)
-
-
-cat(templatecode_docall2)
-
-
-macro_dim_dec_docall <- templatecode_docall2
-
 
 
 
@@ -402,7 +237,346 @@ macro_dim_dec_docall <- templatecode_docall2
 # Intro 2 ====
 #
 
+
 introcomments2 <- "
+
+********************************************************************************
+MACROs for the odometer
+
+The following MACROs define the loops used for general broadcasted binary operations
+
+The odometer itself works basically as follows:
+
+
+inline void odometer_step(
+  int ndim, int *iters, const int *N_bounds,
+  R_xlen_t *current_x, R_xlen_t *current_y,
+  const R_xlen_t *stride_x, const R_xlen_t *stride_y,
+  const R_xlen_t *contrib_x, const R_xlen_t *contrib_y
+) {
+  
+  // basic relationship between flat index at one hand,
+  // and the dimensional iterations and strides at the other hand:
+  // flatind = iter1 * stride1 + iter2 * stride2 + etc.
+  
+  // at start, all iters are 0, thus flatind is 0:
+  // flatind = 0 + 0 + etc. == 0.
+  
+  // as we go through the rows, flatind increases with iter1 * stride1:
+  // flatind = iter1 * stride1
+  
+  // when all rows (d=0) have been passed,
+  // we need to add the contribution of going to the next column:
+  // (iter2 = 1) * stride2; this is simply +stride2
+  // AND we need to RESET the row's contribution,
+  // meaning we need to REMOVE what the rows have accumulated:
+  // remove `iter1 * stride1 * (N1 - 1)`
+
+  // then we once again accumulate rows.
+  // everytime we've gone through all rows:
+  // - REMOVE the contribution to the rows; i.e. remove `iter1 * stride1 * (N1 - 1)`
+  // - we arleady have iter2=1; now we need iter2 = 2, so add +stride2 to the flatind.
+  
+  // and so we go on.
+  
+  // at some point, we've gone through all the columns and rows.
+  // then we do to the columns what we do with the rows:
+  // - remove the contribution of the columns
+  // - remove the contribution of the rows also
+  // - we need to add the contribution of going to the next layer:
+  //      (iter3 = 1) * stride3; this is simply +stride3
+
+  // and so we continue
+  
+  // notice that after each cycle, flatind is pushed back by the stride of the current dimension.
+  // but flatind never gets pushed back further than the stride of one dimension.
+  // this, in a lighting-shape, we eventually keep moving forward, not backward.
+  // Like a cartesian product
+
+    // We start at d = 1, since d=0 represents the rows
+    
+  for (int d = 1; d < ndim; ++d) {
+    
+    iters[d]++; // this always start with increasing the column iterator;
+    // whether we can even reach further dimensions depends on the if-else statements below...
+    
+    if (iters[d] < N_bounds[d]) {
+      // do the following if we have NOT gone through all iters of dimension `d`
+    
+      *current_x += stride_x[d]; // add contribution from column, layer, etc.
+      *current_y += stride_y[d]; // add contribution from column, layer, etc.
+      break; // done; do NOT run for the next `d`s
+        
+    } else {
+      // dimension `d` (column, layer, etc.) is done; time to....
+      iters[d] = 0; // reset iterator of current dimension (column, layer, etc.)
+      *current_x -= contrib_x[d]; // remove its contribution
+      *current_y -= contrib_y[d]; // remove its contribution
+        
+      // NO BREAK! we'll continue to d+1...
+    }
+  }
+}
+
+
+
+********************************************************************************
+
+"
+
+introcomments2 <- stri_split(introcomments2, fixed = "\n")[[1]]
+introcomments2 <- stri_c("// ", introcomments2) |> paste0(collapse = "\n")
+cat(introcomments2)
+
+
+
+
+################################################################################
+# Odometer ====
+#
+
+
+
+macro_docall <- "
+
+#define MACRO_DIM_DOCALL(DOCODE, GETX, GETY) do {     \\
+  MACRO_DIM_ODOMETER(DOCODE, GETX, GETY);             \\
+} while(0)"
+
+
+macro_odometer <- "
+
+
+#define MACRO_DIM_ODOMETER(DOCODE, GETX, GETY) do { \\
+  \\
+  /* Get const properties */  \\
+  const int ndim = inline_determine_loopdepth(out_dim); \\
+  const int *pout_dim = INTEGER_RO(out_dim);  \\
+  const std::vector<R_xlen_t> alloc_stride_x = inline_alloc_strides(x_dim);  \\
+  const std::vector<R_xlen_t> alloc_stride_y = inline_alloc_strides(y_dim);  \\
+  const std::vector<int> alloc_N_bounds = inline_alloc_bounds(out_dim, ndim); \\
+  const R_xlen_t outer_Niters = inline_determine_outer_Niters(alloc_N_bounds);  \\
+  \\
+  /* Declare variables */  \\
+  R_xlen_t flatind_out = 0; \\
+  R_xlen_t current_x = 0; \\
+  R_xlen_t current_y = 0; \\
+  int iters[16] = {0}; \\
+  int N_bounds[16] = {0}; \\
+  R_xlen_t stride_x[16] = {0}; \\
+  R_xlen_t stride_y[16] = {0}; \\
+  R_xlen_t contrib_x[16]= {0};  \\
+  R_xlen_t contrib_y[16] = {0}; \\
+  \\
+  /*Initialise C-arrays */  \\
+  const int N1 = pout_dim[0]; /* De bound voor de binnenste loop */ \\
+  for (int d = 0; d < ndim; ++d) { \\
+    N_bounds[d] = pout_dim[d]; \\
+    stride_x[d] = alloc_stride_x[d]; \\
+    stride_y[d] = alloc_stride_y[d]; \\
+    N_bounds[d] = alloc_N_bounds[d]; \\
+    contrib_x[d] = stride_x[d] * (N_bounds[d] - 1); \\
+    contrib_y[d] = stride_y[d] * (N_bounds[d] - 1); \\
+  } \\
+  \\
+  /* Outer-looop */ \\
+  for (R_xlen_t outer = 0; outer < outer_Niters; ++outer) { \\
+    R_xlen_t flatind_x = current_x; \\
+    R_xlen_t flatind_y = current_y; \\
+    const R_xlen_t stride_x1 = stride_x[0]; \\
+    const R_xlen_t stride_y1 = stride_y[0]; \\
+    /* Loop through rows */ \\
+    for (int iter1 = 0; iter1 < N1; ++iter1) { \\
+      GETX; \\
+      GETY; \\
+      DOCODE; \\
+      \\
+      flatind_out++; \\
+      flatind_x += stride_x1; \\
+      flatind_y += stride_y1; \\
+    } \\
+    \\
+    odomacro(  \\
+      ndim, iters, N_bounds, current_x, current_y, stride_x, stride_y, contrib_x, contrib_y \\
+    ); \\
+  } \\
+} while(0)
+
+
+
+
+"
+
+
+odomacro <- "
+
+#define odomacro(ndim, iters, N_bounds, current_x, current_y, stride_x, stride_y, contrib_x, contrib_y) do { \\
+  for (int d = 1; d < ndim; ++d) {  \\
+    iters[d]++;                     \\
+    if (iters[d] < N_bounds[d]) {   \\
+      current_x += stride_x[d];     \\
+      current_y += stride_y[d];     \\
+      break;                        \\
+    } else {                        \\
+      iters[d] = 0;                 \\
+      current_x -= contrib_x[d];    \\
+      current_y -= contrib_y[d];    \\
+    }                               \\
+  }                                 \\
+} while(0)
+
+"
+
+alloc_strides <- "
+
+inline std::vector<R_xlen_t> inline_alloc_strides(
+  SEXP target_dim
+) {
+  
+  // get properties:
+  int n = Rf_length(target_dim);
+  
+  if(n > 16) {
+    Rcpp::stop(\"dimensionality > 16 \");
+  }
+  
+  std::vector<R_xlen_t> out(16);
+  const int *ptarget = INTEGER_RO(target_dim);
+  
+  
+  // make dcp:
+  R_xlen_t temp_prod = ptarget[0];
+  out[0] = 1;
+  if(n > 1) {
+    out[1] = ptarget[0];
+  }
+  if(n > 2) {
+    for(int i = 2; i < n; ++i) {
+      temp_prod = temp_prod * ptarget[i-1];
+      out[i] = temp_prod;
+    }
+  }
+
+  // mulitply with by (i.e. make it zero when appropriate):
+  for(int i = 0; i < n; ++i) {
+    if(ptarget[i] <= 1) {
+      out[i] = 0;
+    }
+  }
+  
+  return out;
+  
+}
+"
+
+
+Rcpp::cppFunction(alloc_strides)
+
+
+alloc_bounds <- "
+
+inline std::vector<int> inline_alloc_bounds(
+  SEXP out_dim, int ndim
+) {
+
+  const int *pout_dim = INTEGER_RO(out_dim);
+  
+  if(ndim > 16 || Rf_length(out_dim) > 16) {
+    Rcpp::stop(\"dimensionality > 16 \");
+  }
+  
+  std::vector<int> N_bounds(16);
+  for (int d = 0; d < 16; ++d) {
+    N_bounds[d] = 1;
+  }
+  
+  for (int d = 0; d < ndim; ++d) {
+    N_bounds[d] = pout_dim[d];
+  }
+  return N_bounds;
+}
+
+"
+
+Rcpp::cppFunction(alloc_bounds)
+
+
+determine_loopdepth <- "
+inline int inline_determine_loopdepth(
+  SEXP out_dim
+) {
+  
+  if(Rf_length(out_dim) > 16) {
+    Rcpp::stop(\"dimensionality > 16 \");
+  }
+  
+  int n = Rf_length(out_dim);
+  const int *pod = INTEGER_RO(out_dim);
+  int rm = 0;
+  for(int i = (n-1); i >= 0; --i) {
+    if(pod[i] == 1) {
+      rm++;
+    }
+    else {
+      break;
+    }
+  }
+  int loopdepth = n - rm;
+  if(loopdepth == 0) {
+   loopdepth = 1;
+  }
+  if(loopdepth > 16) {
+    loopdepth = 16;
+  }
+  return loopdepth;
+  
+}
+
+"
+
+Rcpp::cppFunction(determine_loopdepth)
+
+determine_outer_Niters <- "
+inline R_xlen_t inline_determine_outer_Niters(std::vector<int> alloc_N_bounds) {
+  // We multiply all alloc_N_bounds EXCEPT(!!!) the rows
+  R_xlen_t outer_Niters = 1;
+  int n = alloc_N_bounds.size();
+  if(n == 1) return outer_Niters;
+  
+  for(int i = 1; i < n; ++i) {
+    outer_Niters *= alloc_N_bounds[i];
+  }
+  return outer_Niters;
+}
+
+"
+
+Rcpp::cppFunction(determine_outer_Niters)
+
+# test inlines:
+source(file.path(getwd(), "test", "test-inlines.R"))
+
+
+odometer <- paste0(
+  macro_docall,
+  macro_odometer,
+  odomacro,
+  alloc_strides,
+  alloc_bounds,
+  determine_loopdepth,
+  determine_outer_Niters,
+  collapse = "\n"
+)
+
+
+
+
+
+################################################################################
+# Intro 3 ====
+#
+
+introcomments3 <- "
 
 ********************************************************************************
 MACROs for the binding implementation
@@ -417,9 +591,9 @@ to minimize the risk of human error.
 
 "
 
-introcomments2 <- stri_split(introcomments2, fixed = "\n")[[1]]
-introcomments2 <- stri_c("// ", introcomments2) |> paste0(collapse = "\n")
-cat(introcomments2)
+introcomments3 <- stri_split(introcomments3, fixed = "\n")[[1]]
+introcomments3 <- stri_c("// ", introcomments3) |> paste0(collapse = "\n")
+cat(introcomments3)
 
 
 
@@ -439,20 +613,18 @@ all_for <- sprintf(
 )
 forout <- c(
   "\t\\",
-  sprintf("i_out%d = iter%d * pdcp_out[%d] + i_out%d;\t\\",
+  sprintf("R_xlen_t i_out%d = iter%d * pdcp_out[%d] + i_out%d;\t\\",
           2:16, 2:16, 1:15, 3:17)
 )
 forx <- c(
   "\t\\",
-  sprintf("i_x%d = pby_x[%d] * (iter%d - start%d) * pdcp_x[%d] + i_x%d;\t\\",
+  sprintf("R_xlen_t i_x%d = pby_x[%d] * (iter%d - start%d) * pdcp_x[%d] + i_x%d;\t\\",
           2:16, 1:15, 2:16, 2:16, 1:15, 3:17)
 )
 all_for <- stri_c(all_for, forout, forx, sep = "\n")
 cat(all_for[16])
 
 
-all_out_decl <- sprintf("i_out%d", 2:16)
-all_x_decl <- sprintf("i_x%d", 2:16) 
 
 temp <- "
 #define MACRO_DIM_BIND_<dtype>(DOCODE) do {  \\
@@ -463,13 +635,9 @@ temp <- "
   <all_start_decl>
   <all_end_decl>
                                         \\
-  R_xlen_t flatind_out;                 \\
-  R_xlen_t flatind_x;                   \\
-  R_xlen_t <all_out_decl>;              \\
-  R_xlen_t <all_x_decl>;                \\
   <startfor>
-        flatind_out = iter1 + i_out2;       \\
-        flatind_x = pby_x[0] * (iter1 - start1) + i_x2;           \\
+        R_xlen_t flatind_out = iter1 + i_out2;       \\
+        R_xlen_t flatind_x = pby_x[0] * (iter1 - start1) + i_x2;           \\
         DOCODE;                         \\
   <endfor>
 } while(0)
@@ -486,8 +654,6 @@ for(i in BINDTYPES) {
   current_start_decl <- stri_c(all_start_decl[1:i], collapse = "\n")
   current_end_decl <- stri_c(all_end_decl[1:i], collapse = "\n")
   
-  current_out_decl <- stri_c(all_out_decl[1:(i-1)], collapse = ", ")
-  current_x_decl <- stri_c(all_x_decl[1:(i-1)], collapse = ", ")
   current_for <- stri_c(all_for[i:1], collapse = "\n")
   find <- sprintf(c(" + i_x%d", " + i_out%d"), i + 1)
   current_for <- stri_replace_all(
@@ -499,8 +665,6 @@ for(i in BINDTYPES) {
     "<dtype>",
     "<all_start_decl>",
     "<all_end_decl>",
-    "<all_out_decl>",
-    "<all_x_decl>",
     "<startfor>",
     "<endfor>"
   )
@@ -508,8 +672,6 @@ for(i in BINDTYPES) {
     i,
     current_start_decl,
     current_end_decl,
-    current_out_decl,
-    current_x_decl,
     current_for,
     current_end
   )
@@ -571,164 +733,6 @@ cat(templatecode_docall2)
 
 macro_dim_bind_docall <- templatecode_docall2
 
-# 
-# 
-# ################################################################################
-# # Intro 3 ====
-# #
-# 
-# introcomments3 <- "
-# 
-# ********************************************************************************
-# MACROs for the set implementation
-# 
-# The following MACROs define the loops used for broadcasted in-place modification.
-# 
-# The MACROs were written for every 2 dimensions, from 2 to 16.
-# i.e. 2, 4, 6, ..., 16
-# 
-# ********************************************************************************
-# 
-# "
-# 
-# introcomments3 <- stri_split(introcomments3, fixed = "\n")[[1]]
-# introcomments3 <- stri_c("// ", introcomments3) |> paste0(collapse = "\n")
-# cat(introcomments3)
-# 
-# 
-# 
-# ################################################################################
-# # MACRO SET ====
-# #
-# 
-# 
-# all_N_decl <- sprintf("const int N%d = INTEGER(x_dim)[%d];\t\\", 1:16, 0:15)
-# 
-# all_for <- c(
-#   sprintf("\t for(int iter%d = 0; iter%d < N%d; ++iter%d) {\t\\", 1:16, 1:16, 1:16, 1:16)
-# )
-# fory <- c(
-#   "\t\\",
-#   sprintf("i_y%d = pby_y[%d] * iter%d * pdcp_y[%d];\t\\", 2:16, 1:15, 2:16, 1:15)
-# )
-# all_for <- stri_c(all_for, fory, sep = "\n")
-# cat(all_for[16])
-# 
-# all_parts_y <- c(
-#   "iter1 * pby_y[0]",
-#   sprintf("i_y%d", 2:16)
-# )
-# 
-# all_y_decl <- sprintf("i_y%d", 2:16) 
-# 
-# temp <- "
-# 
-# #define MACRO_DIM_SET_<dtype>(DOCODE) do {      \\
-#   R_xlen_t flatind_x = 0;         \\
-#   const int *pby_y = INTEGER_RO(by_y);        \\
-#   <all_N_decl>
-#   const double *pdcp_y = REAL_RO(dcp_y);        \\
-#   R_xlen_t flatind_y;       \\
-#   R_xlen_t <all_y_decl>; \\
-#   <startfor>
-#         flatind_y = <main_y>;     \\
-#                                   \\
-#         DOCODE;                   \\
-#   	                              \\
-#         flatind_x++;                    \\
-#   <endfor>
-# } while(0)
-# 
-# "
-# 
-# dMacro_skeletons <- character(length(DTYPES))
-# names(dMacro_skeletons) <- DTYPES
-# counter <- 1
-# for(i in DTYPES) {
-#   
-#   current_N_decl <- stri_c(all_N_decl[1:i], collapse = "\n")
-#   current_y_decl <- stri_c(all_y_decl[1:(i-1)], collapse = ", ")
-#   current_for <- stri_c(all_for[i:1], collapse = "\n")
-#   current_main_y <- stri_c(all_parts_y[1:i], collapse = " + ")
-#   current_end <- stri_c(rep("\t }\t\\", i), collapse = "\n")
-#   
-#   current_fixed <- c(
-#     "<dtype>",
-#     "<all_N_decl>",
-#     "<all_y_decl>",
-#     "<startfor>",
-#     "<main_y>",
-#     "<endfor>"
-#   )
-#   current_replacement <- c(
-#     i,
-#     current_N_decl,
-#     current_y_decl,
-#     current_for,
-#     current_main_y,
-#     current_end
-#   )
-#   
-#   out <- stri_replace_all(
-#     temp,
-#     fixed = current_fixed,
-#     replacement = current_replacement,
-#     case_insensitive = FALSE,
-#     vectorize_all = FALSE
-#   )
-#   
-#   dMacro_skeletons[counter] <- out
-#   counter <- counter + 1
-# }
-# 
-# cat(dMacro_skeletons[[2]])
-# 
-# 
-# macro_dim_set <- stri_c(dMacro_skeletons, collapse = "\n")
-# 
-# 
-# 
-# ################################################################################
-# # DoCall set skeleton ====
-# #
-# 
-# 
-# 
-# # cases:
-# case_set <-
-#   "case %d:                                       \\
-#   MACRO_DIM_SET_%d(DOCODE);    \\
-#   break;                                        \\
-# "
-# cases_set <- sprintf(case_set, DTYPES, DTYPES) |> stringi::stri_c(collapse = "")
-# 
-# 
-# cat(cases_set)
-# 
-# templatecode_docall <- "
-# 
-# #define MACRO_DIM_SET_DOCALL(DOCODE) do {     \\
-#   int ndims = Rf_length(x_dim);         \\
-#                                           \\
-#   switch(ndims) {                       \\
-#     <cases_set>                     \\
-#   }                                     \\
-# } while(0)"
-# 
-# templatecode_docall2 <- stringi::stri_replace_all(
-#   templatecode_docall,
-#   fixed = c("<cases_set>"),
-#   replacement = c(cases_set),
-#   vectorize_all = FALSE
-# )
-# 
-# 
-# cat(templatecode_docall2)
-# 
-# 
-# macro_dim_set_docall <- templatecode_docall2
-# 
-
 ################################################################################
 # Save macros ====
 #
@@ -737,24 +741,20 @@ macro_dim <- stri_c(
   "\n",
   introcomments,
   "\n",
-  macro_dim_vectorspecial,
+  macro_dim_twovectors,
   "\n",
-  macro_dim_d,
-  "\n",
-  macro_dim_docall,
+  macro_dim_onevector,
   "\n",
   introcomments2,
+  "\n",
+  odometer,
+  "\n",
+  introcomments3,
   "\n",
   macro_dim_bind,
   "\n",
   macro_dim_bind_docall,
   "\n"
-  # introcomments3,
-  # "\n",
-  # macro_dim_set,
-  # "\n",
-  # macro_dim_set_docall,
-  # "\n"
 )
 
-readr::write_file(macro_dim, "macro_dim.txt")
+readr::write_file(macro_dim, "txt/macro_dim.txt")

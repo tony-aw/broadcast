@@ -218,3 +218,4 @@ expect_error(
   fixed = TRUE
 )
 enumerate <- enumerate + 3L
+

@@ -48,26 +48,33 @@ setMethod(
   function(x, y, op) {
     
     mycall <- "bc.raw"
+    return(.bc_raw(x, y, op, mycall))
     
-    # checks:
-    .binary_stop_general(x, y, op, mycall)
-    if(!is.raw(x) || !is.raw(y)) {
-      stop(simpleError("`x` and `y` must be raw arrays", call = mycall))
-    }
-    
-    
-    # get operator:
-    op <- which(.op_raw_byte() == op)
-    
-    if(length(op)) {
-      return(.bc_raw_byte(x, y, op, mycall))
-    }
-    else {
-      stop(simpleError("given operator not supported in the given context", call = mycall))
-    }
   }
 )
  
+
+#' @keywords internal
+#' @noRd
+.bc_raw <- function(x, y, op, abortcall) {
+  
+  # checks:
+  .binary_stop_general(x, y, op, abortcall)
+  if(!is.raw(x) || !is.raw(y)) {
+    stop(simpleError("`x` and `y` must be raw arrays", call = abortcall))
+  }
+  
+  
+  # get operator:
+  op <- .C_which_op(.op_raw_byte(), op)
+  
+  if(length(op)) {
+    return(.bc_raw_byte(x, y, op, abortcall))
+  }
+  else {
+    stop(simpleError("given operator not supported in the given context", call = abortcall))
+  }
+}
 
 
 #' @keywords internal
@@ -79,31 +86,18 @@ setMethod(
   }
   
   prep <- .binary_prep(x, y)
-  x.dim <- prep[[1L]]
-  y.dim <- prep[[2L]]
-  out.dimorig <- prep[[3L]]
-  out.dimsimp <- prep[[4L]]
-  out.len <- prep[[5L]]
   dimmode <- prep[[6L]]
   
-  if(dimmode < 5L) { # vector mode
-    vectorx <- .C_dims_is_vector(x.dim)
-    out <- .rcpp_bc_raw_v(x, y, x.dim, y.dim, as.integer(out.dimsimp), out.len, dimmode, vectorx, op)
+  if(dimmode <= 2L) {
+    out <- .rcpp_bc_raw_2v(x, y, prep, op)
   }
-  else { # general mode
-    
-    by_x <- .C_make_by(x.dim)
-    by_y <- .C_make_by(y.dim)
-    dcp_x <- .C_make_dcp(x.dim)
-    dcp_y <- .C_make_dcp(y.dim)
-    
-    out <- .rcpp_bc_raw_d(
-      x, y, by_x, by_y,
-      dcp_x, dcp_y, as.integer(out.dimsimp), out.len, op
-    )
+  else if(dimmode <= 4L) {
+    out <- .rcpp_bc_raw_1v(x, y, prep, op)
+  }
+  else {
+    out <- .rcpp_bc_raw_d(x, y, prep, op)
   }
   
-  .rcpp_set_attr(out, "dim", out.dimorig)
   
   .binary_set_attr_logical(out, x, y)
   
