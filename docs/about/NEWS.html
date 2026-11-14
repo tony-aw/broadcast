@@ -241,20 +241,27 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p><strong>Minor Changes:</strong></p>
 <ul>
-<li>If both sides are 32 bit integers, the <a href="../man/bc.i.html">bc.i()</a> method will return 32 bit integers for operators: “%%”, “%/%”, “gcd”, “pmin”, “pmax”.</li>
-<li>If both sides are 32 bit integers, the <a href="../man/bc.d.html">bc.d()</a> method will return 32 bit integers for operators: “pmin”, “pmax”.</li>
+<li>If both sides are 32 bit integers, the <a href="../man/bc.i.html">bc.i()</a> method will return 32 bit integers for operators:<br>
+“%%”, “%/%”, “gcd”, “pmin”, “pmax”.</li>
+<li>If both sides are 32 bit integers, the <a href="../man/bc.d.html">bc.d()</a> method will return 32 bit integers for operators:<br>
+“pmin”, “pmax”.</li>
 </ul>
 <p><strong>Bug fixes:</strong></p>
 <ul>
 <li>Found a bug where <code>checkmissing(x, "which")</code> would lead to integer overflow when used on long vectors.<br>
+This is now fixed.</li>
+<li>Found a bug where the “gcd” integer operation would crash if the numbers on each side have a <em>very</em> large difference in scale.<br>
 This is now fixed.</li>
 </ul>
 <p><strong>Technical Changes in ‘C++’/‘C’ code:</strong></p>
 <ul>
 <li>Heavily re-organized the internal source code.</li>
 <li>Deeply nested loop macro used for broadcasted binary operations replaced with an odometer-like macro.</li>
-<li>Change in <code>NA</code>s/<code>NaN</code>s checking on either side of any relational operator: sometimes a faster branch-less “OR” will be used instead of short-circuited “OR”.</li>
-<li>Change in how <code>NA</code>s/<code>NaN</code>s are checked for decimal arrays in all operations: <code>std::isnan()</code> is now used instead of <code>R_isnancpp()</code> (benchmarks have shown <code>std::isnan()</code> to be faster).</li>
+<li>Change in <code>NA</code>s/<code>NaN</code>s checking on either side of any relational operator:<br>
+sometimes a faster branch-less “OR” will be used instead of short-circuited “OR”.</li>
+<li>Change in how <code>NA</code>s/<code>NaN</code>s are checked for decimal arrays in all operations:<br>
+<code>std::isnan()</code> is now used instead of <code>R_isnancpp()</code><br>
+(benchmarks have shown <code>std::isnan()</code> to be faster).</li>
 <li>the “gcd” operator in <a href="../man/bc.i.html">bc.i()</a> now uses a non-recursive modulo based Euclidean algorithm.</li>
 </ul>
 <p><br></p>

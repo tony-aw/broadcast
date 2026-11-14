@@ -30,11 +30,12 @@ broadcasting will be used. \cr
 \cr
 The following operators have a 'broadcaster' method:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{# relational operators       : ==, !=, <, >, <=, >=
-# arithmetic operators       : +, -, *, /, ^,
-# integer operators          : \%\%, \%/\%
-# logical operators          : &, |
-# bit-wise operators         : &, | (both sides type of `raw`)
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Group      : Operators             ; Comments
+# relational : ==, !=, <, >, <=, >=  ;
+# arithmetic : +, -, *, /, ^         ;
+# integer    : \%\%, \%/\%               ; both sides will be truncated
+# logical    : &, |                  ;
+# bit-wise   : &, |                  ; if both sides are type of `raw`
 
 }\if{html}{\out{</div>}}
 

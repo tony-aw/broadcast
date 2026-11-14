@@ -28,13 +28,15 @@
 #' The following operators have a 'broadcaster' method:
 #' 
 #' ```{r, eval = FALSE, echo = TRUE}
-#' # relational operators       : ==, !=, <, >, <=, >=
-#' # arithmetic operators       : +, -, *, /, ^,
-#' # integer operators          : %%, %/%
-#' # logical operators          : &, |
-#' # bit-wise operators         : &, | (both sides type of `raw`)
+#' # Group      : Operators             ; Comments
+#' # relational : ==, !=, <, >, <=, >=  ;
+#' # arithmetic : +, -, *, /, ^         ;
+#' # integer    : %%, %/%               ; both sides will be truncated
+#' # logical    : &, |                  ;
+#' # bit-wise   : &, |                  ; if both sides are type of `raw`
 #' 
 #' ```
+#' 
 #' See also the Examples section below. \cr
 #' Unary operations (i.e. `+ x`, `- x`) return the original object,
 #' with only the sign adjusted. \cr

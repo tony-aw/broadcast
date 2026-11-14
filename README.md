@@ -342,21 +342,19 @@ Benchmarks can be found in the “About” section on the website.
 
 ‘broadcast’ provides a very wide support for broadcasting:
 
-- More than the same-old numeric, relational and Boolean computations
-  (like in the original broadcasting implementations from ‘NumPy’ and
-  ‘xtensor), ’broadcast’ additionally supports broadcasted string,
-  bit-wise, integer-centric, and even recursive/list operations.
 - Where typical array-related packages limit themselves to only atomic
-  arrays, ‘broadcast’ also has full support for *recursive* arrays
-  (i.e. arrays of type `list`), which allows for some *very* complex and
-  fast operations that would normally require slow and convoluted loops.
+  arrays (and often even only numeric and logical arrays), ‘broadcast’
+  has full support for all 6 atomic types as well also as for
+  *recursive* arrays (i.e. arrays of type `list`). This allows for some
+  *very* complex and fast operations that would normally require slow
+  and convoluted loops.
 - ‘broadcast’ supports arrays up to 16 dimensions, and these arrays may
   have as many elements as ‘R’ can support (which is `2^52 -1` elements;
   i.e. up to a staggering 4.5 *quadrillion* elements).
 - Almost every function provided by ‘broadcast’ is a *generic method*,
   and thus ‘broadcast’ can in principle support *any* array-like class,
   provided someone has written a method for it.
-- ‘broadcast’ even provides an *optional* extra class - the “broadcaster
+- ‘broadcast’ provides an *optional* extra class - the “broadcaster
   class” - to overload base ‘R’ operators.
 - And ‘broadcast’ provides much more, all in the hope to lower your
   Carbon footprint while doing important multi-dimensional research.

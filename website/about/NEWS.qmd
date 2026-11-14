@@ -18,9 +18,9 @@ aliases:
 
 **Minor Changes:**
 
-* If both sides are 32 bit integers, the [bc.i()](/man/bc.i.qmd) method will return 32 bit integers for operators:
+* If both sides are 32 bit integers, the [bc.i()](/man/bc.i.qmd) method will return 32 bit integers for operators:   
 "%%", "%/%", "gcd", "pmin", "pmax".
-* If both sides are 32 bit integers, the [bc.d()](/man/bc.d.qmd) method will return 32 bit integers for operators:
+* If both sides are 32 bit integers, the [bc.d()](/man/bc.d.qmd) method will return 32 bit integers for operators:   
 "pmin", "pmax".
 
 
@@ -28,16 +28,18 @@ aliases:
 
 * Found a bug where `checkmissing(x, "which")` would lead to integer overflow when used on long vectors.   
 This is now fixed.
+* Found a bug where the "gcd" integer operation would crash if the numbers on each side have a *very* large difference in scale.   
+This is now fixed.
 
 
 **Technical Changes in 'C++'/'C' code:**
 
 * Heavily re-organized the internal source code.
 * Deeply nested loop macro used for broadcasted binary operations replaced with an odometer-like macro.
-* Change in `NA`s/`NaN`s checking on either side of any relational operator:
+* Change in `NA`s/`NaN`s checking on either side of any relational operator:   
 sometimes a faster branch-less "OR" will be used instead of short-circuited "OR".
-* Change in how `NA`s/`NaN`s are checked for decimal arrays in all operations:
-`std::isnan()` is now used instead of `R_isnancpp()`
+* Change in how `NA`s/`NaN`s are checked for decimal arrays in all operations:   
+`std::isnan()` is now used instead of `R_isnancpp()`   
 (benchmarks have shown `std::isnan()` to be faster).
 * the "gcd" operator in [bc.i()](/man/bc.i.qmd) now uses a non-recursive modulo based Euclidean algorithm.
 
