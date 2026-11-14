@@ -141,7 +141,7 @@ for(i in seq_along(x.data)) {
 
 bc.fun <- \(x, y) bc.i(x, y, "gcd")
 
-res <- .test_binary(bc.fun, gcd, "uint", "uint")
+res <- .test_binary(bc.fun, gcd, "natural", "natural")
 expect_equal(
   res$expected, res$out
 )

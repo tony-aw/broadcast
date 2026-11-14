@@ -71,7 +71,7 @@ inline double inline_idiv_body(double x, double y, double q) {
   return (double) (floor(q) + floorl(tmp/y));
 }
 
-inline double inline_gcd_body(long long x, long long y) {
+inline long long inline_gcd_body(long long x, long long y) {
 
   long long a = std::abs(x);
   long long b = std::abs(y);

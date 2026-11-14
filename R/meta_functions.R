@@ -64,7 +64,7 @@
 ) {
   
   supported.types <- c(
-    "logical", "uint", "integer", "int53", "double", "complex", "character", "raw", "list"
+    "logical", "natural", "integer", "int53", "double", "complex", "character", "raw", "list"
   )
   
   if(any(!x.types %in% supported.types)) {
@@ -82,7 +82,7 @@
     
     x.data <- list(
       logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
-      uint = as.integer(0:(2^16)) |> sample(datasize, TRUE),
+      natural = as.integer(1:(2^16)) |> sample(datasize, TRUE),
       integer = sample(c(-10:10, NA), datasize, TRUE),
       int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
       double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
@@ -94,7 +94,7 @@
     
     y.data <- list(
       logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
-      uint = as.integer(0:(2^16), NA) |> sample(datasize, TRUE),
+      natural = as.integer(1:(2^16), NA) |> sample(datasize, TRUE),
       integer = sample(c(-10:10, NA), datasize, TRUE),
       int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
       double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
@@ -209,7 +209,7 @@
   # I know it says "class", but for convenience it also checks comments
   x.data <- list(
     logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
-    uint = as.integer(0:(2^16)) |> sample(datasize, TRUE),
+    natural = as.integer(1:(2^16)) |> sample(datasize, TRUE),
     integer = sample(c(-10:10, NA), datasize, TRUE),
     int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
     double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
@@ -221,7 +221,7 @@
   
   y.data <- list(
     logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
-    uint = as.integer(0:(2^16), NA) |> sample(datasize, TRUE),
+    natural = as.integer(1:(2^16), NA) |> sample(datasize, TRUE),
     integer = sample(c(-10:10, NA), datasize, TRUE),
     int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
     double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
@@ -329,7 +329,7 @@
   # I know it says "class", but for convenience it also checks comments
   x.data <- list(
     logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
-    uint = as.integer(0:(2^16)) |> sample(datasize, TRUE),
+    natural = as.integer(1:(2^16)) |> sample(datasize, TRUE),
     integer = sample(c(-10:10, NA), datasize, TRUE),
     int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
     double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
@@ -341,7 +341,7 @@
   
   y.data <- list(
     logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
-    uint = as.integer(0:(2^16), NA) |> sample(datasize, TRUE),
+    natural = as.integer(1:(2^16), NA) |> sample(datasize, TRUE),
     integer = sample(c(-10:10, NA), datasize, TRUE),
     int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
     double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),

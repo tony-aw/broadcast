@@ -140,12 +140,3 @@ for(i in seq_along(x.data)) {
   }
 }
 
-
-# gcd with dimensions ====
-
-bc.fun <- \(x, y) bc.i(x, y, "gcd")
-
-res <- .test_binary(bc.fun, gcd, "uint", "uint")
-expect_equal(
-  res$expected, res$out
-)
