@@ -346,8 +346,8 @@ Benchmarks can be found in the “About” section on the website.
   arrays (and often even only numeric and logical arrays), ‘broadcast’
   has full support for all 6 atomic types as well also as for
   *recursive* arrays (i.e. arrays of type `list`). This allows for some
-  *very* complex and fast operations that would normally require slow
-  and convoluted loops.
+  complex and fast operations that would normally require slow and
+  convoluted loops.
 - ‘broadcast’ supports arrays up to 16 dimensions, and these arrays may
   have as many elements as ‘R’ can support (which is `2^52 -1` elements;
   i.e. up to a staggering 4.5 *quadrillion* elements).

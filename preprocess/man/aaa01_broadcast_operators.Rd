@@ -33,9 +33,9 @@ The following operators have a 'broadcaster' method:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{# Group      : Operators             ; Comments
 # relational : ==, !=, <, >, <=, >=  ;
 # arithmetic : +, -, *, /, ^         ;
-# integer    : \%\%, \%/\%               ; both sides will be truncated
+# integer    : \%\%, \%/\%               ; trunc2int53() will be applied to input
 # logical    : &, |                  ;
-# bit-wise   : &, |                  ; if both sides are type of `raw`
+# bit-wise   : &, |                  ; if both sides are type of raw
 
 }\if{html}{\out{</div>}}
 
