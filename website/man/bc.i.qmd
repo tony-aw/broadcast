@@ -15,9 +15,9 @@ The <code>bc.i()</code> method
 performs broadcasted integer operations on 2 numeric or logical arrays. <br>
 <br>
 Please note that these operations will treat the input as (53 or 32 bit) integers,
-and will efficiently truncate using <code>trunc2int53()</code> when necessary. <br>
-Therefore, something like <code>bc.i(1, 1.5, "==")</code> returns <code>TRUE</code>,
-because <code>trunc(1.5)</code> equals <code>1</code>. <br>
+and will efficiently round using <code>round2int53()</code> when necessary. <br>
+Therefore, something like <code>bc.i(2, 1.5, "==")</code> returns <code>TRUE</code>,
+because <code>round(1.5)</code> equals <code>2</code>. <br>
 <br>
 For regular relational operators, see [bc.rel](bc.rel.qmd). <br>
 <br>
@@ -32,7 +32,7 @@ For regular relational operators, see [bc.rel](bc.rel.qmd). <br>
 ## S4 method for signature 'ANY'
 bc.i(x, y, op)
 
-trunc2int53(x)
+round2int53(x)
 </code></pre>
 
 
@@ -58,26 +58,38 @@ further arguments passed to or from methods. <br> <br>
 </table>
 
 
-### Value
+### Details
 
-For <code>trunc2int53()</code>: <br>
 Base 'R' supports 53 bit integers from <code>-1 * (2^53 - 1)</code> to <code>2^53 - 1</code>,
 which thus range from approximately <code>-9</code> quadrillion to <code>+9</code> quadrillion. <br>
-<code>trunc2int53()</code> will truncate a numeric vector (like <code>trunc()</code>),
-and replace all values above <code>2^53 - 1</code> with <code>Inf</code>,
-and values below <code>-1 * (2^53 - 1)</code> with <code>-Inf</code>. <br>
+<br>
+The <code>round2int53()</code> function rounds a vector/array of type <code>double</code>,
+such that it fits an 53bit integer. <br>
+Values above <code>2^53 - 1</code> will be returned as <code>Inf</code>,
+and values below <code>-2^53 + 1</code> will be returned as <code>-Inf</code>. <br>
+
+The input for <code>bc.i()</code> is rounded internally during broadcasting,
+using <code>round2int53()</code>. <br> <br>
+
+
+
+### Value
+
+For <code>round2int53()</code>: <br>
+The vector rounded to the nearest integer (like <code>round()</code>),
+with values outside of the 53bit integer range being returned as <code>-Inf</code> or <code>Inf</code>. <br>
+All attributes are preserved. <br>
 <br>
 
 For integer operators: <br>
 A numeric (<code>double</code> or <code>integer</code>, depending on the situation) array of whole numbers,
 as a result of the broadcasted arithmetic operation. <br>
-Values outside of the 53 bit integer range will be returned as <code>-Inf</code> or <code>Inf</code>,
-as in <code>trunc2int53()</code>,
-as an extra protection against integer precision loss. <br>
+The input for <code>bc.i()</code> is rounded efficiently during broadcasting,
+using <code>round2int53()</code>. <br>
 <br>
 For relational operators: <br>
 A logical array as a result of the broadcasted integer relational comparison. <br>
-The relational operators efficiently truncate the input during broadcasting using <code>trunc2int53()</code>. <br>
+The relational operators efficiently round the input during broadcasting using <code>round2int53()</code>. <br>
 <br>
 
 
@@ -85,7 +97,9 @@ The relational operators efficiently truncate the input during broadcasting usin
 ### References
 
 On the integer division and remainder (modulo) computations, %% and %/%: <br>
-<a href="https://en.wikipedia.org/wiki/Modulo">https://en.wikipedia.org/wiki/Modulo</a>
+<a href="https://en.wikipedia.org/wiki/Modulo">https://en.wikipedia.org/wiki/Modulo</a> <br>
+On the ULP: <br>
+<a href="https://en.wikipedia.org/wiki/Unit_in_the_last_place">https://en.wikipedia.org/wiki/Unit_in_the_last_place</a> <br>
 
 
 

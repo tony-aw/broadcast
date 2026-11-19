@@ -15,15 +15,7 @@ inline double inline_int53_overflow2NA(
 ) {
   if(x < int53min) return NA_REAL;
   if(x > int53max) return NA_REAL;
-  return trunc(x);
-}
-
-inline double inline_int53_overflow2Inf(
-  double x, double int53min, double int53max
-) {
-  if(x < int53min) return R_NegInf;
-  if(x > int53max) return R_PosInf;
-  return trunc(x);
+  return inline_int53_round(x, int53min, int53max);
 }
 
 
@@ -49,14 +41,15 @@ inline double inline_int53_mod(double x, double y, double int53min, double int53
 
 inline double inline_int53_idiv(double x, double y, double int53min, double int53max) {
     
-    double q = x / y;
+    long double q = x / y;
     
-    if (y == 0.0 || MACRO_OVERFLOW_INT53(q) || !R_FINITE(q)) {
-      return q;
+    if (y == 0.0 || MACRO_OVERFLOW_INT53(q) || !std::isfinite(q)) {
+      return (double)q;
     }
     
     return inline_idiv_body(x, y, q);
   }
+
 
 
 double inline_int53_gcd(
@@ -157,7 +150,7 @@ macro_op_int <- "
       MACRO_TYPESWITCH_INT(  \\
           DIMCODE,	\\
           inline_int53_mod(tempx, tempy, int53min, int53max), \\
-          inline_int53_overflow2Inf \\
+          inline_int53_round \\
         );	\\
       break;	\\
     }	\\
@@ -166,7 +159,7 @@ macro_op_int <- "
       MACRO_TYPESWITCH_INT(  \\
           DIMCODE,	\\
          inline_int53_idiv(tempx, tempy, int53min, int53max), \\
-         inline_int53_overflow2Inf  \\
+         inline_int53_round  \\
         );	\\
       break;	\\
     }	\\
@@ -175,7 +168,7 @@ macro_op_int <- "
       MACRO_TYPESWITCH_INT( \\
           DIMCODE,	\\
          tempx < tempy ? tempx : tempy, \\
-         inline_int53_overflow2Inf  \\
+         inline_int53_round  \\
         );	\\
       break;	\\
     }	\\
@@ -184,7 +177,7 @@ macro_op_int <- "
       MACRO_TYPESWITCH_INT( \\
           DIMCODE,	\\
          tempx > tempy ? tempx : tempy, \\
-         inline_int53_overflow2Inf  \\
+         inline_int53_round  \\
         );	\\
       break;	\\
     }	\\

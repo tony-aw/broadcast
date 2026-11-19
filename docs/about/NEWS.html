@@ -232,12 +232,16 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="broadcast-0.2.0-under-development" class="level1">
 <h1>broadcast 0.2.0 (Under Development)</h1>
+<p>This update primarily deals with 2 things:<br>
+general performance improvement, and improvement in integer operations.</p>
 <p><strong>Major Changes:</strong></p>
 <ul>
 <li>General performance improvement in all broadcasted binary operations.</li>
 <li>The <code>%orientbc&lt;-%</code> operator no longer automatically makes the left-hand side object a <code>broadcaster</code>.</li>
-<li>The <a href="../man/bc.i.html">bc.i()</a> method now strictly only supports the integer operators (“%%”, “%/%”, “gcd”, “pmin”, “pmax”) and truncated relational operators.</li>
-<li>Added the <a href="../man/bc.i.html">trunc2int53()</a> function.</li>
+<li>The <a href="../man/bc.i.html">bc.i()</a> method now strictly only supports the integer operators (“%%”, “%/%”, “gcd”, “pmin”, “pmax”) and rounded relational operators.</li>
+<li>The <a href="../man/bc.i.html">bc.i()</a> method now rounds the input instead of using a complex form of truncation.</li>
+<li>Removed the somewhat out-of-place <code>bc_strrep()</code> function.</li>
+<li>Added the <a href="../man/bc.i.html">round2int53()</a> function.</li>
 </ul>
 <p><strong>Minor Changes:</strong></p>
 <ul>
@@ -375,7 +379,7 @@ the <code>d==</code>, <code>d!=</code> etc. operators now also accept the case w
 <li>The <a href="../man/acast.html">acast()</a> method now allows unequal groups even when <code>x</code> is of type <code>raw</code>.</li>
 <li>Added the <a href="../man/cast_shallow2atomic.html">cast_shallow2atomic()</a> casting method.</li>
 <li>The <a href="../man/cast_hier2dim.html">cast_hier2dim()</a> method can now set <code>dimnames</code> automatically by specifying the new <code>direction.names</code> argument.</li>
-<li>Added the <a href="../man/bc_strrep.html">bc_strrep()</a> method.</li>
+<li>Added the <code>bc_strrep()</code> method.</li>
 <li>Added the <a href="../man/vector2array.html">vector2array()</a> and <a href="../man/vector2array.html">undim()</a> helper functions.</li>
 <li>Added <code>bcr</code> as short-hand for <code>broadcaster</code>.</li>
 <li>Added <a href="../man/broadcaster.html">mbroadcasters()</a>.</li>

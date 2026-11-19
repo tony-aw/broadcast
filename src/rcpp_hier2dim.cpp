@@ -51,7 +51,7 @@ void rcpp_rec_depth_range(
 SEXP rcpp_depth_range(SEXP x, int depth_limit, bool recurse_all) {
   
   
-  double maxint = pow(2, 31) - 1;
+  double maxint = std::pow(2, 31) - 1;
   int depth = 1;
   
   SEXP range = PROTECT(Rf_allocVector(INTSXP, 2));
@@ -106,7 +106,7 @@ void rcpp_rec_lenrange_atdepth(
 SEXP rcpp_lenrange_atdepth(SEXP x, int depth_target, bool recurse_all) {
   
   
-  double maxint = pow(2, 31) - 1;
+  double maxint = std::pow(2, 31) - 1;
   int depth = 1;
   
   SEXP range = PROTECT(Rf_allocVector(INTSXP, 2));
@@ -128,7 +128,7 @@ bool rcpp_hier2dim_surface_OK(
   SEXP x, bool recurse_all
 ) {
 
-  double maxlen = pow(2, 31) - 1;
+  double maxlen = std::pow(2, 31) - 1;
   R_xlen_t n = Rf_xlength(x);
   if(n > maxlen) {
     stop("long vectors not supported");
@@ -254,7 +254,7 @@ void rcpp_rec_lastnames_atdepth(
 // [[Rcpp::export(.rcpp_names_atdepth)]]
 SEXP rcpp_names_atdepth(SEXP x, int direction, int len_target, int depth_target, bool recurse_all) {
   
-  double maxint = pow(2, 31) - 1;
+  double maxint = std::pow(2, 31) - 1;
   int depth = 1;
   SEXP out = PROTECT(Rf_allocVector(VECSXP, 1));
   

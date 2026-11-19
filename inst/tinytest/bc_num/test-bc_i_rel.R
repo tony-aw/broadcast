@@ -14,6 +14,8 @@ types <- c("logical", "integer", "int53") # remember that Debian is stupid ...
 # equals ====
 bc.fun <- function(x, y) bc.i(x, y, "==")
 base.fun <- function(x, y) {
+  x <- trunc(x)
+  y <- trunc(y)
   out <- abs(x - y) <= 0
   return(out)
 }
@@ -30,6 +32,8 @@ expect_equal(
 # unequals ====
 bc.fun <- function(x, y) bc.i(x, y, "!=")
 base.fun <- function(x, y) {
+  x <- trunc(x)
+  y <- trunc(y)
   out <- abs(x - y) > 0
   return(out)
 }
@@ -45,6 +49,8 @@ expect_equal(
 # smaller ====
 bc.fun <- function(x, y) bc.i(x, y, "<")
 base.fun <- function(x, y) {
+  x <- trunc(x)
+  y <- trunc(y)
   out <- (x - y) < -0
   return(out)
 }
@@ -60,6 +66,8 @@ expect_equal(
 # greater ====
 bc.fun <- function(x, y) bc.i(x, y, ">")
 base.fun <- function(x, y) {
+  x <- trunc(x)
+  y <- trunc(y)
   out <- (x - y) > 0
   return(out)
 }
@@ -76,6 +84,8 @@ expect_equal(
 # se ====
 bc.fun <- function(x, y) bc.i(x, y, "<=")
 base.fun <- function(x, y) {
+  x <- trunc(x)
+  y <- trunc(y)
   out <- (x - y) <= 0
   return(out)
 }
@@ -91,6 +101,8 @@ expect_equal(
 # ge ====
 bc.fun <- function(x, y) bc.i(x, y, ">=")
 base.fun <- function(x, y) {
+  x <- trunc(x)
+  y <- trunc(y)
   out <- (x - y) >= -0
   return(out)
 }

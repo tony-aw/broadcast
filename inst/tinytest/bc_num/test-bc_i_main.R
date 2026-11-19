@@ -33,8 +33,6 @@ bc.fun <- function(x, y) bc.i(x, y, "%/%")
 base.fun <- function(x, y) {
   if(is.double(x)) x <- trunc(x)
   if(is.double(y)) y <- trunc(y)
-  if(length(x) == 1) x <- broadcast:::.trymake_simple_int_scalar(x)
-  if(length(y) == 1) y <- broadcast:::.trymake_simple_int_scalar(y)
   out <- x %/% y
   return(out)
 }
@@ -46,15 +44,6 @@ expect_equal(
   res$expected, res$out
 )
 
-bc.fun <- function(x, y) bc.i(x, y, "%/%")
-base.fun <- function(x, y) {
-  if(is.double(x)) x <- trunc(x)
-  if(is.double(y)) y <- trunc(y)
-  if(length(x) == 1) x <- broadcast:::.trymake_simple_int_scalar(x)
-  if(length(y) == 1) y <- broadcast:::.trymake_simple_int_scalar(y)
-  out <- x %/% y
-  return(out)
-}
 res <- .test_binary(bc.fun, base.fun, c("int53"), c("int53", "logical", "integer"))
 
 enumerate <- enumerate + res$i # count number of tests

@@ -206,8 +206,8 @@ than `abind()`. See the
 
 The idea of broadcasted infix operations and broadcasted array binding
 has been generalized to also include `bcapply()` (a broadcasted
-apply-like function), `bc_ifelse()` (broadcasted version of `ifelse()`),
-`bc_strrep()` (broadcasted version of `strrep()`).
+apply-like function) and `bc_ifelse()` (broadcasted version of
+`ifelse()`).
 
 </details>
 
@@ -350,7 +350,7 @@ Benchmarks can be found in the “About” section on the website.
   convoluted loops.
 - ‘broadcast’ supports arrays up to 16 dimensions, and these arrays may
   have as many elements as ‘R’ can support (which is `2^52 -1` elements;
-  i.e. up to a staggering 4.5 *quadrillion* elements).
+  i.e. up to 4.5 quadrillion elements).
 - Almost every function provided by ‘broadcast’ is a *generic method*,
   and thus ‘broadcast’ can in principle support *any* array-like class,
   provided someone has written a method for it.
@@ -436,11 +436,14 @@ install.packages("broadcast", type = "source")
 
 ‘broadcast’ is available on CRAN! 🎉
 
+Since ‘broadcast’ is still a relatively new package, be aware that the
+package is still subject to relatively large changes.
+
 If you have any suggestions or feedback on the package, its
 documentation, or even the benchmarks, I encourage you to let me know
 (either as an [Issue](https://github.com/tony-aw/broadcast/issues) or a
 [Discussion](https://github.com/tony-aw/broadcast/discussions)).  
-I’m eager to read your input!
+I’m interested in reading your input!
 
  
 

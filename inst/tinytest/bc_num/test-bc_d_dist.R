@@ -15,6 +15,8 @@ prec <- sqrt(.Machine$double.eps)
 # equals ====
 bc.fun <- function(x, y) bc.d(x, y, "d==")
 base.fun <- function(x, y) {
+  x <- as.double(x)
+  y <- as.double(y)
   out <- abs(x - y) <= prec
   return(out)
 }
@@ -31,6 +33,8 @@ expect_equal(
 # unequals ====
 bc.fun <- function(x, y) bc.d(x, y, "d!=")
 base.fun <- function(x, y) {
+  x <- as.double(x)
+  y <- as.double(y)
   out <- abs(x - y) > prec
   return(out)
 }
@@ -46,6 +50,8 @@ expect_equal(
 # smaller ====
 bc.fun <- function(x, y) bc.d(x, y, "d<")
 base.fun <- function(x, y) {
+  x <- as.double(x)
+  y <- as.double(y)
   out <- (x - y) < -prec
   return(out)
 }
@@ -61,6 +67,8 @@ expect_equal(
 # greater ====
 bc.fun <- function(x, y) bc.d(x, y, "d>")
 base.fun <- function(x, y) {
+  x <- as.double(x)
+  y <- as.double(y)
   out <- (x - y) > prec
   return(out)
 }
@@ -77,6 +85,8 @@ expect_equal(
 # se ====
 bc.fun <- function(x, y) bc.d(x, y, "d<=")
 base.fun <- function(x, y) {
+  x <- as.double(x)
+  y <- as.double(y)
   out <- (x - y) <= prec
   return(out)
 }
@@ -92,6 +102,8 @@ expect_equal(
 # ge ====
 bc.fun <- function(x, y) bc.d(x, y, "d>=")
 base.fun <- function(x, y) {
+  x <- as.double(x)
+  y <- as.double(y)
   out <- (x - y) >= -prec
   return(out)
 }

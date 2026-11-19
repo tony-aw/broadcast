@@ -3,14 +3,14 @@
 \name{bc.i}
 \alias{bc.i}
 \alias{bc.i,ANY-method}
-\alias{trunc2int53}
+\alias{round2int53}
 \title{Broadcasted Integer Operations}
 \usage{
 bc.i(x, y, op, ...)
 
 \S4method{bc.i}{ANY}(x, y, op)
 
-trunc2int53(x)
+round2int53(x)
 }
 \arguments{
 \item{x, y}{conformable vectors/arrays of type logical or numeric.}
@@ -24,24 +24,21 @@ using the Euclidean algorithm.}
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
 \value{
-For \code{trunc2int53()}: \cr
-Base 'R' supports 53 bit integers from \code{-1 * (2^53 - 1)} to \code{2^53 - 1},
-which thus range from approximately \code{-9} quadrillion to \code{+9} quadrillion. \cr
-\code{trunc2int53()} will truncate a numeric vector (like \code{trunc()}),
-and replace all values above \code{2^53 - 1} with \code{Inf},
-and values below \code{-1 * (2^53 - 1)} with \code{-Inf}. \cr
+For \code{round2int53()}: \cr
+The vector rounded to the nearest integer (like \code{round()}),
+with values outside of the 53bit integer range being returned as \code{-Inf} or \code{Inf}. \cr
+All attributes are preserved. \cr
 \cr
 
 For integer operators: \cr
 A numeric (\code{double} or \code{integer}, depending on the situation) array of whole numbers,
 as a result of the broadcasted arithmetic operation. \cr
-Values outside of the 53 bit integer range will be returned as \code{-Inf} or \code{Inf},
-as in \code{trunc2int53()},
-as an extra protection against integer precision loss. \cr
+The input for \code{bc.i()} is rounded efficiently during broadcasting,
+using \code{round2int53()}. \cr
 \cr
 For relational operators: \cr
 A logical array as a result of the broadcasted integer relational comparison. \cr
-The relational operators efficiently truncate the input during broadcasting using \code{trunc2int53()}. \cr
+The relational operators efficiently round the input during broadcasting using \code{round2int53()}. \cr
 \cr
 }
 \description{
@@ -49,13 +46,25 @@ The \code{bc.i()} method
 performs broadcasted integer operations on 2 numeric or logical arrays. \cr
 \cr
 Please note that these operations will treat the input as (53 or 32 bit) integers,
-and will efficiently truncate using \code{trunc2int53()} when necessary. \cr
-Therefore, something like \code{bc.i(1, 1.5, "==")} returns \code{TRUE},
-because \code{trunc(1.5)} equals \code{1}. \cr
+and will efficiently round using \code{round2int53()} when necessary. \cr
+Therefore, something like \code{bc.i(2, 1.5, "==")} returns \code{TRUE},
+because \code{round(1.5)} equals \code{2}. \cr
 \cr
 For regular relational operators, see \link{bc.rel}. \cr
 \cr
 \cr
+}
+\details{
+Base 'R' supports 53 bit integers from \code{-1 * (2^53 - 1)} to \code{2^53 - 1},
+which thus range from approximately \code{-9} quadrillion to \code{+9} quadrillion. \cr
+\cr
+The \code{round2int53()} function rounds a vector/array of type \code{double},
+such that it fits an 53bit integer. \cr
+Values above \code{2^53 - 1} will be returned as \code{Inf},
+and values below \code{-2^53 + 1} will be returned as \code{-Inf}. \cr
+
+The input for \code{bc.i()} is rounded internally during broadcasting,
+using \code{round2int53()}. \cr \cr
 }
 \examples{
 x.dim <- c(4:2)
@@ -78,7 +87,9 @@ bc.i(x, y, ">=")
 }
 \references{
 On the integer division and remainder (modulo) computations, \%\% and \%/\%: \cr
-\url{https://en.wikipedia.org/wiki/Modulo}
+\url{https://en.wikipedia.org/wiki/Modulo} \cr
+On the ULP: \cr
+\url{https://en.wikipedia.org/wiki/Unit_in_the_last_place} \cr
 }
 \seealso{
 \link{broadcast_operators} \cr

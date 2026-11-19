@@ -9,17 +9,12 @@
 // 
 // 
 // ********************************************************************************
-// INLINE FUNCTIONS
+// GENERAL INLINE FUNCTIONS
 // 
 // ********************************************************************************
 // 
 // 
 
-
-
-#define DEF_INT53MAX std::pow(2, 53) - 1;
-
-#define DEF_INT32MAX std::pow(2, 31) - 1;
 
 inline bool inline_dims_is_vector(SEXP x) {
   
@@ -51,14 +46,44 @@ inline bool inline_branchless_or(bool x, bool y) {
 }
 
 
+
+// 
+// 
+// ********************************************************************************
+// INTEGER INLINE FUNCTIONS
+// 
+// ********************************************************************************
+// 
+// 
+
+
+
+#define DEF_INT53MAX std::pow(2, 53) - 1;
+
+#define DEF_INT32MAX std::pow(2, 31) - 1;
+
 inline double inline_mod_body(double x, double y) {
-  double q = x / y;
-  double tmp = x - floor(q) * y;
-  double out = (double) (tmp - floorl(tmp / y) * y);
-  return out;
+  long long xi = (long long)x;
+  long long yi = (long long)y;
+  
+  // C++ modulo is truncated toward zero; adjust for R's floored modulo
+  long long remain = xi % yi;
+  if (remain != 0) {
+    if((remain < 0) != (yi < 0)) {
+      remain += yi;
+    }
+  }
+  
+  return (double)remain;
 }
 
-inline double inline_idiv_body(double x, double y, double q) {
+
+inline double inline_idiv_body(long double x, long double y, long double q) {
+  
+  if (std::abs(x) == std::abs(y)) {
+    return ((x < 0) == (y < 0)) ? 1.0 : -1.0;
+  }
+  
   if(std::abs(q) < 1) {
     double z = (q < 0) ? -1
     : ((x < 0 && y > 0) ||
@@ -68,8 +93,9 @@ inline double inline_idiv_body(double x, double y, double q) {
   }
   
   double tmp = (double)(x - floor(q) * (double)y);
-  return (double) (floor(q) + floorl(tmp/y));
+  return (double)( floor(q) + floorl(tmp/y) );
 }
+
 
 inline long long inline_gcd_body(long long x, long long y) {
 
@@ -87,6 +113,16 @@ inline long long inline_gcd_body(long long x, long long y) {
   return a;
   
 }
+
+
+inline double inline_int53_round(double x, double int53min, double int53max) {
+
+    if(std::isnan(x) || x == 0.0) return x;
+    if(x < int53min) return -INFINITY;
+    if(x > int53max) return INFINITY;
+    return Rf_fround(x, 0);
+}
+
 
 
 

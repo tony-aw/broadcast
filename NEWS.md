@@ -1,12 +1,19 @@
 
 # broadcast 0.2.0
 
+This update primarily deals with 2 things:    
+general performance improvement, and improvement in integer operations.
+
 **Major Changes:**
 
 * General performance improvement in all broadcasted binary operations.
 * The `%orientbc<-%` operator no longer automatically makes the left-hand side object a `broadcaster`.
-* The `bc.i()` method now strictly only supports the integer operators ("%%", "%/%", "gcd", "pmin", "pmax") and truncated relational operators.
-* Added the `trunc2int53()` function.
+* The `bc.i()` method now strictly only supports the integer operators
+("%%", "%/%", "gcd", "pmin", "pmax") and rounded relational operators.
+* The `bc.i()` method now rounds the input instead of using a complex form of truncation.
+* Removed the somewhat out-of-place `bc_strrep()` function.
+* Added the `round2int53()` function.
+
 
 
 **Minor Changes:**

@@ -80,8 +80,7 @@ More information about the casting methods can be found here: \cr
 'broadcast' also comes with a few general pairwise broadcasted methods:
 \itemize{
 \item \link{bc_ifelse}: Broadcasted version of \link[base]{ifelse}.
-\item \link{bcapply}: Broadcasted apply-like method.
-\item \link{bc_strrep}: Broadcasted version of \link[base]{strrep}. \cr \cr
+\item \link{bcapply}: Broadcasted apply-like method. \cr \cr
 }
 
 \bold{Other functions} \cr

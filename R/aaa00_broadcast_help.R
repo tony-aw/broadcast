@@ -66,9 +66,7 @@
 #' 'broadcast' also comes with a few general pairwise broadcasted methods:
 #' 
 #'  * \link{bc_ifelse}: Broadcasted version of \link[base]{ifelse}.
-#'  * \link{bcapply}: Broadcasted apply-like method.
-#'  * \link{bc_strrep}: Broadcasted version of \link[base]{strrep}. \cr \cr
-#' 
+#'  * \link{bcapply}: Broadcasted apply-like method. \cr \cr
 #' 
 #' \bold{Other functions} \cr
 #' 'broadcast' provides

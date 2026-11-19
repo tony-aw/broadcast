@@ -43,7 +43,7 @@ if ( requireNamespace("tinytest", quietly = TRUE) ){
     "broadcast", testdir = file.path("tinytest", "bc_str")
   )
   tinytest::test_package(
-    "broadcast", testdir = file.path("tinytest", "binary_names")
+    "broadcast", testdir = file.path("tinytest", "binary")
   )
   tinytest::test_package(
     "broadcast", testdir = file.path("tinytest", "bind_array_1_basic")

@@ -5,9 +5,9 @@
 #' performs broadcasted integer operations on 2 numeric or logical arrays. \cr
 #' \cr
 #' Please note that these operations will treat the input as (53 or 32 bit) integers,
-#' and will efficiently truncate using `trunc2int53()` when necessary. \cr
-#' Therefore, something like `bc.i(1, 1.5, "==")` returns `TRUE`,
-#' because `trunc(1.5)` equals `1`. \cr
+#' and will efficiently round using `round2int53()` when necessary. \cr
+#' Therefore, something like `bc.i(2, 1.5, "==")` returns `TRUE`,
+#' because `round(1.5)` equals `2`. \cr
 #' \cr
 #' For regular relational operators, see \link{bc.rel}. \cr
 #' \cr
@@ -22,29 +22,37 @@
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #' 
+#' @details
+#' Base 'R' supports 53 bit integers from `-1 * (2^53 - 1)` to `2^53 - 1`,
+#' which thus range from approximately `-9` quadrillion to `+9` quadrillion. \cr
+#' \cr
+#' The `round2int53()` function rounds a vector/array of type `double`,
+#' such that it fits an 53bit integer. \cr
+#' Values above `2^53 - 1` will be returned as `Inf`,
+#' and values below `-2^53 + 1` will be returned as `-Inf`. \cr
 #' 
+#' The input for `bc.i()` is rounded internally during broadcasting,
+#' using `round2int53()`. \cr \cr
+#'  
 #' 
 #'
 #' @returns
 #' 
-#' For `trunc2int53()`: \cr
-#' Base 'R' supports 53 bit integers from `-1 * (2^53 - 1)` to `2^53 - 1`,
-#' which thus range from approximately `-9` quadrillion to `+9` quadrillion. \cr
-#' `trunc2int53()` will truncate a numeric vector (like `trunc()`),
-#' and replace all values above `2^53 - 1` with `Inf`,
-#' and values below `-1 * (2^53 - 1)` with `-Inf`. \cr
+#' For `round2int53()`: \cr
+#' The vector rounded to the nearest integer (like `round()`),
+#' with values outside of the 53bit integer range being returned as `-Inf` or `Inf`. \cr
+#' All attributes are preserved. \cr
 #' \cr
 #' 
 #' For integer operators: \cr
 #' A numeric (`double` or `integer`, depending on the situation) array of whole numbers,
 #' as a result of the broadcasted arithmetic operation. \cr
-#' Values outside of the 53 bit integer range will be returned as `-Inf` or `Inf`,
-#' as in `trunc2int53()`,
-#' as an extra protection against integer precision loss. \cr
+#' The input for `bc.i()` is rounded efficiently during broadcasting,
+#' using `round2int53()`. \cr
 #' \cr
 #' For relational operators: \cr
 #' A logical array as a result of the broadcasted integer relational comparison. \cr
-#' The relational operators efficiently truncate the input during broadcasting using `trunc2int53()`. \cr
+#' The relational operators efficiently round the input during broadcasting using `round2int53()`. \cr
 #' \cr
 #' 
 #' 
@@ -52,7 +60,9 @@
 #' 
 #' @references
 #' On the integer division and remainder (modulo) computations, %% and %/%: \cr
-#' \url{https://en.wikipedia.org/wiki/Modulo}
+#' \url{https://en.wikipedia.org/wiki/Modulo} \cr
+#' On the ULP: \cr
+#' \url{https://en.wikipedia.org/wiki/Unit_in_the_last_place} \cr
 #' 
 #' @example inst/examples/bc_i.R
 #' 
@@ -83,12 +93,12 @@ setMethod(
 
 #' @rdname bc.i
 #' @export
-trunc2int53 <- function(x) {
+round2int53 <- function(x) {
   if(is.logical(x) || is.integer(x)) {
     return(x)
   }
   else if(is.double(x)) {
-    out <- .C_trunc2int53(x)
+    out <- .rcpp_round2int53(x)
     x.attr <- attributes(x)
     if(!is.null(x.attr)) {
       for(i in names(x.attr)) {
@@ -114,15 +124,6 @@ trunc2int53 <- function(x) {
       "operator not supported for type `complex`",
       call = abortcall
     ))
-  }
-  
-  
-  # make x and y simple integer scalars if possible:
-  if(length(x) == 1L) {
-    x <- .trymake_simple_int_scalar(x)
-  }
-  if(length(y) == 1L) {
-    y <- .trymake_simple_int_scalar(y)
   }
   
   

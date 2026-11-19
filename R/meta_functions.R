@@ -56,6 +56,51 @@
 
 
 
+.test_make_double <- function(minpow, maxpow, datasize, trunc = FALSE) {
+  foo <- function(rng, offset) {
+    out <- 2^c(rng)
+    out <- out + sample(c(0, offset), length(out), TRUE)
+    return(out)
+  }
+  out <- c(-foo(minpow:0, 1) + 2, -10:10, stats::rnorm(10), foo(0:maxpow, -1) - 2, NA, NaN, Inf, -Inf)
+  if(trunc) out <- trunc(out)
+  
+  out <- sample(out, datasize, TRUE)
+  return(out)
+}
+
+.test_make_chr <- function(datasize) {
+  out <- c(
+    letters, LETTERS, month.abb, month.name, NA, "",
+    paste0(letters, LETTERS, month.abb, month.name, collapse = "")
+  )
+  out <- sample(out, datasize, TRUE)
+  return(out)
+}
+
+.test_make_datalist <- function(datasize) {
+  
+  foo <- function(rng, offset) {
+    out <- 2^c(rng)
+    out <- out + sample(c(0, offset), length(out), TRUE)
+    return(out)
+  }
+  
+  out <- list(
+    logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
+    natural = sample(foo(0, 16), datasize, TRUE) |> as.integer(),
+    integer = sample(c(-foo(30:0, 1) + 2, -10:10, foo(0:30, -1) - 2, NA), datasize, TRUE) |> as.integer(),
+    int53 = .test_make_double(-52, 52, datasize, TRUE),
+    double = .test_make_double(-60, 60, datasize),
+    complex =  .test_make_double(-60, 60, datasize) +  .test_make_double(-60, 60, datasize) * -1i,
+    character = .test_make_chr(datasize),
+    raw = sample(as.raw(0:255), datasize, TRUE),
+    list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
+  )
+  return(out)
+}
+
+
 #' @keywords internal
 #' @noRd
 .test_binary <- function(
@@ -80,29 +125,8 @@
   
   for(iSample in seq_len(nconfigs)) { # re-do tests with different random configurations
     
-    x.data <- list(
-      logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
-      natural = as.integer(1:(2^16)) |> sample(datasize, TRUE),
-      integer = sample(c(-10:10, NA), datasize, TRUE),
-      int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
-      double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
-      complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
-      character = sample(c(letters, LETTERS, month.abb, month.name, NA), datasize, TRUE),
-      raw = sample(as.raw(0:255), datasize, TRUE),
-      list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
-    )[x.types]
-    
-    y.data <- list(
-      logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
-      natural = as.integer(1:(2^16), NA) |> sample(datasize, TRUE),
-      integer = sample(c(-10:10, NA), datasize, TRUE),
-      int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
-      double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
-      complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
-      character = sample(c(letters, LETTERS, month.abb, month.name, NA), datasize, TRUE),
-      raw = sample(as.raw(0:255), datasize, TRUE),
-      list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
-    )[y.types]
+    x.data <- .test_make_datalist(datasize)[x.types]
+    y.data <- .test_make_datalist(datasize)[y.types]
     
     for(iDimX in sample(1:8, ndims)) { # number of dimensions for x
       x.dim <- sample(c(1L, 1L, 2:5), iDimX, TRUE)
@@ -187,7 +211,7 @@
             #     return(list(x = x, y = y, expected = expected[[i]], out = out[[i]]))
             #   }
             # }
-            # 
+
             
             i <- i + 1L
           }
@@ -207,29 +231,8 @@
   
   
   # I know it says "class", but for convenience it also checks comments
-  x.data <- list(
-    logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
-    natural = as.integer(1:(2^16)) |> sample(datasize, TRUE),
-    integer = sample(c(-10:10, NA), datasize, TRUE),
-    int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
-    double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
-    complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
-    character = sample(c(letters, LETTERS, month.abb, month.name, NA), datasize, TRUE),
-    raw = sample(as.raw(0:255), datasize, TRUE),
-    list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
-  )[x.types]
-  
-  y.data <- list(
-    logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
-    natural = as.integer(1:(2^16), NA) |> sample(datasize, TRUE),
-    integer = sample(c(-10:10, NA), datasize, TRUE),
-    int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
-    double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
-    complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
-    character = sample(c(letters, LETTERS, month.abb, month.name, NA), datasize, TRUE),
-    raw = sample(as.raw(0:255), datasize, TRUE),
-    list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
-  )[y.types]
+  x.data <- .test_make_datalist(datasize)[x.types]
+  y.data <- .test_make_datalist(datasize)[y.types]
   
   nres <- 2^4 * length(x.types) * length(y.types) # number of tests performed here
   
@@ -326,30 +329,8 @@
 .test_binary_zerolen <- function(bc.fun, typetest, x.types, y.types, datasize = 100L) {
   
   
-  # I know it says "class", but for convenience it also checks comments
-  x.data <- list(
-    logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
-    natural = as.integer(1:(2^16)) |> sample(datasize, TRUE),
-    integer = sample(c(-10:10, NA), datasize, TRUE),
-    int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
-    double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
-    complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
-    character = sample(c(letters, LETTERS, month.abb, month.name, NA), datasize, TRUE),
-    raw = sample(as.raw(0:255), datasize, TRUE),
-    list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
-  )[x.types]
-  
-  y.data <- list(
-    logical = sample(c(TRUE, FALSE, NA), datasize, TRUE),
-    natural = as.integer(1:(2^16), NA) |> sample(datasize, TRUE),
-    integer = sample(c(-10:10, NA), datasize, TRUE),
-    int53 = sample(c(-10:10, NA, NaN, Inf, -Inf), datasize, TRUE),
-    double = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE),
-    complex = sample(c(-10.5:10.5, NA, NaN, Inf, -Inf), datasize, TRUE) + sample(c(stats::rnorm(10), NA, NaN, Inf, -Inf), datasize, TRUE) * -1i,
-    character = sample(c(letters, LETTERS, month.abb, month.name, NA), datasize, TRUE),
-    raw = sample(as.raw(0:255), datasize, TRUE),
-    list = sample(list(letters, month.abb, 1:10, list(NULL)), datasize, TRUE)
-  )[y.types]
+  x.data <- .test_make_datalist(datasize)[x.types]
+  y.data <- .test_make_datalist(datasize)[y.types]
   
   nres <- 2^4 * length(x.types) * length(y.types) # number of tests performed here
   

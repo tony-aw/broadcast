@@ -19,8 +19,8 @@ ints <- list(
 # idiv ====
 for(i in ints) {
   for(j in ints) {
-    i2 <- trunc2int53(i)
-    j2 <- trunc2int53(j)
+    i2 <- round2int53(i)
+    j2 <- round2int53(j)
     expect_equal(
       bc.i(i, j, "%/%"),
       i2 %/% j2
@@ -34,8 +34,8 @@ for(i in ints) {
 # mod ====
 for(i in ints) {
   for(j in ints) {
-    i2 <- trunc2int53(i)
-    j2 <- trunc2int53(j)
+    i2 <- round2int53(i)
+    j2 <- round2int53(j)
     expect_equal(
       bc.i(i, j, "%%"),
       i2 %% j2
@@ -63,13 +63,13 @@ for(i in ints) {
       i2 <- NA_real_
     }
     else {
-      i2 <- trunc2int53(abs(i))
+      i2 <- round2int53(abs(i))
     }
     if(isTRUE(j > int53max || j < int53min)) {
       j2 <- NA_real_
     }
     else {
-      j2 <- trunc2int53(abs(j))
+      j2 <- round2int53(abs(j))
     }
     
     if(isTRUE(i2 == 0 && j2 == 0)) {
@@ -104,8 +104,8 @@ for(i in ints) {
 
 for(i in ints) {
   for(j in ints) {
-    i2 <- trunc2int53(i)
-    j2 <- trunc2int53(j)
+    i2 <- round2int53(i)
+    j2 <- round2int53(j)
     expect_equal(
       bc.i(i, j, "pmin"),
       pmin(i2, j2)

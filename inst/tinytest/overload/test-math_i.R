@@ -16,6 +16,8 @@ ab <- broadcast:::.as.broadcaster
 nres <- 5 * 5 * 5 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 base.fun <- function(x, y) {
+  x <- as_dbl(x)
+  y <- as_dbl(y)
   return(x %% y)
 }
 bc.fun <- function(x, y) {
@@ -35,6 +37,8 @@ expect_equal(
 nres <- 5 * 5 * 5 * 3 * 3 # number of tests performed here
 expected <- out <- vector("list", nres)
 base.fun <- function(x, y) {
+  x <- as_dbl(x)
+  y <- as_dbl(y)
   return(x %/% y)
 }
 bc.fun <- function(x, y) {

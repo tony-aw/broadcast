@@ -16,6 +16,10 @@
 #' Supported Boolean operators: `r paste0(broadcast:::.op_b(), collapse = ", ")`
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
+#' 
+#' @note
+#' `bc.b(x, x, "nand")` and `bc.b(x, x, "nor")` are equivalent to logical negation of `x`. \cr
+#'
 #'
 #' @returns
 #' Normally: \cr

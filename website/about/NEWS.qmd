@@ -8,12 +8,17 @@ aliases:
 
 # broadcast 0.2.0 (Under Development)
 
+This update primarily deals with 2 things:    
+general performance improvement, and improvement in integer operations.
+
 **Major Changes:**
 
 * General performance improvement in all broadcasted binary operations.
 * The `%orientbc<-%` operator no longer automatically makes the left-hand side object a `broadcaster`.
-* The [bc.i()](/man/bc.i.qmd) method now strictly only supports the integer operators ("%%", "%/%", "gcd", "pmin", "pmax") and truncated relational operators.
-* Added the [trunc2int53()](/man/bc.i.qmd) function.
+* The [bc.i()](/man/bc.i.qmd) method now strictly only supports the integer operators ("%%", "%/%", "gcd", "pmin", "pmax") and rounded relational operators.
+* The [bc.i()](/man/bc.i.qmd) method now rounds the input instead of using a complex form of truncation.
+* Removed the somewhat out-of-place `bc_strrep()` function.
+* Added the [round2int53()](/man/bc.i.qmd) function.
 
 
 **Minor Changes:**
@@ -172,7 +177,7 @@ the `d==`, `d!=` etc. operators now also accept the case where both `x` and `y` 
 * The [acast()](/man/acast.qmd) method now allows unequal groups even when `x` is of type `raw`.
 * Added the [cast_shallow2atomic()](/man/cast_shallow2atomic.qmd) casting method.
 * The [cast_hier2dim()](/man/cast_hier2dim.qmd) method can now set `dimnames` automatically by specifying the new `direction.names` argument.
-* Added the [bc_strrep()](/man/bc_strrep.qmd) method.
+* Added the `bc_strrep()` method.
 * Added the [vector2array()](/man/vector2array.qmd) and [undim()](/man/vector2array.qmd) helper functions.
 * Added `bcr` as short-hand for `broadcaster`.
 * Added [mbroadcasters()](/man/broadcaster.qmd).

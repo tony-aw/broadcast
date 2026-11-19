@@ -54,12 +54,6 @@
 }
 
 
-# converters ====
-#' @keywords Internal
-#' @noRd
-.C_trunc2int53 <- function(x) {
-  .Call("C_trunc2int53", x)
-}
 
 # binary input checks ====
 

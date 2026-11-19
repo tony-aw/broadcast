@@ -37,6 +37,9 @@ because both \code{1} and \code{2} are \code{TRUE} when treated as \code{logical
 \cr
 For regular relational operators, see \code{[bc.rel](bc.rel.qmd)}. \cr \cr
 }
+\note{
+\code{bc.b(x, x, "nand")} and \code{bc.b(x, x, "nor")} are equivalent to logical negation of \code{x}. \cr
+}
 \examples{
 x.dim <- c(4:2)
 x.len <- prod(x.dim)

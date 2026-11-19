@@ -276,14 +276,6 @@ NULL
     .Call(`_broadcast_rcpp_bc_str_d`, x, y, prep, op)
 }
 
-.rcpp_bc_strrep_2v <- function(x, y, prep, op) {
-    .Call(`_broadcast_rcpp_bc_strrep_2v`, x, y, prep, op)
-}
-
-.rcpp_bc_strrep_d <- function(x, y, prep, op) {
-    .Call(`_broadcast_rcpp_bc_strrep_d`, x, y, prep, op)
-}
-
 .rcpp_bc_tolerance_2v <- function(x, y, prep, op, tol, use_int53guard) {
     .Call(`_broadcast_rcpp_bc_tolerance_2v`, x, y, prep, op, tol, use_int53guard)
 }
@@ -520,6 +512,13 @@ NULL
 #' @noRd
 .rcpp_lst_ndims <- function(x) {
     .Call(`_broadcast_rcpp_lst_ndims`, x)
+}
+
+#' @keywords internal
+NULL
+
+.rcpp_round2int53 <- function(x) {
+    .Call(`_broadcast_rcpp_round2int53`, x)
 }
 
 #' @keywords internal

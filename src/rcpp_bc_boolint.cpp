@@ -23,11 +23,12 @@ inline int inline_boolint_idiv(
   int x, int y, double intmin, double intmax
 ) {
   
-  if(x == NA_INTEGER || y == NA_INTEGER || y == 0) return NA_INTEGER;
-
-  double q = x / y;
+  if(x == NA_INTEGER || y == NA_INTEGER) return NA_INTEGER;
+  if(y == 0) return NA_INTEGER;
   
-  if (y == 0.0 || q < intmin || q  > intmax || !R_FINITE(q)) return NA_INTEGER;
+  long double q = x / y;
+  
+  if(q < intmin || q  > intmax || !std::isfinite(q)) return NA_INTEGER;
   
   return inline_idiv_body(x, y, q);
 

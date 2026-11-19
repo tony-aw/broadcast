@@ -8,18 +8,6 @@ using namespace Rcpp;
 
 
 
-inline double inline_int53_guard(
-  double out, double int53min, double int53max
-) {
-  if(out > int53max) {
-    return R_PosInf;
-  }
-  if(out < int53min) {
-    return R_NegInf;
-  }
-  return trunc(out);
-}
-
 
 inline int inline_numtol_eq(
   double x, double y, double tol
@@ -78,10 +66,10 @@ inline int inline_numtol_geq(
     const double int53min = -1 * int53max;                  \
     DIMCODE(                                                \
       pout[flatind_out] = DOCODE,                         \
-      const double tempx = inline_int53_guard(            \
+      const double tempx = inline_int53_round(            \
         px[flatind_x], int53min, int53max                 \
       ),                                                  \
-      const double tempy = inline_int53_guard(            \
+      const double tempy = inline_int53_round(            \
         py[flatind_y], int53min, int53max                 \
       )                                                   \
     );                                                    \

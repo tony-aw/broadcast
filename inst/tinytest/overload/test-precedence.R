@@ -65,9 +65,9 @@ for(iSample in 1:5) {
 ops <- c("&", "|")
 
 for(iSample in 1:5) {
-  x <- sample(c(rnorm(10), NA, NaN, -Inf, Inf), 100, TRUE)
-  y <- sample(c(rnorm(10), NA, NaN, -Inf, Inf), 100, TRUE)
-  z <- sample(c(rnorm(10), NA, NaN, -Inf, Inf), 100, TRUE)
+  x <- sample(c(TRUE, FALSE, NA), 100, TRUE)
+  y <- sample(c(TRUE, FALSE, NA), 100, TRUE)
+  z <- sample(c(TRUE, FALSE, NA), 100, TRUE)
   for(iOp1 in ops) {
     for(iOp2 in ops) {
       

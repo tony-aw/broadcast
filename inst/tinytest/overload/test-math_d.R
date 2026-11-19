@@ -16,6 +16,8 @@ bc.fun <- function(x, y) {
   return(unclass(out))
 }
 base.fun <- function(x, y) {
+  x <- as_dbl(x)
+  y <- as_dbl(y)
   out <- x + y
   dim(out) <- bc_dim(x, y)
   return(out)
@@ -38,6 +40,8 @@ bc.fun <- function(x, y) {
   return(unclass(out))
 }
 base.fun <- function(x, y) {
+  x <- as_dbl(x)
+  y <- as_dbl(y)
   out <- x - y
   dim(out) <- bc_dim(x, y)
   return(out)
@@ -58,6 +62,8 @@ bc.fun <- function(x, y) {
   return(unclass(out))
 }
 base.fun <- function(x, y) {
+  x <- as_dbl(x)
+  y <- as_dbl(y)
   out <- x * y
   dim(out) <- bc_dim(x, y)
   return(out)
@@ -78,6 +84,8 @@ bc.fun <- function(x, y) {
   return(unclass(out))
 }
 base.fun <- function(x, y) {
+  x <- as_dbl(x)
+  y <- as_dbl(y)
   out <- x / y
   dim(out) <- bc_dim(x, y)
   return(out)
@@ -97,6 +105,8 @@ bc.fun <- function(x, y) {
   return(unclass(out))
 }
 base.fun <- function(x, y) {
+  x <- as_dbl(x)
+  y <- as_dbl(y)
   out <- x^y
   dim(out) <- bc_dim(x, y)
   return(out)

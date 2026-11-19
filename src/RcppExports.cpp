@@ -804,32 +804,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_bc_strrep_2v
-SEXP rcpp_bc_strrep_2v(SEXP x, SEXP y, List prep, int op);
-RcppExport SEXP _broadcast_rcpp_bc_strrep_2v(SEXP xSEXP, SEXP ySEXP, SEXP prepSEXP, SEXP opSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
-    Rcpp::traits::input_parameter< List >::type prep(prepSEXP);
-    Rcpp::traits::input_parameter< int >::type op(opSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bc_strrep_2v(x, y, prep, op));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_bc_strrep_d
-SEXP rcpp_bc_strrep_d(SEXP x, SEXP y, List prep, int op);
-RcppExport SEXP _broadcast_rcpp_bc_strrep_d(SEXP xSEXP, SEXP ySEXP, SEXP prepSEXP, SEXP opSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
-    Rcpp::traits::input_parameter< List >::type prep(prepSEXP);
-    Rcpp::traits::input_parameter< int >::type op(opSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bc_strrep_d(x, y, prep, op));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_bc_tolerance_2v
 SEXP rcpp_bc_tolerance_2v(SEXP x, SEXP y, List prep, int op, double tol, bool use_int53guard);
 RcppExport SEXP _broadcast_rcpp_bc_tolerance_2v(SEXP xSEXP, SEXP ySEXP, SEXP prepSEXP, SEXP opSEXP, SEXP tolSEXP, SEXP use_int53guardSEXP) {
@@ -1335,6 +1309,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_round2int53
+SEXP rcpp_round2int53(SEXP x);
+RcppExport SEXP _broadcast_rcpp_round2int53(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_round2int53(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_set_attr
 void rcpp_set_attr(RObject x, String name, RObject value);
 RcppExport SEXP _broadcast_rcpp_set_attr(SEXP xSEXP, SEXP nameSEXP, SEXP valueSEXP) {
@@ -1514,7 +1499,6 @@ RcppExport SEXP C_sd_lc(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 RcppExport SEXP C_seq_Clen(SEXP, SEXP);
 RcppExport SEXP C_should_boolint_math(SEXP, SEXP, SEXP);
 RcppExport SEXP C_should_boolint_rel(SEXP, SEXP, SEXP);
-RcppExport SEXP C_trunc2int53(SEXP);
 RcppExport SEXP C_unlisthelper_maxlen(SEXP);
 RcppExport SEXP C_which_op(SEXP, SEXP);
 
@@ -1579,8 +1563,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bc_raw_d", (DL_FUNC) &_broadcast_rcpp_bc_raw_d, 4},
     {"_broadcast_rcpp_bc_str_2v", (DL_FUNC) &_broadcast_rcpp_bc_str_2v, 4},
     {"_broadcast_rcpp_bc_str_d", (DL_FUNC) &_broadcast_rcpp_bc_str_d, 4},
-    {"_broadcast_rcpp_bc_strrep_2v", (DL_FUNC) &_broadcast_rcpp_bc_strrep_2v, 4},
-    {"_broadcast_rcpp_bc_strrep_d", (DL_FUNC) &_broadcast_rcpp_bc_strrep_d, 4},
     {"_broadcast_rcpp_bc_tolerance_2v", (DL_FUNC) &_broadcast_rcpp_bc_tolerance_2v, 6},
     {"_broadcast_rcpp_bc_tolerance_1v", (DL_FUNC) &_broadcast_rcpp_bc_tolerance_1v, 6},
     {"_broadcast_rcpp_bc_tolerance_d", (DL_FUNC) &_broadcast_rcpp_bc_tolerance_d, 6},
@@ -1620,6 +1602,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_dropnests", (DL_FUNC) &_broadcast_rcpp_dropnests, 3},
     {"_broadcast_rcpp_names_atdepth", (DL_FUNC) &_broadcast_rcpp_names_atdepth, 5},
     {"_broadcast_rcpp_lst_ndims", (DL_FUNC) &_broadcast_rcpp_lst_ndims, 1},
+    {"_broadcast_rcpp_round2int53", (DL_FUNC) &_broadcast_rcpp_round2int53, 1},
     {"_broadcast_rcpp_set_attr", (DL_FUNC) &_broadcast_rcpp_set_attr, 3},
     {"_broadcast_rcpp_max_ndim", (DL_FUNC) &_broadcast_rcpp_max_ndim, 2},
     {"_broadcast_rcpp_virt_alloc_dim", (DL_FUNC) &_broadcast_rcpp_virt_alloc_dim, 2},
@@ -1646,7 +1629,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"C_seq_Clen",               (DL_FUNC) &C_seq_Clen,               2},
     {"C_should_boolint_math",    (DL_FUNC) &C_should_boolint_math,    3},
     {"C_should_boolint_rel",     (DL_FUNC) &C_should_boolint_rel,     3},
-    {"C_trunc2int53",            (DL_FUNC) &C_trunc2int53,            1},
     {"C_unlisthelper_maxlen",    (DL_FUNC) &C_unlisthelper_maxlen,    1},
     {"C_which_op",               (DL_FUNC) &C_which_op,               2},
     {NULL, NULL, 0}
