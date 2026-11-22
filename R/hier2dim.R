@@ -3,7 +3,7 @@
 #' @description
 #' `hier2dim()` takes a hierarchical/nested list,
 #' and predicts what dimensions the list would have,
-#' if casted by the \link{cast_hier2dim} function. \cr
+#' if cast by the \link{cast_hier2dim} function. \cr
 #' \cr
 #' `hiernames2dimnames()` takes a hierarchical/nested list,
 #' and intelligently tries to compose dimnames for the result of \link{cast_hier2dim}. \cr
@@ -27,7 +27,7 @@
 #' For `hier2dim()`: \cr
 #' An integer vector,
 #' giving the dimensions `x` would have,
-#' if casted by `cast_hier2dim()`. \cr
+#' if cast by `cast_hier2dim()`. \cr
 #' The names of the output indicates if padding is required (name "padding"),
 #' or no padding is required (no name) for that dimension; \cr
 #' Padding will be required if not all list-elements at a certain depth have the same length. \cr

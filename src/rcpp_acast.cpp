@@ -25,7 +25,8 @@ int rcpp_factor_count(
 SEXP rcpp_factor_which(
   SEXP grp, int j, int size
 ) {
-  SEXP out = PROTECT(Rf_allocVector(INTSXP, size));
+  
+  SEXP out = IntegerVector(no_init(size));
   int *pout = INTEGER(out);
   const int *pgrp = INTEGER_RO(grp);
   int n = Rf_length(grp);
@@ -38,7 +39,6 @@ SEXP rcpp_factor_which(
     }
   }
   
-  UNPROTECT(1);
   return out;
   
 }

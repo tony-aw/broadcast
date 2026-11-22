@@ -15,12 +15,7 @@ bc.str(x, y, op, ...)
 \item{op}{a single string, giving the operator. \cr
 Supported concatenation operators: +. \cr
 Supported relational operators: ==, !=. \cr
-Supported distance operators: levenshtein, lcss. \cr
-"levenshtein" is a distance measure of remoteness
-(i.e. greater distance = higher levenshtein). \cr
-"lcss" stands for Longest Common Sub-String,
-and is a distance measure of closeness
-(i.e. smaller distance = higher lcss). \cr}
+Supported true metric distance operators: levenshtein. \cr}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 }
@@ -56,7 +51,6 @@ bc.str(array(letters), array(letters), "!=")
 x <- setNames(month.name, month.name) |> vector2array(1L)
 y <- setNames(month.abb, month.abb) |> vector2array(2L)
 bc.str(x, y, "levenshtein") # levenshtein
-bc.str(x, y, "lcss") # longest common sub-string
 }
 \references{
 The 'C++' code for the Levenshtein edit string distance is based on the code found in

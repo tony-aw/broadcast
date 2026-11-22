@@ -99,7 +99,7 @@ inline SEXP rcpp_vector_elt(
    
    
    int n = Rf_length(outdim);
-   SEXP out = PROTECT(Rf_allocVector(VECSXP, n));
+   List out(n);
    int *poutdim = INTEGER(outdim);
    bool checkx;
    bool checky;
@@ -143,7 +143,6 @@ inline SEXP rcpp_vector_elt(
      
    }
    
-   UNPROTECT(1);
    return out;
  }
 
@@ -158,7 +157,7 @@ inline SEXP rcpp_vector_elt(
    
    
    int n = Rf_length(outdim);
-   SEXP out = PROTECT(Rf_allocVector(VECSXP, n));
+   List out(n);
    int *poutdim = INTEGER(outdim);
    bool checka, checkv;
    int lena = Rf_length(adimnames);
@@ -181,7 +180,6 @@ inline SEXP rcpp_vector_elt(
    
    // other dims:
    if(lena == 1) {
-     UNPROTECT(1);
      return out;
    }
    for(int i = 0; i < lena; ++i) {
@@ -192,7 +190,6 @@ inline SEXP rcpp_vector_elt(
      }
    }
    
-   UNPROTECT(1);
    return out;
    
  }
@@ -205,7 +202,7 @@ inline SEXP rcpp_vector_elt(
      SEXP y_dimnames, SEXP ydim, SEXP outdim
  ) {
    
-   SEXP out = PROTECT(Rf_allocVector(VECSXP, Rf_length(outdim)));
+   List out(Rf_length(outdim));
    
    int *pydim = INTEGER(ydim);
    int *poutdim = INTEGER(outdim);
@@ -216,8 +213,6 @@ inline SEXP rcpp_vector_elt(
        SET_VECTOR_ELT(out, i, temp);
      }
    }
-   
-   UNPROTECT(1);
    
    return out;
  }

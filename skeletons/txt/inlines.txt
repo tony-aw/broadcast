@@ -71,22 +71,21 @@ inline double inline_mod_body(double x, double y) {
 }
 
 
-inline double inline_idiv_body(long double x, long double y, long double q) {
+inline double inline_idiv_body(long long x, long long y) {
   
   if (std::abs(x) == std::abs(y)) {
-    return ((x < 0) == (y < 0)) ? 1.0 : -1.0;
+    return ((x < 0) == (y < 0)) ? 1 : -1;
   }
   
-  if(std::abs(q) < 1) {
-    double z = (q < 0) ? -1
-    : ((x < 0 && y > 0) ||
-       (x > 0 && y < 0) // differing signs
-       ? -1 : 0);
-    return z;
+  long long q = x / y;
+  const long long r = x % y;
+  const bool s = (x < 0) != (y < 0);
+  if(r != 0 && s) {
+    q--;
   }
   
-  double tmp = (double)(x - floor(q) * (double)y);
-  return (double)( floor(q) + floorl(tmp/y) );
+  return (double)q;
+  
 }
 
 

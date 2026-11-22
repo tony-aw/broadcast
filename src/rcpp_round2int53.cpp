@@ -18,7 +18,7 @@ SEXP rcpp_round2int53 ( SEXP x ) {
   NumericVector res(no_init(n));
   double *pres = REAL(res);
   
-  for(int i = 0; i < n; ++i) {
+  for(R_xlen_t i = 0; i < n; ++i) {
     pres[i] = inline_int53_round(px[i], int53min, int53max);
   }
   

@@ -9,27 +9,33 @@ errorfun <- function(tt) {
 .test_binary <- broadcast:::.test_binary
 .test_binary_class <- broadcast:::.test_binary_class
 .test_binary_zerolen <- broadcast:::.test_binary_zerolen
-
 types <- "complex"
-gen <- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
 
 
 # basic tests ====
-
-x <- as.array(gen() + gen() * -1i)
-y <- as.array(gen() + gen() * -1i)
+powers <- 2^c(0:6)
+values <- sample(c(rnorm(5), 2^powers -1, -2^powers + 1, 1, 0, -1, NA, NaN, Inf, -Inf))
+foo <- expand.grid(xr = values, xi = values, yr = values, yi = values)
+x <- foo[[1]] + foo[[2]] * 1i
+y <- foo[[3]] + foo[[4]] * 1i
 expect_equal(
   bc.cplx(x, y, "+") |> as.vector(),
   as.vector(x + y)
 )
-
-x <- as.array(gen() + gen() * -1i)
-y <- as.array(gen() + gen() * -1i)
 expect_equal(
-  bc.cplx(x, y, "+") |> as.vector(),
-  as.vector(x + y)
+  bc.cplx(x, y, "-") |> as.vector(),
+  as.vector(x - y)
 )
-enumerate <- enumerate + 2L
+expect_equal(
+  bc.cplx(x, y, "*") |> as.vector(),
+  as.vector(x * y)
+)
+expect_equal(
+  bc.cplx(x, y, "/") |> as.vector(),
+  as.vector(x / y)
+)
+
+enumerate <- enumerate + 4L
 
 
 
@@ -65,7 +71,6 @@ expect_equal(
 bc.fun <- function(x, y) bc.cplx(x, y, "*")
 base.fun <- function(x, y) {
   out <- as_cplx(x) * as_cplx(y)
-  out[is.na(x) | is.na(y)] <- NA
   return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
@@ -78,10 +83,9 @@ expect_equal(
 
 
 # div ====
-bc.fun <- function(x, y) bc.cplx(x, y, "*")
+bc.fun <- function(x, y) bc.cplx(x, y, "/")
 base.fun <- function(x, y) {
-  out <- as_cplx(x) * as_cplx(y)
-  out[is.na(x) | is.na(y)] <- NA
+  out <- as_cplx(x) / as_cplx(y)
   return(out)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)

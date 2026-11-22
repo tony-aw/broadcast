@@ -61,8 +61,6 @@
 #' @references
 #' On the integer division and remainder (modulo) computations, %% and %/%: \cr
 #' \url{https://en.wikipedia.org/wiki/Modulo} \cr
-#' On the ULP: \cr
-#' \url{https://en.wikipedia.org/wiki/Unit_in_the_last_place} \cr
 #' 
 #' @example inst/examples/bc_i.R
 #' 

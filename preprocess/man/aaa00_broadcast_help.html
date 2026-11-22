@@ -27,7 +27,7 @@ Efficient Broadcasted Array Operations Like 'NumPy' <br> <br>
 </p>
 <p>In the context of operations involving 2 (or more) arrays,  “broadcasting” (AKA singleton expansion) refers to efficiently recycling array dimensions,  without making copies.
 </p>
-<p>Besides linking to 'Rcpp', 'broadcast' does not use any external libraries or generative AI in any way;
+<p>Besides linking to 'Rcpp', 'broadcast' does not use any external libraries or generative AI;
 'broadcast' was essentially made from scratch and can be installed out-of-the-box.
 </p>
 <p>The implementations available in 'broadcast' include, but are not limited to, the following:
@@ -148,7 +148,7 @@ dimensionless vectors are interpreted as column-vectors in broadcasted array ope
 <h3>Method dispatch and Attribute handling</h3>
 
 <p>The broadcasted methods
-(i.e. all <code>bc_</code> methods, all <code>bc.</code> methods, and the operaters overloaded by the <code>[broadcaster](broadcaster.qmd)</code> class)
+(i.e. all <code>bc_</code> methods, all <code>bc.</code> methods, and the operators overloaded by the <code>[broadcaster](broadcaster.qmd)</code> class)
 generally only preserve the &quot;special&quot; attributes between the arrays involved: <br>
 <code>names</code>, <code>dimnames</code>, <code>comment</code> (if appropriate), and the <code>[broadcaster](broadcaster.qmd)</code> class attribute (and related attributes). <br>
 Other (usually class-specific) attributes are not preserved , unlike the base 'R' operators. <br>

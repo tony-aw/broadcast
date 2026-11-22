@@ -437,7 +437,7 @@ install.packages("broadcast", type = "source")
 ‘broadcast’ is available on CRAN! 🎉
 
 Since ‘broadcast’ is still a relatively new package, be aware that the
-package is still subject to relatively large changes.
+package is still subject to possibly large changes.
 
 If you have any suggestions or feedback on the package, its
 documentation, or even the benchmarks, I encourage you to let me know

@@ -58,7 +58,7 @@
 #' 
 #' @section Back transformation: 
 #' 
-#' From the casted array, \cr
+#' From the cast array, \cr
 #' `out <- acast(x, margin, grp)`, \cr
 #' one can get the original `x` back by using \cr
 #' `back <- asplit(out, ndim(out)) |> bind_array(along = margin)`. \cr

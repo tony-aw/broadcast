@@ -8,12 +8,7 @@
 #' @param op a single string, giving the operator. \cr
 #' Supported concatenation operators: `r paste0(broadcast:::.op_str_conc(), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(broadcast:::.op_str_rel(), collapse = ", ")`. \cr
-#' Supported distance operators: `r paste0(broadcast:::.op_str_dist(), collapse = ", ")`. \cr
-#' "levenshtein" is a distance measure of remoteness
-#' (i.e. greater distance = higher levenshtein). \cr
-#' "lcss" stands for Longest Common Sub-String,
-#' and is a distance measure of closeness
-#' (i.e. smaller distance = higher lcss). \cr
+#' Supported true metric distance operators: `r paste0(broadcast:::.op_str_dist(), collapse = ", ")`. \cr
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
 #'

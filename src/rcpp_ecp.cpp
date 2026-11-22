@@ -92,7 +92,7 @@ inline bool rcpp_isna_int(int x) {
    
    
    // allocate output:
-   SEXP out = PROTECT(Rf_allocVector(REALSXP, nobs));
+   NumericVector out(no_init(nobs));
    double *pout = REAL(out);
    
    
@@ -101,7 +101,7 @@ inline bool rcpp_isna_int(int x) {
      const double *py = REAL_RO(y);
      double temp_sim;
      
-     MACRO_ECP_DO(R_isnancpp, psim[i * by_sim + nrow * j]);
+     MACRO_ECP_DO(std::isnan, psim[i * by_sim + nrow * j]);
    }
    else if(TYPEOF(y) == INTSXP || TYPEOF(y) == LGLSXP){
      const int *psim = INTEGER_RO(sim);
@@ -115,7 +115,6 @@ inline bool rcpp_isna_int(int x) {
    }
    
    
-   UNPROTECT(1);
    return out;
  }
 
@@ -140,7 +139,7 @@ inline bool rcpp_isna_int(int x) {
    SEXP temp_pointer;
    
    // allocate output:
-   SEXP out = PROTECT(Rf_allocVector(REALSXP, nobs));
+   NumericVector out(no_init(nobs));
    double *pout = REAL(out);
    
    
@@ -160,8 +159,7 @@ inline bool rcpp_isna_int(int x) {
      int temp_sim;
      
      MACRO_ECP_DO(rcpp_isna_int, psim[j][i * by_sim]);
-     
-     UNPROTECT(1);
+
      return out;
    }
    
@@ -180,9 +178,8 @@ inline bool rcpp_isna_int(int x) {
      const double *py = REAL_RO(y);
      double temp_sim;
      
-     MACRO_ECP_DO(R_isnancpp, psim[j][i * by_sim]);
+     MACRO_ECP_DO(std::isnan, psim[j][i * by_sim]);
      
-     UNPROTECT(1);
      return out;
      
    }

@@ -93,8 +93,8 @@ setMethod(
 #' @noRd
 .bc_b_int <- function(x, y, op, abortcall) {
   
-  if(is.raw(x)) x <- as_bool(x) |> suppressWarnings()
-  if(is.raw(y)) y <- as_bool(y) |> suppressWarnings()
+  if(is.raw(x)) x <- as_bool(x)
+  if(is.raw(y)) y <- as_bool(y)
  
   if(length(x) == 0L || length(y) == 0L) {
     return(.binary_return_zerolen(x, y, TRUE, "logical"))

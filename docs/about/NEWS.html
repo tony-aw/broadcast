@@ -240,6 +240,7 @@ general performance improvement, and improvement in integer operations.</p>
 <li>The <code>%orientbc&lt;-%</code> operator no longer automatically makes the left-hand side object a <code>broadcaster</code>.</li>
 <li>The <a href="../man/bc.i.html">bc.i()</a> method now strictly only supports the integer operators (“%%”, “%/%”, “gcd”, “pmin”, “pmax”) and rounded relational operators.</li>
 <li>The <a href="../man/bc.i.html">bc.i()</a> method now rounds the input instead of using a complex form of truncation.</li>
+<li>Now only string distances that are true metrics are supported in <a href="../man/bc.str.html">bc.str()</a>, therefore the “lcss” operator has been removed.</li>
 <li>Removed the somewhat out-of-place <code>bc_strrep()</code> function.</li>
 <li>Added the <a href="../man/bc.i.html">round2int53()</a> function.</li>
 </ul>
@@ -249,6 +250,7 @@ general performance improvement, and improvement in integer operations.</p>
 “%%”, “%/%”, “gcd”, “pmin”, “pmax”.</li>
 <li>If both sides are 32 bit integers, the <a href="../man/bc.d.html">bc.d()</a> method will return 32 bit integers for operators:<br>
 “pmin”, “pmax”.</li>
+<li>Fixed a few minor spelling errors in the documentation.</li>
 </ul>
 <p><strong>Bug fixes:</strong></p>
 <ul>
@@ -267,6 +269,9 @@ sometimes a faster branch-less “OR” will be used instead of short-circuited 
 <code>std::isnan()</code> is now used instead of <code>R_isnancpp()</code><br>
 (benchmarks have shown <code>std::isnan()</code> to be faster).</li>
 <li>the “gcd” operator in <a href="../man/bc.i.html">bc.i()</a> now uses a non-recursive modulo based Euclidean algorithm.</li>
+<li>Complex multiplication and division are now performed via <code>std::complex</code>.</li>
+<li>The decimal or int53 specific relational operators now share the same ‘C++’ code for 32bit integers.</li>
+<li>Less to no coercion between numeric types is performed for regular relational operators.</li>
 </ul>
 <p><br></p>
 </section>

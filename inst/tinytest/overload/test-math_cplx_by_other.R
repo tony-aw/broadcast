@@ -8,7 +8,7 @@ errorfun <- function(tt) {
 
 .test_binary <- broadcast:::.test_binary
 types <- c("logical", "integer", "double")
-gen <- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
+
 
 
 
@@ -71,7 +71,6 @@ bc.fun <- function(x, y) {
 }
 base.fun <- function(x, y) {
   out <- x * y
-  out[is.na(x)|is.na(y)] <- NA
   dim(out) <- bc_dim(x, y)
   return(out)
 }
@@ -98,7 +97,6 @@ bc.fun <- function(x, y) {
 }
 base.fun <- function(x, y) {
   out <- round(x / y, 6) # division in complex is sensitive to rounding errors
-  out[is.na(x)|is.na(y)] <- NA
   dim(out) <- bc_dim(x, y)
   return(out)
 }

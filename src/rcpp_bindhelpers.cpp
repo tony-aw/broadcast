@@ -11,7 +11,7 @@ IntegerVector rcpp_bindhelper_get_alongdims(
 ) {
   
   int n = Rf_length(lst);
-  IntegerVector out(n);
+  IntegerVector out(no_init(n));
   int *pout = INTEGER(out);
   
   for(int i = 0; i < n; ++i) {
@@ -138,9 +138,9 @@ int rcpp_bindhelper_conf_dims_all(
 List rcpp_bindhelper_get_dimnames(
   List x, int along
 ) {
-  int n = x.length();
+  int n = Rf_xlength(x);
   List out(n);
-  for(int i = 0; i < n; ++i) {
+  for(R_xlen_t i = 0; i < n; ++i) {
     RObject temp = x[i];
     if(temp.hasAttribute("dimnames")) {
       List temp2 = temp.attr("dimnames");
@@ -156,7 +156,7 @@ inline IntegerVector rcpp_rep_new_int(
     int n, int val
 ) {
   
-  IntegerVector out(n);
+  IntegerVector out(no_init(n));
   int *pout = INTEGER(out);
   for(int i = 0; i < n; ++i) {
     pout[i] = val;

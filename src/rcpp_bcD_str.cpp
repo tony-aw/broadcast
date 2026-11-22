@@ -69,43 +69,6 @@ int rcpp_str_dist_led(String x, String y) {
 }
 
 
-int rcpp_str_dist_lcss(String x, String y) {
-
-    if(x == NA_STRING || y == NA_STRING) {
-      return NA_INTEGER;
-    }
-  
-    std::string s1 = x;
-    std::string s2 = y;
-
-    int m = s1.length();
-    int n = s2.length();
-
-    std::vector<int> prev(n + 1, 0);
-    
-    int res = 0;
-    for (int i = 1; i <= m; i++) {
-      
-      std::vector<int> curr(n + 1, 0);
-      
-      for (int j = 1; j <= n; j++) {
-      
-        if (s1[i - 1] == s2[j - 1]) {
-            curr[j] = prev[j - 1] + 1;
-            res = std::max(res, curr[j]);
-        } else {
-            curr[j] = 0;
-        }
-        
-      }
-      prev = curr;
-    }
-    
-    return res;
-}
-
-
-
 
 #define MACRO_OP_STR_DIST(DIMCODE) do {	\
   switch(op) {	\
@@ -113,15 +76,6 @@ int rcpp_str_dist_lcss(String x, String y) {
   {	\
     DIMCODE(                                                          \
       pout[flatind_out] = rcpp_str_dist_led(tempx, tempy),  \
-      const String tempx = px[flatind_x], \
-      const String tempy = py[flatind_y]  \
-    );                                                                \
-    break;	\
-  }	\
-  case 2:	\
-  {	\
-    DIMCODE(                                                          \
-      pout[flatind_out] = rcpp_str_dist_lcss(tempx, tempy),  \
       const String tempx = px[flatind_x], \
       const String tempy = py[flatind_y]  \
     );                                                                \

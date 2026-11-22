@@ -12,12 +12,12 @@ bool rcpp_any_nonarray ( SEXP x ) {
     stop("`x` must be a list");
   }
   
-  const int n = Rf_length(x);
+  const int n = Rf_xlength(x);
   RObject tempout;
   RObject tempdim;
   
   
-  for(int i = 0; i < n; ++i) {
+  for(R_xlen_t i = 0; i < n; ++i) {
     tempout = VECTOR_ELT(x, i);
     tempdim = tempout.attr("dim");
     if(Rf_length(tempdim) == 0) {

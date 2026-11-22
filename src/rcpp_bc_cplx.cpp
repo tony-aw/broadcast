@@ -30,50 +30,24 @@ inline Rcomplex inline_cplx_min( const Rcomplex& x, const Rcomplex& y) {
 
 
 inline Rcomplex inline_cplx_mult( const Rcomplex& x, const Rcomplex& y) {
-  
   Rcomplex out;
-  
-  if(std::isnan(x.r) || std::isnan(x.i) || std::isnan(y.r) || std::isnan(y.i)) {
-    out.r = NA_REAL;
-    out.i = NA_REAL;
-    return out;
-  }
-  
-  out.r = x.r * y.r - x.i * y.i;
-  out.i = x.r * y.i + y.r * x.i;
+  std::complex<double> cx(x.r, x.i);
+  std::complex<double> cy(y.r, y.i);
+  std::complex<double> res = cx * cy;
+  out.r = res.real();
+  out.i = res.imag();
   return out;
 }
 
 
 
 inline Rcomplex inline_cplx_div( const Rcomplex& x, const Rcomplex& y) {
-  
   Rcomplex out;
-  
-  if(std::isnan(x.r) || std::isnan(x.i) || std::isnan(y.r) || std::isnan(y.i)) {
-    out.r = NA_REAL;
-    out.i = NA_REAL;
-    return out;
-  }
-  
-  
-  double ratio, den;
-  double abr, abi;
-
-  if( (abr = y.r) < 0) abr = - abr;
-  if( (abi = y.i) < 0) abi = - abi;
-  if( abr <= abi ) {
-    ratio = y.r / y.i ;
-    den = y.i * (1 + ratio*ratio);
-    out.r = (x.r*ratio + x.i) / den;
-    out.i = (x.i*ratio - x.r) / den;
-  }
-  else {
-    ratio = y.i / y.r ;
-    den = y.r * (1 + ratio*ratio);
-    out.r = (x.r + x.i*ratio) / den;
-    out.i = (x.i - x.r*ratio) / den;
-  }
+  std::complex<double> cx(x.r, x.i);
+  std::complex<double> cy(y.r, y.i);
+  std::complex<double> res = cx / cy;
+  out.r = res.real();
+  out.i = res.imag();
   return out;
 
 }

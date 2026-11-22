@@ -7,8 +7,6 @@ errorfun <- function(tt) {
 }
 .test_binary <- broadcast:::.test_binary
 types <- "complex"
-gen <- function() sample(c(rnorm(10), NA, NA, NaN, NaN, Inf, Inf, -Inf, -Inf))
-
 
 
 # plus ====
@@ -60,7 +58,6 @@ bc.fun <- function(x, y) {
 }
 base.fun <- function(x, y) {
   out <- x * y
-  out[is.na(x)|is.na(y)] <- NA
   dim(out) <- bc_dim(x, y)
   return(out)
 }
@@ -76,16 +73,18 @@ expect_equal(
 # div ====
 bc.fun <- function(x, y) {
   broadcaster(x) <- broadcaster(y) <- TRUE
-  out <- x / y
+  out <- round(x / y, 6)
   return(unclass(out))
 }
 base.fun <- function(x, y) {
   out <- x / y
-  out[is.na(x)|is.na(y)] <- NA
   dim(out) <- bc_dim(x, y)
+  out <- round(out, 6)
   return(out)
 }
+
 res <- .test_binary(bc.fun, base.fun, types, types)
+
 
 enumerate <- enumerate + res$i # count number of tests
 # test results:

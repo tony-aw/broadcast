@@ -28,7 +28,19 @@ expect_equal(
 )
 
 
-# idiv (53 bit) ====
+# idiv - special values ====
+values <- c(Inf, -Inf, NA, NaN, 0, -1, 1, 10, -10)
+for(i in values) {
+  for(j in values) {
+    expect_equal(
+      bc.i(i, j, "%/%"),
+      i %/% j
+    ) |> errorfun()
+  }
+}
+
+
+# idiv (53bit) ====
 bc.fun <- function(x, y) bc.i(x, y, "%/%")
 base.fun <- function(x, y) {
   if(is.double(x)) x <- trunc(x)
@@ -36,23 +48,26 @@ base.fun <- function(x, y) {
   out <- x %/% y
   return(out)
 }
-res <- .test_binary(bc.fun, base.fun, c("int53", "logical", "integer"), c("int53"))
 
-enumerate <- enumerate + res$i # count number of tests
-# test results:
+res <- .test_binary(bc.fun, base.fun, types, types)
 expect_equal(
   res$expected, res$out
 )
-
-res <- .test_binary(bc.fun, base.fun, c("int53"), c("int53", "logical", "integer"))
-
 enumerate <- enumerate + res$i # count number of tests
-# test results:
-expect_equal(
-  res$expected, res$out
+
+
+
+# idiv and mod relationship ====
+m <- 52
+foo <- expand.grid(c(-m:-1, 1:m), c(-m:-1, 1:m))
+i <- foo[[1L]]
+j <- foo[[2L]]
+x <- sign(i) * (2^abs(i) - 1L)
+y <- sign(j) * (2^abs(j) - 1L)
+broadcaster(x) <- broadcaster(y) <- TRUE
+expect_true(
+  all(bc.d(x, (x %% y) + y * (x %/% y), "d=="))
 )
-
-
 
 
 # pmin ====

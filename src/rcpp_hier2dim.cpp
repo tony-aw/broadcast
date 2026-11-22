@@ -54,13 +54,12 @@ SEXP rcpp_depth_range(SEXP x, int depth_limit, bool recurse_all) {
   double maxint = std::pow(2, 31) - 1;
   int depth = 1;
   
-  SEXP range = PROTECT(Rf_allocVector(INTSXP, 2));
+  IntegerVector range(no_init(2));
   INTEGER(range)[0] = maxint;
   INTEGER(range)[1] = 0;
   
   rcpp_rec_depth_range(x, range, depth, depth_limit, recurse_all, maxint);
   
-  UNPROTECT(1);
   return range;
   
 }
@@ -109,13 +108,12 @@ SEXP rcpp_lenrange_atdepth(SEXP x, int depth_target, bool recurse_all) {
   double maxint = std::pow(2, 31) - 1;
   int depth = 1;
   
-  SEXP range = PROTECT(Rf_allocVector(INTSXP, 2));
+  IntegerVector range(no_init(2));
   INTEGER(range)[0] = maxint;
   INTEGER(range)[1] = 0;
   
   rcpp_rec_lenrange_atdepth(x, range, depth, depth_target, recurse_all, maxint);
   
-  UNPROTECT(1);
   return range;
   
 }
@@ -166,11 +164,10 @@ void rcpp_rec_dropnests(
 SEXP rcpp_dropnests(
   SEXP x, int maxdepth, bool recurse_all
 ) {
-   SEXP index = PROTECT(Rf_allocVector(REALSXP, 1));
+   NumericVector index(no_init(1));
    REAL(index)[0] = 0;
-   SEXP out = PROTECT(Rf_allocVector(VECSXP, Rf_xlength(x)));
+   List out(Rf_xlength(x));
    rcpp_rec_dropnests(x, out, index, 1, maxdepth, recurse_all);
-   UNPROTECT(2);
    return out;
 }
 
@@ -256,7 +253,7 @@ SEXP rcpp_names_atdepth(SEXP x, int direction, int len_target, int depth_target,
   
   double maxint = std::pow(2, 31) - 1;
   int depth = 1;
-  SEXP out = PROTECT(Rf_allocVector(VECSXP, 1));
+  List out(1);
   
   if(direction == 1) {
     rcpp_rec_firstnames_atdepth(x, out, len_target, depth, depth_target - 1, recurse_all, maxint);
@@ -268,7 +265,6 @@ SEXP rcpp_names_atdepth(SEXP x, int direction, int len_target, int depth_target,
     stop("argument `direction` incorrectly specified");
   }
   
-  UNPROTECT(1);
   return out;
   
 }

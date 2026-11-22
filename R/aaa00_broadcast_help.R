@@ -91,7 +91,7 @@
 #' 
 #' @section Method dispatch and Attribute handling:
 #' The broadcasted methods
-#' (i.e. all `bc_` methods, all `bc.` methods, and the operaters overloaded by the \link{broadcaster} class)
+#' (i.e. all `bc_` methods, all `bc.` methods, and the operators overloaded by the \link{broadcaster} class)
 #' generally only preserve the "special" attributes between the arrays involved: \cr
 #' `names`, `dimnames`, `comment` (if appropriate), and the \link{broadcaster} class attribute (and related attributes). \cr
 #' Other (usually class-specific) attributes are not preserved , unlike the base 'R' operators. \cr

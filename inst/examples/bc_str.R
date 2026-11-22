@@ -14,4 +14,3 @@ bc.str(array(letters), array(letters), "!=")
 x <- setNames(month.name, month.name) |> vector2array(1L)
 y <- setNames(month.abb, month.abb) |> vector2array(2L)
 bc.str(x, y, "levenshtein") # levenshtein
-bc.str(x, y, "lcss") # longest common sub-string

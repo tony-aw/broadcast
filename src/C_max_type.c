@@ -7,10 +7,10 @@
 SEXP C_max_type(
     SEXP x
 ) {
-  int n = Rf_length(x);
+  int n = Rf_xlength(x);
   SEXP tempout;
   int out = 1;
-  for(int i = 0; i < n; ++i) {
+  for(R_xlen_t i = 0; i < n; ++i) {
     tempout = VECTOR_ELT(x, i);
     if(TYPEOF(tempout) == VECSXP) {
       out = 8;

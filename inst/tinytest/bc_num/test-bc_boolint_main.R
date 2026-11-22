@@ -44,6 +44,18 @@ expect_equal(
 )
 
 
+# idiv and mod relationship ====
+m <- 31
+foo <- expand.grid(c(-m:-1, 1:m), c(-m:-1, 1:m))
+i <- foo[[1L]]
+j <- foo[[2L]]
+x <- sign(i) * (2^abs(i) - 1L)
+y <- sign(j) * (2^abs(j) - 1L)
+broadcaster(x) <- broadcaster(y) <- TRUE
+expect_true(
+  all(bc.d(x, (x %% y) + y * (x %/% y), "d=="))
+)
+
 
 # pmin ====
 bc.fun <- function(x, y) bc.i(x, y, "pmin")

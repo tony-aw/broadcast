@@ -46,12 +46,7 @@ bc.str(x, y, op)
 <p>a single string, giving the operator. <br>
 Supported concatenation operators: +. <br>
 Supported relational operators: ==, !=. <br>
-Supported distance operators: levenshtein, lcss. <br>
-&quot;levenshtein&quot; is a distance measure of remoteness
-(i.e. greater distance = higher levenshtein). <br>
-&quot;lcss&quot; stands for Longest Common Sub-String,
-and is a distance measure of closeness
-(i.e. smaller distance = higher lcss). <br></p>
+Supported true metric distance operators: levenshtein. <br></p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
@@ -105,7 +100,6 @@ bc.str(array(letters), array(letters), "!=")
 x &lt;- setNames(month.name, month.name) |&gt; vector2array(1L)
 y &lt;- setNames(month.abb, month.abb) |&gt; vector2array(2L)
 bc.str(x, y, "levenshtein") # levenshtein
-bc.str(x, y, "lcss") # longest common sub-string
 </code></pre>
 
 </main>

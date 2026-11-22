@@ -77,19 +77,10 @@ bc.i(x, y, "\%\%")
 bc.i(x, y, "\%/\%")
 bc.i(x, y, "gcd") # greatest common divisor
 
-bc.i(x, y, "==")
-bc.i(x, y, "!=")
-bc.i(x, y, "<")
-bc.i(x, y, ">")
-bc.i(x, y, "<=")
-bc.i(x, y, ">=")
-
 }
 \references{
 On the integer division and remainder (modulo) computations, \%\% and \%/\%: \cr
 \url{https://en.wikipedia.org/wiki/Modulo} \cr
-On the ULP: \cr
-\url{https://en.wikipedia.org/wiki/Unit_in_the_last_place} \cr
 }
 \seealso{
 \code{[broadcast_operators](aaa01_broadcast_operators.qmd)} \cr

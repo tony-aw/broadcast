@@ -19,7 +19,6 @@ op <- function(x, y) {
   c(length(x) == length(y), typeof(x) == typeof(y))
 }
 basefun <- function(x, y) {
-  # using for-loop, because mapply really does not function properly here
   out <- mapply(op, x, y, SIMPLIFY = FALSE, USE.NAMES = FALSE)
   dim(out) <- bc_dim(x, y)
   return(out)

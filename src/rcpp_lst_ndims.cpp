@@ -16,7 +16,7 @@ int n = Rf_length(x);
 RObject tempout;
 int tempndims;
 
-SEXP out = PROTECT(Rf_allocVector(INTSXP, n));
+IntegerVector out(no_init(n));
 int *pout = INTEGER(out);
 
 for(int i = 0; i < n; ++i) {
@@ -25,7 +25,6 @@ for(int i = 0; i < n; ++i) {
   pout[i] = tempndims;
 }
 
-UNPROTECT(1);
 return out;
 
 }

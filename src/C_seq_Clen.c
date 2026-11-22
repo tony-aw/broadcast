@@ -13,7 +13,7 @@ SEXP C_seq_Clen ( SEXP start, SEXP len ) {
     SEXP out = PROTECT(Rf_allocVector(REALSXP, len0));
     double *pout = REAL(out);
   
-    for(int i = 0; i < len0; ++i) {
+    for(R_xlen_t i = 0; i < len0; ++i) {
       pout[i] = start0 + i;
     }
     

@@ -8,10 +8,3 @@ bc.i(x, y, "%%")
 bc.i(x, y, "%/%")
 bc.i(x, y, "gcd") # greatest common divisor
 
-bc.i(x, y, "==")
-bc.i(x, y, "!=")
-bc.i(x, y, "<")
-bc.i(x, y, ">")
-bc.i(x, y, "<=")
-bc.i(x, y, ">=")
-

@@ -17,9 +17,11 @@ types <- "complex"
 
 
 # basic tests ====
-
-x <- as.array(gen() + gen() * -1i)
-y <- as.array(gen() + gen() * -1i)
+powers <- 2^c(0:6)
+values <- sample(c(rnorm(5), 2^powers -1, -2^powers + 1, 1, 0, -1, NA, NaN, Inf, -Inf))
+foo <- expand.grid(xr = values, xi = values, yr = values, yi = values)
+x <- foo[[1]] + foo[[2]] * 1i
+y <- foo[[3]] + foo[[4]] * 1i
 expect_equal(
   bc.cplx(x, y, "==") |> as.vector(),
   as.vector(x == y)
@@ -28,19 +30,7 @@ expect_equal(
   bc.cplx(x, y, "!=") |> as.vector(),
   as.vector(x != y)
 )
-
-x <- as.array(gen() + gen() * -1i)
-y <- as.array(gen() + gen() * -1i)
-expect_equal(
-  bc.cplx(x, y, "==") |> as.vector(),
-  as.vector(x == y)
-)
-expect_equal(
-  bc.cplx(x, y, "!=") |> as.vector(),
-  as.vector(x != y)
-)
-
-enumerate <- enumerate + 4L
+enumerate <- enumerate + 2L
 
 
 

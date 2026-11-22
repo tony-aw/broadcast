@@ -6,6 +6,11 @@
 #'
 #'
 
+#' @keywords internal
+#' @noRd
+.test_errorfun <- function(tt) {
+  if(isFALSE(tt)) stop(print(tt))
+}
 
 #' @keywords internal
 #' @noRd
@@ -63,7 +68,12 @@
     return(out)
   }
   out <- c(-foo(minpow:0, 1) + 2, -10:10, stats::rnorm(10), foo(0:maxpow, -1) - 2, NA, NaN, Inf, -Inf)
-  if(trunc) out <- trunc(out)
+  if(trunc) {
+    out <- trunc(out)
+  }
+  else {
+    out <- round(out, 7)
+  }
   
   out <- sample(out, datasize, TRUE)
   return(out)
@@ -105,7 +115,7 @@
 #' @noRd
 .test_binary <- function(
     bc.fun, base.fun, x.types, y.types,
-    nconfigs = 5L, datasize = 100L, ndims = 3L, correctNaN = TRUE, print = FALSE, debug = FALSE
+    nconfigs = 5L, datasize = 200L, ndims = 3L, correctNaN = TRUE, print = FALSE, debug = FALSE
 ) {
   
   supported.types <- c(
@@ -208,9 +218,15 @@
             #     out[[i]]
             #   )
             #   if(!testres) {
-            #     return(list(x = x, y = y, expected = expected[[i]], out = out[[i]]))
+            #     return(data.frame(
+            #       x = as.vector(rep_dim(x, dim(out[[i]]))),
+            #       y = as.vector(rep_dim(y, dim(out[[i]]))),
+            #       expected = as.vector(expected[[i]]),
+            #       out = as.vector(out[[i]]),
+            #       equal = as.vector(expected[[i]]) == as.vector(out[[i]])
+            #     ))
             #   }
-            # }
+            # } # end debug
 
             
             i <- i + 1L
@@ -227,7 +243,7 @@
 
 #' @keywords internal
 #' @noRd
-.test_binary_class <- function(bc.fun, x.types, y.types, datasize = 100L) {
+.test_binary_class <- function(bc.fun, x.types, y.types, datasize = 200L) {
   
   
   # I know it says "class", but for convenience it also checks comments
@@ -326,7 +342,7 @@
 
 #' @keywords internal
 #' @noRd
-.test_binary_zerolen <- function(bc.fun, typetest, x.types, y.types, datasize = 100L) {
+.test_binary_zerolen <- function(bc.fun, typetest, x.types, y.types, datasize = 200L) {
   
   
   x.data <- .test_make_datalist(datasize)[x.types]

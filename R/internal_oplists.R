@@ -87,7 +87,7 @@
 #' @keywords internal
 #' @noRd
 .op_str_dist <- function() {
-  return(c("levenshtein", "lcss"))
+  return(c("levenshtein"))
 }
 
 # complex numeric ====

@@ -19,14 +19,19 @@ inline double inline_int53_overflow2NA(
 }
 
 
-inline double inline_int53_mod(double x, double y, double int53min, double int53max) {
+inline double inline_int53_mod(double x, double y) {
+
+  // Note:
+  // input will already be 53bit integer;
+  // std::isfinite() thus checks for both overflow (= Inf or -Inf) AND NaNs simultaneously
+
   if(y == 0) {
     return R_NaN;
   }
-  if(MACRO_OVERFLOW_INT53(x)) {
+  if(!std::isfinite(x)) {
     return R_NaN;
   }
-  if(MACRO_OVERFLOW_INT53(y) && std::abs(x) <= std::abs(y)) {
+  if(!std::isfinite(y) && std::abs(x) <= std::abs(y)) {
     double out1 = (std::abs(x) == std::abs(y)) ? 0 :
 	    ((x < 0 && y > 0) ||
 	     (y < 0 && x > 0))
@@ -39,16 +44,32 @@ inline double inline_int53_mod(double x, double y, double int53min, double int53
 }
 
 
-inline double inline_int53_idiv(double x, double y, double int53min, double int53max) {
-    
-    long double q = x / y;
-    
-    if (y == 0.0 || MACRO_OVERFLOW_INT53(q) || !std::isfinite(q)) {
-      return (double)q;
-    }
-    
-    return inline_idiv_body(x, y, q);
+inline double inline_int53_idiv(double x, double y) {
+  
+  // Note:
+  // input will already be 53bit integer;
+  // std::isfinite() thus checks for both overflow (= Inf or -Inf) AND NaNs simultaneously
+  // std::isinf(), however, checks for overflow/Inf only.
+  
+  // Handle Infinities and NaNs:
+  if(std::isinf(y)) {
+    if(std::isinf(x)) return R_NaN;
+    if(x == 0.0) return x / y;
+    return (std::signbit(x) != std::signbit(y)) ? -1.0 : 0.0;
   }
+  
+  // Handle weird double cases:
+  if(!std::isfinite(x) || !std::isfinite(y) || y == 0.0) {
+    return std::floor(x / y);
+  }
+  
+  // preserve signed zero, just in case;
+  if( x == 0.0)  return x / y;
+  
+  // In all other cases, go to main long long function:
+  return inline_idiv_body(x, y);
+  
+}
 
 
 
@@ -149,7 +170,7 @@ macro_op_int <- "
     {	\\
       MACRO_TYPESWITCH_INT(  \\
           DIMCODE,	\\
-          inline_int53_mod(tempx, tempy, int53min, int53max), \\
+          inline_int53_mod(tempx, tempy), \\
           inline_int53_round \\
         );	\\
       break;	\\
@@ -158,7 +179,7 @@ macro_op_int <- "
     {	\\
       MACRO_TYPESWITCH_INT(  \\
           DIMCODE,	\\
-         inline_int53_idiv(tempx, tempy, int53min, int53max), \\
+         inline_int53_idiv(tempx, tempy), \\
          inline_int53_round  \\
         );	\\
       break;	\\

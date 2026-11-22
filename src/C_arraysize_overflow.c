@@ -17,7 +17,7 @@ SEXP C_arraysize_overflow(SEXP xdim, SEXP xlen0) {
     return Rf_ScalarLogical(1);
   }
   
-  int n = Rf_xlength(xdim);
+  int n = Rf_length(xdim);
   const int *pxdim = INTEGER_RO(xdim);
   const int maxint = pow(2, 31) - 1;
   for(int i  = 0; i < n; ++i) {

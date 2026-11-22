@@ -3,7 +3,7 @@
 #include "broadcast.h"
 using namespace Rcpp;
 
-static inline Rcomplex inline_cplx_returnNA() {
+inline Rcomplex inline_cplx_returnNA() {
     Rcomplex out;
     out.r = NA_REAL;
     out.i = NA_REAL;
@@ -47,12 +47,33 @@ static inline Rcomplex inline_cplx_returnNA() {
 #define MACRO_OP_IFELSE_INT(DIMCODE) do {       \
   switch(TYPEOF(x)) {	\
     case LGLSXP:	\
+    {	\
+      const int *px = LOGICAL_RO(x);	\
+      const int *py = LOGICAL_RO(y);	\
+      	\
+      LogicalVector out(no_init(nout));	\
+      int *pout;	\
+      pout = LOGICAL(out);	\
+      	\
+      DIMCODE(	\
+        MACRO_ACTION_IFELSE2(	            \
+          MACRO_SET_C,                 \
+          pout,                         \
+          NA_INTEGER                      \
+        ),                                \
+        const int tempx = px[flatind_x],  \
+        const int tempy = py[flatind_y]   \
+      );      \
+      	\
+      return out;	\
+      	\
+    }	\
     case INTSXP:	\
     {	\
       const int *px = INTEGER_RO(x);	\
       const int *py = INTEGER_RO(y);	\
       	\
-      SEXP out = PROTECT(Rf_allocVector(TYPEOF(x), nout));	\
+      IntegerVector out(no_init(nout));	\
       int *pout;	\
       pout = INTEGER(out);	\
       	\
@@ -65,7 +86,7 @@ static inline Rcomplex inline_cplx_returnNA() {
         const int tempx = px[flatind_x],  \
         const int tempy = py[flatind_y]   \
       );      \
-      UNPROTECT(1);	\
+      	\
       return out;	\
       	\
     }	\
@@ -74,7 +95,7 @@ static inline Rcomplex inline_cplx_returnNA() {
       const double *px = REAL_RO(x);	\
       const double *py = REAL_RO(y);	\
       	\
-      SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\
+      NumericVector out(no_init(nout));	\
       double *pout;	\
       pout = REAL(out);	\
       	\
@@ -88,7 +109,7 @@ static inline Rcomplex inline_cplx_returnNA() {
         const double tempy = py[flatind_y]  \
       );      \
       	\
-      UNPROTECT(1);	\
+      	\
       return out;	\
       	\
     }	\
@@ -97,7 +118,7 @@ static inline Rcomplex inline_cplx_returnNA() {
       const Rcomplex *px = COMPLEX_RO(x);	\
       const Rcomplex *py = COMPLEX_RO(y);	\
       	\
-      SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\
+      ComplexVector out(no_init(nout));	\
       Rcomplex *pout;	\
       pout = COMPLEX(out);	\
       	\
@@ -111,7 +132,7 @@ static inline Rcomplex inline_cplx_returnNA() {
         const Rcomplex tempy = py[flatind_y]  \
       );      \
       	\
-      UNPROTECT(1);	\
+      	\
       return out;	\
       	\
     }	\
@@ -120,7 +141,7 @@ static inline Rcomplex inline_cplx_returnNA() {
       const SEXP *px = STRING_PTR_RO(x);	\
       const SEXP *py = STRING_PTR_RO(y);	\
       	\
-      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\
+      StringVector out(no_init(nout));	\
       	\
       DIMCODE(	\
         MACRO_ACTION_IFELSE2(	            \
@@ -132,7 +153,7 @@ static inline Rcomplex inline_cplx_returnNA() {
         const SEXP tempy = py[flatind_y]  \
       );      \
       	\
-      UNPROTECT(1);	\
+      	\
       return out;	\
       	\
     }	\
@@ -141,7 +162,7 @@ static inline Rcomplex inline_cplx_returnNA() {
       const Rbyte *px = RAW_RO(x);	\
       const Rbyte *py = RAW_RO(y);	\
       	\
-      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\
+      RawVector out(no_init(nout));	\
       Rbyte *pout = RAW(out); \
       	\
       DIMCODE(	\
@@ -154,13 +175,13 @@ static inline Rcomplex inline_cplx_returnNA() {
         const Rbyte tempy = py[flatind_y]     \
       );      \
       	\
-      UNPROTECT(1);	\
+      	\
       return out;	\
       	\
     }	\
     case VECSXP:	\
     {	\
-      SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\
+      List out(nout);	\
       	\
       DIMCODE(	\
         MACRO_ACTION_IFELSE2(	            \
@@ -172,7 +193,7 @@ static inline Rcomplex inline_cplx_returnNA() {
         const SEXP tempy = VECTOR_ELT(y, flatind_y)   \
       );      \
       	\
-      UNPROTECT(1);	\
+      	\
       return out;	\
       	\
     }	\
@@ -188,12 +209,30 @@ static inline Rcomplex inline_cplx_returnNA() {
 #define MACRO_OP_IFELSE_RAW(DIMCODE) do {       \
   switch(TYPEOF(x)) {	\
     case LGLSXP:	\
+    {	\
+      const int *px = LOGICAL_RO(x);	\
+      const int *py = LOGICAL_RO(y);	\
+      	\
+      LogicalVector out(no_init(nout));	\
+      int *pout;	\
+      pout = LOGICAL(out);	\
+      	\
+      DIMCODE(	\
+        MACRO_ACTION_IFELSE1(MACRO_SET_C, pout),   \
+        const int tempx = px[flatind_x],        \
+        const int tempy = py[flatind_y]         \
+      );	\
+      	\
+      	\
+      return out;	\
+      	\
+    }	\
     case INTSXP:	\
     {	\
       const int *px = INTEGER_RO(x);	\
       const int *py = INTEGER_RO(y);	\
       	\
-      SEXP out = PROTECT(Rf_allocVector(INTSXP, nout));	\
+      IntegerVector out(no_init(nout));	\
       int *pout;	\
       pout = INTEGER(out);	\
       	\
@@ -203,7 +242,7 @@ static inline Rcomplex inline_cplx_returnNA() {
         const int tempy = py[flatind_y]         \
       );	\
       	\
-      UNPROTECT(1);	\
+      	\
       return out;	\
       	\
     }	\
@@ -212,7 +251,7 @@ static inline Rcomplex inline_cplx_returnNA() {
       const double *px = REAL_RO(x);	\
       const double *py = REAL_RO(y);	\
       	\
-      SEXP out = PROTECT(Rf_allocVector(REALSXP, nout));	\
+      NumericVector out(no_init(nout));	\
       double *pout;	\
       pout = REAL(out);	\
       	\
@@ -222,7 +261,7 @@ static inline Rcomplex inline_cplx_returnNA() {
         const double tempy = py[flatind_y]         \
       );	\
       	\
-      UNPROTECT(1);	\
+      	\
       return out;	\
       	\
     }	\
@@ -231,7 +270,7 @@ static inline Rcomplex inline_cplx_returnNA() {
       const Rcomplex *px = COMPLEX_RO(x);	\
       const Rcomplex *py = COMPLEX_RO(y);	\
       	\
-      SEXP out = PROTECT(Rf_allocVector(CPLXSXP, nout));	\
+      ComplexVector out(no_init(nout));	\
       Rcomplex *pout;	\
       pout = COMPLEX(out);	\
       	\
@@ -241,7 +280,7 @@ static inline Rcomplex inline_cplx_returnNA() {
         const Rcomplex tempy = py[flatind_y]         \
       );	\
       	\
-      UNPROTECT(1);	\
+      	\
       return out;	\
       	\
     }	\
@@ -250,7 +289,7 @@ static inline Rcomplex inline_cplx_returnNA() {
       const SEXP *px = STRING_PTR_RO(x);	\
       const SEXP *py = STRING_PTR_RO(y);	\
       	\
-      SEXP out = PROTECT(Rf_allocVector(STRSXP, nout));	\
+      StringVector out(no_init(nout));	\
       	\
       DIMCODE(	\
         MACRO_ACTION_IFELSE1(SET_STRING_ELT, out),   \
@@ -258,7 +297,7 @@ static inline Rcomplex inline_cplx_returnNA() {
         const SEXP tempy = py[flatind_y]        \
       );	\
       	\
-      UNPROTECT(1);	\
+      	\
       return out;	\
       	\
     }	\
@@ -267,7 +306,7 @@ static inline Rcomplex inline_cplx_returnNA() {
       const Rbyte *px = RAW_RO(x);	\
       const Rbyte *py = RAW_RO(y);	\
       	\
-      SEXP out = PROTECT(Rf_allocVector(RAWSXP, nout));	\
+      RawVector out(no_init(nout));	\
       Rbyte *pout = RAW(out); \
       	\
       DIMCODE(	\
@@ -276,20 +315,20 @@ static inline Rcomplex inline_cplx_returnNA() {
         const Rbyte tempy = py[flatind_y]         \
       );	\
       	\
-      UNPROTECT(1);	\
+      	\
       return out;	\
       	\
     }	\
     case VECSXP:	\
     {	\
-      SEXP out = PROTECT(Rf_allocVector(VECSXP, nout));	\
+      List out(nout);	\
       DIMCODE(	\
         MACRO_ACTION_IFELSE1(SET_VECTOR_ELT, out),   \
         const SEXP tempx = VECTOR_ELT(x, flatind_x),        \
         const SEXP tempy = VECTOR_ELT(y, flatind_y)         \
       );	\
       	\
-      UNPROTECT(1);	\
+      	\
       return out;	\
       	\
     }	\

@@ -26,11 +26,7 @@ inline int inline_boolint_idiv(
   if(x == NA_INTEGER || y == NA_INTEGER) return NA_INTEGER;
   if(y == 0) return NA_INTEGER;
   
-  long double q = x / y;
-  
-  if(q < intmin || q  > intmax || !std::isfinite(q)) return NA_INTEGER;
-  
-  return inline_idiv_body(x, y, q);
+  return inline_idiv_body(x, y);
 
 }
 
@@ -63,7 +59,7 @@ inline int inline_boolint_pmax(
 
 
 #define MACRO_OP_BOOLINT(DIMCODE) do {	\
-  double intmax = pow(2, 31) - 1;           \
+  double intmax = DEF_INT32MAX;           \
   double intmin = -1 * intmax;          \
   switch(op) {	\
     case 1:	\

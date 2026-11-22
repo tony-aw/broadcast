@@ -121,7 +121,7 @@ An array with dimensions <code style="white-space: pre;">c(dim(x), max(tabulate(
 
 ### Back transformation
 
-From the casted array, <br>
+From the cast array, <br>
 <code>out <- acast(x, margin, grp)</code>, <br>
 one can get the original <code>x</code> back by using <br>
 <code>back <- asplit(out, ndim(out)) |&gt; bind_array(along = margin)</code>. <br>

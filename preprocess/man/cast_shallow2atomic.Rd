@@ -84,7 +84,7 @@ In all cases, the result will be \code{atomic}. \cr
 }
 \section{Back transformation}{
 
-From the casted atomic object, \cr
+From the cast atomic object, \cr
 \code{out <- cast_shallow2atomic(x, ...)}, \cr
 one can get an \emph{approximation} of the original shallow list back using just base 'R' functions. \cr
 This section describes how to do so. \cr

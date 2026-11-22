@@ -72,7 +72,7 @@ to get a good idea on how this function casts an array. \cr \cr
 \section{Back transformation}{
 
 
-From the casted array, \cr
+From the cast array, \cr
 \code{out <- acast(x, margin, grp)}, \cr
 one can get the original \code{x} back by using \cr
 \code{back <- asplit(out, ndim(out)) |> bind_array(along = margin)}. \cr

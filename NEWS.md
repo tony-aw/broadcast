@@ -11,6 +11,7 @@ general performance improvement, and improvement in integer operations.
 * The `bc.i()` method now strictly only supports the integer operators
 ("%%", "%/%", "gcd", "pmin", "pmax") and rounded relational operators.
 * The `bc.i()` method now rounds the input instead of using a complex form of truncation.
+* Now only string distances that are true metrics are supported in `bc.str()`, therefore the "lcss" operator has been removed.
 * Removed the somewhat out-of-place `bc_strrep()` function.
 * Added the `round2int53()` function.
 
@@ -22,6 +23,7 @@ general performance improvement, and improvement in integer operations.
 "%%", "%/%", "gcd", "pmin", "pmax".
 * If both sides are 32 bit integers, the `bc.d()` method will return 32 bit integers for operators:   
 "pmin", "pmax".
+* Fixed a few minor spelling errors in the documentation.
 
 
 **Bug fixes:**
@@ -42,6 +44,9 @@ sometimes a faster branch-less "OR" will be used instead of short-circuited "OR"
 `std::isnan()` is now used instead of `R_isnancpp()`   
 (benchmarks have shown `std::isnan()` to be faster).
 * the "gcd" operator in `bc.i()` now uses a non-recursive modulo based Euclidean algorithm.
+* Complex multiplication and division are now performed via `std::complex`.
+* The decimal or int53 specific relational operators now share the same 'C++' code for 32bit integers.
+* Less to no coercion between numeric types is performed for regular relational operators.
 
 
 
