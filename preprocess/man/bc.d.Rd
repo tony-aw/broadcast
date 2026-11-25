@@ -13,7 +13,8 @@ bc.d(x, y, op, ...)
 \item{x, y}{conformable vectors/arrays of type numeric or logical.}
 
 \item{op}{a single string, giving the operator. \cr
-Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. \cr
+Supported arithmetic operators:
++, -, *, /, ^, pmin, pmax. \cr
 Supported relational operators: ==, !=, <, >, <=, >=, d==, d!=, d<, d>, d<=, d>=. \cr}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
@@ -32,6 +33,9 @@ A numeric array as a result of the broadcasted decimal arithmetic operation. \cr
 For relational operators: \cr
 A logical array as a result of the broadcasted decimal relational comparison. \cr
 \cr
+For pmin/pmax: \cr
+A array of type \code{double} or \code{integer} (depending on the input types)
+as a result of the broadcasted pmin/pmax operation. \cr
 }
 \description{
 The \code{bc.d()} method

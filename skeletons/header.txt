@@ -443,7 +443,7 @@ inline double inline_int53_round(double x, double int53min, double int53max) {
   R_xlen_t contrib_y[16] = {0}; \
   \
   /*Initialise C-arrays */  \
-  const int N1 = pout_dim[0]; /* De bound voor de binnenste loop */ \
+  const int N1 = pout_dim[0];   \
   for (int d = 0; d < ndim; ++d) { \
     N_bounds[d] = pout_dim[d]; \
     stride_x[d] = alloc_stride_x[d]; \
@@ -453,13 +453,13 @@ inline double inline_int53_round(double x, double int53min, double int53max) {
     contrib_y[d] = stride_y[d] * (N_bounds[d] - 1); \
   } \
   \
-  /* Outer-looop */ \
+  /* Outer-loop */ \
   for (R_xlen_t outer = 0; outer < outer_Niters; ++outer) { \
     R_xlen_t flatind_x = current_x; \
     R_xlen_t flatind_y = current_y; \
     const R_xlen_t stride_x1 = stride_x[0]; \
     const R_xlen_t stride_y1 = stride_y[0]; \
-    /* Loop through rows */ \
+    /* Loop through "rows" */ \
     for (int iter1 = 0; iter1 < N1; ++iter1) { \
       GETX; \
       GETY; \

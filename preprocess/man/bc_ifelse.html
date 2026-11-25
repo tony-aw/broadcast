@@ -94,7 +94,7 @@ x.len &lt;- prod(x.dim)
 x &lt;- array(sample(1:100), x.dim)
 y &lt;- array(sample(1:100), c(5, 1, 1))
 
-cond &lt;- bc.i(x, y, "&gt;")
+cond &lt;- bc.rel(x, y, "&gt;")
 
 bc_ifelse(cond, yes = x^2, no = -y)
 </code></pre>

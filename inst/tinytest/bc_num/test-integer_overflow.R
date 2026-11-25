@@ -16,6 +16,57 @@ ints <- list(
   -0.5, int32min, int53min, int53min - 1, -Inf
 )
 
+
+# plus/minus ====
+x <- as.integer(2^31 - 10)
+y <- as.integer(2^31 - 10)
+
+expect_error(
+  bc.d(x, y, "+"),
+  pattern = "integer overflow"
+)
+
+expect_error(
+  bc.d(-x, y, "-"),
+  pattern = "integer overflow"
+)
+
+expect_equal(
+  bc.d(x, y, "-"),
+  0L
+)
+enumerate <- enumerate + 2L
+
+
+# mdp ====
+x <- as.integer(2^16 - 2)
+y <- as.integer(2^16 - 2)
+
+expect_equal(
+  bc.d(x, y, "*"),
+  as_dbl(x) * as_dbl(y)
+)
+
+expect_equal(
+  bc.d(x, y, "/"),
+  as_dbl(x) / as_dbl(y)
+)
+
+expect_equal(
+  bc.d(x, 2L, "^"),
+  as_dbl(x) ^ 2L
+)
+
+expect_equal(
+  bc.d(2L, x, "^"),
+  2L ^ x
+)
+
+enumerate <- enumerate + 5L
+
+
+
+
 # idiv ====
 for(i in ints) {
   for(j in ints) {
@@ -96,25 +147,5 @@ for(i in ints) {
     ) |> errorfun()
     
     enumerate <- enumerate + 1L
-  }
-}
-
-
-# pmin/pmax ====
-
-for(i in ints) {
-  for(j in ints) {
-    i2 <- round2int53(i)
-    j2 <- round2int53(j)
-    expect_equal(
-      bc.i(i, j, "pmin"),
-      pmin(i2, j2)
-    ) |> errorfun()
-    expect_equal(
-      bc.i(i, j, "pmax"),
-      pmax(i2, j2)
-    ) |> errorfun()
-    
-    enumerate <- enumerate + 2L
   }
 }

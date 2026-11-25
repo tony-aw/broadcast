@@ -12,12 +12,6 @@
 #' Supported relational operators: `r paste0(broadcast:::.op_cplx_rel(), collapse = ", ")`.
 #' @param ... further arguments passed to or from methods. \cr \cr
 #' 
-#' @details
-#' For the `*` and `/` operators, `bc.cplx()` uses more strict `NA` checks than base 'R': \cr
-#' If for an iteration,
-#' `re(x)`, `im(x)`, `re(y)`, and/or `im(y)` contains `NA`,
-#' than the result for that iteration is necessarily `NA_complex_`.
-#' 
 #'
 #' @returns
 #' For arithmetic operators: \cr

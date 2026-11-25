@@ -151,8 +151,8 @@ enumerate <- enumerate + 1L
 # broadcasting will exceed maximum size ====
 maxint <- 2^53 + 1L
 n <- ceiling(sqrt(maxint))
-x <- array(c(TRUE, FALSE, NA), c(n, 1))
-y <- array(c(TRUE, FALSE, NA), c(1, n))
+x <- array(as.raw(0:255), c(n, 1))
+y <- array(as.raw(0:255), c(1, n))
 input <- list(x, y)
 expect_error(
   bind_array(input, 1L, ndim2bc = 2L),

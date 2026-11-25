@@ -9,8 +9,8 @@ general performance improvement, and improvement in integer operations.
 * General performance improvement in all broadcasted binary operations.
 * The `%orientbc<-%` operator no longer automatically makes the left-hand side object a `broadcaster`.
 * The `bc.i()` method now strictly only supports the integer operators
-("%%", "%/%", "gcd", "pmin", "pmax") and rounded relational operators.
-* The `bc.i()` method now rounds the input instead of using a complex form of truncation.
+("%%", "%/%", "gcd"), and rounded relational operators.
+* The `bc.i()` method now rounds the input instead of using (a nudged form of) truncation.
 * Now only string distances that are true metrics are supported in `bc.str()`, therefore the "lcss" operator has been removed.
 * Removed the somewhat out-of-place `bc_strrep()` function.
 * Added the `round2int53()` function.
@@ -20,9 +20,10 @@ general performance improvement, and improvement in integer operations.
 **Minor Changes:**
 
 * If both sides are 32 bit integers, the `bc.i()` method will return 32 bit integers for operators:   
-"%%", "%/%", "gcd", "pmin", "pmax".
+"%%", "%/%", "gcd".
 * If both sides are 32 bit integers, the `bc.d()` method will return 32 bit integers for operators:   
-"pmin", "pmax".
+"+, -, pmin", "pmax".
+* Slightly relaxed the behaviour for `NA`s/`NaN`s for the `*` and `/` operators involving complex numbers.
 * Fixed a few minor spelling errors in the documentation.
 
 
@@ -45,7 +46,7 @@ sometimes a faster branch-less "OR" will be used instead of short-circuited "OR"
 (benchmarks have shown `std::isnan()` to be faster).
 * the "gcd" operator in `bc.i()` now uses a non-recursive modulo based Euclidean algorithm.
 * Complex multiplication and division are now performed via `std::complex`.
-* The decimal or int53 specific relational operators now share the same 'C++' code for 32bit integers.
+* The decimal and int53 specific relational operators now share the same 'C++' code for 32bit integer input.
 * Less to no coercion between numeric types is performed for regular relational operators.
 
 

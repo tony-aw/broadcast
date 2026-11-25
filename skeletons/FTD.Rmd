@@ -43,6 +43,18 @@ So we get the following methods:
  - `bc.bit()`: bit-wise operations. Supports `raw` and `integer` operations.
  - `bc.list()`: apply any 'R' function to an array. The main difference with `bcapply()` is that `bc.list()` takes as input list and as output list, and can therefore be faster than the more generic `bcapply()`.
  
+
+&nbsp;
+
+## Considerations on relops in bit-wise vs logical operations
+
+in 'broadcast', greater/smaller than operations for bit-wise operations are supported. For example, `!x & y` and `!x | y` are exactly equal to **bit-wise** `x < y`, and `x <= y`, respectively.
+
+This does not hold for logicals, because `NA` is handled differently in `&` and `|` then in relops. Moreover, stricly speaking, "true" and "false" have no order except when coerced to numbers. Bits, however, are literally 0s and 1s. So, for both pragmatic and theoretical reasons, `bc.b()` does not support greater/smaller than-like relops, unlike `bc.bit()`.
+
+As a side note, both `bc.b()` and `bc.bit()` support "nand" and "nor". This is because, just like `&` and `|`, `!` has a bit-wise meaning for raw and a logical meaning for logical/integer. But, the nice thing is that `nand(x,x)` is the same as negating `x`. So `bc.b(x,x, "nand")` is equivalent to logical negation regardless of the type of `x`, and `bc.bit(x, x, "nand")` is equivalent to bit-wise negation regarless of the type of `x`. The same goes for "nor".
+
+ 
 &nbsp;
  
 ## Considerations on integer operations
@@ -76,17 +88,14 @@ Another consideration is the internal function definition of the  `%%` and `%/%`
 
 Base 'R' only supports the integer operations `%%` and `%/%`. I added the oddly missing GCD (greatest common divisor) operator. LCM (least common multiple) was not included, as that can easily be calculated by combining GCD with arithmetic. In fact, several integer operations can be defined in terms of GCD, making it all the more weird it's not natively present in base 'R'.
 
-
 &nbsp;
 
-## Considerations on relops in bit-wise vs logical operations
+## Considerations on arithmetic operations
 
-in 'broadcast', greater/smaller than operations for bit-wise operations are supported. For example, `!x & y` and `!x | y` are exactly equal to **bit-wise** `x < y`, and `x <= y`, respectively.
+The `*, /, ^` operators in 'broadcast' always return a type of `double`.
+`+, -` will return a type of `integer` if both sides of the argument are integer/logical. When overflow occurs, and error is returned. For 2 reasons: (1) the code is faster that way, and (2) if you have overflow the user probably doesn't want to wait any second longer for the faulty computation to be complete.
 
-This does not hold for logicals, because `NA` is handled differently in `&` and `|` then in relops. Moreover, stricly speaking, "true" and "false" have no order except when coerced to numbers. Bits, however, are literally 0s and 1s. So, for both pragmatic and theoretical reasons, `bc.b()` does not support greater/smaller than-like relops, unlike `bc.bit()`.
-
-As a side note, both `bc.b()` and `bc.bit()` support "nand" and "nor". This is because, just like `&` and `|`, `!` has a bit-wise meaning for raw and a logical meaning for logical/integer. But, the nice thing is that `nand(x,x)` is the same as negating `x`. So `bc.b(x,x, "nand")` is equivalent to logical negation regardless of the type of `x`, and `bc.bit(x, x, "nand")` is equivalent to bit-wise negation regarless of the type of `x`. The same goes for "nor".
-
+ 
 &nbsp;
 
 ## Considerations for string operations

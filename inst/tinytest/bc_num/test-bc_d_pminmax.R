@@ -14,7 +14,7 @@ types <- c("logical", "integer", "double")
 # pmin ====
 bc.fun <- function(x, y) bc.d(x, y, "pmin")
 base.fun <- function(x, y) {
-  pmin(as_dbl(x), as_dbl(y))
+  pmin(x, y)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
 
@@ -31,7 +31,7 @@ expect_equal(
 # pmax ====
 bc.fun <- function(x, y) bc.d(x, y, "pmax")
 base.fun <- function(x, y) {
-  pmax(as_dbl(x), as_dbl(y))
+  pmax(x, y)
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
 
@@ -61,7 +61,7 @@ enumerate <- enumerate + res$i
 
 # zerolen tests ====
 bc.fun <- function(x, y) { bc.d(x, y, "pmax")}
-res <- .test_binary_zerolen(bc.fun, \(x)is.double(x)|is.integer(x), "double", "double")
+res <- .test_binary_zerolen(bc.fun, is.double, "double", "double")
 expect_true(all(res$is_OK_type))
 expect_equal(
   res$expected_bc, res$out_bc
@@ -71,7 +71,7 @@ expect_equal(
 )
 enumerate <- enumerate + res$i
 
-res <- .test_binary_zerolen(bc.fun, \(x)is.double(x)|is.integer(x), "integer", "double")
+res <- .test_binary_zerolen(bc.fun, is.integer, "integer", "double")
 expect_true(all(res$is_OK_type))
 expect_equal(
   res$expected_bc, res$out_bc
@@ -81,7 +81,7 @@ expect_equal(
 )
 enumerate <- enumerate + res$i
 
-res <- .test_binary_zerolen(bc.fun, \(x)is.double(x)|is.integer(x), "double", "integer")
+res <- .test_binary_zerolen(bc.fun, is.numeric, types, types)
 expect_true(all(res$is_OK_type))
 expect_equal(
   res$expected_bc, res$out_bc

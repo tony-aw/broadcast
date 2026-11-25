@@ -3,79 +3,64 @@ library(stringi)
 source("SOURCE.R")
 
 
+################################################################################
+# Inlines ====
+#
+
+inlines <- "
+
+inline double inline_dec_pmin(double x, double y) {
+  const bool missing = inline_branchless_or(std::isnan(x), std::isnan(y));
+  double out = missing ? NA_REAL : std::min(x, y);
+  return out;
+}
+
+
+inline double inline_dec_pmax(double x, double y) {
+  const bool missing = inline_branchless_or(std::isnan(x), std::isnan(y));
+  double out = missing ? NA_REAL : std::max(x, y);
+  return out;
+}
+
+"
 
 ################################################################################
 # MACROS ====
 #
 
-macro_action_dec_pminmax <- "
 
-#define MACRO_ACTION_DEC_PMINMAX(NACHECK, DOCODE) do {   \\
-  pout[flatind_out] = NACHECK ? NA_REAL : DOCODE; \\
+macro_main_dec_p <- "
+
+#define MACRO_MAIN_DEC_P(DIMCODE, DOCODE) do {  \\
+  DIMCODE(                                      \\
+      pout[flatind_out] = DOCODE,               \\
+      const double tempx = px[flatind_x],       \\
+      const double tempy = py[flatind_y]        \\
+    );                                          \\
 } while(0)
 
 
 "
 
-macro_typeswitch_dec_pminmax <- "
-
-
-#define TOKEN_DECLARE_double(var) const double *p##var = REAL_RO(var)
-#define TOKEN_DECLARE_int(var) const int *p##var = INTEGER_RO(var)
-#define TOKEN_NA_double(var) std::isnan(temp##var)
-#define TOKEN_NA_int(var) temp##var == NA_INTEGER
-#define TOKEN_STORE_double(var)  const double temp##var = p##var[flatind_##var]
-#define TOKEN_STORE_int(var)  const int temp##var = p##var[flatind_##var]
-
-#define TOKEN_TYPESWITCH(TYPE_X, TYPE_Y, DIMCODE, DOCODE) do { \\
-  TOKEN_DECLARE_##TYPE_X(x);  \\
-  TOKEN_DECLARE_##TYPE_Y(y);  \\
-  DIMCODE(                                                  \\
-      MACRO_ACTION_DEC_PMINMAX(                               \\
-        TOKEN_NA_##TYPE_X(x) || TOKEN_NA_##TYPE_Y(y),   \\
-        DOCODE                                                \\
-      ),                                                      \\
-      TOKEN_STORE_##TYPE_X(x),              \\
-      TOKEN_STORE_##TYPE_Y(y)               \\
-    );                                                        \\
-} while(0)
-
-
-#define MACRO_TYPESWITCH_DEC_PMINMAX(DIMCODE, DOCODE) do { \\
-    bool isInt_x = TYPEOF(x) == LGLSXP || TYPEOF(x) == INTSXP;    \\
-    bool isInt_y = TYPEOF(y) == LGLSXP || TYPEOF(y) == INTSXP;    \\
-    if(TYPEOF(x) == REALSXP && TYPEOF(y) == REALSXP) {  \\
-      TOKEN_TYPESWITCH(double, double, DIMCODE, DOCODE);                 \\
-    }                                                   \\
-    else if(isInt_x && isInt_y) {       \\
-      stop(\"use boolmath\");           \\
-    }                                   \\
-    else {                                                        \\
-      stop(\"unsupported types given\");        \\
-    }                                           \\
-} while(0)
-
-"
 
 
 
-
-macro_op_dec_pminmax<- "
-#define MACRO_OP_DEC_PMINMAX(DIMCODE) do {	\\
+macro_op_dec_p <- "
+#define MACRO_OP_DEC_P(DIMCODE) do {	\\
   switch(op) {	\\
     case 1:	\\
     {	\\
-      MACRO_TYPESWITCH_DEC_PMINMAX(	        \\
+      MACRO_MAIN_DEC_P(	        \\
         DIMCODE,                            \\
-        (tempx < tempy) ? tempx : tempy     \\
+        inline_dec_pmin(tempx, tempy)  \\
       );	                                  \\
       break;	\\
     }	\\
     case 2:	\\
     {	\\
-      MACRO_TYPESWITCH_DEC_PMINMAX(	        \\
+      MACRO_MAIN_DEC_P(	        \\
         DIMCODE,                            \\
-        (tempx > tempy) ? tempx : tempy     \\
+        inline_dec_pmax(tempx, tempy)  \\
       );	                                  \\
       break;	\\
     }	\\
@@ -88,18 +73,26 @@ macro_op_dec_pminmax<- "
 "
 
 
-macros_dec_pminmax <- paste0(
-  macro_action_dec_pminmax, macro_typeswitch_dec_pminmax, macro_op_dec_pminmax
+macros_dec_p <- paste0(
+  macro_main_dec_p, macro_op_dec_p
 )
-Rcpp::sourceCpp(code = paste0(header_for_sourcing, macros_dec_pminmax))
+Rcpp::sourceCpp(code = paste0(header_for_sourcing, macros_dec_p))
 
 
 ################################################################################
 # Functions ====
 #
 
+
+prep <- "
+const double *px = REAL_RO(x);
+const double *py = REAL_RO(y);
+double *pout = REAL(out);
+
+"
+
 txt1 <- generate_functions(
-  "bcP_dec", "NumericVector", "double *pout = REAL(out);", "MACRO_OP_DEC_PMINMAX"
+  "bcP_dec", "NumericVector", prep, "MACRO_OP_DEC_P"
 )
 cat(txt1)
 
@@ -107,7 +100,8 @@ cat(txt1)
 
 txt <- stringi::stri_c(
   header_for_sourcing,
-  macros_dec_pminmax,
+  inlines,
+  macros_dec_p,
   txt1,
   collapse = "\n\n"
 )
@@ -117,7 +111,8 @@ Rcpp::sourceCpp(code = txt)
 setwd("..")
 txt <- stringi::stri_c(
   header_for_package,
-  macros_dec_pminmax,
+  inlines,
+  macros_dec_p,
   txt1,
   collapse = "\n\n"
 )

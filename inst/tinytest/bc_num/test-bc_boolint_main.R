@@ -57,36 +57,6 @@ expect_true(
 )
 
 
-# pmin ====
-bc.fun <- function(x, y) bc.i(x, y, "pmin")
-base.fun <- function(x, y) {
-  pmin(x, y)
-}
-res <- .test_binary(bc.fun, base.fun, types, types)
-
-enumerate <- enumerate + res$i # count number of tests
-# test results:
-expect_equal(
-  res$expected, res$out
-)
-
-
-
-# pmax====
-bc.fun <- function(x, y) bc.i(x, y, "pmax")
-base.fun <- function(x, y) {
-  pmax(x, y)
-}
-res <- .test_binary(bc.fun, base.fun, types, types)
-
-enumerate <- enumerate + res$i # count number of tests
-# test results:
-expect_equal(
-  res$expected, res$out
-)
-
-
-
 
 # int bit tests ====
 bc.fun <- function(x, y) bc.i(x, y, "%%")

@@ -32,14 +32,6 @@ NULL
     .Call(`_broadcast_rcpp_bcD_str_d`, x, y, prep, op)
 }
 
-.rcpp_bcP_dec_2v <- function(x, y, prep, op) {
-    .Call(`_broadcast_rcpp_bcP_dec_2v`, x, y, prep, op)
-}
-
-.rcpp_bcP_dec_d <- function(x, y, prep, op) {
-    .Call(`_broadcast_rcpp_bcP_dec_d`, x, y, prep, op)
-}
-
 .rcpp_bcRelEq_dec_2v <- function(x, y, prep, op) {
     .Call(`_broadcast_rcpp_bcRelEq_dec_2v`, x, y, prep, op)
 }
@@ -208,6 +200,10 @@ NULL
     .Call(`_broadcast_rcpp_bc_dec_2v`, x, y, prep, op)
 }
 
+.rcpp_bc_dec_1v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_dec_1v`, x, y, prep, op)
+}
+
 .rcpp_bc_dec_d <- function(x, y, prep, op) {
     .Call(`_broadcast_rcpp_bc_dec_d`, x, y, prep, op)
 }
@@ -254,6 +250,17 @@ NULL
 #' @noRd
 .rcpp_bc_list_d <- function(x, y, prep, f) {
     .Call(`_broadcast_rcpp_bc_list_d`, x, y, prep, f)
+}
+
+#' @keywords internal
+NULL
+
+.rcpp_bc_pminmax_2v <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_pminmax_2v`, x, y, prep, op)
+}
+
+.rcpp_bc_pminmax_d <- function(x, y, prep, op) {
+    .Call(`_broadcast_rcpp_bc_pminmax_d`, x, y, prep, op)
 }
 
 .rcpp_bc_raw_2v <- function(x, y, prep, op) {

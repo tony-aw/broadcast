@@ -184,24 +184,6 @@ macro_op_int <- "
         );	\\
       break;	\\
     }	\\
-    case 4:	\\
-    {	\\
-      MACRO_TYPESWITCH_INT( \\
-          DIMCODE,	\\
-         tempx < tempy ? tempx : tempy, \\
-         inline_int53_round  \\
-        );	\\
-      break;	\\
-    }	\\
-    case 5:	\\
-    {	\\
-      MACRO_TYPESWITCH_INT( \\
-          DIMCODE,	\\
-         tempx > tempy ? tempx : tempy, \\
-         inline_int53_round  \\
-        );	\\
-      break;	\\
-    }	\\
     default:	\\
     {	\\
       stop(\"given operator not supported in the given context\");	\\

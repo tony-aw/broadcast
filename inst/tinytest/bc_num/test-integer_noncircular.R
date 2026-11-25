@@ -23,14 +23,6 @@ enumerate <- enumerate + 1L
 x <- as.integer(2^31 - 1)
 y <- as.double(x)
 expect_equal(
-  bc.d(x, x, "+"),
-  y + y
-)
-expect_equal(
-  bc.d(-x, x, "-"),
-  -y - y
-)
-expect_equal(
   bc.d(x, x, "*"),
   y * y
 )
@@ -43,5 +35,5 @@ expect_equal(
   y ^ 10L
 )
 
-enumerate <- enumerate + 5L
+enumerate <- enumerate + 3L
 

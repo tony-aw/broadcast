@@ -45,7 +45,8 @@ bc.d(x, y, op, tol = sqrt(.Machine$double.eps))
 <tr><td><code id="op">op</code></td>
 <td>
 <p>a single string, giving the operator. <br>
-Supported arithmetic operators: +, -, *, /, ^, pmin, pmax. <br>
+Supported arithmetic operators:
++, -, *, /, ^, pmin, pmax. <br>
 Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;=. <br></p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
@@ -72,6 +73,9 @@ A numeric array as a result of the broadcasted decimal arithmetic operation. <br
 For relational operators: <br>
 A logical array as a result of the broadcasted decimal relational comparison. <br>
 <br>
+For pmin/pmax: <br>
+A array of type <code>double</code> or <code>integer</code> (depending on the input types)
+as a result of the broadcasted pmin/pmax operation. <br>
 </p>
 
 

@@ -46,17 +46,13 @@
 #' @keywords internal
 #' @noRd
 .op_int_main <- function() {
-  return(c("gcd", "%%", "%/%", "pmin", "pmax"))
+  return(c("gcd", "%%", "%/%"))
 }
 
 #' @keywords internal
 #' @noRd
 .op_int_rel <- function() {
   return(c("==", "!=", "<", ">", "<=", ">="))
-}
-
-.op_int_boolint_math <- function() {
-  return(c("pmin", "pmax", "gcd", "%%", "%/%"))
 }
 
 

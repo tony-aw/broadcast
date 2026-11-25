@@ -57,3 +57,15 @@ expect_equal(
   as.array(do.call(c, input))
 )
 enumerate <- enumerate + 1L
+
+
+# bind to long vector ====
+n <- floor(sqrt(2^32 + 1)/2.1)
+x <- array(as.raw(0), c(n, 1))
+y <- array(as.raw(1), c(1, n))
+input <- list(x, y)
+expect_silent(
+  bind_array(input, 1L),
+)
+enumerate <- enumerate + 1L
+

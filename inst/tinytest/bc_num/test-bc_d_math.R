@@ -15,7 +15,7 @@ types <- c("logical", "integer", "double")
 # plus ====
 bc.fun <- function(x, y) bc.d(x, y, "+")
 base.fun <- function(x, y) {
-  as_dbl(x) + as_dbl(y)
+  x + y
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
 
@@ -30,7 +30,7 @@ expect_equal(
 # minus ====
 bc.fun <- function(x, y) bc.d(x, y, "-")
 base.fun <- function(x, y) {
-  as_dbl(x) - as_dbl(y)
+  x - y
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
 
@@ -80,38 +80,6 @@ expect_equal(
 bc.fun <- function(x, y) bc.d(x, y, "^")
 base.fun <- function(x, y) {
  x^y
-}
-res <- .test_binary(bc.fun, base.fun, types, types)
-
-enumerate <- enumerate + res$i # count number of tests
-# test results:
-expect_equal(
-  res$expected, res$out
-)
-
-
-
-# pmin ====
-bc.fun <- function(x, y) bc.d(x, y, "pmin")
-base.fun <- function(x, y) {
-  pmin(as_dbl(x), as_dbl(y))
-}
-res <- .test_binary(bc.fun, base.fun, types, types)
-
-enumerate <- enumerate + res$i # count number of tests
-# test results:
-expect_equal(
-  res$expected, res$out
-)
-
-
-
-
-
-# pmax ====
-bc.fun <- function(x, y) bc.d(x, y, "pmax")
-base.fun <- function(x, y) {
-  pmax(as_dbl(x), as_dbl(y))
 }
 res <- .test_binary(bc.fun, base.fun, types, types)
 

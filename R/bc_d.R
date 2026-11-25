@@ -7,7 +7,8 @@
 #' 
 #' @param x,y conformable vectors/arrays of type numeric or logical.
 #' @param op a single string, giving the operator. \cr
-#' Supported arithmetic operators: `r paste0(c(broadcast:::.op_dec_math(), broadcast:::.op_dec_pminmax()), collapse = ", ")`. \cr
+#' Supported arithmetic operators:
+#' `r paste0(c(broadcast:::.op_dec_math(), broadcast:::.op_dec_pminmax()), collapse = ", ")`. \cr
 #' Supported relational operators: `r paste0(c(broadcast:::.op_dec_rel(), broadcast:::.op_dec_dist()), collapse = ", ")`. \cr
 #' @param tol a single number between 0 and 0.1, giving the machine tolerance to use for the relational operators. \cr
 #' Only relevant for the following operators: \cr
@@ -25,7 +26,9 @@
 #' For relational operators: \cr
 #' A logical array as a result of the broadcasted decimal relational comparison. \cr
 #' \cr
-#'
+#' For pmin/pmax: \cr
+#' A array of type `double` or `integer` (depending on the input types)
+#' as a result of the broadcasted pmin/pmax operation. \cr
 #' 
 #' @seealso \link{broadcast_operators} \cr
 #' @example inst/examples/bc_d.R
@@ -60,13 +63,6 @@ setMethod(
   # checks:
   .binary_stop_general(x, y, op, abortcall)
   
-  if(length(x) == 1L) {
-    x <- .trymake_simple_int_scalar(x)
-  }
-  if(length(y) == 1L) {
-    y <- .trymake_simple_int_scalar(y)
-  }
-  
   # get operator:
   op_math <- .C_which_op(.op_dec_math(), op)
   op_rel <- .C_which_op(.op_dec_rel(), op)
@@ -74,10 +70,7 @@ setMethod(
   op_pminmax <- .C_which_op(.op_dec_pminmax(), op)
   op_boolint_rel <- .C_which_op(.op_dec_boolint_rel(), op)
   
-  if(.C_should_boolint_math(x, y, op_pminmax)) {
-    return(.bc_boolint_math(x, y, op_pminmax, abortcall))
-  }
-  else if(.C_should_boolint_rel(x, y, op_boolint_rel)) {
+  if(.C_should_boolint_rel(x, y, op_boolint_rel)) {
     return(.bc_boolint_rel(x, y, op_boolint_rel, abortcall))
   }
   else if(op_math) {
@@ -96,6 +89,9 @@ setMethod(
     stop(simpleError("given operator not supported in the given context", call = abortcall))
   }
 }
+
+
+
 
 #' @keywords internal
 #' @noRd
@@ -188,7 +184,9 @@ setMethod(
   }
   
   if(length(x) == 0L || length(y) == 0L) {
-    return(.binary_return_zerolen(x, y, FALSE, "double"))
+    return(.binary_return_zerolen(
+      x, y, FALSE, ifelse(is.integer(x) && is.integer(x), "integer", "double")
+    ))
   }
   
   if(is.double(x) || is.double(y)) {
@@ -200,10 +198,10 @@ setMethod(
   dimmode <- prep[[6L]]
   
   if(dimmode <= 2L) {
-    out <- .rcpp_bcP_dec_2v(x, y, prep, op)
+    out <- .rcpp_bc_pminmax_2v(x, y, prep, op)
   }
   else {
-    out <- .rcpp_bcP_dec_d(x, y, prep, op)
+    out <- .rcpp_bc_pminmax_d(x, y, prep, op)
   }
   
 

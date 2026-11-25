@@ -69,36 +69,6 @@ expect_true(
   all(bc.d(x, (x %% y) + y * (x %/% y), "d=="))
 )
 
-
-# pmin ====
-bc.fun <- function(x, y) bc.i(x, y, "pmin")
-base.fun <- function(x, y) {
-  pmin(as_dbl(trunc(x)), as_dbl(trunc(y)))
-}
-res <- .test_binary(bc.fun, base.fun, types, types)
-
-enumerate <- enumerate + res$i # count number of tests
-# test results:
-expect_equal(
-  res$expected, res$out
-)
-
-
-
-# pmax====
-bc.fun <- function(x, y) bc.i(x, y, "pmax")
-base.fun <- function(x, y) {
-  pmax(as_dbl(trunc(x)), as_dbl(trunc(y)))
-}
-res <- .test_binary(bc.fun, base.fun, types, types)
-
-enumerate <- enumerate + res$i # count number of tests
-# test results:
-expect_equal(
-  res$expected, res$out
-)
-
-
 # attributes tests ====
 bc.fun <- function(x, y) { bc.i(x, y, "%%")}
 

@@ -92,32 +92,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_bcP_dec_2v
-SEXP rcpp_bcP_dec_2v(SEXP x, SEXP y, List prep, int op);
-RcppExport SEXP _broadcast_rcpp_bcP_dec_2v(SEXP xSEXP, SEXP ySEXP, SEXP prepSEXP, SEXP opSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
-    Rcpp::traits::input_parameter< List >::type prep(prepSEXP);
-    Rcpp::traits::input_parameter< int >::type op(opSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bcP_dec_2v(x, y, prep, op));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_bcP_dec_d
-SEXP rcpp_bcP_dec_d(SEXP x, SEXP y, List prep, int op);
-RcppExport SEXP _broadcast_rcpp_bcP_dec_d(SEXP xSEXP, SEXP ySEXP, SEXP prepSEXP, SEXP opSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
-    Rcpp::traits::input_parameter< List >::type prep(prepSEXP);
-    Rcpp::traits::input_parameter< int >::type op(opSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_bcP_dec_d(x, y, prep, op));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_bcRelEq_dec_2v
 SEXP rcpp_bcRelEq_dec_2v(SEXP x, SEXP y, List prep, int op);
 RcppExport SEXP _broadcast_rcpp_bcRelEq_dec_2v(SEXP xSEXP, SEXP ySEXP, SEXP prepSEXP, SEXP opSEXP) {
@@ -622,6 +596,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_bc_dec_1v
+SEXP rcpp_bc_dec_1v(SEXP x, SEXP y, List prep, int op);
+RcppExport SEXP _broadcast_rcpp_bc_dec_1v(SEXP xSEXP, SEXP ySEXP, SEXP prepSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< List >::type prep(prepSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bc_dec_1v(x, y, prep, op));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_bc_dec_d
 SEXP rcpp_bc_dec_d(SEXP x, SEXP y, List prep, int op);
 RcppExport SEXP _broadcast_rcpp_bc_dec_d(SEXP xSEXP, SEXP ySEXP, SEXP prepSEXP, SEXP opSEXP) {
@@ -736,6 +723,32 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< List >::type prep(prepSEXP);
     Rcpp::traits::input_parameter< Function >::type f(fSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_bc_list_d(x, y, prep, f));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bc_pminmax_2v
+SEXP rcpp_bc_pminmax_2v(SEXP x, SEXP y, List prep, int op);
+RcppExport SEXP _broadcast_rcpp_bc_pminmax_2v(SEXP xSEXP, SEXP ySEXP, SEXP prepSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< List >::type prep(prepSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bc_pminmax_2v(x, y, prep, op));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_bc_pminmax_d
+SEXP rcpp_bc_pminmax_d(SEXP x, SEXP y, List prep, int op);
+RcppExport SEXP _broadcast_rcpp_bc_pminmax_d(SEXP xSEXP, SEXP ySEXP, SEXP prepSEXP, SEXP opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< List >::type prep(prepSEXP);
+    Rcpp::traits::input_parameter< int >::type op(opSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_bc_pminmax_d(x, y, prep, op));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1509,8 +1522,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bcD_str_2v", (DL_FUNC) &_broadcast_rcpp_bcD_str_2v, 4},
     {"_broadcast_rcpp_bcD_str_1v", (DL_FUNC) &_broadcast_rcpp_bcD_str_1v, 4},
     {"_broadcast_rcpp_bcD_str_d", (DL_FUNC) &_broadcast_rcpp_bcD_str_d, 4},
-    {"_broadcast_rcpp_bcP_dec_2v", (DL_FUNC) &_broadcast_rcpp_bcP_dec_2v, 4},
-    {"_broadcast_rcpp_bcP_dec_d", (DL_FUNC) &_broadcast_rcpp_bcP_dec_d, 4},
     {"_broadcast_rcpp_bcRelEq_dec_2v", (DL_FUNC) &_broadcast_rcpp_bcRelEq_dec_2v, 4},
     {"_broadcast_rcpp_bcRelEq_dec_1v", (DL_FUNC) &_broadcast_rcpp_bcRelEq_dec_1v, 4},
     {"_broadcast_rcpp_bcRelEq_dec_d", (DL_FUNC) &_broadcast_rcpp_bcRelEq_dec_d, 4},
@@ -1549,6 +1560,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bc_cplx_2v", (DL_FUNC) &_broadcast_rcpp_bc_cplx_2v, 4},
     {"_broadcast_rcpp_bc_cplx_d", (DL_FUNC) &_broadcast_rcpp_bc_cplx_d, 4},
     {"_broadcast_rcpp_bc_dec_2v", (DL_FUNC) &_broadcast_rcpp_bc_dec_2v, 4},
+    {"_broadcast_rcpp_bc_dec_1v", (DL_FUNC) &_broadcast_rcpp_bc_dec_1v, 4},
     {"_broadcast_rcpp_bc_dec_d", (DL_FUNC) &_broadcast_rcpp_bc_dec_d, 4},
     {"_broadcast_rcpp_bc_ifelse_2v", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_2v, 4},
     {"_broadcast_rcpp_bc_ifelse_1v", (DL_FUNC) &_broadcast_rcpp_bc_ifelse_1v, 4},
@@ -1558,6 +1570,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_broadcast_rcpp_bc_list_2v", (DL_FUNC) &_broadcast_rcpp_bc_list_2v, 4},
     {"_broadcast_rcpp_bc_list_1v", (DL_FUNC) &_broadcast_rcpp_bc_list_1v, 4},
     {"_broadcast_rcpp_bc_list_d", (DL_FUNC) &_broadcast_rcpp_bc_list_d, 4},
+    {"_broadcast_rcpp_bc_pminmax_2v", (DL_FUNC) &_broadcast_rcpp_bc_pminmax_2v, 4},
+    {"_broadcast_rcpp_bc_pminmax_d", (DL_FUNC) &_broadcast_rcpp_bc_pminmax_d, 4},
     {"_broadcast_rcpp_bc_raw_2v", (DL_FUNC) &_broadcast_rcpp_bc_raw_2v, 4},
     {"_broadcast_rcpp_bc_raw_1v", (DL_FUNC) &_broadcast_rcpp_bc_raw_1v, 4},
     {"_broadcast_rcpp_bc_raw_d", (DL_FUNC) &_broadcast_rcpp_bc_raw_d, 4},

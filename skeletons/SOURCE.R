@@ -161,6 +161,5 @@ generate_functions <- function(basename, VectorType, prep, MACRO, additional_arg
   
   out <- stringi::stri_c(txt1, txt2, txt3, collapse = "\n\n")
   return(out)
-
+  
 }
-

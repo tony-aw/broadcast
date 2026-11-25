@@ -128,10 +128,9 @@ round2int53 <- function(x) {
   # get operator:
   op_main <- .C_which_op(.op_int_main(), op)
   op_rel <- .C_which_op(.op_int_rel(), op)
-  op_boolint_math <- .C_which_op(.op_int_boolint_math(), op)
-  
-  if(.C_should_boolint_math(x, y, op_boolint_math)) {
-    return(.bc_boolint_math(x, y, op_boolint_math, abortcall))
+
+  if(.C_should_boolint_math(x, y, op_main)) {
+    return(.bc_boolint_math(x, y, op_main, abortcall))
   }
   else if(.C_should_boolint_rel(x, y, op_rel)) {
     return(.bc_boolint_rel(x, y, op_rel, abortcall))

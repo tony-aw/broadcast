@@ -7,7 +7,8 @@
 
 <p align="center">
 
-‘R’-package ‘broadcast’: Broadcasted Array Operations Like ‘NumPy’
+‘R’-package ‘broadcast’: Efficient Broadcasted Array Operations Like
+‘NumPy’
 </p>
 
 <!-- badges: start -->

@@ -32,12 +32,6 @@ The \code{bc.cplx()} method
 performs broadcasted complex numeric operations on pairs of arrays. \cr
 \cr
 }
-\details{
-For the \code{*} and \code{/} operators, \code{bc.cplx()} uses more strict \code{NA} checks than base 'R': \cr
-If for an iteration,
-\code{re(x)}, \code{im(x)}, \code{re(y)}, and/or \code{im(y)} contains \code{NA},
-than the result for that iteration is necessarily \code{NA_complex_}.
-}
 \examples{
 x.dim <- c(4:2)
 x.len <- prod(x.dim)
