@@ -12,8 +12,7 @@ format:
 ### Description
 
 The <code>bc.d()</code> method
-performs broadcasted decimal numeric operations on 2 numeric or logical arrays. <br>
-<br> <br>
+performs broadcasted decimal numeric operations on 2 numeric or logical arrays. <br> <br>
 
 
 
@@ -38,7 +37,8 @@ conformable vectors/arrays of type numeric or logical.
 a single string, giving the operator. <br>
 Supported arithmetic operators:
 +, -, *, /, ^, pmin, pmax. <br>
-Supported relational operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=, d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;=. <br>
+Supported relational operators:
+==, !=, &lt;, &gt;, &lt;=, &gt;=, d==, d!=, d&lt;, d&gt;, d&lt;=, d&gt;=. <br>
 </td></tr>
 <tr><td style = "white-space: collapse; font-family: monospace; vertical-align: top"><code id="...">...</code></td>
 <td>
@@ -58,15 +58,21 @@ from the 'tinycodet' package for details.
 
 ### Value
 
-For arithmetic operators: <br>
-A numeric array as a result of the broadcasted decimal arithmetic operation. <br>
+For the &quot;+&quot;, &quot;-&quot; operators: <br>
+An array of type <code>double</code> or <code>integer</code> (depending on the input types)
+as a result of the broadcasted operation. <br>
+Integer overflow results in an error
+(base 'R', in contrast, gives an warning and returns <code>NA</code> at integer overflow). <br>
+<br>
+For the &quot;*&quot;, &quot;/&quot;, &quot;^&quot; operators: <br>
+An array of type <code>double</code> as a result of the broadcasted operation. <br>
 <br>
 For relational operators: <br>
 A logical array as a result of the broadcasted decimal relational comparison. <br>
 <br>
 For pmin/pmax: <br>
-A array of type <code>double</code> or <code>integer</code> (depending on the input types)
-as a result of the broadcasted pmin/pmax operation. <br>
+An array of type <code>double</code> or <code>integer</code> (depending on the input types)
+as a result of the broadcasted operation. <br> <br>
 
 
 

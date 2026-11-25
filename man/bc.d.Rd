@@ -15,7 +15,8 @@ bc.d(x, y, op, ...)
 \item{op}{a single string, giving the operator. \cr
 Supported arithmetic operators:
 +, -, *, /, ^, pmin, pmax. \cr
-Supported relational operators: ==, !=, <, >, <=, >=, d==, d!=, d<, d>, d<=, d>=. \cr}
+Supported relational operators:
+==, !=, <, >, <=, >=, d==, d!=, d<, d>, d<=, d>=. \cr}
 
 \item{...}{further arguments passed to or from methods. \cr \cr}
 
@@ -27,20 +28,25 @@ See the
 from the 'tinycodet' package for details.}
 }
 \value{
-For arithmetic operators: \cr
-A numeric array as a result of the broadcasted decimal arithmetic operation. \cr
+For the "+", "-" operators: \cr
+An array of type \code{double} or \code{integer} (depending on the input types)
+as a result of the broadcasted operation. \cr
+Integer overflow results in an error
+(base 'R', in contrast, gives an warning and returns \code{NA} at integer overflow). \cr
+\cr
+For the "*", "/", "^" operators: \cr
+An array of type \code{double} as a result of the broadcasted operation. \cr
 \cr
 For relational operators: \cr
 A logical array as a result of the broadcasted decimal relational comparison. \cr
 \cr
 For pmin/pmax: \cr
-A array of type \code{double} or \code{integer} (depending on the input types)
-as a result of the broadcasted pmin/pmax operation. \cr
+An array of type \code{double} or \code{integer} (depending on the input types)
+as a result of the broadcasted operation. \cr \cr
 }
 \description{
 The \code{bc.d()} method
-performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr
-\cr \cr
+performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr \cr
 }
 \examples{
 x.dim <- c(4:2)

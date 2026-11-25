@@ -200,10 +200,6 @@ NULL
     .Call(`_broadcast_rcpp_bc_dec_2v`, x, y, prep, op)
 }
 
-.rcpp_bc_dec_1v <- function(x, y, prep, op) {
-    .Call(`_broadcast_rcpp_bc_dec_1v`, x, y, prep, op)
-}
-
 .rcpp_bc_dec_d <- function(x, y, prep, op) {
     .Call(`_broadcast_rcpp_bc_dec_d`, x, y, prep, op)
 }

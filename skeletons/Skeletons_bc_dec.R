@@ -28,7 +28,7 @@ inline int inline_int32_plus(
   long long out = (long long)x + (long long)y;
   
   if(out > intmax || out < -intmax) {
-    stop(\"error produced by integer overflow\");
+    stop(\"error produced by integer overflow; please typecast the input to `double`\");
   }
   
   return (int)out;
@@ -46,7 +46,7 @@ inline int inline_int32_min(
   long long out = (long long)x - (long long)y;
   
   if(out > intmax || out < -intmax) {
-    stop(\"error produced by integer overflow\");
+    stop(\"error produced by integer overflow; please typecast the input to `double`\");
   }
   
   return (int) out;
@@ -268,29 +268,6 @@ txt1 <- "
   return R_NilValue;
   
   }
-  
-  
-  //' @keywords internal
-  //' @noRd
-  // [[Rcpp::export(.rcpp_bc_dec_1v, rng = false)]]
-  SEXP rcpp_bc_dec_1v(
-    SEXP x, SEXP y, List prep, int op
-  ) {
-  
-  RObject x_dim = prep[0];        (void)x_dim;
-  RObject y_dim = prep[1];        (void)y_dim;
-  RObject out_dimorig = prep[2];  (void)out_dimorig;
-  RObject out_dim = prep[3];      (void)out_dim;
-  R_xlen_t nout = prep[4];        (void)nout;
-  int dimmode = prep[5];          (void)dimmode;
-  
-  
-  MACRO_OP_DEC_MATH(MACRO_DIM_ONEVECTOR);
-  
-  return R_NilValue;
-  
-  }
-  
   
   
   

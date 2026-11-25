@@ -7,7 +7,7 @@ SEXP C_unlisthelper_maxlen ( SEXP x ) {
 
 
   int n = Rf_xlength(x);
-  R_xlen_t maxlen = pow(2, 31) - 1;
+  R_xlen_t maxlen = pow(2.0, 31.0) - 1.0;
   double out = 0;
   for(R_xlen_t i = 0; i < n; ++i) {
     SEXP tempout = VECTOR_ELT(x, i);

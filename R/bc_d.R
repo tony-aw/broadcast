@@ -2,14 +2,15 @@
 #'
 #' @description
 #' The `bc.d()` method
-#' performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr
-#' \cr \cr
+#' performs broadcasted decimal numeric operations on 2 numeric or logical arrays. \cr \cr
+#' 
 #' 
 #' @param x,y conformable vectors/arrays of type numeric or logical.
 #' @param op a single string, giving the operator. \cr
 #' Supported arithmetic operators:
 #' `r paste0(c(broadcast:::.op_dec_math(), broadcast:::.op_dec_pminmax()), collapse = ", ")`. \cr
-#' Supported relational operators: `r paste0(c(broadcast:::.op_dec_rel(), broadcast:::.op_dec_dist()), collapse = ", ")`. \cr
+#' Supported relational operators:
+#' `r paste0(c(broadcast:::.op_dec_rel(), broadcast:::.op_dec_dist()), collapse = ", ")`. \cr
 #' @param tol a single number between 0 and 0.1, giving the machine tolerance to use for the relational operators. \cr
 #' Only relevant for the following operators: \cr
 #' `r paste0(broadcast:::.op_dec_dist(), collapse = ", ")` \cr
@@ -20,15 +21,22 @@
 #' 
 #'
 #' @returns
-#' For arithmetic operators: \cr
-#' A numeric array as a result of the broadcasted decimal arithmetic operation. \cr
+#' For the "+", "-" operators: \cr
+#' An array of type `double` or `integer` (depending on the input types)
+#' as a result of the broadcasted operation. \cr
+#' Integer overflow results in an error
+#' (base 'R', in contrast, gives an warning and returns `NA` at integer overflow). \cr
+#' \cr
+#' For the "*", "/", "^" operators: \cr
+#' An array of type `double` as a result of the broadcasted operation. \cr
 #' \cr
 #' For relational operators: \cr
 #' A logical array as a result of the broadcasted decimal relational comparison. \cr
 #' \cr
 #' For pmin/pmax: \cr
-#' A array of type `double` or `integer` (depending on the input types)
-#' as a result of the broadcasted pmin/pmax operation. \cr
+#' An array of type `double` or `integer` (depending on the input types)
+#' as a result of the broadcasted operation. \cr \cr
+#' 
 #' 
 #' @seealso \link{broadcast_operators} \cr
 #' @example inst/examples/bc_d.R

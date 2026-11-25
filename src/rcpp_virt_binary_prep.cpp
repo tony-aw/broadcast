@@ -2,6 +2,11 @@
 #include <Rcpp/Lightest>
 using namespace Rcpp;
 
+#define DEF_INT32MAX 2147483647
+
+#define DEF_MAXLEN 4503599627370495.0
+
+
 //' @keywords internal
  //' @noRd
  // [[Rcpp::export(.rcpp_max_ndim)]]
@@ -97,7 +102,7 @@ using namespace Rcpp;
    }
    
    // NORMALIZE:
-   double intmax = pow(2, 31) - 1;
+   double intmax = DEF_INT32MAX;
    
    int *px_ndim = INTEGER(x_ndim);
    int *py_ndim = INTEGER(y_ndim);
@@ -178,7 +183,7 @@ using namespace Rcpp;
        out_len *= pout[i];
      }
      
-     const double maxlong = pow(2, 52) - 1;
+     const double maxlong = DEF_MAXLEN;
      if(out_len > maxlong) {
        stop("broadcasting will exceed maximum size");
      }
@@ -405,7 +410,7 @@ inline Rcomplex inline_mergedims_get_prods(SEXP x_dim, SEXP y_dim, int start, in
    int start = 0;
    int end = 0;
    Rcomplex prods;
-   double intmax = pow(2, 31) - 1;
+   double intmax = DEF_INT32MAX;
    
    int i;
    

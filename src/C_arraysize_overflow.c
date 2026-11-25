@@ -12,14 +12,14 @@ SEXP C_arraysize_overflow(SEXP xdim, SEXP xlen0) {
     xlen = REAL(xlen0)[0];
   }
   
-  const double maxlong = pow(2, 52) - 1;
+  const double maxlong = pow(2.0, 52.0) - 1.0;
   if(xlen > maxlong) {
     return Rf_ScalarLogical(1);
   }
   
   int n = Rf_length(xdim);
   const int *pxdim = INTEGER_RO(xdim);
-  const int maxint = pow(2, 31) - 1;
+  const int maxint = pow(2.0, 31.0) - 1.0;
   for(int i  = 0; i < n; ++i) {
     if(pxdim[i] > maxint || pxdim[i] < 0) {
       return Rf_ScalarLogical(1);
