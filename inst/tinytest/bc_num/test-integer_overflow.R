@@ -35,7 +35,14 @@ expect_equal(
   bc.d(x, y, "-"),
   0L
 )
-enumerate <- enumerate + 2L
+
+x <- as.integer(2^(0:30) - 1)
+expect_equal(
+  bc.d(x, x, "+"),
+  x + x
+)
+
+enumerate <- enumerate + 5L
 
 
 # mdp ====

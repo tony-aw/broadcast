@@ -14,7 +14,7 @@ using namespace Rcpp;
 // So I'm just gonna do this the old straight-forward way...
 
 inline int inline_int32_plus(
-  int x, int y, int intmax
+  int x, int y, long long intmax
 ) {
 
   if(x == NA_INTEGER || y == NA_INTEGER) {
@@ -33,7 +33,7 @@ inline int inline_int32_plus(
 
 
 inline int inline_int32_min(
-  int x, int y, int intmax
+  int x, int y, long long intmax
 ) {
   if(x == NA_INTEGER || y == NA_INTEGER) {
     return NA_INTEGER;
@@ -107,7 +107,7 @@ inline double inline_dbl_pow(
       return out;                       \
     }                                   \
     else if(isInt_x && isInt_y) {       \
-      const int intmax = (int)DEF_INT32MAX;  \
+      const long long intmax = (long long)DEF_INT32MAX;  \
       IntegerVector out(no_init(nout)); \
       int *pout = INTEGER(out);         \
       const int *px = INTEGER_RO(x);    \

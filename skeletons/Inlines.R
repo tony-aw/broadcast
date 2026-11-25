@@ -89,9 +89,9 @@ cat(introcomments2)
 inline_int <- "
 
 
-#define DEF_INT53MAX std::pow(2, 53) - 1;
+#define DEF_INT53MAX 9007199254740991.0
 
-#define DEF_INT32MAX std::pow(2, 31) - 1;
+#define DEF_INT32MAX 2147483647
 
 inline double inline_mod_body(double x, double y) {
   long long xi = (long long)x;

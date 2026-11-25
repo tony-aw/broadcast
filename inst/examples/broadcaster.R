@@ -1,8 +1,8 @@
 
 # maths ====
 
-x <- sample(1:10)
-y <- sample(1:10)
+x <- sample(as.double(1:10))
+y <- sample(as.double(1:10))
 dim(x) <- c(10, 1)
 dim(y) <- c(1, 10)
 mbroadcasters(c("x", "y"), TRUE)
@@ -16,8 +16,8 @@ x + y / x
 
 
 # relational operators ====
-x <- 1:10
-y <- array(1:10, c(1, 10))
+x <- as.double(1:10)
+y <- array(as.double(1:10), c(1, 10))
 mbroadcasters(c("x", "y"), TRUE)
 
 x == y

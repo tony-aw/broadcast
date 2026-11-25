@@ -56,9 +56,9 @@ inline bool inline_branchless_or(bool x, bool y) {
 
 
 
-#define DEF_INT53MAX std::pow(2, 53) - 1;
+#define DEF_INT53MAX 9007199254740991.0
 
-#define DEF_INT32MAX std::pow(2, 31) - 1;
+#define DEF_INT32MAX 2147483647
 
 inline double inline_mod_body(double x, double y) {
   long long xi = (long long)x;
@@ -747,7 +747,7 @@ R_xlen_t i_x2 = pby_x[1] * (iter2 - start2) * pdcp_x[1] + i_x3;	\
 // So I'm just gonna do this the old straight-forward way...
 
 inline int inline_int32_plus(
-  int x, int y, int intmax
+  int x, int y, long long intmax
 ) {
 
   if(x == NA_INTEGER || y == NA_INTEGER) {
@@ -766,7 +766,7 @@ inline int inline_int32_plus(
 
 
 inline int inline_int32_min(
-  int x, int y, int intmax
+  int x, int y, long long intmax
 ) {
   if(x == NA_INTEGER || y == NA_INTEGER) {
     return NA_INTEGER;
@@ -840,7 +840,7 @@ inline double inline_dbl_pow(
       return out;                       \
     }                                   \
     else if(isInt_x && isInt_y) {       \
-      const int intmax = (int)DEF_INT32MAX;  \
+      const long long intmax = (long long)DEF_INT32MAX;  \
       IntegerVector out(no_init(nout)); \
       int *pout = INTEGER(out);         \
       const int *px = INTEGER_RO(x);    \
