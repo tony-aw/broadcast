@@ -3,6 +3,15 @@
 #ifndef MISC_H
 #define MISC_H
 
+#include <algorithm> // std::min
+#include <cmath>     // std::isnan, std::isfinite, std::isinf, std::signbit, std::abs (double)
+#include <complex>   // std::complex
+#include <cstdio>    // std::snprintf
+#include <cstdlib>   // std::abs (int, long)
+#include <memory>    // std::addressof
+#include <string>    // std::string
+#include <vector>    // std::vector
+
 #include <Rcpp/Lightest>
 
 

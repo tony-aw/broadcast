@@ -29,6 +29,17 @@ header_for_package <- stri_c("
 #ifndef BROADCAST_H
 #define BROADCAST_H
 
+#include <algorithm> // std::min
+#include <cmath>     // std::isnan, std::isfinite, std::isinf, std::signbit, std::abs (double)
+#include <complex>   // std::complex
+#include <cstdio>    // std::snprintf
+#include <cstdlib>   // std::abs (int, long)
+#include <memory>    // std::addressof
+#include <string>    // std::string
+#include <vector>    // std::vector
+
+
+
 #include <Rcpp/Lightest>
 
 ",
@@ -43,7 +54,7 @@ header_body,
 
 Rcpp::sourceCpp(code = header_for_sourcing)
 
-readr::write_file(header_for_package, "header.txt")
+readr::write_file(header_for_package, "txt/header.txt")
 
 setwd("..")
 readr::write_file(header_for_package, "src/broadcast.h")

@@ -1,4 +1,7 @@
- 
+
+#include <cmath>     // std::isnan, std::isfinite, std::isinf, std::signbit, std::abs (double)
+#include <vector>    // std::vector
+
 #include <Rcpp/Lightest>
 using namespace Rcpp;
 

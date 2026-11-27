@@ -396,16 +396,14 @@ inline Rcomplex inline_mergedims_get_prods(SEXP x_dim, SEXP y_dim, int start, in
    if(TYPEOF(x_dim) != INTSXP || TYPEOF(y_dim) != INTSXP) {
      stop("Bad `x_dim`/`y_dim` input types given in `rcpp_mergedims_set()`");
    }
-   if(Rf_length(x_dim) > 16 || Rf_length(y_dim) > 16) {
+   if(Rf_length(x_dim) > 16 || Rf_length(y_dim) > 16 || Rf_length(x_dim) != Rf_length(y_dim)) {
      stop("Bad `x_dim`/`y_dim` input lengths given in `rcpp_mergedims_set()`");
    }
    
    // make buffer vectors //
    int n = Rf_length(x_dim);
-   std::array<int, 16> bufx = {1};
-   std::array<int, 16> bufy = {1};
-   int *pbufx = bufx.data();
-   int *pbufy = bufy.data();
+   int bufx[16] = {1};
+   int bufy[16] = {1};
    
    int start = 0;
    int end = 0;
@@ -417,8 +415,8 @@ inline Rcomplex inline_mergedims_get_prods(SEXP x_dim, SEXP y_dim, int start, in
    for(i = 0; i < n; ++i) {
      end = inline_mergedims_get_endrange(x_dim, y_dim, start, intmax);
      prods = inline_mergedims_get_prods(x_dim, y_dim, start, end);
-     pbufx[i] = (int) (prods.r);
-     pbufy[i] = (int) (prods.i);
+     bufx[i] = (int) (prods.r);
+     bufy[i] = (int) (prods.i);
      start = end + 1;
      
      if(end >= (n - 1)) {
@@ -442,8 +440,8 @@ inline Rcomplex inline_mergedims_get_prods(SEXP x_dim, SEXP y_dim, int start, in
    px_ndim[0] = buflen;
    py_ndim[0] = buflen;
    for(int i = 0; i < buflen; ++i) {
-     px[i] = pbufx[i];
-     py[i] = pbufy[i];
+     px[i] = bufx[i];
+     py[i] = bufy[i];
    }
    for(int i = buflen; i < Rf_length(x_dim); ++i) {
      px[i] = 1;

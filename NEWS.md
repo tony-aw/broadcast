@@ -1,4 +1,12 @@
 
+# broadcast 0.2.0.1
+
+* Replaced the use of `std::array` with 'C' arrays to fix CRAN error on MacOS.
+* Explicitly declared all (implicitly) used `std` 'C++' libraries, in case some other OS doesn't automatically pull it in. 
+
+<br>
+
+
 # broadcast 0.2.0
 
 This update primarily deals with 2 things:    

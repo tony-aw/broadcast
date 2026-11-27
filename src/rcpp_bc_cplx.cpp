@@ -1,5 +1,4 @@
 
-
 #include <Rcpp/Lightest>
 #include "broadcast.h"
 

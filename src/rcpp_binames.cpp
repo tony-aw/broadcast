@@ -1,4 +1,6 @@
 
+#include <memory>    // std::addressof
+
 #include <Rcpp/Lightest>
 using namespace Rcpp;
 

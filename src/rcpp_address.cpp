@@ -1,4 +1,6 @@
 
+#include <cstdio>    // std::snprintf
+#include <string>    // std::string
 
 #include <Rcpp/Lightest>
 using namespace Rcpp;
