@@ -1,6 +1,7 @@
 
-Update to version 0.1.9.8
-The unit tests should now have a bit more compact output.
+Hi people of CRAN.
+This is update to version `0.2.0` for package 'broadcast'.
+Thank you for your hard, voluntary work! :-)
 
 ## R CMD check results
 

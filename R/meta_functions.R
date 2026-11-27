@@ -60,7 +60,8 @@
 
 
 
-
+#' @keywords internal
+#' @noRd
 .test_make_double <- function(minpow, maxpow, datasize, trunc = FALSE) {
   foo <- function(rng, offset) {
     out <- 2^c(rng)
@@ -79,6 +80,9 @@
   return(out)
 }
 
+
+#' @keywords internal
+#' @noRd
 .test_make_chr <- function(datasize) {
   out <- c(
     letters, LETTERS, month.abb, month.name, NA, "",
@@ -88,6 +92,9 @@
   return(out)
 }
 
+
+#' @keywords internal
+#' @noRd
 .test_make_datalist <- function(datasize) {
   
   foo <- function(rng, offset) {
